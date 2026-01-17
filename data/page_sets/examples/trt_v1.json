@@ -1,0 +1,105 @@
+{
+  "name": "trt_v1",
+  "citiesFile": "data/page_sets/examples/cities_trt_v1.json",
+  "faq": {
+    "global": [
+      {
+        "q": "What is testosterone replacement therapy (TRT)?",
+        "a": "TRT is a medical treatment used to address clinically low testosterone under provider supervision."
+      },
+      {
+        "q": "How much does TRT usually cost per month?",
+        "a": "Costs vary by clinic, delivery method, labs, and follow-up schedule."
+      },
+      {
+        "q": "Is TRT covered by insurance?",
+        "a": "Coverage varies by plan and diagnosis; some patients pay out of pocket."
+      },
+      {
+        "q": "What tests are required before starting TRT?",
+        "a": "Providers typically require blood work and a medical evaluation."
+      },
+      {
+        "q": "How long does it take to see effects from TRT?",
+        "a": "Response timelines vary and depend on individual factors and treatment plans."
+      },
+      {
+        "q": "Are there risks or side effects with TRT?",
+        "a": "Potential risks exist and should be discussed with a qualified provider."
+      },
+      {
+        "q": "Can TRT be done via telehealth?",
+        "a": "Availability depends on provider practices and state regulations."
+      },
+      {
+        "q": "Is long-term monitoring required?",
+        "a": "Ongoing monitoring is common to track response and safety."
+      },
+      {
+        "q": "Does this site recommend TRT clinics?",
+        "a": "No. This site provides educational information only."
+      },
+      {
+        "q": "Can TRT be discontinued?",
+        "a": "Treatment decisions should be made with a healthcare provider."
+      }
+    ],
+    "city": [
+      {
+        "q": "Where can I find a TRT clinic near me in {{marketLabel}}?",
+        "a": "Availability varies by city. Research clinics and confirm credentials directly."
+      },
+      {
+        "q": "How do TRT clinics in {{marketLabel}} structure pricing?",
+        "a": "Pricing models differ and may bundle visits, labs, and medications."
+      },
+      {
+        "q": "Are lab tests done locally in {{marketLabel}}?",
+        "a": "Some clinics use local labs while others coordinate remotely."
+      },
+      {
+        "q": "How often are follow-up visits required in {{marketLabel}}?",
+        "a": "Visit frequency depends on treatment stage and provider protocol."
+      },
+      {
+        "q": "What credentials should TRT providers in {{marketLabel}} have?",
+        "a": "Look for licensed medical professionals with relevant experience."
+      },
+      {
+        "q": "Can I switch TRT providers in {{marketLabel}}?",
+        "a": "Transitions may be possible depending on medical records and provider policies."
+      },
+      {
+        "q": "Do clinics in {{marketLabel}} offer in-person and telehealth options?",
+        "a": "Service models vary by clinic."
+      },
+      {
+        "q": "What questions should I ask a TRT clinic in {{marketLabel}}?",
+        "a": "Ask about monitoring, costs, side effects, and treatment adjustments."
+      },
+      {
+        "q": "Is TRT regulated differently in {{stateName}}?",
+        "a": "Regulations vary by state and affect prescribing and monitoring."
+      },
+      {
+        "q": "How do I verify a clinic\u2019s legitimacy in {{marketLabel}}?",
+        "a": "Check licenses, reviews, and official clinic websites."
+      }
+    ]
+  },
+  "pages": [
+    {
+      "route": "",
+      "title": "%%MARKET_LABEL%% Local Guides",
+      "description": "Frameworks and neutral directories for %%MARKET_LABEL%%. No rankings. No endorsements.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n<section class=\"section start-here\">\n  <div class=\"cta-bar\">\n    <div>\n      <h2 class=\"cta-title\">Start here</h2>\n      <p class=\"cta-sub\">Two quick steps before you contact anyone.</p>\n    </div>\n    <div class=\"cta-actions\">\n      <a class=\"button button-primary\" href=\"#city-directory\">Compare providers</a>\n      <a class=\"button button-secondary\" href=\"#state-lookup\">Check official state lookup</a>\n    </div>\n  </div>\n</section>\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"city-directory\">\n    <summary>\n      <span>Directory</span>\n      <span class=\"accordion-meta\">Open to compare (neutral listings)</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <p class=\"muted\">Neutral directory entries (name + official site link only). No rankings.</p>\n      <div id=\"verified-listings\"></div>\n      <div id=\"other-listings\"></div>\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"state-lookup\">\n    <summary>\n      <span>Official state lookup</span>\n      <span class=\"accordion-meta\">Verify licensing fast</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Common questions for %%MARKET_LABEL%%</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"city-directory\">\n    <summary>\n      <span>Directory</span>\n      <span class=\"accordion-meta\">Open to compare (neutral listings)</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <p class=\"muted\">Neutral directory entries (name + official site link only). No rankings.</p>\n      <div id=\"verified-listings\"></div>\n      <div id=\"other-listings\"></div>\n    </div>\n  </details>\n\n  \n<details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Common questions for %%MARKET_LABEL%%</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
+    },
+    {
+      "route": "faq",
+      "title": "%%MARKET_LABEL%% FAQs",
+      "description": "Frequently asked questions for %%MARKET_LABEL%%.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:faq_bottom%%"
+    }
+  ],
+  "globalPagesDir": "data/page_sets/examples/trt_global_pages"
+}

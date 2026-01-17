@@ -1,0 +1,105 @@
+{
+  "name": "neuro_v1",
+  "citiesFile": "data/page_sets/examples/cities_neuro_v1.json",
+  "faq": {
+    "global": [
+      {
+        "q": "What is a neuropsychological evaluation?",
+        "a": "It is an assessment of cognitive, emotional, and behavioral functioning conducted by qualified professionals."
+      },
+      {
+        "q": "How much does a neuropsychological evaluation usually cost?",
+        "a": "Costs vary based on scope, testing time, and reporting requirements."
+      },
+      {
+        "q": "How long does testing take?",
+        "a": "Evaluations may span several hours or sessions depending on complexity."
+      },
+      {
+        "q": "What conditions can be evaluated?",
+        "a": "Assessments may address attention, memory, learning, and other concerns."
+      },
+      {
+        "q": "Is a referral required?",
+        "a": "Referral requirements vary by provider and insurance."
+      },
+      {
+        "q": "Does insurance cover evaluations?",
+        "a": "Coverage depends on diagnosis, plan terms, and medical necessity."
+      },
+      {
+        "q": "When will I receive the final report?",
+        "a": "Report timelines vary and should be confirmed in advance."
+      },
+      {
+        "q": "Who conducts the evaluation?",
+        "a": "Evaluations are performed by licensed psychologists or neuropsychologists."
+      },
+      {
+        "q": "Does this site recommend providers?",
+        "a": "No. Information is educational only."
+      },
+      {
+        "q": "Can results be shared with schools or physicians?",
+        "a": "Sharing is possible with proper authorization."
+      }
+    ],
+    "city": [
+      {
+        "q": "Where can I get a neuropsychological evaluation near me in {{marketLabel}}?",
+        "a": "Availability varies by city and provider specialty."
+      },
+      {
+        "q": "How long does testing take in {{marketLabel}}?",
+        "a": "Session length depends on the evaluation scope."
+      },
+      {
+        "q": "What is the cost in {{marketLabel}}?",
+        "a": "Pricing depends on provider fees and assessment type."
+      },
+      {
+        "q": "Do clinics in {{marketLabel}} evaluate ADHD or learning concerns?",
+        "a": "Services vary; confirm evaluation focus with providers."
+      },
+      {
+        "q": "Are reports accepted by schools in {{marketLabel}}?",
+        "a": "Acceptance depends on institutional policies."
+      },
+      {
+        "q": "Is follow-up feedback provided in {{marketLabel}}?",
+        "a": "Many providers include feedback sessions."
+      },
+      {
+        "q": "Can adults receive evaluations in {{marketLabel}}?",
+        "a": "Many clinics serve both children and adults."
+      },
+      {
+        "q": "How do I prepare for testing in {{marketLabel}}?",
+        "a": "Preparation guidance is usually provided before the appointment."
+      },
+      {
+        "q": "Do providers in {{marketLabel}} offer tele-assessments?",
+        "a": "Some components may be offered remotely depending on rules."
+      },
+      {
+        "q": "How do I verify provider credentials in {{stateName}}?",
+        "a": "Check state licensing boards and provider credentials."
+      }
+    ]
+  },
+  "pages": [
+    {
+      "route": "",
+      "title": "%%MARKET_LABEL%% Local Guides",
+      "description": "Frameworks and neutral directories for %%MARKET_LABEL%%. No rankings. No endorsements.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n<section class=\"section start-here\">\n  <div class=\"cta-bar\">\n    <div>\n      <h2 class=\"cta-title\">Start here</h2>\n      <p class=\"cta-sub\">Two quick steps before you contact anyone.</p>\n    </div>\n    <div class=\"cta-actions\">\n      <a class=\"button button-primary\" href=\"#city-directory\">Compare providers</a>\n      <a class=\"button button-secondary\" href=\"#state-lookup\">Check official state lookup</a>\n    </div>\n  </div>\n</section>\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"city-directory\">\n    <summary>\n      <span>Directory</span>\n      <span class=\"accordion-meta\">Open to compare (neutral listings)</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <p class=\"muted\">Neutral directory entries (name + official site link only). No rankings.</p>\n      <div id=\"verified-listings\"></div>\n      <div id=\"other-listings\"></div>\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"state-lookup\">\n    <summary>\n      <span>Official state lookup</span>\n      <span class=\"accordion-meta\">Verify licensing fast</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Common questions for %%MARKET_LABEL%%</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
+    },
+    {
+      "route": "faq",
+      "title": "%%MARKET_LABEL%% FAQs",
+      "description": "Frequently asked questions for %%MARKET_LABEL%%.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:faq_bottom%%"
+    }
+  ],
+  "globalPagesDir": "data/page_sets/examples/neuro_global_pages"
+}

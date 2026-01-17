@@ -1,0 +1,83 @@
+{
+  "name": "starter_v1",
+  "faq": {
+    "global": [
+      {
+        "q": "Do you rank or recommend providers?",
+        "a": "No. We do not rank, recommend, or endorse providers. Listings and advertising are separate from editorial content."
+      },
+      {
+        "q": "Is this a referral service?",
+        "a": "No. This is an educational publisher. We do not sell leads or referrals."
+      },
+      {
+        "q": "How do I verify a license?",
+        "a": "Use the official state or agency verification tool for the relevant profession. Always verify independently."
+      },
+      {
+        "q": "How should I compare two quotes?",
+        "a": "Compare scope, not slogans. Require an itemized, written scope and an itemized price that shows what is included, excluded, and what triggers add-ons."
+      },
+      {
+        "q": "Can advertising influence editorial content?",
+        "a": "No. Advertising placements are labeled \u201cAdvertising\u201d and are intended to be visually separate from editorial content."
+      }
+    ],
+    "city": [
+      {
+        "q": "Who is the best provider in {{city}}?",
+        "a": "There isn\u2019t one best for everyone. We do not rank or endorse providers. Shortlist options and compare verification, scope, pricing transparency, policies, and fit for your situation."
+      },
+      {
+        "q": "How much does this service cost in {{city}}?",
+        "a": "Costs vary widely based on scope and complexity. Get itemized, written quotes and compare the same scope across providers."
+      },
+      {
+        "q": "How do I verify a license in {{stateName}}?",
+        "a": "Use the official state verification tool for {{stateName}} and confirm active status and any public discipline history."
+      },
+      {
+        "q": "What are common red flags in {{city}}?",
+        "a": "Pressure tactics, vague pricing, no written scope, unwillingness to discuss alternatives/risks, and unclear policies are common red flags."
+      },
+      {
+        "q": "Do you list every provider in {{city}}?",
+        "a": "No. Directories may be incomplete and informational only. We do not rank or endorse providers. Providers can request updates via the contact page."
+      }
+    ]
+  },
+  "cityNav": [
+    {
+      "label": "Overview",
+      "route": ""
+    },
+    {
+      "label": "Directory",
+      "route": "directory"
+    },
+    {
+      "label": "FAQ",
+      "route": "faq"
+    }
+  ],
+  "pages": [
+    {
+      "route": "",
+      "title": "%%MARKET_LABEL%% Local Guides",
+      "description": "Frameworks and neutral directories for %%MARKET_LABEL%%. No rankings. No endorsements.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Frameworks and neutral directories for this market. We do not rate, rank, or endorse providers.</p>\n</section>\n\n%%AD:city_hub_top%%\n\n<section class=\"section\">\n  <div class=\"grid\">\n    <div class=\"card\"><h2><a href=\"/%%SLUG%%/directory/\">Directory</a></h2><p>Neutral directory entries (name + official site link only).</p></div>\n    <div class=\"card\"><h2><a href=\"/%%SLUG%%/faq/\">FAQ</a></h2><p>Answer-box style questions for %%CITY%%.</p></div>\n  </div>\n</section>\n\n%%AD:city_hub_mid%%\n\n<section class=\"notice\">\n  <h2>Quick checklist before you book</h2>\n  <ul>\n    <li><strong>Verify</strong> licensing and identity using official sources.</li>\n    <li><strong>Get it in writing:</strong> itemized scope + itemized pricing.</li>\n    <li><strong>Compare scope, not slogans.</strong></li>\n  </ul>\n</section>\n\n%%AD:city_hub_bottom%%"
+    },
+    {
+      "route": "directory",
+      "title": "%%MARKET_LABEL%% Directory (Neutral)",
+      "description": "Neutral directory entries for %%MARKET_LABEL%% (name + official site link only).",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Directory</p>\n  <h1>%%MARKET_LABEL%% Directory</h1>\n  <p class=\"muted\">Informational only. No rankings. No endorsements.</p>\n</section>\n\n%%AD:city_directory_top%%\n\n<section class=\"section\">\n  <h2>Listings</h2>\n  <div id=\"verified-listings\"></div>\n  <div id=\"other-listings\"></div>\n</section>\n\n%%AD:city_directory_mid%%\n\n<section class=\"notice\">\n  <h2>How to use this directory</h2>\n  <ul>\n    <li>Verify licensing and identity via official tools.</li>\n    <li>Ask for itemized scope + itemized pricing in writing.</li>\n    <li>Get a second opinion for high-ticket decisions.</li>\n  </ul>\n</section>\n\n%%AD:city_directory_bottom%%"
+    },
+    {
+      "route": "faq",
+      "title": "%%MARKET_LABEL%% FAQs (No Rankings)",
+      "description": "FAQ for %%MARKET_LABEL%% (no rankings).",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Neutral answers. No rankings. Not professional advice.</p>\n</section>\n\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"notice\">\n  <h2>Quick checklist before you book</h2>\n  <ul>\n    <li><strong>Verify</strong> licensing and identity using official sources.</li>\n    <li><strong>Get it in writing:</strong> itemized scope + itemized pricing.</li>\n    <li><strong>Compare scope, not slogans.</strong></li>\n  </ul>\n</section>\n\n%%AD:faq_bottom%%"
+    }
+  ]
+}

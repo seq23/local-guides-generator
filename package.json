@@ -1,0 +1,11 @@
+{
+  "name": "local-guides-generator-base",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build_city_sites.js",
+    "postbuild": "node scripts/validate_tbs.js",
+    "validate": "node scripts/validate_tbs.js"
+  },
+  "dependencies": {}
+}

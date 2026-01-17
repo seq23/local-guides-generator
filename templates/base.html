@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>%%TITLE%%</title>
+  <meta name="description" content="%%DESCRIPTION%%" />
+  <link rel="canonical" href="%%CANONICAL%%" />
+  <meta name="robots" content="index,follow" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  %%HEAD_JSON_LD%%
+</head>
+<body data-city="%%DATA_CITY%%">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="Home">%%BRAND_NAME%%</a>
+
+      <nav class="top-nav" aria-label="Primary">
+        <a href="/guides/">Guides</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/methodology/">Methodology</a>
+        <a href="/for-providers/">Advertising & Provider Info</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    %%MAIN_HTML%%
+  </main>
+
+  <div class="container">
+    %%FOOTER%%
+  </div>
+
+  <script>
+    // Footer year
+    (function () {
+      var y = new Date().getFullYear();
+      var el = document.getElementById("year");
+      if (el) el.textContent = String(y);
+    })();
+  </script>
+
+  %%INLINE_SCRIPTS%%
+</body>
+</html>

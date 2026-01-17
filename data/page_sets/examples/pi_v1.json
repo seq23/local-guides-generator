@@ -1,0 +1,111 @@
+{
+  "name": "pi_v1",
+  "citiesFile": "data/page_sets/examples/cities_pi_v1.json",
+  "faq": {
+    "global": [
+      {
+        "q": "How much does a personal injury lawyer typically cost?",
+        "a": "Most personal injury matters use contingency fees, meaning payment is tied to recovery rather than hourly billing. The exact percentage, treatment of expenses, and timing are defined in a written agreement."
+      },
+      {
+        "q": "Should I speak to a personal injury lawyer before insurance contacts me?",
+        "a": "Many people choose to understand their options before insurer conversations so they know what information is appropriate to share and what documentation to gather."
+      },
+      {
+        "q": "What does a personal injury consultation usually include?",
+        "a": "A consultation often reviews incident facts, injuries, insurance coverage, timelines, and potential next steps without committing you to representation."
+      },
+      {
+        "q": "How long do personal injury cases usually take?",
+        "a": "Timelines vary based on injury severity, medical treatment length, negotiations, and whether litigation is required. Some resolve quickly; others take longer."
+      },
+      {
+        "q": "What documents should I collect after an accident?",
+        "a": "Common items include photos, incident reports, medical records, insurance correspondence, witness details, and notes about symptoms or missed work."
+      },
+      {
+        "q": "Can I switch lawyers if I already hired one?",
+        "a": "In many situations, clients may change representation, but fee agreements and state rules affect how transitions are handled."
+      },
+      {
+        "q": "What is the difference between settlement and trial?",
+        "a": "A settlement resolves the claim by agreement, while a trial asks a court or jury to decide. Each path has different risks, costs, and timelines."
+      },
+      {
+        "q": "Are guarantees or promises of results allowed?",
+        "a": "Ethical rules generally prohibit guarantees. Be cautious of marketing language that suggests certain outcomes."
+      },
+      {
+        "q": "What questions should I ask before hiring a lawyer?",
+        "a": "Ask who handles your case, communication expectations, fee structure, costs, experience with similar matters, and decision-making authority."
+      },
+      {
+        "q": "Is this site providing legal advice or recommendations?",
+        "a": "No. This site offers general educational information and does not provide legal advice or endorse any provider."
+      }
+    ],
+    "city": [
+      {
+        "q": "Do I need a personal injury lawyer near me in {{marketLabel}}?",
+        "a": "Some people prefer local counsel for accessibility and familiarity with local courts, but suitability depends on your situation and preferences."
+      },
+      {
+        "q": "How do I compare personal injury lawyers in {{marketLabel}}?",
+        "a": "Compare written fee terms, communication style, who manages your case, and experience with cases similar to yours."
+      },
+      {
+        "q": "How soon should I act after an injury in {{stateName}}?",
+        "a": "Deadlines depend on claim type and facts. Acting early can help preserve records and options."
+      },
+      {
+        "q": "What should I bring to a consultation in {{marketLabel}}?",
+        "a": "Bring incident details, medical information, insurance documents, photos, and a timeline of events."
+      },
+      {
+        "q": "Do personal injury lawyers in {{marketLabel}} offer free consultations?",
+        "a": "Many do, but policies vary. Confirm what is covered during the consultation."
+      },
+      {
+        "q": "How are contingency fees handled in {{stateName}}?",
+        "a": "Fee structures are governed by state rules and written agreements that explain percentages and costs."
+      },
+      {
+        "q": "Will my case likely settle or go to court in {{marketLabel}}?",
+        "a": "Outcomes depend on facts, liability, damages, and negotiations. Ask firms how they approach resolution."
+      },
+      {
+        "q": "What role do medical records play in {{marketLabel}} injury cases?",
+        "a": "Medical documentation helps establish injury, treatment, and impact, making accuracy and completeness important."
+      },
+      {
+        "q": "Can I speak to more than one lawyer in {{marketLabel}}?",
+        "a": "Many people consult multiple firms to compare approaches before deciding."
+      },
+      {
+        "q": "How do I verify a lawyer\u2019s license in {{stateName}}?",
+        "a": "Use the official {{stateName}} state bar directory and confirm details on the firm\u2019s official website."
+      }
+    ]
+  },
+  "pages": [
+    {
+      "route": "",
+      "title": "%%MARKET_LABEL%% Local Guides",
+      "description": "Frameworks and neutral directories for %%MARKET_LABEL%%. No rankings. No endorsements.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"city-directory\">\n    <summary>\n      <span>Directory</span>\n      <span class=\"accordion-meta\">Open to compare (neutral listings)</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <p class=\"muted\">Neutral directory entries (name + official site link only). No rankings.</p>\n      <div id=\"verified-listings\"></div>\n      <div id=\"other-listings\"></div>\n    </div>\n  </details>\n\n  \n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Common questions for %%MARKET_LABEL%%</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
+    },
+    {
+      "route": "directory",
+      "title": "%%MARKET_LABEL%% Directory (Neutral)",
+      "description": "Neutral directory entries for %%MARKET_LABEL%%.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Directory</p>\n  <h1>%%MARKET_LABEL%% Directory</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_directory_top%%\n\n<section class=\"section\">\n  <div id=\"verified-listings\"></div>\n  <div id=\"other-listings\"></div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_directory_bottom%%\n"
+    },
+    {
+      "route": "faq",
+      "title": "%%MARKET_LABEL%% FAQs",
+      "description": "Frequently asked questions for %%MARKET_LABEL%%.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:faq_bottom%%\n"
+    }
+  ],
+  "globalPagesDir": "data/page_sets/examples/pi_global_pages"
+}
