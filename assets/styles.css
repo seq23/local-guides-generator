@@ -311,3 +311,85 @@ details.accordion[open] > summary{
 /* Tighten guide tile typography */
 .city-guides .card h3{ font-size: 15px; }
 .city-guides .card p{ font-size: 13px; color:#6b7280; }
+
+/* PI Sponsored + Directory (professional table) */
+.pi-sponsored{
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: #fff;
+}
+.pi-disclosure{
+  font-size: 12px; /* smaller than body text */
+  color: #6b7280;
+  margin: 0 0 10px 0;
+}
+.pi-sponsored-card{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.pi-sponsored-card h3{
+  margin:0 0 6px 0;
+  font-size:16px;
+}
+.pi-sponsored-actions{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-width: 220px;
+}
+.pi-primary-cta{
+  margin: 12px 0 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  background:#fafafa;
+}
+.pi-primary-cta .btn{
+  display:inline-block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #111827;
+  background:#111827;
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+}
+.pi-directory-table{
+  width:100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.pi-directory-table th,
+.pi-directory-table td{
+  text-align:left;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 14px;
+}
+.pi-directory-table th{
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color:#6b7280;
+}
+.pi-url{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  color:#374151;
+  word-break: break-all;
+}
+.pi-other-listings details > summary{
+  cursor:pointer;
+  user-select:none;
+}
+.pi-arrow{
+  display:inline-block;
+  margin-left:8px;
+  transform: translateY(1px);
+  font-size: 12px;
+  color:#6b7280;
+}

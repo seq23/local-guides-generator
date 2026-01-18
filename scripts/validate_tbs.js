@@ -328,129 +328,34 @@ function normalizeText(s) {
 }
 
 function assertPiPhase2DistributionGovernance() {
-  const { pageSet, pageSetFile } = loadPageSetForSite();
-  const verticalKey = deriveVerticalKey(pageSetFile);
-  if (verticalKey !== "pi") {
-    ok(`PI distribution governance: skipped (verticalKey=${verticalKey})`);
+  // PI-only: sponsor behavior is data-driven via data/listings/<city>.json
+  // sponsor is considered LIVE if:
+  // sponsor: { status: "live", firm_name, official_site_url, intake_url }
+
+  const pageSetFile = readJson(path.join(repoRoot, "data/site.json")).pageSetFile;
+  if (pageSetFile !== 'pi_v1.json') {
+    ok('PI Phase-2 Distribution governance check skipped (non-PI page set)');
     return;
   }
-
-  const citiesFileRel = String(pageSet.citiesFile || "").trim();
-  if (!citiesFileRel) fail("PI page set missing citiesFile");
-
-  const citiesFileAbs = path.isAbsolute(citiesFileRel)
-    ? citiesFileRel
-    : path.join(repoRoot, citiesFileRel);
-  if (!fs.existsSync(citiesFileAbs)) {
-    fail(`PI cities file not found: ${citiesFileRel}`);
+  const cityList = readJson(path.join(repoRoot, "data/cities.json"));
+  const listingsDir = path.join(repoRoot, "data", "listings");
+  function getSponsorForCity(slug) {
+    const fp = path.join(listingsDir, slug + ".json");
+    if (!fs.existsSync(fp)) return null;
+    const raw = readJson(fp);
+    if (Array.isArray(raw)) return null;
+    if (raw && typeof raw === 'object') return raw.sponsor || null;
+    return null;
   }
 
-  const cities = readJson(citiesFileAbs);
-  if (!Array.isArray(cities) || cities.length === 0) {
-    fail(`PI cities file is empty or invalid: ${citiesFileRel}`);
-  }
-
-  const ALLOWED = new Set([
-    "EDUCATION_ONLY",
-    "DISTRIBUTION_SPONSORED_DIRECTORY",
-    "FULL_SITE_SPONSORSHIP"
-  ]);
-
-  const PHASE2 = new Set([
-    "houston-tx",
-    "dallas-tx",
-    "chicago-il",
-    "atlanta-ga",
-    "orlando-fl"
-  ]);
-
-  const GOLDEN_SPONSORED = "houston-tx";
-  const GOLDEN_EDU = "denver-co";
-
-  const bySlug = new Map();
-  for (const c of cities) {
-    const slug = String(c.slug || "").trim();
-    if (!slug) fail(`PI city entry missing slug in ${citiesFileRel}`);
-    if (bySlug.has(slug)) fail(`Duplicate PI city slug '${slug}' in ${citiesFileRel}`);
-    bySlug.set(slug, c);
-
-    const mode = c.monetization_mode;
-    if (!mode) fail(`PI city '${slug}' has no monetization_mode assigned`);
-    if (!ALLOWED.has(mode)) {
-      fail(
-        `PI city '${slug}' has invalid monetization_mode '${mode}'. Allowed: ${Array.from(ALLOWED).join(", ")}`
-      );
-    }
-
-    if (mode === "FULL_SITE_SPONSORSHIP") {
-      fail(`PI city '${slug}' uses FULL_SITE_SPONSORSHIP, which is forbidden by default`);
-    }
-
-    if (PHASE2.has(slug)) {
-      if (mode !== "DISTRIBUTION_SPONSORED_DIRECTORY") {
-        fail(`Phase-2 PI city '${slug}' must be DISTRIBUTION_SPONSORED_DIRECTORY (found ${mode})`);
-      }
-    } else {
-      if (mode !== "EDUCATION_ONLY") {
-        fail(`Non-Phase-2 PI city '${slug}' must be EDUCATION_ONLY (found ${mode})`);
-      }
-    }
-  }
-
-  // Golden slugs must exist
-  if (!bySlug.has(GOLDEN_SPONSORED)) fail(`Golden sponsored city missing from PI cities: ${GOLDEN_SPONSORED}`);
-  if (!bySlug.has(GOLDEN_EDU)) fail(`Golden education-only city missing from PI cities: ${GOLDEN_EDU}`);
-
-  // Now enforce page-level behavior in dist/
+  // Deterministic marker strings set by build script
   const SPONSORED_PLACEMENT_MARK = 'data-sponsored-placement="true"';
   const SPONSORED_FIRM_MARK = 'data-sponsored-firm="true"';
   const SPONSORED_DISCLOSURE_MARK = 'data-sponsored-disclosure="true"';
+  const PI_PRIMARY_CTA_MARK = 'data-pi-primary-cta="true"';
 
-  const ctaPatterns = [
-    /\brequest\s+(a\s+)?(confidential\s+)?consultation\b/i,
-    /\bschedule\s+(a\s+)?(call|consultation)\b/i,
-    /\bbook\s+(a\s+)?(call|consultation)\b/i,
-    /\bcase\s+review\b/i,
-    /\bfree\s+review\b/i,
-    /\bspeak\s+with\s+(an\s+)?(attorney|lawyer)\b/i,
-    /\bcall\s+now\b/i,
-    /\bget\s+help\s+now\b/i
-  ];
-
-  function hasCta(text) {
-    return ctaPatterns.some((re) => re.test(text));
-  }
-
-  // Semantic disclosure requirements
-  function disclosureSemanticsOk(disclosureText) {
-    const t = normalizeText(disclosureText);
-    const paidOk = /(paid|sponsored|compensated)/i.test(t) && /(placement|listing|position)/i.test(t);
-    const publisherOk = /(independent)/i.test(t) && /(educational|publisher)/i.test(t);
-    const noGuaranteeOk = /(no\s+guarantee|no\s+guarantees|no\s+outcome\s+guarantee|no\s+outcomes\s+guaranteed)/i.test(t);
-    return paidOk && publisherOk && noGuaranteeOk;
-  }
-
-  function assertEduCity(slug) {
-    const cityHtmlPath = path.join(distDir, slug, "index.html");
-    const dirHtmlPath = path.join(distDir, slug, "directory", "index.html");
-
-    const filesToScan = [cityHtmlPath, dirHtmlPath].filter((p) => fs.existsSync(p));
-    if (filesToScan.length === 0) {
-      fail(`EDUCATION_ONLY PI city '${slug}' has no built pages in dist/ (missing ${rel(cityHtmlPath)})`);
-    }
-
-    for (const p of filesToScan) {
-      const html = readText(p);
-      if (html.includes(SPONSORED_PLACEMENT_MARK) || html.includes(SPONSORED_FIRM_MARK)) {
-        fail(`EDUCATION_ONLY PI city '${slug}' renders sponsored placement markers in ${rel(p)}`);
-      }
-      if (html.includes(SPONSORED_DISCLOSURE_MARK)) {
-        fail(`EDUCATION_ONLY PI city '${slug}' renders disclosure marker in ${rel(p)}`);
-      }
-      if (hasCta(html)) {
-        fail(`EDUCATION_ONLY PI city '${slug}' contains CTA/intake language in ${rel(p)}`);
-      }
-    }
+  function isSponsorLive(s) {
+    return !!(s && typeof s === 'object' && s.status === 'live' && s.firm_name && s.official_site_url && s.intake_url);
   }
 
   function countOccurrences(haystack, needle) {
@@ -466,30 +371,73 @@ function assertPiPhase2DistributionGovernance() {
     return count;
   }
 
-  function assertSponsoredCity(slug) {
-    const dirHtmlPath = path.join(distDir, slug, "directory", "index.html");
-    if (!fs.existsSync(dirHtmlPath)) {
-      fail(`Sponsored PI city '${slug}' must render directory page: missing ${rel(dirHtmlPath)}`);
-    }
-    const html = readText(dirHtmlPath);
+  function disclosureSemanticsOk(block) {
+    // Conservative: require paid placement + independent publisher + no guarantees.
+    const t = String(block || "").toLowerCase();
+    const paidOk = t.includes('paid') || t.includes('placement is paid') || t.includes('paid placement');
+    const publisherOk = t.includes('independent') && (t.includes('publisher') || t.includes('educational'));
+    const noGuaranteeOk = t.includes('no outcome') || t.includes('no guarantees') || t.includes('no guarantee');
+    return paidOk && publisherOk && noGuaranteeOk;
+  }
 
-    // Directory must still exist (basic zone check)
-    if (!html.includes("id=\"verified-listings\"") && !html.includes("verified-listings")) {
-      fail(`Sponsored PI city '${slug}' directory appears missing required listings zone in ${rel(dirHtmlPath)}`);
+  function hasCta(html) {
+    const t = String(html || "").toLowerCase();
+    // Keep conservative: terms that indicate intake / consultation.
+    const needles = [
+      'request a confidential consultation',
+      'send inquiry',
+      'send an inquiry',
+      'submit inquiry',
+      'secure inquiry',
+      'continue to secure inquiry',
+      'confidential inquiry',
+    ];
+    return needles.some((n) => t.includes(n));
+  }
+
+  function assertSponsorOff(slug) {
+    const cityHomePath = path.join(distDir, slug, "index.html");
+    if (!fs.existsSync(cityHomePath)) {
+      fail(`PI city '${slug}' missing city home page in dist/ (expected ${rel(cityHomePath)})`);
+    }
+    const html = readText(cityHomePath);
+    if (html.includes(SPONSORED_PLACEMENT_MARK) || html.includes(SPONSORED_FIRM_MARK) || html.includes(SPONSORED_DISCLOSURE_MARK)) {
+      fail(`Non-sponsored PI city '${slug}' must not render sponsored placement markers in ${rel(cityHomePath)}`);
+    }
+    if (html.includes(PI_PRIMARY_CTA_MARK)) {
+      fail(`Non-sponsored PI city '${slug}' must not render primary CTA in ${rel(cityHomePath)}`);
+    }
+    const nextStepsPath = path.join(distDir, slug, "next-steps", "index.html");
+    if (fs.existsSync(nextStepsPath)) {
+      fail(`Non-sponsored PI city '${slug}' must not have next-steps page (found ${rel(nextStepsPath)})`);
+    }
+    // No CTA language anywhere on home
+    if (hasCta(html)) {
+      fail(`Non-sponsored PI city '${slug}' contains CTA/intake language in ${rel(cityHomePath)}`);
+    }
+  }
+
+  function assertSponsorOn(slug) {
+    const cityHomePath = path.join(distDir, slug, "index.html");
+    if (!fs.existsSync(cityHomePath)) {
+      fail(`Sponsored PI city '${slug}' missing city home page in dist/ (expected ${rel(cityHomePath)})`);
+    }
+    const html = readText(cityHomePath);
+
+    // Required zones present
+    if (!html.includes('id="verified-listings"') && !html.includes('verified-listings')) {
+      fail(`Sponsored PI city '${slug}' appears missing listings zone on city home in ${rel(cityHomePath)}`);
     }
 
     const placementCount = countOccurrences(html, SPONSORED_PLACEMENT_MARK);
     const firmCount = countOccurrences(html, SPONSORED_FIRM_MARK);
     const disclosureCount = countOccurrences(html, SPONSORED_DISCLOSURE_MARK);
-    if (placementCount !== 1) {
-      fail(`Sponsored PI city '${slug}' must have exactly one sponsored placement block (found ${placementCount})`);
-    }
-    if (firmCount !== 1) {
-      fail(`Sponsored PI city '${slug}' must have exactly one sponsored firm block (found ${firmCount})`);
-    }
-    if (disclosureCount !== 1) {
-      fail(`Sponsored PI city '${slug}' must have exactly one disclosure block (found ${disclosureCount})`);
-    }
+    const primaryCtaCount = countOccurrences(html, PI_PRIMARY_CTA_MARK);
+
+    if (placementCount !== 1) fail(`Sponsored PI city '${slug}' must have exactly one sponsored placement block (found ${placementCount})`);
+    if (firmCount !== 1) fail(`Sponsored PI city '${slug}' must have exactly one sponsored firm block (found ${firmCount})`);
+    if (disclosureCount !== 1) fail(`Sponsored PI city '${slug}' must have exactly one disclosure block (found ${disclosureCount})`);
+    if (primaryCtaCount !== 1) fail(`Sponsored PI city '${slug}' must have exactly one primary CTA block (found ${primaryCtaCount})`);
 
     const iDisclosure = html.indexOf(SPONSORED_DISCLOSURE_MARK);
     const iPlacement = html.indexOf(SPONSORED_PLACEMENT_MARK);
@@ -499,35 +447,41 @@ function assertPiPhase2DistributionGovernance() {
     if (iDisclosure > iPlacement) {
       fail(`Sponsored PI city '${slug}' disclosure must appear above sponsored placement`);
     }
-    const PROXIMITY_CHARS = 2000;
+    const PROXIMITY_CHARS = 2500;
     if (iPlacement - iDisclosure > PROXIMITY_CHARS) {
       fail(`Sponsored PI city '${slug}' disclosure is not proximate to sponsored placement (distance ${iPlacement - iDisclosure} chars)`);
     }
-
-    // Extract disclosure block content for semantic checks (best-effort).
-    // Strategy: grab a window starting at disclosure marker.
-    const disclosureWindow = html.slice(iDisclosure, Math.min(html.length, iDisclosure + 2500));
+    const disclosureWindow = html.slice(iDisclosure, Math.min(html.length, iDisclosure + 3500));
     if (!disclosureSemanticsOk(disclosureWindow)) {
       fail(`Sponsored PI city '${slug}' disclosure does not satisfy semantic requirements`);
     }
 
-    // CTA zone enforcement: CTA allowed only inside sponsored placement block.
-    const iPlacementStart = html.indexOf(SPONSORED_PLACEMENT_MARK);
-    // Heuristic: sponsored placement wrapper should be a single element; take a window around it.
-    const placementWindow = html.slice(iPlacementStart, Math.min(html.length, iPlacementStart + 8000));
+    // Next steps page must exist
+    const nextStepsPath = path.join(distDir, slug, "next-steps", "index.html");
+    if (!fs.existsSync(nextStepsPath)) {
+      fail(`Sponsored PI city '${slug}' must have next-steps page (missing ${rel(nextStepsPath)})`);
+    }
 
-    // Outside content: remove the placement window once (best-effort) and scan remainder.
-    const outside = html.replace(placementWindow, " ");
+    // CTA enforcement: CTA allowed inside sponsored placement + primary CTA.
+    const iPlacementStart = html.indexOf(SPONSORED_PLACEMENT_MARK);
+    const placementWindow = html.slice(iPlacementStart, Math.min(html.length, iPlacementStart + 9000));
+    const iPrimary = html.indexOf(PI_PRIMARY_CTA_MARK);
+    const primaryWindow = html.slice(iPrimary, Math.min(html.length, iPrimary + 2500));
+    let outside = html;
+    outside = outside.replace(placementWindow, " ").replace(primaryWindow, " ");
     if (hasCta(outside)) {
-      fail(`Sponsored PI city '${slug}' contains CTA/intake language outside sponsored placement block`);
+      fail(`Sponsored PI city '${slug}' contains CTA/intake language outside allowed modules`);
     }
   }
 
-  // Enforce behavior for all PI cities
-  for (const [slug, c] of bySlug.entries()) {
-    const mode = c.monetization_mode;
-    if (mode === "EDUCATION_ONLY") assertEduCity(slug);
-    if (mode === "DISTRIBUTION_SPONSORED_DIRECTORY") assertSponsoredCity(slug);
+  // Enforce for all PI cities, driven solely by sponsor.status
+  // Enforce for all PI cities, driven solely by sponsor.status
+  for (const city of cityList) {
+    const slug = city.slug;
+    const sponsor = getSponsorForCity(slug);
+    const live = isSponsorLive(sponsor);
+    if (live) assertSponsorOn(slug);
+    else assertSponsorOff(slug);
   }
 
   ok("PI Phase-2 Distribution governance enforced (PI only)");

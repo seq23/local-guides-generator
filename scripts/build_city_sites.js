@@ -436,58 +436,118 @@ function injectSponsors(html, sponsorsByStack) {
   });
 }
 
-// Directory listings (neutral: name + official site link only)
-function listingCardHtml(listing) {
-  const name = listing.name ? String(listing.name) : "Listing";
-  const website = normalizeUrl(listing.website || listing.url);
-  const nameHtml = website ? `<a href="${website}" rel="nofollow noopener" target="_blank">${escapeHtml(name)}</a>` : escapeHtml(name);
-  return `<div class="listing-card"><h3>${nameHtml}</h3></div>`;
+// Directory listings (PI-overhauled)
+// - Data-driven sponsored behavior via listings sponsor object
+// - Professional table styling (no ranking, no comparison)
+function isSponsorLive(sponsor) {
+  return !!(sponsor && typeof sponsor === 'object' && sponsor.status === 'live' && sponsor.firm_name && sponsor.official_site_url && sponsor.intake_url);
 }
 
-function injectListings(html, listings, city) {
-  const monetizationMode = city && city.monetization_mode ? String(city.monetization_mode) : "";
-  const isPiSponsoredCity = monetizationMode === "DISTRIBUTION_SPONSORED_DIRECTORY";
-  const isPiDirectoryPage = html.includes('<p class="kicker">Directory</p>');
+function renderPiDisclosureHtml() {
+  // Deterministic marker for validator
+  return (
+    '<div class="sponsored-disclosure" data-sponsored-disclosure="true">' +
+    '<p><strong>Disclosure:</strong> This placement is paid. This site is an independent educational publisher. No outcome guarantees.</p>' +
+    '</div>'
+  );
+}
 
-  function piSponsoredDirectoryBlock() {
-    // Sponsored placement block (Distribution Sponsored Directory).
-    // This is intentionally a neutral placeholder until a real firm is contracted.
-    // Markers are deterministic to support validator enforcement.
-    const disclosure = `
-<div class="sponsored-disclosure" data-sponsored-disclosure="true">
-  <p><strong>Disclosure:</strong> Paid placement. This site is an independent educational publisher. No outcome guarantees.</p>
-</div>`.trim();
+function renderPiPrimaryCtaHtml(city) {
+  // Deterministic marker for validator
+  return (
+    '<div class="pi-primary-cta" data-pi-primary-cta="true">' +
+    '<a class="button button-primary" href="/' + escapeHtml(city.slug) + '/next-steps/">Next steps: send an inquiry to a real ' + escapeHtml(city.marketLabel) + ' personal injury firm</a>' +
+    '</div>'
+  );
+}
 
-    const placement = `
-<section class="sponsored-placement" data-sponsored-placement="true">
-  <div class="sponsored-firm" data-sponsored-firm="true">
-    <h3>Sponsored placement (available)</h3>
-    <p class="muted">One firm may sponsor the top placement for ${escapeHtml(city.marketLabel)} during Phase-2 distribution.</p>
-    <p><a class="button button-primary" href="/for-providers/">Inquire about placement</a></p>
-  </div>
-</section>`.trim();
+function renderPiSponsoredModuleHtml(city, sponsor) {
+  var firm = escapeHtml(String(sponsor.firm_name || ''));
+  var official = normalizeUrl(sponsor.official_site_url);
+  var intake = normalizeUrl(sponsor.intake_url);
+  var officialText = official ? escapeHtml(official) : '';
+  // Deterministic markers for validator
+  return (
+    renderPiDisclosureHtml() +
+    '<section class="sponsored-placement" data-sponsored-placement="true">' +
+    '<div class="sponsored-firm" data-sponsored-firm="true">' +
+    '<p class="kicker">Sponsored placement</p>' +
+    '<h3>' + firm + '</h3>' +
+    '<p class="muted">For privacy, we route inquiries directly to the firm’s intake form.</p>' +
+    '<div class="sponsored-actions">' +
+    '<a class="button button-primary" data-sponsored-cta="true" href="/' + escapeHtml(city.slug) + '/next-steps/">Go to next steps</a>' +
+    (official ? ('<a class="button button-secondary" href="' + official + '" rel="sponsored noopener noreferrer" target="_blank">Visit official site</a>') : '') +
+    '</div>' +
+    '<p class="sponsor-meta">Official site: <span class="mono">' + officialText + '</span></p>' +
+    '</div>' +
+    '</section>'
+  );
+}
 
-    return `${disclosure}\n${placement}`;
+function renderPiDirectoryTableHtml(listings, sponsorLive) {
+  var rows = (listings || []).filter(function(x){ return x && x.display !== false; }).map(function(l){
+    var name = l.name ? String(l.name) : 'Firm';
+    var website = normalizeUrl(l.website || l.url);
+    var websiteText = website ? escapeHtml(website) : '';
+    return (
+      '<tr>' +
+      '<td class="pi-dir-name">' + escapeHtml(name) + '</td>' +
+      '<td class="pi-dir-site"><span class="mono">' + websiteText + '</span></td>' +
+      '</tr>'
+    );
+  }).join('');
+
+  if (!rows) {
+    return (
+      '<div class="listings-empty">' +
+      '<p><strong>No firms are listed for this market yet.</strong> This directory is informational only; we do not rate, rank, or endorse providers.</p>' +
+      '</div>'
+    );
   }
 
-  if (!Array.isArray(listings) || listings.length === 0) {
-    const emptyMsg = `
-      <div class="listings-empty">
-        <p><strong>No practices are listed for this market yet.</strong> This directory is informational only; we do not rate, rank, or endorse providers.</p>
-      </div>
-    `.trim();
-    const sponsored = (isPiSponsoredCity && isPiDirectoryPage) ? `${piSponsoredDirectoryBlock()}\n` : "";
-    let out = html.replace('<div id="verified-listings"></div>', `<div id="verified-listings">${sponsored}${emptyMsg}</div>`);
-    out = out.replace('<div id="other-listings"></div>', `<div id="other-listings"></div>`);
-    return out;
+  // De-emphasize non-sponsored firms when a sponsor is live.
+  if (sponsorLive) {
+    return (
+      '<details class="pi-dir-collapsed" data-pi-dir-collapsed="true">' +
+      '<summary>Other firms in this market (neutral list)</summary>' +
+      '<div class="pi-dir-table-wrap">' +
+      '<table class="pi-dir-table" role="table">' +
+      '<thead><tr><th>Firm name</th><th>Official website</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody>' +
+      '</table>' +
+      '</div>' +
+      '</details>'
+    );
   }
 
-  const visible = listings.filter((x) => x && x.display !== false);
-  const cards = visible.map(listingCardHtml).join("");
-  const sponsored = (isPiSponsoredCity && isPiDirectoryPage) ? `${piSponsoredDirectoryBlock()}\n` : "";
-  let out = html.replace('<div id="verified-listings"></div>', `<div id="verified-listings">${sponsored}<div class="listings">${cards}</div></div>`);
-  out = out.replace('<div id="other-listings"></div>', `<div id="other-listings"></div>`);
-  return out;
+  return (
+    '<div class="pi-dir-table-wrap">' +
+    '<table class="pi-dir-table" role="table">' +
+    '<thead><tr><th>Firm name</th><th>Official website</th></tr></thead>' +
+    '<tbody>' + rows + '</tbody>' +
+    '</table>' +
+    '</div>'
+  );
+}
+
+function injectListings(html, listings, city, sponsor) {
+  var sponsorLive = isSponsorLive(sponsor);
+
+  // Replace PI primary CTA placeholder (only when sponsor is live)
+  if (html.includes('%%PI_PRIMARY_CTA%%')) {
+    html = html.split('%%PI_PRIMARY_CTA%%').join(sponsorLive ? renderPiPrimaryCtaHtml(city) : '');
+  }
+
+  // Render directory into verified-listings container
+  var directoryHtml = '';
+  if (sponsorLive) {
+    directoryHtml += renderPiSponsoredModuleHtml(city, sponsor);
+  }
+  directoryHtml += renderPiDirectoryTableHtml(Array.isArray(listings) ? listings : [], sponsorLive);
+
+  html = html.replace('<div id="verified-listings"></div>', '<div id="verified-listings">' + directoryHtml + '</div>');
+  html = html.replace('<div id="other-listings"></div>', '<div id="other-listings"></div>');
+  return html;
 }
 
 function renderInlineScripts(inlineScripts, city) {
@@ -495,12 +555,21 @@ function renderInlineScripts(inlineScripts, city) {
   return inlineScripts.map((code) => `<script>\n${applyCityTokens(code, city)}\n</script>`).join("\n\n");
 }
 
-function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pageSet, sponsorsByStack, listings, ads, verticalKey) {
+function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pageSet, sponsorsByStack, sponsor, listings, ads, verticalKey) {
   const route = applyCityTokens(page.route || "", city).replace(/^\/+|\/+$/g, "");
   const title = applyCityTokens(page.title, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
   const description = applyCityTokens(page.description, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
 
   let mainHtml = applyCityTokens(page.main_html, city);
+
+  // Sponsor tokens (used by PI next-steps page; safe on all pages)
+  const __sponsor = (sponsor || {});
+  const __sponsorLive = isSponsorLive(__sponsor);
+  mainHtml = mainHtml
+    .split("%%SPONSOR_FIRM_NAME%%").join(__sponsorLive ? escapeHtml(String(__sponsor.firm_name)) : "")
+    .split("%%SPONSOR_OFFICIAL_SITE_URL%%").join(__sponsorLive ? escapeHtml(String(normalizeUrl(__sponsor.official_site_url))) : "")
+    .split("%%SPONSOR_INTAKE_URL%%").join(__sponsorLive ? escapeHtml(String(normalizeUrl(__sponsor.intake_url))) : "");
+
 
   // Inject FAQ cards from pack source-of-truth (feature-detect by token, not route)
   if (mainHtml.includes("%%FAQ_ITEMS_CITY%%")) {
@@ -522,7 +591,7 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
 
   mainHtml = injectAdPlacements(mainHtml, ads);
   mainHtml = injectSponsors(mainHtml, sponsorsByStack);
-  mainHtml = injectListings(mainHtml, listings, city);
+  mainHtml = injectListings(mainHtml, listings, city, sponsor || {});
 
   const inline = renderInlineScripts(page.inline_scripts || [], city);
 
@@ -693,17 +762,26 @@ function loadCitySponsorsByStack(citySlug) {
 }
 
 // Listings per city (optional)
-// Preferred structure: data/listings/<citySlug>.json (array of listings)
+// Preferred structure: data/listings/<citySlug>.json ({ sponsor, listings }) or legacy array
 // Back-compat: data/listings.json with { byCity: { slug: [...] } } or { slug: [...] }
 const listingsByCity = {};
+const sponsorByCity = {};
 const listingsDir = path.join(DATA_DIR, "listings");
 if (fs.existsSync(listingsDir)) {
   for (const f of fs.readdirSync(listingsDir)) {
     if (!f.endsWith(".json")) continue;
     const slug = f.replace(/\.json$/i, "");
     try {
-      const arr = readJson(path.join(listingsDir, f));
-      listingsByCity[slug] = Array.isArray(arr) ? arr : [];
+      const raw = readJson(path.join(listingsDir, f));
+      // New schema: { sponsor: {...}, listings: [...] }
+      if (raw && typeof raw === 'object' && !Array.isArray(raw) && Array.isArray(raw.listings)) {
+        listingsByCity[slug] = raw.listings;
+        sponsorByCity[slug] = raw.sponsor || {};
+      } else {
+        // Legacy schema: [...] (array of listings)
+        listingsByCity[slug] = Array.isArray(raw) ? raw : [];
+        sponsorByCity[slug] = {};
+      }
     } catch (e) {
       throw new Error(`Failed to parse listings file: ${path.join(listingsDir, f)} (${e.message})`);
     }
@@ -849,6 +927,12 @@ if (fs.existsSync(listingsPath)) {
     const cityListings = listingsByCity ? (listingsByCity[city.slug] || []) : [];
     for (const p of (pageSet.pages || [])) {
       const route = applyCityTokens(p.route || "", city).replace(/^\/+|\/+$/g, "");
+      const __sponsor = (sponsorByCity[city.slug] || {});
+      const __sponsorLive = isSponsorLive(__sponsor);
+      if (route === 'next-steps' && !__sponsorLive) {
+        continue;
+      }
+
       const html = renderPage(
         baseTemplate,
         footerHtml,
@@ -858,6 +942,7 @@ if (fs.existsSync(listingsPath)) {
         brandName,
         pageSet,
         loadCitySponsorsByStack(city.slug),
+        sponsorByCity[city.slug] || {},
         cityListings,
         ads,
         verticalKey
