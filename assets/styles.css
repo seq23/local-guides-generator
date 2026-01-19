@@ -275,6 +275,18 @@ details.accordion > summary{
   font-weight: 700;
 }
 
+/* Chevron indicator (requested UX) */
+details.accordion > summary::after{
+  content: "▾";
+  font-weight: 700;
+  color: #6b7280;
+  transform: rotate(0deg);
+  transition: transform .15s ease;
+}
+details.accordion[open] > summary::after{
+  transform: rotate(180deg);
+}
+
 details.accordion > summary::-webkit-details-marker{ display:none; }
 
 details.accordion[open] > summary{

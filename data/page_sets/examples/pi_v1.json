@@ -1,6 +1,10 @@
 {
   "name": "pi_v1",
   "citiesFile": "data/page_sets/examples/cities_pi_v1.json",
+  "cityFeatures": {
+    "directory": true,
+    "stateLookup": false
+  },
   "faq": {
     "global": [
       {
@@ -113,5 +117,10 @@
       "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:faq_bottom%%\n"
     }
   ],
-  "globalPagesDir": "data/page_sets/examples/pi_global_pages"
+  "globalPagesDir": "data/page_sets/examples/pi_global_pages",
+  "educationOnly": true,
+  "sponsorship": {
+    "nextStepsEnabled": false,
+    "globalNextStepsEnabled": false
+  }
 }

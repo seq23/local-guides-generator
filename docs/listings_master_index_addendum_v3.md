@@ -209,7 +209,7 @@ Canonical content that exists **only in chat or execution documents** is not con
 ## Slug Source-of-Truth, Drift Handling, and Why Slugs Matter
 
 - The **Master Index Addendum slug list** is the benchmark identity for each vertical.
-- If execution work discovers additional slugs already present in a repo pack (post-lock reconciliation completed) (e.g., `guides_<slug>.json` files), authoring MAY proceed using those slugs **as a temporary bridge** *only if*:
+- If execution work discovers additional slugs already present in a repo pack (e.g., `guides_<slug>.json` files), authoring MAY proceed using those slugs **as a temporary bridge** *only if*:
   - the slugs are treated as immutable during authoring and conversion, and
   - the Master Index Addendum is updated after the authoring session to reconcile the benchmark slug list.
 - Slugs matter because they are the stable identity that binds:

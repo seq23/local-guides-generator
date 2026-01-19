@@ -1,6 +1,10 @@
 {
   "name": "trt_v1",
   "citiesFile": "data/page_sets/examples/cities_trt_v1.json",
+  "cityFeatures": {
+    "directory": false,
+    "stateLookup": true
+  },
   "faq": {
     "global": [
       {
@@ -91,8 +95,8 @@
     {
       "route": "",
       "title": "%%MARKET_LABEL%% Local Guides",
-      "description": "Frameworks and neutral directories for %%MARKET_LABEL%%. No rankings. No endorsements.",
-      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n<section class=\"section start-here\">\n  <div class=\"cta-bar\">\n    <div>\n      <h2 class=\"cta-title\">Start here</h2>\n      <p class=\"cta-sub\">Two quick steps before you contact anyone.</p>\n    </div>\n    <div class=\"cta-actions\">\n      <a class=\"button button-primary\" href=\"#city-directory\">Compare providers</a>\n      <a class=\"button button-secondary\" href=\"#state-lookup\">Check official state lookup</a>\n    </div>\n  </div>\n</section>\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"city-directory\">\n    <summary>\n      <span>Directory</span>\n      <span class=\"accordion-meta\">Open to compare (neutral listings)</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <p class=\"muted\">Neutral directory entries (name + official site link only). No rankings.</p>\n      <div id=\"verified-listings\"></div>\n      <div id=\"other-listings\"></div>\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"state-lookup\">\n    <summary>\n      <span>Official state lookup</span>\n      <span class=\"accordion-meta\">Verify licensing fast</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Common questions for %%MARKET_LABEL%%</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"city-directory\">\n    <summary>\n      <span>Directory</span>\n      <span class=\"accordion-meta\">Open to compare (neutral listings)</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <p class=\"muted\">Neutral directory entries (name + official site link only). No rankings.</p>\n      <div id=\"verified-listings\"></div>\n      <div id=\"other-listings\"></div>\n    </div>\n  </details>\n\n  \n<details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Common questions for %%MARKET_LABEL%%</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
+      "description": "Frameworks for %%MARKET_LABEL%%. No rankings. No endorsements.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\">\n    <summary>\n      <span>Official state lookup</span>\n      <span class=\"accordion-meta\">Tap to verify licensing</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Tap for quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
     },
     {
       "route": "faq",
@@ -101,5 +105,10 @@
       "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:faq_bottom%%"
     }
   ],
-  "globalPagesDir": "data/page_sets/examples/trt_global_pages"
+  "globalPagesDir": "data/page_sets/examples/trt_global_pages",
+  "educationOnly": true,
+  "sponsorship": {
+    "nextStepsEnabled": false,
+    "globalNextStepsEnabled": false
+  }
 }

@@ -1,0 +1,54 @@
+{
+  "$schema": "contracts-v1",
+  "all_pages": {
+    "require": [
+      "<nav class=\"footer-nav\"",
+      "href=\"/disclaimer/\"",
+      "href=\"/editorial-policy/\"",
+      "href=\"/privacy/\""
+    ],
+    "forbid": []
+  },
+  "guides_hub": {
+    "require": [
+      "<section class=\"hero\"",
+      "data-sponsor-stack=\"global_guides_top\"",
+      "<section class=\"section guides-grid\"",
+      "<div class=\"grid\""
+    ],
+    "forbid": []
+  },
+  "guide": {
+    "require": [
+      "<p class=\"kicker\">Guide</p>",
+      "Educational framework only"
+    ],
+    "forbid": []
+  },
+  "city_hub": {
+    "require": [
+      "<p class=\"kicker\">Market</p>",
+      "id=\"city-faq\"",
+      "class=\"faq-accordion\"",
+      "data-city-disclosure=\"true\""
+    ],
+    "forbid": []
+  },
+  "city_faq": {
+    "require": [
+      "class=\"faq-accordion\"",
+      "data-city-disclosure=\"true\""
+    ],
+    "forbid": [
+      "id=\"state-lookup\"",
+      "id=\"verified-listings\"",
+      "id=\"other-listings\""
+    ]
+  },
+  "city_next_steps": {
+    "require": [
+      "data-city-disclosure=\"true\""
+    ],
+    "forbid": []
+  }
+}

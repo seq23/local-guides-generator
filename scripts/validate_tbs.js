@@ -2,15 +2,18 @@
 /* eslint-disable no-console */
 const fs = require("fs");
 const path = require("path");
+const sponsorship = require("./helpers/sponsorship");
 
 const repoRoot = path.resolve(__dirname, "..");
 const distDir = path.join(repoRoot, "dist");
 const scriptsDir = path.join(repoRoot, "scripts");
 
-function fail(msg) {
+function fail(msg, hint) {
   console.error(`VALIDATION FAILED: ${msg}`);
+  if (hint) console.error(`HINT: ${hint}`);
   process.exit(1);
 }
+
 
 function ok(msg) {
   console.log(`OK: ${msg}`);
@@ -57,7 +60,8 @@ function assertNoMarkdownFencesInScripts() {
     fail(
       `Markdown fences found in scripts/: ${offenders.slice(0, 10).join(", ")}${
         offenders.length > 10 ? " ..." : ""
-      }`
+      }`,
+      "Remove markdown ``` fences from scripts/ files (allowlist: scripts/validate_tbs.js)."
     );
   }
   ok("No markdown fences in scripts/");
@@ -70,6 +74,18 @@ function assertDistExists() {
   if (!fs.existsSync(distDir)) fail("dist/ does not exist");
   ok("dist/ exists");
 }
+
+/**
+ * 2b) LKG snapshot must exist (formalized step)
+ **/
+function assertLkgSnapshotExists() {
+  const p = path.join(distDir, "_lkg_snapshot.json");
+  if (!fs.existsSync(p)) {
+    fail("Missing dist/_lkg_snapshot.json", "Run `npm run build` (preferred) or `npm run snapshot:lkg` before running validate.");
+  }
+  ok("LKG snapshot exists (dist/_lkg_snapshot.json)");
+}
+
 
 /**
  * 3) Unresolved token scan (%%...%%)
@@ -101,7 +117,7 @@ function assertNoUnresolvedTokensInDist() {
 
   if (hits.length) {
     const lines = hits.map((h) => `${h.sample.join(", ")} in ${h.file}`).join("\n");
-    fail(`Unresolved tokens found in dist (sample):\n${lines}\nTotal: ${hits.length}`);
+    fail(`Unresolved tokens found in dist (sample):\n${lines}\nTotal: ${hits.length}`, "Fix: unresolved %%TOKENS%% indicate a placeholder leak — ensure build scripts replace all tokens (ads, brand, FAQ, etc.).");
   }
 
   ok("No unresolved %%TOKENS%% in dist (allowlist applied)");
@@ -127,7 +143,7 @@ function assertNoAdTokensInDist() {
 
   if (hits.length) {
     const lines = hits.map((h) => `${h.sample.join(", ")} in ${h.file}`).join("\n");
-    fail(`Unresolved %%AD:...%% tokens remain in dist (sample):\n${lines}`);
+    fail(`Unresolved %%AD:...%% tokens remain in dist (sample):\n${lines}`, "Fix: ad injection did not run — ensure data/ad_placements.json exists and build injects %%AD:<key>%% blocks.");
   }
 
   ok("Ad tokens resolved (no %%AD:...%% in dist)");
@@ -234,7 +250,7 @@ function assertRequiredGlobalPages() {
 
   const missing = required.filter((r) => !fs.existsSync(path.join(repoRoot, r)));
   if (missing.length) {
-    fail(`Required global pages missing in dist: ${missing.join(", ")}`);
+    fail(`Required global pages missing in dist: ${missing.join(", ")}`, "Fix: ensure the selected pack includes required global pages and build_city_sites.js copies them into dist/.");
   }
   ok("Required global pages present");
 }
@@ -279,6 +295,234 @@ function assertCityPagesHaveCityGuideBlock() {
   }
 
   ok("City pages include auto-injected guides block");
+}
+
+/**
+ * 7b) Non-PI city hub pages must be state-lookup only (no directory), and the lookup CTA must be functional
+ *
+ * Rules (locked):
+ * - PI is the only vertical allowed to render a directory zone.
+ * - All other verticals must render the state lookup accordion + CTA.
+ * - No city hub may include both directory + state lookup.
+ */
+function assertNonPiCityPagesStateLookupOnly() {
+  const { pageSetFile } = loadPageSetForSite();
+  const verticalKey = deriveVerticalKey(pageSetFile);
+  if (verticalKey === 'pi') {
+    ok('Non-PI city hub state-lookup check skipped (PI page set)');
+    return;
+  }
+
+  const cityIndexFiles = walkFiles(distDir, (p) => p.endsWith(path.join('index.html')));
+  const cityPages = cityIndexFiles.filter((p) => {
+    const r = rel(p);
+    if (r === 'dist/index.html') return false;
+    const excludedPrefixes = [
+      'dist/guides/',
+      'dist/faq/',
+      'dist/methodology/',
+      'dist/for-providers/',
+      'dist/about/',
+      'dist/contact/',
+      'dist/privacy/',
+      'dist/disclaimer/',
+      'dist/editorial-policy/'
+    ];
+    if (excludedPrefixes.some((pre) => r.startsWith(pre))) return false;
+    return /^dist\/[^/]+\/index\.html$/.test(r);
+  });
+
+  const bad = [];
+  for (const f of cityPages) {
+    const html = readText(f);
+    const hasDirectoryZone = html.includes('id="verified-listings"') || html.includes('id="other-listings"');
+    const hasStateLookup = html.includes('id="state-lookup"');
+    const hasStateLookupCta = html.includes('data-state-lookup-cta="true"');
+
+    // Must NOT have directory zones
+    if (hasDirectoryZone) {
+      bad.push(`${rel(f)} (contains directory zone)`);
+      if (bad.length >= 15) break;
+      continue;
+    }
+    // Must have state lookup accordion + CTA
+    if (!hasStateLookup || !hasStateLookupCta) {
+      bad.push(`${rel(f)} (missing state lookup accordion/CTA)`);
+      if (bad.length >= 15) break;
+      continue;
+    }
+  }
+
+  if (bad.length) {
+    fail(`Non-PI city hub pages must be state-lookup only (no directory) and include functional CTA. Issues: ${bad.join(', ')}`);
+  }
+
+  ok('Non-PI city hub pages are state-lookup only (directory excluded)');
+}
+
+/**
+ * 7c) Required zone: City disclosure must be present on ALL city pages
+ *
+ * Source of truth: Master Index Appendix L — Canonical City Page Skeleton (LOCKED)
+ * Enforcement: Every city page (any route under dist/<city>/...) must include the marker.
+ */
+function assertCityPagesHaveCityDisclosure() {
+  const htmlFiles = walkFiles(distDir, (p) => p.endsWith(path.join('index.html')));
+  const cityPages = htmlFiles.filter((p) => {
+    const r = rel(p);
+    if (r === 'dist/index.html') return false;
+
+    const excludedPrefixes = [
+      'dist/guides/',
+      'dist/faq/',
+      'dist/methodology/',
+      'dist/for-providers/',
+      'dist/about/',
+      'dist/contact/',
+      'dist/privacy/',
+      'dist/disclaimer/',
+      'dist/editorial-policy/'
+    ];
+    if (excludedPrefixes.some((pre) => r.startsWith(pre))) return false;
+
+    // Any page under dist/<city>/.../index.html counts as a city page.
+    return /^dist\/[^/]+\/(?:.*\/)?index\.html$/.test(r);
+  });
+
+  const MARK = 'data-city-disclosure="true"';
+
+  const missing = [];
+  const dupes = [];
+
+  function countOccurrences(haystack, needle) {
+    if (!needle) return 0;
+    let idx = 0;
+    let count = 0;
+    while (true) {
+      idx = haystack.indexOf(needle, idx);
+      if (idx === -1) break;
+      count += 1;
+      idx += needle.length;
+    }
+    return count;
+  }
+
+  for (const f of cityPages) {
+    const html = readText(f);
+    const c = countOccurrences(html, MARK);
+    if (c === 0) missing.push(rel(f));
+    if (c > 1) dupes.push(rel(f));
+    if (missing.length >= 15 || dupes.length >= 15) break;
+  }
+
+  if (missing.length) {
+    fail(`City pages missing required city disclosure zone (${MARK}): ${missing.join(', ')}`);
+  }
+  if (dupes.length) {
+    fail(`City pages contain duplicate city disclosure blocks (must be exactly one): ${dupes.join(', ')}`);
+  }
+
+  ok('City pages include required city disclosure zone');
+}
+
+
+/**
+ * 7d) City hub required-zone uniqueness + no accidental "compare providers" CTA
+ *
+ * Enforces:
+ * - City hub must have exactly one FAQ accordion block.
+ * - City hub must have exactly one state-lookup block if enabled (and none if disabled).
+ * - City hub must have directory OR state-lookup (never both).
+ * - City hub must not include a "Compare providers" CTA (not requested; non-functional).
+ */
+function assertCityHubZonesAndNoCompareCta() {
+  const { pageSet } = loadPageSetForSite();
+  const features = (pageSet && pageSet.cityFeatures) ? pageSet.cityFeatures : { directory: false, stateLookup: true };
+
+  const cityIndexFiles = walkFiles(distDir, (p) => p.endsWith(path.join('index.html')));
+  const cityHubPages = cityIndexFiles.filter((p) => {
+    const r = rel(p);
+    if (r === 'dist/index.html') return false;
+
+    const excludedPrefixes = [
+      'dist/guides/',
+      'dist/faq/',
+      'dist/methodology/',
+      'dist/for-providers/',
+      'dist/about/',
+      'dist/contact/',
+      'dist/privacy/',
+      'dist/disclaimer/',
+      'dist/editorial-policy/'
+    ];
+    if (excludedPrefixes.some((pre) => r.startsWith(pre))) return false;
+
+    // City hub only: dist/<city>/index.html
+    return /^dist\/[^/]+\/index\.html$/.test(r);
+  });
+
+  function countOccurrences(haystack, needle) {
+    if (!needle) return 0;
+    let idx = 0;
+    let count = 0;
+    while (true) {
+      idx = haystack.indexOf(needle, idx);
+      if (idx === -1) break;
+      count += 1;
+      idx += needle.length;
+    }
+    return count;
+  }
+
+  const problems = [];
+
+  for (const f of cityHubPages) {
+    const r = rel(f);
+    const html = readText(f);
+
+    // "Compare providers" CTA guard (case-insensitive)
+    if (/compare\s+providers/i.test(html)) {
+      problems.push(`${r}: contains "Compare providers" CTA text`);
+    }
+
+    const faqIdCount = countOccurrences(html, 'id="city-faq"');
+    const faqAccordionCount = countOccurrences(html, 'class="faq-accordion"');
+    if (faqIdCount !== 1) problems.push(`${r}: expected exactly 1 city FAQ block (id="city-faq"), found ${faqIdCount}`);
+    if (faqAccordionCount !== 1) problems.push(`${r}: expected exactly 1 faq-accordion block, found ${faqAccordionCount}`);
+
+    const stateLookupIdCount = countOccurrences(html, 'id="state-lookup"');
+    const hasDirectoryZone = html.includes('id="verified-listings"') || html.includes('id="other-listings"');
+
+    if (features && features.stateLookup) {
+      if (stateLookupIdCount !== 1) {
+        problems.push(`${r}: stateLookup enabled but expected exactly 1 state-lookup block, found ${stateLookupIdCount}`);
+      }
+    } else {
+      if (stateLookupIdCount !== 0) {
+        problems.push(`${r}: stateLookup disabled but found ${stateLookupIdCount} state-lookup block(s)`);
+      }
+    }
+
+    if (features && features.directory) {
+      if (!hasDirectoryZone) problems.push(`${r}: directory enabled but directory zone not found`);
+    } else {
+      if (hasDirectoryZone) problems.push(`${r}: directory disabled but directory zone found`);
+    }
+
+    // Never both
+    const hasStateLookup = stateLookupIdCount > 0;
+    if (hasStateLookup && hasDirectoryZone) {
+      problems.push(`${r}: has BOTH directory + state-lookup (must be one or the other)`);
+    }
+
+    if (problems.length >= 25) break;
+  }
+
+  if (problems.length) {
+    fail(`City hub required-zone validation failed:\n- ${problems.join('\n- ')}`);
+  }
+
+  ok('City hub zones are unique and no "Compare providers" CTA detected');
 }
 
 /**
@@ -327,173 +571,257 @@ function normalizeText(s) {
   return stripTags(String(s || "")).toLowerCase();
 }
 
-function assertPiPhase2DistributionGovernance() {
-  // PI-only: sponsor behavior is data-driven via data/listings/<city>.json
-  // sponsor is considered LIVE if:
-  // sponsor: { status: "live", firm_name, official_site_url, intake_url }
+/**
+ * 7e) Page contracts (required zones by page type)
+ *
+ * Purpose:
+ * - Prevent silent template drift across verticals.
+ * - Fail build if required blocks are missing or forbidden blocks appear.
+ *
+ * Contract source of truth: data/page_contracts.json
+ */
+function getPageTypeForDistPath(distRelPath) {
+  // distRelPath is like: dist/<...>/index.html
+  // Global top-level pages that are NOT city pages.
+  if (/^dist\/(about|contact|privacy|disclaimer|editorial-policy|methodology|for-providers|faq)\/index\.html$/i.test(distRelPath)) {
+    return "global";
+  }
+  if (distRelPath === "dist/guides/index.html") return "guides_hub";
+  if (/^dist\/guides\/[^/]+\/index\.html$/i.test(distRelPath)) return "guide";
+  if (/^dist\/[^/]+\/faq\/index\.html$/i.test(distRelPath)) return "city_faq";
+  if (/^dist\/[^/]+\/next-steps\/index\.html$/i.test(distRelPath)) return "city_next_steps";
+  if (/^dist\/[^/]+\/index\.html$/i.test(distRelPath)) return "city_hub";
+  return "other";
+}
 
-  const pageSetFile = readJson(path.join(repoRoot, "data/site.json")).pageSetFile;
-  if (pageSetFile !== 'pi_v1.json') {
-    ok('PI Phase-2 Distribution governance check skipped (non-PI page set)');
+function assertPageContracts() {
+  const contractsPath = path.join(repoRoot, "data", "page_contracts.json");
+  if (!fs.existsSync(contractsPath)) {
+    fail(`Missing page contracts file: ${rel(contractsPath)}`);
+  }
+  const contracts = readJson(contractsPath);
+
+  const htmlFiles = walkFiles(distDir, (p) => p.endsWith(".html"));
+  const problems = [];
+
+  function checkContract(name, contract, html, r) {
+    const requireList = Array.isArray(contract.require) ? contract.require : [];
+    const forbidList = Array.isArray(contract.forbid) ? contract.forbid : [];
+
+    for (const needle of requireList) {
+      if (!html.includes(needle)) {
+        problems.push(`${r}: contract '${name}' missing required marker: ${needle}`);
+        if (problems.length >= 60) return;
+      }
+    }
+    for (const needle of forbidList) {
+      if (html.includes(needle)) {
+        problems.push(`${r}: contract '${name}' contains forbidden marker: ${needle}`);
+        if (problems.length >= 60) return;
+      }
+    }
+  }
+
+  for (const f of htmlFiles) {
+    const r = rel(f);
+    const html = readText(f);
+
+    // Apply baseline contract to all pages.
+    if (contracts.all_pages) checkContract("all_pages", contracts.all_pages, html, r);
+
+    // Apply page-type contract where defined.
+    const t = getPageTypeForDistPath(r);
+    if (t !== "other" && contracts[t]) {
+      checkContract(t, contracts[t], html, r);
+    }
+
+    if (problems.length >= 60) break;
+  }
+
+  if (problems.length) {
+    fail(`Page contract validation failed (sample):\n- ${problems.join("\n- ")}`);
+  }
+
+  ok("Page contracts pass (required zones enforced)");
+}
+
+
+function assertNextStepsInvariants() {
+  const { pageSet } = loadPageSetForSite();
+  const pack = pageSet || {};
+
+  const eduOnly = (pack.educationOnly === true);
+  const globalEnabled = sponsorship.isGlobalNextStepsEnabled(pack);
+  const sponsorEnabled = sponsorship.isNextStepsEnabled(pack);
+
+  const ZONE_MARK = 'data-next-steps-zone="true"';
+
+  // Helper: collect relevant dist paths
+  const htmlFiles = walkFiles(distDir, (p) => p.endsWith(path.join('index.html')));
+
+  // Identify core page types
+  const homePath = path.join(distDir, 'index.html');
+  const guidesHubPath = path.join(distDir, 'guides', 'index.html');
+
+  const guideDetailPages = htmlFiles.filter((p) => /^dist\/guides\/[^/]+\/index\.html$/i.test(rel(p)));
+  const cityPages = htmlFiles.filter((p) => {
+    const r = rel(p);
+    if (r === 'dist/index.html') return false;
+    if (r.startsWith('dist/guides/')) return false;
+    if (r.startsWith('dist/about/')) return false;
+    return /^dist\/[^/]+\/(?:.*\/)?index\.html$/i.test(r) && !/^dist\/(about|contact|privacy|disclaimer|editorial-policy|methodology|for-providers|faq)\/index\.html$/i.test(r);
+  });
+
+  function readIfExists(fp) {
+    if (!fp) return '';
+    try {
+      if (!require('fs').existsSync(fp)) return '';
+      return readText(fp);
+    } catch (_e) {
+      return '';
+    }
+  }
+
+  function assertNoNextStepsZonesAnywhere() {
+    const offenders = [];
+    for (const f of htmlFiles) {
+      const html = readText(f);
+      if (html.includes(ZONE_MARK)) {
+        offenders.push(rel(f));
+        if (offenders.length >= 15) break;
+      }
+    }
+    if (offenders.length) {
+      fail(`educationOnly=true: next-steps zones must not exist anywhere. Found: ${offenders.join(', ')}`);
+    }
+
+    const nextStepsPages = htmlFiles.filter((p) => /\/next-steps\/index\.html$/i.test(rel(p)));
+    if (nextStepsPages.length) {
+      fail(`educationOnly=true: next-steps pages must not exist anywhere. Found: ${nextStepsPages.slice(0, 10).map(rel).join(', ')}`);
+    }
+  }
+
+  function assertGlobalZonesExist() {
+    const missing = [];
+    const home = readIfExists(homePath);
+    const guidesHub = readIfExists(guidesHubPath);
+
+    if (!home.includes(ZONE_MARK)) missing.push('dist/index.html (home)');
+    if (!guidesHub.includes(ZONE_MARK)) missing.push('dist/guides/index.html (guides hub)');
+
+    for (const f of guideDetailPages) {
+      const html = readText(f);
+      if (!html.includes(ZONE_MARK)) {
+        missing.push(rel(f));
+        if (missing.length >= 15) break;
+      }
+    }
+
+    // City pages (any route under dist/<city>/...)
+    for (const f of cityPages) {
+      const html = readText(f);
+      if (!html.includes(ZONE_MARK)) {
+        missing.push(rel(f));
+        if (missing.length >= 15) break;
+      }
+    }
+
+    if (missing.length) {
+      fail(`globalNextStepsEnabled=true: missing required next-steps zone marker (${ZONE_MARK}) on required pages. Sample: ${missing.join(', ')}`);
+    }
+  }
+
+  function assertSponsorDrivenOnly() {
+    // When global is off and educationOnly is false, next-steps zones/pages should only appear
+    // for cities with a live sponsor AND sponsorship.nextStepsEnabled=true.
+    // We infer sponsor liveness from data/listings/<city>.json (sponsor object).
+
+    const listingsDir = path.join(repoRoot, 'data', 'listings');
+    const fs = require('fs');
+
+    function getSponsorForCity(slug) {
+      const fp = path.join(listingsDir, slug + '.json');
+      if (!fs.existsSync(fp)) return null;
+      let raw;
+      try { raw = JSON.parse(fs.readFileSync(fp, 'utf8')); } catch (_e) { return null; }
+      if (Array.isArray(raw)) return null;
+      if (raw && typeof raw === 'object') return raw.sponsor || null;
+      return null;
+    }
+
+    const cityListPath = path.join(repoRoot, 'data', 'cities.json');
+    const cities = JSON.parse(require('fs').readFileSync(cityListPath, 'utf8'));
+
+    const unexpected = [];
+
+    // If sponsor-driven is disabled, nothing should exist.
+    if (!sponsorEnabled) {
+      for (const f of htmlFiles) {
+        const html = readText(f);
+        if (html.includes(ZONE_MARK) || /\/next-steps\/index\.html$/i.test(rel(f))) {
+          unexpected.push(rel(f));
+          if (unexpected.length >= 15) break;
+        }
+      }
+      if (unexpected.length) {
+        fail(`globalNextStepsEnabled=false and nextStepsEnabled=false: next-steps zones/pages must not exist. Found: ${unexpected.join(', ')}`);
+      }
+      return;
+    }
+
+    // sponsorEnabled=true: allow only for sponsor-live cities
+    for (const city of cities) {
+      const slug = city.slug;
+      const sponsor = getSponsorForCity(slug);
+      const live = sponsorship.isSponsorLive(sponsor);
+      const cityAnyZoneFiles = htmlFiles.filter((p) => rel(p).startsWith('dist/' + slug + '/'));
+      for (const f of cityAnyZoneFiles) {
+        const r = rel(f);
+        const html = readText(f);
+        const hasZone = html.includes(ZONE_MARK);
+        const isNextStepsPage = /\/next-steps\/index\.html$/i.test(r);
+        if ((hasZone || isNextStepsPage) && !live) {
+          unexpected.push(`${r} (sponsor not live)`);
+          if (unexpected.length >= 15) break;
+        }
+      }
+      if (unexpected.length >= 15) break;
+    }
+
+    if (unexpected.length) {
+      fail(`globalNextStepsEnabled=false (sponsor-driven only): next-steps zones/pages found for non-live sponsor cities. Sample: ${unexpected.join(', ')}`);
+    }
+  }
+
+  // Invariants
+  if (eduOnly) {
+    assertNoNextStepsZonesAnywhere();
+    ok('Next-steps invariants: educationOnly=true => no next-steps zones/pages anywhere');
     return;
   }
-  const cityList = readJson(path.join(repoRoot, "data/cities.json"));
-  const listingsDir = path.join(repoRoot, "data", "listings");
-  function getSponsorForCity(slug) {
-    const fp = path.join(listingsDir, slug + ".json");
-    if (!fs.existsSync(fp)) return null;
-    const raw = readJson(fp);
-    if (Array.isArray(raw)) return null;
-    if (raw && typeof raw === 'object') return raw.sponsor || null;
-    return null;
+
+  if (globalEnabled) {
+    assertGlobalZonesExist();
+    ok('Next-steps invariants: globalNextStepsEnabled=true => zones exist on home/guides/city pages');
+    return;
   }
 
-  // Deterministic marker strings set by build script
-  const SPONSORED_PLACEMENT_MARK = 'data-sponsored-placement="true"';
-  const SPONSORED_FIRM_MARK = 'data-sponsored-firm="true"';
-  const SPONSORED_DISCLOSURE_MARK = 'data-sponsored-disclosure="true"';
-  const PI_PRIMARY_CTA_MARK = 'data-pi-primary-cta="true"';
-
-  function isSponsorLive(s) {
-    return !!(s && typeof s === 'object' && s.status === 'live' && s.firm_name && s.official_site_url && s.intake_url);
-  }
-
-  function countOccurrences(haystack, needle) {
-    if (!needle) return 0;
-    let idx = 0;
-    let count = 0;
-    while (true) {
-      idx = haystack.indexOf(needle, idx);
-      if (idx === -1) break;
-      count += 1;
-      idx += needle.length;
-    }
-    return count;
-  }
-
-  function disclosureSemanticsOk(block) {
-    // Conservative: require paid placement + independent publisher + no guarantees.
-    const t = String(block || "").toLowerCase();
-    const paidOk = t.includes('paid') || t.includes('placement is paid') || t.includes('paid placement');
-    const publisherOk = t.includes('independent') && (t.includes('publisher') || t.includes('educational'));
-    const noGuaranteeOk = t.includes('no outcome') || t.includes('no guarantees') || t.includes('no guarantee');
-    return paidOk && publisherOk && noGuaranteeOk;
-  }
-
-  function hasCta(html) {
-    const t = String(html || "").toLowerCase();
-    // Keep conservative: terms that indicate intake / consultation.
-    const needles = [
-      'request a confidential consultation',
-      'send inquiry',
-      'send an inquiry',
-      'submit inquiry',
-      'secure inquiry',
-      'continue to secure inquiry',
-      'confidential inquiry',
-    ];
-    return needles.some((n) => t.includes(n));
-  }
-
-  function assertSponsorOff(slug) {
-    const cityHomePath = path.join(distDir, slug, "index.html");
-    if (!fs.existsSync(cityHomePath)) {
-      fail(`PI city '${slug}' missing city home page in dist/ (expected ${rel(cityHomePath)})`);
-    }
-    const html = readText(cityHomePath);
-    if (html.includes(SPONSORED_PLACEMENT_MARK) || html.includes(SPONSORED_FIRM_MARK) || html.includes(SPONSORED_DISCLOSURE_MARK)) {
-      fail(`Non-sponsored PI city '${slug}' must not render sponsored placement markers in ${rel(cityHomePath)}`);
-    }
-    if (html.includes(PI_PRIMARY_CTA_MARK)) {
-      fail(`Non-sponsored PI city '${slug}' must not render primary CTA in ${rel(cityHomePath)}`);
-    }
-    const nextStepsPath = path.join(distDir, slug, "next-steps", "index.html");
-    if (fs.existsSync(nextStepsPath)) {
-      fail(`Non-sponsored PI city '${slug}' must not have next-steps page (found ${rel(nextStepsPath)})`);
-    }
-    // No CTA language anywhere on home
-    if (hasCta(html)) {
-      fail(`Non-sponsored PI city '${slug}' contains CTA/intake language in ${rel(cityHomePath)}`);
-    }
-  }
-
-  function assertSponsorOn(slug) {
-    const cityHomePath = path.join(distDir, slug, "index.html");
-    if (!fs.existsSync(cityHomePath)) {
-      fail(`Sponsored PI city '${slug}' missing city home page in dist/ (expected ${rel(cityHomePath)})`);
-    }
-    const html = readText(cityHomePath);
-
-    // Required zones present
-    if (!html.includes('id="verified-listings"') && !html.includes('verified-listings')) {
-      fail(`Sponsored PI city '${slug}' appears missing listings zone on city home in ${rel(cityHomePath)}`);
-    }
-
-    const placementCount = countOccurrences(html, SPONSORED_PLACEMENT_MARK);
-    const firmCount = countOccurrences(html, SPONSORED_FIRM_MARK);
-    const disclosureCount = countOccurrences(html, SPONSORED_DISCLOSURE_MARK);
-    const primaryCtaCount = countOccurrences(html, PI_PRIMARY_CTA_MARK);
-
-    if (placementCount !== 1) fail(`Sponsored PI city '${slug}' must have exactly one sponsored placement block (found ${placementCount})`);
-    if (firmCount !== 1) fail(`Sponsored PI city '${slug}' must have exactly one sponsored firm block (found ${firmCount})`);
-    if (disclosureCount !== 1) fail(`Sponsored PI city '${slug}' must have exactly one disclosure block (found ${disclosureCount})`);
-    if (primaryCtaCount !== 1) fail(`Sponsored PI city '${slug}' must have exactly one primary CTA block (found ${primaryCtaCount})`);
-
-    const iDisclosure = html.indexOf(SPONSORED_DISCLOSURE_MARK);
-    const iPlacement = html.indexOf(SPONSORED_PLACEMENT_MARK);
-    if (iDisclosure === -1 || iPlacement === -1) {
-      fail(`Sponsored PI city '${slug}' missing disclosure/placement markers (unexpected state)`);
-    }
-    if (iDisclosure > iPlacement) {
-      fail(`Sponsored PI city '${slug}' disclosure must appear above sponsored placement`);
-    }
-    const PROXIMITY_CHARS = 2500;
-    if (iPlacement - iDisclosure > PROXIMITY_CHARS) {
-      fail(`Sponsored PI city '${slug}' disclosure is not proximate to sponsored placement (distance ${iPlacement - iDisclosure} chars)`);
-    }
-    const disclosureWindow = html.slice(iDisclosure, Math.min(html.length, iDisclosure + 3500));
-    if (!disclosureSemanticsOk(disclosureWindow)) {
-      fail(`Sponsored PI city '${slug}' disclosure does not satisfy semantic requirements`);
-    }
-
-    // Next steps page must exist
-    const nextStepsPath = path.join(distDir, slug, "next-steps", "index.html");
-    if (!fs.existsSync(nextStepsPath)) {
-      fail(`Sponsored PI city '${slug}' must have next-steps page (missing ${rel(nextStepsPath)})`);
-    }
-
-    // CTA enforcement: CTA allowed inside sponsored placement + primary CTA.
-    const iPlacementStart = html.indexOf(SPONSORED_PLACEMENT_MARK);
-    const placementWindow = html.slice(iPlacementStart, Math.min(html.length, iPlacementStart + 9000));
-    const iPrimary = html.indexOf(PI_PRIMARY_CTA_MARK);
-    const primaryWindow = html.slice(iPrimary, Math.min(html.length, iPrimary + 2500));
-    let outside = html;
-    outside = outside.replace(placementWindow, " ").replace(primaryWindow, " ");
-    if (hasCta(outside)) {
-      fail(`Sponsored PI city '${slug}' contains CTA/intake language outside allowed modules`);
-    }
-  }
-
-  // Enforce for all PI cities, driven solely by sponsor.status
-  // Enforce for all PI cities, driven solely by sponsor.status
-  for (const city of cityList) {
-    const slug = city.slug;
-    const sponsor = getSponsorForCity(slug);
-    const live = isSponsorLive(sponsor);
-    if (live) assertSponsorOn(slug);
-    else assertSponsorOff(slug);
-  }
-
-  ok("PI Phase-2 Distribution governance enforced (PI only)");
+  assertSponsorDrivenOnly();
+  ok('Next-steps invariants: sponsor-driven mode enforced');
 }
 
 (function main() {
   assertNoMarkdownFencesInScripts();
   assertDistExists();
+  assertLkgSnapshotExists();
   assertRequiredGlobalPages();
   assertNoAdTokensInDist();
   assertNoUnresolvedTokensInDist();
+  assertPageContracts();
   assertFaqPages();
   assertCityPagesHaveCityGuideBlock();
-  assertPiPhase2DistributionGovernance();
+  assertCityPagesHaveCityDisclosure();
+  assertNonPiCityPagesStateLookupOnly();
+  assertCityHubZonesAndNoCompareCta();
+  assertNextStepsInvariants();
 })();

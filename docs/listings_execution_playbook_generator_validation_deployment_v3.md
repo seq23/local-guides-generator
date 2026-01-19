@@ -278,7 +278,7 @@ Canonical content work is governed exclusively by **Master Index Addendum — Ca
 
 **Current Focus:** Complete canonical guide authoring for **TRT**
 
-Canonical Status: LOCKED — CFVP v1
+Canonical Status: IN PROGRESS — CFVP v1
 
 *Notation:* In the codebase and deployment configuration, this vertical is referred to as \`\`. The `TRT` pack represents the full **TRT / Medical Weight Loss / IV Hydration** decision universe. All pack selection, environment variables, and file names use `TRT` as the canonical identifier.
 
@@ -286,13 +286,13 @@ Canonical Status: LOCKED — CFVP v1
 Canonical Status: LOCKED — CFVP v1
 
 **TRT / Medical Weight Loss / IV Hydration**\
-Canonical Status: LOCKED — CFVP v1
+Canonical Status: IN PROGRESS — CFVP v1
 
 **Neuro / ADHD / Autism Evaluations**\
-Canonical Status: LOCKED — CFVP v1
+Canonical Status: IN PROGRESS — CFVP v1
 
 **USCIS Medical**\
-Canonical Status: LOCKED — CFVP v1
+Canonical Status: IN PROGRESS — CFVP v1
 
 ---
 

@@ -14,6 +14,8 @@ Core laws:
 const fs = require("fs");
 const path = require("path");
 
+const sponsorship = require("./helpers/sponsorship");
+
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
 const OUT_DIR = path.join(REPO_ROOT, "dist");
@@ -25,6 +27,27 @@ const BASE_CITIES_PATH = path.join(DATA_DIR, "cities.json");
 const ADS_PATH = path.join(DATA_DIR, "ad_placements.json");
 
 const BUILD_ISO = new Date().toISOString();
+
+// Canonical city disclosure block (Appendix L — Canonical City Page Skeleton)
+// Source of truth: LISTINGS-TBS-MASTER-INDEX-v2.1-corrected.pdf
+function renderCityDisclosureHtml() {
+  return (
+    '<section class="disclaimer" data-city-disclosure="true">' +
+    '<p><strong>Educational only.</strong> This site provides general information and decision-support checklists. It is not legal, medical, or professional advice.</p>' +
+    '<p><strong>No endorsements.</strong> We do not recommend or rank providers. Advertising is clearly labeled and separated from editorial content.</p>' +
+    '</section>'
+  );
+}
+
+function ensureCityDisclosure(html) {
+  const out = String(html || "");
+  if (out.includes('data-city-disclosure="true"')) return out;
+  if (out.includes('%%CITY_DISCLOSURE%%')) {
+    return out.split('%%CITY_DISCLOSURE%%').join(renderCityDisclosureHtml());
+  }
+  // If template does not include the token, append the canonical disclosure at the end.
+  return out + "\n\n" + renderCityDisclosureHtml() + "\n";
+}
 
 function readJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
@@ -85,6 +108,68 @@ function deriveVerticalKey(pageSetFile) {
 
 function isPersonalInjury(verticalKey) {
   return String(verticalKey || "").toLowerCase() === "pi";
+}
+
+// City hub feature toggles (future-proof)
+// - directory: generates/keeps city directory routes & PI directory blocks
+// - stateLookup: keeps the official state lookup accordion/CTA
+// Hard rule: never allow BOTH directory and stateLookup on the same city page.
+function getCityFeatures(pageSet, verticalKey) {
+  const f = (pageSet && typeof pageSet.cityFeatures === 'object' && pageSet.cityFeatures) ? pageSet.cityFeatures : {};
+
+  const directory = (typeof f.directory === 'boolean') ? f.directory : isPersonalInjury(verticalKey);
+  const stateLookup = (typeof f.stateLookup === 'boolean') ? f.stateLookup : !isPersonalInjury(verticalKey);
+
+  if (directory && stateLookup) {
+    throw new Error('Invalid page set: cityFeatures.directory and cityFeatures.stateLookup cannot both be true.');
+  }
+
+  return { directory: !!directory, stateLookup: !!stateLookup };
+}
+
+function stripStateLookupBlocks(html) {
+  let out = String(html || '');
+  out = out.replace(/\n?<details class="accordion" id="state-lookup">[\s\S]*?<\/details>\n?/gi, "\n");
+  out = out.replace(/\n?<section class="section">\s*%%AD:state_lookup_cta%%\s*<\/section>\n?/gi, "\n");
+  out = out.replace(/\n?<a[^>]*href="#state-lookup"[^>]*>[\s\S]*?<\/a>\n?/gi, "\n");
+  out = out.replace(/\n{3,}/g, "\n\n");
+  return out;
+}
+
+function stripDirectoryBlocks(html) {
+  let out = String(html || '');
+  out = out.replace(/\n?<div class="pi-home-directory">[\s\S]*?<\/div>\n?/gi, "\n");
+  // Remove stand-alone directory containers if present
+  out = out.replace(/\n?<div id="verified-listings">[\s\S]*?<\/div>\n?/gi, "\n");
+  out = out.replace(/\n?<div id="verified-listings"><\/div>\n?/gi, "\n");
+  out = out.replace(/\n?<div id="other-listings">[\s\S]*?<\/div>\n?/gi, "\n");
+  out = out.replace(/\n?<div id="other-listings"><\/div>\n?/gi, "\n");
+  out = out.split('%%PI_PRIMARY_CTA%%').join('');
+  // Remove any in-page links to directory routes (defensive)
+  out = out.replace(/\n?<a[^>]*href="[^"]*\/directory\/?"[^>]*>[\s\S]*?<\/a>\n?/gi, "\n");
+  out = out.replace(/\n{3,}/g, "\n\n");
+  return out;
+}
+
+function renderStateLookupCta(city) {
+  // Non-PI verticals: provide a functional state license lookup CTA.
+  // Source: data/states.json -> licenseLookupUrl.
+  const url = normalizeUrl(city && city.licenseLookupUrl);
+  const stateName = escapeHtml(city && (city.stateName || city.state) || "");
+  if (!url) {
+    return (
+      '<div class="state-lookup-cta" data-state-lookup-cta="true">' +
+      '<p class="muted"><strong>Official state lookup:</strong> not available for this state in the current build.</p>' +
+      '</div>'
+    );
+  }
+  return (
+    '<div class="state-lookup-cta" data-state-lookup-cta="true">' +
+    '<p class="muted">Use the official ' + stateName + ' lookup to verify identity and licensing before you contact any provider.</p>' +
+    '<p><a class="button button-secondary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Open official ' + stateName + ' lookup</a></p>' +
+    '<p class="muted" style="font-size:12px">Tip: search the provider name and confirm license status + disciplinary actions (if shown).</p>' +
+    '</div>'
+  );
 }
 
 function stripPiOnlyDisallowedBlocks(html) {
@@ -402,10 +487,22 @@ function renderAdPlacement(key) {
   </div>
 </section>`.trim();
 }
-function injectAdPlacements(html, ads) {
+
+function injectAdPlacements(html, ads, ctx) {
   if (!ads || typeof ads !== "object") return html;
+  const city = ctx && ctx.city ? ctx.city : null;
+  const verticalKey = ctx && ctx.verticalKey ? ctx.verticalKey : "";
+
   return html.replace(/%%AD:([a-zA-Z0-9_\\-]+)%%/g, (m, key) => {
     if (!ads[key]) return m;
+    // state_lookup_cta is not an ad — it's a functional utility CTA.
+    if (key === 'state_lookup_cta') {
+      const features = ctx && ctx.cityFeatures ? ctx.cityFeatures : null;
+      if (features && features.stateLookup === false) return '';
+      // Legacy: PI is directory-only; state lookup is stripped earlier.
+      if (isPersonalInjury(verticalKey)) return '';
+      return renderStateLookupCta(city || {});
+    }
     return renderAdPlacement(key);
   });
 }
@@ -440,7 +537,7 @@ function injectSponsors(html, sponsorsByStack) {
 // - Data-driven sponsored behavior via listings sponsor object
 // - Professional table styling (no ranking, no comparison)
 function isSponsorLive(sponsor) {
-  return !!(sponsor && typeof sponsor === 'object' && sponsor.status === 'live' && sponsor.firm_name && sponsor.official_site_url && sponsor.intake_url);
+  return sponsorship.isSponsorLive(sponsor);
 }
 
 function renderPiDisclosureHtml() {
@@ -484,7 +581,7 @@ function renderPiSponsoredModuleHtml(city, sponsor) {
   );
 }
 
-function renderPiDirectoryTableHtml(listings, sponsorLive) {
+function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
   var rows = (listings || []).filter(function(x){ return x && x.display !== false; }).map(function(l){
     var name = l.name ? String(l.name) : 'Firm';
     var website = normalizeUrl(l.website || l.url);
@@ -506,7 +603,7 @@ function renderPiDirectoryTableHtml(listings, sponsorLive) {
   }
 
   // De-emphasize non-sponsored firms when a sponsor is live.
-  if (sponsorLive) {
+  if (sponsorUiEnabled) {
     return (
       '<details class="pi-dir-collapsed" data-pi-dir-collapsed="true">' +
       '<summary>Other firms in this market (neutral list)</summary>' +
@@ -530,24 +627,53 @@ function renderPiDirectoryTableHtml(listings, sponsorLive) {
   );
 }
 
-function injectListings(html, listings, city, sponsor) {
-  var sponsorLive = isSponsorLive(sponsor);
+function injectListings(html, listings, city, sponsor, pageSet) {
+  var sponsorLive = sponsorship.isSponsorLive(sponsor);
+
+  // Pack-gate sponsor UI + next-steps CTAs
+  var sponsorUiEnabled = (sponsorship.isNextStepsEnabled(pageSet) && sponsorLive);
 
   // Replace PI primary CTA placeholder (only when sponsor is live)
   if (html.includes('%%PI_PRIMARY_CTA%%')) {
-    html = html.split('%%PI_PRIMARY_CTA%%').join(sponsorLive ? renderPiPrimaryCtaHtml(city) : '');
+    html = html.split('%%PI_PRIMARY_CTA%%').join(sponsorUiEnabled ? renderPiPrimaryCtaHtml(city) : '');
   }
 
   // Render directory into verified-listings container
   var directoryHtml = '';
-  if (sponsorLive) {
+  if (sponsorUiEnabled) {
     directoryHtml += renderPiSponsoredModuleHtml(city, sponsor);
   }
-  directoryHtml += renderPiDirectoryTableHtml(Array.isArray(listings) ? listings : [], sponsorLive);
+  directoryHtml += renderPiDirectoryTableHtml(Array.isArray(listings) ? listings : [], sponsorUiEnabled);
 
   html = html.replace('<div id="verified-listings"></div>', '<div id="verified-listings">' + directoryHtml + '</div>');
   html = html.replace('<div id="other-listings"></div>', '<div id="other-listings"></div>');
   return html;
+}
+
+
+function packHasNextStepsRoute(pageSet) {
+  return !!(pageSet && Array.isArray(pageSet.pages) && pageSet.pages.some(function(p){
+    var r = String((p && p.route) ? p.route : '').replace(/^\/+|\/+$/g, '');
+    return r === 'next-steps';
+  }));
+}
+
+function renderNextStepsZoneHtml(opts) {
+  // Deterministic marker for validator
+  var href = opts && opts.href ? String(opts.href) : '';
+  var link = href
+    ? ('<a class="button button-primary" data-next-steps-cta="true" href="' + escapeHtml(href) + '">Go to next steps</a>')
+    : '';
+
+  return (
+    '<section class="section next-steps-zone" data-next-steps-zone="true">' +
+    '<div class="card">' +
+    '<h2>Next steps</h2>' +
+    '<p class="muted">Optional. This block is controlled by the page-set sponsorship configuration.</p>' +
+    (link ? ('<div class="actions">' + link + '</div>') : '') +
+    '</div>' +
+    '</section>'
+  );
 }
 
 function renderInlineScripts(inlineScripts, city) {
@@ -564,7 +690,7 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
 
   // Sponsor tokens (used by PI next-steps page; safe on all pages)
   const __sponsor = (sponsor || {});
-  const __sponsorLive = isSponsorLive(__sponsor);
+  const __sponsorLive = (sponsorship.isNextStepsEnabled(pageSet) && sponsorship.isSponsorLive(__sponsor));
   mainHtml = mainHtml
     .split("%%SPONSOR_FIRM_NAME%%").join(__sponsorLive ? escapeHtml(String(__sponsor.firm_name)) : "")
     .split("%%SPONSOR_OFFICIAL_SITE_URL%%").join(__sponsorLive ? escapeHtml(String(normalizeUrl(__sponsor.official_site_url))) : "")
@@ -584,14 +710,34 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
       .join(renderCityGuideCardsHtml(guides, city));
   }
 
-  // PI vertical is directory-only: defensively strip state lookup + CTA blocks if present.
+  const __features = (pageSet && pageSet.__cityFeatures) ? pageSet.__cityFeatures : getCityFeatures(pageSet, verticalKey);
+
+  // Enforce city page contracts
+  if (!__features.stateLookup) {
+    mainHtml = stripStateLookupBlocks(mainHtml);
+  }
+  if (!__features.directory) {
+    mainHtml = stripDirectoryBlocks(mainHtml);
+  }
+
+  // Legacy PI safety (in case a PI template accidentally ships state lookup markup)
   if (isPersonalInjury(verticalKey)) {
     mainHtml = stripPiOnlyDisallowedBlocks(mainHtml);
   }
 
-  mainHtml = injectAdPlacements(mainHtml, ads);
+  // Required zone: city disclosure (Appendix L). Ensures every city page ships with the canonical disclaimer.
+  mainHtml = ensureCityDisclosure(mainHtml);
+
+  // Next-steps zone injection (global buyout OR sponsor-driven)
+  // - Global: pack-controlled via sponsorship.globalNextStepsEnabled
+  // - Sponsor-driven: pack sponsorship.nextStepsEnabled + sponsor live
+  if (route !== 'next-steps' && packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, sponsor || {})) {
+    mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/' + city.slug + '/next-steps/' });
+  }
+
+  mainHtml = injectAdPlacements(mainHtml, ads, { city: city, verticalKey: verticalKey, cityFeatures: (pageSet && pageSet.__cityFeatures) ? pageSet.__cityFeatures : null });
   mainHtml = injectSponsors(mainHtml, sponsorsByStack);
-  mainHtml = injectListings(mainHtml, listings, city, sponsor || {});
+  mainHtml = injectListings(mainHtml, listings, city, sponsor || {}, pageSet);
 
   const inline = renderInlineScripts(page.inline_scripts || [], city);
 
@@ -612,12 +758,30 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
   return mapped;
 }
 
-function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads) {
+function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
   const route = (globalPage.route || "").replace(/^\/+|\/+$/g, "");
   const title = String(globalPage.title || "").split("%%BRAND_NAME%%").join(brandName);
   const description = String(globalPage.description || "");
 
   let mainHtml = String(globalPage.main_html || "").split("%%BRAND_NAME%%").join(brandName);
+
+  // Guide pages (global): enforce a consistent hero contract.
+  // Required by page contracts: <p class="kicker">Guide</p> and the phrase "Educational framework only".
+  // If a guide was authored without the hero, we prepend a canonical one.
+  if (route.startsWith("guides/") && route !== "guides") {
+    const hasKicker = mainHtml.includes('<p class="kicker">Guide</p>');
+    const hasEduPhrase = /Educational\s+framework\s+only/i.test(mainHtml);
+    if (!hasKicker || !hasEduPhrase) {
+      const safeH1 = escapeHtml(title);
+      const hero =
+        '<section class="hero">' +
+        '\n  <p class="kicker">Guide</p>' +
+        '\n  <h1>' + safeH1 + '</h1>' +
+        '\n  <p class="muted">Educational framework only. Not medical or legal advice.</p>' +
+        '\n</section>\n\n';
+      mainHtml = hero + mainHtml;
+    }
+  }
 
   if (route === "faq" && mainHtml.includes("%%FAQ_ITEMS_GLOBAL%%")) {
     mainHtml = mainHtml.split("%%FAQ_ITEMS_GLOBAL%%").join(renderFaqCardsHtml(getGlobalFaqItems(pageSet)));
@@ -631,7 +795,21 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
     mainHtml = mainHtml.split("%%MARKETS_STATUS_LIST%%").join(marketsStatusListHtml || "");
   }
 
-  mainHtml = injectAdPlacements(mainHtml, ads);
+
+  // Next-steps zone injection (GLOBAL ONLY)
+  // When enabled, show on homepage + guide pages (hub + detail).
+  if (sponsorship.isGlobalNextStepsEnabled(pageSet)) {
+    const isHome = (route === "");
+    const isGuidesHub = (route === "guides");
+    const isGuideDetail = (route.startsWith("guides/") && route !== "guides");
+    if (isHome || isGuidesHub || isGuideDetail) {
+      if (!mainHtml.includes('data-next-steps-zone="true"')) {
+        mainHtml += "\n" + renderNextStepsZoneHtml({ href: "" });
+      }
+    }
+  }
+
+  mainHtml = injectAdPlacements(mainHtml, ads, { city: null, verticalKey: verticalKey, cityFeatures: pageSet && pageSet.__cityFeatures ? pageSet.__cityFeatures : null });
   mainHtml = injectSponsors(mainHtml, globalSponsorsByStack || {});
 
   const mapped = replaceAll(baseTemplate, {
@@ -733,6 +911,10 @@ function build() {
   const pageSet = loadPageSet(pageSetFile);
   const verticalKey = deriveVerticalKey(pageSetFile);
 
+  // City page feature toggles (future-proof): directory vs state lookup (mutually exclusive).
+  pageSet.__cityFeatures = getCityFeatures(pageSet, verticalKey);
+
+
   const brandName = String(site.brandName || "Local Guides").trim();
   const siteUrl = String(site.siteUrl || "https://example.com").trim();
 
@@ -741,7 +923,8 @@ function build() {
     return {
       ...c,
       stateName: c.stateName || st.stateName || "",
-      stateSlug: c.stateSlug || st.stateSlug || ""
+      stateSlug: c.stateSlug || st.stateSlug || "",
+      licenseLookupUrl: c.licenseLookupUrl || st.licenseLookupUrl || ""
     };
   });
 
@@ -917,7 +1100,8 @@ if (fs.existsSync(listingsPath)) {
       pageSet,
       globalSponsorsByStack,
       marketsStatusListHtml,
-      ads
+      ads,
+      verticalKey
     );
     writeFileEnsured(outPathForGlobal(route), html);
   }
@@ -927,9 +1111,11 @@ if (fs.existsSync(listingsPath)) {
     const cityListings = listingsByCity ? (listingsByCity[city.slug] || []) : [];
     for (const p of (pageSet.pages || [])) {
       const route = applyCityTokens(p.route || "", city).replace(/^\/+|\/+$/g, "");
-      const __sponsor = (sponsorByCity[city.slug] || {});
-      const __sponsorLive = isSponsorLive(__sponsor);
-      if (route === 'next-steps' && !__sponsorLive) {
+      if (route === 'directory' && !(pageSet.__cityFeatures && pageSet.__cityFeatures.directory)) {
+        continue;
+      }
+      const cityData = (sponsorByCity[city.slug] || {});
+      if (route === 'next-steps' && !sponsorship.shouldRenderNextSteps(pageSet, cityData)) {
         continue;
       }
 
