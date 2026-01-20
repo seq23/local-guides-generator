@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build_city_sites.js",
+    "validate:all": "node scripts/validate_all_packs.js",
     "snapshot:lkg": "node scripts/snapshot_lkg.js",
     "postbuild": "node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
     "validate": "node scripts/validate_tbs.js"
