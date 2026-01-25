@@ -4,6 +4,82 @@ const fs = require("fs");
 const path = require("path");
 const sponsorship = require("./helpers/sponsorship");
 
+// --- JSON-LD / schema validation (locked rules) ---
+const FORBIDDEN_SCHEMA_TOKENS = new Set([
+  'AggregateRating',
+  'Review',
+  'ratingValue',
+  'bestRating',
+  'worstRating',
+  'reviewCount'
+]);
+
+function extractJsonLdScriptContents(html) {
+  const out = [];
+  const re = /<script\s+[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  let m;
+  while ((m = re.exec(String(html || ''))) !== null) {
+    out.push(String(m[1] || '').trim());
+  }
+  return out;
+}
+
+function flattenJsonLd(parsed) {
+  if (!parsed) return [];
+  if (Array.isArray(parsed)) {
+    return parsed.flatMap(flattenJsonLd);
+  }
+  if (typeof parsed === 'object') return [parsed];
+  return [];
+}
+
+function collectTypes(node) {
+  const types = [];
+  if (!node || typeof node !== 'object') return types;
+  const t = node['@type'];
+  if (Array.isArray(t)) {
+    for (const x of t) if (x) types.push(String(x));
+  } else if (t) {
+    types.push(String(t));
+  }
+  return types;
+}
+
+function hasType(nodes, typeName) {
+  const target = String(typeName || '');
+  if (!target) return false;
+  for (const n of nodes) {
+    const types = collectTypes(n);
+    if (types.includes(target)) return true;
+  }
+  return false;
+}
+
+function scanForForbiddenSchemaTokens(node) {
+  if (!node) return false;
+  if (Array.isArray(node)) {
+    for (const it of node) if (scanForForbiddenSchemaTokens(it)) return true;
+    return false;
+  }
+  if (typeof node !== 'object') {
+    const s = String(node);
+    for (const tok of FORBIDDEN_SCHEMA_TOKENS) {
+      if (s === tok) return true;
+    }
+    return false;
+  }
+
+  // Keys
+  for (const k of Object.keys(node)) {
+    if (FORBIDDEN_SCHEMA_TOKENS.has(k)) return true;
+  }
+  // Values
+  for (const v of Object.values(node)) {
+    if (scanForForbiddenSchemaTokens(v)) return true;
+  }
+  return false;
+}
+
 const repoRoot = path.resolve(__dirname, "..");
 const distDir = path.join(repoRoot, "dist");
 const scriptsDir = path.join(repoRoot, "scripts");
@@ -17,6 +93,10 @@ function fail(msg, hint) {
 
 function ok(msg) {
   console.log(`OK: ${msg}`);
+}
+
+function warn(msg) {
+  console.warn(`WARN: ${msg}`);
 }
 
 function readText(filePath) {
@@ -275,6 +355,8 @@ function assertCityPagesHaveCityGuideBlock() {
       "dist/privacy/",
       "dist/disclaimer/",
       "dist/editorial-policy/"
+      ,"dist/states/"
+      ,"dist/personal-injury/"
     ];
     if (excludedPrefixes.some((pre) => r.startsWith(pre))) return false;
 
@@ -327,6 +409,8 @@ function assertNonPiCityPagesStateLookupOnly() {
       'dist/privacy/',
       'dist/disclaimer/',
       'dist/editorial-policy/'
+      ,'dist/states/'
+      ,'dist/personal-injury/'
     ];
     if (excludedPrefixes.some((pre) => r.startsWith(pre))) return false;
     return /^dist\/[^/]+\/index\.html$/.test(r);
@@ -381,7 +465,9 @@ function assertCityPagesHaveCityDisclosure() {
       'dist/contact/',
       'dist/privacy/',
       'dist/disclaimer/',
-      'dist/editorial-policy/'
+      'dist/editorial-policy/',
+      'dist/states/',
+      'dist/personal-injury/'
     ];
     if (excludedPrefixes.some((pre) => r.startsWith(pre))) return false;
 
@@ -453,7 +539,9 @@ function assertCityHubZonesAndNoCompareCta() {
       'dist/contact/',
       'dist/privacy/',
       'dist/disclaimer/',
-      'dist/editorial-policy/'
+      'dist/editorial-policy/',
+      'dist/states/',
+      'dist/personal-injury/'
     ];
     if (excludedPrefixes.some((pre) => r.startsWith(pre))) return false;
 
@@ -587,6 +675,8 @@ function getPageTypeForDistPath(distRelPath) {
     return "global";
   }
   if (distRelPath === "dist/guides/index.html") return "guides_hub";
+  if (distRelPath === "dist/personal-injury/index.html") return "pi_hub";
+  if (/^dist\/states\/[A-Z]{2}\/index\.html$/i.test(distRelPath)) return "pi_state";
   if (/^dist\/guides\/[^/]+\/index\.html$/i.test(distRelPath)) return "guide";
   if (/^dist\/[^/]+\/faq\/index\.html$/i.test(distRelPath)) return "city_faq";
   if (/^dist\/[^/]+\/next-steps\/index\.html$/i.test(distRelPath)) return "city_next_steps";
@@ -645,6 +735,255 @@ function assertPageContracts() {
   ok("Page contracts pass (required zones enforced)");
 }
 
+function parseJsonLdNodesFromHtml(html, fileRelForErrors) {
+  const blocks = extractJsonLdScriptContents(html);
+  const allNodes = [];
+  for (const b of blocks) {
+    let parsed;
+    try {
+      parsed = JSON.parse(b);
+    } catch (e) {
+      fail(`JSON-LD is not valid JSON in ${fileRelForErrors}`);
+    }
+    const nodes = flattenJsonLd(parsed);
+    for (const n of nodes) {
+      if (scanForForbiddenSchemaTokens(n)) {
+        fail(`JSON-LD contains forbidden schema fields/types in ${fileRelForErrors}`);
+      }
+      allNodes.push(n);
+    }
+  }
+  return allNodes;
+}
+
+function assertSchemaJsonLdAndRequirements() {
+  const site = JSON.parse(readText(path.join(repoRoot, 'data', 'site.json')));
+  const pageSetFile = String(site.pageSetFile || '').trim();
+  if (!pageSetFile) return;
+
+  // Determine pageSet path (examples/ or root)
+  let pageSetPath = path.join(repoRoot, 'data', 'page_sets', 'examples', pageSetFile);
+  if (!fs.existsSync(pageSetPath)) {
+    pageSetPath = path.join(repoRoot, 'data', 'page_sets', pageSetFile);
+  }
+  const pageSet = fs.existsSync(pageSetPath) ? JSON.parse(readText(pageSetPath)) : {};
+
+  // Derive vertical key robustly even when site.pageSetFile uses subpaths like "examples/pi_v1.json"
+  const base = path.basename(pageSetFile).replace(/\.json$/i, '').toLowerCase();
+  const name = String(pageSet.name || base).toLowerCase();
+  let verticalKey = String(pageSet.vertical || '').toLowerCase();
+  if (!verticalKey) {
+    const s = name;
+    if (s.startsWith('pi')) verticalKey = 'pi';
+    else if (s.startsWith('dentistry')) verticalKey = 'dentistry';
+    else if (s.startsWith('trt')) verticalKey = 'trt';
+    else if (s.startsWith('neuro')) verticalKey = 'neuro';
+    else if (s.startsWith('uscis_medical') || s.startsWith('uscis')) verticalKey = 'uscis_medical';
+    else if (s.startsWith('starter')) verticalKey = 'starter';
+    else verticalKey = s;
+  }
+  const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
+  const itemListEnabled = schemaCfg && schemaCfg.itemListEnabled === true;
+  const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
+
+  // Global A1/A2: parse all JSON-LD and block forbidden fields
+  const htmlFiles = walkFiles(distDir, (p) => p.endsWith('.html'));
+  for (const f of htmlFiles) {
+    const r = rel(f);
+    const html = readText(f);
+    // This function hard-fails on parse or forbidden tokens
+    parseJsonLdNodesFromHtml(html, r);
+  }
+  ok('Schema: JSON-LD parses and forbidden fields/types are absent');
+
+  // D2: If disabled, schema types MUST NOT appear (prevents half-on drift)
+  // We do NOT forbid baseline schemas (Organization/WebSite/WebPage/BreadcrumbList). Only CollectionPage and FAQPage.
+  const requireCollection = itemListEnabled;
+  const requireFaq = faqEnabled;
+
+  // City pages: dist/<slug>/index.html (all packs)
+  const cities = JSON.parse(readText(path.join(repoRoot, 'data', 'cities.json')));
+  const cityHomeFiles = cities
+    .map((c) => path.join(distDir, c.slug, 'index.html'))
+    .filter((p) => fs.existsSync(p));
+
+  for (const p of cityHomeFiles) {
+    const r = rel(p);
+    const nodes = parseJsonLdNodesFromHtml(readText(p), r);
+    const hasCollection = hasType(nodes, 'CollectionPage');
+    const hasFaq = hasType(nodes, 'FAQPage');
+
+    if (verticalKey === 'pi') {
+      // PI city pages: require CollectionPage when itemListEnabled; FAQPage not required.
+      if (requireCollection && !hasCollection) fail(`PI city page missing required CollectionPage JSON-LD: ${r}`);
+      if (!requireCollection && hasCollection) fail(`schema.itemListEnabled is false but CollectionPage JSON-LD exists: ${r}`);
+      // If faqEnabled is false, block FAQPage on city pages (rare but keeps drift in check)
+      if (!requireFaq && hasFaq) fail(`schema.faqEnabled is false but FAQPage JSON-LD exists: ${r}`);
+    } else {
+      // Non-PI city pages: require both CollectionPage + FAQPage when enabled
+      if (requireCollection && !hasCollection) fail(`Non-PI city page missing required CollectionPage JSON-LD: ${r}`);
+      if (!requireCollection && hasCollection) fail(`schema.itemListEnabled is false but CollectionPage JSON-LD exists: ${r}`);
+
+      if (requireFaq && !hasFaq) fail(`Non-PI city page missing required FAQPage JSON-LD: ${r}`);
+      if (!requireFaq && hasFaq) fail(`schema.faqEnabled is false but FAQPage JSON-LD exists: ${r}`);
+    }
+  }
+
+  // PI state pages: dist/states/<AB>/index.html
+  if (verticalKey === 'pi') {
+    const stateDir = path.join(distDir, 'states');
+    const stateFiles = fs.existsSync(stateDir)
+      ? fs.readdirSync(stateDir).map((d) => path.join(stateDir, d, 'index.html')).filter((p) => fs.existsSync(p))
+      : [];
+    for (const p of stateFiles) {
+      const r = rel(p);
+      const nodes = parseJsonLdNodesFromHtml(readText(p), r);
+      const hasCollection = hasType(nodes, 'CollectionPage');
+      const hasFaq = hasType(nodes, 'FAQPage');
+
+      if (requireCollection && !hasCollection) fail(`PI state page missing required CollectionPage JSON-LD: ${r}`);
+      if (!requireCollection && hasCollection) fail(`schema.itemListEnabled is false but CollectionPage JSON-LD exists: ${r}`);
+
+      if (requireFaq && !hasFaq) fail(`PI state page missing required FAQPage JSON-LD: ${r}`);
+      if (!requireFaq && hasFaq) fail(`schema.faqEnabled is false but FAQPage JSON-LD exists: ${r}`);
+    }
+  }
+
+  ok('Schema: per-pack requirements enforced via pack flags');
+}
+
+/**
+ * SOFT WARNING: Non-PI licensing lookup completeness (URLs)
+ *
+ * Purpose:
+ * - Non-PI verticals rely on data/licensing_lookup/<vertical>.json.
+ * - We do NOT hard-fail on missing/empty URLs (UX issue, not build-breaker).
+ * - We DO print a clear WARN summary so missing state links are visible.
+ */
+function warnNonPiLicensingLookupUrlsIfMissing() {
+  const { pageSet, pageSetFile } = loadPageSetForSite();
+  const verticalKey = deriveVerticalKey(pageSetFile);
+  const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
+
+  // Only applies to non-PI verticals where resource lookups are expected.
+  if (verticalKey === 'pi' || verticalKey === 'starter') return;
+  if (schemaCfg && schemaCfg.itemListEnabled !== true) return;
+
+  const lookupKey = (verticalKey === 'uscis_medical' || verticalKey === 'uscis') ? 'uscis' : verticalKey;
+  const lookupPath = path.join(repoRoot, 'data', 'licensing_lookup', `${lookupKey}.json`);
+  if (!fs.existsSync(lookupPath)) {
+    // Missing file is still a hard error (system/config drift)
+    fail(`Missing licensing lookup file: ${rel(lookupPath)}`);
+  }
+
+  const lookup = readJson(lookupPath);
+  const statesPath = path.join(repoRoot, 'data', 'states.json');
+  const states = readJson(statesPath);
+  const missing = [];
+
+  for (const ab of Object.keys(states)) {
+    const entry = lookup[ab];
+    if (!entry || typeof entry !== 'object') {
+      missing.push(ab);
+      continue;
+    }
+    const values = Object.values(entry)
+      .filter((v) => typeof v === 'string')
+      .map((v) => v.trim())
+      .filter(Boolean);
+    const hasHttp = values.some((v) => /^https?:\/\//i.test(v));
+    if (!hasHttp) missing.push(ab);
+  }
+
+  if (missing.length) {
+    const sample = missing.slice(0, 12).join(', ');
+    warn(`Non-PI licensing lookups: missing/empty URLs for ${missing.length} states in ${rel(lookupPath)}. Sample: ${sample}${missing.length > 12 ? ' ...' : ''}`);
+  } else {
+    ok(`Non-PI licensing lookups: all states have at least one URL in ${rel(lookupPath)}`);
+  }
+}
+
+
+
+/**
+ * 7f) PI state hub pages (state > city)
+ * Requirements:
+ * - For PI page sets only: dist/states/<AB>/index.html must exist for ALL 50 states.
+ * - Each state page must include disciplinary lookup block with official link.
+ * - Each PI city hub must include a backlink to its state hub.
+ */
+function assertPiStatePages() {
+  const { pageSetFile } = loadPageSetForSite();
+  const verticalKey = deriveVerticalKey(pageSetFile);
+  if (verticalKey !== 'pi') {
+    ok('PI state pages check skipped (non-PI page set)');
+    return;
+  }
+
+  const statesPath = path.join(repoRoot, 'data', 'states.json');
+  const states = readJson(statesPath);
+  const linkPath = path.join(repoRoot, 'data', 'pi_state_disciplinary_links.json');
+  if (!fs.existsSync(linkPath)) {
+    fail(`Missing PI state disciplinary links file: ${rel(linkPath)}`);
+  }
+  const links = readJson(linkPath);
+
+  const missingLinks = [];
+  for (const ab of Object.keys(states)) {
+    const url = links[ab];
+    if (!url || typeof url !== 'string' || !url.startsWith('http')) {
+      missingLinks.push(ab);
+    }
+  }
+  if (missingLinks.length) {
+    fail(`PI disciplinary lookup links missing or invalid for: ${missingLinks.join(', ')}`);
+  }
+
+  const missingPages = [];
+  const badPages = [];
+  for (const ab of Object.keys(states)) {
+    const f = path.join(distDir, 'states', String(ab).toUpperCase(), 'index.html');
+    if (!fs.existsSync(f)) {
+      missingPages.push('states/' + ab);
+      continue;
+    }
+    const html = readText(f);
+    if (!html.includes('data-pi-state-page="true"') || !html.includes('data-disciplinary-lookup="true"')) {
+      badPages.push('states/' + ab + ' (missing required markers)');
+      continue;
+    }
+    const expected = String(links[ab]);
+    if (!html.includes(expected)) {
+      badPages.push('states/' + ab + ' (disciplinary link mismatch)');
+    }
+  }
+  if (missingPages.length) {
+    fail(`PI requires 50 state pages. Missing: ${missingPages.slice(0,15).join(', ')}${missingPages.length>15?' ...':''}`);
+  }
+  if (badPages.length) {
+    fail(`PI state pages failed validation: ${badPages.slice(0,15).join(', ')}${badPages.length>15?' ...':''}`);
+  }
+
+  // City backlink check (PI city hubs only)
+  const citiesPath = path.join(repoRoot, 'data', 'cities.json');
+  const allCities = readJson(citiesPath);
+  const citySlugs = Object.keys(allCities || {});
+  const offenders = [];
+  for (const slug of citySlugs) {
+    const f = path.join(distDir, slug, 'index.html');
+    if (!fs.existsSync(f)) continue;
+    const html = readText(f);
+    if (!html.includes('data-pi-state-backlink=\"true\"')) {
+      offenders.push('dist/' + slug + '/index.html');
+      if (offenders.length >= 10) break;
+    }
+  }
+  if (offenders.length) {
+    fail(`PI city pages must include state backlink. Missing in sample: ${offenders.join(', ')}`);
+  }
+
+  ok('PI state pages exist (50), disciplinary links present, and city backlink marker present');
+}
 
 function assertNextStepsInvariants() {
   const { pageSet } = loadPageSetForSite();
@@ -664,6 +1003,7 @@ function assertNextStepsInvariants() {
   const guidesHubPath = path.join(distDir, 'guides', 'index.html');
 
   const guideDetailPages = htmlFiles.filter((p) => /^dist\/guides\/[^/]+\/index\.html$/i.test(rel(p)));
+  const statePages = htmlFiles.filter((p) => /^dist\/states\/[A-Z]{2}\/index\.html$/i.test(rel(p)));
   const cityPages = htmlFiles.filter((p) => {
     const r = rel(p);
     if (r === 'dist/index.html') return false;
@@ -705,9 +1045,14 @@ function assertNextStepsInvariants() {
     const missing = [];
     const home = readIfExists(homePath);
     const guidesHub = readIfExists(guidesHubPath);
+    const piHubPath = path.join(distDir, 'personal-injury', 'index.html');
+    const piHub = readIfExists(piHubPath);
 
     if (!home.includes(ZONE_MARK)) missing.push('dist/index.html (home)');
     if (!guidesHub.includes(ZONE_MARK)) missing.push('dist/guides/index.html (guides hub)');
+
+    // Optional PI hub route: if present, it must include the zone under global buyout.
+    if (piHub && !piHub.includes(ZONE_MARK)) missing.push('dist/personal-injury/index.html (PI hub)');
 
     for (const f of guideDetailPages) {
       const html = readText(f);
@@ -717,8 +1062,21 @@ function assertNextStepsInvariants() {
       }
     }
 
-    // City pages (any route under dist/<city>/...)
+    // City pages: require the zone on the city landing page (dist/<city>/index.html).
+    // We explicitly DO NOT require the zone on the next-steps page itself.
     for (const f of cityPages) {
+      const r = rel(f);
+      if (!/\/index\.html$/i.test(r)) continue;
+      if (/\/next-steps\/index\.html$/i.test(r)) continue;
+      const html = readText(f);
+      if (!html.includes(ZONE_MARK)) {
+        missing.push(r);
+        if (missing.length >= 15) break;
+      }
+    }
+
+    // PI state pages (dist/states/<AB>/index.html) — required when present
+    for (const f of statePages) {
       const html = readText(f);
       if (!html.includes(ZONE_MARK)) {
         missing.push(rel(f));
@@ -737,15 +1095,35 @@ function assertNextStepsInvariants() {
     // We infer sponsor liveness from data/listings/<city>.json (sponsor object).
 
     const listingsDir = path.join(repoRoot, 'data', 'listings');
+    const sponsorsDir = path.join(repoRoot, 'data', 'sponsors');
     const fs = require('fs');
 
     function getSponsorForCity(slug) {
+      // Priority 1: listing sponsor (data/listings/<city>.json)
       const fp = path.join(listingsDir, slug + '.json');
+      if (fs.existsSync(fp)) {
+        let raw;
+        try { raw = JSON.parse(fs.readFileSync(fp, 'utf8')); } catch (_e) { raw = null; }
+        if (raw && typeof raw === 'object' && !Array.isArray(raw) && raw.sponsor) {
+          return raw.sponsor;
+        }
+      }
+
+      // Priority 2: optional override (data/sponsors/<city>.json -> nextStepsSponsor)
+      return getNextStepsSponsorOverride(slug);
+    }
+
+    function getNextStepsSponsorOverride(slug) {
+      const fp = path.join(sponsorsDir, slug + '.json');
       if (!fs.existsSync(fp)) return null;
-      let raw;
-      try { raw = JSON.parse(fs.readFileSync(fp, 'utf8')); } catch (_e) { return null; }
-      if (Array.isArray(raw)) return null;
-      if (raw && typeof raw === 'object') return raw.sponsor || null;
+      try {
+        const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+        if (raw && typeof raw === 'object') {
+          return raw.nextStepsSponsor || null;
+        }
+      } catch (_e) {
+        return null;
+      }
       return null;
     }
 
@@ -818,10 +1196,13 @@ function assertNextStepsInvariants() {
   assertNoAdTokensInDist();
   assertNoUnresolvedTokensInDist();
   assertPageContracts();
+  assertSchemaJsonLdAndRequirements();
+  warnNonPiLicensingLookupUrlsIfMissing();
   assertFaqPages();
   assertCityPagesHaveCityGuideBlock();
   assertCityPagesHaveCityDisclosure();
   assertNonPiCityPagesStateLookupOnly();
   assertCityHubZonesAndNoCompareCta();
+  assertPiStatePages();
   assertNextStepsInvariants();
 })();

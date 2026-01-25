@@ -1,5 +1,10 @@
 {
   "name": "dentistry_v1",
+  "schema": {
+    "itemListEnabled": true,
+    "faqEnabled": true,
+    "mapsEmbedEnabledCityOnly": false
+  },
   "citiesFile": "data/page_sets/examples/cities_dentistry_v1.json",
   "cityFeatures": {
     "directory": false,
@@ -109,6 +114,12 @@
       "title": "%%MARKET_LABEL%% Guides",
       "description": "Educational guides for %%MARKET_LABEL%%.",
       "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Guides</p>\n  <h1>%%MARKET_LABEL%% Guides</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n<section class=\"section\">\n  <p class=\"muted\">Browse guides relevant to this market.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%"
+    },
+    {
+      "route": "next-steps",
+      "title": "%%MARKET_LABEL%% — Next steps",
+      "description": "Optional next steps for %%MARKET_LABEL%%. Pack-controlled.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Next steps</p>\n  <h1>Optional next steps for %%MARKET_LABEL%%</h1>\n  <p class=\"muted\">If enabled, you will be taken to a sponsor\u2019s official intake/contact flow. This site does not receive your information.</p>\n</section>\n\n<section class=\"section\">\n  <div class=\"card\" data-next-steps-card=\"true\">\n    <h2>%%SPONSOR_FIRM_NAME%%</h2>\n    <p class=\"muted\">You\u2019ll be taken to the sponsor\u2019s official site to continue.</p>\n    <div class=\"actions\">\n      <a class=\"button button-primary\" data-next-steps-intake=\"true\" href=\"%%SPONSOR_INTAKE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Continue</a>\n      <a class=\"button button-secondary\" href=\"%%SPONSOR_OFFICIAL_SITE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Visit official site</a>\n    </div>\n    <p class=\"fineprint\">Official site: <span class=\"mono\">%%SPONSOR_OFFICIAL_SITE_URL%%</span></p>\n  </div>\n\n  <div class=\"card\">\n    <h2>What to verify before you contact a provider</h2>\n    <ul>\n      <li>Licensing and disciplinary history via official state sources</li>\n      <li>Scope of services offered and consultation process</li>\n      <li>Written estimate and follow-up policy</li>\n    </ul>\n    <p class=\"muted\">Educational only. No endorsements. No rankings.</p>\n  </div>\n</section>"
     }
   ],
   "globalPagesDir": "data/page_sets/examples/dentistry_global_pages",

@@ -86,6 +86,67 @@ function replaceAll(str, map) {
   return out;
 }
 
+// Licensing/resource lookup maps (authoritative-only).
+// Files live under data/licensing_lookup/<vertical>.json
+const __LICENSING_LOOKUP_CACHE = {};
+function loadLicensingLookup(verticalKey) {
+  let key = String(verticalKey || '').trim();
+  if (!key) return null;
+  // Aliases: pack vertical keys don't always match lookup filenames
+  if (key === 'uscis_medical') key = 'uscis';
+  if (Object.prototype.hasOwnProperty.call(__LICENSING_LOOKUP_CACHE, key)) return __LICENSING_LOOKUP_CACHE[key];
+  const p = path.join(DATA_DIR, 'licensing_lookup', `${key}.json`);
+  if (!fs.existsSync(p)) {
+    __LICENSING_LOOKUP_CACHE[key] = null;
+    return null;
+  }
+  try {
+    __LICENSING_LOOKUP_CACHE[key] = readJson(p);
+    return __LICENSING_LOOKUP_CACHE[key];
+  } catch (e) {
+    __LICENSING_LOOKUP_CACHE[key] = null;
+    return null;
+  }
+}
+
+function getNonPiResourcesForState(verticalKey, stateAbbr, pageSet) {
+  const ab = String(stateAbbr || '').toUpperCase();
+  const lookup = loadLicensingLookup(verticalKey);
+  const row = lookup && lookup[ab] ? lookup[ab] : null;
+  const resources = [];
+
+  // Official resources
+  if (row && row.license) resources.push({ name: `Official ${ab} license lookup`, url: String(row.license) });
+  if (row && row.discipline && String(row.discipline) !== String(row.license)) resources.push({ name: `Official ${ab} discipline / actions lookup`, url: String(row.discipline) });
+  if (row && row.official_directory && String(row.official_directory) !== String(row.license)) resources.push({ name: `Official ${ab} directory / board page`, url: String(row.official_directory) });
+
+  // USCIS special: include the federal locator as the canonical starting point
+  if (verticalKey === 'uscis') {
+    resources.unshift({
+      name: 'USCIS Civil Surgeon Locator (official)',
+      url: 'https://www.uscis.gov/tools/find-a-civil-surgeon'
+    });
+  }
+
+  // Optional internal verification guide
+  // (If your pack later ships a canonical internal guide URL, you can add it here.)
+  if (pageSet && pageSet.schema && pageSet.schema.internalVerifyGuideUrl) {
+    resources.push({ name: 'How to verify credentials (guide)', url: String(pageSet.schema.internalVerifyGuideUrl) });
+  }
+
+  return resources;
+}
+
+function nonPiAboutServiceName(verticalKey) {
+  switch (String(verticalKey || '')) {
+    case 'dentistry': return 'Dental care provider verification resources';
+    case 'trt': return 'Clinic verification resources for TRT / weight loss / IV hydration';
+    case 'neuro': return 'Neuropsych / ADHD / autism evaluation verification resources';
+    case 'uscis': return 'USCIS medical exam verification resources';
+    default: return 'Provider verification resources';
+  }
+}
+
 function loadPageSet(pageSetFile) {
   const p1 = path.join(DATA_DIR, "page_sets", pageSetFile);
   const p2 = path.join(DATA_DIR, "page_sets", "examples", pageSetFile);
@@ -339,18 +400,224 @@ function buildFaqSchema(items) {
   };
 }
 
-function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet) {
+function buildPiDirectoryItemListSchema(opts) {
+  const areaName = opts && opts.areaName ? String(opts.areaName) : "";
+  const pageName = opts && opts.pageName ? String(opts.pageName) : "";
+  const pageUrl = opts && opts.pageUrl ? String(opts.pageUrl) : "";
+  const listings = Array.isArray(opts && opts.listings) ? opts.listings : [];
+
+  // Keep it intentionally minimal and non-promotional:
+  // - No ratings
+  // - No reviews
+  // - No "best" language
+  // - Pure directory list with official URLs when available
+  const items = [];
+  let pos = 1;
+  const seen = new Set();
+  for (const it of listings) {
+    if (!it) continue;
+    const name = String((it.firm_name || it.name || "")).trim();
+    const url = String((it.official_site_url || it.website || it.url || "")).trim();
+    const key = (name + "|" + url).toLowerCase();
+    if (!name) continue;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    items.push({
+      "@type": "ListItem",
+      position: pos++,
+      item: {
+        "@type": "Organization",
+        name: name,
+        ...(url ? { url: normalizeUrl(url) } : {})
+      }
+    });
+    if (items.length >= 60) break;
+  }
+
+  if (items.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: pageName,
+    ...(pageUrl ? { url: pageUrl } : {}),
+    about: {
+      "@type": "Service",
+      name: "Personal injury legal services",
+      areaServed: {
+        "@type": "AdministrativeArea",
+        name: areaName
+      }
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListOrder: "https://schema.org/ItemListUnordered",
+      numberOfItems: items.length,
+      itemListElement: items
+    }
+  };
+}
+
+// Non-PI: Resource ItemList schema (authoritative resources only)
+// This intentionally lists ONLY official resources (boards, official locators, internal verification guides),
+// not businesses. No ratings, no reviews, no rankings.
+function buildResourceItemListSchema(opts) {
+  const areaName = opts && opts.areaName ? String(opts.areaName) : "";
+  const pageName = opts && opts.pageName ? String(opts.pageName) : "";
+  const pageUrl = opts && opts.pageUrl ? String(opts.pageUrl) : "";
+  const aboutServiceName = opts && opts.aboutServiceName ? String(opts.aboutServiceName) : "Provider verification resources";
+  const resources = Array.isArray(opts && opts.resources) ? opts.resources : [];
+
+  const items = [];
+  let pos = 1;
+  const seen = new Set();
+  for (const it of resources) {
+    if (!it) continue;
+    const name = String(it.name || "").trim();
+    const url = String(it.url || "").trim();
+    if (!name || !url) continue;
+    const key = (name + "|" + url).toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    items.push({
+      "@type": "ListItem",
+      position: pos++,
+      item: {
+        "@type": "CreativeWork",
+        name,
+        url: normalizeUrl(url)
+      }
+    });
+    if (items.length >= 25) break;
+  }
+
+  if (items.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: pageName,
+    ...(pageUrl ? { url: pageUrl } : {}),
+    about: {
+      "@type": "Service",
+      name: aboutServiceName,
+      areaServed: {
+        "@type": "AdministrativeArea",
+        name: areaName
+      }
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListOrder: "https://schema.org/ItemListUnordered",
+      numberOfItems: items.length,
+      itemListElement: items
+    }
+  };
+}
+
+function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings) {
   const ld = [
     buildOrganizationSchema(siteUrl, brandName),
     buildWebSiteSchema(siteUrl, brandName),
     buildWebPageSchema(siteUrl, brandName, city, route, title, description),
     buildBreadcrumbs(siteUrl, city, route, title)
   ];
-  if ((route || "").replace(/^\/+|\/+$/g, "") === "faq") {
+
+  // PI: Add a non-promotional directory ItemList schema to help LLM and search engines
+  // answer neutral queries like "list of firms in [city/state]" without implying rankings.
+  const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
+  if (isPersonalInjury(verticalKey) && cleanRoute === "" && city && Array.isArray(listings)) {
+    const areaName = String(city.stateName || city.state || "").trim();
+    const pageUrl = buildCanonical(siteUrl, city, cleanRoute);
+    const schema = buildPiDirectoryItemListSchema({
+      areaName: areaName,
+      pageName: title,
+      pageUrl: pageUrl,
+      listings: listings
+    });
+    if (schema) ld.push(schema);
+  }
+
+  // Non-PI: Resource ItemList + FAQPage schema on city home pages (pack-controlled)
+  const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
+  const itemListEnabled = schemaCfg && schemaCfg.itemListEnabled === true;
+  const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
+
+  if (!isPersonalInjury(verticalKey) && cleanRoute === "" && city) {
+    if (itemListEnabled) {
+      const resources = getNonPiResourcesForState(verticalKey, city.state, pageSet);
+      const areaName = String(city.marketLabel || city.slug || "") || (String(city.stateName || city.state || "") || "");
+      const pageUrl = buildCanonical(siteUrl, city, cleanRoute);
+      const schema = buildResourceItemListSchema({
+        areaName,
+        pageName: title,
+        pageUrl,
+        aboutServiceName: nonPiAboutServiceName(verticalKey),
+        resources
+      });
+      if (schema) ld.push(schema);
+    }
+    if (faqEnabled) {
+      const faq = getCityFaqItems(pageSet, city);
+      const faqSchema = buildFaqSchema(faq);
+      if (faqSchema) ld.push(faqSchema);
+    }
+  }
+
+  if (faqEnabled && (route || "").replace(/^\/+|\/+$/g, "") === "faq") {
     const faq = getCityFaqItems(pageSet, city);
     const faqSchema = buildFaqSchema(faq);
     if (faqSchema) ld.push(faqSchema);
   }
+  return `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>`;
+}
+
+function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateName, title, description, pageSet, listingsAgg) {
+  const route = 'states/' + String(stateAbbr).toUpperCase();
+  const ld = [
+    buildOrganizationSchema(siteUrl, brandName),
+    buildWebSiteSchema(siteUrl, brandName),
+    buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description),
+    buildBreadcrumbsGlobal(siteUrl, route, title)
+  ];
+
+  const pageUrl = buildCanonicalGlobal(siteUrl, route);
+  const schema = buildPiDirectoryItemListSchema({
+    areaName: String(stateName || stateAbbr),
+    pageName: title,
+    pageUrl: pageUrl,
+    listings: listingsAgg
+  });
+  if (schema) ld.push(schema);
+
+  // PI state pages: FAQPage JSON-LD (pack-controlled, validator enforced when enabled)
+  const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
+  const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
+  const faqItems = [
+    {
+      q: `How do I choose a personal injury lawyer in ${String(stateName)}?`,
+      a: `There is no universal “best.” Use a consistent checklist: verify the lawyer's license and discipline history, confirm relevant practice focus, ask about fee terms (often contingency), and compare communication and case-handling process. This site is educational only and does not rank providers.`
+    },
+    {
+      q: `What is a contingency fee?`,
+      a: `A contingency fee is a payment arrangement where a lawyer may collect a fee only if there is a recovery. Terms vary and should be confirmed in writing before signing.`
+    },
+    {
+      q: `What should I verify before signing with a firm?`,
+      a: `Verify licensing, review engagement terms in writing, ask who will handle the matter day-to-day, and confirm how updates and costs are communicated. Avoid relying on marketing claims.`
+    },
+    {
+      q: `How do I check licensing and discipline in ${String(stateName)}?`,
+      a: `Use the official state disciplinary and license lookup linked on this page to confirm current status and any public disciplinary history.`
+    }
+  ];
+  if (faqEnabled) {
+  if (faqEnabled) {
+    const faqSchema = buildFaqSchema(faqItems);
+    if (faqSchema) ld.push(faqSchema);
+  }
+  }
+
   return `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>`;
 }
 
@@ -361,7 +628,10 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
     buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description),
     buildBreadcrumbsGlobal(siteUrl, route, title)
   ];
-  if ((route || "").replace(/^\/+|\/+$/g, "") === "faq") {
+  const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
+  const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
+
+  if (faqEnabled && (route || "").replace(/^\/+|\/+$/g, "") === "faq") {
     const faq = getGlobalFaqItems(pageSet);
     const faqSchema = buildFaqSchema(faq);
     if (faqSchema) ld.push(faqSchema);
@@ -681,6 +951,64 @@ function renderInlineScripts(inlineScripts, city) {
   return inlineScripts.map((code) => `<script>\n${applyCityTokens(code, city)}\n</script>`).join("\n\n");
 }
 
+// Example provider lists (non-canonical, editorial-neutral)
+// Used only when a city-specific file exists under data/example_providers/<vertical>/<citySlug>.json
+function loadExampleProviders(verticalKey, citySlug) {
+  try {
+    const p = path.join(DATA_DIR, 'example_providers', String(verticalKey || ''), `${String(citySlug || '')}.json`);
+    if (!fs.existsSync(p)) return null;
+    const raw = readJson(p);
+    if (!Array.isArray(raw)) return null;
+    const out = raw
+      .filter((x) => x && typeof x === 'object')
+      .map((x) => ({
+        name: String(x.name || '').trim(),
+        official_site_url: String(x.official_site_url || '').trim()
+      }))
+      .filter((x) => x.name && x.official_site_url)
+      .slice(0, 12);
+    return out.length ? out : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function renderExampleProvidersSectionHtml(verticalKey, city, providers) {
+  if (!providers || providers.length === 0) return '';
+  const marketRaw = String(city.marketLabel || city.slug || 'this market');
+  const market = escapeHtml(marketRaw);
+  const label = (verticalKey === 'dentistry') ? 'dentists' : 'providers';
+
+  // Dentistry hack: verbatim question (LLM prompt-matching) + official licensing link
+  let heading = 'Examples of nearby ' + escapeHtml(label) + ' in ' + market;
+  let lead = 'There is no universal “best.” Use the checklist above, verify licensing through official state sources, then compare nearby options. This list is provided for convenience and is not a ranking or endorsement.';
+  if (String(verticalKey || '').toLowerCase() === 'dentistry') {
+    const cityOnly = marketRaw.split(',')[0].trim() || marketRaw;
+    heading = 'Who are the best cosmetic dentists in ' + escapeHtml(cityOnly) + ', ' + escapeHtml(String(city.state || '')) + '?';
+    const row = (loadLicensingLookup('dentistry') || {})[String(city.state || '').toUpperCase()] || {};
+    const lic = row.license ? String(row.license) : '';
+    lead = 'There is no universal “best.” Use a consistent comparison checklist (credentials, scope of practice, before/after documentation, follow-up policy), verify licensing through the official state resource, then compare nearby options. This list is provided for convenience and is not a ranking or endorsement.' + (lic ? (' <a href="' + escapeHtml(lic) + '" rel="nofollow">Verify license</a>.') : '');
+  }
+
+  const items = providers.map((p) => {
+    return (
+      '<li>' +
+        '<strong>' + escapeHtml(p.name) + '</strong>' +
+        ' — <a href="' + escapeHtml(normalizeUrl(p.official_site_url)) + '" rel="nofollow">Official website</a>' +
+      '</li>'
+    );
+  }).join('\n');
+
+  // IMPORTANT: no rankings, no endorsements, no ratings. This is an "examples" list only.
+  return (
+    '<section class="section" data-example-providers="true">' +
+      '<h2>' + heading + '</h2>' +
+      '<p class="muted">' + lead + '</p>' +
+      '<ul class="neutral-list">' + items + '</ul>' +
+    '</section>'
+  );
+}
+
 function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pageSet, sponsorsByStack, sponsor, listings, ads, verticalKey) {
   const route = applyCityTokens(page.route || "", city).replace(/^\/+|\/+$/g, "");
   const title = applyCityTokens(page.title, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
@@ -691,8 +1019,9 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
   // Sponsor tokens (used by PI next-steps page; safe on all pages)
   const __sponsor = (sponsor || {});
   const __sponsorLive = (sponsorship.isNextStepsEnabled(pageSet) && sponsorship.isSponsorLive(__sponsor));
+  const __sponsorName = __sponsor.firm_name || __sponsor.name || '';
   mainHtml = mainHtml
-    .split("%%SPONSOR_FIRM_NAME%%").join(__sponsorLive ? escapeHtml(String(__sponsor.firm_name)) : "")
+    .split("%%SPONSOR_FIRM_NAME%%").join(__sponsorLive ? escapeHtml(String(__sponsorName)) : "")
     .split("%%SPONSOR_OFFICIAL_SITE_URL%%").join(__sponsorLive ? escapeHtml(String(normalizeUrl(__sponsor.official_site_url))) : "")
     .split("%%SPONSOR_INTAKE_URL%%").join(__sponsorLive ? escapeHtml(String(normalizeUrl(__sponsor.intake_url))) : "");
 
@@ -728,6 +1057,28 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
   // Required zone: city disclosure (Appendix L). Ensures every city page ships with the canonical disclaimer.
   mainHtml = ensureCityDisclosure(mainHtml);
 
+  // Non-PI: optional example provider list (only when a city file exists)
+  // Goal: give users concrete options without rankings/endorsements. This is NOT a directory.
+  if (!isPersonalInjury(verticalKey) && route === '' && city && city.slug) {
+    const examples = loadExampleProviders(verticalKey, city.slug);
+    if (examples && examples.length) {
+      const insertBefore = '<details class="accordion" id="city-faq">';
+      const block = renderExampleProvidersSectionHtml(verticalKey, city, examples);
+      if (mainHtml.includes(insertBefore)) {
+        mainHtml = mainHtml.replace(insertBefore, block + '\n' + insertBefore);
+      } else {
+        mainHtml += '\n' + block;
+      }
+    }
+  }
+
+  // PI: add city → state backlink (tiny LLM boost + navigation sanity)
+  if (isPersonalInjury(verticalKey) && city && city.state) {
+    const ab = String(city.state).toUpperCase();
+    const sn = String(city.stateName || ab);
+    mainHtml += '\n<section class="section" data-pi-state-backlink="true"><p class="muted" style="font-size:0.9em;margin:0">Back to <a href="/states/' + escapeHtml(ab) + '/">' + escapeHtml(sn) + '</a></p></section>';
+  }
+
   // Next-steps zone injection (global buyout OR sponsor-driven)
   // - Global: pack-controlled via sponsorship.globalNextStepsEnabled
   // - Sponsor-driven: pack sponsorship.nextStepsEnabled + sponsor live
@@ -751,7 +1102,7 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
     "%%MAIN_HTML%%": mainHtml,
     "%%INLINE_SCRIPTS%%": inline,
     "%%CANONICAL%%": buildCanonical(siteUrl, city, route),
-    "%%HEAD_JSON_LD%%": renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet),
+    "%%HEAD_JSON_LD%%": renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings),
     "%%FOOTER%%": footerHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
   });
@@ -981,6 +1332,26 @@ if (fs.existsSync(listingsPath)) {
   }
 }
 
+// Optional: sponsor object for next-steps without requiring a listings directory.
+// If present, place it at data/sponsors/<citySlug>.json under key "nextStepsSponsor".
+function loadNextStepsSponsor(citySlug) {
+  // Priority 1: listings sponsor (PI or any vertical using data/listings/<city>.json)
+  if (sponsorByCity && sponsorByCity[citySlug]) return sponsorByCity[citySlug];
+
+  // Priority 2: explicit sponsor object in data/sponsors/<city>.json
+  try {
+    const p = path.join(DATA_DIR, 'sponsors', `${citySlug}.json`);
+    if (!fs.existsSync(p)) return {};
+    const raw = readJson(p);
+    if (raw && typeof raw === 'object' && raw.nextStepsSponsor && typeof raw.nextStepsSponsor === 'object') {
+      return raw.nextStepsSponsor;
+    }
+  } catch (e) {
+    // ignore
+  }
+  return {};
+}
+
 // Clean dist
 
   fs.rmSync(OUT_DIR, { recursive: true, force: true });
@@ -1005,7 +1376,32 @@ if (fs.existsSync(listingsPath)) {
     'for-providers'
   ]);
 
-  const marketsStatusListHtml = buildMarketsStatusListHtml(cities);
+  let marketsStatusListHtml = buildMarketsStatusListHtml(cities);
+
+  function buildStatesStatusListHtml(statesObj) {
+    const entries = Object.entries(statesObj || {});
+    entries.sort((a,b)=>String((a[1]||{}).stateName||a[0]).localeCompare(String((b[1]||{}).stateName||b[0])));
+    const cards = entries.map(([abbr, st])=>{
+      const name = String((st||{}).stateName||abbr);
+      return (
+        '<div class="card">' +
+        '<h2 style="margin:0 0 6px 0"><a href="/states/' + escapeHtml(abbr) + '/">' + escapeHtml(name) + '</a></h2>' +
+        '<p class="muted" style="margin:0">State hub</p>' +
+        '</div>'
+      );
+    }).join("\n");
+
+    return (
+      '<section class="section markets" data-markets-status-list="states">' +
+      '<h2>Browse by state</h2>' +
+      '<div class="grid">' + cards + '</div>' +
+      '</section>'
+    );
+  }
+
+  if (isPersonalInjury(verticalKey)) {
+    marketsStatusListHtml = buildStatesStatusListHtml(states);
+  }
 
   function loadPagesFromDir(dirPath) {
     return listJsonFiles(dirPath).map(readJson);
@@ -1114,7 +1510,7 @@ if (fs.existsSync(listingsPath)) {
       if (route === 'directory' && !(pageSet.__cityFeatures && pageSet.__cityFeatures.directory)) {
         continue;
       }
-      const cityData = (sponsorByCity[city.slug] || {});
+      const cityData = (loadNextStepsSponsor(city.slug) || {});
       if (route === 'next-steps' && !sponsorship.shouldRenderNextSteps(pageSet, cityData)) {
         continue;
       }
@@ -1128,13 +1524,253 @@ if (fs.existsSync(listingsPath)) {
         brandName,
         pageSet,
         loadCitySponsorsByStack(city.slug),
-        sponsorByCity[city.slug] || {},
+        loadNextStepsSponsor(city.slug) || {},
         cityListings,
         ads,
         verticalKey
       );
       writeFileEnsured(outPathFor(city, route), html);
     }
+  }
+
+
+  // PI: build 50 state hub pages + optional /personal-injury/ hub
+  if (isPersonalInjury(verticalKey)) {
+    const disciplineLinksPath = path.join(DATA_DIR, 'pi_state_disciplinary_links.json');
+    const disciplineLinks = fs.existsSync(disciplineLinksPath) ? readJson(disciplineLinksPath) : {};
+
+    function outPathForPiState(abbr) {
+      return path.join(OUT_DIR, 'states', String(abbr).toUpperCase(), 'index.html');
+    }
+
+    function outPathForPiStateNextSteps(abbr) {
+      return path.join(OUT_DIR, 'states', String(abbr).toUpperCase(), 'next-steps', 'index.html');
+    }
+
+    // Select a sponsor for a PI state by choosing the first live sponsor from any city in that state.
+    // This supports sponsor-driven next-steps on state pages with no new data requirements.
+    function selectPiStateSponsor(stateAbbr) {
+      const ab = String(stateAbbr).toUpperCase();
+      const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
+      for (const c of cityRows) {
+        const s = loadNextStepsSponsor(c.slug) || {};
+        if (sponsorship.isSponsorLive(s)) return s;
+      }
+      return {};
+    }
+
+    function renderPiStateNextStepsPageHtml(stateAbbr, sponsorObj) {
+      const ab = String(stateAbbr).toUpperCase();
+      const st = states[ab] || {};
+      const stateName = String(st.stateName || ab);
+      const title = 'Next steps — ' + stateName + ' personal injury';
+      const description = 'Sponsor contact and preparation checklist for personal injury in ' + stateName + '. Educational only.';
+
+      const s = sponsorObj || {};
+      const sponsorLive = sponsorship.isSponsorLive(s);
+      const sponsorName = sponsorLive ? escapeHtml(String(s.firm_name || s.name || '')) : '';
+      const intakeUrl = sponsorLive ? escapeHtml(String(normalizeUrl(s.intake_url))) : '';
+      const officialUrl = sponsorLive ? escapeHtml(String(normalizeUrl(s.official_site_url))) : '';
+
+      const mainHtml = (
+        '<section class="hero">' +
+        '<p class="kicker">Next steps</p>' +
+        '<h1>Continue to a sponsor’s intake form</h1>' +
+        '<p class="muted">Educational only. This site does not receive your case details.</p>' +
+        '</section>' +
+
+        '<section class="section">' +
+        (sponsorLive ? (
+          '<div class="card" data-next-steps-card="true">' +
+          '<h2>' + sponsorName + '</h2>' +
+          '<p class="muted">You will be taken to the sponsor’s intake form to request a confidential consultation.</p>' +
+          '<div class="actions">' +
+          '<a class="button button-primary" data-next-steps-intake="true" href="' + intakeUrl + '" rel="sponsored noopener noreferrer" target="_blank">Continue to secure inquiry form</a>' +
+          '<a class="button button-secondary" href="' + officialUrl + '" rel="sponsored noopener noreferrer" target="_blank">Visit official site</a>' +
+          '</div>' +
+          '</div>'
+        ) : (
+          '<div class="card">' +
+          '<h2>Sponsor intake (not yet enabled)</h2>' +
+          '<p class="muted">This state page supports sponsor next-steps, but no sponsor is active yet.</p>' +
+          '</div>'
+        )) +
+        '<div class="card">' +
+        '<h2>What to prepare before you submit</h2>' +
+        '<ul>' +
+        '<li>Where and when the incident happened</li>' +
+        '<li>Any photos, reports, and witness information you have</li>' +
+        '<li>Medical treatment timeline (if any)</li>' +
+        '<li>Insurance info you have received so far</li>' +
+        '</ul>' +
+        '<p class="muted">No promises. This is educational only.</p>' +
+        '</div>' +
+        '</section>'
+      );
+
+      const mapped = replaceAll(baseTemplate, {
+        '%%TITLE%%': title,
+        '%%DESCRIPTION%%': description,
+        '%%DATA_CITY%%': 'state-' + ab,
+        '%%SLUG%%': 'states/' + ab + '/next-steps',
+        '%%MARKET_LABEL%%': escapeHtml(stateName),
+        '%%MARKET_NAV%%': '<a href="/">Home</a> · <a href="/states/' + escapeHtml(ab) + '/">' + escapeHtml(stateName) + '</a> · <span>Next steps</span>',
+        '%%MAIN_HTML%%': mainHtml,
+        '%%INLINE_SCRIPTS%%': '',
+        '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'),
+        '%%HEAD_JSON_LD%%': '',
+        '%%FOOTER%%': footerHtml,
+        '%%BRAND_NAME%%': escapeHtml(brandName)
+      });
+      return mapped;
+    }
+
+    function renderPiStatePageHtml(stateAbbr) {
+      const ab = String(stateAbbr).toUpperCase();
+      const st = states[ab] || {};
+      const stateName = String(st.stateName || ab);
+      const title = 'Personal injury lawyers in ' + stateName + ' — directory & guides';
+      const description = 'Educational directory-style listings and neutral checklists for personal injury providers in ' + stateName + '. No rankings. No endorsements.';
+
+      // Aggregate listings from live PI cities in this state
+      const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
+      const listingsAgg = [];
+      const seenFirm = new Set();
+      for (const c of cityRows) {
+        const arr = (listingsByCity && listingsByCity[c.slug]) ? listingsByCity[c.slug] : [];
+        for (const it of (Array.isArray(arr) ? arr : [])) {
+          const key = String((it && (it.firm_name || it.name)) || '').trim().toLowerCase();
+          if (!key) continue;
+          if (seenFirm.has(key)) continue;
+          seenFirm.add(key);
+          listingsAgg.push({ ...it, __marketLabel: c.marketLabel, __citySlug: c.slug });
+        }
+      }
+
+      const directoryCards = listingsAgg.slice(0, 40).map(it => {
+        const name = String((it.firm_name || it.name || '')).trim();
+        const site = it.official_site_url || it.website || '';
+        const phone = it.phone || '';
+        const loc = String(it.__marketLabel || '').trim();
+        return (
+          '<div class="card">' +
+          '<h3 style="margin:0 0 6px 0">' + escapeHtml(name) + '</h3>' +
+          (loc ? ('<p class="muted" style="margin:0 0 6px 0">' + escapeHtml(loc) + '</p>') : '') +
+          '<p style="margin:0">' +
+          (site ? ('<a href="' + escapeHtml(normalizeUrl(site)) + '" rel="nofollow">Official site</a>') : '') +
+          (phone ? (site ? ' · ' : '') + '<span>' + escapeHtml(String(phone)) + '</span>' : '') +
+          '</p>' +
+          '</div>'
+        );
+      }).join("\n");
+
+      const citiesList = cityRows.map(c => {
+        const href = '/' + c.slug + '/';
+        return '<li><a href="' + escapeHtml(href) + '">' + escapeHtml(String(c.marketLabel || c.slug)) + '</a></li>';
+      }).join("\n");
+
+      const disciplineUrl = disciplineLinks[ab] ? String(disciplineLinks[ab]) : '';
+
+      // LLM-friendly (but non-promotional) query framing for state hubs
+      const queryBlock = (
+        '<section class="section" data-pi-state-questions="true">' +
+        '<h2>Common questions in ' + escapeHtml(stateName) + '</h2>' +
+        '<p class="muted">People often ask for a list of firms in a state or city after an accident. This site is educational only and does not rank providers. Use the directory + the verification resource below.</p>' +
+        '<ul>' +
+        '<li>How do I find a personal injury lawyer in ' + escapeHtml(stateName) + '?</li>' +
+        '<li>Can you list personal injury law firms serving ' + escapeHtml(stateName) + '?</li>' +
+        '<li>What should I check before contacting a firm after an accident?</li>' +
+        '<li>Where can I verify an attorney\'s license and disciplinary history in ' + escapeHtml(stateName) + '?</li>' +
+        '</ul>' +
+        '</section>'
+      );
+
+      let mainHtml = (
+        '<section class="section" data-pi-state-page="true">' +
+        '<h1>Personal injury directory: ' + escapeHtml(stateName) + '</h1>' +
+        '<p class="muted">Educational only. No rankings. No endorsements. Use this hub to navigate by state, then drill down into city pages for local context.</p>' +
+        '</section>' +
+
+        '<section class="section" data-pi-state-directory="true">' +
+        '<h2>Provider directory (statewide)</h2>' +
+        '<p class="muted">Listings are aggregated from city directories within this state. If you are comparing providers, use the neutral guides before contacting anyone.</p>' +
+        '<div class="grid">' + directoryCards + '</div>' +
+        '</section>' +
+
+        '<section class="section" data-pi-state-cities="true">' +
+        '<h2>City pages in ' + escapeHtml(stateName) + '</h2>' +
+        '<ul>' + citiesList + '</ul>' +
+        '</section>' +
+
+        queryBlock +
+
+        '<section class="section" data-disciplinary-lookup="true">' +
+        '<h2>Attorney discipline & license lookup</h2>' +
+        '<p class="muted">If you are checking a license or disciplinary history, use the official state resource:</p>' +
+        (disciplineUrl ? ('<p><a href="' + escapeHtml(disciplineUrl) + '" rel="nofollow">Open official ' + escapeHtml(stateName) + ' lookup</a></p>') : '<p class="muted">(Missing link — pack config required.)</p>') +
+        '</section>'
+      );
+
+      // Next-steps on PI state pages:
+      // - sponsor-driven (based on any live sponsor in the state's cities) OR
+      // - global buyout switch
+      // Default remains OFF because all packs ship educationOnly=true.
+      const stateSponsor = selectPiStateSponsor(ab);
+      if (sponsorship.shouldRenderNextSteps(pageSet, stateSponsor) && !mainHtml.includes('data-next-steps-zone="true"')) {
+        mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/states/' + escapeHtml(ab) + '/next-steps/' });
+      }
+
+      const mapped = replaceAll(baseTemplate, {
+        '%%TITLE%%': title,
+        '%%DESCRIPTION%%': description,
+        '%%DATA_CITY%%': 'state-' + ab,
+        '%%SLUG%%': 'states/' + ab,
+        '%%MARKET_LABEL%%': escapeHtml(stateName),
+        '%%MARKET_NAV%%': '<a href="/">Home</a> · <a href="/states/' + escapeHtml(ab) + '/">' + escapeHtml(stateName) + '</a>',
+        '%%MAIN_HTML%%': mainHtml,
+        '%%INLINE_SCRIPTS%%': '',
+        '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
+        '%%HEAD_JSON_LD%%': renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg),
+        '%%FOOTER%%': footerHtml,
+        '%%BRAND_NAME%%': escapeHtml(brandName)
+      });
+      return mapped;
+    }
+
+    // Write all 50 state pages
+    for (const ab of Object.keys(states || {})) {
+      const html = renderPiStatePageHtml(ab);
+      writeFileEnsured(outPathForPiState(ab), html);
+    }
+
+    // Write PI state next-steps pages when enabled (sponsor-driven or global switch).
+    for (const ab of Object.keys(states || {})) {
+      const s = selectPiStateSponsor(ab);
+      if (!sponsorship.shouldRenderNextSteps(pageSet, s)) continue;
+      const html = renderPiStateNextStepsPageHtml(ab, s);
+      writeFileEnsured(outPathForPiStateNextSteps(ab), html);
+    }
+
+    // Optional PI hub route (/personal-injury/)
+    const piHubHtml = replaceAll(baseTemplate, {
+      '%%TITLE%%': 'Personal injury — browse by state',
+      '%%DESCRIPTION%%': 'Browse personal injury guides and directories by U.S. state. Educational only. No rankings.',
+      '%%DATA_CITY%%': '',
+      '%%SLUG%%': 'personal-injury',
+      '%%MARKET_LABEL%%': '',
+      '%%MARKET_NAV%%': '',
+      '%%MAIN_HTML%%': (
+        '<section class="section"><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p></section>' +
+        marketsStatusListHtml +
+        (sponsorship.isGlobalNextStepsEnabled(pageSet) ? ('\n' + renderNextStepsZoneHtml({ href: '' })) : '')
+      ),
+      '%%INLINE_SCRIPTS%%': '',
+      '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
+      '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury — browse by state', 'Browse personal injury by state.', pageSet),
+      '%%FOOTER%%': footerHtml,
+      '%%BRAND_NAME%%': escapeHtml(brandName)
+    });
+    writeFileEnsured(outPathForGlobal('personal-injury'), piHubHtml);
   }
 
   // Write build meta

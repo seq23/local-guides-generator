@@ -1,5 +1,10 @@
 {
   "name": "uscis_medical_v1",
+  "schema": {
+    "itemListEnabled": true,
+    "faqEnabled": true,
+    "mapsEmbedEnabledCityOnly": false
+  },
   "citiesFile": "data/page_sets/examples/cities_uscis_medical_v1.json",
   "cityFeatures": {
     "directory": false,
@@ -103,6 +108,13 @@
       "title": "%%MARKET_LABEL%% FAQs",
       "description": "Frequently asked questions for %%MARKET_LABEL%%.",
       "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:faq_bottom%%"
+    }
+    ,
+    {
+      "route": "next-steps",
+      "title": "Next steps — %%MARKET_LABEL%%",
+      "description": "Optional sponsor contact for %%MARKET_LABEL%% (if enabled).",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Next steps</p>\n  <h1>Contact an advertising sponsor in %%MARKET_LABEL%%</h1>\n  <p class=\"muted\">If enabled for this market, the buttons below take you to a sponsor’s official site or secure intake page. This site does not collect your details.</p>\n</section>\n\n<section class=\"section\">\n  <div class=\"card\" data-next-steps-card=\"true\">\n    <h2>%%SPONSOR_FIRM_NAME%%</h2>\n    <p class=\"muted\">You’ll be taken to the sponsor’s site or intake page.</p>\n    <div class=\"actions\">\n      <a class=\"button button-primary\" data-next-steps-intake=\"true\" href=\"%%SPONSOR_INTAKE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Continue</a>\n      <a class=\"button button-secondary\" href=\"%%SPONSOR_OFFICIAL_SITE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Visit official site</a>\n    </div>\n    <p class=\"fineprint\">Official site: <span class=\"mono\">%%SPONSOR_OFFICIAL_SITE_URL%%</span></p>\n  </div>\n\n  <div class=\"card\">\n    <h2>Before you contact any provider</h2>\n    <ul>\n      <li>Verify licensing using the official state lookup</li>\n      <li>Confirm scope of services and fees in writing</li>\n      <li>Use the local guides to compare questions to ask</li>\n    </ul>\n    <p class=\"muted\">Educational only. No endorsements.</p>\n  </div>\n</section>"
     }
   ],
   "globalPagesDir": "data/page_sets/examples/uscis_medical_global_pages",

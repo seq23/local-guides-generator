@@ -1,5 +1,10 @@
 {
   "name": "trt_v1",
+  "schema": {
+    "itemListEnabled": true,
+    "faqEnabled": true,
+    "mapsEmbedEnabledCityOnly": false
+  },
   "citiesFile": "data/page_sets/examples/cities_trt_v1.json",
   "cityFeatures": {
     "directory": false,
@@ -103,6 +108,12 @@
       "title": "%%MARKET_LABEL%% FAQs",
       "description": "Frequently asked questions for %%MARKET_LABEL%%.",
       "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:faq_bottom%%"
+    },
+    {
+      "route": "next-steps",
+      "title": "%%MARKET_LABEL%% Next steps",
+      "description": "A sponsor contact step for %%MARKET_LABEL%% (advertising).",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Next steps</p>\n  <h1>Contact a sponsoring provider in %%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Advertising. This site does not collect your medical information.</p>\n</section>\n\n<section class=\"section\">\n  <div class=\"card\" data-next-steps-card=\"true\">\n    <h2>%%SPONSOR_FIRM_NAME%%</h2>\n    <p class=\"muted\">You\u2019ll be taken to the sponsor\u2019s secure intake/contact form.</p>\n    <div class=\"actions\">\n      <a class=\"button button-primary\" data-next-steps-intake=\"true\" href=\"%%SPONSOR_INTAKE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Continue to secure form</a>\n      <a class=\"button button-secondary\" href=\"%%SPONSOR_OFFICIAL_SITE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Visit official site</a>\n    </div>\n    <p class=\"fineprint\">Official site: <span class=\"mono\">%%SPONSOR_OFFICIAL_SITE_URL%%</span></p>\n  </div>\n\n  <div class=\"card\">\n    <h2>What to prepare before you submit</h2>\n    <ul>\n      <li>Your basic contact details</li>\n      <li>What service you\u2019re looking for</li>\n      <li>Any relevant timeline and prior records (if applicable)</li>\n    </ul>\n    <p class=\"muted\">Educational only. No medical advice.</p>\n  </div>\n</section>"
     }
   ],
   "globalPagesDir": "data/page_sets/examples/trt_global_pages",

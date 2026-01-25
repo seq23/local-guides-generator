@@ -16,7 +16,7 @@ function isSponsorLive(cityData) {
     s &&
     typeof s === "object" &&
     s.status === "live" &&
-    s.firm_name &&
+    (s.firm_name || s.name) &&
     s.official_site_url &&
     s.intake_url
   );
