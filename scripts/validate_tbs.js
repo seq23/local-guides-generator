@@ -614,6 +614,76 @@ function assertCityHubZonesAndNoCompareCta() {
 }
 
 /**
+ * 7e) City hub must include the canonical evaluation framework section exactly once
+ *
+ * Marker: data-eval-framework="true"
+ * Rationale: ensures city hubs fully satisfy the AI-safe decision framework layer
+ * and prevents drift across packs/verticals.
+ */
+function assertCityHubHasEvalFramework() {
+  const cityIndexFiles = walkFiles(distDir, (p) => p.endsWith(path.join('index.html')));
+  const cityHubPages = cityIndexFiles.filter((p) => {
+    const r = rel(p);
+    if (r === 'dist/index.html') return false;
+
+    const excludedPrefixes = [
+      'dist/guides/',
+      'dist/faq/',
+      'dist/methodology/',
+      'dist/for-providers/',
+      'dist/about/',
+      'dist/contact/',
+      'dist/privacy/',
+      'dist/disclaimer/',
+      'dist/editorial-policy/',
+      'dist/states/',
+      'dist/personal-injury/'
+    ];
+    if (excludedPrefixes.some((pre) => r.startsWith(pre))) return false;
+
+    // City hub only: dist/<city>/index.html
+    return /^dist\/[^/]+\/index\.html$/.test(r);
+  });
+
+  const MARK = 'data-eval-framework="true"';
+
+  function countOccurrences(haystack, needle) {
+    if (!needle) return 0;
+    let idx = 0;
+    let count = 0;
+    while (true) {
+      idx = haystack.indexOf(needle, idx);
+      if (idx === -1) break;
+      count += 1;
+      idx += needle.length;
+    }
+    return count;
+  }
+
+  const missing = [];
+  const dupes = [];
+
+  for (const f of cityHubPages) {
+    const r = rel(f);
+    const html = readText(f);
+    const c = countOccurrences(html, MARK);
+    if (c === 0) missing.push(r);
+    if (c > 1) dupes.push(r);
+    if (missing.length >= 20 || dupes.length >= 20) break;
+  }
+
+  if (missing.length) {
+    fail(`City hub pages missing evaluation framework section (${MARK}): ${missing.join(', ')}`);
+  }
+  if (dupes.length) {
+    fail(`City hub pages contain duplicate evaluation framework sections (must be exactly one): ${dupes.join(', ')}`);
+  }
+
+  ok('City hub pages include canonical evaluation framework section');
+}
+
+
+/**
  * 8) PI Phase-2 Distribution governance enforcement (PI only)
  *
  * Policy source: Master Index — Post-Freeze Addendums (PI Distribution Vertical)
@@ -1203,6 +1273,7 @@ function assertNextStepsInvariants() {
   assertCityPagesHaveCityDisclosure();
   assertNonPiCityPagesStateLookupOnly();
   assertCityHubZonesAndNoCompareCta();
+  assertCityHubHasEvalFramework();
   assertPiStatePages();
   assertNextStepsInvariants();
 })();

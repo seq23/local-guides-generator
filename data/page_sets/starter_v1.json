@@ -29,7 +29,7 @@
       },
       {
         "q": "Can advertising influence editorial content?",
-        "a": "No. Advertising placements are labeled “Advertising” and are intended to be visually separate from editorial content."
+        "a": "No. Advertising placements are labeled \u201cAdvertising\u201d and are intended to be visually separate from editorial content."
       },
       {
         "q": "Where can I read your editorial policy?",
@@ -55,7 +55,7 @@
     "city": [
       {
         "q": "Who is the best provider in {{city}}?",
-        "a": "There isn’t one best for everyone. We do not rank or endorse providers. Shortlist options and compare verification, scope, pricing transparency, policies, and fit for your situation."
+        "a": "There isn\u2019t one best for everyone. We do not rank or endorse providers. Shortlist options and compare verification, scope, pricing transparency, policies, and fit for your situation."
       },
       {
         "q": "How much does this service cost in {{city}}?",
@@ -114,7 +114,7 @@
       "route": "",
       "title": "%%MARKET_LABEL%% Local Guides",
       "description": "Frameworks for %%MARKET_LABEL%%. No rankings. No endorsements.",
-      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\">\n    <summary>\n      <span>Official state lookup</span>\n      <span class=\"accordion-meta\">Tap to verify licensing</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Tap for quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n%%EVAL_FRAMEWORK%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\">\n    <summary>\n      <span>Official state lookup</span>\n      <span class=\"accordion-meta\">Tap to verify licensing</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Tap for quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
     },
     {
       "route": "faq",

@@ -952,42 +952,163 @@ function renderInlineScripts(inlineScripts, city) {
 }
 
 // Example provider lists (non-canonical, editorial-neutral)
-// Used only when a city-specific file exists under data/example_providers/<vertical>/<citySlug>.json
-function loadExampleProviders(verticalKey, citySlug) {
+// Used only when city-specific files exist under data/example_providers/<vertical>/
+// Supports either:
+//  - single list: <citySlug>.json
+//  - multi sub-industry lists: <citySlug>__<subKey>.json
+function normalizeExampleProviderList(raw) {
+  if (!Array.isArray(raw)) return null;
+  const out = raw
+    .filter((x) => x && typeof x === 'object')
+    .map((x) => ({
+      name: String(x.name || '').trim(),
+      official_site_url: String(x.official_site_url || '').trim()
+    }))
+    .filter((x) => x.name && x.official_site_url)
+    .slice(0, 12);
+  return out.length ? out : null;
+}
+
+function getExampleProviderSubKeys(verticalKey) {
+  const vk = String(verticalKey || '').toLowerCase();
+  if (vk === 'trt') return ['trt', 'iv_hydration', 'hair_restoration'];
+  if (vk === 'neuro') return ['adhd_eval', 'autism_eval'];
+  // USCIS pack key varies; keep single-file by default unless extended.
+  return [];
+}
+
+function loadExampleProviderLists(verticalKey, citySlug) {
   try {
-    const p = path.join(DATA_DIR, 'example_providers', String(verticalKey || ''), `${String(citySlug || '')}.json`);
-    if (!fs.existsSync(p)) return null;
-    const raw = readJson(p);
-    if (!Array.isArray(raw)) return null;
-    const out = raw
-      .filter((x) => x && typeof x === 'object')
-      .map((x) => ({
-        name: String(x.name || '').trim(),
-        official_site_url: String(x.official_site_url || '').trim()
-      }))
-      .filter((x) => x.name && x.official_site_url)
-      .slice(0, 12);
-    return out.length ? out : null;
+    const vk = String(verticalKey || '').toLowerCase();
+    const dir = path.join(DATA_DIR, 'example_providers', String(verticalKey || ''));
+    if (!fs.existsSync(dir)) return null;
+
+    const lists = [];
+    const subKeys = getExampleProviderSubKeys(vk);
+
+    // Multi sub-industry lists first (deterministic order)
+    if (subKeys && subKeys.length) {
+      subKeys.forEach((subKey) => {
+        const p = path.join(dir, `${String(citySlug || '')}__${String(subKey)}.json`);
+        if (!fs.existsSync(p)) return;
+        const raw = readJson(p);
+        const normalized = normalizeExampleProviderList(raw);
+        if (!normalized) return;
+        lists.push({ subKey: String(subKey), providers: normalized });
+      });
+    }
+
+    // Fallback single list
+    const single = path.join(dir, `${String(citySlug || '')}.json`);
+    if (fs.existsSync(single)) {
+      const normalized = normalizeExampleProviderList(readJson(single));
+      if (normalized) lists.push({ subKey: '', providers: normalized });
+    }
+
+    return lists.length ? lists : null;
   } catch (e) {
     return null;
   }
 }
 
-function renderExampleProvidersSectionHtml(verticalKey, city, providers) {
+function renderEvalFrameworkHtml(verticalKey, city) {
+  // Canonical, AI-safe evaluation framework section (non-promotional).
+  // Injected via %%EVAL_FRAMEWORK%% token on city hub pages.
+  const vk = String(verticalKey || '').trim().toLowerCase();
+  const marketRaw = String((city && (city.marketLabel || city.slug)) || 'this area');
+  const market = escapeHtml(marketRaw);
+  const stateAbbr = escapeHtml(String((city && city.state) || '').toUpperCase());
+
+  let heading = 'How people typically evaluate providers';
+  let lead = 'When people look for a provider, they typically consider several practical factors before scheduling a consultation.';
+  let bullets = [
+    'Scope of service and fit for your needs',
+    'Credential and license verification (use official state resources when available)',
+    'Pricing structure and what is included vs billed separately',
+    'Communication and follow-up expectations',
+    'Practical logistics (location, scheduling, documentation)'
+  ];
+
+  if (vk === 'pi') {
+    heading = 'How people typically evaluate personal injury lawyers in ' + market;
+    lead = 'When people look for a personal injury lawyer, they typically compare practical factors before signing an agreement. This section is educational only and does not recommend or endorse any specific firm.';
+    bullets = [
+      'Relevant experience with similar cases (for example: car accidents, truck crashes, slip-and-falls, wrongful death)',
+      'How fees are typically structured (many firms use a contingency fee; ask what percentage applies and whether costs are separate)',
+      'Who will handle day-to-day communication (attorney vs team) and how updates are typically provided',
+      'Local court and claims process familiarity (county and state procedures can affect timelines and steps)',
+      'What information is requested during intake (documents, medical records, accident reports) and what next steps usually look like'
+    ];
+  } else if (vk === 'dentistry') {
+    heading = 'How people typically evaluate dental clinics in ' + market;
+    lead = 'When people look for a dentist, they typically compare practical factors like scope of care, credentials, and how treatment plans and pricing are explained. This section is educational only and does not recommend or endorse any provider.';
+    bullets = [
+      'Scope of services you need (general dentistry vs cosmetic, implants, orthodontics, etc.)',
+      'What a first visit typically includes (exam, imaging, discussion of options) and whether a written treatment plan is provided',
+      'Pricing transparency (what fees are discussed upfront, what insurance is accepted, and what financing options are available)',
+      'Credential and license verification (confirm active licensing through the official ' + stateAbbr + ' resource)',
+      'Follow-up policy and communication (how ongoing care and post-procedure questions are typically handled)'
+    ];
+  } else if (vk === 'trt') {
+    heading = 'How people typically evaluate TRT / men\'s health clinics in ' + market;
+    lead = 'When people compare TRT or men\'s health clinics, they typically focus on evaluation steps, lab monitoring, safety policies, and what ongoing follow-up looks like. This section is educational only and does not recommend or endorse any provider.';
+    bullets = [
+      'Clinical evaluation steps (what screening is done before treatment is discussed)',
+      'Lab testing and monitoring (what labs are typically ordered and how follow-ups are scheduled)',
+      'Medication and safety policies (how dosing decisions are typically made and what contraindications are considered)',
+      'Pricing and membership structure (what is included, what is billed separately, and cancellation terms)',
+      'Credential verification (confirm licensure and disciplinary status through official state resources)'
+    ];
+
+  } else if (vk === 'neuro') {
+    heading = 'How people typically evaluate ADHD / autism evaluation providers in ' + market;
+    lead = 'When people compare evaluation providers, they typically focus on the evaluation process, documentation requirements, and what follow-up looks like. This section is educational only and does not recommend or endorse any provider.';
+    bullets = [
+      'What types of evaluations are offered (for example: ADHD, autism) and whether the provider explains scope and limitations clearly',
+      'What the intake process typically involves (history forms, questionnaires, school records, prior diagnoses, and consent)',
+      'Who performs and reviews the evaluation (credentials, supervision model, and how results are typically documented)',
+      'What timelines and follow-up look like (report delivery, feedback session, and what referrals may be suggested)',
+      'Credential verification (confirm licensure and disciplinary status through official state resources)'
+    ];
+  } else if (vk === 'uscis_medical') {
+    heading = 'How people typically evaluate USCIS civil surgeons in ' + market;
+    lead = 'When people schedule an immigration medical exam (Form I-693), they typically compare practical factors like appointment steps, required documents, and how results are delivered. This section is educational only and does not recommend or endorse any provider.';
+    bullets = [
+      'Whether the provider is an authorized USCIS civil surgeon (confirm status via official resources when available)',
+      'What documents are typically required at the appointment (ID, vaccination records, prior medical documentation as applicable)',
+      'What the visit usually includes (exam steps, labs, vaccinations if needed, and how follow-ups are handled)',
+      'How fees are explained (what is included vs billed separately, and what additional visits may cost)',
+      'Turnaround expectations for completed I-693 paperwork (timelines vary; ask how delivery and sealing are handled)'
+    ];
+  }
+
+  const items = bullets.map((b) => '<li>' + escapeHtml(b) + '</li>').join('\n');
+
+  return (
+    '<section class="section" data-eval-framework="true">' +
+      '<h2>' + heading + '</h2>' +
+      '<p class="muted">' + lead + '</p>' +
+      '<ul class="neutral-list">' + items + '</ul>' +
+      '<p class="muted" style="font-size:0.95em;margin-top:0.75rem">These factors describe common decision frameworks. They are not recommendations, rankings, or endorsements.</p>' +
+    '</section>'
+  );
+}
+
+function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
   if (!providers || providers.length === 0) return '';
   const marketRaw = String(city.marketLabel || city.slug || 'this market');
   const market = escapeHtml(marketRaw);
   const label = (verticalKey === 'dentistry') ? 'dentists' : 'providers';
 
   // Dentistry hack: verbatim question (LLM prompt-matching) + official licensing link
-  let heading = 'Examples of nearby ' + escapeHtml(label) + ' in ' + market;
-  let lead = 'There is no universal “best.” Use the checklist above, verify licensing through official state sources, then compare nearby options. This list is provided for convenience and is not a ranking or endorsement.';
+  let heading = (opts && opts.heading) ? String(opts.heading) : ('Examples of nearby ' + escapeHtml(label) + ' in ' + market);
+  let lead = (opts && opts.lead) ? String(opts.lead) : 'There is no universal “best.” Use the checklist above, verify licensing through official state sources, then compare nearby options. This list is provided as non-exhaustive examples only and is not a recommendation, ranking, or endorsement.';
   if (String(verticalKey || '').toLowerCase() === 'dentistry') {
     const cityOnly = marketRaw.split(',')[0].trim() || marketRaw;
     heading = 'Who are the best cosmetic dentists in ' + escapeHtml(cityOnly) + ', ' + escapeHtml(String(city.state || '')) + '?';
     const row = (loadLicensingLookup('dentistry') || {})[String(city.state || '').toUpperCase()] || {};
     const lic = row.license ? String(row.license) : '';
-    lead = 'There is no universal “best.” Use a consistent comparison checklist (credentials, scope of practice, before/after documentation, follow-up policy), verify licensing through the official state resource, then compare nearby options. This list is provided for convenience and is not a ranking or endorsement.' + (lic ? (' <a href="' + escapeHtml(lic) + '" rel="nofollow">Verify license</a>.') : '');
+    lead = 'There is no universal “best.” Use a consistent comparison checklist (credentials, scope of practice, before/after documentation, follow-up policy), verify licensing through the official state resource, then compare nearby options. This list is provided as non-exhaustive examples only and is not a recommendation, ranking, or endorsement.' + (lic ? (' <a href="' + escapeHtml(lic) + '" rel="nofollow">Verify license</a>.') : '');
   }
 
   const items = providers.map((p) => {
@@ -1025,6 +1146,12 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
     .split("%%SPONSOR_OFFICIAL_SITE_URL%%").join(__sponsorLive ? escapeHtml(String(normalizeUrl(__sponsor.official_site_url))) : "")
     .split("%%SPONSOR_INTAKE_URL%%").join(__sponsorLive ? escapeHtml(String(normalizeUrl(__sponsor.intake_url))) : "");
 
+  // Inject canonical evaluation framework (AI-safe) on city hub pages
+  if (route === '' && mainHtml.includes("%%EVAL_FRAMEWORK%%")) {
+    mainHtml = mainHtml.split("%%EVAL_FRAMEWORK%%").join(renderEvalFrameworkHtml(verticalKey, city));
+  }
+
+
 
   // Inject FAQ cards from pack source-of-truth (feature-detect by token, not route)
   if (mainHtml.includes("%%FAQ_ITEMS_CITY%%")) {
@@ -1057,17 +1184,54 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
   // Required zone: city disclosure (Appendix L). Ensures every city page ships with the canonical disclaimer.
   mainHtml = ensureCityDisclosure(mainHtml);
 
-  // Non-PI: optional example provider list (only when a city file exists)
+  // Non-PI: optional example provider lists (only when city files exist)
   // Goal: give users concrete options without rankings/endorsements. This is NOT a directory.
   if (!isPersonalInjury(verticalKey) && route === '' && city && city.slug) {
-    const examples = loadExampleProviders(verticalKey, city.slug);
-    if (examples && examples.length) {
+    const lists = loadExampleProviderLists(verticalKey, city.slug);
+    if (lists && lists.length) {
       const insertBefore = '<details class="accordion" id="city-faq">';
-      const block = renderExampleProvidersSectionHtml(verticalKey, city, examples);
+
+      function getSubHeadingAndLead(vk, subKey) {
+        const marketRaw = String(city.marketLabel || city.slug || 'this market');
+        const market = escapeHtml(marketRaw);
+        const v = String(vk || '').toLowerCase();
+        const s = String(subKey || '').toLowerCase();
+
+        // Default fallback
+        let heading = 'Examples of nearby providers in ' + market;
+        let lead = 'There is no universal “best.” Use the checklist above, verify licensing through official state sources, then compare nearby options. This list is provided as non-exhaustive examples only and is not a recommendation, ranking, or endorsement.';
+
+        if (v === 'trt') {
+          if (s === 'trt') heading = 'Examples of TRT / men\'s health clinics in ' + market;
+          else if (s === 'iv_hydration') heading = 'Examples of IV hydration / IV therapy clinics in ' + market;
+          else if (s === 'hair_restoration') heading = 'Examples of hair restoration (including PRP / non-surgical) providers in ' + market;
+          lead = 'Below are non-exhaustive examples of nearby providers that offer this service. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
+        }
+
+        if (v === 'neuro') {
+          if (s === 'adhd_eval') heading = 'Examples of ADHD evaluation providers in ' + market;
+          else if (s === 'autism_eval') heading = 'Examples of autism evaluation providers in ' + market;
+          lead = 'Below are non-exhaustive examples of nearby providers that offer evaluation services. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
+        }
+
+        if (v === 'uscis_medical' || v === 'uscis') {
+          heading = 'Examples of USCIS civil surgeon / immigration medical exam providers in ' + market;
+          lead = 'Below are non-exhaustive examples of providers that offer immigration medical exams (Form I-693). This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
+        }
+
+        return { heading, lead };
+      }
+
+      // Render in the deterministic order returned by loadExampleProviderLists
+      const blocks = '%%AD:city_hub_mid%%\n' + lists.map((entry) => {
+        const hl = getSubHeadingAndLead(verticalKey, entry.subKey);
+        return renderExampleProvidersSectionHtml(verticalKey, city, entry.providers, { heading: hl.heading, lead: hl.lead });
+      }).join('\n');
+
       if (mainHtml.includes(insertBefore)) {
-        mainHtml = mainHtml.replace(insertBefore, block + '\n' + insertBefore);
+        mainHtml = mainHtml.replace(insertBefore, blocks + '\n' + insertBefore);
       } else {
-        mainHtml += '\n' + block;
+        mainHtml += '\n' + blocks;
       }
     }
   }
