@@ -1743,7 +1743,7 @@ function loadNextStepsSponsor(citySlug) {
         '<p class="muted">Educational only. This site does not receive your case details.</p>' +
         '</section>' +
 
-        '<section class="section">' +
+        '<section class="section hero" data-pi-state-page="true">' +
         (sponsorLive ? (
           '<div class="card" data-next-steps-card="true">' +
           '<h2>' + sponsorName + '</h2>' +
@@ -1848,25 +1848,36 @@ function loadNextStepsSponsor(citySlug) {
         '</ul>' +
         '</section>'
       );
-
       let mainHtml = (
         '<section class="section" data-pi-state-page="true">' +
-        '<h1>Personal injury directory: ' + escapeHtml(stateName) + '</h1>' +
-        '<p class="muted">Educational only. No rankings. No endorsements. Use this hub to navigate by state, then drill down into city pages for local context.</p>' +
+        '<h1>' + escapeHtml(stateName) + ' personal injury guide + directory</h1>' +
+        '<p class="muted">Educational only. No rankings. No endorsements. Directory entries are neutral and for research.</p>' +
         '</section>' +
 
+        '%%AD:pi_state_top%%' +
+
+        queryBlock +
+
+        '<section class="section micro-guides" data-guides-micro="true">' +
+        '<p><strong>Start here:</strong> ' +
+        '<a href="/guides/#costs">Costs</a> • ' +
+        '<a href="/guides/#timeline">Timeline</a> • ' +
+        '<a href="/guides/#questions">Questions to ask</a> • ' +
+        '<a href="/guides/#red-flags">Red flags</a> ' +
+        '<span class="muted">(educational)</span></p>' +
+        '</section>' +
+        '%%AD:pi_state_mid%%' +
+
         '<section class="section" data-pi-state-directory="true">' +
-        '<h2>Provider directory (statewide)</h2>' +
-        '<p class="muted">Listings are aggregated from city directories within this state. If you are comparing providers, use the neutral guides before contacting anyone.</p>' +
-        '<div class="grid">' + directoryCards + '</div>' +
+        '<h2>Directory coverage in ' + escapeHtml(stateName) + '</h2>' +
+        '<p class="muted">City pages contain firm directories. State pages summarize coverage and link you to the city hubs.</p>' +
+        '<div class="pi-state-directory">' + directoryCards + '</div>' +
         '</section>' +
 
         '<section class="section" data-pi-state-cities="true">' +
         '<h2>City pages in ' + escapeHtml(stateName) + '</h2>' +
         '<ul>' + citiesList + '</ul>' +
         '</section>' +
-
-        queryBlock +
 
         '<section class="section" data-disciplinary-lookup="true">' +
         '<h2>Attorney discipline & license lookup</h2>' +
@@ -1898,7 +1909,10 @@ function loadNextStepsSponsor(citySlug) {
         '%%FOOTER%%': footerHtml,
         '%%BRAND_NAME%%': escapeHtml(brandName)
       });
-      return mapped;
+      return injectAdPlacements(mapped, ads, {
+        verticalKey: 'pi',
+        stateAbbr: ab
+      });
     }
 
     // Write all 50 state pages
