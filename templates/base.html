@@ -41,6 +41,59 @@
       var el = document.getElementById("year");
       if (el) el.textContent = String(y);
     })();
+
+    // FAQ discoverability: add an "Expand all" / "Collapse all" control inside FAQ accordions.
+    // Defaults remain closed per validator rules; this is an optional UI helper.
+    (function () {
+      function mountFaqTools(detailsEl) {
+        if (!detailsEl) return;
+        var panel = detailsEl.querySelector('.accordion-panel');
+        if (!panel) return;
+        if (panel.querySelector('[data-faq-tools="true"]')) return;
+
+        var items = panel.querySelectorAll('details.faq-item');
+        if (!items || items.length === 0) return;
+
+        var wrap = document.createElement('div');
+        wrap.setAttribute('data-faq-tools', 'true');
+        wrap.style.display = 'flex';
+        wrap.style.gap = '10px';
+        wrap.style.flexWrap = 'wrap';
+        wrap.style.margin = '0 0 12px 0';
+
+        var expandBtn = document.createElement('button');
+        expandBtn.type = 'button';
+        expandBtn.className = 'button';
+        expandBtn.textContent = 'Expand all';
+
+        var collapseBtn = document.createElement('button');
+        collapseBtn.type = 'button';
+        collapseBtn.className = 'button';
+        collapseBtn.textContent = 'Collapse all';
+
+        expandBtn.addEventListener('click', function(){
+          items.forEach(function(d){ d.open = true; });
+        });
+        collapseBtn.addEventListener('click', function(){
+          items.forEach(function(d){ d.open = false; });
+        });
+
+        wrap.appendChild(expandBtn);
+        wrap.appendChild(collapseBtn);
+        panel.insertBefore(wrap, panel.firstChild);
+      }
+
+      function boot() {
+        mountFaqTools(document.getElementById('city-faq'));
+        mountFaqTools(document.getElementById('state-faq'));
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else {
+        boot();
+      }
+    })();
   </script>
 
   %%INLINE_SCRIPTS%%

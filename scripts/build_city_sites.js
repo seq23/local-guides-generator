@@ -859,7 +859,7 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
     return (
       '<tr>' +
       '<td class="pi-dir-name">' + escapeHtml(name) + '</td>' +
-      '<td class="pi-dir-site"><span class="mono">' + websiteText + '</span></td>' +
+      '<td class="pi-dir-site"><span class="mono pi-url">' + websiteText + '</span></td>' +
       '</tr>'
     );
   }).join('');
@@ -878,7 +878,7 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
       '<details class="pi-dir-collapsed" data-pi-dir-collapsed="true">' +
       '<summary>Other firms in this market (neutral list)</summary>' +
       '<div class="pi-dir-table-wrap">' +
-      '<table class="pi-dir-table" role="table">' +
+      '<table class="pi-dir-table pi-directory-table" role="table">' +
       '<thead><tr><th>Firm name</th><th>Official website</th></tr></thead>' +
       '<tbody>' + rows + '</tbody>' +
       '</table>' +
@@ -889,7 +889,7 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
 
   return (
     '<div class="pi-dir-table-wrap">' +
-    '<table class="pi-dir-table" role="table">' +
+    '<table class="pi-dir-table pi-directory-table" role="table">' +
     '<thead><tr><th>Firm name</th><th>Official website</th></tr></thead>' +
     '<tbody>' + rows + '</tbody>' +
     '</table>' +
@@ -1835,6 +1835,26 @@ function loadNextStepsSponsor(citySlug) {
 
       const disciplineUrl = disciplineLinks[ab] ? String(disciplineLinks[ab]) : '';
 
+      // State-level FAQ items for on-page accordion (non-promotional, neutral)
+      const stateFaqItems = [
+        {
+          q: `How do I choose a personal injury lawyer in ${String(stateName)}?`,
+          a: `There is no universal “best.” Use a consistent checklist: verify the lawyer's license and discipline history, confirm relevant practice focus, ask about fee terms (often contingency), and compare communication and case-handling process. This site is educational only and does not rank providers.`
+        },
+        {
+          q: `What is a contingency fee?`,
+          a: `A contingency fee is a payment arrangement where a lawyer may collect a fee only if there is a recovery. Terms vary and should be confirmed in writing before signing.`
+        },
+        {
+          q: `What should I verify before signing with a firm?`,
+          a: `Verify licensing, review engagement terms in writing, ask who will handle the matter day-to-day, and confirm how updates and costs are communicated. Avoid relying on marketing claims.`
+        },
+        {
+          q: `How do I check licensing and discipline in ${String(stateName)}?`,
+          a: `Use the official state disciplinary and license lookup linked on this page to confirm current status and any public disciplinary history.`
+        }
+      ];
+
       // LLM-friendly (but non-promotional) query framing for state hubs
       const queryBlock = (
         '<section class="section" data-pi-state-questions="true">' +
@@ -1847,6 +1867,16 @@ function loadNextStepsSponsor(citySlug) {
         '<li>Where can I verify an attorney\'s license and disciplinary history in ' + escapeHtml(stateName) + '?</li>' +
         '</ul>' +
         '</section>'
+      );
+
+      // PI state pages: visible FAQ accordion (questions remain collapsed by default)
+      const stateFaqAccordion = (
+        '<details class="accordion" id="state-faq" open>' +
+        '<summary>FAQs <span class="accordion-meta">(tap a question)</span></summary>' +
+        '<div class="accordion-panel">' +
+        '<div class="faq-accordion" data-faq-accordion="state">' + renderFaqCardsHtml(stateFaqItems) + '</div>' +
+        '</div>' +
+        '</details>'
       );
       let mainHtml = (
         '<section class="section" data-pi-state-page="true">' +
@@ -1876,7 +1906,13 @@ function loadNextStepsSponsor(citySlug) {
 
         '<section class="section" data-pi-state-cities="true">' +
         '<h2>City pages in ' + escapeHtml(stateName) + '</h2>' +
-        '<ul>' + citiesList + '</ul>' +
+        '<ul class="state-cities-list">' + citiesList + '</ul>' +
+        '</section>' +
+
+        '<section class="section" data-pi-state-faq="true">' +
+        '<h2>FAQs</h2>' +
+        '<p class="muted">This is a quick explainer layer. It is not legal advice. We do not rank providers.</p>' +
+        stateFaqAccordion +
         '</section>' +
 
         '<section class="section" data-disciplinary-lookup="true">' +

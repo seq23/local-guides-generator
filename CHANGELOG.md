@@ -1,5 +1,30 @@
 # Changelog
 
+## UX batch — FAQ discoverability + PI directory styling (2026-01-28)
+
+### What changed
+- **PI city pages:** the FAQ accordion (`#city-faq`) is now rendered **open** by default so the section is visible on first scroll.
+- **FAQ UX:** larger accordion typography + larger chevrons; FAQ question rows have bigger click targets and clearer arrows.
+- **FAQ controls:** added an in-panel **Expand all / Collapse all** control (optional; default state remains validator-compliant).
+- **PI directory styling:** aligned PI directory table markup with the existing enterprise table styles (class mismatches fixed).
+- **PI state pages:** city list now renders in columns so it fits; added a visible FAQ accordion section for state pages.
+
+### Why
+To make FAQ and directory content obvious and usable without changing editorial meaning or violating validator rules.
+
+### Files touched
+- `assets/styles.css`
+- `templates/base.html`
+- `scripts/build_city_sites.js`
+- `data/page_sets/*.json`
+- `data/page_sets/examples/*.json`
+- `CHANGELOG.md`
+
+### Validation status
+- ✅ npm run validate:all — PASS
+
+---
+
 ## Data batch — PI monetization_mode population (2026-01-17)
 
 ### What changed
