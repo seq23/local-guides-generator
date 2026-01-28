@@ -326,15 +326,17 @@ details.accordion > summary{
   justify-content: space-between;
   gap: 12px;
   font-weight: 700;
+  font-size: 18px;
 }
 
 /* Chevron indicator (requested UX) */
 details.accordion > summary::after{
   content: "▾";
-  font-weight: 700;
+  font-weight: 800;
   color: #6b7280;
   transform: rotate(0deg);
   transition: transform .15s ease;
+  font-size: 18px;
 }
 details.accordion[open] > summary::after{
   transform: rotate(180deg);
@@ -356,6 +358,216 @@ details.accordion[open] > summary{
 .accordion-panel{
   padding: 12px 14px 14px;
 }
+
+/* Make FAQ blocks visually loud (without changing editorial meaning) */
+details.accordion#city-faq,
+details.accordion#state-faq{
+  border-color: rgba(31,79,138,0.35);
+  box-shadow: var(--shadow-md);
+}
+
+details.accordion#city-faq > summary,
+details.accordion#state-faq > summary{
+  font-size: 20px;
+  padding: 14px 16px;
+}
+
+details.accordion#city-faq > summary::after,
+details.accordion#state-faq > summary::after{
+  font-size: 22px;
+}
+
+details.accordion#city-faq .accordion-meta,
+details.accordion#state-faq .accordion-meta{
+  font-size: 14px;
+}
+
+/* FAQ item rows: bigger click target + clearer chevron */
+.faq-item > summary{
+  position: relative;
+  padding-right: 44px;
+  font-size: 16px;
+}
+.faq-item > summary::after{
+  content: "▸";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  transition: transform .15s ease;
+  font-weight: 800;
+  color: #6b7280;
+}
+.faq-item[open] > summary::after{
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* PI directory: align CSS to actual markup + upgrade table density */
+.pi-dir-table-wrap{ overflow-x:auto; }
+.pi-dir-table,
+.pi-directory-table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.pi-dir-table th,
+.pi-dir-table td,
+.pi-directory-table th,
+.pi-directory-table td{
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 14px;
+}
+.pi-dir-table th,
+.pi-directory-table th{
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #6b7280;
+}
+.pi-dir-site .mono,
+.pi-url{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  color:#374151;
+  word-break: break-all;
+}
+
+/* Sponsored module (PI city pages) */
+.sponsored-placement{
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 12px;
+}
+.sponsored-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
+.sponsor-meta{ margin-top: 10px; font-size: 12px; color:#6b7280; }
+
+/* PI state page: cities list should fit and feel intentional */
+.state-cities-list{
+  columns: 2;
+  column-gap: 24px;
+  padding-left: 18px;
+}
+@media (min-width: 900px){ .state-cities-list{ columns: 3; } }
+.state-cities-list li{ break-inside: avoid; padding: 2px 0; }
+
+
+details.accordion#city-faq > summary::after,
+details.accordion#state-faq > summary::after{
+  font-size: 22px;
+  color: #1f4f8a;
+}
+
+/* FAQ items: bigger hit area + clearer chevron */
+.faq-item > summary{
+  position: relative;
+  padding-right: 44px;
+}
+.faq-item > summary::after{
+  content: "▸";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  font-weight: 900;
+  font-size: 18px;
+  color: #1f4f8a;
+  transition: transform .15s ease;
+}
+.faq-item[open] > summary::after{
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* PI directory: fix class mismatch + make it feel enterprise */
+.pi-dir-table-wrap,
+.pi-directory-table-wrap{
+  overflow-x: auto;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.pi-dir-table,
+.pi-directory-table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pi-dir-table th,
+.pi-dir-table td,
+.pi-directory-table th,
+.pi-directory-table td{
+  text-align: left;
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.pi-dir-table th,
+.pi-directory-table th{
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #6b7280;
+  background: #fafafa;
+}
+
+.pi-dir-name{ font-weight: 650; }
+.pi-url, .mono{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  color:#374151;
+  word-break: break-all;
+}
+
+/* Sponsored placement module (PI) */
+.sponsored-placement{
+  border: 1px solid rgba(31,79,138,0.25);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(31,79,138,0.06), rgba(255,255,255,0));
+  padding: 14px;
+  margin: 10px 0 14px;
+}
+.sponsored-placement .kicker{ opacity: 0.9; }
+.sponsored-actions{ display:flex; gap:10px; flex-wrap: wrap; margin-top: 10px; }
+.sponsor-meta{ margin-top: 10px; font-size: 12px; color:#6b7280; }
+
+/* PI primary CTA block */
+.pi-primary-cta{
+  border: 1px solid rgba(17,24,39,0.12);
+  background: #0b1f3a;
+  border-radius: 16px;
+  padding: 14px;
+  margin: 12px 0 16px;
+}
+.pi-primary-cta a{
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.pi-primary-cta a:hover{ text-decoration: underline; }
+
+/* PI state pages: city list should fit + feel structured */
+.pi-state-directory{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.pi-state-cities-list{
+  columns: 2;
+  column-gap: 24px;
+  padding-left: 18px;
+}
+@media (min-width: 900px){ .pi-state-cities-list{ columns: 3; } }
+.pi-state-cities-list li{ break-inside: avoid; padding: 3px 0; }
 
 /* Sleeker guide/listing cards (less bloggy) */
 .card,
