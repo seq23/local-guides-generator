@@ -19,6 +19,12 @@ body {
   color: var(--text);
   background: var(--bg);
 }
+
+/* Prevent long words/URLs from blowing out layouts (e.g., guide titles on hub pages) */
+.content, .card, .card *, main, article {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .container { max-width: var(--max); margin: 0 auto; padding: 16px; }
 .site-header {
   border-bottom: 1px solid var(--line);
