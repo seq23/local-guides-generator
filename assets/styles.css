@@ -670,3 +670,158 @@ details.accordion#state-faq > summary::after{
   font-size: 12px;
   color:#6b7280;
 }
+
+
+/* =========================
+   UX Overhaul v1 (no data/validator changes)
+   - Deeper hierarchy + softer surface
+   - PI states hub: 5x10 grid on /states/
+   - Directory tables: enterprise polish
+   - FAQ: visually dominant + default open (handled in base.html)
+   ========================= */
+
+:root{
+  --surface: #ffffff;
+  --surface-2: #f7f8fb;
+  --border: #e6e8ef;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 10px 24px rgba(15,23,42,.08);
+}
+
+body{
+  background: var(--surface-2);
+}
+
+main{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+/* Headings: stronger hierarchy */
+h1{ letter-spacing:-0.02em; }
+h2{ margin-top: 32px; padding-top: 8px; border-top: 1px solid var(--border); }
+h3{ margin-top: 20px; }
+
+/* Card/tile depth */
+.card, .tile{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.card:hover, .tile:hover{
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* PI States hub grid: 5 columns desktop, responsive collapse */
+.state-grid{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+@media (max-width: 1100px){
+  .state-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 900px){
+  .state-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 650px){
+  .state-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Directory tables: cleaner, aligned, scannable */
+main table{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+main table thead th{
+  background: #f2f4f8;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+main table tbody td{
+  padding: 12px 14px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+main table tbody tr:nth-child(even){
+  background: #fafbfe;
+}
+main table tbody tr:hover{
+  background: #f3f6ff;
+}
+
+/* Make any “listings directory” blocks look less like a Word doc */
+main ul, main ol{
+  padding-left: 22px;
+}
+
+/* FAQ: loud, obvious, and easy to scan */
+.faq, #faq, [data-zone="faq"], [data-section="faq"], .faq-block{
+  margin-top: 28px;
+  padding: 18px 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fbfcff;
+  box-shadow: var(--shadow-md);
+}
+.faq h2, #faq h2, .faq-block h2{
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.faq details, #faq details, .faq-block details{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  margin: 10px 0;
+  overflow: hidden;
+}
+.faq summary, #faq summary, .faq-block summary{
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 750;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+}
+.faq summary::-webkit-details-marker,
+#faq summary::-webkit-details-marker,
+.faq-block summary::-webkit-details-marker{
+  display:none;
+}
+.faq summary::after, #faq summary::after, .faq-block summary::after{
+  content: "▾";
+  font-size: 1.35rem;
+  line-height: 1;
+  opacity: .85;
+  transform: translateY(-1px);
+  transition: transform .12s ease;
+}
+.faq details[open] summary::after,
+#faq details[open] summary::after,
+.faq-block details[open] summary::after{
+  transform: rotate(180deg);
+}
+.faq details > *:not(summary),
+#faq details > *:not(summary),
+.faq-block details > *:not(summary){
+  padding: 0 16px 14px 16px;
+  color: #1f2937;
+}

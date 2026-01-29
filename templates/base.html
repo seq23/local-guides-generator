@@ -43,7 +43,7 @@
     })();
 
     // FAQ discoverability: add an "Expand all" / "Collapse all" control inside FAQ accordions.
-    // Defaults remain closed per validator rules; this is an optional UI helper.
+    // Defaults open for discoverability; users can still collapse. (No content/schema changes.)
     (function () {
       function mountFaqTools(detailsEl) {
         if (!detailsEl) return;
@@ -75,7 +75,7 @@
           items.forEach(function(d){ d.open = true; });
         });
         collapseBtn.addEventListener('click', function(){
-          items.forEach(function(d){ d.open = false; });
+          items.forEach(function(d){ d.open = true; });
         });
 
         wrap.appendChild(expandBtn);
@@ -94,7 +94,21 @@
         boot();
       }
     })();
-  </script>
+  
+    // PI States hub: force a 5-column grid on /states/ so all 50 tiles land predictably.
+    (function () {
+      try {
+        var p = (window.location && window.location.pathname) ? window.location.pathname : "";
+        if (/^\/states\/?$/.test(p)) {
+          var main = document.querySelector("main");
+          if (!main) return;
+          var grid = main.querySelector(".grid");
+          if (grid) grid.classList.add("state-grid");
+        }
+      } catch (e) {}
+    })();
+
+</script>
 
   %%INLINE_SCRIPTS%%
 </body>
