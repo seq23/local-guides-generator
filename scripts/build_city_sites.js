@@ -1420,6 +1420,8 @@ function outPathForGlobal(route) {
 function build() {
   const site = readJson(SITE_PATH);
   const states = readJson(STATES_PATH);
+const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
+
   const ads = readJson(ADS_PATH);
 
   const pageSetFile = site.pageSetFile || "starter_v1.json";
@@ -1564,7 +1566,7 @@ function loadNextStepsSponsor(citySlug) {
   }
 
   if (isPersonalInjury(verticalKey)) {
-    marketsStatusListHtml = buildStatesStatusListHtml(states);
+    marketsStatusListHtml = buildStatesStatusListHtml(ALL_US_STATES);
   }
 
   function loadPagesFromDir(dirPath) {

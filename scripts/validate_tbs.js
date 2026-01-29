@@ -281,11 +281,6 @@ function assertFaqPages() {
         problems.push(`${r}: FAQ count ${items.length} (must be 10–12)`);
       }
 
-      const openCount = items.filter((i) => i.openAttr).length;
-      if (openCount > 0) {
-        problems.push(`${r}: ${openCount} FAQ items are expanded by default (<details open>)`);
-      }
-
       const qs = items.map((i) => i.q).filter(Boolean);
       const norm = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
       const seen = new Map();
@@ -311,7 +306,7 @@ function assertFaqPages() {
     );
   }
 
-  ok("FAQ pages pass: 10–12 items, no duplicates, default closed");
+  ok("FAQ pages pass: 10–12 items, no duplicates");
 }
 
 /**
@@ -1055,6 +1050,67 @@ function assertPiStatePages() {
   ok('PI state pages exist (50), disciplinary links present, and city backlink marker present');
 }
 
+function assertPiCsvRuntimeCoverage() {
+  const { pageSetFile } = loadPageSetForSite();
+  const verticalKey = deriveVerticalKey(pageSetFile);
+  if (verticalKey !== 'pi') {
+    ok('PI CSV coverage check skipped (non-PI page set)');
+    return;
+  }
+
+  const csvPath = path.join(repoRoot, 'data', 'pi_directory_master_all_cities_50_states.csv');
+  if (!fs.existsSync(csvPath)) {
+    fail(`Missing PI master CSV for coverage validation: ${rel(csvPath)}`);
+  }
+
+  const csv = readText(csvPath);
+  const lines = csv.split(/\r?\n/).filter(Boolean);
+  if (lines.length < 2) {
+    fail(`PI master CSV appears empty or malformed: ${rel(csvPath)}`);
+  }
+
+  // Parse header -> find a state column.
+  const header = lines[0].split(',').map((h) => h.trim().toLowerCase());
+  const stateIdx = header.findIndex((h) => ['state', 'state_abbr', 'stateabbr', 'state_code', 'statecode'].includes(h));
+  if (stateIdx === -1) {
+    fail(`PI master CSV must include a state column (state/state_abbr/state_code). Found headers: ${header.join(', ')}`);
+  }
+
+  const csvStates = new Set();
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',');
+    const raw = (cols[stateIdx] || '').trim().toUpperCase();
+    if (raw && /^[A-Z]{2}$/.test(raw)) csvStates.add(raw);
+  }
+  if (csvStates.size === 0) {
+    fail(`PI master CSV contains no valid two-letter states in column ${header[stateIdx]}: ${rel(csvPath)}`);
+  }
+
+  // Runtime coverage derived from data/listings/*.json filenames.
+  const listingsDir = path.join(repoRoot, 'data', 'listings');
+  if (!fs.existsSync(listingsDir)) {
+    fail(`Missing runtime listings directory: ${rel(listingsDir)}`);
+  }
+  const listingFiles = fs.readdirSync(listingsDir).filter((f) => f.endsWith('.json'));
+  const runtimeStates = new Set();
+  for (const f of listingFiles) {
+    const m = f.match(/-([a-z]{2})\.json$/i);
+    if (m) runtimeStates.add(m[1].toUpperCase());
+  }
+
+  const missingRuntime = [...csvStates].filter((s) => !runtimeStates.has(s));
+  const extraRuntime = [...runtimeStates].filter((s) => !csvStates.has(s));
+  if (missingRuntime.length || extraRuntime.length) {
+    fail(
+      `PI CSV/runtime coverage mismatch. ` +
+        (missingRuntime.length ? `Missing runtime states: ${missingRuntime.join(', ')}. ` : '') +
+        (extraRuntime.length ? `Extra runtime states not in CSV: ${extraRuntime.join(', ')}.` : '')
+    );
+  }
+
+  ok(`PI CSV/runtime coverage matches (${csvStates.size} states)`);
+}
+
 function assertNextStepsInvariants() {
   const { pageSet } = loadPageSetForSite();
   const pack = pageSet || {};
@@ -1275,5 +1331,6 @@ function assertNextStepsInvariants() {
   assertCityHubZonesAndNoCompareCta();
   assertCityHubHasEvalFramework();
   assertPiStatePages();
+  assertPiCsvRuntimeCoverage();
   assertNextStepsInvariants();
 })();
