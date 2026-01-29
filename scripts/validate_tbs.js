@@ -942,11 +942,16 @@ function warnNonPiLicensingLookupUrlsIfMissing() {
   }
 
   const lookup = readJson(lookupPath);
-  const statesPath = path.join(repoRoot, 'data', 'states.json');
+  // Licensing lookup must cover the full US state universe.
+  const statesPath = path.join(repoRoot, 'data', 'us_states.json');
   const states = readJson(statesPath);
+  const stateAbbrs = Object.keys(states || {});
+  if (stateAbbrs.length !== 50) {
+    fail(`US states universe must be exactly 50; got ${stateAbbrs.length} from ${rel(statesPath)}`);
+  }
   const missing = [];
 
-  for (const ab of Object.keys(states)) {
+  for (const ab of stateAbbrs) {
     const entry = lookup[ab];
     if (!entry || typeof entry !== 'object') {
       missing.push(ab);
@@ -985,8 +990,14 @@ function assertPiStatePages() {
     return;
   }
 
-  const statesPath = path.join(repoRoot, 'data', 'states.json');
+  // PI must validate against the full 50-state universe.
+  // data/states.json may be a derived subset used for non-PI city hubs.
+  const statesPath = path.join(repoRoot, 'data', 'us_states.json');
   const states = readJson(statesPath);
+  const stateAbbrs = Object.keys(states || {});
+  if (stateAbbrs.length !== 50) {
+    fail(`PI states universe must be exactly 50; got ${stateAbbrs.length} from ${rel(statesPath)}`);
+  }
   const linkPath = path.join(repoRoot, 'data', 'pi_state_disciplinary_links.json');
   if (!fs.existsSync(linkPath)) {
     fail(`Missing PI state disciplinary links file: ${rel(linkPath)}`);
@@ -994,7 +1005,7 @@ function assertPiStatePages() {
   const links = readJson(linkPath);
 
   const missingLinks = [];
-  for (const ab of Object.keys(states)) {
+  for (const ab of stateAbbrs) {
     const url = links[ab];
     if (!url || typeof url !== 'string' || !url.startsWith('http')) {
       missingLinks.push(ab);
@@ -1006,7 +1017,7 @@ function assertPiStatePages() {
 
   const missingPages = [];
   const badPages = [];
-  for (const ab of Object.keys(states)) {
+  for (const ab of stateAbbrs) {
     const f = path.join(distDir, 'states', String(ab).toUpperCase(), 'index.html');
     if (!fs.existsSync(f)) {
       missingPages.push('states/' + ab);
@@ -1314,11 +1325,136 @@ function assertNextStepsInvariants() {
   ok('Next-steps invariants: sponsor-driven mode enforced');
 }
 
-(function main() {
+function csvEscape(v) {
+  const s = String(v ?? '');
+  if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+  return s;
+}
+
+function writeBrokenLinksCsv(distDir, rows) {
+  // Always write a VA-debuggable report when the validator finds any issue.
+  // This stays inside dist/ so it ships with the build artifact.
+  const outPath = path.join(distDir, '_broken_links.csv');
+  const header = ['from', 'href', 'resolved', 'reason'].join(',') + '\n';
+  const body = rows.map(r => [r.from, r.to, r.resolved, r.reason].map(csvEscape).join(',')).join('\n') + (rows.length ? '\n' : '');
+  fs.writeFileSync(outPath, header + body, 'utf8');
+  return outPath;
+}
+
+function assertInternalLinksResolve(distDir) {
+  const htmlFiles = walkFiles(distDir, (p) => p.endsWith('.html'));
+  const problems = [];
+
+  for (const file of htmlFiles) {
+    const relFile = path.relative(distDir, file).split(path.sep).join('/');
+    const dirRel = relFile.includes('/') ? relFile.split('/').slice(0, -1).join('/') : '';
+    const html = fs.readFileSync(file, 'utf8');
+
+    const hrefs = [];
+    const reHref = /href\s*=\s*(["'])(.*?)\1/gi;
+    let m;
+    while ((m = reHref.exec(html)) !== null) {
+      hrefs.push(m[2]);
+    }
+
+    for (const raw of hrefs) {
+      if (!raw) continue;
+      const href = String(raw).trim();
+      if (!href) continue;
+      if (href.startsWith('#')) continue;
+      if (/^(https?:)?\/\//i.test(href)) continue;
+      if (/^(mailto:|tel:|javascript:)/i.test(href)) continue;
+
+      const cleaned = href.split('#')[0].split('?')[0];
+      if (!cleaned) continue;
+
+      let targetRel;
+      if (cleaned.startsWith('/')) {
+        targetRel = cleaned.slice(1);
+      } else {
+        // relative
+        targetRel = (dirRel ? (dirRel + '/' + cleaned) : cleaned);
+      }
+
+      // normalize ./ and ../
+      targetRel = path.posix.normalize(targetRel);
+
+      // CRITICAL: any internal href that escapes dist/ via ../ is a hard failure.
+      // Previously this was silently ignored; that can hide real bugs.
+      if (targetRel.startsWith('..')) {
+        problems.push({ from: relFile, to: cleaned, resolved: targetRel, reason: 'escapes_dist_via_dotdot' });
+        continue;
+      }
+
+      // handle trailing slash / directory links
+      if (cleaned.endsWith('/')) {
+        targetRel = targetRel.replace(/\/$/, '') + '/index.html';
+      } else if (!path.posix.extname(targetRel)) {
+        // treat as directory
+        targetRel = targetRel.replace(/\/$/, '') + '/index.html';
+      }
+
+      const targetAbs = path.join(distDir, targetRel.split('/').join(path.sep));
+      if (!fs.existsSync(targetAbs)) {
+        problems.push({ from: relFile, to: cleaned, resolved: targetRel, reason: 'missing_target' });
+      }
+    }
+  }
+
+  if (problems.length > 0) {
+    const outPath = writeBrokenLinksCsv(distDir, problems);
+    const sample = problems.slice(0, 12).map(x => `- ${x.from} -> ${x.to} (${x.reason}; expected ${x.resolved})`).join('\n');
+    throw new Error(
+      `BROKEN LINKS: Found ${problems.length} internal link problem(s) in dist.\n` +
+      `Report written to: ${path.relative(process.cwd(), outPath)}\n` +
+      sample
+    );
+  }
+
+  console.log('OK: Internal links resolve (no broken internal hrefs)');
+}
+
+function assertHtmlBasics() {
+  const htmlFiles = walkFiles(distDir, (p) => p.endsWith('.html'));
+  const missingTitle = [];
+  const undefinedBreadcrumb = [];
+
+  for (const file of htmlFiles) {
+    const relFile = path.relative(distDir, file).split(path.sep).join('/');
+    const html = fs.readFileSync(file, 'utf8');
+
+    // A blank or missing <title> is a UX/SEO regression.
+    const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
+    if (!titleMatch || !String(titleMatch[1] || '').trim()) {
+      missingTitle.push(relFile);
+    }
+
+    // We had a regression where city breadcrumbs rendered as "undefined, undefined".
+    if (html.includes('undefined, undefined')) {
+      undefinedBreadcrumb.push(relFile);
+    }
+  }
+
+  if (missingTitle.length) {
+    throw new Error(
+      `FAIL: Missing or blank <title> tag in ${missingTitle.length} HTML file(s). Example: ${missingTitle.slice(0, 5).join(', ')}`
+    );
+  }
+
+  if (undefinedBreadcrumb.length) {
+    throw new Error(
+      `FAIL: Found "undefined, undefined" in ${undefinedBreadcrumb.length} HTML file(s). Example: ${undefinedBreadcrumb.slice(0, 5).join(', ')}`
+    );
+  }
+}
+
+function main() {
   assertNoMarkdownFencesInScripts();
   assertDistExists();
   assertLkgSnapshotExists();
   assertRequiredGlobalPages();
+  assertInternalLinksResolve(distDir);
+  assertHtmlBasics();
   assertNoAdTokensInDist();
   assertNoUnresolvedTokensInDist();
   assertPageContracts();
@@ -1333,4 +1469,6 @@ function assertNextStepsInvariants() {
   assertPiStatePages();
   assertPiCsvRuntimeCoverage();
   assertNextStepsInvariants();
-})();
+}
+
+main();

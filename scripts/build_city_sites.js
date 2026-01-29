@@ -261,6 +261,34 @@ function loadGlobalPagesDir(pageSet) {
 
 function loadCities(pageSet) {
   const baseCities = readJson(BASE_CITIES_PATH);
+  const usStates = readJson(path.join(DATA_DIR, 'us_states.json'));
+  const usStatesByAbbr = new Map(
+    Object.entries(usStates || {}).map(([abbr, name]) => [String(abbr).toUpperCase(), { abbr: String(abbr).toUpperCase(), name: String(name) }])
+  );
+
+  const titleCase = (s) => String(s || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.length ? (w[0].toUpperCase() + w.slice(1).toLowerCase()) : w)
+    .join(' ');
+
+  const inferCityMetaFromSlug = (slug) => {
+    const parts = String(slug || '').split('-').filter(Boolean);
+    const state = (parts.length ? parts[parts.length - 1] : '').toUpperCase();
+    const cityRaw = parts.slice(0, -1).join(' ');
+    // Very small normalizations to avoid ugly labels.
+    const city = titleCase(cityRaw.replace(/\bst\b/gi, 'St').replace(/\bft\b/gi, 'Ft'));
+    const st = usStatesByAbbr.get(state);
+    const stateName = st ? String(st.name || st.state || '') : '';
+    return {
+      slug: String(slug),
+      city,
+      state,
+      stateName,
+      marketLabel: city && state ? `${city}, ${state}` : String(slug || ''),
+    };
+  };
+
   let packCities = [];
   if (pageSet && pageSet.citiesFile) {
     const cf = path.isAbsolute(pageSet.citiesFile)
@@ -273,7 +301,15 @@ function loadCities(pageSet) {
   // Pack cities first so pack can override fields, but base top10 always included.
   for (const c of (packCities || [])) bySlug.set(String(c.slug), c);
   for (const c of (baseCities || [])) if (!bySlug.has(String(c.slug))) bySlug.set(String(c.slug), c);
-  return Array.from(bySlug.values());
+  // Ensure we always have minimally usable city metadata (city/state labels).
+  // Some packs provide cities files that only contain slugs.
+  return Array.from(bySlug.values()).map((c) => {
+    const slug = String(c.slug || '');
+    const needs = !c || !c.city || !c.state;
+    if (!needs) return c;
+    const inferred = inferCityMetaFromSlug(slug);
+    return { ...inferred, ...c };
+  });
 }
 
 function applyCityTokens(str, city) {
@@ -342,6 +378,19 @@ function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description)
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    name: title,
+    description,
+    datePublished: BUILD_ISO,
+    dateModified: BUILD_ISO,
+    url: buildCanonicalGlobal(siteUrl, route),
+    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
+  };
+}
+
+function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
     name: title,
     description,
     datePublished: BUILD_ISO,
@@ -577,7 +626,8 @@ function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateNa
   const ld = [
     buildOrganizationSchema(siteUrl, brandName),
     buildWebSiteSchema(siteUrl, brandName),
-    buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description),
+    // PI state pages are collection hubs (not generic WebPage)
+    buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description),
     buildBreadcrumbsGlobal(siteUrl, route, title)
   ];
 
@@ -612,10 +662,8 @@ function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateNa
     }
   ];
   if (faqEnabled) {
-  if (faqEnabled) {
     const faqSchema = buildFaqSchema(faqItems);
     if (faqSchema) ld.push(faqSchema);
-  }
   }
 
   return `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>`;
@@ -852,6 +900,12 @@ function renderPiSponsoredModuleHtml(city, sponsor) {
 }
 
 function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
+  // Always alphabetize directory listings by firm name (case-insensitive)
+  const listingsSorted = (Array.isArray(listings) ? listings.slice() : []).sort((a, b) => {
+    const an = String((a && (a.firm_name || a.name)) || '').toLowerCase();
+    const bn = String((b && (b.firm_name || b.name)) || '').toLowerCase();
+    return an.localeCompare(bn);
+  });
   var rows = (listings || []).filter(function(x){ return x && x.display !== false; }).map(function(l){
     var name = l.name ? String(l.name) : 'Firm';
     var website = normalizeUrl(l.website || l.url);
@@ -1794,7 +1848,14 @@ function loadNextStepsSponsor(citySlug) {
     function renderPiStatePageHtml(stateAbbr) {
       const ab = String(stateAbbr).toUpperCase();
       const st = states[ab] || {};
-      const stateName = String(st.stateName || ab);
+      // For PI, states.json may only include states present in the current
+      // city page set. The PI experience (hub + state pages) must be a full
+      // 50-state universe regardless of which cities are present.
+      const stateName = String(
+        (ALL_US_STATES && ALL_US_STATES[ab] && ALL_US_STATES[ab].name) ||
+        st.stateName ||
+        ab
+      );
       const title = 'Personal injury lawyers in ' + stateName + ' — directory & guides';
       const description = 'Educational directory-style listings and neutral checklists for personal injury providers in ' + stateName + '. No rankings. No endorsements.';
 
@@ -1812,6 +1873,13 @@ function loadNextStepsSponsor(citySlug) {
           listingsAgg.push({ ...it, __marketLabel: c.marketLabel, __citySlug: c.slug });
         }
       }
+
+      // Alphabetize firms on state pages (case-insensitive)
+      listingsAgg.sort((a, b) => {
+        const an = String((a && (a.firm_name || a.name)) || '').toLowerCase();
+        const bn = String((b && (b.firm_name || b.name)) || '').toLowerCase();
+        return an.localeCompare(bn);
+      });
 
       const directoryCards = listingsAgg.slice(0, 40).map(it => {
         const name = String((it.firm_name || it.name || '')).trim();
@@ -1953,14 +2021,15 @@ function loadNextStepsSponsor(citySlug) {
       });
     }
 
-    // Write all 50 state pages
-    for (const ab of Object.keys(states || {})) {
+    // Write all 50 state pages (unconditional)
+    const piStateAbbrs = Object.keys(ALL_US_STATES || {});
+    for (const ab of piStateAbbrs) {
       const html = renderPiStatePageHtml(ab);
       writeFileEnsured(outPathForPiState(ab), html);
     }
 
     // Write PI state next-steps pages when enabled (sponsor-driven or global switch).
-    for (const ab of Object.keys(states || {})) {
+    for (const ab of piStateAbbrs) {
       const s = selectPiStateSponsor(ab);
       if (!sponsorship.shouldRenderNextSteps(pageSet, s)) continue;
       const html = renderPiStateNextStepsPageHtml(ab, s);
