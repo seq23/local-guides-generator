@@ -1,0 +1,131 @@
+{
+  "name": "starter_v1",
+  "schema": {
+    "itemListEnabled": false,
+    "faqEnabled": true,
+    "mapsEmbedEnabledCityOnly": false
+  },
+  "cityFeatures": {
+    "directory": false,
+    "stateLookup": true
+  },
+  "faq": {
+    "global": [
+      {
+        "q": "Do you rank or recommend providers?",
+        "a": "No. We do not rank, recommend, or endorse providers. Listings and advertising are separate from editorial content."
+      },
+      {
+        "q": "Is this a referral service?",
+        "a": "No. This is an educational publisher. We do not sell leads or referrals."
+      },
+      {
+        "q": "How do I verify a license?",
+        "a": "Use the official state or agency verification tool for the relevant profession. Always verify independently."
+      },
+      {
+        "q": "How should I compare two quotes?",
+        "a": "Compare scope, not slogans. Require an itemized, written scope and an itemized price that shows what is included, excluded, and what triggers add-ons."
+      },
+      {
+        "q": "Can advertising influence editorial content?",
+        "a": "No. Advertising placements are labeled “Advertising” and are intended to be visually separate from editorial content."
+      },
+      {
+        "q": "Where can I read your editorial policy?",
+        "a": "See the Editorial Policy page for how we write, update, and correct content, and how we separate ads from editorial."
+      },
+      {
+        "q": "How do you make money?",
+        "a": "Through clearly labeled advertising placements. We do not sell referrals; advertising is separate from editorial content."
+      },
+      {
+        "q": "Can providers request a correction or update?",
+        "a": "Yes. Providers can request factual corrections (e.g., official website URL) via the contact page. We verify before updating."
+      },
+      {
+        "q": "Do you collect personal information?",
+        "a": "We collect only the minimum needed to operate the site. See the Privacy page for details and choices."
+      },
+      {
+        "q": "What sources should I trust first?",
+        "a": "Start with official sources (state licensing boards, agency sites, and primary documentation) and verify any claims independently."
+      }
+    ],
+    "city": [
+      {
+        "q": "Who is the best provider in {{city}}?",
+        "a": "There isn’t one best for everyone. We do not rank or endorse providers. Shortlist options and compare verification, scope, pricing transparency, policies, and fit for your situation."
+      },
+      {
+        "q": "How much does this service cost in {{city}}?",
+        "a": "Costs vary widely based on scope and complexity. Get itemized, written quotes and compare the same scope across providers."
+      },
+      {
+        "q": "How do I verify a license in {{stateName}}?",
+        "a": "Use the official state verification tool for {{stateName}} and confirm active status and any public discipline history."
+      },
+      {
+        "q": "What are common red flags in {{city}}?",
+        "a": "Pressure tactics, vague pricing, no written scope, unwillingness to discuss alternatives/risks, and unclear policies are common red flags."
+      },
+      {
+        "q": "Do you list every provider in {{city}}?",
+        "a": "No. Directories may be incomplete and informational only. We do not rank or endorse providers. Providers can request updates via the contact page."
+      },
+      {
+        "q": "How do I avoid scams in {{city}}?",
+        "a": "Verify identity and licensing using official sources, insist on written scope + pricing, avoid pressure tactics, and be cautious with unusual payment requests."
+      },
+      {
+        "q": "What should be in a written quote in {{city}}?",
+        "a": "An itemized scope, itemized price, assumptions, exclusions, and the conditions that trigger add-ons or changes."
+      },
+      {
+        "q": "Should I get more than one opinion in {{city}}?",
+        "a": "For complex, high-cost, or high-stakes decisions, getting multiple opinions or quotes can reduce errors and improve fit."
+      },
+      {
+        "q": "How do I file a complaint in {{stateName}}?",
+        "a": "Use the official complaint process for {{stateName}} (state board or relevant agency) and keep documentation of what occurred."
+      },
+      {
+        "q": "Can you update or remove a listing for {{city}}?",
+        "a": "You can request updates via the contact page. We prioritize factual accuracy and may remove entries that are clearly incorrect or outdated."
+      }
+    ]
+  },
+  "cityNav": [
+    {
+      "label": "Overview",
+      "route": ""
+    },
+    {
+      "label": "Directory",
+      "route": "directory"
+    },
+    {
+      "label": "FAQ",
+      "route": "faq"
+    }
+  ],
+  "pages": [
+    {
+      "route": "",
+      "title": "%%MARKET_LABEL%% Local Guides",
+      "description": "Frameworks for %%MARKET_LABEL%%. No rankings. No endorsements.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n%%EVAL_FRAMEWORK%%\n<section class=\"section micro-guides\">\n  <p><strong>Start here:</strong> <a href=\"/guides/#costs\">Costs</a> • <a href=\"/guides/#timeline\">Timeline</a> • <a href=\"/guides/#questions\">Questions to ask</a> • <a href=\"/guides/#red-flags\">Red flags</a> <span class=\"muted\">(educational)</span></p>\n</section>\n\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\">\n    <summary>\n      <span>Official state lookup</span>\n      <span class=\"accordion-meta\">Tap to verify licensing</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\" open>\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Tap for quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
+    },
+    {
+      "route": "faq",
+      "title": "%%MARKET_LABEL%% FAQs (No Rankings)",
+      "description": "FAQ for %%MARKET_LABEL%% (no rankings).",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Neutral answers. No rankings. Not professional advice.</p>\n</section>\n\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"notice\">\n  <h2>Quick checklist before you book</h2>\n  <ul>\n    <li><strong>Verify</strong> licensing and identity using official sources.</li>\n    <li><strong>Get it in writing:</strong> itemized scope + itemized pricing.</li>\n    <li><strong>Compare scope, not slogans.</strong></li>\n  </ul>\n</section>\n\n%%AD:faq_bottom%%"
+    }
+  ],
+  "educationOnly": true,
+  "sponsorship": {
+    "nextStepsEnabled": false,
+    "globalNextStepsEnabled": false
+  }
+}
