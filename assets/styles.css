@@ -154,26 +154,38 @@ footer .footer-nav a:hover{
   color: #ffffff;
 }
 
-/* ===== One-line hero micro-note ("If you only read one thing") ===== */
+/* ===== Guides micro-note ("If you only read one thing") ===== */
 .callout{
   margin: 0.5rem 0 0.75rem;
   padding: 0;
   border: none;
   background: transparent;
+  max-width: 100%;
 }
 
 .callout strong{
-  font-weight: 400;          /* remove headline emphasis */
+  font-weight: 400;          /* keep it soft */
   font-style: italic;
 }
 
 .callout p{
-  display: inline;           /* force single line */
+  display: block;            /* allow normal wrapping */
+  margin: 0;                 /* avoid default paragraph spacing weirdness */
   font-size: 0.78rem;        /* match “independent educational publisher” */
   font-style: italic;
   color: #6b7280;            /* soft neutral gray */
   line-height: 1.25;
+
+  white-space: normal;       /* allow wrapping */
+  overflow-wrap: anywhere;   /* prevents long runs from breaking layout */
+  word-break: normal;
+  
+.callout{
+  opacity: 0.95;
 }
+
+}
+
 
 /* ===== Ad block micro styling (very low visual priority) ===== */
 .ad-block,
