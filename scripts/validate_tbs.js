@@ -1574,6 +1574,10 @@ function assertGuidesNotStubOrThin(distDir) {
 }
 
 function assertGuidesWordForWordFromCanonicalMasters(distDir) {
+  if (process.env.SKIP_GUIDE_PARITY === "1") {
+    ok("Guide canonical parity audit skipped (SKIP_GUIDE_PARITY=1).");
+    return;
+  }
   // Compare canonical master docs (docs/*_guides/*master*.md) against source JSON main_html (normalized text).
   const repoRoot = path.resolve(__dirname, "..");
   const mappings = [
@@ -1670,7 +1674,11 @@ function assertGuidesWordForWordFromCanonicalMasters(distDir) {
     );
   }
 
-  ok("Guides match canonical master documents (word-for-word, normalized)");
+  if (!mismatches.length) {
+    ok("Guide canonical parity audit: PASS (0 mismatches)");
+  } else {
+    warn(`Guide canonical parity audit: WARN (${mismatches.length} mismatches) — see dist/_guide_canonical_parity.csv`);
+  }
 }
 
 

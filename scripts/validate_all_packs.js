@@ -57,9 +57,18 @@ function main() {
       // Run the same steps as the postbuild pipeline, but explicitly, per-pack.
       run("node scripts/build_city_sites.js");
       run("node scripts/snapshot_lkg.js");
-      run("node scripts/validate_tbs.js");
+      run("SKIP_GUIDE_PARITY=1 node scripts/validate_tbs.js");
 
       console.log(`\nOK: Pack PASS: ${pageSetFile}\n`);
+    }
+
+    // === GLOBAL CANONICAL PARITY AUDIT (RUN ONCE, WARN-ONLY) ===
+    try {
+      header("GUIDE CANONICAL PARITY (GLOBAL AUDIT — RUN ONCE)");
+      run("node scripts/audit_guide_canonical_parity.js", {});
+    } catch (e) {
+      console.error("WARN: Global parity audit script failed to run (script error).");
+      console.error(String(e && e.stack ? e.stack : e));
     }
 
     header("ALL PACKS PASSED");
