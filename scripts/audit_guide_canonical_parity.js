@@ -1,3 +1,21 @@
+#!/usr/bin/env node
+/**
+ * GUIDE CANONICAL PARITY (GLOBAL AUDIT — RUN ONCE)
+ *
+ * This is a diagnostic audit (WARN-only). It writes:
+ *   dist/_guide_canonical_parity_global.csv
+ *
+ * It compares:
+ *   - Auto-generated canonical masters in docs/_generated_guides/*.md
+ *   - Guide JSON files in each vertical's *_global_pages folder
+ *
+ * Master format:
+ *   --- GUIDE START: <slug>
+ *   ...
+ *   --- GUIDE END: <slug>
+ */
+const fs = require("fs");
+const path = require("path");
 
 function _findFirstExisting(paths) {
   for (const x of (paths || [])) {
@@ -9,54 +27,26 @@ function _findFirstExisting(paths) {
   return null;
 }
 
-/**
- * Global guide canonical parity audit (WARN-only).
- * Writes: dist/_guide_canonical_parity_global.csv
- *
- * This does NOT fail builds. It is a diagnostic signal.
- */
-const fs = require("fs");
-const path = require("path");
-
-const repoRoot = path.resolve(__dirname, "..");
-const distDir = path.join(repoRoot, "dist");
-const outPath = path.join(distDir, "_guide_canonical_parity_global.csv");
-
 function readJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 
-function findFirstExisting(paths) {
-  for (const p of paths) if (p && fs.existsSync(p)) return p;
-  return null;
-}
-
-function stripHtmlToText(html) {
-  return String(html || "")
+function norm(s) {
+  return String(s || "")
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
-    .replace(/<\/?[^>]+>/g, " ")
+    .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, "\"")
+    .replace(/&#39;/g, "'")
     .replace(/\s+/g, " ")
-    .trim();
+    .trim()
+    .toLowerCase();
 }
 
-function stripMarkdownToText(md) {
-  return String(md || "")
-    .replace(/---[\s\S]*?---/g, " ")
-    .replace(/`[^`]*`/g, " ")
-    .replace(/!\[[^\]]*]\([^)]*\)/g, " ")
-    .replace(/\[[^\]]*]\([^)]*\)/g, " ")
-    .replace(/[#>*_\-]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-// IMPORTANT: mirrors existing validator behavior.
-// Expects guide sections in masters as "## <slug>".
 function parseGuideBodiesFromMaster(mdText) {
   const out = {};
   const lines = String(mdText || "").split("\n");
@@ -67,14 +57,16 @@ function parseGuideBodiesFromMaster(mdText) {
     buf = [];
   };
   for (const line of lines) {
-    const m = line.match(/^##\s+(.+?)\s*$/);
-    if (m) {
+    const mStart = line.match(/^---\s*GUIDE START:\s*(.+?)\s*$/);
+    if (mStart) {
       flush();
-      curSlug = m[1]
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
+      curSlug = String(mStart[1] || "").trim();
+      continue;
+    }
+    const mEnd = line.match(/^---\s*GUIDE END:\s*(.+?)\s*$/);
+    if (mEnd) {
+      flush();
+      curSlug = null;
       continue;
     }
     if (curSlug) buf.push(line);
@@ -83,69 +75,33 @@ function parseGuideBodiesFromMaster(mdText) {
   return out;
 }
 
-function norm(s) {
-  return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
-}
-
 function main() {
-  if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true });
+  const repoRoot = path.resolve(__dirname, "..");
 
   const mappings = [
     {
       name: "dentistry",
-      master: _findFirstExisting([
-        path.join(repoRoot, "docs", "dentistry_guides", "dentistry_master_document_canonical_cfvp_v_1.md"),
-        path.join(repoRoot, "docs", "dentistry_guides", "dentistry_master_document_canonical_cfvpv_1.md"),
-      ]),
-      folder: _findFirstExisting([
-        path.join(repoRoot, "data", "page_sets", "examples", "dentistry_global_pages"),
-      ]),
+      master: _findFirstExisting([path.join(repoRoot, "docs", "_generated_guides", "dentistry_master.md")]),
+      folder: _findFirstExisting([path.join(repoRoot, "data", "page_sets", "examples", "dentistry_global_pages")]),
       filename: (slug) => `guides_${slug}.json`,
     },
     {
       name: "neuro",
-      master: _findFirstExisting([
-        path.join(repoRoot, "docs", "neuro_guides", "neuro_master_document_canonical_cfvpv_1.md"),
-        path.join(repoRoot, "docs", "neuro_guides", "neuro_master_document_canonical_cfvp_v_1.md"),
-      ]),
-      folder: _findFirstExisting([
-        path.join(repoRoot, "data", "page_sets", "examples", "neuro_global_pages"),
-      ]),
+      master: _findFirstExisting([path.join(repoRoot, "docs", "_generated_guides", "neuro_master.md")]),
+      folder: _findFirstExisting([path.join(repoRoot, "data", "page_sets", "examples", "neuro_global_pages")]),
       filename: (slug) => `guides_${slug}.json`,
     },
     {
       name: "uscis",
-      master: _findFirstExisting([
-        path.join(repoRoot, "docs", "uscis_guides", "uscis_master_document_canonical_GENERATED.md"),
-        path.join(repoRoot, "docs", "uscis_guides", "uscis_master_document_canonical_generated.md"),
-      ]),
-      // IMPORTANT: the folder is uscis_medical_global_pages in this repo
-      folder: _findFirstExisting([
-        path.join(repoRoot, "data", "page_sets", "examples", "uscis_medical_global_pages"),
-        path.join(repoRoot, "data", "page_sets", "examples", "uscis_medical_global_pages"),
-      ]),
+      master: _findFirstExisting([path.join(repoRoot, "docs", "_generated_guides", "uscis_medical_master.md")]),
+      folder: _findFirstExisting([path.join(repoRoot, "data", "page_sets", "examples", "uscis_medical_global_pages")]),
       filename: (slug) => `guides_${slug}.json`,
     },
     {
       name: "trt",
-      master: _findFirstExisting([
-        path.join(repoRoot, "docs", "trt_guides", "trt_master_document_canonical_cfvpv_1.md"),
-        path.join(repoRoot, "docs", "trt_guides", "trt_master_document_canonical_cfvp_v_1.md"),
-      ]),
-      folder: _findFirstExisting([
-        path.join(repoRoot, "data", "page_sets", "examples", "trt_global_pages"),
-      ]),
+      master: _findFirstExisting([path.join(repoRoot, "docs", "_generated_guides", "trt_master.md")]),
+      folder: _findFirstExisting([path.join(repoRoot, "data", "page_sets", "examples", "trt_global_pages")]),
       filename: (slug) => `guides_trt_${slug}.json`,
-    },
-    {
-      name: "pi",
-      master: _findFirstExisting([
-        path.join(repoRoot, "docs", "pi_guides", "Personal_Injury_Master_Document_Canonical_CFVP_v1_FINAL.md"),
-      ]),
-      folder: _findFirstExisting([
-        path.join(repoRoot, "data", "page_sets", "examples", "pi_global_pages"),
-      ]),
-      filename: (slug) => `${slug}.json`,
     },
   ];
 
@@ -153,46 +109,45 @@ function main() {
 
   for (const m of mappings) {
     if (!m.folder || !fs.existsSync(m.folder)) continue;
-    if (!m.folder || !fs.existsSync(m.folder)) continue;
-    if (!m.folder || !fs.existsSync(m.folder)) continue;
     if (!m.master || !fs.existsSync(m.master)) continue;
-    const mdText = fs.readFileSync(m.master, "utf8");
-    const guides = parseGuideBodiesFromMaster(mdText);
 
-    for (const [slug, body] of Object.entries(guides)) {
-      const p = path.join(m.folder, m.filename(slug));
-      if (!fs.existsSync(p)) {
-        mismatches.push({ vertical: m.name, slug, reason: "missing_json", file: p });
+    const masterText = fs.readFileSync(m.master, "utf8");
+    const masterBodies = parseGuideBodiesFromMaster(masterText);
+    const slugs = Object.keys(masterBodies).sort();
+
+    for (const slug of slugs) {
+      const jsonPath = path.join(m.folder, m.filename(slug));
+      if (!fs.existsSync(jsonPath)) {
+        mismatches.push([m.name, slug, "missing_json", path.relative(repoRoot, jsonPath)]);
         continue;
       }
 
-      const j = readJson(p);
-      const htmlText = stripHtmlToText(j.main_html || "");
-      const mdBody = body.replace(/^#\s+.*\n+/, "").trim();
-      const mdTextNorm = stripMarkdownToText(mdBody);
+      const obj = readJson(jsonPath);
+      const jsonBody = norm(obj.main_html || "");
+      const masterRaw = String(masterBodies[slug] || "");
+      const masterSansMeta = masterRaw
+        .split("\n")
+        .filter((ln) => !/^(Title|Description|Filename|Route):\s*/.test(ln.trim()))
+        .join("\n");
+      const masterBody = norm(masterSansMeta);
 
-      if (!norm(htmlText).includes(norm(mdTextNorm))) {
-        mismatches.push({ vertical: m.name, slug, reason: "content_mismatch", file: p });
+      if (jsonBody !== masterBody) {
+        mismatches.push([m.name, slug, "content_mismatch", path.relative(repoRoot, jsonPath)]);
       }
     }
   }
 
+  const outPath = path.join(repoRoot, "dist", "_guide_canonical_parity_global.csv");
+  fs.mkdirSync(path.dirname(outPath), { recursive: true });
   const header = "vertical,slug,reason,file\n";
-  const rows = mismatches
-    .map((x) => `${x.vertical},${x.slug},${x.reason},${path.relative(repoRoot, x.file)}`)
-    .join("\n");
-
-  fs.writeFileSync(outPath, header + rows + (rows ? "\n" : ""), "utf8");
+  const rows = mismatches.map((r) => r.map((x) => String(x).replace(/"/g, '""')).join(",")).join("\n");
+  fs.writeFileSync(outPath, header + (rows ? rows + "\n" : ""), "utf8");
 
   if (mismatches.length) {
-    console.warn(
-      `GUIDE CANONICAL PARITY (GLOBAL AUDIT): WARN (${mismatches.length} mismatches) -> dist/_guide_canonical_parity_global.csv`
-    );
+    console.log(`GUIDE CANONICAL PARITY (GLOBAL AUDIT): WARN (${mismatches.length} mismatches) -> dist/_guide_canonical_parity_global.csv`);
   } else {
-    console.log("GUIDE CANONICAL PARITY (GLOBAL AUDIT): PASS (0 mismatches)");
+    console.log("GUIDE CANONICAL PARITY (GLOBAL AUDIT): OK (0 mismatches)");
   }
-
-  process.exit(0); // WARN-only, never fail builds
 }
 
-main();
+if (require.main === module) main();

@@ -45,6 +45,8 @@ function header(msg) {
 }
 
 function main() {
+  // Auto-sync guide filenames + /guides index + canonical masters
+  run("node scripts/sync_guides.js");
   const original = readJson(siteJsonPath);
 
   try {

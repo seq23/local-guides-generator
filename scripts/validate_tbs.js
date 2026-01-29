@@ -1573,6 +1573,57 @@ function assertGuidesNotStubOrThin(distDir) {
   ok(`Guide pages are not thin (>= ${minWords} words on rendered pages)`);
 }
 
+
+function assertGuideIndexIsClickable(distDir) {
+  // Hard-fail requirement:
+  //  - /guides/ index must contain links to every rendered guide page
+  //  - every link must resolve to an existing rendered guide page
+  const guidesIndex = path.join(distDir, "guides", "index.html");
+  if (!fs.existsSync(guidesIndex)) {
+    // If the site doesn't ship a guides index for this pack, do nothing.
+    return;
+  }
+
+  const html = fs.readFileSync(guidesIndex, "utf8");
+  const hrefs = new Set();
+  const reHref = /href="(\/guides\/[^"]+)"/g;
+  let m;
+  while ((m = reHref.exec(html)) !== null) {
+    const href = m[1];
+    const mm = href.match(/^\/guides\/([^\/]+)\/?$/);
+    if (mm && mm[1] && mm[1] !== "index.html") hrefs.add(mm[1]);
+  }
+
+  // What actually exists in dist?
+  const guidesDir = path.join(distDir, "guides");
+  const existing = new Set();
+  for (const name of fs.readdirSync(guidesDir)) {
+    const p = path.join(guidesDir, name, "index.html");
+    if (fs.existsSync(p)) existing.add(name);
+  }
+
+  // Ignore the root index itself
+  existing.delete("index.html");
+
+  // If there are guide pages, the index must link to them.
+  if (existing.size > 0) {
+    const missingLinks = [...existing].filter((slug) => !hrefs.has(slug));
+    const brokenLinks = [...hrefs].filter((slug) => !existing.has(slug));
+
+    if (missingLinks.length || brokenLinks.length) {
+      const msg = [
+        "GUIDES CLICK AUDIT FAIL:",
+        missingLinks.length ? `- index is missing links for: ${missingLinks.join(", ")}` : null,
+        brokenLinks.length ? `- index links to missing pages: ${brokenLinks.join(", ")}` : null,
+      ].filter(Boolean).join("\n");
+      die(msg);
+    }
+  }
+
+  ok("Guides click audit pass (index links resolve + cover all guides)");
+}
+
+
 function assertGuidesWordForWordFromCanonicalMasters(distDir) {
   if (process.env.SKIP_GUIDE_PARITY === "1") {
     ok("Guide canonical parity audit skipped (SKIP_GUIDE_PARITY=1).");
@@ -1584,8 +1635,7 @@ function assertGuidesWordForWordFromCanonicalMasters(distDir) {
     {
       name: "dentistry",
       master: _findFirstExisting([
-        path.join(repoRoot, "docs", "dentistry_guides", "dentistry_master_document_canonical_cfvp_v_1 (1).md"),
-        path.join(repoRoot, "docs", "dentistry_guides", "dentistry_master_document_canonical_cfvp_v_1.md"),
+        path.join(repoRoot, "docs", "_generated_guides", "dentistry_master.md"),
       ]),
       folder: path.join(repoRoot, "data", "page_sets", "examples", "dentistry_global_pages"),
       filename: (slug) => `guides_${slug}.json`,
@@ -1593,7 +1643,7 @@ function assertGuidesWordForWordFromCanonicalMasters(distDir) {
     {
       name: "neuro",
       master: _findFirstExisting([
-        path.join(repoRoot, "docs", "neuro_guides", "neuro_master_document_canonical_cfvpv_1.md"),
+        path.join(repoRoot, "docs", "_generated_guides", "neuro_master.md"),
       ]),
       folder: path.join(repoRoot, "data", "page_sets", "examples", "neuro_global_pages"),
       filename: (slug) => `guides_${slug}.json`,
@@ -1601,18 +1651,18 @@ function assertGuidesWordForWordFromCanonicalMasters(distDir) {
     {
       name: "trt",
       master: _findFirstExisting([
-        path.join(repoRoot, "docs", "trt_guides", "trt_master_document_canonical_cfvpv_1.md"),
+        path.join(repoRoot, "docs", "_generated_guides", "trt_master.md"),
       ]),
       folder: path.join(repoRoot, "data", "page_sets", "examples", "trt_global_pages"),
       filename: (slug) => `guides_trt_${slug}.json`,
     },
     {
-      name: "pi",
+      name: "uscis",
       master: _findFirstExisting([
-        path.join(repoRoot, "docs", "pi_guides", "Personal_Injury_Master_Document_Canonical_CFVP_v1_FINAL.md"),
+        path.join(repoRoot, "docs", "_generated_guides", "uscis_medical_master.md"),
       ]),
-      folder: path.join(repoRoot, "data", "page_sets", "examples", "pi_global_pages"),
-      filename: (slug) => `${slug}.json`,
+      folder: path.join(repoRoot, "data", "page_sets", "examples", "uscis_medical_global_pages"),
+      filename: (slug) => `guides_${slug}.json`,
     },
   ];
 
@@ -1691,6 +1741,7 @@ function main() {
   // Guides QA hardening
   assertNoDuplicateH1InGuides(distDir);
   assertGuidesNotStubOrThin(distDir);
+  assertGuideIndexIsClickable(distDir);
   assertGuidesWordForWordFromCanonicalMasters(distDir);
 
   assertHtmlBasics();
