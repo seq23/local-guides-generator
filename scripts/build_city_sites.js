@@ -49,6 +49,14 @@ function ensureCityDisclosure(html) {
   return out + "\n\n" + renderCityDisclosureHtml() + "\n";
 }
 
+function stripCityDisclosureBlocks(html) {
+  let out = String(html || "");
+  // Remove canonical disclosure block if it exists in main content.
+  out = out.replace(/\s*<section class=\"disclaimer\"[^>]*data-city-disclosure=\"true\"[\s\S]*?<\/section>\s*/g, '\n');
+  out = out.replace(/\s*%%CITY_DISCLOSURE%%\s*/g, '\n');
+  return out;
+}
+
 function readJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
@@ -1235,15 +1243,18 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
     mainHtml = stripPiOnlyDisallowedBlocks(mainHtml);
   }
 
-  // Required zone: city disclosure (Appendix L). Ensures every city page ships with the canonical disclaimer.
-  mainHtml = ensureCityDisclosure(mainHtml);
+  // City disclosure: footer carries the disclosure universally.
+  // Do not duplicate disclosure in main content (it is redundant and breaks flow).
+  mainHtml = stripCityDisclosureBlocks(mainHtml);
 
   // Non-PI: optional example provider lists (only when city files exist)
   // Goal: give users concrete options without rankings/endorsements. This is NOT a directory.
   if (!isPersonalInjury(verticalKey) && route === '' && city && city.slug) {
     const lists = loadExampleProviderLists(verticalKey, city.slug);
     if (lists && lists.length) {
-      const insertBefore = '<details class="accordion" id="city-faq">';
+      const insertToken = '%%EXAMPLE_PROVIDERS%%';
+      // Robust anchor: match the city FAQ <details> regardless of extra attributes (e.g., open)
+      const faqAnchorRe = /<details\s+class=\"accordion\"\s+id=\"city-faq\"[^>]*>/i;
 
       function getSubHeadingAndLead(vk, subKey) {
         const marketRaw = String(city.marketLabel || city.slug || 'this market');
@@ -1254,6 +1265,11 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
         // Default fallback
         let heading = 'Examples of nearby providers in ' + market;
         let lead = 'There is no universal “best.” Use the checklist above, verify licensing through official state sources, then compare nearby options. This list is provided as non-exhaustive examples only and is not a recommendation, ranking, or endorsement.';
+
+        if (v === 'dentistry') {
+          heading = 'Examples of dental providers in ' + market;
+          lead = 'Below are non-exhaustive examples of nearby dental providers. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
+        }
 
         if (v === 'trt') {
           if (s === 'trt') heading = 'Examples of TRT / men\'s health clinics in ' + market;
@@ -1277,24 +1293,100 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
       }
 
       // Render in the deterministic order returned by loadExampleProviderLists
-      const blocks = '%%AD:city_hub_mid%%\n' + lists.map((entry) => {
+      const blocks = lists.map((entry) => {
         const hl = getSubHeadingAndLead(verticalKey, entry.subKey);
         return renderExampleProvidersSectionHtml(verticalKey, city, entry.providers, { heading: hl.heading, lead: hl.lead });
       }).join('\n');
 
-      if (mainHtml.includes(insertBefore)) {
-        mainHtml = mainHtml.replace(insertBefore, blocks + '\n' + insertBefore);
+      if (mainHtml.includes(insertToken)) {
+        mainHtml = mainHtml.split(insertToken).join(blocks);
+      } else if (faqAnchorRe.test(mainHtml)) {
+        mainHtml = mainHtml.replace(faqAnchorRe, (m0) => blocks + '\n' + m0);
       } else {
+        // Safe fallback: append, but this should be rare because city templates should include %%EXAMPLE_PROVIDERS%%
         mainHtml += '\n' + blocks;
       }
     }
   }
 
+  // Ensure non-PI templates never leak the example providers placeholder
+  if (!isPersonalInjury(verticalKey) && route === "") {
+    mainHtml = mainHtml.split("%%EXAMPLE_PROVIDERS%%").join("");
+  }
   // PI: add city → state backlink (tiny LLM boost + navigation sanity)
   if (isPersonalInjury(verticalKey) && city && city.state) {
     const ab = String(city.state).toUpperCase();
     const sn = String(city.stateName || ab);
     mainHtml += '\n<section class="section" data-pi-state-backlink="true"><p class="muted" style="font-size:0.9em;margin:0">Back to <a href="/states/' + escapeHtml(ab) + '/">' + escapeHtml(sn) + '</a></p></section>';
+  }
+
+  // --- CITY HUB LLM BAIT + SOURCE MICRO-BLOCK (all verticals) ---
+  // Goal: make key official resources + internal policy links explicitly citable on city hubs,
+  // without changing the locked city flow ordering.
+  // Placement: immediately after the AI visibility block (or after %%EVAL_FRAMEWORK%% if missing).
+  function buildCitySourcesMicroBlock() {
+    const buildDate = BUILD_ISO.slice(0, 10);
+    const cityName = String(city && city.marketLabel ? city.marketLabel : city && city.cityName ? city.cityName : '');
+    const stateAbbr = String(city && city.state ? city.state : '').toUpperCase();
+
+    let resources = [];
+    if (isPersonalInjury(verticalKey)) {
+      if (city && city.licenseLookupUrl) resources.push({ name: `Official ${stateAbbr || 'state'} attorney search`, url: String(city.licenseLookupUrl) });
+      if (city && city.disciplineLookupUrl) resources.push({ name: `Official ${stateAbbr || 'state'} disciplinary / actions lookup`, url: String(city.disciplineLookupUrl) });
+      if (stateAbbr) resources.push({ name: `Browse ${stateAbbr} state hub`, url: `/states/${stateAbbr}/` });
+    } else {
+      // Use licensing lookup map when available; fall back to the state lookup URL baked into city.
+      const nonPi = getNonPiResourcesForState(verticalKey === 'uscis_medical' ? 'uscis' : verticalKey, stateAbbr, pageSet);
+      if (Array.isArray(nonPi) && nonPi.length) resources = resources.concat(nonPi);
+      if (resources.length === 0 && city && city.licenseLookupUrl) {
+        resources.push({ name: `Official ${stateAbbr || 'state'} license lookup`, url: String(city.licenseLookupUrl) });
+      }
+    }
+
+    const items = resources
+      .filter((r) => r && r.url)
+      .slice(0, 6)
+      .map((r) => {
+        const u = String(r.url);
+        const href = u.startsWith('/') ? u : normalizeUrl(u);
+        return `<li><a href="${escapeHtml(href)}" rel="nofollow">${escapeHtml(String(r.name || href))}</a></li>`;
+      })
+      .join('');
+
+    // Internal anchor links (guaranteed pages)
+    const internal = (
+      '<li><a href="/methodology/">Methodology</a></li>' +
+      '<li><a href="/editorial-policy/">Editorial policy</a></li>' +
+      '<li><a href="/disclaimer/">Disclosure &amp; disclaimers</a></li>'
+    );
+
+    const heading = isPersonalInjury(verticalKey)
+      ? 'Official resources (for verification)'
+      : 'Official verification resources';
+
+    return (
+      `\n<section class="section" data-llm-bait="sources">` +
+      `\n  <h2>${escapeHtml(heading)}</h2>` +
+      `\n  <p class="muted">For ${escapeHtml(cityName || 'this market')}, start with official sources. We do not endorse providers.</p>` +
+      `\n  <ul>${items}${internal}</ul>` +
+      `\n  <p class="muted" data-last-updated="true">Last updated: ${escapeHtml(buildDate)}</p>` +
+      `\n</section>\n`
+    );
+  }
+
+  // Only apply to the city hub (route == "")
+  if (route === "" && !mainHtml.includes('data-llm-bait="sources"')) {
+    const micro = buildCitySourcesMicroBlock();
+    // Primary insertion point: right after AI visibility block
+    const aiBlockRe = /<section class="section"[^>]*data-ai-visibility="true"[\s\S]*?<\/section>\s*/i;
+    if (aiBlockRe.test(mainHtml)) {
+      mainHtml = mainHtml.replace(aiBlockRe, (m0) => m0 + "\n" + micro + "\n");
+    } else if (mainHtml.includes('%%EVAL_FRAMEWORK%%')) {
+      mainHtml = mainHtml.split('%%EVAL_FRAMEWORK%%').join('%%EVAL_FRAMEWORK%%\n' + micro + '\n');
+    } else {
+      // Safe fallback: insert after hero
+      mainHtml = mainHtml.replace(/<\/section>\s*\n\s*%%AD:city_hub_top%%/i, (m0) => m0 + "\n" + micro + "\n");
+    }
   }
 
   // Next-steps zone injection (global buyout OR sponsor-driven)
@@ -1323,6 +1415,7 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
     "%%HEAD_JSON_LD%%": renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings),
     "%%FOOTER%%": footerHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
+    ,"%%OPTIONAL_TOP_NAV%%": (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
   });
   return mapped;
 }
@@ -1334,13 +1427,18 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
 
   let mainHtml = String(globalPage.main_html || "").split("%%BRAND_NAME%%").join(brandName);
 
-  // Guide pages (global): enforce a consistent hero contract.
-  // Required by page contracts: <p class="kicker">Guide</p> and the phrase "Educational framework only".
-  // If a guide was authored without the hero, we prepend a canonical one.
-  if (route.startsWith("guides/") && route !== "guides") {
-    const hasKicker = mainHtml.includes('<p class="kicker">Guide</p>');
-    const hasEduPhrase = /Educational\s+framework\s+only/i.test(mainHtml);
-    if (!hasKicker || !hasEduPhrase) {
+  // --- GUIDE DETAIL CONTRACT (SEV-1 REGRESSION GUARD) ---
+  // Guides must be block-structured and must include ad slots.
+  // We intentionally enforce this at build-time so a flat/unstyled guide JSON
+  // cannot silently ship even if authored incorrectly.
+  function enhanceGuideDetailHtml(rawHtml) {
+    let out = String(rawHtml || "");
+
+    // 1) Hero (required)
+    const hasHero = out.includes('<section class="hero">');
+    const hasKicker = out.includes('<p class="kicker">Guide</p>');
+    const hasEduPhrase = /Educational\s+framework\s+only/i.test(out);
+    if (!hasHero || !hasKicker || !hasEduPhrase) {
       const safeH1 = escapeHtml(title);
       const hero =
         '<section class="hero">' +
@@ -1348,8 +1446,103 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
         '\n  <h1>' + safeH1 + '</h1>' +
         '\n  <p class="muted">Educational framework only. Not medical or legal advice.</p>' +
         '\n</section>\n\n';
-      mainHtml = hero + mainHtml;
+
+      // Remove a redundant leading h1/h2 that often appears in older guide JSON.
+      out = out
+        .replace(/^\s*<h1>[^<]*<\/h1>\s*/i, '')
+        .replace(/^\s*<h2>[^<]*<\/h2>\s*/i, '');
+      out = hero + out;
     }
+
+    // 2) Required ad slots (top + bottom)
+    if (!out.includes('%%AD:global_guide_top%%')) {
+      // Insert immediately after hero for predictable placement.
+      out = out.replace(/<\/section>\s*\n\s*\n?/i, '</section>\n\n%%AD:global_guide_top%%\n\n');
+    }
+    if (!out.includes('%%AD:global_guide_bottom%%')) {
+      out = out + '\n\n%%AD:global_guide_bottom%%\n';
+    }
+
+    // 3) Block structure (wrap legacy flat guides)
+    // If the guide body has no section blocks, we deterministically wrap by heading groups.
+    // NOTE: we cannot rely on newlines; some guide HTML is single-line.
+    const sectionCount = (out.match(/class="section\b/gi) || []).length;
+    if (sectionCount < 2 && !out.includes('data-guide-section="true"')) {
+      const TOP = '%%AD:global_guide_top%%';
+      const BOT = '%%AD:global_guide_bottom%%';
+
+      const iTop = out.indexOf(TOP);
+      if (iTop !== -1) {
+        const head = out.slice(0, iTop + TOP.length);
+        let body = out.slice(iTop + TOP.length);
+
+        // Remove bottom token from the body while we rebuild; we'll re-append later.
+        body = body.split(BOT).join('');
+
+        const headingRe = /<(h2|h3)\b[^>]*>[\s\S]*?<\/\1>/gi;
+        const matches = [];
+        let m;
+        while ((m = headingRe.exec(body)) !== null) {
+          matches.push({ idx: m.index, tag: m[1], html: m[0] });
+        }
+
+        const blocks = [];
+        if (matches.length === 0) {
+          // No headings — wrap the whole body.
+          const cleaned = body.trim();
+          if (cleaned) {
+            blocks.push(
+              '<section class="section guide-section" data-guide-section="true">\n' +
+              cleaned +
+              '\n</section>'
+            );
+          }
+        } else {
+          for (let i = 0; i < matches.length; i++) {
+            const start = matches[i].idx;
+            const end = (i + 1 < matches.length) ? matches[i + 1].idx : body.length;
+            const chunk = body.slice(start, end).trim();
+            if (!chunk) continue;
+            // Normalize heading levels to h2 inside sections.
+            const cleaned = chunk
+              .replace(/<h3\b/gi, '<h2')
+              .replace(/<\/h3>/gi, '</h2>');
+
+            blocks.push(
+              '<section class="section guide-section" data-guide-section="true">\n' +
+              cleaned +
+              '\n</section>'
+            );
+          }
+        }
+
+        out = head + '\n\n' + blocks.join('\n\n') + '\n\n' + BOT + '\n';
+      }
+    }
+
+    // 4) LLM bait (internal backlinks + policy anchors)
+    if (!out.includes('data-llm-bait="guide-links"')) {
+      out = out.replace(/%%AD:global_guide_bottom%%/g, '')
+      +
+      '\n\n<section class="section" data-llm-bait="guide-links">' +
+      '\n  <h2>Related resources</h2>' +
+      '\n  <ul>' +
+      '\n    <li><a href="/guides/">All guides</a></li>' +
+      '\n    <li><a href="/methodology/">How we evaluate information</a></li>' +
+      '\n    <li><a href="/editorial-policy/">Editorial policy</a></li>' +
+      '\n    <li><a href="/disclaimer/">Disclosure &amp; disclaimers</a></li>' +
+      '\n    <li><a href="/for-providers/">Advertising &amp; provider information</a></li>' +
+      '\n  </ul>' +
+      `\n  <p class="muted" data-last-updated="true">Last updated: ${BUILD_ISO.slice(0,10)}</p>` +
+      '\n</section>\n\n%%AD:global_guide_bottom%%\n';
+    }
+
+    return out;
+  }
+
+  // Guide pages (global): enforce the full guide contract (hero + ads + blocks + LLM bait).
+  if (route.startsWith("guides/") && route !== "guides") {
+    mainHtml = enhanceGuideDetailHtml(mainHtml);
   }
 
   if (route === "faq" && mainHtml.includes("%%FAQ_ITEMS_GLOBAL%%")) {
@@ -1394,6 +1587,7 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
     "%%HEAD_JSON_LD%%": renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet),
     "%%FOOTER%%": footerHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
+    ,"%%OPTIONAL_TOP_NAV%%": (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
   });
   return mapped;
 }
@@ -1727,6 +1921,18 @@ function loadNextStepsSponsor(citySlug) {
     const cityListings = listingsByCity ? (listingsByCity[city.slug] || []) : [];
     for (const p of (pageSet.pages || [])) {
       const route = applyCityTokens(p.route || "", city).replace(/^\/+|\/+$/g, "");
+
+      // --- A1: Remove redundant /orphan city page families ---
+      // City hubs already contain the FAQ accordion + Guides block, and PI hubs contain directory-like zones.
+      // We do NOT emit separate:
+      // - /<city>/faq/
+      // - /<city>/guides/
+      // - /<city>/directory/
+      // This prevents orphan pages and ensures the canonical city hub is the single entrypoint.
+      if (route === 'faq' || route === 'guides' || route === 'directory') {
+        continue;
+      }
+
       if (route === 'directory' && !(pageSet.__cityFeatures && pageSet.__cityFeatures.directory)) {
         continue;
       }
@@ -1840,7 +2046,8 @@ function loadNextStepsSponsor(citySlug) {
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'),
         '%%HEAD_JSON_LD%%': '',
         '%%FOOTER%%': footerHtml,
-        '%%BRAND_NAME%%': escapeHtml(brandName)
+        '%%BRAND_NAME%%': escapeHtml(brandName),
+        '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
       });
       return mapped;
     }
@@ -2013,7 +2220,8 @@ function loadNextStepsSponsor(citySlug) {
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
         '%%HEAD_JSON_LD%%': renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg),
         '%%FOOTER%%': footerHtml,
-        '%%BRAND_NAME%%': escapeHtml(brandName)
+        '%%BRAND_NAME%%': escapeHtml(brandName),
+        '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
       });
       return injectAdPlacements(mapped, ads, {
         verticalKey: 'pi',
@@ -2053,7 +2261,8 @@ function loadNextStepsSponsor(citySlug) {
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
       '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury — browse by state', 'Browse personal injury by state.', pageSet),
       '%%FOOTER%%': footerHtml,
-      '%%BRAND_NAME%%': escapeHtml(brandName)
+      '%%BRAND_NAME%%': escapeHtml(brandName),
+      '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
     });
     writeFileEnsured(outPathForGlobal('personal-injury'), piHubHtml);
   }

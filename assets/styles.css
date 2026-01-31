@@ -33,6 +33,10 @@ body {
 }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .brand { font-weight: 700; text-decoration: none; color: inherit; }
+
+.brand-wrap{display:flex;flex-direction:column;gap:2px}
+.publisher{font-size:12px;opacity:0.8}
+
 .top-nav { display: flex; gap: 12px; flex-wrap: wrap; }
 .top-nav a { text-decoration: none; color: inherit; padding: 6px 8px; border-radius: 8px; }
 .top-nav a:hover { background: rgba(17,24,39,0.06); }
@@ -838,3 +842,7 @@ main ul, main ol{
   padding: 0 16px 14px 16px;
   color: #1f2937;
 }
+
+/* Publisher lockup (umbrella brand) */
+.brand-lockup{display:flex;flex-direction:column;line-height:1.1}
+.publisher{font-size:12px;opacity:.75;margin-bottom:4px}

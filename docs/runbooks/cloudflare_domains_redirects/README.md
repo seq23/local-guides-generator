@@ -28,6 +28,10 @@ bash scripts/deploy_worker.sh outputs/lkg_redirector_worker.js
 bash scripts/attach_routes.sh outputs/zones_with_ids.csv
 
 bash verify/verify_all.sh inputs/domains.csv outputs/zones_with_ids.csv
+
+# Full infra verification (single command; Project 8)
+# Includes token verify + per-domain: zone, routes, DNS, HTTP.
+CF_WORKER_NAME="$CF_WORKER_NAME" bash scripts/verify_infra_all.sh inputs/domains.csv
 ```
 
 If anything fails: read `SOP_owner_terminal.md` and `FRICTION_AUDIT.md`.

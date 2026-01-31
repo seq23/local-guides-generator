@@ -137,12 +137,7 @@ function assertNoMarkdownFencesInScripts() {
     if (txt.includes("```")) offenders.push(r);
   }
   if (offenders.length) {
-    fail(
-      `Markdown fences found in scripts/: ${offenders.slice(0, 10).join(", ")}${
-        offenders.length > 10 ? " ..." : ""
-      }`,
-      "Remove markdown ``` fences from scripts/ files (allowlist: scripts/validate_tbs.js)."
-    );
+    fail('City disclosure duplication regression: remove in-body city disclosure blocks (footer-only). Offenders' + String.fromCharCode(10) + offenders.slice(0, 50).join(String.fromCharCode(10)));
   }
   ok("No markdown fences in scripts/");
 }
@@ -470,40 +465,37 @@ function assertCityPagesHaveCityDisclosure() {
     return /^dist\/[^/]+\/(?:.*\/)?index\.html$/.test(r);
   });
 
-  const MARK = 'data-city-disclosure="true"';
+  const redundantPhrases = [
+    'This site provides general information and decision-support checklists',
+    'Advertising is clearly labeled and separated from editorial content'
+  ];
 
-  const missing = [];
-  const dupes = [];
-
-  function countOccurrences(haystack, needle) {
-    if (!needle) return 0;
-    let idx = 0;
-    let count = 0;
-    while (true) {
-      idx = haystack.indexOf(needle, idx);
-      if (idx === -1) break;
-      count += 1;
-      idx += needle.length;
-    }
-    return count;
-  }
+  const offenders = [];
+  const missingFooterDisclosures = [];
 
   for (const f of cityPages) {
     const html = readText(f);
-    const c = countOccurrences(html, MARK);
-    if (c === 0) missing.push(rel(f));
-    if (c > 1) dupes.push(rel(f));
-    if (missing.length >= 15 || dupes.length >= 15) break;
+
+    // Hard fail: the old in-body disclosure block regressed flow and created duplicate copy.
+    if (html.includes('data-city-disclosure="true"') || redundantPhrases.some((ph) => html.includes(ph))) {
+      offenders.push(rel(f));
+    }
+
+    // Footer must contain the global disclosure anchors.
+    if (!html.includes('<footer>') || !html.includes('Advertising disclosure.') || !html.includes('No guarantees or endorsements.')) {
+      missingFooterDisclosures.push(rel(f));
+    }
   }
 
-  if (missing.length) {
-    fail(`City pages missing required city disclosure zone (${MARK}): ${missing.join(', ')}`);
-  }
-  if (dupes.length) {
-    fail(`City pages contain duplicate city disclosure blocks (must be exactly one): ${dupes.join(', ')}`);
+  if (offenders.length) {
+    fail('City disclosure duplication regression: remove in-body city disclosure blocks (footer-only). Offenders' + String.fromCharCode(10) + offenders.slice(0, 50).join(String.fromCharCode(10)));
   }
 
-  ok('City pages include required city disclosure zone');
+  if (missingFooterDisclosures.length) {
+    fail('Footer disclosure missing on some city pages. Offenders' + String.fromCharCode(10) + missingFooterDisclosures.slice(0, 50).join(String.fromCharCode(10)));
+  }
+
+  ok('City disclosure: footer-only (no redundant in-body blocks)');
 }
 
 
@@ -1055,7 +1047,7 @@ function assertPiStatePages() {
     }
   }
   if (offenders.length) {
-    fail(`PI city pages must include state backlink. Missing in sample: ${offenders.join(', ')}`);
+    fail('City disclosure duplication regression: remove in-body city disclosure blocks (footer-only). Offenders' + String.fromCharCode(10) + offenders.slice(0, 50).join(String.fromCharCode(10)));
   }
 
   ok('PI state pages exist (50), disciplinary links present, and city backlink marker present');
@@ -1169,8 +1161,8 @@ function assertNextStepsInvariants() {
       }
     }
     if (offenders.length) {
-      fail(`educationOnly=true: next-steps zones must not exist anywhere. Found: ${offenders.join(', ')}`);
-    }
+    fail('City disclosure duplication regression: remove in-body city disclosure blocks (footer-only). Offenders' + String.fromCharCode(10) + offenders.slice(0, 50).join(String.fromCharCode(10)));
+  }
 
     const nextStepsPages = htmlFiles.filter((p) => /\/next-steps\/index\.html$/i.test(rel(p)));
     if (nextStepsPages.length) {
@@ -1323,6 +1315,88 @@ function assertNextStepsInvariants() {
 
   assertSponsorDrivenOnly();
   ok('Next-steps invariants: sponsor-driven mode enforced');
+}
+
+// --- GUIDE PAGE CONTRACT (SEV-1) ---
+// Prevent silent regressions where guide pages lose block structure or ad slots.
+
+// --- FOR-PROVIDERS PRICING CONTRACT (SEV-1) ---
+function assertForProvidersPricingContract() {
+  const fp = path.join(distDir, 'for-providers', 'index.html');
+  if (!fs.existsSync(fp)) return;
+  const html = readText(fp);
+
+  if (html.includes('Citywide Authority')) {
+    fail('FOR-PROVIDERS CONTRACT FAIL: banned tier "Citywide Authority" still present');
+  }
+  if (!html.includes('Total City / State Buyout')) {
+    fail('FOR-PROVIDERS CONTRACT FAIL: missing tier name "Total City / State Buyout"');
+  }
+
+  const submitCount = (html.match(/>Submit Inquiry<\/a>/g) || []).length;
+  if (submitCount < 4) {
+    fail('FOR-PROVIDERS CONTRACT FAIL: expected >=4 "Submit Inquiry" buttons, found ' + submitCount);
+  }
+
+  const mailtoCount = (html.match(/href="mailto:info@spryvc\.com\?/g) || []).length;
+  if (mailtoCount < submitCount) {
+    fail('FOR-PROVIDERS CONTRACT FAIL: Submit Inquiry buttons must use mailto:info@spryvc.com');
+  }
+
+  if (!html.includes('data-slot-diagram="true"')) {
+    fail('FOR-PROVIDERS CONTRACT FAIL: missing slot diagram accordion section (data-slot-diagram="true")');
+  }
+
+  ok('For-providers pricing contract: PASS (tiers + inquiry buttons + slot diagram)');
+}
+
+function assertGuidePageContracts() {
+  const guidesDir = path.join(distDir, 'guides');
+  if (!fs.existsSync(guidesDir)) return;
+
+  const guidePages = walkFiles(guidesDir, (p) => p.endsWith('index.html'))
+    .filter((p) => /^dist\/guides\/[^/]+\/index\.html$/i.test(rel(p)));
+
+  if (!guidePages.length) return;
+
+  const offenders = [];
+  for (const fp of guidePages) {
+    const html = readText(fp);
+    const r = rel(fp);
+
+    // Required: hero kicker
+    if (!html.includes('<p class="kicker">Guide</p>')) {
+      offenders.push(`${r} missing guide hero kicker`);
+      continue;
+    }
+
+    // Required: ad stacks (top + bottom)
+    const hasTop = html.includes('data-sponsor-stack="global_guide_top"');
+    const hasBottom = html.includes('data-sponsor-stack="global_guide_bottom"');
+    if (!hasTop || !hasBottom) {
+      offenders.push(`${r} missing ad stack(s): ${!hasTop ? 'global_guide_top ' : ''}${!hasBottom ? 'global_guide_bottom' : ''}`.trim());
+      continue;
+    }
+
+    // Required: block structure marker OR multiple section blocks
+    const hasGuideSections = html.includes('data-guide-section="true"') || ((html.match(/class="section\b/g) || []).length >= 2);
+    if (!hasGuideSections) {
+      offenders.push(`${r} missing section blocks (guide appears unstructured)`);
+      continue;
+    }
+
+    // Required: LLM bait internal backlinks marker
+    if (!html.includes('data-llm-bait="guide-links"')) {
+      offenders.push(`${r} missing LLM backlink block (data-llm-bait)`);
+      continue;
+    }
+  }
+
+  if (offenders.length) {
+    fail('City disclosure duplication regression: remove in-body city disclosure blocks (footer-only). Offenders' + String.fromCharCode(10) + offenders.slice(0, 50).join(String.fromCharCode(10)));
+  }
+
+  ok('Guide page contract: hero + ad slots + sections + LLM backlinks');
 }
 
 function csvEscape(v) {
@@ -1732,6 +1806,288 @@ function assertGuidesWordForWordFromCanonicalMasters(distDir) {
 }
 
 
+
+// --- Non-PI city hub flow contract (hard gate) ---
+function inferVerticalKeyFromSiteJson(repoRoot) {
+  try {
+    const site = JSON.parse(readText(path.join(repoRoot, 'data', 'site.json')));
+    const f = String(site.pageSetFile || '').toLowerCase();
+    if (!f) return '';
+    if (f.includes('dentistry')) return 'dentistry';
+    if (f.includes('trt')) return 'trt';
+    if (f.includes('neuro')) return 'neuro';
+    if (f.includes('uscis')) return 'uscis_medical';
+    if (f.includes('pi')) return 'pi';
+    return '';
+  } catch (e) {
+    return '';
+  }
+}
+
+function pickGoldenNonPiCitySlug(repoRoot, verticalKey) {
+  const dir = path.join(repoRoot, 'data', 'example_providers', String(verticalKey || ''));
+  if (fs.existsSync(dir)) {
+    const files = fs.readdirSync(dir).filter((f) => f.toLowerCase().endsWith('.json')).sort();
+    if (files.length) return files[0].replace(/\.json$/i, '');
+  }
+  try {
+    const cityListPath = path.join(repoRoot, 'data', 'page_sets', 'examples', 'cities_' + verticalKey + '_v1.json');
+    if (fs.existsSync(cityListPath)) {
+      const arr = JSON.parse(readText(cityListPath));
+      if (Array.isArray(arr) && arr.length && arr[0].slug) return String(arr[0].slug);
+    }
+  } catch (e) {}
+  return '';
+}
+
+function pickGoldenPiCitySlug(repoRoot) {
+  try {
+    const arr = JSON.parse(readText(path.join(repoRoot, 'data', 'page_sets', 'examples', 'cities_pi_v1.json')));
+    if (Array.isArray(arr) && arr.length && arr[0].slug) return String(arr[0].slug);
+  } catch (e) {}
+  return '';
+}
+
+function assertNonPiCityHubFlowContract() {
+  const verticalKey = inferVerticalKeyFromSiteJson(repoRoot);
+  if (!verticalKey || verticalKey === 'pi') return;
+
+  const offenders = [];
+  const cityPages = walkFiles(distDir, (p) => p.endsWith('index.html'))
+    .filter((p) => {
+      const r = rel(p);
+      if (!/^dist\/[^/]+\/index\.html$/i.test(r)) return false;
+      if (r.startsWith('dist/guides/')) return false;
+      return true;
+    });
+
+  const redundantPhrases = [
+    'This site provides general information and decision-support checklists',
+    'Advertising is clearly labeled and separated from editorial content'
+  ];
+
+  for (const f of cityPages) {
+    const html = readText(f);
+    if (!html.includes('id="state-lookup"')) continue; // non-PI city hub marker
+
+    const slug = (html.match(/<body[^>]*data-city="([^"]+)"/i) || [])[1] || '';
+
+    const idxTop = html.indexOf('data-sponsor-stack="city_hub_top"');
+    const idxAi = html.indexOf('data-ai-visibility="true"');
+    const idxMid = html.indexOf('data-sponsor-stack="city_hub_mid"');
+    const idxExample = html.indexOf('data-example-providers="true"');
+    const idxState = html.indexOf('id="state-lookup"');
+    const idxFaq = html.indexOf('id="city-faq"');
+    const idxBottom = html.indexOf('data-sponsor-stack="city_hub_bottom"');
+    const idxGuides = html.indexOf('<h2>Guides</h2>');
+
+    const needExample = !!(slug && fs.existsSync(path.join(repoRoot, 'data', 'example_providers', verticalKey, slug + '.json')));
+
+    const order = [idxTop, idxAi, idxMid, idxState, idxFaq, idxBottom, idxGuides];
+    if (needExample) order.splice(3, 0, idxExample);
+
+    const missing = order.some((x) => x === -1);
+    const inOrder = order.every((x, i) => i === 0 || x > order[i - 1]);
+
+    const hasRedundant = html.includes('data-city-disclosure="true"') || redundantPhrases.some((ph) => html.includes(ph));
+
+    if (missing || !inOrder || (needExample && idxExample === -1) || hasRedundant) {
+      offenders.push(rel(f) + ' (city=' + (slug || 'unknown') + ')');
+    }
+  }
+
+  if (offenders.length) {
+    fail('Non-PI city hub flow regression: enforce order Top Ad → AI Visibility → Mid Ad → Example Listings → State Lookup → FAQ → Bottom Ad → Guides (and no redundant disclosure lines). Offenders' + String.fromCharCode(10) + offenders.slice(0, 25).join(String.fromCharCode(10)));
+  }
+
+  ok('Non-PI city hub flow contract: PASS');
+}
+
+function assertGoldenCityHubFlowContract() {
+  const verticalKey = inferVerticalKeyFromSiteJson(repoRoot);
+  if (!verticalKey) return;
+
+  if (verticalKey === 'pi') {
+    const slug = pickGoldenPiCitySlug(repoRoot);
+    if (!slug) return;
+    const pth = path.join(distDir, slug, 'index.html');
+    if (!fs.existsSync(pth)) return;
+    const html = readText(pth);
+    const idxTop = html.indexOf('data-sponsor-stack="city_hub_top"');
+    const idxMid = html.indexOf('data-sponsor-stack="city_hub_mid"');
+    const idxBottom = html.indexOf('data-sponsor-stack="city_hub_bottom"');
+    if (idxTop === -1 || idxMid === -1 || idxBottom === -1 || !(idxTop < idxMid < idxBottom)) {
+      fail('Golden PI city hub flow failed for ' + slug + ' — ad blocks are missing or out of order.');
+    }
+    ok('Golden PI city hub flow: PASS (' + slug + ')');
+    return;
+  }
+
+  const slug = pickGoldenNonPiCitySlug(repoRoot, verticalKey);
+  if (!slug) return;
+  const pth = path.join(distDir, slug, 'index.html');
+  if (!fs.existsSync(pth)) return;
+  const html = readText(pth);
+
+  const must = [
+    'data-sponsor-stack="city_hub_top"',
+    'data-ai-visibility="true"',
+    'data-sponsor-stack="city_hub_mid"',
+    'data-example-providers="true"',
+    'id="state-lookup"',
+    'id="city-faq"',
+    'data-sponsor-stack="city_hub_bottom"',
+    '<h2>Guides</h2>'
+  ];
+  const missing = must.filter((t) => !html.includes(t));
+  if (missing.length) {
+    fail('Golden non-PI city hub flow failed for ' + slug + ' — missing tokens: ' + missing.join(', '));
+  }
+
+  ok('Golden non-PI city hub flow: PASS (' + slug + ')');
+}
+
+// --- BRAND UMBRELLA CONSISTENCY (Project 10) ---
+// Hard-fail if the umbrella publisher brand is missing from any rendered page,
+// or if banned legacy umbrella strings appear anywhere in dist.
+function assertUmbrellaBrandConsistency() {
+  const site = readJson(path.join(repoRoot, 'data', 'site.json'));
+  const umbrella = String(site.brandName || '').trim();
+  if (!umbrella) fail('Missing data/site.json brandName (umbrella brand)');
+
+  const banned = [
+    // Legacy umbrella brand that must never appear as publisher.
+    'The Accident Guides'
+  ];
+
+  const htmlFiles = walkFiles(distDir, (p) => p.endsWith('.html'));
+  const offenders = [];
+
+  for (const fp of htmlFiles) {
+    const html = readText(fp);
+    const r = rel(fp);
+    // Every page must include the umbrella brand name.
+    if (!html.includes(umbrella)) {
+      offenders.push(`${r} missing umbrella brand: ${umbrella}`);
+      continue;
+    }
+    for (const b of banned) {
+      if (html.includes(b)) {
+        offenders.push(`${r} contains banned string: ${b}`);
+        break;
+      }
+    }
+  }
+
+  if (offenders.length) {
+    fail('UMBRELLA BRAND CONSISTENCY FAIL (SEV-1):\n' + offenders.slice(0, 40).map((x) => ' - ' + x).join('\n'));
+  }
+  ok('Umbrella brand consistency: PASS');
+}
+
+// --- HUB CONTRACT SNAPSHOT PRESENCE (Project 7) ---
+// We require snapshot artifacts to exist after build+snapshot so drift can be audited.
+function assertHubContractsSnapshotPresent() {
+  const hubPath = path.join(distDir, '_hub_contracts_snapshot.json');
+  if (!fs.existsSync(hubPath)) fail('Missing dist/_hub_contracts_snapshot.json (run scripts/snapshot_lkg.js)');
+  let hub;
+  try {
+    hub = JSON.parse(readText(hubPath));
+  } catch {
+    fail('Could not parse dist/_hub_contracts_snapshot.json');
+  }
+  const sampled = hub && hub.counts && typeof hub.counts.sampled === 'number' ? hub.counts.sampled : 0;
+  if (sampled <= 0) fail('Hub contracts snapshot has no sampled city pages (unexpected)');
+  ok('Hub contracts snapshot: PASS');
+}
+
+// --- ORPHAN + REDUNDANT CITY ROUTE GUARD (A1) ---
+// Contract:
+// - No orphan HTML pages in dist/ (every page must have at least one inbound internal link)
+// - No redundant city page families:
+//     /<city>/faq/, /<city>/guides/, /<city>/directory/
+// These pages are embedded into the city hub and must never be emitted.
+function assertNoOrphanPagesAndNoRedundantCityRoutes() {
+  const htmlFiles = walkFiles(distDir, (p) => p.endsWith('.html'));
+
+  // 1) Redundant city routes must not exist
+  const redundant = htmlFiles
+    .map(rel)
+    .filter((r) => /^dist\/[a-z0-9\-]+\/(faq|guides|directory)\/index\.html$/i.test(r));
+  if (redundant.length) {
+    fail(
+      'REDUNDANT CITY ROUTES EMITTED (SEV-1):\n' +
+        redundant.slice(0, 40).map((x) => ' - ' + x).join('\n'),
+      'Fix: city hub should contain FAQ + Guides (and PI directory zones) inline. Do not generate /<city>/faq/, /<city>/guides/, or /<city>/directory/.'
+    );
+  }
+
+  // 2) Build a map of "page href" -> dist path
+  function normalizeHrefToDistIndex(href) {
+    if (!href) return null;
+    let h = String(href).trim();
+    if (!h) return null;
+    if (h.startsWith('mailto:') || h.startsWith('tel:')) return null;
+    if (h.startsWith('#')) return null;
+    if (h.startsWith('http://') || h.startsWith('https://')) return null;
+    // Strip query/hash
+    h = h.split('#')[0].split('?')[0];
+    if (!h.startsWith('/')) return null;
+    // Normalize multiple slashes
+    h = h.replace(/\/+/g, '/');
+    // Root
+    if (h === '/' || h === '') return 'dist/index.html';
+    // Ensure trailing slash means index.html
+    if (h.endsWith('/')) {
+      return 'dist' + h + 'index.html';
+    }
+    // If it already ends with .html, map directly
+    if (h.endsWith('.html')) {
+      return 'dist' + h;
+    }
+    // Otherwise treat as directory
+    return 'dist' + h + '/index.html';
+  }
+
+  const hrefRe = /<a\s+[^>]*href=["']([^"']+)["'][^>]*>/gi;
+  const inbound = new Map();
+  const allPages = new Set(htmlFiles.map(rel));
+
+  // Initialize inbound counts
+  for (const p of allPages) inbound.set(p, 0);
+
+  for (const fp of htmlFiles) {
+    const from = rel(fp);
+    const html = readText(fp);
+    let m;
+    while ((m = hrefRe.exec(html)) !== null) {
+      const distIndex = normalizeHrefToDistIndex(m[1]);
+      if (!distIndex) continue;
+      if (!allPages.has(distIndex)) continue;
+      inbound.set(distIndex, (inbound.get(distIndex) || 0) + 1);
+    }
+  }
+
+  // Allowlist: the site root is an entry point by definition
+  const allowOrphan = new Set(['dist/index.html']);
+
+  const orphans = [];
+  for (const p of allPages) {
+    if (allowOrphan.has(p)) continue;
+    const n = inbound.get(p) || 0;
+    if (n === 0) orphans.push(p);
+  }
+
+  if (orphans.length) {
+    fail(
+      'ORPHAN PAGES FOUND (SEV-1):\n' + orphans.slice(0, 60).map((x) => ' - ' + x).join('\n') +
+        (orphans.length > 60 ? `\n... plus ${orphans.length - 60} more` : ''),
+      'Fix: every HTML page must be linked from at least one other internal page (nav, hub lists, guides hub, footer).'
+    );
+  }
+  ok('Orphan page scan: PASS (all pages have inbound links)');
+}
+
 function main() {
   assertNoMarkdownFencesInScripts();
   assertDistExists();
@@ -1743,6 +2099,13 @@ function main() {
   assertGuidesNotStubOrThin(distDir);
   assertGuideIndexIsClickable(distDir);
   assertGuidesWordForWordFromCanonicalMasters(distDir);
+  assertGuidePageContracts();
+  assertForProvidersPricingContract();
+  assertNonPiCityHubFlowContract();
+  assertGoldenCityHubFlowContract();
+  assertUmbrellaBrandConsistency();
+  assertHubContractsSnapshotPresent();
+  assertNoOrphanPagesAndNoRedundantCityRoutes();
 
   assertHtmlBasics();
   assertNoAdTokensInDist();

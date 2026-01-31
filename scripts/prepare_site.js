@@ -3,7 +3,7 @@
  * Generates data/site.json from data/site.template.json using env vars.
  * Env:
  *  - PAGE_SET_FILE (default: starter_v1.json)
- *  - BRAND_NAME    (default: The Accident Guides)
+ *  - BRAND_NAME    (default: The Industry Guides)
  *  - SITE_URL      (default: https://example.com)
  */
 const fs = require("fs");
@@ -15,7 +15,7 @@ const templatePath = path.join(dataDir, "site.template.json");
 const outPath = path.join(dataDir, "site.json");
 
 const PAGE_SET_FILE = process.env.PAGE_SET_FILE || "starter_v1.json";
-const BRAND_NAME = process.env.BRAND_NAME || "The Accident Guides";
+const BRAND_NAME = process.env.BRAND_NAME || "The Industry Guides";
 const SITE_URL = process.env.SITE_URL || "https://example.com";
 
 function exists(p) { try { fs.accessSync(p); return true; } catch { return false; } }
