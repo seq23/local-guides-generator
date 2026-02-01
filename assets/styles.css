@@ -846,3 +846,50 @@ main ul, main ol{
 /* Publisher lockup (umbrella brand) */
 .brand-lockup{display:flex;flex-direction:column;line-height:1.1}
 .publisher{font-size:12px;opacity:.75;margin-bottom:4px}
+
+
+/* --- For-Providers pricing + slot diagrams --- */
+.pricing-split{
+  display:grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap:16px;
+  align-items:start;
+}
+.pricing-explainer{
+  background: rgba(0,0,0,0.02);
+  border:1px solid rgba(0,0,0,0.08);
+  border-radius:12px;
+  padding:14px;
+}
+.pricing-cards{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:12px;
+}
+.wireframe-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+  margin: 12px 0 6px 0;
+}
+.wireframe{
+  border:1px solid rgba(0,0,0,0.10);
+  border-radius:12px;
+  padding:12px;
+  background: #fff;
+}
+.wf-title{
+  font-weight:700;
+  margin-bottom:8px;
+}
+.wf-box{
+  border:1px dashed rgba(0,0,0,0.25);
+  border-radius:10px;
+  padding:8px 10px;
+  margin:6px 0;
+  font-size: 0.95em;
+}
+@media (max-width: 900px){
+  .pricing-split{ grid-template-columns: 1fr; }
+  .wireframe-grid{ grid-template-columns: 1fr; }
+}

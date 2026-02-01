@@ -1110,6 +1110,51 @@ function renderLLMBaitQuestionHtml(verticalKey, city) {
   );
 }
 
+function renderCostsTimelineQuestionsRedFlagsHtml(verticalKey, city) {
+  // Educational only — generic across packs with light vertical-specific labels.
+  const v = String(verticalKey || "").toLowerCase();
+  const noun = (v === "pi") ? "case" : "provider";
+  return `
+<section class="section" data-costs-timeline="true">
+  <h2>Costs • Timeline • Questions to ask • Red flags <span class="muted">(educational)</span></h2>
+  <div class="grid two-col">
+    <div class="card">
+      <h3>Costs</h3>
+      <ul class="neutral-list">
+        <li>Ask for written pricing ranges and what is included vs. add-on.</li>
+        <li>Confirm refund/cancellation policies and what happens if you pause.</li>
+        <li>Get fees in writing before you share sensitive info or commit.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Timeline</h3>
+      <ul class="neutral-list">
+        <li>Ask for expected time-to-first-appointment and follow-up cadence.</li>
+        <li>Clarify what can be done remotely vs. what requires in-person.</li>
+        <li>Confirm response-time expectations for questions and updates.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Questions to ask</h3>
+      <ul class="neutral-list">
+        <li>What credentials and licensing apply to the ${noun}?</li>
+        <li>What outcomes are realistic, and what are the common failure modes?</li>
+        <li>What happens if the plan needs to change midway?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Red flags</h3>
+      <ul class="neutral-list">
+        <li>Guarantees of results, urgency pressure, or refusal to provide terms in writing.</li>
+        <li>Vague credentials, unclear ownership, or no transparent contact info.</li>
+        <li>“One-size-fits-all” recommendations without asking basic context.</li>
+      </ul>
+    </div>
+  </div>
+</section>`.trim();
+}
+
+
 function ensureCityHubRequiredBlocks(html, verticalKey, city) {
   let out = String(html || "");
 
@@ -1139,7 +1184,19 @@ function ensureCityHubRequiredBlocks(html, verticalKey, city) {
     }
   }
 
-  // Mid: before example providers section if present; else after eval framework; else append.
+  
+  // Costs/Timeline/Questions/Red flags block: required after eval framework on all city pages.
+  const hasCostsTimeline = out.includes('data-costs-timeline="true"');
+  if (!hasCostsTimeline) {
+    const block = renderCostsTimelineQuestionsRedFlagsHtml(verticalKey, city);
+    if (out.includes('data-eval-framework="true"')) {
+      out = out.replace(/(<section[^>]*data-eval-framework="true"[\s\S]*?<\/section>)/i, `$1\n${block}`);
+    } else {
+      out = out + "\n" + block;
+    }
+  }
+
+// Mid: before example providers section if present; else after eval framework; else append.
   if (!hasMid) {
     const midHtml = renderAdPlacement("city_hub_mid");
     if (out.includes('data-example-providers="true"')) {
@@ -1710,7 +1767,7 @@ function renderCityGuideCardsHtml(guides, city) {
   }
 
   return (
-    "<section class=\"section city-guides\" data-guides=\"true\">" +
+    "<section class=\"section city-guides\">" +
     "<h2>Guides for " + safeMarket + "</h2>" +
     "<p class=\"muted\">Use these neutral checklists and comparison frameworks before you contact any provider. No rankings. Educational only.</p>" +
     "<div class=\"grid\">" +
