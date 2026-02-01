@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 const sponsorship = require("./helpers/sponsorship");
 
 // --- JSON-LD / schema validation (locked rules) ---
@@ -2122,6 +2123,17 @@ function main() {
   assertPiStatePages();
   assertPiCsvRuntimeCoverage();
   assertNextStepsInvariants();
+
+  // --- Playbook v7 hardening add-ons (buyouts + provider inquiry + dist scans) ---
+  execSync("node scripts/validate_buyouts_schema.js", { stdio: "inherit" });
+  execSync("node scripts/validate_buyout_next_steps_hardfail.js", { stdio: "inherit" });
+  execSync("node scripts/validate_buyout_next_steps_contract.js", { stdio: "inherit" });
+  execSync("node scripts/validate_for_providers_inquiry.js", { stdio: "inherit" });
+  execSync("node scripts/validate_dist_compliance_scan.js", { stdio: "inherit" });
+  execSync("node scripts/crawl_dist_links.js", { stdio: "inherit" });
+  execSync("node scripts/export_buyout_click_audit_urls.js", { stdio: "inherit" });
+  execSync("node scripts/validate_golden_pages.js", { stdio: "inherit" });
+  execSync("node scripts/validate_pi_keyword_containment.js", { stdio: "inherit" });
 }
 
 main();

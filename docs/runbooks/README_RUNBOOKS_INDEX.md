@@ -18,3 +18,7 @@ From repo root:
 npm ci
 npm run build
 ```
+
+## Releases
+
+- [Snapshot Apply — One-Shot (Non-Interactive)](releases/SNAPSHOT_ONE_SHOT_APPLY.md)

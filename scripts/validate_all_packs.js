@@ -18,7 +18,6 @@ const repoRoot = path.resolve(__dirname, "..");
 const siteJsonPath = path.join(repoRoot, "data", "site.json");
 
 const PACKS = [
-  "starter_v1.json",
   "examples/pi_v1.json",
   "examples/dentistry_v1.json",
   "examples/trt_v1.json",

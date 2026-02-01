@@ -14,6 +14,8 @@ Owner + VA operational runbooks for this repo.
 - **Sponsor ads + buyouts (drop-in assets):** `docs/runbooks/sponsors_ads_buyouts/`
 
 ## Releases
+
+- [Snapshot Apply — One-Shot (Non-Interactive)](releases/SNAPSHOT_ONE_SHOT_APPLY.md)
 - **Build/validate/deploy + rollback:** `docs/runbooks/releases/`
 
 ## Manual-only fallback

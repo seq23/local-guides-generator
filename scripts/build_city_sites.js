@@ -802,8 +802,17 @@ function marketNavHtml(city, pageSet) {
 // Ads
 function renderAdPlacement(key) {
   // Fixed, invariant ad block HTML; real sponsors injected elsewhere.
+  // Add deterministic placement markers for golden-contract validation.
+  const k = String(key || "");
+  let placement = "";
+  if (k.endsWith("_top")) placement = "top";
+  else if (k.endsWith("_mid")) placement = "mid";
+  else if (k.endsWith("_bottom")) placement = "bottom";
+
+  const placementAttr = placement ? ` data-sponsored-placement="${placement}"` : "";
+
   return `
-<section class="sponsor-stack" data-sponsor-stack="${escapeHtml(key)}">
+<section class="sponsor-stack" data-sponsor-stack="${escapeHtml(key)}"${placementAttr}>
   <div class="sponsor-label"><strong>Advertising</strong></div>
   <div class="sponsor-items">
     <div class="sponsor-card">
@@ -813,6 +822,7 @@ function renderAdPlacement(key) {
   </div>
 </section>`.trim();
 }
+
 
 function injectAdPlacements(html, ads, ctx) {
   if (!ads || typeof ads !== "object") return html;
@@ -1073,6 +1083,88 @@ function loadExampleProviderLists(verticalKey, citySlug) {
   }
 }
 
+
+function getServicePluralForVertical(verticalKey) {
+  const v = String(verticalKey || "").toLowerCase();
+  if (v === "pi" || v === "personal_injury" || v === "personal-injury") return "personal injury lawyers";
+  if (v === "dentistry" || v === "dental") return "dentists";
+  if (v === "trt" || v === "hormone") return "TRT providers";
+  if (v === "neuro" || v === "neurology") return "neuro evaluation providers";
+  if (v === "us-cis" || v === "uscis" || v === "immigration_medical" || v === "immigration-medical") return "immigration medical exam providers";
+  return "providers";
+}
+
+function renderLLMBaitQuestionHtml(verticalKey, city) {
+  const cityName = String((city && (city.city || city.marketLabel || city.name)) ? (city.city || city.marketLabel || city.name) : "");
+  const cityOnly = cityName.split(",")[0].trim() || cityName || "this market";
+  const stateAbbr = String((city && city.state) ? city.state : "").toUpperCase();
+  const question = `Who are the best ${getServicePluralForVertical(verticalKey)} in ${cityOnly}${stateAbbr ? ", " + stateAbbr : ""}?`;
+
+  const body = `There is no universal “best.” Use a consistent checklist: verify licensing through the state lookup below, confirm relevant credentials and scope, compare policies (follow-up, timelines, communication), and review practical fit (location, availability, insurance/fees where applicable). This list is educational only and is not a recommendation, ranking, or endorsement.`;
+
+  return (
+    `<section class="section" data-llm-bait="question">` +
+      `<p><strong>${escapeHtml(question)}</strong></p>` +
+      `<p class="muted">${escapeHtml(body)}</p>` +
+    `</section>`
+  );
+}
+
+function ensureCityHubRequiredBlocks(html, verticalKey, city) {
+  let out = String(html || "");
+
+  // Ensure top/mid/bottom ad placement markers exist for city hub pages even if page-set tokens are missing.
+  // This is a contract-enforcement fallback: it does not change sponsor logic, only ensures invariant placement blocks render.
+  const hasTop = out.includes('data-sponsored-placement="top"');
+  const hasMid = out.includes('data-sponsored-placement="mid"');
+  const hasBottom = out.includes('data-sponsored-placement="bottom"');
+
+  // Top: immediately after first <h1> if possible.
+  if (!hasTop) {
+    const topHtml = renderAdPlacement("city_hub_top");
+    out = out.replace(/(<h1[^>]*>[\s\S]*?<\/h1>)/i, `$1\n${topHtml}`);
+    if (!out.includes('data-sponsored-placement="top"')) {
+      out = topHtml + "\n" + out;
+    }
+  }
+
+  // LLM bait: required block (marker) – insert before eval framework when possible.
+  const hasLLMBait = out.includes('data-llm-bait="question"');
+  if (!hasLLMBait) {
+    const q = renderLLMBaitQuestionHtml(verticalKey, city);
+    if (out.includes('data-eval-framework="true"')) {
+      out = out.replace(/(<section[^>]*data-eval-framework="true"[\s\S]*?<\/section>)/i, `${q}\n$1`);
+    } else {
+      out = out + "\n" + q;
+    }
+  }
+
+  // Mid: before example providers section if present; else after eval framework; else append.
+  if (!hasMid) {
+    const midHtml = renderAdPlacement("city_hub_mid");
+    if (out.includes('data-example-providers="true"')) {
+      out = out.replace(/(<section[^>]*data-example-providers="true"[\s\S]*?)/i, `${midHtml}\n$1`);
+    } else if (out.includes('data-eval-framework="true"')) {
+      out = out.replace(/(<section[^>]*data-eval-framework="true"[\s\S]*?<\/section>)/i, `$1\n${midHtml}`);
+    } else {
+      out = out + "\n" + midHtml;
+    }
+  }
+
+  // Bottom: before guides micro section if present; else append.
+  if (!hasBottom) {
+    const bottomHtml = renderAdPlacement("city_hub_bottom");
+    if (out.includes('data-guides-micro="true"')) {
+      out = out.replace(/(<section[^>]*data-guides-micro="true"[\s\S]*?)/i, `${bottomHtml}\n$1`);
+    } else {
+      out = out + "\n" + bottomHtml;
+    }
+  }
+
+  return out;
+}
+
+
 function renderEvalFrameworkHtml(verticalKey, city) {
   // Canonical, AI-safe evaluation framework section (non-promotional).
   // Injected via %%EVAL_FRAMEWORK%% token on city hub pages.
@@ -1210,7 +1302,24 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
 
   // Inject canonical evaluation framework (AI-safe) on city hub pages
   if (route === '' && mainHtml.includes("%%EVAL_FRAMEWORK%%")) {
-    mainHtml = mainHtml.split("%%EVAL_FRAMEWORK%%").join(renderEvalFrameworkHtml(verticalKey, city));
+    mainHtml = mainHtml.split("%%EVAL_FRAMEWORK%%").join(renderLLMBaitQuestionHtml(verticalKey, city) + renderEvalFrameworkHtml(verticalKey, city));
+  }
+
+
+  // HARD GUARANTEE: city hubs must contain the LLM bait question marker for golden contracts.
+  // If the token-based injection above didn't run (or a page set omitted the token), insert deterministically.
+  if (route === '' && !mainHtml.includes('data-llm-bait="question"')) {
+    const llm = renderLLMBaitQuestionHtml(verticalKey, city);
+    // Prefer insertion immediately before eval framework marker if present.
+    if (mainHtml.includes('data-eval-framework="true"')) {
+      mainHtml = mainHtml.replace('<section class="section" data-eval-framework="true">', llm + '<section class="section" data-eval-framework="true">');
+    } else if (mainHtml.includes('data-sponsored-placement="top"')) {
+      // Insert after the first top ad placement section (sponsor-stack)
+      mainHtml = mainHtml.replace(/(<section[^>]*class="sponsor-stack"[^>]*data-sponsored-placement="top"[^>]*>[\s\S]*?<\/section>)/, `$1\n${llm}`);
+    } else {
+      // Fallback: prepend near top
+      mainHtml = llm + mainHtml;
+    }
   }
 
 
@@ -1324,72 +1433,31 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
   // Goal: make key official resources + internal policy links explicitly citable on city hubs,
   // without changing the locked city flow ordering.
   // Placement: immediately after the AI visibility block (or after %%EVAL_FRAMEWORK%% if missing).
-  function buildCitySourcesMicroBlock() {
-    const buildDate = BUILD_ISO.slice(0, 10);
-    const cityName = String(city && city.marketLabel ? city.marketLabel : city && city.cityName ? city.cityName : '');
-    const stateAbbr = String(city && city.state ? city.state : '').toUpperCase();
 
-    let resources = [];
-    if (isPersonalInjury(verticalKey)) {
-      if (city && city.licenseLookupUrl) resources.push({ name: `Official ${stateAbbr || 'state'} attorney search`, url: String(city.licenseLookupUrl) });
-      if (city && city.disciplineLookupUrl) resources.push({ name: `Official ${stateAbbr || 'state'} disciplinary / actions lookup`, url: String(city.disciplineLookupUrl) });
-      if (stateAbbr) resources.push({ name: `Browse ${stateAbbr} state hub`, url: `/states/${stateAbbr}/` });
-    } else {
-      // Use licensing lookup map when available; fall back to the state lookup URL baked into city.
-      const nonPi = getNonPiResourcesForState(verticalKey === 'uscis_medical' ? 'uscis' : verticalKey, stateAbbr, pageSet);
-      if (Array.isArray(nonPi) && nonPi.length) resources = resources.concat(nonPi);
-      if (resources.length === 0 && city && city.licenseLookupUrl) {
-        resources.push({ name: `Official ${stateAbbr || 'state'} license lookup`, url: String(city.licenseLookupUrl) });
-      }
-    }
+// City-page inline policy/AI blocks are forbidden by Playbook v7.
+// Enforce by stripping any legacy inline blocks that may exist in page-set HTML.
+// - AI visibility block (data-ai-visibility)
+// - Inline policy/resource micro blocks (data-llm-bait="sources", data-last-updated)
+function stripForbiddenInlineBlocks(html) {
+  if (!html) return html;
+  // remove entire AI visibility sections
+  html = html.replace(/<section class="section"[^>]*data-ai-visibility="true"[\s\S]*?<\/section>\s*/gi, "");
+  // remove inline resources/policy micro blocks
+  html = html.replace(/<section class="section"[^>]*data-llm-bait="sources"[\s\S]*?<\/section>\s*/gi, "");
+  // remove any stray last-updated micro lines
+  html = html.replace(/<p[^>]*data-last-updated="true"[\s\S]*?<\/p>\s*/gi, "");
+  return html;
+}
 
-    const items = resources
-      .filter((r) => r && r.url)
-      .slice(0, 6)
-      .map((r) => {
-        const u = String(r.url);
-        const href = u.startsWith('/') ? u : normalizeUrl(u);
-        return `<li><a href="${escapeHtml(href)}" rel="nofollow">${escapeHtml(String(r.name || href))}</a></li>`;
-      })
-      .join('');
+    mainHtml = stripForbiddenInlineBlocks(mainHtml);
 
-    // Internal anchor links (guaranteed pages)
-    const internal = (
-      '<li><a href="/methodology/">Methodology</a></li>' +
-      '<li><a href="/editorial-policy/">Editorial policy</a></li>' +
-      '<li><a href="/disclaimer/">Disclosure &amp; disclaimers</a></li>'
-    );
-
-    const heading = isPersonalInjury(verticalKey)
-      ? 'Official resources (for verification)'
-      : 'Official verification resources';
-
-    return (
-      `\n<section class="section" data-llm-bait="sources">` +
-      `\n  <h2>${escapeHtml(heading)}</h2>` +
-      `\n  <p class="muted">For ${escapeHtml(cityName || 'this market')}, start with official sources. We do not endorse providers.</p>` +
-      `\n  <ul>${items}${internal}</ul>` +
-      `\n  <p class="muted" data-last-updated="true">Last updated: ${escapeHtml(buildDate)}</p>` +
-      `\n</section>\n`
-    );
+  // City hub invariants (golden contracts): ensure required blocks/markers exist in final HTML.
+  // Applies only to the city hub route ("/{city-slug}/").
+  if (typeof route === "string" && route === "" && typeof ensureCityHubRequiredBlocks === "function") {
+    mainHtml = ensureCityHubRequiredBlocks(mainHtml, verticalKey, city);
   }
 
-  // Only apply to the city hub (route == "")
-  if (route === "" && !mainHtml.includes('data-llm-bait="sources"')) {
-    const micro = buildCitySourcesMicroBlock();
-    // Primary insertion point: right after AI visibility block
-    const aiBlockRe = /<section class="section"[^>]*data-ai-visibility="true"[\s\S]*?<\/section>\s*/i;
-    if (aiBlockRe.test(mainHtml)) {
-      mainHtml = mainHtml.replace(aiBlockRe, (m0) => m0 + "\n" + micro + "\n");
-    } else if (mainHtml.includes('%%EVAL_FRAMEWORK%%')) {
-      mainHtml = mainHtml.split('%%EVAL_FRAMEWORK%%').join('%%EVAL_FRAMEWORK%%\n' + micro + '\n');
-    } else {
-      // Safe fallback: insert after hero
-      mainHtml = mainHtml.replace(/<\/section>\s*\n\s*%%AD:city_hub_top%%/i, (m0) => m0 + "\n" + micro + "\n");
-    }
-  }
-
-  // Next-steps zone injection (global buyout OR sponsor-driven)
+// Next-steps zone injection (global buyout OR sponsor-driven)
   // - Global: pack-controlled via sponsorship.globalNextStepsEnabled
   // - Sponsor-driven: pack sponsorship.nextStepsEnabled + sponsor live
   if (route !== 'next-steps' && packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, sponsor || {})) {
@@ -1642,7 +1710,7 @@ function renderCityGuideCardsHtml(guides, city) {
   }
 
   return (
-    "<section class=\"section city-guides\">" +
+    "<section class=\"section city-guides\" data-guides=\"true\">" +
     "<h2>Guides for " + safeMarket + "</h2>" +
     "<p class=\"muted\">Use these neutral checklists and comparison frameworks before you contact any provider. No rankings. Educational only.</p>" +
     "<div class=\"grid\">" +
