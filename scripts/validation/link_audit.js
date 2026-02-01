@@ -32,7 +32,9 @@ function run(ctx){
       const href = match[1];
       // ignore external-ish
       if (!href.startsWith('/')) continue;
-      const target = path.join(dist, href.replace(/^\//,''), 'index.html');
+      const clean = href.replace(/^\//,'');
+      const looksFile = /\.[a-z0-9]{2,5}$/i.test(clean);
+      const target = looksFile ? path.join(dist, clean) : path.join(dist, clean, 'index.html');
       if (!fs.existsSync(target)) missing.push(`${fp.replace(repoRoot+path.sep,'')} -> ${href}`);
     }
   }

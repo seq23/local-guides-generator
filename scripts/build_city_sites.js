@@ -1456,16 +1456,31 @@ function stripForbiddenInlineBlocks(html) {
   html = html.replace(/<section class="section"[^>]*data-llm-bait="sources"[\s\S]*?<\/section>\s*/gi, "");
   // remove any stray last-updated micro lines
   html = html.replace(/<p[^>]*data-last-updated="true"[\s\S]*?<\/p>\s*/gi, "");
+
+  // Normalize golden markers on the *final* city hub HTML (templates may omit these attrs).
+  // FAQ marker
+  html = html.replace(/(<details[^>]*id="city-faq"[^>]*)(>)/, (m, a, b) => {
+    if (/data-faq=/i.test(a)) return m;
+    return `${a} data-faq="true"${b}`;
+  });
+
+  // State lookup marker (accept legacy data-state-lookup-cta too, but ensure one stable marker)
+  html = html.replace(/(<details[^>]*id="state-lookup"[^>]*)(>)/, (m, a, b) => {
+    if (/data-state-lookup=/i.test(a) || /data-state-lookup-cta=/i.test(a)) return m;
+    return `${a} data-state-lookup="true"${b}`;
+  });
+
+  // Guides marker (attach to the Guides section wrapper)
+  html = html.replace(/(<section[^>]*)(>\s*<h2>Guides<\/h2>)/, (m, a, b) => {
+    if (/data-guides=/i.test(a)) return m;
+    return `${a} data-guides="true"${b}`;
+  });
+
   return html;
 }
 
     mainHtml = stripForbiddenInlineBlocks(mainHtml);
 
-  // City hub invariants (golden contracts): ensure required blocks/markers exist in final HTML.
-  // Applies only to the city hub route ("/{city-slug}/").
-  if (typeof route === "string" && route === "" && typeof ensureCityHubRequiredBlocks === "function") {
-    mainHtml = ensureCityHubRequiredBlocks(mainHtml, verticalKey, city);
-  }
 
 // Next-steps zone injection (global buyout OR sponsor-driven)
   // - Global: pack-controlled via sponsorship.globalNextStepsEnabled
@@ -1477,6 +1492,12 @@ function stripForbiddenInlineBlocks(html) {
   mainHtml = injectAdPlacements(mainHtml, ads, { city: city, verticalKey: verticalKey, cityFeatures: (pageSet && pageSet.__cityFeatures) ? pageSet.__cityFeatures : null });
   mainHtml = injectSponsors(mainHtml, sponsorsByStack);
   mainHtml = injectListings(mainHtml, listings, city, sponsor || {}, pageSet);
+
+  // City hub invariants (golden contracts): ensure required blocks/markers exist in final HTML.
+  // IMPORTANT: run AFTER ad/listings injection so we can de-dupe final sponsor stacks.
+  if (typeof route === "string" && route === "" && typeof ensureCityHubRequiredBlocks === "function") {
+    mainHtml = ensureCityHubRequiredBlocks(mainHtml, verticalKey, city);
+  }
 
   const inline = renderInlineScripts(page.inline_scripts || [], city);
 
@@ -1495,7 +1516,14 @@ function stripForbiddenInlineBlocks(html) {
     "%%BRAND_NAME%%": escapeHtml(brandName)
     ,"%%OPTIONAL_TOP_NAV%%": (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
   });
-  return mapped;
+  // Last-mile safety: ensure footer disclosure exists on every page.
+  // Some regressions have produced city pages without the shared footer injection.
+  let out = mapped;
+  if (!out.includes('<footer') || !out.includes('Advertising disclosure.') || !out.includes('No guarantees or endorsements.')) {
+    // Inject footerHtml immediately before </body> if missing.
+    out = out.replace(/<\/body>/i, "\n" + footerHtml + "\n</body>");
+  }
+  return out;
 }
 
 function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
@@ -1667,7 +1695,14 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
     "%%BRAND_NAME%%": escapeHtml(brandName)
     ,"%%OPTIONAL_TOP_NAV%%": (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
   });
-  return mapped;
+  // Last-mile safety: ensure footer disclosure exists on every page.
+  // Some regressions have produced city pages without the shared footer injection.
+  let out = mapped;
+  if (!out.includes('<footer') || !out.includes('Advertising disclosure.') || !out.includes('No guarantees or endorsements.')) {
+    // Inject footerHtml immediately before </body> if missing.
+    out = out.replace(/<\/body>/i, "\n" + footerHtml + "\n</body>");
+  }
+  return out;
 }
 
 function renderGuideCardsHtml(guides) {
@@ -1750,7 +1785,11 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
 
   const ads = readJson(ADS_PATH);
 
-  const pageSetFile = site.pageSetFile || "starter_v1.json";
+  const pageSetFile = site.pageSetFile;
+  if (!pageSetFile) {
+    console.error("ERROR: data/site.json is missing pageSetFile. Run prepare/build with PAGE_SET_FILE set.");
+    process.exit(1);
+  }
   const pageSet = loadPageSet(pageSetFile);
   const verticalKey = deriveVerticalKey(pageSetFile);
 
@@ -1775,7 +1814,10 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
 
   // Templates
   const baseTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, "base.html"), "utf8");
-  const footerHtml = fs.readFileSync(path.join(TEMPLATES_DIR, "partials", "footer.html"), "utf8");
+  const footerHtmlRaw = fs.readFileSync(path.join(TEMPLATES_DIR, "partials", "footer.html"), "utf8");
+  const footerHtml = footerHtmlRaw
+    .replace(/%%CURRENT_YEAR%%/g, String(new Date().getFullYear()))
+    .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName));
 
   // Sponsors data (optional)
 // Source of truth: data/sponsors/global.json and optional per-city files data/sponsors/<citySlug>.json
@@ -2127,7 +2169,14 @@ function loadNextStepsSponsor(citySlug) {
         '%%BRAND_NAME%%': escapeHtml(brandName),
         '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
       });
-      return mapped;
+      // Last-mile safety: ensure footer disclosure exists on every page.
+  // Some regressions have produced city pages without the shared footer injection.
+  let out = mapped;
+  if (!out.includes('<footer') || !out.includes('Advertising disclosure.') || !out.includes('No guarantees or endorsements.')) {
+    // Inject footerHtml immediately before </body> if missing.
+    out = out.replace(/<\/body>/i, "\n" + footerHtml + "\n</body>");
+  }
+  return out;
     }
 
     function renderPiStatePageHtml(stateAbbr) {

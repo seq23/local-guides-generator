@@ -1,174 +1,111 @@
-Note: Validation requires `dist/`, so the canonical sequence is:
+# SOP — Core Validation (Training v1)
 
-npm ci
-npm run build
+This repo has **one canonical executable validation entrypoint**:
+
+```bash
 npm run validate:all
+```
 
-# SOP — Running Validation (Core Orchestrator) — Mac Only
-
-**Audience:** Day-0 VA + Owner  
-**Authority:** Execution Playbook / Runbooks.  
-**Rule:** Validation is **blocking**. If it fails, do **not** push, do **not** deploy. Send the failure output to Owner.
+That runs `node scripts/validate_core.js` and **nothing else**.
 
 ---
 
-## What changed (why this SOP exists)
+## Training pack vs Baseline pack
 
-We replaced scattered “mystery validators” with **one** deterministic orchestrator:
+### Training pack (starter_v1)
+Use only for VA practice.
 
-- **Core orchestrator:** `scripts/validate_core.js`
-- **Command you run:** `npm run validate:all`
+```bash
+LKG_ENV=training PAGE_SET_FILE=data/page_sets/starter_v1.json npm run build
+npm run validate:all   # SKIPS (non-blocking)
+npm run validate       # SKIPS (non-blocking)
+```
 
-This reduces false failures and makes it obvious what is being checked.
+### Baseline / Production packs (examples/*)
+Baseline builds are strict and must pass validation.
 
----
+```bash
+PAGE_SET_FILE=data/page_sets/examples/trt_v1.json npm run build
+npm run validate:all
+npm run validate
+```
 
-## Quick-start (90 seconds)
-
-1. Open Terminal
-2. Go to the repo:
-   - `cd /Users/sequoiataylor/Documents/GitHub/local-guides-generator`
-3. Install deps:
-   - `npm ci`
-4. Run validation:
-   - `npm run validate:all`
-
-✅ Success ends with: `CORE VALIDATION PASS`
-
----
-
-## What `validate:all` requires (exact contracts)
-
-`validate:all` runs **only these** checks, in this order:
-
-### 1) Buyouts schema
-**Script:** `scripts/validate_buyouts_schema.js`
-
-- Validates `data/buyouts.json` structure.
-- If there are **0 records**, it should still PASS.
-
-**Common fails:**
-- missing required fields for a scope
-- invalid email format
-- invalid slug format
+Rules:
+- `PAGE_SET_FILE` is required (no defaults).
+- `starter_v1.json` is TRAINING ONLY and refused for baseline builds.
 
 ---
 
-### 2) Buyouts LIVE hard-fail (Next Steps must work)
-**Script:** `scripts/validate_buyout_next_steps_hardfail.js`
+## What `validate:all` enforces (hard-fail)
 
-- If there are **no LIVE buyouts**, this check prints **SKIP**.
-- If there **is** a LIVE buyout, it hard-fails unless:
-  - Next Steps pages exist for the scope
-  - CTA markers exist on in-scope pages
-  - competing CTAs are suppressed (buyout precedence)
+`validate:all` is the **release gate**.
 
----
+It hard-fails on:
 
-### 3) For-Providers inquiry template (single mailto + required capture)
-**Script:** `scripts/validate_for_providers_inquiry.js`
-
-Hard-fails if:
-- more than one mailto template exists on the for-providers page
-- required capture lines are missing from the mailto body (examples):
-  - `Full name:`
-  - `Work email:`
-  - `Phone:`
-  - `How did you find us?:`
+1) **Buyouts schema** (if any buyouts exist)
+2) **Buyout next-steps hardfail** (if any LIVE buyouts exist)
+3) **For-providers inquiry contract**
+4) **Guides index links**
+5) **Footer contract**
+6) **Golden major blocks (city pages)**
+7) **Link audit**
 
 ---
 
-### 4) Guides index links (every guide must be discoverable)
-**Script:** `scripts/validators/guides_index_links.js`
+## For-providers inquiry contract (current reality)
 
-Hard-fails if `dist/guides/index.html` does not link to **every generated guide**.
+File checked:
+- `dist/for-providers/index.html`
 
-Rule enforced:
-- For every `dist/guides/<slug>/index.html` (excluding `next-steps`), the Guides index must contain `href="/guides/<slug>/"`.
+Hard-fail only on:
+- page missing
+- no mailto links
+- any mailto contains **multiple recipients** (`mailto:a@x.com,b@y.com`)
+- more than **4 distinct mailto templates** (regression / drift)
 
-This prevents “orphan guides” that exist on disk but are not reachable from the Guides page.
+Allowed shape:
+- Up to **4** distinct mailto templates (tier-specific CTAs are allowed)
+- Subject/body wording can vary
 
----
-
-### 5) Footer contract (compliance wording must be global)
-**Script:** `scripts/validators/footer_contract.js`
-
-**Canonical footer source of truth:**
-- `docs/policies/footer_canonical.txt`
-
-Hard-fails if any page in `dist/**/*.html`:
-- does not contain a `<footer ...>` element
-- or is missing any required compliance lines from `docs/policies/footer_canonical.txt`
-
-Notes:
-- We **do not** validate a specific copyright string (e.g., `© 2026`). Encoding/spacing can vary across builds.
-- The canonical footer file controls the required *compliance copy* and links.
-
-✅ This enforces that the compliance footer is global and identical in meaning.
+Body capture fields:
+- Missing fields (like “How did you hear about us?”) produce **warnings**, not hard-fails.
 
 ---
 
-### 6) Golden contracts (major blocks only, not exact sentences)
-**Script:** `scripts/validators/golden_major_blocks.js`
+## Golden major blocks — City pages (ads + core sections)
 
-Hard-fails if a city page is missing required **block markers**.
-This is **structural**, not copy-based.
+For each city page (`dist/<city>/index.html`), we enforce:
 
-Required markers (non-PI city pages):
-- `data-sponsored-placement="top"`
-- `data-llm-bait="question"`
-- `data-eval-framework="true"`
-- `data-sponsored-placement="mid"`
-- `data-example-providers="true"`
-- `data-state-lookup="true"`
-- `data-faq="true"`
-- `data-sponsored-placement="bottom"`
-- `data-guides-micro="true"`
+- Exactly **3** sponsored blocks total:
+  - `data-sponsored-placement="top"` appears **exactly 1 time**
+  - `data-sponsored-placement="mid"` appears **exactly 1 time**
+  - `data-sponsored-placement="bottom"` appears **exactly 1 time**
 
----
+Common required sections:
+- Evaluation framework block
+- “Start here: Costs • Timeline • Questions to ask • Red flags (educational)” block
+- FAQ block
+- Guides block marker (`data-guides="true"`)
 
-### 7) Link integrity (no broken internal links)
-**Script:** `scripts/crawl_dist_links.js`
+PI vs non-PI:
+- PI city pages must render directory (not example providers) and must **NOT** render state lookup.
+- non-PI city pages must render example providers + state lookup.
 
-Hard-fails on:
-- broken internal links
-- empty hrefs that should be real navigation
+LLM bait ordering:
+- The LLM bait question block must appear **above** providers/directory on ALL city pages.
 
 ---
 
-## Where the orchestration lives
+## Quick command cheats
 
-- **Orchestrator:** `scripts/validate_core.js`
-- **NPM wiring:** `package.json` → `"validate:all": "node scripts/validate_core.js"`
+Build a baseline pack:
+```bash
+PAGE_SET_FILE=data/page_sets/examples/trt_v1.json npm run build
+npm run validate:all
+```
 
----
-
-## If validation fails (exact protocol)
-
-1. **Stop.** Do not “fix forward” blindly.
-2. Copy the **first failing line** (the first ❌ line) + the first stack line under it.
-3. Email Owner at `info@spryvc.com` with:
-   - Subject: `VALIDATION FAIL — <first failing check>`
-   - Body: paste the copied output + what you changed
-
----
-
-## Do NOT touch (VA rules)
-
-- Do NOT add new validators unless Owner approves and they are added to `scripts/validate_core.js`.
-- Do NOT reintroduce “banned token scanning” across all HTML. That created false failures from footer policy links.
-- Do NOT bypass validation to ship.
-
----
-
-## Owner note: why this design is safer
-
-- Fewer moving parts
-- Less overlap
-- Hard-fails focus only on mission-critical contracts:
-  - coverage authority
-  - buyouts/next-steps
-  - monetization inquiry capture
-  - footer compliance
-  - city flow blocks
-  - link integrity
+Build the training pack:
+```bash
+LKG_ENV=training PAGE_SET_FILE=data/page_sets/starter_v1.json npm run build
+npm run validate:all
+```

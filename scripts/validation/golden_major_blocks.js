@@ -67,7 +67,10 @@ function run(ctx){
     } else {
       // Non-PI: example providers + state lookup + guides.
       required.push('data-example-providers="true"');
-      required.push('data-state-lookup="true"');
+      // State lookup marker: accept legacy CTA marker too.
+      const hasStateLookup = html.includes('data-state-lookup="true"') || html.includes('data-state-lookup-cta="true"');
+      if (!hasStateLookup) errors.push(`dist/${slug}/index.html missing marker: data-state-lookup (or data-state-lookup-cta)`);
+      // State lookup marker: accept legacy CTA marker too.
       required.push('data-guides');
     }
 

@@ -1,51 +1,56 @@
 #!/usr/bin/env node
-/**
- * Generates data/site.json from data/site.template.json using env vars.
- * Env:
- *  - PAGE_SET_FILE (default: starter_v1.json)
- *  - BRAND_NAME    (default: The Industry Guides)
- *  - SITE_URL      (default: https://example.com)
- */
+/* eslint-disable no-console */
+
 const fs = require("fs");
 const path = require("path");
 
 const repoRoot = path.resolve(__dirname, "..");
 const dataDir = path.join(repoRoot, "data");
-const templatePath = path.join(dataDir, "site.template.json");
-const outPath = path.join(dataDir, "site.json");
+const sitePath = path.join(dataDir, "site.json");
 
-const PAGE_SET_FILE = process.env.PAGE_SET_FILE || "starter_v1.json";
+function die(msg) {
+  console.error(msg);
+  process.exit(1);
+}
+
+function ensureDir(p) {
+  if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
+}
+
 const BRAND_NAME = process.env.BRAND_NAME || "The Industry Guides";
 const SITE_URL = process.env.SITE_URL || "https://example.com";
 
-function exists(p) { try { fs.accessSync(p); return true; } catch { return false; } }
+const PAGE_SET_FILE = process.env.PAGE_SET_FILE;
+const LKG_ENV = (process.env.LKG_ENV || "baseline").toLowerCase();
 
-function validatePageSet(pageSetFile) {
-  const p1 = path.join(dataDir, "page_sets", pageSetFile);
-  const p2 = path.join(dataDir, "page_sets", "examples", pageSetFile);
-  if (exists(p1) || exists(p2)) return true;
-  throw new Error(
-    `PAGE_SET_FILE not found: ${pageSetFile}\n` +
-    `Tried:\n  - ${p1}\n  - ${p2}\n`
+if (!PAGE_SET_FILE) {
+  die(
+    "ERROR: PAGE_SET_FILE is required. Refusing to default to starter_v1.\n" +
+      "Set PAGE_SET_FILE to a real page set (e.g. data/page_sets/examples/trt_v1.json).\n" +
+      "For training builds only, set LKG_ENV=training and PAGE_SET_FILE=data/page_sets/starter_v1.json."
   );
 }
 
-function main() {
-  if (!exists(templatePath)) throw new Error(`Missing template: ${templatePath}`);
-  validatePageSet(PAGE_SET_FILE);
-
-  const template = fs.readFileSync(templatePath, "utf8");
-  const rendered = template
-    .replaceAll("%%BRAND_NAME%%", BRAND_NAME)
-    .replaceAll("%%SITE_URL%%", SITE_URL)
-    .replaceAll("%%PAGE_SET_FILE%%", PAGE_SET_FILE);
-
-  if (rendered.includes("%%")) throw new Error("Unresolved placeholders remain in generated data/site.json.");
-
-  fs.writeFileSync(outPath, rendered.trimEnd() + "\n", "utf8");
-  console.log(`[prepare_site] Wrote data/site.json`);
-  console.log(`  BRAND_NAME   = ${BRAND_NAME}`);
-  console.log(`  SITE_URL     = ${SITE_URL}`);
-  console.log(`  PAGE_SET_FILE= ${PAGE_SET_FILE}`);
+if (LKG_ENV !== "training" && PAGE_SET_FILE.endsWith("starter_v1.json")) {
+  die(
+    "ERROR: starter_v1.json is TRAINING ONLY and not allowed for baseline builds.\n" +
+      "Choose an examples/* page set explicitly (e.g. data/page_sets/examples/trt_v1.json)."
+  );
 }
-main();
+
+ensureDir(dataDir);
+
+const site = {
+  brandName: BRAND_NAME,
+  siteUrl: SITE_URL,
+  pageSetFile: PAGE_SET_FILE,
+  buildIso: new Date().toISOString(),
+};
+
+fs.writeFileSync(sitePath, JSON.stringify(site, null, 2) + "\n", "utf8");
+
+console.log("WROTE: data/site.json");
+console.log("brandName:", BRAND_NAME);
+console.log("siteUrl:", SITE_URL);
+console.log("pageSetFile:", PAGE_SET_FILE);
+console.log("LKG_ENV:", LKG_ENV);

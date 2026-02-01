@@ -22,3 +22,5 @@ npm run build
 ## Releases
 
 - [Snapshot Apply — One-Shot (Non-Interactive)](releases/SNAPSHOT_ONE_SHOT_APPLY.md)
+
+- [Update LKG from ZIP — Install + Use (Hardened)](releases/UPDATE_LKG_FROM_ZIP_HARDENED_INSTALL.md)
