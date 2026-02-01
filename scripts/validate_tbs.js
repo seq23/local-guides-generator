@@ -85,12 +85,10 @@ const repoRoot = path.resolve(__dirname, "..");
 const distDir = path.join(repoRoot, "dist");
 const scriptsDir = path.join(repoRoot, "scripts");
 
-let __auditFailures = 0;
 function fail(msg, hint) {
-  // Playbook v7: validate_tbs is audit/reporting only. It must never hard-fail deploys.
-  __auditFailures += 1;
-  console.error(`AUDIT WARNING: ${msg}`);
+  console.error(`VALIDATION FAILED: ${msg}`);
   if (hint) console.error(`HINT: ${hint}`);
+  process.exit(1);
 }
 
 
@@ -468,43 +466,39 @@ function assertCityPagesHaveCityDisclosure() {
     return /^dist\/[^/]+\/(?:.*\/)?index\.html$/.test(r);
   });
 
-  // NOTE (Playbook v7): footer disclosure copy is a *design* contract, not a hard-fail
-  // validator contract. Exact-string enforcement is explicitly disallowed unless legally
-  // required. We therefore treat this check as audit-only.
+  const redundantPhrases = [
+    'This site provides general information and decision-support checklists',
+    'Advertising is clearly labeled and separated from editorial content'
+  ];
 
-  const offenders = []; // tracks legacy in-body disclosure regressions
-  const missingFooterDisclosures = []; // tracks pages missing footer disclosure anchors
+  const offenders = [];
+  const missingFooterDisclosures = [];
 
   for (const f of cityPages) {
     const html = readText(f);
 
-    // Audit: legacy in-body disclosure block regressed flow and created duplicate copy.
-    // (We only check the structural marker; no copy-string matching.)
-    if (html.includes('data-city-disclosure="true"')) {
+    // Hard fail: the old in-body disclosure block regressed flow and created duplicate copy.
+    if (html.includes('data-city-disclosure="true"') || redundantPhrases.some((ph) => html.includes(ph))) {
       offenders.push(rel(f));
     }
 
-    // Audit: footer should contain disclosure anchors, but do not hard-fail on exact strings.
-    // We only check for a footer presence plus two disclosure concepts.
-    const hasFooter = html.includes('<footer>');
-    const hasAdvertisingDisclosure = /advertis(ing|ement)\s+disclosure/i.test(html);
-    const hasNoGuarantees = /no\s+guarantee(s)?/i.test(html) || /no\s+endorsement(s)?/i.test(html);
-    if (!hasFooter || !hasAdvertisingDisclosure || !hasNoGuarantees) {
+    // Footer must contain the global disclosure anchors.
+    // Note: the footer element includes attributes (e.g. <footer data-global-footer="true">),
+    // so we match on the opening tag prefix rather than the exact "<footer>" string.
+    if (!/<footer\b/i.test(html) || !html.includes('Advertising disclosure.') || !html.includes('No guarantees or endorsements.')) {
       missingFooterDisclosures.push(rel(f));
     }
   }
 
   if (offenders.length) {
-    console.warn('⚠️  AUDIT: City disclosure duplication regression detected (in-body disclosure marker present).');
-    for (const o of offenders.slice(0, 50)) console.warn(' - ' + o);
+    fail('City disclosure duplication regression: remove in-body city disclosure blocks (footer-only). Offenders' + String.fromCharCode(10) + offenders.slice(0, 50).join(String.fromCharCode(10)));
   }
 
   if (missingFooterDisclosures.length) {
-    console.warn('⚠️  AUDIT: Footer disclosure anchors appear missing on some city pages (non-blocking).');
-    for (const m of missingFooterDisclosures.slice(0, 50)) console.warn(' - ' + m);
+    fail('Footer disclosure missing on some city pages. Offenders' + String.fromCharCode(10) + missingFooterDisclosures.slice(0, 50).join(String.fromCharCode(10)));
   }
 
-  ok('City disclosure: audit-only (no hard fail)');
+  ok('City disclosure: footer-only (no redundant in-body blocks)');
 }
 
 
@@ -1869,7 +1863,11 @@ function assertNonPiCityHubFlowContract() {
       if (r.startsWith('dist/guides/')) return false;
       return true;
     });
-  const redundantPhrases = [];
+
+  const redundantPhrases = [
+    'This site provides general information and decision-support checklists',
+    'Advertising is clearly labeled and separated from editorial content'
+  ];
 
   for (const f of cityPages) {
     const html = readText(f);
@@ -1878,7 +1876,8 @@ function assertNonPiCityHubFlowContract() {
     const slug = (html.match(/<body[^>]*data-city="([^"]+)"/i) || [])[1] || '';
 
     const idxTop = html.indexOf('data-sponsor-stack="city_hub_top"');
-        const idxMid = html.indexOf('data-sponsor-stack="city_hub_mid"');
+    const idxAi = html.indexOf('data-ai-visibility="true"');
+    const idxMid = html.indexOf('data-sponsor-stack="city_hub_mid"');
     const idxExample = html.indexOf('data-example-providers="true"');
     const idxState = html.indexOf('id="state-lookup"');
     const idxFaq = html.indexOf('id="city-faq"');
@@ -1887,21 +1886,21 @@ function assertNonPiCityHubFlowContract() {
 
     const needExample = !!(slug && fs.existsSync(path.join(repoRoot, 'data', 'example_providers', verticalKey, slug + '.json')));
 
-    const order = [idxTop, idxMid, idxState, idxFaq, idxBottom, idxGuides];
-    if (needExample) order.splice(2, 0, idxExample);
+    const order = [idxTop, idxAi, idxMid, idxState, idxFaq, idxBottom, idxGuides];
+    if (needExample) order.splice(3, 0, idxExample);
 
     const missing = order.some((x) => x === -1);
     const inOrder = order.every((x, i) => i === 0 || x > order[i - 1]);
 
-    const hasRedundant = false; // audited elsewhere; not part of flow gate
+    const hasRedundant = html.includes('data-city-disclosure="true"') || redundantPhrases.some((ph) => html.includes(ph));
 
-    if (missing || !inOrder || (needExample && idxExample === -1) ) {
+    if (missing || !inOrder || (needExample && idxExample === -1) || hasRedundant) {
       offenders.push(rel(f) + ' (city=' + (slug || 'unknown') + ')');
     }
   }
 
   if (offenders.length) {
-    fail('Non-PI city hub flow regression: enforce order Top Ad → Mid Ad → Example Listings → State Lookup → FAQ → Bottom Ad → Guides. Offenders' + String.fromCharCode(10) + offenders.slice(0, 25).join(String.fromCharCode(10)));
+    fail('Non-PI city hub flow regression: enforce order Top Ad → AI Visibility → Mid Ad → Example Listings → State Lookup → FAQ → Bottom Ad → Guides (and no redundant disclosure lines). Offenders' + String.fromCharCode(10) + offenders.slice(0, 25).join(String.fromCharCode(10)));
   }
 
   ok('Non-PI city hub flow contract: PASS');
@@ -2127,35 +2126,16 @@ function main() {
   assertPiCsvRuntimeCoverage();
   assertNextStepsInvariants();
 
-  // --- Post-build audits (never deploy-blocking) ---
-  // Playbook v7: only core-risk validators may hard-fail, and those are enforced in validate_core.js.
-  // Everything here is reporting/audit only.
-  const runAudit = (cmd) => {
-    try {
-      execSync(cmd, { stdio: "inherit" });
-    } catch (err) {
-      const msg = (err && err.message) ? err.message : String(err);
-      console.error("AUDIT WARNING (validate_tbs): audit command failed (non-blocking)\n" + cmd + "\n" + msg);
-    }
-  };
-
-  runAudit("node scripts/validate_buyouts_schema.js");
-  runAudit("node scripts/validate_buyout_next_steps_hardfail.js");
-  runAudit("node scripts/validate_buyout_next_steps_contract.js");
-  runAudit("node scripts/validate_for_providers_inquiry.js");
-  runAudit("node scripts/validate_dist_compliance_scan.js");
-  runAudit("node scripts/crawl_dist_links.js");
-  runAudit("node scripts/export_buyout_click_audit_urls.js");
-  runAudit("node scripts/validate_golden_pages.js");
-  runAudit("node scripts/validate_pi_keyword_containment.js");
+  // --- Playbook v7 hardening add-ons (buyouts + provider inquiry + dist scans) ---
+  execSync("node scripts/validate_buyouts_schema.js", { stdio: "inherit" });
+  execSync("node scripts/validate_buyout_next_steps_hardfail.js", { stdio: "inherit" });
+  execSync("node scripts/validate_buyout_next_steps_contract.js", { stdio: "inherit" });
+  execSync("node scripts/validate_for_providers_inquiry.js", { stdio: "inherit" });
+  execSync("node scripts/validate_dist_compliance_scan.js", { stdio: "inherit" });
+  execSync("node scripts/crawl_dist_links.js", { stdio: "inherit" });
+  execSync("node scripts/export_buyout_click_audit_urls.js", { stdio: "inherit" });
+  execSync("node scripts/validate_golden_pages.js", { stdio: "inherit" });
+  execSync("node scripts/validate_pi_keyword_containment.js", { stdio: "inherit" });
 }
 
 main();
-
-
-// --- Audit summary (never hard-fail) ---
-if (__auditFailures > 0) {
-  console.warn(`AUDIT SUMMARY: ${__auditFailures} warning(s) emitted by validate_tbs (non-blocking).`);
-} else {
-  ok('TBS audit: PASS (no warnings)');
-}

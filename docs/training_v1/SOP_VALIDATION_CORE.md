@@ -1,3 +1,9 @@
+Note: Validation requires `dist/`, so the canonical sequence is:
+
+npm ci
+npm run build
+npm run validate:all
+
 # SOP — Running Validation (Core Orchestrator) — Mac Only
 
 **Audience:** Day-0 VA + Owner  

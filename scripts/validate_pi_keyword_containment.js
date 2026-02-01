@@ -14,16 +14,6 @@ const keywords = [
 
 const allowedDir = path.join(repoRoot, "data", "page_sets", "examples", "pi_global_pages");
 
-// Directories that are non-runtime documentation/sandbox artifacts.
-// These must not be scanned for keyword containment.
-const IGNORE_PREFIXES = [
-  "docs/",
-  "assets/",
-  "releases/",
-  "goldens/",
-  ".github/",
-];
-
 function fail(msg){
   console.error("❌ PI KEYWORD CONTAINMENT FAIL:", msg);
   process.exit(1);
@@ -40,14 +30,7 @@ function walk(dir){
   return out;
 }
 
-const allFiles = walk(repoRoot)
-  .filter(p => !p.includes(path.join(repoRoot,"node_modules")))
-  .filter(p => !p.includes(path.join(repoRoot,"dist")))
-  .filter(p => !p.includes(path.join(repoRoot,".git")))
-  .filter(p => {
-    const rel = path.relative(repoRoot, p).replace(/\\/g, "/");
-    return !IGNORE_PREFIXES.some(prefix => rel.startsWith(prefix));
-  });
+const allFiles = walk(repoRoot).filter(p => !p.includes(path.join(repoRoot,"node_modules")) && !p.includes(path.join(repoRoot,"dist")) && !p.includes(path.join(repoRoot,".git")));
 const hits=[];
 for (const f of allFiles){
   const txt = fs.readFileSync(f,"utf8");
