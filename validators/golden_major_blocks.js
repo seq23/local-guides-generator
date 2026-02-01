@@ -33,19 +33,6 @@ function getPackRequirements(repoRoot) {
   return { pageSetFile, requireStateLookup, requireExampleProviders };
 }
 
-
-function loadCitySlugs(repoRoot) {
-  try {
-    const p = path.join(repoRoot, 'data', 'cities.json');
-    if (!fs.existsSync(p)) return [];
-    const arr = readJson(p);
-    if (!Array.isArray(arr)) return [];
-    return arr.map(x => String(x.slug || '').trim()).filter(Boolean);
-  } catch (_) {
-    return [];
-  }
-}
-
 function listHtmlFiles(root) {
   const out = [];
   const stack = [root];
@@ -91,14 +78,24 @@ function main() {
     required.splice(idx, 0, 'data-state-lookup="true"');
   }
 
-  const citySlugs = loadCitySlugs(repoRoot);
-  const cityHtmlFiles = citySlugs
-    .map((slug) => path.join(distRoot, slug, 'index.html'))
-    .filter((p) => fs.existsSync(p));
+  const cityHtmlFiles = listHtmlFiles(distRoot).filter(f => {
+    // City pages live at dist/<city-slug>/index.html (one path segment)
+    const rel = path.relative(distRoot, f).replace(/\\/g, '/');
+    return /^[^/]+\/index\.html$/.test(rel);
+  });
 
   const fails = [];
   for (const f of cityHtmlFiles) {
     const html = fs.readFileSync(f, 'utf8');
+    // Hard-fail: city hub pages must render exactly 3 ad blocks (top/mid/bottom). No duplicates.
+    const topCount = (html.match(/data-sponsored-placement="top"/g) || []).length;
+    const midCount = (html.match(/data-sponsored-placement="mid"/g) || []).length;
+    const bottomCount = (html.match(/data-sponsored-placement="bottom"/g) || []).length;
+    const adTotal = topCount + midCount + bottomCount;
+    if (adTotal > 3 || topCount > 1 || midCount > 1 || bottomCount > 1) {
+      const rel = path.relative(repoRoot, f).replace(/\/g, '/');
+      fails.push(`${rel} has too many ad blocks (top=${topCount}, mid=${midCount}, bottom=${bottomCount}, total=${adTotal})`);
+    }
     for (const token of required) {
       if (!html.includes(token)) {
         const rel = path.relative(repoRoot, f).replace(/\\/g, '/');

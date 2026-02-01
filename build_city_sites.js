@@ -1038,7 +1038,7 @@ function normalizeExampleProviderList(raw) {
     }))
     .filter((x) => x.name && x.official_site_url)
     .slice(0, 12);
-  return out.length >= 3 ? out : null;
+  return out.length ? out : null;
 }
 
 function getExampleProviderSubKeys(verticalKey) {
@@ -1049,114 +1049,35 @@ function getExampleProviderSubKeys(verticalKey) {
   return [];
 }
 
-
 function loadExampleProviderLists(verticalKey, citySlug) {
   try {
     const vk = String(verticalKey || '').toLowerCase();
-    const slug = String(citySlug || '').trim();
-    if (!vk || !slug) return null;
+    const dir = path.join(DATA_DIR, 'example_providers', String(verticalKey || ''));
+    if (!fs.existsSync(dir)) return null;
 
-    // Directory aliases (defensive): allow existing repos that used older keys.
-    const dirCandidates = [
-      path.join(DATA_DIR, 'example_providers', vk),
-      path.join(DATA_DIR, 'example_providers', String(verticalKey || '')),
-      path.join(DATA_DIR, 'example_providers', `${vk}_v1`),
-      path.join(DATA_DIR, 'example_providers', `${vk}_v2`),
-      // legacy aliases
-      (vk === 'trt') ? path.join(DATA_DIR, 'example_providers', 'mens_health') : null,
-      (vk === 'trt') ? path.join(DATA_DIR, 'example_providers', 'hormone') : null,
-      (vk === 'neuro') ? path.join(DATA_DIR, 'example_providers', 'neuropsych') : null,
-    ].filter(Boolean);
+    const lists = [];
+    const subKeys = getExampleProviderSubKeys(vk);
 
-    const existingDirs = dirCandidates.filter((d) => fs.existsSync(d));
-    if (!existingDirs.length) return null;
-
-    function loadFromDir(dir) {
-      const lists = [];
-
-    // Helper to push in deterministic order and dedupe by subKey
-    const seen = new Set();
-    function pushList(subKey, raw) {
-      const normalized = normalizeExampleProviderList(raw);
-      if (!normalized) return;
-      const k = String(subKey || '');
-      if (seen.has(k)) return;
-      seen.add(k);
-      lists.push({ subKey: k, providers: normalized });
+    // Multi sub-industry lists first (deterministic order)
+    if (subKeys && subKeys.length) {
+      subKeys.forEach((subKey) => {
+        const p = path.join(dir, `${String(citySlug || '')}__${String(subKey)}.json`);
+        if (!fs.existsSync(p)) return;
+        const raw = readJson(p);
+        const normalized = normalizeExampleProviderList(raw);
+        if (!normalized) return;
+        lists.push({ subKey: String(subKey), providers: normalized });
+      });
     }
 
-    // Preferred subkey order (pack-aware), but don't assume files exist.
-    const preferred = getExampleProviderSubKeys(vk) || [];
-
-    // 1) Preferred multi-subkey format: <slug>__<subKey>.json
-    preferred.forEach((subKey) => {
-      const p = path.join(dir, `${slug}__${String(subKey)}.json`);
-      if (fs.existsSync(p)) pushList(String(subKey), readJson(p));
-    });
-
-    // 2) Preferred single list: <slug>.json
-    const single = path.join(dir, `${slug}.json`);
-    if (fs.existsSync(single)) pushList('', readJson(single));
-
-    // 3) Discovery mode: pick up any additional lists that match this city
-    // Supports:
-    //   - <slug>__<anything>.json
-    //   - <anything>__<slug>.json  (legacy)
-    //   - <slug>--<anything>.json  (legacy)
-    // This makes TRT/neuro sub-verticals "found" even if the subkey set changes.
-    const files = listJsonFiles(dir).map((fp) => path.basename(fp));
-    files.forEach((fn) => {
-      const full = path.join(dir, fn);
-      if (!fs.existsSync(full)) return;
-
-      // <slug>__<subKey>.json
-      if (fn.startsWith(slug + '__') && fn.toLowerCase().endsWith('.json')) {
-        const subKey = fn.slice((slug + '__').length, -'.json'.length);
-        // skip if already handled via preferred
-        if (!seen.has(subKey)) pushList(subKey, readJson(full));
-        return;
-      }
-
-      // <subKey>__<slug>.json  (reverse legacy)
-      if (fn.endsWith('__' + slug + '.json')) {
-        const subKey = fn.slice(0, -('__' + slug + '.json').length);
-        if (!seen.has(subKey)) pushList(subKey, readJson(full));
-        return;
-      }
-
-      // <slug>--<subKey>.json
-      if (fn.startsWith(slug + '--') && fn.toLowerCase().endsWith('.json')) {
-        const subKey = fn.slice((slug + '--').length, -'.json'.length);
-        if (!seen.has(subKey)) pushList(subKey, readJson(full));
-        return;
-      }
-    });
-
-    // Deterministic output ordering:
-    // - preferred subkeys in order
-    // - then single (empty subKey)
-    // - then any discovered extras sorted alpha
-    const rank = new Map();
-    preferred.forEach((k, i) => rank.set(String(k), i));
-    // empty subKey (single) after preferred
-    rank.set('', preferred.length);
-
-    lists.sort((a, b) => {
-      const ra = rank.has(a.subKey) ? rank.get(a.subKey) : 1000;
-      const rb = rank.has(b.subKey) ? rank.get(b.subKey) : 1000;
-      if (ra !== rb) return ra - rb;
-      // stable alpha within discovered extras
-      return String(a.subKey).localeCompare(String(b.subKey));
-    });
-
-      return lists.length ? lists : null;
+    // Fallback single list
+    const single = path.join(dir, `${String(citySlug || '')}.json`);
+    if (fs.existsSync(single)) {
+      const normalized = normalizeExampleProviderList(readJson(single));
+      if (normalized) lists.push({ subKey: '', providers: normalized });
     }
 
-    for (const dir of existingDirs) {
-      const got = loadFromDir(dir);
-      if (got && got.length) return got;
-    }
-    return null;
+    return lists.length ? lists : null;
   } catch (e) {
     return null;
   }
@@ -1194,9 +1115,9 @@ function ensureCityHubRequiredBlocks(html, verticalKey, city) {
 
   // Ensure top/mid/bottom ad placement markers exist for city hub pages even if page-set tokens are missing.
   // This is a contract-enforcement fallback: it does not change sponsor logic, only ensures invariant placement blocks render.
-  const hasTop = out.includes('data-sponsored-placement="top"');
-  const hasMid = out.includes('data-sponsored-placement="mid"');
-  const hasBottom = out.includes('data-sponsored-placement="bottom"');
+  const hasTop = out.includes('data-sponsored-placement="top"') || out.includes('%%AD:city_hub_top%%');
+  const hasMid = out.includes('data-sponsored-placement="mid"') || out.includes('%%AD:city_hub_mid%%');
+  const hasBottom = out.includes('data-sponsored-placement="bottom"') || out.includes('%%AD:city_hub_bottom%%');
 
   // Top: immediately after first <h1> if possible.
   if (!hasTop) {
