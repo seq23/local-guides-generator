@@ -1,6 +1,41 @@
 {
-  "updatedAt": "2026-02-01T19:42:34.352Z",
+  "updatedAt": "2026-02-01T23:00:34.627Z",
   "releases": [
+    {
+      "recordedAt": "2026-02-01T23:00:34.626Z",
+      "releaseTag": null,
+      "git": {
+        "commit": "d1dc431307198222310081a74ad9b6a7c105cba6",
+        "branch": "main"
+      },
+      "site": {
+        "brandName": "The Industry Guides",
+        "siteUrl": "https://example.com",
+        "pageSetFile": "examples/trt_v1.json"
+      },
+      "pack": {
+        "educationOnly": true,
+        "sponsorship": {
+          "nextStepsEnabled": false,
+          "globalNextStepsEnabled": false
+        },
+        "cityFeatures": {
+          "directory": false,
+          "stateLookup": true
+        }
+      },
+      "counts": {
+        "htmlFiles": 45,
+        "hasHomepage": true,
+        "guidePages": 26,
+        "cityHubPages": 18,
+        "nextStepsPages": 0
+      },
+      "artifacts": {
+        "snapshot": "dist/_lkg_snapshot.json",
+        "hubContracts": "releases/hub_contracts/2026-02-01T2300_trt_v1_hub_contracts.json"
+      }
+    },
     {
       "recordedAt": "2026-02-01T19:42:34.352Z",
       "releaseTag": null,
