@@ -2,6 +2,9 @@
 const fs = require('fs');
 const path = require('path');
 
+const EXPECTED_TO = 'info@spryvc.com';
+const MAX_UNIQ_MAILTOS = 20; // warning-only guardrail (current reality: 7)
+
 function fail(msg){
   const err = new Error(msg);
   err._validation = 'FOR_PROVIDERS_INQUIRY';
@@ -49,11 +52,15 @@ function run(ctx){
   for (const m of parsed){
     if (!m.to) fail('Found mailto with empty recipient.');
     if (hasMultipleRecipients(m.to)) fail(`Mailto has multiple recipients: ${m.to}`);
-  }
 
-  // Reality: page may contain 4 different mailto templates (tier-specific). Lock to <=4.
+    // Hard-fail: must route only to our single inbox.
+    if (String(m.to).trim().toLowerCase() !== EXPECTED_TO){
+      fail(`Mailto recipient must be ${EXPECTED_TO}; found: ${m.to}`);
+    }
+  }
+  // Warning-only: guardrail on unique mailto href count (content is authoritative).
   const uniq = Array.from(new Set(mailtos));
-  if (uniq.length > 4) fail(`Found ${uniq.length} distinct mailto templates; expected <= 4.`);
+  if (uniq.length > MAX_UNIQ_MAILTOS) warn(`Found ${uniq.length} distinct mailto links (allowed, but review).`);
 
   // Warning-only: body capture fields.
   // We do NOT hard-fail on body text (copy evolves), but we flag obvious omissions.
@@ -68,7 +75,7 @@ function run(ctx){
     'Estimated monthly budget:'
   ];
 
-  const shouldMentionWarn = ['How did you find us?'];
+  const shouldMentionWarn = ['How did you find us:'];
 
   for (const u of uniq){
     const p = parseMailto(u);

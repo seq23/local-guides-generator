@@ -5,15 +5,18 @@
  * PI KEYWORD CONTAINMENT
  *
  * Purpose:
- *   Ensure PI-specific regulated keywords (e.g., "ICE") do not leak into
- *   non-PI runtime content.
+ *   Prevent PI-regulated tokens (example: the standalone acronym "ICE") from leaking into
+ *   NON-PI sites/content.
  *
- * Site reality + enforcement:
- *   - This validator ONLY runs (hard-fail) when the active page set is PI.
- *   - We DO NOT scan docs/, training/, archives, or dist/ output.
- *     Docs and training can contain example content; it must not block builds.
- *   - We scan only runtime sources that can affect generation:
+ * Enforcement reality:
+ *   - If the active page set is PI: SKIP (PI content can mention PI-regulated terms).
+ *   - If the active page set is NOT PI: scan runtime sources that could affect generation:
  *       data/, templates/, scripts/
+ *     and fail if we find standalone "ICE" outside PI-only areas.
+ *
+ * IMPORTANT:
+ *   We match the standalone token "ICE" only (word boundary, uppercase), NOT substrings.
+ *   This avoids false hits like "practice", "services", "pricing", "office", etc.
  */
 
 const fs = require("fs");
@@ -54,7 +57,6 @@ function listFilesRecursive(dir) {
     for (const e of entries) {
       const full = path.join(cur, e.name);
       if (e.isDirectory()) {
-        // Skip node_modules and dist if present
         if (e.name === "node_modules" || e.name === "dist" || e.name === ".git") continue;
         stack.push(full);
       } else if (e.isFile()) {
@@ -73,17 +75,42 @@ function isTextLike(filePath) {
   ].includes(ext);
 }
 
+// Standalone tokens only (uppercase, word boundary)
+const TOKEN_PATTERNS = [
+  /\bICE\b/g,
+];
+
+// PI-only runtime areas that are allowed to contain PI tokens even when building non-PI sites.
+function isAllowedPIOnlyPath(rel) {
+  // PI vertical packs + PI global pages + PI datasets/taxonomy
+  if (rel.startsWith("data/page_sets/examples/pi_")) return true;
+  if (rel.startsWith("data/page_sets/pi_")) return true;
+
+  if (rel.startsWith("data/taxonomy/pi_")) return true;
+  if (rel.startsWith("data/pi_")) return true;
+  if (rel.includes("/pi_guides_") || rel.includes("/pi_guides/")) return true;
+
+  // If you keep PI-only sponsor artifacts:
+  if (rel.startsWith("data/sponsors/pi")) return true;
+
+  return false;
+}
+
 function main() {
   const verticalKey = getActiveVerticalKey();
-  if (!verticalKey || verticalKey !== "pi") {
-    console.log("✅ PI KEYWORD CONTAINMENT PASS (skipped: non-PI page set)");
+
+  // If unknown, don't block.
+  if (!verticalKey) {
+    console.log("✅ PI KEYWORD CONTAINMENT PASS (skipped: unknown active page set)");
     process.exit(0);
   }
 
-  // Keywords to contain (case-insensitive). Keep this list tight and explicit.
-  const keywords = ["ICE"]; // Extend only when you intentionally add PI-only tokens.
+  // PI pack itself: allow PI tokens; containment is only for NON-PI builds.
+  if (verticalKey === "pi") {
+    console.log("✅ PI KEYWORD CONTAINMENT PASS (skipped: PI page set)");
+    process.exit(0);
+  }
 
-  // Directories that can affect generation/runtime.
   const scanDirs = [
     path.join(repoRoot, "data"),
     path.join(repoRoot, "templates"),
@@ -91,15 +118,17 @@ function main() {
   ].filter((p) => fs.existsSync(p));
 
   const offenders = [];
+
   for (const dir of scanDirs) {
     for (const f of listFilesRecursive(dir)) {
       if (!isTextLike(f)) continue;
 
-      // Explicit exclusions inside scanned dirs
       const rel = path.relative(repoRoot, f).replace(/\\/g, "/");
-      if (rel.startsWith("data/page_sets/examples/pi_v1")) continue; // PI pack itself can mention PI terms
-      if (rel.startsWith("data/page_sets/examples/pi_")) continue;
-      if (rel.includes("/pi_guides_") || rel.includes("/pi_guides/")) continue;
+      // Exclude this validator itself (it contains PI token regex by design)
+      if (rel === "scripts/validate_pi_keyword_containment.js") continue;
+
+      // PI-only sources are allowed to contain PI tokens; they should not block non-PI builds.
+      if (isAllowedPIOnlyPath(rel)) continue;
 
       let txt = "";
       try {
@@ -107,11 +136,11 @@ function main() {
       } catch {
         continue;
       }
-      const lower = txt.toLowerCase();
-      for (const k of keywords) {
-        const kl = k.toLowerCase();
-        if (lower.includes(kl)) {
-          offenders.push({ rel, keyword: k });
+
+      for (const re of TOKEN_PATTERNS) {
+        re.lastIndex = 0;
+        if (re.test(txt)) {
+          offenders.push({ rel, token: String(re) });
           break;
         }
       }
@@ -119,9 +148,9 @@ function main() {
   }
 
   if (offenders.length) {
-    console.error("Keyword leakage in runtime sources (PI page set):");
-    for (const o of offenders) console.error(`- ${o.rel} contains "${o.keyword}"`);
-    die(`Found ${offenders.length} keyword hits outside PI-only runtime areas.`);
+    console.error("PI token leakage in NON-PI runtime sources:");
+    for (const o of offenders) console.error(`- ${o.rel} matches ${o.token}`);
+    die(`Found ${offenders.length} PI token hits in NON-PI runtime sources.`);
   }
 
   console.log("✅ PI KEYWORD CONTAINMENT PASS");
