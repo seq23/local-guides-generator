@@ -9,9 +9,9 @@
  *   core non-guide pages.
  *
  * Site reality:
- *   - dist/guides/** are editorial guide pages and ARE allowed to include
+ *   - dist/guides/ (guides subtree) are editorial guide pages and ARE allowed to include
  *     "Last updated:".
- *   - All other dist/**/*.html pages must NOT include the banned tokens below.
+ *   - All other HTML pages under dist/ (non-guides) must NOT include the banned tokens below.
  */
 
 const fs = require("fs");

@@ -2,6 +2,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const CANONICAL_CTA_TEXT = 'Speak directly with a vetted provider serving your location.';
+
 function fail(msg){
   const err = new Error(msg);
   err._validation = 'BUYOUT_NEXT_STEPS_HARDFAIL';
@@ -15,6 +17,7 @@ function run(ctx){
     console.log('✅ BUYOUT HARDFAIL SKIP (no LIVE buyouts)');
     return;
   }
+
   let arr = [];
   try { arr = JSON.parse(fs.readFileSync(fp,'utf8')); }
   catch(e){ fail(`data/buyouts.json invalid JSON: ${e.message}`); }
@@ -30,14 +33,14 @@ function run(ctx){
     return;
   }
 
-  // LIVE buyouts: require nextStepsHtml to exist and have at least one explicit inquiry CTA.
-  // This keeps scope tight: we only hard-fail when LIVE.
+  // LIVE buyouts: require a canonical Next Steps CTA copy reference.
+  // (This is a guardrail against drift across packs.)
   for (const r of live){
     if (!r.nextStepsHtml || typeof r.nextStepsHtml !== 'string') {
-      fail(`LIVE buyout ${r.scope}:${r.slug} missing nextStepsHtml`);
+      fail(`LIVE buyout ${r.scope}:${r.slug} missing nextStepsHtml (must include canonical CTA copy)`);
     }
-    if (!/mailto:/i.test(r.nextStepsHtml) && !/\/for-providers\//i.test(r.nextStepsHtml)) {
-      fail(`LIVE buyout ${r.scope}:${r.slug} nextStepsHtml missing inquiry CTA (mailto or /for-providers/)`);
+    if (!r.nextStepsHtml.includes(CANONICAL_CTA_TEXT)) {
+      fail(`LIVE buyout ${r.scope}:${r.slug} nextStepsHtml missing canonical CTA copy: "${CANONICAL_CTA_TEXT}"`);
     }
   }
 

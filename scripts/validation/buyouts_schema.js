@@ -1,38 +1,34 @@
-/* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
 
-function fail(msg){
-  const err = new Error(msg);
-  err._validation = 'BUYOUTS_SCHEMA';
-  throw err;
+function readJson(p) {
+  return JSON.parse(fs.readFileSync(p, 'utf8'));
 }
 
-function run(ctx){
-  const repoRoot = (ctx && ctx.repoRoot) || path.resolve(__dirname, '..', '..');
-  const fp = path.join(repoRoot, 'data', 'buyouts.json');
+function isIsoDate(s) {
+  return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
+}
 
-  if (!fs.existsSync(fp)) {
-    console.log('✅ BUYOUTS SCHEMA PASS (0 records)');
-    return;
+function run() {
+  const file = path.join(process.cwd(), 'data', 'buyouts.json');
+  const data = readJson(file);
+  if (!Array.isArray(data)) {
+    throw new Error('BUYOUTS SCHEMA FAIL: data/buyouts.json must be an array');
   }
 
-  let raw;
-  try { raw = JSON.parse(fs.readFileSync(fp,'utf8')); }
-  catch(e){ fail(`data/buyouts.json is not valid JSON: ${e.message}`); }
+  const allowedScopes = new Set(['guide', 'city', 'state', 'vertical']);
+  data.forEach((rec, idx) => {
+    if (typeof rec !== 'object' || !rec) throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}] must be object`);
+    if (!allowedScopes.has(rec.scope)) throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}].scope invalid`);
+    if (!Array.isArray(rec.targets) || rec.targets.length === 0) throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}].targets required`);
+    if (!isIsoDate(rec.starts_on)) throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}].starts_on invalid`);
+    if (!isIsoDate(rec.ends_on)) throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}].ends_on invalid`);
+    if (typeof rec.priority !== 'number') throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}].priority must be number`);
+    if (typeof rec.buyout !== 'boolean') throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}].buyout must be boolean`);
+    if (rec.live !== undefined && typeof rec.live !== 'boolean') throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}].live must be boolean`);
+  });
 
-  if (!Array.isArray(raw)) fail('data/buyouts.json must be an array');
-
-  const allowed = ['city','state','vertical'];
-  for (let i=0;i<raw.length;i++) {
-    const r = raw[i];
-    if (!r || typeof r !== 'object') fail(`buyouts[${i}] must be an object`);
-    if (!allowed.includes(r.scope)) fail(`buyouts[${i}].scope must be one of: ${allowed.join(', ')}`);
-    if (typeof r.slug !== 'string' || !r.slug.trim()) fail(`buyouts[${i}].slug must be a non-empty string`);
-    if (typeof r.live !== 'boolean') fail(`buyouts[${i}].live must be boolean`);
-  }
-
-  console.log(`✅ BUYOUTS SCHEMA PASS (${raw.length} records)`);
+  console.log(`✅ BUYOUTS SCHEMA PASS (${data.length} records)`);
 }
 
 module.exports = { run };

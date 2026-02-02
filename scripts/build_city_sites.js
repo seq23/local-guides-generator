@@ -1001,18 +1001,23 @@ function packHasNextStepsRoute(pageSet) {
 }
 
 function renderNextStepsZoneHtml(opts) {
-  // Deterministic marker for validator
+  // LIVE BUYOUT CTA (runtime). Not the for-providers inquiry button.
+  // Copy is canonical + universal across packs.
   var href = opts && opts.href ? String(opts.href) : '';
-  var link = href
-    ? ('<a class="button button-primary" data-next-steps-cta="true" href="' + escapeHtml(href) + '">Go to next steps</a>')
-    : '';
+  if (!href) return '';
+
+  var ctaText = 'Speak directly with a vetted provider serving your location.';
 
   return (
     '<section class="section next-steps-zone" data-next-steps-zone="true">' +
     '<div class="card">' +
-    '<h2>Next steps</h2>' +
-    '<p class="muted">Optional. This block is controlled by the page-set sponsorship configuration.</p>' +
-    (link ? ('<div class="actions">' + link + '</div>') : '') +
+    '<h2>Speak with a provider</h2>' +
+    '<p class="muted">' + escapeHtml(ctaText) + '</p>' +
+    '<div class="actions">' +
+    '<a class="button button-primary" data-next-steps-cta="true" href="' + escapeHtml(href) + '">' +
+    escapeHtml(ctaText) +
+    '</a>' +
+    '</div>' +
     '</div>' +
     '</section>'
   );
@@ -1128,15 +1133,32 @@ function ensureCityHubRequiredBlocks(html, verticalKey, city) {
     }
   }
 
-  // LLM bait: required block (marker) – insert before eval framework when possible.
-  const hasLLMBait = out.includes('data-llm-bait="question"');
-  if (!hasLLMBait) {
-    const q = renderLLMBaitQuestionHtml(verticalKey, city);
-    if (out.includes('data-eval-framework="true"')) {
-      out = out.replace(/(<section[^>]*data-eval-framework="true"[\s\S]*?<\/section>)/i, `${q}\n$1`);
-    } else {
-      out = out + "\n" + q;
-    }
+
+  // LLM bait: required block (marker) – must sit immediately above the directory/listings block.
+  // If present elsewhere, remove + re-insert deterministically.
+  const baitRe = /<section[^>]*data-llm-bait="question"[\s\S]*?<\/section>/m;
+  if (baitRe.test(out)) {
+    out = out.replace(baitRe, '');
+  }
+
+  const q = renderLLMBaitQuestionHtml(verticalKey, city);
+  // Prefer inserting immediately above the first listings/directory block.
+  if (out.includes('data-example-providers="true"')) {
+    out = out.replace(/(<section[^>]*data-example-providers="true"[\s\S]*?<\/section>)/m, `${q}
+$1`);
+  } else if (out.includes('data-pi-home-directory="true"')) {
+    out = out.replace(/(<section[^>]*data-pi-home-directory="true"[\s\S]*?<\/section>)/m, `${q}
+$1`);
+  } else if (out.includes('data-listings-block="true"')) {
+    out = out.replace(/(<section[^>]*data-listings-block="true"[\s\S]*?<\/section>)/m, `${q}
+$1`);
+  } else if (out.includes('data-eval-framework="true"')) {
+    // Fallback: keep it above eval framework.
+    out = out.replace(/(<section[^>]*data-eval-framework="true"[\s\S]*?<\/section>)/m, `${q}
+$1`);
+  } else {
+    // Last resort: place after hero.
+    out = injectAfterSection(out, 'data-city-hero', q);
   }
 
   // Mid: before example providers section if present; else after eval framework; else append.
@@ -1485,7 +1507,7 @@ function stripForbiddenInlineBlocks(html) {
 // Next-steps zone injection (global buyout OR sponsor-driven)
   // - Global: pack-controlled via sponsorship.globalNextStepsEnabled
   // - Sponsor-driven: pack sponsorship.nextStepsEnabled + sponsor live
-  if (route !== 'next-steps' && packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, sponsor || {})) {
+  if (route !== 'next-steps' && packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'city', citySlug: city.slug, stateCode: city.state, route: '/' + city.slug + '/' })) {
     mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/' + city.slug + '/next-steps/' });
   }
 
@@ -1663,17 +1685,12 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
     mainHtml = mainHtml.split("%%MARKETS_STATUS_LIST%%").join(marketsStatusListHtml || "");
   }
 
-
-  // Next-steps zone injection (GLOBAL ONLY)
-  // When enabled, show on homepage + guide pages (hub + detail).
-  if (sponsorship.isGlobalNextStepsEnabled(pageSet)) {
-    const isHome = (route === "");
-    const isGuidesHub = (route === "guides");
-    const isGuideDetail = (route.startsWith("guides/") && route !== "guides");
-    if (isHome || isGuidesHub || isGuideDetail) {
-      if (!mainHtml.includes('data-next-steps-zone="true"')) {
-        mainHtml += "\n" + renderNextStepsZoneHtml({ href: "" });
-      }
+  // Next-steps zone injection (GLOBAL pages + guides pages that are implemented as global routes)
+  // This is the LIVE BUYOUT CTA (Option A): only for an active vertical buyout, suppressed on excluded pages.
+  if (route !== 'next-steps' && packHasNextStepsRoute(pageSet)) {
+    var globalRoutePath = route ? ('/' + route.replace(/^\//, '') + '/') : '/';
+    if (sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'global', route: globalRoutePath })) {
+      mainHtml += renderNextStepsZoneHtml({ href: '/next-steps/' });
     }
   }
 
@@ -2057,7 +2074,7 @@ function loadNextStepsSponsor(citySlug) {
         continue;
       }
       const cityData = (loadNextStepsSponsor(city.slug) || {});
-      if (route === 'next-steps' && !sponsorship.shouldRenderNextSteps(pageSet, cityData)) {
+      if (route === 'next-steps' && !sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'city', citySlug: cityData.city_slug || cityData.slug || city.slug, stateCode: cityData.state || city.state, route: '/' + (cityData.city_slug || cityData.slug || city.slug) + '/next-steps/' })) {
         continue;
       }
 
@@ -2331,7 +2348,7 @@ function loadNextStepsSponsor(citySlug) {
       // - global buyout switch
       // Default remains OFF because all packs ship educationOnly=true.
       const stateSponsor = selectPiStateSponsor(ab);
-      if (sponsorship.shouldRenderNextSteps(pageSet, stateSponsor) && !mainHtml.includes('data-next-steps-zone="true"')) {
+      if (sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'state', stateCode: ab, route: '/states/' + ab + '/' }) && !mainHtml.includes('data-next-steps-zone="true"')) {
         mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/states/' + escapeHtml(ab) + '/next-steps/' });
       }
 
@@ -2366,7 +2383,7 @@ function loadNextStepsSponsor(citySlug) {
     // Write PI state next-steps pages when enabled (sponsor-driven or global switch).
     for (const ab of piStateAbbrs) {
       const s = selectPiStateSponsor(ab);
-      if (!sponsorship.shouldRenderNextSteps(pageSet, s)) continue;
+      if (!sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'state', stateCode: ab, route: '/states/' + ab + '/' })) continue;
       const html = renderPiStateNextStepsPageHtml(ab, s);
       writeFileEnsured(outPathForPiStateNextSteps(ab), html);
     }
@@ -2382,7 +2399,7 @@ function loadNextStepsSponsor(citySlug) {
       '%%MAIN_HTML%%': (
         '<section class="section"><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p></section>' +
         marketsStatusListHtml +
-        (sponsorship.isGlobalNextStepsEnabled(pageSet) ? ('\n' + renderNextStepsZoneHtml({ href: '' })) : '')
+        (packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'global', route: '/personal-injury/' }) ? ('\n' + renderNextStepsZoneHtml({ href: '/next-steps/' })) : '')
       ),
       '%%INLINE_SCRIPTS%%': '',
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),

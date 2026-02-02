@@ -846,3 +846,123 @@ main ul, main ol{
 /* Publisher lockup (umbrella brand) */
 .brand-lockup{display:flex;flex-direction:column;line-height:1.1}
 .publisher{font-size:12px;opacity:.75;margin-bottom:4px}
+
+/* =============================================================================
+   Enterprise UX upgrades (for-providers + guides)
+   ============================================================================= */
+
+.tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .tiers-grid { grid-template-columns: 1fr; }
+}
+
+.tier-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+
+.tier-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.tier-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.tier-meta .pill {
+  border: 1px solid var(--border);
+  background: var(--soft);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.tier-price {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.visual-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+  .visual-grid { grid-template-columns: 1fr; }
+}
+
+.wireframe {
+  background: #0b1020;
+  color: #dbe6ff;
+  border-radius: 14px;
+  padding: 14px;
+  overflow-x: auto;
+  line-height: 1.25;
+  font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.wireframe kbd {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-bottom-color: rgba(255,255,255,0.24);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.calc-box {
+  border: 1px solid var(--border);
+  background: var(--soft);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.calc-box code {
+  font-size: 13px;
+}
+
+/* Guide pages: make sections feel like product blocks, not docx */
+.guide-article {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.guide-article .section {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin: 14px 0;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+
+.guide-article .section h2,
+.guide-article .section h3 {
+  margin-top: 0;
+}
+
+.callout strong {
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Replace legacy "why" line wherever it may remain */
+.why { display: none !important; }
