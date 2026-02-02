@@ -22,6 +22,13 @@ function readSite() {
   return readJson(p);
 }
 
+function readPageSet(pageSetFile) {
+  // pageSetFile is usually like: "examples/trt_v1.json"
+  const p = path.join(repoRoot, 'data', 'page_sets', pageSetFile);
+  if (!fs.existsSync(p)) fail(`pageSetFile missing: data/page_sets/${pageSetFile}`);
+  return readJson(p);
+}
+
 function deriveVerticalKey(pageSetFile) {
   const base = path.basename(pageSetFile || '');
   const noExt = base.replace(/\.json$/, '');
@@ -74,7 +81,7 @@ function validateAdsExactlyThree(html, label) {
   }
 }
 
-function validateCity(citySlug, verticalKey) {
+function validateCity(citySlug, verticalKey, pageSet) {
   const fp = path.join(distRoot, citySlug, 'index.html');
   if (!fs.existsSync(fp)) fail(`page missing: dist/${citySlug}/index.html (run build first)`);
   const html = fs.readFileSync(fp, 'utf8');
@@ -96,16 +103,24 @@ function validateCity(citySlug, verticalKey) {
   mustContain(html, 'href="/guides/#red-flags"', label);
 
   // LLM bait must appear BEFORE providers/listings for ALL city pages
+  const directoryEnabled = !!(pageSet.cityFeatures && pageSet.cityFeatures.directory);
+  const stateLookupEnabled = !!(pageSet.cityFeatures && pageSet.cityFeatures.stateLookup);
+
   if (isPI(verticalKey)) {
     // PI: directory; NO state lookup
     mustContain(html, 'class="pi-home-directory"', label);
     mustOrder(html, 'data-llm-bait="question"', 'class="pi-home-directory"', label);
     mustNotContain(html, 'data-state-lookup="true"', label);
   } else {
-    // non-PI: example providers + state lookup
-    mustContain(html, 'data-example-providers="true"', label);
-    mustOrder(html, 'data-llm-bait="question"', 'data-example-providers="true"', label);
-    mustContain(html, 'data-state-lookup="true"', label);
+    // non-PI: may be example providers OR may not (depends on pack)
+    if (directoryEnabled) {
+      // Example-providers block (when directory is enabled)
+      mustContain(html, 'data-example-providers="true"', label);
+      mustOrder(html, 'data-llm-bait="question"', 'data-example-providers="true"', label);
+    }
+    if (stateLookupEnabled) {
+      mustContain(html, 'data-state-lookup="true"', label);
+    }
   }
 
   // Footer disclosure must be present (contract phrases)
@@ -116,10 +131,10 @@ function validateCity(citySlug, verticalKey) {
 function main() {
   const site = readSite();
   const verticalKey = deriveVerticalKey(site.pageSetFile || '');
+  const pageSet = readPageSet(site.pageSetFile || '');
 
   // starter_v1 is TRAINING ONLY; do not block publishing (validate_tbs exits early).
-
-  for (const city of GOLDEN_CITIES) validateCity(city, verticalKey);
+  for (const city of GOLDEN_CITIES) validateCity(city, verticalKey, pageSet);
   console.log('✅ GOLDEN CONTRACT PASS');
 }
 

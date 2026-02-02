@@ -14,6 +14,7 @@ const guidesIndexLinks = require('./validation/guides_index_links');
 const footerContract = require('./validation/footer_contract');
 const goldenMajorBlocks = require('./validation/golden_major_blocks');
 const linkAudit = require('./validation/link_audit');
+const entrypointExports = require("./validation/entrypoint_exports_contract");
 const packShadowGlobals = require('./validation/pack_shadow_globals');
 
 function readSiteJsonOrNull() {
@@ -43,6 +44,7 @@ function main() {
   // NOTE: Core validation is strict and intentionally small.
   // Anything “audit-only” belongs in validate_tbs.js.
   buyoutsSchema.run({ site });
+  entrypointExports.run();
   buyoutNextStepsHardfail.run({ site });
   forProvidersInquiry.run({ site });
   guidesIndexLinks.run({ site });

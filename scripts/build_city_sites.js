@@ -973,7 +973,7 @@ function injectListings(html, listings, city, sponsor, pageSet) {
   var sponsorLive = sponsorship.isSponsorLive(sponsor);
 
   // Pack-gate sponsor UI + next-steps CTAs
-  var sponsorUiEnabled = (sponsorship.isNextStepsEnabled(pageSet) && sponsorLive);
+  var sponsorUiEnabled = (sponsorship.shouldRenderNextSteps(pageSet) && sponsorLive);
 
   // Replace PI primary CTA placeholder (only when sponsor is live)
   if (html.includes('%%PI_PRIMARY_CTA%%')) {
@@ -1325,7 +1325,7 @@ function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pa
 
   // Sponsor tokens (used by PI next-steps page; safe on all pages)
   const __sponsor = (sponsor || {});
-  const __sponsorLive = (sponsorship.isNextStepsEnabled(pageSet) && sponsorship.isSponsorLive(__sponsor));
+  const __sponsorLive = (sponsorship.shouldRenderNextSteps(pageSet) && sponsorship.isSponsorLive(__sponsor));
   const __sponsorName = __sponsor.firm_name || __sponsor.name || '';
   mainHtml = mainHtml
     .split("%%SPONSOR_FIRM_NAME%%").join(__sponsorLive ? escapeHtml(String(__sponsorName)) : "")

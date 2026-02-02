@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "prebuild": "node scripts/validation/entrypoint_exports_contract.js",
     "build": "npm run prepare && node scripts/build_city_sites.js",
+    "build:all": "node scripts/build_all_packs.js",
     "validate:all": "node scripts/validate_core.js",
     "snapshot:lkg": "node scripts/snapshot_lkg.js",
     "postbuild": "node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",

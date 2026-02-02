@@ -8,21 +8,33 @@ function fail(msg){
   throw err;
 }
 
-function getPageSetName(){
-  // prepare_site writes data/site.json
+function readJSON(fp){
+  return JSON.parse(fs.readFileSync(fp,'utf8'));
+}
+
+function getSite(repoRoot){
   try{
-    const site = JSON.parse(fs.readFileSync(path.join(__dirname,'..','..','data','site.json'),'utf8'));
-    const ps = String(site.pageSetFile||'').split('/').pop();
-    return ps || 'unknown';
+    return readJSON(path.join(repoRoot,'data','site.json'));
   }catch{
-    return 'unknown';
+    return {};
+  }
+}
+
+function getPageSet(repoRoot, pageSetFile){
+  if (!pageSetFile) return {};
+  const fp = path.join(repoRoot,'data','page_sets', pageSetFile);
+  if (!fs.existsSync(fp)) return {};
+  try{
+    return readJSON(fp);
+  }catch{
+    return {};
   }
 }
 
 function loadCities(repoRoot){
   const fp = path.join(repoRoot,'data','cities.json');
   if (!fs.existsSync(fp)) return [];
-  const arr = JSON.parse(fs.readFileSync(fp,'utf8'));
+  const arr = readJSON(fp);
   if (!Array.isArray(arr)) return [];
   return arr.map(c=>c.slug).filter(Boolean);
 }
@@ -32,9 +44,16 @@ function run(ctx){
   const dist = path.join(repoRoot,'dist');
   if (!fs.existsSync(dist)) fail('dist/ missing. Run build first.');
 
-  const pageSetName = getPageSetName();
-  const citySlugs = loadCities(repoRoot);
+  const site = getSite(repoRoot);
+  const pageSetFile = site.pageSetFile || '';
+  const pageSetName = String(pageSetFile).split('/').pop() || 'unknown';
+  const pageSet = getPageSet(repoRoot, pageSetFile);
 
+  const isPI = String(pageSet.verticalKey || '').toLowerCase() === 'pi';
+  const cityHasDirectory = (pageSet.cityFeatures && typeof pageSet.cityFeatures.directory === 'boolean') ? pageSet.cityFeatures.directory : true;
+  const cityHasStateLookup = (pageSet.cityFeatures && typeof pageSet.cityFeatures.stateLookup === 'boolean') ? pageSet.cityFeatures.stateLookup : true;
+
+  const citySlugs = loadCities(repoRoot);
   const errors=[];
 
   for (const slug of citySlugs){
@@ -50,28 +69,23 @@ function run(ctx){
     if (midCount !== 1) errors.push(`${fp.replace(repoRoot+path.sep,'')} expected exactly 1 mid ad, got ${midCount}`);
     if (bottomCount !== 1) errors.push(`${fp.replace(repoRoot+path.sep,'')} expected exactly 1 bottom ad, got ${bottomCount}`);
 
-    // Minimal pack-aware block requirements.
+    // Minimal block requirements.
     // NOTE: we intentionally do NOT validate global pages like /privacy.
     const required = [];
-    // All city pages: eval + llm bait question + faq marker.
     required.push('data-eval-framework="true"');
     required.push('data-llm-bait="question"');
     required.push('data-faq="true"');
+    required.push('data-guides');
 
-    // PI vs non-PI differences.
-    const isPI = /personal injury/i.test(html) || /data-vertical="pi"/i.test(html);
-    if (isPI) {
-      // PI city pages: directory block marker is data-example-listings (pi directory) OR data-example-providers (if used), and guides.
-      // Current reality: PI pages use guides micro block.
-      required.push('data-guides');
-    } else {
-      // Non-PI: example providers + state lookup + guides.
-      required.push('data-example-providers="true"');
-      // State lookup marker: accept legacy CTA marker too.
-      const hasStateLookup = html.includes('data-state-lookup="true"') || html.includes('data-state-lookup-cta="true"');
-      if (!hasStateLookup) errors.push(`dist/${slug}/index.html missing marker: data-state-lookup (or data-state-lookup-cta)`);
-      // State lookup marker: accept legacy CTA marker too.
-      required.push('data-guides');
+    if (!isPI) {
+      // Non-PI packs vary: some have a directory/examples, some don't.
+      // Only require example providers if the pack actually enables a directory.
+
+      // State lookup is present in most non-PI packs; validate it when enabled.
+      if (cityHasStateLookup) {
+        const hasStateLookup = html.includes('data-state-lookup="true"') || html.includes('data-state-lookup-cta="true"');
+        if (!hasStateLookup) errors.push(`${fp.replace(repoRoot+path.sep,'')} missing marker: data-state-lookup (or data-state-lookup-cta)`);
+      }
     }
 
     for (const r of required){

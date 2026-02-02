@@ -117,8 +117,18 @@ function getNextStepsHref({ distPath }) {
   return null;
 }
 
+
+function isSponsorLive(sponsor) {
+  if (!sponsor) return false;
+  if (typeof sponsor.is_live === "boolean") return sponsor.is_live;
+  if (typeof sponsor.live === "boolean") return sponsor.live;
+  if (typeof sponsor.status === "string") return sponsor.status.toUpperCase() === "LIVE";
+  return false;
+}
+
 module.exports = {
   CTA_COPY,
+  isSponsorLive,
   isLiveVerticalBuyout,
   shouldRenderNextSteps,
   getNextStepsCtaCopy,
