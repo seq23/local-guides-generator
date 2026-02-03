@@ -94,12 +94,61 @@ a.button:hover, .button:hover { background: rgba(17,24,39,0.04); }
 .button-primary:hover { background: var(--accent-2); }
 .kicker { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; opacity: .7; }
 .section { padding: 14px 0; }
+
+/* Content rhythm */
+.hero + .sponsor-stack { margin-top: 18px; }
+.sponsor-stack + .hero { margin-top: 18px; }
+
+.section + .sponsor-stack { margin-top: 26px; }
+.sponsor-stack + .section { margin-top: 26px; }
+.sponsor-stack + .sponsor-stack { margin-top: 18px; }
+
 .hr { height: 1px; background: #eee; margin: 16px 0; }
 .table { width: 100%; border-collapse: collapse; }
 .table th, .table td { border: 1px solid #eee; padding: 10px; vertical-align: top; text-align: left; }
 .table th { background: #fafafa; font-weight: 600; }
-.sponsor-stack { margin: 12px 0; }
+/* Sponsor inventory blocks (shared + buyouts) */
+.sponsor-stack { margin: 22px 0; }
+.sponsor-stack__inner {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px;
+  background: var(--surface);
+}
+.sponsor-stack.is-buyout-hero .sponsor-stack__inner {
+  border-color: transparent;
+  padding: 0;
+  background: transparent;
+}
+.sponsor-stack__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px 0;
+}
+.sponsor-stack__meta {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+@media (max-width: 720px) {
+  .sponsor-stack__header { flex-direction: column; align-items: flex-start; }
+  .sponsor-stack__meta { white-space: normal; }
+}
+
 .sponsor-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+
+/* Buyout hero: same Top inventory surface, but rendered as a hero block (no new slot). */
+.sponsor-stack.is-buyout-hero {
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 22px;
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.06), rgba(255,255,255,0));
+}
+.sponsor-stack.is-buyout-hero .sponsor-label { font-weight: 800; }
+.sponsor-stack.is-buyout-hero .sponsor-items { grid-template-columns: 1fr; }
+.sponsor-stack.is-buyout-hero .sponsor-card { border-color: rgba(15,23,42,0.16); }
 .price-card { border: 1px solid #eee; border-radius: 16px; padding: 14px; }
 .price { font-size: 22px; font-weight: 700; margin-top: 6px; }
 .muted { color: var(--muted); }
@@ -940,9 +989,89 @@ main ul, main ol{
 }
 
 /* Guide pages: make sections feel like product blocks, not docx */
+.guide-shell {
+  padding: 18px 0 28px;
+}
+
 .guide-article {
   max-width: 980px;
   margin: 0 auto;
+}
+
+.guide-article .muted {
+  color: #4b5563;
+}
+
+.guide-article h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+}
+
+.guide-article h3 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.guide-article h1 {
+  font-size: 44px;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+
+.guide-article p,
+.guide-article li {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #111827;
+}
+
+.guide-article p { margin: 12px 0; }
+.guide-article ul,
+.guide-article ol { padding-left: 1.2rem; }
+.guide-article li { margin: 8px 0; }
+.guide-article blockquote {
+  margin: 14px 0;
+  padding: 14px 16px;
+  border-left: 4px solid rgba(59, 130, 246, 0.6);
+  background: rgba(59, 130, 246, 0.06);
+  border-radius: 10px;
+}
+.guide-article code {
+  font-size: 0.95em;
+  background: rgba(15, 23, 42, 0.06);
+  padding: 0.15em 0.35em;
+  border-radius: 8px;
+}
+
+.guide-article pre {
+  background: rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 14px;
+  padding: 14px;
+  overflow-x: auto;
+}
+
+.guide-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 16px;
+}
+
+.guide-article th,
+.guide-article td {
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  padding: 10px;
+  vertical-align: top;
+}
+
+.guide-article th {
+  background: rgba(17, 24, 39, 0.04);
+  font-weight: 800;
 }
 
 .guide-article .section {
@@ -952,6 +1081,11 @@ main ul, main ol{
   padding: 16px;
   margin: 14px 0;
   box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+
+@media (max-width: 900px) {
+  .guide-article { padding: 0 10px; }
+  .guide-article h1 { font-size: 38px; }
 }
 
 .guide-article .section h2,
@@ -966,3 +1100,75 @@ main ul, main ol{
 
 /* Replace legacy "why" line wherever it may remain */
 .why { display: none !important; }
+
+/* ==============================
+   For-Providers page: visuals + buttons
+   ============================== */
+
+/* Button styling for mailto CTAs (used across the site) */
+a.btn,
+button.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  background: #111827;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  line-height: 1;
+}
+a.btn:hover,
+button.btn:hover {
+  filter: brightness(1.05);
+}
+a.btn.primary {
+  background: #111827;
+}
+a.btn:focus,
+button.btn:focus {
+  outline: 3px solid rgba(59, 130, 246, 0.35);
+  outline-offset: 2px;
+}
+
+/* Card/grid layout for the inventory visuals */
+.visuals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+.visual-card {
+  background: #fff;
+  border: 1px solid rgba(17, 24, 39, 0.10);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+.visual-card h3 {
+  margin-top: 0;
+}
+
+/* Make SVGs readable (the art itself is intentionally light; we boost contrast here) */
+.svg-wrap {
+  background: #fff;
+  border: 1px solid rgba(17, 24, 39, 0.10);
+  border-radius: 16px;
+  padding: 12px;
+  overflow: auto;
+}
+.svg-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Push contrast up so the diagrams are legible on laptops + mobile. */
+  filter: contrast(1.9) saturate(1.15);
+}
+
+/* Muted helper copy: keep it readable */
+.muted {
+  color: rgba(17, 24, 39, 0.70);
+}

@@ -51,3 +51,4 @@ Stop and escalate to Owner with:
 - which step
 - the full terminal output
 - screenshots if relevant
+- VA Guide Updates: `VA_GUIDE_UPDATES.md`

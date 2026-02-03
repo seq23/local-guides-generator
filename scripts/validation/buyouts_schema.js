@@ -16,7 +16,7 @@ function run() {
     throw new Error('BUYOUTS SCHEMA FAIL: data/buyouts.json must be an array');
   }
 
-  const allowedScopes = new Set(['guide', 'city', 'state', 'vertical']);
+  const allowedScopes = new Set(['category', 'city', 'state', 'vertical']);
   data.forEach((rec, idx) => {
     if (typeof rec !== 'object' || !rec) throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}] must be object`);
     if (!allowedScopes.has(rec.scope)) throw new Error(`BUYOUTS SCHEMA FAIL: record[${idx}].scope invalid`);

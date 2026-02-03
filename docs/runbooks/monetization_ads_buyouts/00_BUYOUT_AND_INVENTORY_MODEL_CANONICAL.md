@@ -36,6 +36,15 @@ These are the surfaces that count as inventory when included in a scope.
 - **PI state pages**: included in PI packs; placements count (state page inventory is defined by the current PI page contract)
 - **Hub hero**: counts as 1 placement
 
+### Hero rendering rule (locked)
+
+For **Guide Buyout**, **City Buyout**, and **State Buyout**:
+
+- The **Top placement** renders in a **hero-style format** (same placement; **no new slot is created**).
+- Shared placements do **not** render hero-style.
+
+Implementation note: the builder marks the Top placement with `data-sponsor-placement="top"` and adds `class="is-buyout-hero"` on that placement when the resolved winner is a buyout.
+
 ---
 
 ## Canonical buyout record model

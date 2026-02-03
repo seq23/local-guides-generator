@@ -20,3 +20,5 @@ Owner + VA operational runbooks for this repo.
 
 ## Manual-only fallback
 - **No-terminal SOPs:** `docs/runbooks/manual_only/`
+- `guides_rendering.md` — guide discovery, normalization, hub cards, and rendering flow
+- `sponsorship_runtime.md` — hero vs slot rules, buyout/vertical buyout behavior, and Next Steps CTA runtime

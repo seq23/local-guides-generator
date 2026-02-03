@@ -16,3 +16,7 @@ References that must remain available (but not clutter the top-level) live in:
 Policy:
 - **Do not** add new top-level folders under `docs/`.
 - If something doesn’t belong in `runbooks/` or `training_v1/`, it goes into `runbooks/_references/` or the next dated `_archive_*` folder.
+
+## VA training additions
+
+- `training_v1/VA_GUIDE_UPDATES.md` — how to add/edit guide JSONs safely (no template edits)

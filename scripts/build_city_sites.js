@@ -15,6 +15,7 @@ const fs = require("fs");
 const path = require("path");
 
 const sponsorship = require("./helpers/sponsorship");
+const buyouts = require("./helpers/buyouts");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -800,7 +801,7 @@ function marketNavHtml(city, pageSet) {
 }
 
 // Ads
-function renderAdPlacement(key) {
+function renderAdPlacement(key, opts) {
   // Fixed, invariant ad block HTML; real sponsors injected elsewhere.
   // Add deterministic placement markers for golden-contract validation.
   const k = String(key || "");
@@ -810,17 +811,44 @@ function renderAdPlacement(key) {
   else if (k.endsWith("_bottom")) placement = "bottom";
 
   const placementAttr = placement ? ` data-sponsored-placement="${placement}"` : "";
+  const hero = opts && opts.hero === true;
+  const allowForProvidersLink = !(opts && opts.allowForProvidersLink === false);
+  const cls = hero ? 'sponsor-stack is-buyout-hero' : 'sponsor-stack';
+
+  // Under LIVE buyouts, conversion surfaces like /for-providers/ are contract-forbidden.
+  // Keep the placement marker (for layout + audit) but remove the link.
+  const labelText = allowForProvidersLink ? 'Advertising' : 'Sponsored';
+  const headline = allowForProvidersLink
+    ? '<p class="sponsor-name"><a href="/for-providers/">Advertise here</a></p>'
+    : '<p class="sponsor-name">Sponsored placement</p>';
 
   return `
-<section class="sponsor-stack" data-sponsor-stack="${escapeHtml(key)}"${placementAttr}>
-  <div class="sponsor-label"><strong>Advertising</strong></div>
-  <div class="sponsor-items">
-    <div class="sponsor-card">
-      <p class="sponsor-name"><a href="/for-providers/">Advertise here</a></p>
-      <p class="sponsor-meta">Fixed placement • Clear disclosure</p>
+<section class="${cls}" data-sponsor-stack="${escapeHtml(key)}"${placementAttr}>
+  <div class="sponsor-stack__inner">
+    <div class="sponsor-stack__header">
+      <div class="sponsor-label"><strong>${labelText}</strong></div>
+      <div class="sponsor-stack__meta">Sponsored placement • fixed inventory • disclosed</div>
+    </div>
+
+    <div class="sponsor-items">
+      <div class="sponsor-card">
+        <div class="badges"><span class="badge badge-sponsored">SPONSORED</span></div>
+        <div class="sponsor-meta"><strong>${escapeHtml(k)}</strong> placeholder</div>
+      </div>
     </div>
   </div>
 </section>`.trim();
+}
+
+function loadBuyoutsSafe(repoRoot) {
+  const fp = path.join(repoRoot || process.cwd(), "data", "buyouts.json");
+  try {
+    const raw = fs.readFileSync(fp, "utf8");
+    const data = JSON.parse(raw);
+    return Array.isArray(data) ? data : [];
+  } catch (e) {
+    return [];
+  }
 }
 
 
@@ -828,6 +856,50 @@ function injectAdPlacements(html, ads, ctx) {
   if (!ads || typeof ads !== "object") return html;
   const city = ctx && ctx.city ? ctx.city : null;
   const verticalKey = ctx && ctx.verticalKey ? ctx.verticalKey : "";
+
+  // BUYOUT HERO RENDERING (authoritative):
+  // - Non-buyout pages MUST NOT render hero sponsor blocks.
+  // - If a LIVE buyout wins for this page scope (guide/city/state), the TOP placement renders hero-style.
+  // - Under a page-scope buyout, shared placements are suppressed (exclusive surface).
+  // - Vertical buyout overrides page-level hero: we suppress sponsor stacks and rely on the runtime Next Steps surface.
+  // - Under any LIVE buyout, do not emit /for-providers conversion surfaces inside sponsor stacks.
+  let topIsHero = false;
+  let suppressMid = false;
+  let suppressBottom = false;
+  let allowForProvidersLink = true;
+  try {
+    const all = loadBuyoutsSafe(REPO_ROOT);
+    const active = buyouts.getActiveBuyouts(all, new Date());
+    const pageType = (ctx && ctx.pageType) ? String(ctx.pageType) : (ctx && ctx.guideRoute ? 'guide' : (city ? 'city' : ''));
+    const bctx = {
+      city: city && city.slug ? String(city.slug) : undefined,
+      state: city && city.state ? String(city.state) : (ctx && ctx.stateCode ? String(ctx.stateCode) : undefined),
+      guideRoute: (ctx && ctx.guideRoute) ? String(ctx.guideRoute) : undefined,
+      verticalKey: verticalKey
+    };
+    const winner = buyouts.resolveWinner(active, bctx, new Date());
+    if (winner && winner.buyout === true) {
+      // Under LIVE buyouts, remove the generic /for-providers link from sponsor stacks.
+      allowForProvidersLink = false;
+
+      if (winner.scope === 'vertical') {
+        // Vertical buyout: do not render sponsor stacks on pages (avoid hero + runtime CTA duplication).
+        suppressMid = true;
+        suppressBottom = true;
+        topIsHero = false;
+      } else if (winner.scope === 'category' || winner.scope === 'city' || winner.scope === 'state') {
+        // Page-scope buyout: Top becomes hero, and other placements are suppressed (exclusive surface).
+        const scopeMatches = (winner.scope === pageType) || (pageType === 'guide' && winner.scope === 'category');
+        if (scopeMatches) {
+          topIsHero = true;
+          suppressMid = true;
+          suppressBottom = true;
+        }
+      }
+    }
+  } catch (e) {
+    // noop — absence/invalid buyouts.json should not break builds.
+  }
 
   return html.replace(/%%AD:([a-zA-Z0-9_\\-]+)%%/g, (m, key) => {
     if (!ads[key]) return m;
@@ -839,7 +911,18 @@ function injectAdPlacements(html, ads, ctx) {
       if (isPersonalInjury(verticalKey)) return '';
       return renderStateLookupCta(city || {});
     }
-    return renderAdPlacement(key);
+    const k = String(key);
+    const isTop = k.endsWith('_top');
+    const isMid = k.endsWith('_mid');
+    const isBottom = k.endsWith('_bottom');
+
+    if (isMid && suppressMid) return '';
+    if (isBottom && suppressBottom) return '';
+
+    return renderAdPlacement(key, {
+      hero: Boolean(isTop && topIsHero),
+      allowForProvidersLink,
+    });
   });
 }
 
@@ -1562,6 +1645,43 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
   function enhanceGuideDetailHtml(rawHtml) {
     let out = String(rawHtml || "");
 
+    // Normalize legacy "heading-like" paragraphs into real headings so guides
+    // across packs render with consistent section blocks.
+    // (We do NOT change the words; we only change the tag wrapper.)
+    function promoteParagraphHeadings(html) {
+      const isAllCaps = (s) => {
+        const t = String(s || '').trim();
+        if (!/[A-Z]/.test(t)) return false;
+        // Ignore strings that are mostly punctuation.
+        const letters = t.replace(/[^A-Za-z]/g, '');
+        if (!letters) return false;
+        return letters === letters.toUpperCase();
+      };
+
+      return String(html || '').replace(/<p>\s*([^<]+?)\s*<\/p>/g, (m, inner) => {
+        const t = String(inner || '').trim();
+        const len = t.length;
+        if (len < 3 || len > 90) return m;
+
+        // All-caps labels (often used as headings in older PI guides).
+        if (isAllCaps(t)) {
+          return `<h2>${t}</h2>`;
+        }
+
+        // Short colon-ended labels (e.g., "Primary question people ask:").
+        if (/:\s*$/.test(t) && len <= 80) {
+          return `<h3>${t}</h3>`;
+        }
+
+        // Common title-case labels.
+        if (/^(Authority Note|Key Takeaways|Quick Answer|What\s+to\s+do\s+next)$/i.test(t)) {
+          return `<h3>${t}</h3>`;
+        }
+
+        return m;
+      });
+    }
+
     // 1) Hero (required)
     const hasHero = out.includes('<section class="hero">');
     const hasKicker = out.includes('<p class="kicker">Guide</p>');
@@ -1591,11 +1711,44 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
       out = out + '\n\n%%AD:global_guide_bottom%%\n';
     }
 
+    // 2.5) Promote heading-like paragraphs before we build section blocks.
+    out = promoteParagraphHeadings(out);
+
     // 3) Block structure (wrap legacy flat guides)
-    // If the guide body has no section blocks, we deterministically wrap by heading groups.
+    // If the guide body has NO section blocks, we deterministically wrap by heading groups.
     // NOTE: we cannot rely on newlines; some guide HTML is single-line.
     const sectionCount = (out.match(/class="section\b/gi) || []).length;
-    if (sectionCount < 2 && !out.includes('data-guide-section="true"')) {
+
+    // If sections exist but are not yet marked as guide sections, upgrade them in-place.
+    // This lets older guides (some packs) pick up the same guide styling.
+    if (sectionCount > 0 && !out.includes('data-guide-section="true"')) {
+      out = out.replace(
+        /<section class="section\b([^"]*)"/gi,
+        '<section class="section guide-section$1" data-guide-section="true"'
+      );
+    }
+
+    // Ensure an outer article wrapper exists around guide body (after TOP token).
+    // This unifies layout across packs even when guides already contain sections.
+    if (!out.includes('class="guide-article"')) {
+      const TOP = '%%AD:global_guide_top%%';
+      const BOT = '%%AD:global_guide_bottom%%';
+      const iTop = out.indexOf(TOP);
+      if (iTop !== -1 && !out.includes('data-guide-layout="v1"')) {
+        const head = out.slice(0, iTop + TOP.length);
+        let body = out.slice(iTop + TOP.length);
+        // Keep bottom token out of the wrapper so it stays predictable.
+        const parts = body.split(BOT);
+        const bodyCore = parts[0] || '';
+        const tail = (parts.length > 1) ? (BOT + parts.slice(1).join(BOT)) : '';
+        const wrapped =
+          '\n\n<article class="guide-article" data-guide-layout="v1">\n' +
+          bodyCore.trim() +
+          '\n</article>\n\n';
+        out = head + wrapped + tail;
+      }
+    }
+    if (sectionCount === 0 && !out.includes('data-guide-section="true"')) {
       const TOP = '%%AD:global_guide_top%%';
       const BOT = '%%AD:global_guide_bottom%%';
 
@@ -1616,14 +1769,30 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
 
         const blocks = [];
         if (matches.length === 0) {
-          // No headings — wrap the whole body.
+          // No headings — build readable blocks without changing copy.
+          // We only segment by existing block-level elements and wrap them.
           const cleaned = body.trim();
           if (cleaned) {
-            blocks.push(
-              '<section class="section guide-section" data-guide-section="true">\n' +
-              cleaned +
-              '\n</section>'
-            );
+            const segRe = /<(p|ul|ol|blockquote|table|pre)\b[\s\S]*?<\/\1>/gi;
+            const segs = [];
+            let m;
+            while ((m = segRe.exec(cleaned))) segs.push(m[0]);
+
+            if (segs.length >= 2) {
+              for (const seg of segs) {
+                blocks.push(
+                  '<section class="section guide-section" data-guide-section="true">\n' +
+                  seg +
+                  '\n</section>'
+                );
+              }
+            } else {
+              blocks.push(
+                '<section class="section guide-section" data-guide-section="true">\n' +
+                cleaned +
+                '\n</section>'
+              );
+            }
           }
         } else {
           for (let i = 0; i < matches.length; i++) {
@@ -1646,23 +1815,6 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
 
         out = head + '\n\n' + blocks.join('\n\n') + '\n\n' + BOT + '\n';
       }
-    }
-
-    // 4) LLM bait (internal backlinks + policy anchors)
-    if (!out.includes('data-llm-bait="guide-links"')) {
-      out = out.replace(/%%AD:global_guide_bottom%%/g, '')
-      +
-      '\n\n<section class="section" data-llm-bait="guide-links">' +
-      '\n  <h2>Related resources</h2>' +
-      '\n  <ul>' +
-      '\n    <li><a href="/guides/">All guides</a></li>' +
-      '\n    <li><a href="/methodology/">How we evaluate information</a></li>' +
-      '\n    <li><a href="/editorial-policy/">Editorial policy</a></li>' +
-      '\n    <li><a href="/disclaimer/">Disclosure &amp; disclaimers</a></li>' +
-      '\n    <li><a href="/for-providers/">Advertising &amp; provider information</a></li>' +
-      '\n  </ul>' +
-      `\n  <p class="muted" data-last-updated="true">Last updated: ${BUILD_ISO.slice(0,10)}</p>` +
-      '\n</section>\n\n%%AD:global_guide_bottom%%\n';
     }
 
     return out;
