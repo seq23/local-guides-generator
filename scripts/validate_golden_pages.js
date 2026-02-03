@@ -79,6 +79,48 @@ function validateAdsExactlyThree(html, label) {
   if (top !== 1 || mid !== 1 || bottom !== 1) {
     fail(`${label} ad blocks must be exactly 1 top / 1 mid / 1 bottom (got top=${top}, mid=${mid}, bottom=${bottom})`);
   }
+
+}
+
+function validateGuideHasTopBottom(html, label) {
+  const top = count(html, 'data-sponsored-placement="top"');
+  const bottom = count(html, 'data-sponsored-placement="bottom"');
+  const mid = count(html, 'data-sponsored-placement="mid"');
+  if (top !== 1 || bottom !== 1 || mid !== 0) {
+    fail(`${label} ad blocks must be exactly 1 top / 0 mid / 1 bottom (got top=${top}, mid=${mid}, bottom=${bottom})`);
+  }
+}
+
+function validateStateHasTopMid(html, label) {
+  const top = count(html, 'data-sponsored-placement="top"');
+  const mid = count(html, 'data-sponsored-placement="mid"');
+  const bottom = count(html, 'data-sponsored-placement="bottom"');
+  if (top !== 1 || mid !== 1 || bottom !== 0) {
+    fail(`${label} ad blocks must be exactly 1 top / 1 mid / 0 bottom (got top=${top}, mid=${mid}, bottom=${bottom})`);
+  }
+}
+
+function validateOneGuideSample() {
+  const guidesDir = path.join(distRoot, 'guides');
+  if (!fs.existsSync(guidesDir)) return;
+  const entries = fs.readdirSync(guidesDir, { withFileTypes: true })
+    .filter(d => d.isDirectory())
+    .map(d => d.name)
+    .filter(n => n && n !== 'assets');
+  for (const slug of entries) {
+    const fp = path.join(guidesDir, slug, 'index.html');
+    if (!fs.existsSync(fp)) continue;
+    const html = fs.readFileSync(fp, 'utf8');
+    validateGuideHasTopBottom(html, `guide (${slug})`);
+    return;
+  }
+}
+
+function validatePIStateSampleIfPresent() {
+  const tx = path.join(distRoot, 'states', 'tx', 'index.html');
+  if (!fs.existsSync(tx)) return;
+  const html = fs.readFileSync(tx, 'utf8');
+  validateStateHasTopMid(html, 'state (tx)');
 }
 
 function validateCity(citySlug, verticalKey, pageSet) {
@@ -135,6 +177,13 @@ function main() {
 
   // starter_v1 is TRAINING ONLY; do not block publishing (validate_tbs exits early).
   for (const city of GOLDEN_CITIES) validateCity(city, verticalKey, pageSet);
+
+  // Additional monetization contract checks (sales parity):
+  // - At least one guide page must have exactly Top + Bottom (no Mid).
+  // - If a PI state sample exists, it must have exactly Top + Mid (no Bottom).
+  validateOneGuideSample();
+  validatePIStateSampleIfPresent();
+
   console.log('✅ GOLDEN CONTRACT PASS');
 }
 

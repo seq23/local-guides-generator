@@ -867,10 +867,9 @@ function injectAdPlacements(html, ads, ctx) {
 
   // BUYOUT HERO RENDERING (authoritative):
   // - Non-buyout pages MUST NOT render hero sponsor blocks.
-  // - If a LIVE buyout wins for this page scope (guide/city/state), the TOP placement renders hero-style.
-  // - Under a page-scope buyout, shared placements are suppressed (exclusive surface).
-  // - Vertical buyout overrides page-level hero: we suppress sponsor stacks and rely on the runtime Next Steps surface.
-  // - Under any LIVE buyout, do not emit /for-providers conversion surfaces inside sponsor stacks.
+  // - If a LIVE page-scope buyout wins for this page (guide/city/state), the TOP placement renders hero-style.
+  // - Under LIVE buyouts, conversion surfaces like /for-providers/ must be removed from sponsor blocks.
+  // - Placements remain fixed inventory surfaces; do not remove slots that are sold (sales parity + golden contract).
   let topIsHero = false;
   let suppressMid = false;
   let suppressBottom = false;
@@ -891,17 +890,14 @@ function injectAdPlacements(html, ads, ctx) {
       allowForProvidersLink = false;
 
       if (winner.scope === 'vertical') {
-        // Vertical buyout: do not render sponsor stacks on pages (avoid hero + runtime CTA duplication).
-        suppressMid = true;
-        suppressBottom = true;
+        // Vertical buyout: runtime CTA is enabled elsewhere.
+        // Keep fixed inventory placements intact (golden contract + sales parity).
         topIsHero = false;
       } else if (winner.scope === 'category' || winner.scope === 'city' || winner.scope === 'state') {
         // Page-scope buyout: Top becomes hero, and other placements are suppressed (exclusive surface).
         const scopeMatches = (winner.scope === pageType) || (pageType === 'guide' && winner.scope === 'category');
         if (scopeMatches) {
           topIsHero = true;
-          suppressMid = true;
-          suppressBottom = true;
         }
       }
     }

@@ -10,6 +10,7 @@ const buyoutsSchema = require('./validation/buyouts_schema');
 const buyoutNextStepsHardfail = require('./validation/buyout_next_steps_hardfail');
 const nextStepsCtaContract = require('./validation/next_steps_cta_contract');
 const forProvidersInquiry = require('./validation/for_providers_inquiry');
+const forProvidersSalesParity = require('./validation/for_providers_sales_parity');
 const guidesIndexLinks = require('./validation/guides_index_links');
 const footerContract = require('./validation/footer_contract');
 const goldenMajorBlocks = require('./validation/golden_major_blocks');
@@ -47,6 +48,7 @@ function main() {
   entrypointExports.run();
   buyoutNextStepsHardfail.run({ site });
   forProvidersInquiry.run({ site });
+  forProvidersSalesParity.run({ site });
   guidesIndexLinks.run({ site });
   packShadowGlobals.run({ site });
   footerContract.run({ site });
