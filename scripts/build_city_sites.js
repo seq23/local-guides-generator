@@ -822,8 +822,16 @@ function renderAdPlacement(key, opts) {
     ? '<p class="sponsor-name"><a href="/for-providers/">Advertise here</a></p>'
     : '<p class="sponsor-name">Sponsored placement</p>';
 
+  // Guide pages: treat sponsor blocks as complementary content with dedicated styling.
+  // We keep the same internal structure for validator stability; only wrapper element + class differs.
+  const isGuidePlacement = /(^|_)guide(_|$)/.test(k);
+  const wrapperTag = isGuidePlacement ? 'aside' : 'section';
+  const wrapperAttrs = isGuidePlacement
+    ? ` role="complementary" class="${cls} guide-sponsor"`
+    : ` class="${cls}"`;
+
   return `
-<section class="${cls}" data-sponsor-stack="${escapeHtml(key)}"${placementAttr}>
+<${wrapperTag}${wrapperAttrs} data-sponsor-stack="${escapeHtml(key)}"${placementAttr}>
   <div class="sponsor-stack__inner">
     <div class="sponsor-stack__header">
       <div class="sponsor-label"><strong>${labelText}</strong></div>
@@ -837,7 +845,7 @@ function renderAdPlacement(key, opts) {
       </div>
     </div>
   </div>
-</section>`.trim();
+</${wrapperTag}>`.trim();
 }
 
 function loadBuyoutsSafe(repoRoot) {

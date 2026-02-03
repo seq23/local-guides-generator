@@ -998,6 +998,18 @@ main ul, main ol{
   margin: 0 auto;
 }
 
+/* Guide editorial rhythm */
+.guide-section {
+  margin-bottom: 3rem;
+}
+
+.guide-sponsor {
+  margin: 4rem 0;
+  padding: 2rem;
+  border-radius: 14px;
+  background: #f9fafb;
+}
+
 .guide-article .muted {
   color: #4b5563;
 }
@@ -1154,18 +1166,23 @@ button.btn:focus {
 
 /* Make SVGs readable (the art itself is intentionally light; we boost contrast here) */
 .svg-wrap {
-  background: #fff;
-  border: 1px solid rgba(17, 24, 39, 0.10);
+  border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 12px;
+  background: #fff;
+  padding: 14px;
   overflow: auto;
+
+  /* Do not wash out inline SVGs */
+  opacity: 1;
+  filter: none;
 }
 .svg-wrap svg {
   width: 100%;
   height: auto;
   display: block;
   /* Push contrast up so the diagrams are legible on laptops + mobile. */
-  filter: contrast(1.9) saturate(1.15);
+  filter: none;
+  opacity: 1;
 }
 
 /* Muted helper copy: keep it readable */
