@@ -201,26 +201,53 @@ If a Guide / City / State buyout is already active, a Vertical Pack Buyout can s
 
 ## 5) Runtime conversion mechanism (Next Steps CTA)
 
-### 5.1 When it exists
-The Next Steps CTA is a runtime mechanism that exists ONLY when a **Vertical Pack Buyout is LIVE**.
+### 5.1 What the Next Steps page is
 
-### 5.2 Canonical CTA copy (must be identical everywhere)
-> Speak directly with a vetted provider serving your location.
+The Next Steps page is a **handoff-only runtime surface** used for PI buyouts.
+It exists to route the consumer **directly to the buying firm’s secure intake system**.
 
-### 5.3 CTA placement (Option A)
-When a vertical buyout is LIVE, the Next Steps CTA may appear on:
-
-- Vertical hub (hero zone)
-- City pages
-- Guide pages
-- PI state pages (PI pack only)
-
-### 5.4 CTA suppression (conflicts)
-CTA must be suppressed on any page excluded by an active, higher-priority lower-tier contract (guide/city/state buyout).
+The platform does **not** collect lead data.
 
 ---
 
+### 5.2 Routing model (authoritative)
+
+- Routing is **URL-based only**
+- Destination is the sponsor-provided `intake_url`
+- The URL is expected to be an external, secure inquiry form owned by the firm
+- The platform never intermediates intake
+
+**Explicitly not supported:**
+- `mailto:` consumer routing
+- Platform-hosted contact forms
+- Multiple routing destinations
+
+---
+
+### 5.3 CTA copy (locked)
+
+Button label (exact):
+**“Continue to secure inquiry form”**
+
+Supporting copy explains the user is being routed to a vetted provider serving their location.
+
+---
+
+### 5.4 Placement (Option A only)
+
+- Appears only when a buyout is LIVE
+- Rendered on eligible surfaces per hierarchy rules
+- Suppressed when excluded by higher-priority contracts
+
+---
+
+### 5.5 Ownership boundaries
+
+- Intake hours, call handling, and follow-up are **entirely the sponsor’s responsibility**
+- Performance reporting is based on **inquiry counts**, not outcomes
+
 ## 6) Renderer contract (must match sales page)
+ Renderer contract (must match sales page)
 
 ### 6.1 Shared (stacked) behavior
 - Multiple sponsors may appear stacked within a placement.
