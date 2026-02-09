@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "prebuild": "node scripts/validation/entrypoint_exports_contract.js",
-    "build": "npm run prepare && node scripts/build_city_sites.js",
+    "build": "npm run prepare:site && node scripts/build_city_sites.js",
     "build:all": "node scripts/build_all_packs.js",
     "validate:all": "node scripts/validate_core.js",
     "snapshot:lkg": "node scripts/snapshot_lkg.js",
     "postbuild": "node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
     "validate": "node scripts/validate_tbs.js",
-    "prepare": "node scripts/prepare_site.js",
     "sync:guides": "node scripts/sync_guides.js",
     "validate:dist:compliance": "node scripts/validate_dist_compliance_scan.js",
     "validate:goldens": "node scripts/validate_golden_pages.js",
@@ -18,7 +17,8 @@
     "audit:links": "node scripts/crawl_dist_links.js",
     "audit:buyouts": "node scripts/export_buyout_click_audit_urls.js",
     "smoke:buyouts": "node scripts/smoke_buyouts.js",
-    "qa:release": "node scripts/qa_release.js"
+    "qa:release": "node scripts/qa_release.js",
+    "prepare:site": "node scripts/prepare_site.js"
   },
   "dependencies": {}
 }
