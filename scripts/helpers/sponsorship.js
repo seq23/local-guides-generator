@@ -55,8 +55,8 @@ function coreShouldRenderNextSteps({
 }) {
   const { resolveWinner } = require('./buyouts');
 
-  const hasLiveVertical = isLiveVerticalBuyout(buyouts, now);
-  if (!hasLiveVertical) return false;
+  if (!pageType) return false;
+  if (!['home', 'city', 'guide', 'state'].includes(pageType)) return false;
 
   const ctx = {
     city: citySlug || null,
@@ -67,13 +67,18 @@ function coreShouldRenderNextSteps({
   const winner = resolveWinner(buyouts || [], ctx, now);
   if (!winner) return false;
 
-  if (winner.scope !== 'vertical') return false;
+  // Vertical buyout enables Next Steps CTA across eligible surfaces.
+  if (winner.scope === 'vertical') return true;
 
-  if (!pageType) return false;
-  if (!['home', 'city', 'guide', 'state'].includes(pageType)) return false;
+  // PI-only rule: state buyout may enable Next Steps CTA on the STATE page only.
+  if (winner.scope === 'state') {
+    return pageType === 'state';
+  }
 
-  return true;
+  // City/guide buyouts do not enable the Next Steps CTA surface.
+  return false;
 }
+
 
 // Backward-compatible signature:
 // - NEW: shouldRenderNextSteps({ pageType, citySlug, stateCode, guideRoute, buyouts, now })

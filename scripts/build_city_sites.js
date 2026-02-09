@@ -2270,6 +2270,18 @@ function loadNextStepsSponsor(citySlug) {
     // This supports sponsor-driven next-steps on state pages with no new data requirements.
     function selectPiStateSponsor(stateAbbr) {
       const ab = String(stateAbbr).toUpperCase();
+
+      // Priority 0 (PI state buyout): explicit state sponsor file, if present and LIVE.
+      try {
+        const p = path.join(DATA_DIR, 'state_sponsors', `${ab.toLowerCase()}.json`);
+        if (fs.existsSync(p)) {
+          const s0 = readJson(p) || {};
+          if (sponsorship.isSponsorLive(s0)) return s0;
+        }
+      } catch (_) {
+        // ignore
+      }
+
       const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
       for (const c of cityRows) {
         const s = loadNextStepsSponsor(c.slug) || {};

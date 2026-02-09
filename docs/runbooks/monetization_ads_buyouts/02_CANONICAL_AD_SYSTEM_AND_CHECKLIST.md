@@ -98,7 +98,7 @@ The validator extracts the JSON block below and compares it to the rendered `/fo
     }
   },
   "runtime_next_steps_cta": {
-    "enabled_when": "vertical_buyout_live",
+    "enabled_when": "vertical_buyout_live_or_pi_state_buyout_live_on_state_page",
     "copy": "Speak directly with a vetted provider serving your location.",
     "button": "Speak directly",
     "placement_option": "A",

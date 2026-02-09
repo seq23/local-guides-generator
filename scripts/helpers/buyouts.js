@@ -74,34 +74,47 @@ function targetsMatch(rec, ctx) {
   const scope = rec.scope;
 
   // Common context
-  const citySlug = ctx && ctx.citySlug ? ctx.citySlug : null;
-  const state = ctx && ctx.state ? ctx.state : null;
-  const guideRoute = ctx && (ctx.guideRoute || ctx.guideSlug) ? (ctx.guideRoute || ctx.guideSlug) : null;
+  const citySlug = ctx && (ctx.citySlug || ctx.city) ? String(ctx.citySlug || ctx.city) : null;
+  const state = ctx && ctx.state ? String(ctx.state) : null;
+  const guideRoute = ctx && (ctx.guideRoute || ctx.guideSlug) ? String(ctx.guideRoute || ctx.guideSlug) : null;
   const verticalKey = ctx && ctx.verticalKey ? ctx.verticalKey : null;
+
+  const targets = Array.isArray(rec.targets) ? rec.targets.map((t) => String(t)) : null;
 
   if (scope === 'vertical') {
     if (!matchesVerticalKey(rec, verticalKey)) return false;
-    return true;
+    // Canonical: targets:["ALL"] means full pack.
+    if (!targets) return true; // legacy support
+    return targets.some((t) => String(t).trim().toLowerCase() === 'all');
   }
 
   if (scope === 'state') {
     if (!state) return false;
-    return rec.state === state;
+    if (targets) return targets.some((t) => String(t).trim().toUpperCase() === state.trim().toUpperCase());
+    // legacy support
+    return String(rec.state || '').trim().toUpperCase() === state.trim().toUpperCase();
   }
 
   if (scope === 'city') {
     if (!citySlug) return false;
-    return rec.citySlug === citySlug;
+    if (targets) return targets.some((t) => String(t).trim().toLowerCase() === citySlug.trim().toLowerCase());
+    // legacy support
+    return String(rec.citySlug || '').trim().toLowerCase() === citySlug.trim().toLowerCase();
   }
 
-  // "category" is the guide page buyout.
-  if (scope === 'category') {
+  // "category" / "guide" is the guide page buyout.
+  if (scope === 'category' || scope === 'guide') {
     if (!guideRoute) return false;
-    return rec.guideSlug === guideRoute;
+    const norm = (s) => String(s || '').trim().replace(/^\/+|\/+$/g, '');
+    const gr = norm(guideRoute);
+    if (targets) return targets.some((t) => norm(t) === gr);
+    // legacy support
+    return norm(rec.guideSlug) === gr;
   }
 
   return false;
 }
+
 
 function precedence(scope) {
   // Higher wins.
@@ -109,7 +122,7 @@ function precedence(scope) {
   if (scope === 'vertical') return 400;
   if (scope === 'state') return 300;
   if (scope === 'city') return 200;
-  if (scope === 'category') return 100;
+  if (scope === 'category' || scope === 'guide') return 100;
   return 0;
 }
 

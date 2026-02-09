@@ -42,17 +42,27 @@ function run(ctx) {
     throw new Error('NEXT STEPS CTA CONTRACT FAIL: dist/ not found. Run build first.');
   }
 
-  // Determine whether a LIVE vertical buyout exists (Option A).
-  const pageSet = (ctx && ctx.pageSet) || null;
-  const verticalLive = sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'global', route: '/' });
+  // Load buyouts (if any). Empty is allowed.
+  let buyouts = [];
+  try {
+    const fp = path.join(repoRoot, 'data', 'buyouts.json');
+    if (fileExists(fp)) {
+      const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+      buyouts = Array.isArray(raw) ? raw : [];
+    }
+  } catch (_) {
+    buyouts = [];
+  }
 
-  const filesToScan = [];
+  const now = new Date();
+
+  const pages = [];
 
   // Home
   const home = path.join(distDir, 'index.html');
-  if (fileExists(home)) filesToScan.push(home);
+  if (fileExists(home)) pages.push({ fp: home, meta: { pageType: 'home' } });
 
-  // City pages (best-effort): dist/<citySlug>/index.html
+  // City pages: dist/<citySlug>/index.html
   const citiesFile = path.join(repoRoot, 'data', 'cities.json');
   if (fileExists(citiesFile)) {
     const cities = readJson(citiesFile);
@@ -60,62 +70,68 @@ function run(ctx) {
       for (const c of cities) {
         const slug = c && c.slug ? String(c.slug) : null;
         if (!slug) continue;
+        const st = c && c.state ? String(c.state) : null;
         const fp = path.join(distDir, slug, 'index.html');
-        if (fileExists(fp)) filesToScan.push(fp);
+        if (fileExists(fp)) pages.push({ fp, meta: { pageType: 'city', citySlug: slug, stateCode: st } });
       }
     }
   }
 
-  // PI state pages (best-effort): dist/states/<abbr>/index.html
+  // State pages: dist/states/<abbr>/index.html
   const statesDir = path.join(distDir, 'states');
   if (fileExists(statesDir)) {
     try {
       const abbrs = fs.readdirSync(statesDir).filter((d) => !d.startsWith('.'));
-      for (const ab of abbrs) {
-        const fp = path.join(statesDir, ab, 'index.html');
-        if (fileExists(fp)) filesToScan.push(fp);
+      for (const ab0 of abbrs) {
+        const fp = path.join(statesDir, ab0, 'index.html');
+        if (fileExists(fp)) pages.push({ fp, meta: { pageType: 'state', stateCode: String(ab0).toUpperCase() } });
       }
     } catch (_) {
       // ignore
     }
   }
 
-  // Validate.
-  let foundCta = 0;
-  for (const fp of filesToScan) {
-    const html = readText(fp);
-    const label = path.relative(repoRoot, fp);
+  // Validate per-page expectation.
+  let expectedCount = 0;
+  let scannedCount = 0;
 
+  for (const row of pages) {
+    const fp = row.fp;
+    const meta = row.meta || {};
+    const label = path.relative(repoRoot, fp);
+    const html = readText(fp);
     const hasZone = html.includes('data-next-steps-zone="true"');
 
-    if (!verticalLive) {
-      // If no vertical buyout is live, we should not render the live-buyout CTA zone.
+    const expected = sponsorship.shouldRenderNextSteps({
+      pageType: meta.pageType,
+      citySlug: meta.citySlug || null,
+      stateCode: meta.stateCode || null,
+      guideRoute: meta.guideRoute || null,
+      buyouts,
+      now,
+    });
+
+    if (expected) expectedCount += 1;
+    scannedCount += 1;
+
+    if (!expected) {
       if (hasZone) {
-        throw new Error(`NEXT STEPS CTA CONTRACT FAIL: CTA zone rendered but no LIVE vertical buyout. File=${label}`);
+        throw new Error(`NEXT STEPS CTA CONTRACT FAIL: CTA zone rendered but not expected. File=${label}`);
       }
-      // Also ensure canonical CTA text is not present accidentally.
       assertNotContains(html, CANONICAL_CTA_TEXT, label);
       continue;
     }
 
-    // If vertical is live, then each eligible page should include the zone.
-    // (Suppression for conflicting city/state/guide buyouts is handled per-page by shouldRenderNextSteps;
-    // this validator is a baseline contract check on the built surfaces we can enumerate.)
+    // Expected
     if (!hasZone) {
-      throw new Error(`NEXT STEPS CTA CONTRACT FAIL: missing CTA zone on eligible page. File=${label}`);
+      throw new Error(`NEXT STEPS CTA CONTRACT FAIL: missing CTA zone on expected page. File=${label}`);
     }
-
-    // Canonical text must be present.
     assertContains(html, CANONICAL_CTA_TEXT, label);
-
-    // The CTA element marker must exist.
     assertContains(html, 'data-next-steps-cta="true"', label);
-
-    foundCta += 1;
   }
 
-  if (verticalLive && foundCta == 0) {
-    throw new Error('NEXT STEPS CTA CONTRACT FAIL: vertical buyout is live but no pages were checked (or dist missing expected pages).');
+  if (scannedCount === 0) {
+    throw new Error('NEXT STEPS CTA CONTRACT FAIL: no pages were scanned (dist missing expected surfaces).');
   }
 
   console.log('✅ NEXT STEPS CTA CONTRACT PASS');

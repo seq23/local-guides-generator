@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const buyoutsSchema = require('./validation/buyouts_schema');
+const stateBuyoutRequiresStateSponsor = require('./validation/state_buyout_requires_state_sponsor');
 const buyoutNextStepsHardfail = require('./validation/buyout_next_steps_hardfail');
 const nextStepsCtaContract = require('./validation/next_steps_cta_contract');
 const forProvidersInquiry = require('./validation/for_providers_inquiry');
@@ -47,6 +48,7 @@ function main() {
   buyoutsSchema.run({ site });
   entrypointExports.run();
   buyoutNextStepsHardfail.run({ site });
+  stateBuyoutRequiresStateSponsor.run({ site });
   forProvidersInquiry.run({ site });
   forProvidersSalesParity.run({ site });
   guidesIndexLinks.run({ site });
