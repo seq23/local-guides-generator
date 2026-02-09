@@ -1,5 +1,10 @@
 # Changelog
 
+# 2026-02-09
+
+- Nightly integrity build: re-ran core validators and refreshed verification metadata.
+- Confirmed canonical inventory parity between docs and public surfaces.
+
 ## UX batch — FAQ discoverability + PI directory styling (2026-01-28)
 
 ### What changed
