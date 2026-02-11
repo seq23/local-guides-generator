@@ -5,6 +5,9 @@
 - Nightly integrity build: re-ran core validators and refreshed verification metadata.
 - Confirmed canonical inventory parity between docs and public surfaces.
 
+- Nightly integrity build: re-ran core validators and refreshed verification metadata.
+- Confirmed canonical inventory parity between docs and public surfaces.
+
 # 2026-02-10
 
 - Revalidated core contracts and inventories (rotating focus: TRT).
