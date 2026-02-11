@@ -68,18 +68,25 @@ function run() {
   const root = repoRoot();
 
   const sitePath = path.join(root, 'data', 'site.json');
-  if (!exists(sitePath)) {
-    // validate:all can run without building; that's fine.
-    console.log('ℹ️ PAGESET CONTRACT SKIP — data/site.json missing (run build to generate).');
-    return;
+  // IMPORTANT:
+  // - In `prebuild`, data/site.json does NOT exist yet (prepare_site runs after prebuild).
+  // - In `validate:all`, you might validate without building.
+  // So: if site.json doesn't exist, validate PAGE_SET_FILE env (when present).
+  let raw = null;
+  if (exists(sitePath)) {
+    const site = readJSON(sitePath);
+    raw = site.pageSetFile;
+  } else {
+    raw = process.env.PAGE_SET_FILE || '';
+    if (!raw) {
+      console.log('ℹ️ PAGESET CONTRACT SKIP — no data/site.json and no PAGE_SET_FILE env (nothing to validate).');
+      return;
+    }
   }
-
-  const site = readJSON(sitePath);
-  const raw = site.pageSetFile;
 
   const norm = normalizeToPageSetsRel(raw);
 
-  if (!raw) fail('data/site.json missing site.pageSetFile');
+  if (!raw) fail('missing pageSetFile (site.pageSetFile or PAGE_SET_FILE env)');
   if (!norm) fail(`site.pageSetFile normalized to empty from: "${raw}"`);
 
   // hard rules
@@ -87,8 +94,9 @@ function run() {
   if (/data\/page_sets\/data\/page_sets\//.test(normalizeInputPath(raw))) {
     fail(`site.pageSetFile contains doubled prefix. Raw: "${raw}"`);
   }
-  if (normalizeInputPath(raw) !== norm) {
-    // If raw differs, it means somebody wrote the wrong format. Enforce write-format.
+  // When site.json exists, raw MUST already be normalized (we enforce stored format).
+  // When only env is available, raw can be either already-normalized or include the prefix.
+  if (exists(sitePath) && normalizeInputPath(raw) !== norm) {
     fail(`site.pageSetFile must be stored normalized. Expected "${norm}" but found "${raw}"`);
   }
 
