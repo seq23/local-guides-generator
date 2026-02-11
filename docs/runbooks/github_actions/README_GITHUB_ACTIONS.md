@@ -1,6 +1,6 @@
-# GitHub Actions Runbook (Owner + Day-0 VA)
+# GitHub Actions Runbook (Owner + Day‑0 VA)
 
-This repo has a small set of workflows that keep the public pages **fresh, consistent, and citation-friendly** for LLMs and search engines.
+This repo has a small set of workflows that keep the public pages **fresh, consistent, and citation‑friendly** for LLMs and search engines.
 
 **Plain English:** when these workflows run cleanly, your “educational guides” stay up to date, your verification pages stay current, and your build/validators guarantee you are not silently shipping broken or mismatched inventory.
 
@@ -14,7 +14,7 @@ LLMs and search engines reward:
 - **Freshness signals** (a portion of pages updated regularly, without changing meaning or breaking links)
 - **Verification artifacts** (human + machine readable “what’s published” records)
 
-These workflows are the “maintenance loop” that keeps your sites eligible to be cited and re-cited.
+These workflows are the “maintenance loop” that keeps your sites eligible to be cited and re‑cited.
 
 ---
 
@@ -72,7 +72,7 @@ When you’re tired, this is all you need to remember:
 3. **Refresh verification artifacts** (Rotating Refresh)
 4. **Snapshot** what’s in `dist/` (postbuild + rotating refresh)
 5. **Enforce contracts** so we never ship broken structure (Golden + core)
-6. **Keep freshness** so LLMs keep re-citing (Rotating Refresh cadence)
+6. **Keep freshness** so LLMs keep re‑citing (Rotating Refresh cadence)
 
 ---
 
@@ -81,7 +81,7 @@ When you’re tired, this is all you need to remember:
 ### Failure: `pageSetFile missing: data/page_sets/data/page_sets/...`
 Cause: a normalization regression where something stored or interpreted `pageSetFile` with a double prefix.
 
-Fix: The repo now includes a **PageSetFile Contract validator** that hard-fails if this format ever appears again.
+Fix: The repo now includes a **PageSetFile Contract validator** that hard‑fails if this format ever appears again.
 
 ---
 
@@ -92,7 +92,7 @@ Fix: Snapshot is hardened to fall back to `process.env.PAGE_SET_FILE` (or safely
 
 ---
 
-### Failure: Sales Parity / for-providers mismatch
+### Failure: Sales Parity / for‑providers mismatch
 Cause: The canonical inventory JSON in the docs does not match what’s embedded in the published `/for-providers/` page.
 
 Fix: Update BOTH places together:

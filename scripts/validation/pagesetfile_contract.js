@@ -25,12 +25,7 @@ function repoRoot() {
 }
 
 function exists(p) {
-  try {
-    fs.accessSync(p);
-    return true;
-  } catch {
-    return false;
-  }
+  try { fs.accessSync(p); return true; } catch { return false; }
 }
 
 function readJSON(p) {
@@ -113,6 +108,7 @@ function run() {
     }
     const snapFile = snap?.pageSet?.file;
     if (snapFile && snapFile !== `data/page_sets/${norm}`) {
+      // allow absolute repo-relative variants like "data/page_sets/<...>" only
       fail(`snapshot pageSet.file mismatch. Expected "data/page_sets/${norm}" but got "${snapFile}"`);
     }
   }

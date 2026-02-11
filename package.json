@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "prebuild": "node scripts/validation/entrypoint_exports_contract.js",
+    "prebuild": "node scripts/validation/entrypoint_exports_contract.js && node scripts/validation/pagesetfile_contract.js",
     "build": "npm run prepare:site && node scripts/build_city_sites.js",
     "build:all": "node scripts/build_all_packs.js",
     "validate:all": "node scripts/validate_core.js",
@@ -21,5 +21,9 @@
     "refresh:verification": "bash scripts/automation/refresh_verification_page.sh",
     "prepare:site": "node scripts/prepare_site.js"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  }
 }

@@ -20,23 +20,16 @@ function normalizeInputPath(raw) {
 //   data/page_sets\\examples\\pi_v1.json
 // ...and normalize to a path relative to data/page_sets/.
 function normalizeToPageSetsRel(rawPageSetFile) {
-  let s = normalizeInputPath(rawPageSetFile);
-  if (!s) return "";
+  const s0 = normalizeInputPath(rawPageSetFile);
+  if (!s0) return '';
 
-  // Strip repeated leading prefixes so we never end up with data/page_sets/data/page_sets/...
-  // We accept any of:
-  //   - examples/pi_v1.json
-  //   - data/page_sets/examples/pi_v1.json
-  //   - /abs/path/.../data/page_sets/examples/pi_v1.json
-  //   - page_sets/examples/pi_v1.json
-  const marker = "data/page_sets/";
-  const idx = s.lastIndexOf(marker);
-  if (idx >= 0) s = s.slice(idx + marker.length);
+  const idx = s0.indexOf('data/page_sets/');
+  if (idx >= 0) return s0.slice(idx + 'data/page_sets/'.length);
 
-  while (s.startsWith("data/page_sets/")) s = s.slice("data/page_sets/".length);
-  while (s.startsWith("page_sets/")) s = s.slice("page_sets/".length);
+  if (s0.startsWith('page_sets/')) return s0.slice('page_sets/'.length);
+  if (s0.startsWith('data/page_sets')) return s0.replace(/^data\/page_sets\/?/, '');
 
-  return s.replace(/^\/+/,"");
+  return s0;
 }
 
 function fail(msg) {

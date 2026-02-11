@@ -22,7 +22,8 @@ Owner + VA operational runbooks for this repo.
 - **No-terminal SOPs:** `docs/runbooks/manual_only/`
 - `guides_rendering.md` — guide discovery, normalization, hub cards, and rendering flow
 - `sponsorship_runtime.md` — hero vs slot rules, buyout/vertical buyout behavior, and Next Steps CTA runtime
-  
+
+
 ## LLM visibility + freshness
 - **Primer (why we run workflows + what they do):** `docs/runbooks/llm_visibility/01_LLM_VISIBILITY_PRIMER.md`
 - **GitHub Actions runbook (Verify / Validate LKG / Rotating Refresh):** `docs/runbooks/github_actions/README_GITHUB_ACTIONS.md`
