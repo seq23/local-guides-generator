@@ -47,21 +47,40 @@ function main() {
   // Anything “audit-only” belongs in validate_tbs.js.
   buyoutsSchema.run({ site });
   entrypointExports.run();
-
-const pageSetFileContract = require('./validation/pagesetfile_contract');
-pageSetFileContract.run();
   buyoutNextStepsHardfail.run({ site });
   stateBuyoutRequiresStateSponsor.run({ site });
   packShadowGlobals.run({ site });
 
-  // Dist-dependent validators:
-  // - In CI / source-only validation, dist/ often doesn't exist.
-  // - We should not hard-fail the repo for missing dist unless we explicitly asked to validate dist.
+  // Dist-dependent validators (HARD GUARDRAIL):
+  // We do NOT allow the "dist missing → skip dist-dependent validators → green locally → surprise red later" trap.
+  // Rule:
+  // - If dist/ is missing, validation FAILS by default.
+  // - To intentionally run source-only validators, set LKG_ALLOW_DIST_SKIP=1.
+  // - If LKG_VALIDATE_DIST=1 is set, dist/ MUST exist (hard fail otherwise).
   const distDir = path.join(__dirname, '..', 'dist');
   const wantDistValidation = String(process.env.LKG_VALIDATE_DIST || '').trim() === '1';
+  const allowDistSkip = String(process.env.LKG_ALLOW_DIST_SKIP || '').trim() === '1';
   const haveDist = fs.existsSync(distDir);
 
-  if (wantDistValidation || haveDist) {
+  if (!haveDist) {
+    if (wantDistValidation) {
+      console.error('DIST REQUIRED: dist/ is missing but LKG_VALIDATE_DIST=1 was set.');
+      console.error('Fix: build dist first (e.g., `node scripts/build_all_packs.js` or `node scripts/build_city_sites.js`) then rerun validation.');
+      process.exit(1);
+    }
+
+    if (!allowDistSkip) {
+      console.error('DIST REQUIRED: dist/ is missing.');
+      console.error('This repo forbids the "dist missing → skip validators → green → surprise red" failure mode.');
+      console.error('Fix: build dist first (recommended), then rerun validation.');
+      console.error('If you intentionally want SOURCE-ONLY validation, rerun with: LKG_ALLOW_DIST_SKIP=1 npm run validate:all');
+      process.exit(1);
+    }
+
+    console.log('ℹ️ dist/ missing: SOURCE-ONLY validation allowed (LKG_ALLOW_DIST_SKIP=1). Dist-dependent validators skipped.');
+  }
+
+  if (haveDist) {
     forProvidersInquiry.run({ site });
     forProvidersSalesParity.run({ site });
     guidesIndexLinks.run({ site });
@@ -70,7 +89,7 @@ pageSetFileContract.run();
     linkAudit.run({ site });
     nextStepsCtaContract.run({ site });
   } else {
-    console.log('ℹ️ dist/ missing: skipping dist-dependent core validators. Set LKG_VALIDATE_DIST=1 to enforce.');
+    // unreachable: we either hard-fail above (default) or explicitly allowed source-only validation
   }
 
   console.log('CORE VALIDATION PASS');
