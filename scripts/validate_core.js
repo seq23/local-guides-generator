@@ -47,6 +47,8 @@ function main() {
   // Anything “audit-only” belongs in validate_tbs.js.
   buyoutsSchema.run({ site });
   entrypointExports.run();
+  const pageSetFileContract = require('./validation/pagesetfile_contract');
+  pageSetFileContract.run();
   buyoutNextStepsHardfail.run({ site });
   stateBuyoutRequiresStateSponsor.run({ site });
   packShadowGlobals.run({ site });
