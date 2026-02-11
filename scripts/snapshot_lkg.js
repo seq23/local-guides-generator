@@ -52,30 +52,20 @@ function rel(p) {
   return p.replace(repoRoot + path.sep, '').replaceAll('\\', '/');
 }
 
-
-function normalizeInputPath(raw) {
-  if (!raw) return "";
-  let s = String(raw).trim().replaceAll('\\', '/');
-  // Strip repoRoot prefix if present
-  if (s.startsWith(repoRoot.replaceAll('\\', '/') + '/')) {
-    s = s.slice(repoRoot.replaceAll('\\', '/').length + 1);
-  }
-  return s.replace(/^\.{1,2}\//, '');
-}
-
 function normalizeToPageSetsRel(rawPageSetFile) {
-  let s = normalizeInputPath(rawPageSetFile);
-  if (!s) return "";
+  const raw = String(rawPageSetFile || '').trim();
+  if (!raw) return '';
 
-  // Strip repeated leading prefixes so we never end up with data/page_sets/data/page_sets/...
-  const marker = "data/page_sets/";
-  const idx = s.lastIndexOf(marker);
-  if (idx >= 0) s = s.slice(idx + marker.length);
+  // Normalize windows separators and leading ./
+  let s = raw.replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
 
-  while (s.startsWith("data/page_sets/")) s = s.slice("data/page_sets/".length);
-  while (s.startsWith("page_sets/")) s = s.slice("page_sets/".length);
+  // Allow callers to pass full repo paths like "data/page_sets/examples/pi_v1.json"
+  s = s.replace(/^data\/page_sets\//, '');
 
-  return s.replace(/^\/+/, "");
+  // Also tolerate "page_sets/..." inputs
+  s = s.replace(/^page_sets\//, '');
+
+  return s;
 }
 
 function resolvePageSetPath(pageSetFile) {
@@ -119,11 +109,17 @@ function resolvePageSetPath(pageSetFile) {
 function main() {
   const siteJsonPath = path.join(dataDir, 'site.json');
   const hasSiteJson = fs.existsSync(siteJsonPath);
-  const site = hasSiteJson ? readJson(siteJsonPath) : null;
 
-  // Rotating Refresh may run snapshot without a build; in that case we still
-  // emit a snapshot file (for logging/audit), but we do not hard-fail.
-  const pageSetFileRaw = site && site.pageSetFile ? String(site.pageSetFile) : '';
+  // site.json is created during build (prepare_site). Some workflows (e.g.
+  // Rotating Refresh) intentionally run without a full build, so site.json may
+  // be missing. Also, previous buggy commits may have written literal `null`.
+  // Snapshot must NEVER crash in those scenarios.
+  const siteParsed = hasSiteJson ? readJson(siteJsonPath) : null;
+  const site = siteParsed && typeof siteParsed === 'object' ? siteParsed : {};
+
+  // Prefer site.pageSetFile; fall back to env if present.
+  const envPageSet = process.env.PAGE_SET_FILE || process.env.PAGE_SET_FILE_REL || '';
+  const pageSetFileRaw = site.pageSetFile ? String(site.pageSetFile) : String(envPageSet || '');
   const pageSetFileRel = pageSetFileRaw ? normalizeToPageSetsRel(pageSetFileRaw) : '';
 
   let pageSetPath = null;
@@ -133,8 +129,17 @@ function main() {
       pageSetPath = resolvePageSetPath(pageSetFileRaw);
       pageSet = readJson(pageSetPath);
     } catch (e) {
-      // If site.json exists but the pageset is missing, that's a real failure.
-      fail(`pageSetFile missing or unreadable: ${pageSetFileRaw}`);
+      // If the pageSetFile came from site.json, that's a hard failure (Golden
+      // contract relies on it). If it came from env (or is otherwise optional),
+      // don't crash; just omit pageSet details.
+      const fromSiteJson = Boolean(siteParsed && typeof siteParsed === 'object' && siteParsed.pageSetFile);
+      if (fromSiteJson) {
+        fail(`pageSetFile missing or unreadable: ${pageSetFileRaw}`);
+      } else {
+        console.log(`ℹ️ snapshot_lkg: pageSetFile not resolved (${pageSetFileRaw}); continuing without pageSet.`);
+        pageSetPath = null;
+        pageSet = null;
+      }
     }
   }
 
@@ -165,13 +170,15 @@ function main() {
       // GOLDEN CONTRACT FIELD:
       pageSetFile: pageSetFileRel,
       // Debug-only (won't be used by validators unless someone changes them):
-      pageSetFileRaw: String(site.pageSetFile || '')
+      pageSetFileRaw: String(pageSetFileRaw || site.pageSetFile || '')
     },
-    pageSet: {
-      name: pageSet.name,
-      vertical: pageSet.vertical,
-      file: rel(pageSetPath)
-    },
+    pageSet: pageSet
+      ? {
+          name: pageSet.name,
+          vertical: pageSet.vertical,
+          file: pageSetPath ? rel(pageSetPath) : null
+        }
+      : null,
     counts
   };
 
