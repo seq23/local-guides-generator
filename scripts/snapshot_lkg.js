@@ -12,23 +12,18 @@ function fail(msg) {
   process.exit(1);
 }
 
+function ensureDir(dirPath) {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+}
+
 function readJson(fp) {
   try {
     return JSON.parse(fs.readFileSync(fp, 'utf8'));
   } catch (e) {
     fail(`Could not read JSON: ${fp}`);
   }
-}
-
-function ensureDir(dir) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-}
-
-function relFromRepo(p) {
-  return path
-    .relative(repoRoot, p)
-    .split(path.sep)
-    .join('/');
 }
 
 function walkFiles(dir, predicate) {
@@ -41,102 +36,120 @@ function walkFiles(dir, predicate) {
       const full = path.join(d, ent.name);
       if (ent.isDirectory()) stack.push(full);
       else if (ent.isFile()) {
-        const posix = full.split(path.sep).join('/');
-        if (!predicate || predicate(posix)) out.push(full);
+        const p = full.replaceAll('\\', '/');
+        if (!predicate || predicate(p)) out.push(full);
       }
     }
   }
   return out;
 }
 
-function normalizeInputPath(raw) {
-  const s = String(raw || '').trim();
-  if (!s) return '';
-  return s.replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
+function basenameNoExt(p) {
+  return path.basename(p).replace(/\.[^.]+$/, '');
+}
+
+function rel(p) {
+  return p.replace(repoRoot + path.sep, '').replaceAll('\\', '/');
 }
 
 function normalizeToPageSetsRel(rawPageSetFile) {
-  // Returns a path *relative to data/page_sets/*.
-  // Examples:
-  //  - "data/page_sets/examples/pi_v1.json" -> "examples/pi_v1.json"
-  //  - "page_sets/examples/pi_v1.json"      -> "examples/pi_v1.json"
-  //  - "examples/pi_v1.json"                -> "examples/pi_v1.json"
-  //  - "pi_v1.json"                          -> "pi_v1.json"
-  const s0 = normalizeInputPath(rawPageSetFile);
-  return s0.replace(/^data\/page_sets\//, '').replace(/^page_sets\//, '');
+  const raw = String(rawPageSetFile || '').trim();
+  if (!raw) return '';
+
+  // Normalize windows separators and leading ./
+  let s = raw.replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
+
+  // Allow callers to pass full repo paths like "data/page_sets/examples/pi_v1.json"
+  s = s.replace(/^data\/page_sets\//, '');
+
+  // Also tolerate "page_sets/..." inputs
+  s = s.replace(/^page_sets\//, '');
+
+  return s;
 }
 
-function resolvePageSetPath(rawPageSetFile) {
-  const rel = normalizeToPageSetsRel(rawPageSetFile);
-  if (!rel) fail('Missing pageSetFile (set data/site.json.pageSetFile or env PAGE_SET_FILE)');
+function resolvePageSetPath(pageSetFile) {
+  const raw = String(pageSetFile || '').trim();
+  if (!raw) fail('data/site.json is missing pageSetFile');
+
+  // Normalize:
+  // - allow Windows separators
+  // - allow "./"
+  // - allow passing "data/page_sets/..." (as written in site.json)
+  // - always resolve under data/page_sets (never absolute)
+  const normalized0 = raw.replace(/\\/g, '/').replace(/^\.\//, '');
+  let rel = normalized0.replace(/^data\/page_sets\//, '').replace(/^\/+/, '');
 
   const candidates = [];
 
-  // Always resolve under data/page_sets
+  // 1) direct relative under data/page_sets/
   candidates.push(path.join(dataDir, 'page_sets', rel));
 
-  // If they passed bare filename, also try examples/
+  // 2) if they provided a bare filename, also try examples/
   if (!rel.includes('/')) {
     candidates.push(path.join(dataDir, 'page_sets', 'examples', rel));
   }
 
-  // Extra defensive: handle odd nested inputs like "page_sets/examples/foo.json" already stripped,
-  // but if something slipped through, strip again and try.
-  candidates.push(path.join(dataDir, 'page_sets', rel.replace(/^page_sets\//, '')));
+  // 3) handle odd inputs like "page_sets/examples/foo.json"
+  rel = rel.replace(/^page_sets\//, '');
+  candidates.push(path.join(dataDir, 'page_sets', rel));
 
   for (const c of candidates) {
     if (fs.existsSync(c)) return c;
   }
 
   fail(
-    `Could not resolve pageSetFile "${rawPageSetFile}" under data/page_sets/. Tried: ${candidates
-      .map(relFromRepo)
-      .join(', ')}`
+    `Could not resolve pageSetFile "${pageSetFile}" under data/page_sets/ (tried: ${candidates.join(
+      ', '
+    )})`
   );
   return null;
 }
 
-function loadSite() {
-  const siteJsonPath = path.join(dataDir, 'site.json');
-  if (fs.existsSync(siteJsonPath)) {
-    const site = readJson(siteJsonPath);
-    if (!site.pageSetFile) fail('data/site.json is missing pageSetFile');
-    return site;
-  }
-
-  // Fallback for workflows that don't run prepare:site (e.g., rotating refresh)
-  const pageSetFileEnv = process.env.PAGE_SET_FILE || process.env.LKG_PAGE_SET_FILE || '';
-  if (!pageSetFileEnv) {
-    fail(
-      'Missing data/site.json and no PAGE_SET_FILE env var provided. ' +
-        'Either run prepare:site/build first or set PAGE_SET_FILE.'
-    );
-  }
-
-  return {
-    brandName: process.env.BRAND_NAME || process.env.LKG_BRAND_NAME || 'The Industry Guides',
-    siteUrl: process.env.SITE_URL || process.env.LKG_SITE_URL || 'https://example.com',
-    pageSetFile: pageSetFileEnv
-  };
-}
-
 function main() {
-  const site = loadSite();
+  const siteJsonPath = path.join(dataDir, 'site.json');
+  const hasSiteJson = fs.existsSync(siteJsonPath);
 
-  // IMPORTANT: Golden Contract expects site.pageSetFile in snapshot to be RELATIVE to data/page_sets/
-  const pageSetFileRel = normalizeToPageSetsRel(site.pageSetFile);
-  const pageSetPath = resolvePageSetPath(site.pageSetFile);
-  const pageSet = readJson(pageSetPath);
+  // site.json is created during build (prepare_site). Some workflows (e.g.
+  // Rotating Refresh) intentionally run without a full build, so site.json may
+  // be missing. Also, previous buggy commits may have written literal `null`.
+  // Snapshot must NEVER crash in those scenarios.
+  const siteParsed = hasSiteJson ? readJson(siteJsonPath) : null;
+  const site = siteParsed && typeof siteParsed === 'object' ? siteParsed : {};
 
-  // dist is required for route counts + output location; create if missing (defensive)
+  // Prefer site.pageSetFile; fall back to env if present.
+  const envPageSet = process.env.PAGE_SET_FILE || process.env.PAGE_SET_FILE_REL || '';
+  const pageSetFileRaw = site.pageSetFile ? String(site.pageSetFile) : String(envPageSet || '');
+  const pageSetFileRel = pageSetFileRaw ? normalizeToPageSetsRel(pageSetFileRaw) : '';
+
+  let pageSetPath = null;
+  let pageSet = null;
+  if (pageSetFileRaw) {
+    try {
+      pageSetPath = resolvePageSetPath(pageSetFileRaw);
+      pageSet = readJson(pageSetPath);
+    } catch (e) {
+      // If the pageSetFile came from site.json, that's a hard failure (Golden
+      // contract relies on it). If it came from env (or is otherwise optional),
+      // don't crash; just omit pageSet details.
+      const fromSiteJson = Boolean(siteParsed && typeof siteParsed === 'object' && siteParsed.pageSetFile);
+      if (fromSiteJson) {
+        fail(`pageSetFile missing or unreadable: ${pageSetFileRaw}`);
+      } else {
+        console.log(`ℹ️ snapshot_lkg: pageSetFile not resolved (${pageSetFileRaw}); continuing without pageSet.`);
+        pageSetPath = null;
+        pageSet = null;
+      }
+    }
+  }
+
+  // dist is required for counts + output location; create if missing so we can
+  // still write a snapshot in no-build flows.
   ensureDir(distDir);
 
   const htmlFiles = fs.existsSync(distDir)
-    ? walkFiles(distDir, (p) => p.endsWith('.html'))
-        .map(relFromRepo)
-        .sort()
+    ? walkFiles(distDir, (p) => p.endsWith('.html')).map(rel).sort()
     : [];
-
   const routes = htmlFiles.map((r) => r.replace(/^dist\//, ''));
 
   const nextStepsPages = routes.filter((r) => /(^|\/)next-steps(\/|$)/i.test(r));
@@ -155,22 +168,26 @@ function main() {
       brandName: site.brandName,
       siteUrl: site.siteUrl,
       // GOLDEN CONTRACT FIELD:
-      pageSetFile: normalizePageSetFile(site.pageSetFile),
+      pageSetFile: pageSetFileRel,
       // Debug-only (won't be used by validators unless someone changes them):
-      pageSetFileRaw: String(site.pageSetFile || '')
+      pageSetFileRaw: String(pageSetFileRaw || site.pageSetFile || '')
     },
-    pageSet: {
-      name: pageSet.name,
-      vertical: pageSet.vertical,
-      // Full repo-relative file path for human inspection:
-      file: relFromRepo(pageSetPath)
-    },
+    pageSet: pageSet
+      ? {
+          name: pageSet.name,
+          vertical: pageSet.vertical,
+          file: pageSetPath ? rel(pageSetPath) : null
+        }
+      : null,
     counts
   };
 
+  // dist is the required output location for the snapshot.
+  ensureDir(distDir);
+
   const outPath = path.join(distDir, '_lkg_snapshot.json');
   fs.writeFileSync(outPath, JSON.stringify(snapshot, null, 2));
-  console.log(`WROTE: ${relFromRepo(outPath)}`);
+  console.log(`WROTE: ${rel(outPath)}`);
 }
 
 main();

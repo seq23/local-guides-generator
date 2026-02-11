@@ -7,6 +7,31 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..');
 const distRoot = path.join(repoRoot, 'dist');
 
+function normalizeInputPath(raw) {
+  return String(raw || '')
+    .trim()
+    .replace(/\\/g, '/')
+    .replace(/^\.\//, '');
+}
+
+// Accept either:
+//   examples/pi_v1.json
+//   data/page_sets/examples/pi_v1.json
+//   data/page_sets\\examples\\pi_v1.json
+// ...and normalize to a path relative to data/page_sets/.
+function normalizeToPageSetsRel(rawPageSetFile) {
+  const s0 = normalizeInputPath(rawPageSetFile);
+  if (!s0) return '';
+
+  const idx = s0.indexOf('data/page_sets/');
+  if (idx >= 0) return s0.slice(idx + 'data/page_sets/'.length);
+
+  if (s0.startsWith('page_sets/')) return s0.slice('page_sets/'.length);
+  if (s0.startsWith('data/page_sets')) return s0.replace(/^data\/page_sets\/?/, '');
+
+  return s0;
+}
+
 function fail(msg) {
   console.error('❌ GOLDEN CONTRACT FAIL:', msg);
   process.exit(1);
@@ -23,14 +48,17 @@ function readSite() {
 }
 
 function readPageSet(pageSetFile) {
-  // pageSetFile is usually like: "examples/trt_v1.json"
-  const p = path.join(repoRoot, 'data', 'page_sets', pageSetFile);
-  if (!fs.existsSync(p)) fail(`pageSetFile missing: data/page_sets/${pageSetFile}`);
+  // pageSetFile is usually like: "examples/trt_v1.json", but we harden against
+  // accidental prefixes like "data/page_sets/examples/trt_v1.json".
+  const rel = normalizeToPageSetsRel(pageSetFile);
+  const p = path.join(repoRoot, 'data', 'page_sets', rel);
+  if (!fs.existsSync(p)) fail(`pageSetFile missing: data/page_sets/${rel}`);
   return readJson(p);
 }
 
 function deriveVerticalKey(pageSetFile) {
-  const base = path.basename(pageSetFile || '');
+  const rel = normalizeToPageSetsRel(pageSetFile);
+  const base = path.basename(rel || '');
   const noExt = base.replace(/\.json$/, '');
   return noExt.replace(/_v\d+$/, '');
 }
