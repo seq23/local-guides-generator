@@ -1,0 +1,29 @@
+name: Integrity Build
+on:
+  schedule:
+    - cron: "23 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run validate:all
+      - run: |
+          node scripts/automation/refresh_verification_page.js
+          node scripts/automation/add_integrity_changelog.js
+      - run: |
+          git config user.name "lkg-bot"
+          git config user.email "lkg-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: integrity verification refresh"
+          git push

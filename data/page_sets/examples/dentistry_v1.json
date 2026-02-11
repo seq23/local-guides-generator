@@ -1,0 +1,131 @@
+{
+  "name": "dentistry_v1",
+  "schema": {
+    "itemListEnabled": true,
+    "faqEnabled": true,
+    "mapsEmbedEnabledCityOnly": false
+  },
+  "citiesFile": "data/page_sets/examples/cities_dentistry_v1.json",
+  "cityFeatures": {
+    "directory": false,
+    "stateLookup": true
+  },
+  "faq": {
+    "global": [
+      {
+        "q": "How much does a dental exam and cleaning usually cost?",
+        "a": "Costs vary by location and services included. Offices typically provide pricing details before treatment begins."
+      },
+      {
+        "q": "Does dental insurance cover routine visits?",
+        "a": "Coverage depends on your plan. Many plans cover preventive care but limit frequency or provider networks."
+      },
+      {
+        "q": "What is the difference between a general dentist and a specialist?",
+        "a": "General dentists handle routine care, while specialists focus on specific procedures like orthodontics or oral surgery."
+      },
+      {
+        "q": "How often should adults see a dentist?",
+        "a": "Recommendations vary based on oral health history, risk factors, and provider guidance."
+      },
+      {
+        "q": "Are treatment plans provided in writing?",
+        "a": "Most offices offer written treatment plans outlining procedures, timing, and estimated costs."
+      },
+      {
+        "q": "Can I get a second opinion on dental work?",
+        "a": "Yes. Patients often seek second opinions for major procedures."
+      },
+      {
+        "q": "What should I ask before starting dental treatment?",
+        "a": "Ask about alternatives, total cost, insurance coverage, recovery time, and long-term care."
+      },
+      {
+        "q": "Are dental x-rays safe?",
+        "a": "Dental x-rays use low radiation and are taken based on clinical need."
+      },
+      {
+        "q": "Is this site recommending dentists?",
+        "a": "No. This site provides educational information without endorsements."
+      },
+      {
+        "q": "How do offices handle patient records?",
+        "a": "Dental practices follow privacy rules for storing and sharing health information."
+      }
+    ],
+    "city": [
+      {
+        "q": "Which dentist near me in {{marketLabel}} accepts my insurance?",
+        "a": "Insurance acceptance varies by office. Contact providers directly to confirm current participation."
+      },
+      {
+        "q": "How do I choose a dentist in {{marketLabel}}?",
+        "a": "Consider location, services offered, communication style, and office policies."
+      },
+      {
+        "q": "What dental services are commonly available in {{marketLabel}}?",
+        "a": "Most cities offer preventive, restorative, and cosmetic services, though availability differs by practice."
+      },
+      {
+        "q": "Do dentists in {{marketLabel}} offer emergency appointments?",
+        "a": "Policies vary. Some offices reserve slots for urgent needs."
+      },
+      {
+        "q": "How much do common dental procedures cost in {{marketLabel}}?",
+        "a": "Pricing depends on procedure type, materials, and insurance coverage."
+      },
+      {
+        "q": "Are payment plans available in {{marketLabel}} dental offices?",
+        "a": "Some practices offer financing or third-party payment options."
+      },
+      {
+        "q": "What should I bring to my first dental visit in {{marketLabel}}?",
+        "a": "Bring insurance information, prior records if available, and a list of concerns."
+      },
+      {
+        "q": "Can I transfer dental records to a new dentist in {{marketLabel}}?",
+        "a": "Records can usually be transferred upon request."
+      },
+      {
+        "q": "How do I verify a dentist\u2019s license in {{stateName}}?",
+        "a": "Check the {{stateName}} dental board\u2019s official website."
+      },
+      {
+        "q": "Do dentists in {{marketLabel}} provide written estimates?",
+        "a": "Many offices provide estimates before major procedures."
+      }
+    ]
+  },
+  "pages": [
+    {
+      "route": "",
+      "title": "%%MARKET_LABEL%% Local Guides",
+      "description": "Frameworks for %%MARKET_LABEL%%. No rankings. No endorsements.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n%%EVAL_FRAMEWORK%%\n<section class=\"section micro-guides\">\n  <p><strong>Start here:</strong> <a href=\"/guides/#costs\">Costs</a> \u2022 <a href=\"/guides/#timeline\">Timeline</a> \u2022 <a href=\"/guides/#questions\">Questions to ask</a> \u2022 <a href=\"/guides/#red-flags\">Red flags</a> <span class=\"muted\">(educational)</span></p>\n</section>\n\n<section class=\"section\" data-ai-visibility=\"true\">\n  <p class=\"muted\"><strong>AI visibility:</strong> We publish neutral checklists and verification steps so search engines and AI assistants can cite primary sources. Advertising is labeled and separate from editorial content.</p>\n</section>\n\n%%AD:city_hub_mid%%\n\n%%EXAMPLE_PROVIDERS%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\">\n    <summary>\n      <span>Official state lookup</span>\n      <span class=\"accordion-meta\">Tap to verify licensing</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\" open>\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Tap for quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n%%AD:city_hub_bottom%%\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n"
+    },
+    {
+      "route": "faq",
+      "title": "%%MARKET_LABEL%% FAQs",
+      "description": "Frequently asked questions for %%MARKET_LABEL%%.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">FAQ</p>\n  <h1>%%MARKET_LABEL%% FAQs</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:faq_mid%%\n\n<section class=\"section\">\n  <div class=\"faq-accordion\">\n    %%FAQ_ITEMS_CITY%%\n  </div>\n</section>\n\n<section class=\"section\">\n  <h2>Guides</h2>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:faq_bottom%%"
+    },
+    {
+      "route": "guides",
+      "title": "%%MARKET_LABEL%% Guides",
+      "description": "Educational guides for %%MARKET_LABEL%%.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Guides</p>\n  <h1>%%MARKET_LABEL%% Guides</h1>\n  <p class=\"muted\">Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n<section class=\"section\">\n  <p class=\"muted\">Browse guides relevant to this market.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%"
+    },
+    {
+      "route": "next-steps",
+      "title": "%%MARKET_LABEL%% \u2014 Next steps",
+      "description": "Optional next steps for %%MARKET_LABEL%%. Pack-controlled.",
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Next steps</p>\n  <h1>Optional next steps for %%MARKET_LABEL%%</h1>\n  <p class=\"muted\">If enabled, you will be taken to a sponsor\u2019s official intake/contact flow. This site does not receive your information.</p>\n</section>\n\n<section class=\"section\">\n  <div class=\"card\" data-next-steps-card=\"true\">\n    <h2>%%SPONSOR_FIRM_NAME%%</h2>\n    <p class=\"muted\">You\u2019ll be taken to the sponsor\u2019s official site to continue.</p>\n    <div class=\"actions\">\n      <a class=\"button button-primary\" data-next-steps-intake=\"true\" href=\"%%SPONSOR_INTAKE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Continue</a>\n      <a class=\"button button-secondary\" href=\"%%SPONSOR_OFFICIAL_SITE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Visit official site</a>\n    </div>\n    <p class=\"fineprint\">Official site: <span class=\"mono\">%%SPONSOR_OFFICIAL_SITE_URL%%</span></p>\n  </div>\n\n  <div class=\"card\">\n    <h2>What to verify before you contact a provider</h2>\n    <ul>\n      <li>Licensing and disciplinary history via official state sources</li>\n      <li>Scope of services offered and consultation process</li>\n      <li>Written estimate and follow-up policy</li>\n    </ul>\n    <p class=\"muted\">Educational only. No endorsements. No rankings.</p>\n  </div>\n</section>"
+    }
+  ],
+  "globalPagesDir": "data/page_sets/examples/dentistry_global_pages",
+  "educationOnly": true,
+  "sponsorship": {
+    "nextStepsEnabled": false,
+    "globalNextStepsEnabled": false
+  }
+}
