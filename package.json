@@ -19,7 +19,9 @@
     "smoke:buyouts": "node scripts/smoke_buyouts.js",
     "qa:release": "node scripts/qa_release.js",
     "refresh:verification": "bash scripts/automation/refresh_verification_page.sh",
-    "prepare:site": "node scripts/prepare_site.js"
+    "prepare:site": "node scripts/prepare_site.js",
+    "build:dist": "rm -rf dist && node scripts/build_all_packs.js",
+    "validate:dist": "rm -rf dist && node scripts/build_all_packs.js && LKG_VALIDATE_DIST=1 npm run validate:all"
   },
   "dependencies": {},
   "engines": {
