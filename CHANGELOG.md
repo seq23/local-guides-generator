@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-02-12
+
+- Revalidated core contracts and inventories (rotating focus: Neuro).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-02-11
 
 - Nightly integrity build: re-ran core validators and refreshed verification metadata.
