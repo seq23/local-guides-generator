@@ -17,6 +17,21 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: node scripts/automation/rotate_vertical_refresh.js
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+      - run: node scripts/indexnow_emit.js
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+
+      
+      - name: IndexNow ping (non-blocking)
+        if: ${{ secrets.INDEXNOW_KEY != '' }}
+        continue-on-error: true
+        run: |
+          KEY="${{ secrets.INDEXNOW_KEY }}"
+          HOST="$(node -e "const s=require('./data/site.json'); console.log(new URL(s.siteUrl).host)")"
+          curl -sS -X POST "https://www.bing.com/indexnow"             -H "Content-Type: application/json"             -d "{"host":"${HOST}","key":"${KEY}","keyLocation":"https://${HOST}/indexnow.txt","urlList":["https://${HOST}/sitemap.xml","https://${HOST}/"]}" || true
+
       - run: |
           git config user.name "lkg-bot"
           git config user.email "lkg-bot@users.noreply.github.com"
