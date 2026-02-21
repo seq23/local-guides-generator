@@ -8,7 +8,7 @@
     "build:all": "node scripts/build_all_packs.js",
     "validate:all": "node scripts/validate_core.js",
     "snapshot:lkg": "node scripts/snapshot_lkg.js",
-    "postbuild": "node scripts/indexnow_emit.js && node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
+    "postbuild": "node scripts/indexnow_emit.js && node scripts/sitemap_emit.js && node scripts/redirects_emit.js && node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
     "validate": "node scripts/validate_tbs.js",
     "sync:guides": "node scripts/sync_guides.js",
     "validate:dist:compliance": "node scripts/validate_dist_compliance_scan.js",
