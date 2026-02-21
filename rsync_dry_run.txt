@@ -27,6 +27,7 @@ data/page_contracts.json
 data/pi_directory_master_all_cities_50_states.csv
 data/pi_state_disciplinary_links.json
 data/readme.md
+data/site.json
 data/site.template.json
 data/states.json
 data/us_states.json
@@ -351,6 +352,7 @@ data/taxonomy/
 data/taxonomy/pi_practice_areas.json
 docs/
 docs/README.md
+docs/indexnow.md
 docs/_archive_2026-02-01/
 docs/_archive_2026-02-01/README.md
 docs/_archive_2026-02-01/_generated_guides/
@@ -612,6 +614,7 @@ scripts/crawl_dist_links.js
 scripts/export_buyout_click_audit_urls.js
 scripts/fix_guides_filenames.js
 scripts/indexnow_emit.js
+scripts/indexnow_ping.js
 scripts/prepare_site.js
 scripts/qa_release.js
 scripts/smoke_buyouts.js
@@ -636,6 +639,8 @@ scripts/automation/rotate_vertical_refresh.js
 scripts/helpers/
 scripts/helpers/buyouts.js
 scripts/helpers/sponsorship.js
+scripts/lib/
+scripts/lib/indexnow_config.js
 scripts/sponsors/
 scripts/sponsors/README.md
 scripts/sponsors/apply.js
@@ -659,5 +664,5 @@ templates/base.html
 templates/partials/
 templates/partials/footer.html
 
-sent 23737 bytes  received 3974 bytes  55422.00 bytes/sec
-total size is 5473171  speedup is 197.51
+sent 23823 bytes  received 4004 bytes  55654.00 bytes/sec
+total size is 5477926  speedup is 196.86

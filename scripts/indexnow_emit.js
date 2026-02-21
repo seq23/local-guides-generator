@@ -1,88 +1,64 @@
-/* eslint-disable no-console */
-const fs = require('fs');
-const path = require('path');
-const { URL } = require('url');
+#!/usr/bin/env node
+/**
+ * Emits:
+ *  - dist/indexnow.txt (key)
+ *  - dist/robots.txt (sitemap line appended if missing)
+ *
+ * Rules:
+ *  - If INDEXNOW_KEY is not set, do nothing (safe no-op).
+ *  - If INDEXNOW_KEY is set in CI, require SITE_URL (or INDEXNOW_HOST/INDEXNOW_HOSTS) to be configured
+ *    to avoid generating a wrong keyLocation.
+ *  - Supports the common mistake where INDEXNOW_KEY secret contains multiple lines including INDEXNOW_HOSTS=...
+ */
+const fs = require("fs");
+const path = require("path");
+const { getIndexNowConfig } = require("./lib/indexnow_config");
 
-const repoRoot = process.cwd();
-const distDir = path.join(repoRoot, 'dist');
-const dataSitePath = path.join(repoRoot, 'data', 'site.json');
-
-function safeReadJson(p) {
-  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; }
-}
-
-function listHtmlFiles(dir) {
-  const out = [];
-  function walk(d) {
-    for (const ent of fs.readdirSync(d, { withFileTypes: true })) {
-      const fp = path.join(d, ent.name);
-      if (ent.isDirectory()) walk(fp);
-      else if (ent.isFile() && ent.name.toLowerCase().endsWith('.html')) out.push(fp);
-    }
-  }
-  walk(dir);
-  return out;
-}
-
-function writeSitemap(siteUrl) {
-  try {
-    if (!fs.existsSync(distDir)) {
-      console.warn('[IndexNow] dist/ not found; skipping sitemap/robots/indexnow files');
-      return;
-    }
-    const base = new URL(siteUrl.endsWith('/') ? siteUrl : siteUrl + '/');
-    const htmlFiles = listHtmlFiles(distDir);
-    const today = new Date().toISOString().slice(0,10);
-
-    const urls = [];
-    for (const fp of htmlFiles) {
-      const rel = path.relative(distDir, fp).replace(/\\/g, '/');
-      // normalize index.html to folder root
-      const loc = rel.endsWith('index.html')
-        ? new URL(rel.slice(0, -'index.html'.length), base).toString()
-        : new URL(rel, base).toString();
-      urls.push(loc);
-    }
-
-    const sm = [];
-    sm.push('<?xml version="1.0" encoding="UTF-8"?>');
-    sm.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
-    for (const u of urls) {
-      sm.push('<url>');
-      sm.push(`<loc>${u}</loc>`);
-      sm.push(`<lastmod>${today}</lastmod>`);
-      sm.push('</url>');
-    }
-    sm.push('</urlset>');
-    fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sm.join('\n'), 'utf8');
-
-    const robots = [
-      'User-agent: *',
-      'Allow: /',
-      '',
-      `Sitemap: ${new URL('sitemap.xml', base).toString()}`,
-      ''
-    ].join('\n');
-    fs.writeFileSync(path.join(distDir, 'robots.txt'), robots, 'utf8');
-
-    const key = (process.env.INDEXNOW_KEY || '').trim();
-    if (key) {
-      fs.writeFileSync(path.join(distDir, 'indexnow.txt'), key + '\n', 'utf8');
-    }
-
-    console.log(`[IndexNow] wrote dist/robots.txt, dist/sitemap.xml${key ? ', dist/indexnow.txt' : ''}`);
-  } catch (e) {
-    console.warn('[IndexNow] non-blocking error:', e && e.message ? e.message : String(e));
-  }
+function ensureDir(p) {
+  fs.mkdirSync(p, { recursive: true });
 }
 
 function main() {
-  const site = safeReadJson(dataSitePath);
-  if (!site || !site.siteUrl) {
-    console.warn('[IndexNow] data/site.json missing siteUrl; skipping');
+  const cfg = getIndexNowConfig();
+  if (!cfg.key) {
+    // No secret, no-op.
     return;
   }
-  writeSitemap(site.siteUrl);
+
+  // Determine host to use for keyLocation + sitemap URL.
+  const host = cfg.primaryHost;
+  if (cfg.ci && !host) {
+    console.error(
+      "INDEXNOW_KEY is set but no host is configured. Set SITE_URL (recommended) or INDEXNOW_HOST / INDEXNOW_HOSTS."
+    );
+    process.exit(1);
+  }
+
+  const distDir = path.join(process.cwd(), "dist");
+  ensureDir(distDir);
+
+  // indexnow.txt: MUST be key only.
+  const indexNowPath = path.join(distDir, "indexnow.txt");
+  fs.writeFileSync(indexNowPath, cfg.key, "utf8");
+
+  // robots.txt: ensure it contains a sitemap pointer for the configured host if available,
+  // otherwise keep existing robots untouched.
+  const robotsPath = path.join(distDir, "robots.txt");
+  let robots = "";
+  if (fs.existsSync(robotsPath)) robots = fs.readFileSync(robotsPath, "utf8");
+  const sitemapLine = host ? `Sitemap: https://${host}/sitemap.xml` : "";
+
+  if (sitemapLine) {
+    const hasSitemap = robots.toLowerCase().includes("sitemap:");
+    if (!hasSitemap) {
+      robots = robots ? robots.trimEnd() + "\n" : "";
+      robots += sitemapLine + "\n";
+      fs.writeFileSync(robotsPath, robots, "utf8");
+    }
+  }
+
+  // Optional sanity log (never prints secret)
+  console.log(`IndexNow: wrote dist/indexnow.txt${host ? ` (host=${host})` : ""}`);
 }
 
 main();

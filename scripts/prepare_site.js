@@ -75,6 +75,13 @@ function syncForProvidersCanonicalInventory() {
 const BRAND_NAME = process.env.BRAND_NAME || "The Industry Guides";
 const SITE_URL = process.env.SITE_URL || "https://example.com";
 
+const CI = String(process.env.CI || '').toLowerCase() === 'true';
+const REQUIRE_SITE_URL = String(process.env.REQUIRE_SITE_URL || '').toLowerCase() === '1' || !!process.env.INDEXNOW_KEY;
+if (CI && REQUIRE_SITE_URL && (!SITE_URL || SITE_URL.includes('example.com'))) {
+  console.error('CI build requires SITE_URL to be set to the deployed domain (e.g. https://theaccidentguides.com).');
+  process.exit(1);
+}
+
 const PAGE_SET_FILE = process.env.PAGE_SET_FILE;
 const LKG_ENV = (process.env.LKG_ENV || "baseline").toLowerCase();
 
