@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 /**
  * Emits:
- *  - dist/indexnow.txt (key)
- *  - dist/robots.txt (sitemap line appended if missing)
+ *  - dist/indexnow.txt (key only)
+ *  - dist/<KEY>.txt    (canonical IndexNow verification file)
+ *  - dist/robots.txt   (adds Sitemap: line if missing)
  *
  * Rules:
  *  - If INDEXNOW_KEY is not set, do nothing (safe no-op).
- *  - If INDEXNOW_KEY is set in CI, require SITE_URL (or INDEXNOW_HOST/INDEXNOW_HOSTS) to be configured
- *    to avoid generating a wrong keyLocation.
- *  - Supports the common mistake where INDEXNOW_KEY secret contains multiple lines including INDEXNOW_HOSTS=...
+ *  - If INDEXNOW_KEY is set in CI, require a host to be configured
+ *    (SITE_URL recommended; or INDEXNOW_HOST/INDEXNOW_HOSTS).
+ *  - Supports common mistake where INDEXNOW_KEY secret contains multiple lines
+ *    including INDEXNOW_HOSTS=... or dotenv-style KEY=VALUE lines.
  */
 const fs = require("fs");
 const path = require("path");
@@ -25,7 +27,7 @@ function main() {
     return;
   }
 
-  // Determine host to use for keyLocation + sitemap URL.
+  // Determine host to use for robots sitemap URL.
   const host = cfg.primaryHost;
   if (cfg.ci && !host) {
     console.error(
@@ -38,8 +40,12 @@ function main() {
   ensureDir(distDir);
 
   // indexnow.txt: MUST be key only.
-  const indexNowPath = path.join(distDir, "indexnow.txt");
-  fs.writeFileSync(indexNowPath, cfg.key, "utf8");
+  const keyText = String(cfg.key).trim();
+  fs.writeFileSync(path.join(distDir, "indexnow.txt"), keyText, "utf8");
+
+  // Canonical IndexNow key file: /<KEY>.txt
+  // Many IndexNow implementations validate ownership via this exact path.
+  fs.writeFileSync(path.join(distDir, `${keyText}.txt`), keyText, "utf8");
 
   // robots.txt: ensure it contains a sitemap pointer for the configured host if available,
   // otherwise keep existing robots untouched.
@@ -58,7 +64,7 @@ function main() {
   }
 
   // Optional sanity log (never prints secret)
-  console.log(`IndexNow: wrote dist/indexnow.txt${host ? ` (host=${host})` : ""}`);
+  console.log(`IndexNow: wrote dist/indexnow.txt and dist/<KEY>.txt${host ? ` (host=${host})` : ""}`);
 }
 
 main();
