@@ -85,3 +85,24 @@ Use these checks per pack:
 
 - Monetization runbook: `docs/runbooks/monetization_ads_buyouts.md`
 - Guides rendering: `docs/runbooks/guides_rendering.md`
+
+---
+
+## 7) Connection Requests (Request Assistance)
+
+In addition to buyouts + sponsor slots, the repo includes an **authority-safe connection layer**.
+
+Purpose:
+- capture intent (requests) without collecting case details
+- support advertiser sales by demonstrating demand
+- route requests only when a provider is active
+
+Key surfaces:
+- bottom-of-page Connection Bubble on required pages (validated)
+- `/request-assistance/` global request page
+
+Storage:
+- Airtable (free tier) via Cloudflare Pages Functions
+
+Runbook:
+- `docs/runbooks/lead_capture_request_assistance.md`

@@ -18,6 +18,7 @@ const goldenMajorBlocks = require('./validation/golden_major_blocks');
 const linkAudit = require('./validation/link_audit');
 const entrypointExports = require("./validation/entrypoint_exports_contract");
 const packShadowGlobals = require('./validation/pack_shadow_globals');
+const connectionBubbleContract = require('./validation/connection_bubble_contract');
 
 function readSiteJsonOrNull() {
   const p = path.join(__dirname, '..', 'data', 'site.json');
@@ -37,22 +38,27 @@ function isStarterV1(site) {
 function main() {
   const site = readSiteJsonOrNull();
 
-  // Training pack must be buildable/publishable without any validation hold-ups.
-  if (site && isStarterV1(site)) {
-    console.log('✅ TRAINING PACK (starter_v1): skipping core validation (non-blocking).');
-    process.exit(0);
+  // Training pack must be buildable/publishable without unrelated validation hold-ups.
+  // However: connection bubble is a GLOBAL production contract and MUST be enforced.
+  const starter = !!(site && isStarterV1(site));
+  if (starter) {
+    console.log('✅ TRAINING PACK (starter_v1): skipping most core validation, enforcing connection bubble contract.');
   }
 
   // NOTE: Core validation is strict and intentionally small.
   // Anything “audit-only” belongs in validate_tbs.js.
-  buyoutsSchema.run({ site });
+  if (!starter) {
+    buyoutsSchema.run({ site });
+  }
   entrypointExports.run();
 
 const pageSetFileContract = require('./validation/pagesetfile_contract');
 pageSetFileContract.run();
-  buyoutNextStepsHardfail.run({ site });
-  stateBuyoutRequiresStateSponsor.run({ site });
-  packShadowGlobals.run({ site });
+  if (!starter) {
+    buyoutNextStepsHardfail.run({ site });
+    stateBuyoutRequiresStateSponsor.run({ site });
+    packShadowGlobals.run({ site });
+  }
 
   // Dist-dependent validators:
   // HARD GUARDRAIL (prevents “green locally, red later”):
@@ -85,6 +91,7 @@ pageSetFileContract.run();
     goldenMajorBlocks.run({ site });
     linkAudit.run({ site });
     nextStepsCtaContract.run({ site });
+    connectionBubbleContract.run({ site });
   } else {
     // Unreachable now because missing dist hard-fails unless explicitly allowed.
     console.log('ℹ️ dist/ missing: skipping dist-dependent core validators.');

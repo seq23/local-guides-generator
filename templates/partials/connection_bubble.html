@@ -1,0 +1,45 @@
+<!-- Connection Bubble (Authority-safe conversion module)
+     Contract:
+       - Static bottom-of-page only (no floating)
+       - Identical visuals across verticals (text only varies)
+       - Must include data-connection-bubble="true" marker
+       - Button links to /request-assistance/ with context query params
+-->
+
+<section class="connection-bubble" data-connection-bubble="true">
+  <div class="connection-bubble__inner">
+    <div class="connection-bubble__copy">
+      <h2 class="connection-bubble__title">Need help connecting with a %%PROVIDER_TYPE_LABEL_LOWER%%?</h2>
+      <p class="connection-bubble__subtext">If you’d like assistance connecting with a relevant provider in your area, you may submit a request.</p>
+    </div>
+    <div class="connection-bubble__actions">
+      <a class="button button-primary connection-bubble__button" href="%%REQUEST_ASSISTANCE_HREF%%">Request Assistance</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Non-blocking intent tracking (warning-only if endpoint missing)
+  (function(){
+    try {
+      var btn = document.querySelector('[data-connection-bubble="true"] .connection-bubble__button');
+      if (!btn) return;
+      btn.addEventListener('click', function(){
+        try {
+          var payload = {
+            provider_type: (btn.getAttribute('data-provider-type') || ''),
+            page_slug: (btn.getAttribute('data-page-slug') || ''),
+            source_domain: (window.location && window.location.host) ? window.location.host : ''
+          };
+          // Fire and forget. Do not block navigation.
+          fetch('/api/track-connection-click', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+          }).catch(function(){});
+        } catch (e) {}
+      });
+    } catch (e) {}
+  })();
+</script>

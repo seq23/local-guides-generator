@@ -39,6 +39,7 @@ Patch mode is refused unless you explicitly set:
 ### C) Core execution
 - SOP_VALIDATION_CORE.md
 - SOP_ROLLBACK_RECOVERY.md
+- (Runbook) Lead Capture — Request Assistance: ../runbooks/lead_capture_request_assistance.md
 
 ### D) Sandbox practice (training only)
 - 03_SANDBOX_PRACTICE_SOP.md

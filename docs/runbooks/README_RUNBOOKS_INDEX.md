@@ -3,6 +3,7 @@
 This folder contains deterministic operational runbooks for the Local Guides Generator system.
 
 ## Sections
+- [Lead Capture — Request Assistance](lead_capture_request_assistance.md) — request assistance lead capture + storage
 - `cloudflare_domains_redirects/` — domains onboarding + redirects (already shipped separately)
 - `cloudflare_pages/` — Pages setup + custom domain verification
 - `guides_system/` — guide authoring + regeneration

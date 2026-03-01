@@ -188,6 +188,65 @@ function isPersonalInjury(verticalKey) {
   return String(verticalKey || "").toLowerCase() === "pi";
 }
 
+// --- Authority-safe Connection Bubble (conversion layer) ---
+// Provider type labels are contract-locked (must match request page enum exactly).
+function providerTypeLabelForVertical(verticalKey) {
+  const vk = String(verticalKey || '').toLowerCase();
+  if (vk === 'pi') return 'Personal Injury Attorney';
+  if (vk === 'dentistry') return 'Dentist (Cosmetic, Implant, or General Care)';
+  if (vk === 'neuro') return 'Neuro Evaluation Provider';
+  if (vk === 'trt') return 'Hormone / Wellness Clinic';
+  if (vk === 'uscis_medical') return 'USCIS Medical Exam Provider';
+  // Training/unknown packs: keep a generic label without implying a vertical.
+  return 'provider';
+}
+
+function shouldRenderConnectionBubble(opts) {
+  const pageKind = String(opts?.pageKind || '');
+  const route = String(opts?.route || '').replace(/^\/+|\/+$/g, '');
+  // Required surfaces:
+  //  - Vertical home: /
+  //  - Vertical guides hub: /guides/
+  //  - City hub: /<city>/
+  //  - State hub: /states/<ST>/ (PI only, but safe to gate by route)
+  if (pageKind === 'global') {
+    return (route === '' || route === 'guides');
+  }
+  if (pageKind === 'city') {
+    return (route === '');
+  }
+  if (pageKind === 'state') {
+    return /^states\/[A-Za-z]{2}$/.test(route);
+  }
+  return false;
+}
+
+function renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, ctx) {
+  const label = providerTypeLabelForVertical(verticalKey);
+  const labelLower = (label === 'provider') ? 'a provider' : label.toLowerCase();
+
+  const src = String(ctx?.src || '').trim();
+  const pt = (label === 'provider') ? '' : label;
+  const qs = [];
+  if (pt) qs.push('pt=' + encodeURIComponent(pt));
+  if (src) qs.push('src=' + encodeURIComponent(src));
+  const href = '/request-assistance/' + (qs.length ? ('?' + qs.join('&')) : '');
+
+  let html = String(connectionBubbleTemplate || '');
+  html = html.replace(/%%PROVIDER_TYPE_LABEL_LOWER%%/g, escapeHtml(labelLower));
+  html = html.replace(/%%REQUEST_ASSISTANCE_HREF%%/g, escapeHtml(href));
+
+  // Attach data attributes for tracking (defensive: inject into the primary button).
+  if (!/data-provider-type=/.test(html)) {
+    html = html.replace(
+      /class="button button-primary connection-bubble__button"/,
+      'class="button button-primary connection-bubble__button" data-provider-type="' + escapeHtml(pt) + '" data-page-slug="' + escapeHtml(src) + '"'
+    );
+  }
+
+  return html;
+}
+
 // City hub feature toggles (future-proof)
 // - directory: generates/keeps city directory routes & PI directory blocks
 // - stateLookup: keeps the official state lookup accordion/CTA
@@ -1411,7 +1470,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
   );
 }
 
-function renderPage(baseTemplate, footerHtml, page, city, siteUrl, brandName, pageSet, sponsorsByStack, sponsor, listings, ads, verticalKey) {
+function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, page, city, siteUrl, brandName, pageSet, sponsorsByStack, sponsor, listings, ads, verticalKey) {
   const route = applyCityTokens(page.route || "", city).replace(/^\/+|\/+$/g, "");
   const title = applyCityTokens(page.title, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
   const description = applyCityTokens(page.description, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
@@ -1618,6 +1677,10 @@ function stripForbiddenInlineBlocks(html) {
 
   const inline = renderInlineScripts(page.inline_scripts || [], city);
 
+  const connectionBubbleHtml = shouldRenderConnectionBubble({ pageKind: 'city', route })
+    ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: '/' + city.slug + '/' })
+    : '';
+
   const mapped = replaceAll(baseTemplate, {
     "%%TITLE%%": title,
     "%%DESCRIPTION%%": description,
@@ -1630,6 +1693,7 @@ function stripForbiddenInlineBlocks(html) {
     "%%CANONICAL%%": buildCanonical(siteUrl, city, route),
     "%%HEAD_JSON_LD%%": renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings),
     "%%FOOTER%%": footerHtml,
+    "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
     ,"%%OPTIONAL_TOP_NAV%%": (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
   });
@@ -1643,7 +1707,7 @@ function stripForbiddenInlineBlocks(html) {
   return out;
 }
 
-function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
+function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
   const route = (globalPage.route || "").replace(/^\/+|\/+$/g, "");
   const title = String(globalPage.title || "").split("%%BRAND_NAME%%").join(brandName);
   const description = String(globalPage.description || "");
@@ -1861,6 +1925,10 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
   mainHtml = injectAdPlacements(mainHtml, ads, { city: null, verticalKey: verticalKey, cityFeatures: pageSet && pageSet.__cityFeatures ? pageSet.__cityFeatures : null });
   mainHtml = injectSponsors(mainHtml, globalSponsorsByStack || {});
 
+  const connectionBubbleHtml = shouldRenderConnectionBubble({ pageKind: 'global', route })
+    ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: route ? ('/' + route + '/') : '/' })
+    : '';
+
   const mapped = replaceAll(baseTemplate, {
     "%%TITLE%%": title,
     "%%DESCRIPTION%%": description,
@@ -1873,6 +1941,7 @@ function renderGlobalPage(baseTemplate, footerHtml, globalPage, siteUrl, brandNa
     "%%CANONICAL%%": buildCanonicalGlobal(siteUrl, route),
     "%%HEAD_JSON_LD%%": renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet),
     "%%FOOTER%%": footerHtml,
+    "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
     ,"%%OPTIONAL_TOP_NAV%%": (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
   });
@@ -1996,6 +2065,7 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   // Templates
   const baseTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, "base.html"), "utf8");
   const footerHtmlRaw = fs.readFileSync(path.join(TEMPLATES_DIR, "partials", "footer.html"), "utf8");
+  const connectionBubbleTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'connection_bubble.html'), 'utf8');
   const footerHtml = footerHtmlRaw
     .replace(/%%CURRENT_YEAR%%/g, String(new Date().getFullYear()))
     .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName));
@@ -2205,6 +2275,7 @@ function loadNextStepsSponsor(citySlug) {
     const html = renderGlobalPage(
       baseTemplate,
       footerHtml,
+      connectionBubbleTemplate,
       gp,
       siteUrl,
       brandName,
@@ -2245,6 +2316,7 @@ function loadNextStepsSponsor(citySlug) {
       const html = renderPage(
         baseTemplate,
         footerHtml,
+        connectionBubbleTemplate,
         p,
         city,
         siteUrl,
@@ -2359,6 +2431,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'),
         '%%HEAD_JSON_LD%%': '',
         '%%FOOTER%%': footerHtml,
+        '%%CONNECTION_BUBBLE%%': '',
         '%%BRAND_NAME%%': escapeHtml(brandName),
         '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
       });
@@ -2528,6 +2601,10 @@ function loadNextStepsSponsor(citySlug) {
         mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/states/' + escapeHtml(ab) + '/next-steps/' });
       }
 
+      const connectionBubbleHtml = shouldRenderConnectionBubble({ pageKind: 'state', route: 'states/' + ab })
+        ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: '/states/' + ab + '/' })
+        : '';
+
       const mapped = replaceAll(baseTemplate, {
         '%%TITLE%%': title,
         '%%DESCRIPTION%%': description,
@@ -2540,6 +2617,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
         '%%HEAD_JSON_LD%%': renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg),
         '%%FOOTER%%': footerHtml,
+        '%%CONNECTION_BUBBLE%%': connectionBubbleHtml,
         '%%BRAND_NAME%%': escapeHtml(brandName),
         '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
       });
@@ -2581,6 +2659,7 @@ function loadNextStepsSponsor(citySlug) {
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
       '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury — browse by state', 'Browse personal injury by state.', pageSet),
       '%%FOOTER%%': footerHtml,
+      '%%CONNECTION_BUBBLE%%': '',
       '%%BRAND_NAME%%': escapeHtml(brandName),
       '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
     });

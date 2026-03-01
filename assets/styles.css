@@ -158,6 +158,39 @@ a.button:hover, .button:hover { background: rgba(17,24,39,0.04); }
 @media (min-width: 900px) { .markets-status-list { columns: 3; } }
 .markets-status-list li { break-inside: avoid; padding: 2px 0; }
 
+/* --- Authority-safe connection bubble (bottom-of-page utility) --- */
+.connection-bubble {
+  margin: 22px 0 10px;
+}
+.connection-bubble__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px;
+  background: rgba(255,255,255,0.92);
+  box-shadow: var(--shadow-sm);
+}
+.connection-bubble__title {
+  font-size: 16px;
+  margin: 0 0 6px 0;
+}
+.connection-bubble__subtext {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.connection-bubble__actions {
+  flex: 0 0 auto;
+}
+@media (max-width: 720px) {
+  .connection-bubble__inner { flex-direction: column; align-items: flex-start; }
+  .connection-bubble__actions { width: 100%; }
+  .connection-bubble__actions .button { width: 100%; text-align: center; }
+}
+
 /* FAQ accordion (closed by default) */
 .faq-accordion { display: grid; gap: 10px; }
 .faq-item { border: 1px solid var(--line); border-radius: var(--radius); padding: 0; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
