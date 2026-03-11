@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const CTA_COPY = {
-  text: 'See current local availability and next-step options.',
+  text: 'Review the local next-step guide before choosing a provider.',
   button: 'View next steps',
 };
 

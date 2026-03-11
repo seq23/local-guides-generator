@@ -20,6 +20,7 @@ const entrypointExports = require("./validation/entrypoint_exports_contract");
 const packShadowGlobals = require('./validation/pack_shadow_globals');
 const connectionBubbleContract = require('./validation/connection_bubble_contract');
 const citationRoutingBundle = require('./validation/citation_routing_bundle');
+const publicSourceUrlPolicy = require('./validation/public_source_url_policy');
 const pageSetFileContract = require('./validation/pagesetfile_contract');
 
 function readSiteJsonOrNull() {
@@ -53,6 +54,7 @@ function main() {
     buyoutsSchema.run({ site });
   }
   entrypointExports.run();
+  publicSourceUrlPolicy.run();
 
   pageSetFileContract.run();
   if (!starter) {

@@ -9,14 +9,13 @@ Then the city hub page will include an "Examples of nearby providers" section (n
 
 File format: JSON array of objects (max 12 items used):
 - name
-- official_site_url
 
 Example:
 [
-  {"name": "Example Clinic Name", "official_site_url": "https://example.com"}
+  {"name": "Example Clinic Name"}
 ]
 
 Sourcing plan (when you decide to populate TRT lists):
-- Use official sites only (no Yelp/aggregators)
-- Verify state licensing resources first (preferred)
+- Verify relevant state or provider-verification resources first where available
 - Keep the list non-exhaustive and neutral (alphabetical ordering recommended)
+- Do not include public outbound provider destination URLs in the public example-provider files

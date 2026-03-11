@@ -29,11 +29,11 @@ function run(ctx) {
   mustContain(html, 'data-request-assistance-tool-intro="true"', label);
   mustContain(html, 'data-request-assistance-who-its-for="true"', label);
   mustContain(html, 'data-request-assistance-what-happens-next="true"', label);
-  mustContain(html, 'functions as a matching and routing tool', label);
+  mustContain(html, 'Use this tool if you want help finding local options before reaching out.', label);
   mustContain(html, 'id="request-assistance-form"', label);
   mustContain(html, 'What this tool does', label);
   mustContain(html, 'What happens after submission', label);
-  mustContain(html, 'This page is a local routing tool', label);
+  mustContain(html, 'Many people review the local next-step guide first, then use this tool to narrow local options.', label);
 
   console.log('✅ request assistance tool contract pass');
 }

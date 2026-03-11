@@ -12,7 +12,7 @@ When a **Vertical Pack Buyout** is LIVE, a runtime CTA must render on eligible p
 
 **Canonical CTA copy (must be identical):**
 
-> See current local availability and next-step options.
+> Review the local next-step guide before choosing a provider.
 
 (Implementation uses `data-next-steps-cta="true"` for validation.)
 

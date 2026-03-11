@@ -4,7 +4,7 @@ const path = require('path');
 
 const sponsorship = require('../helpers/sponsorship');
 
-const CANONICAL_CTA_TEXT = 'See current local availability and next-step options.';
+const CANONICAL_CTA_TEXT = 'Review the local next-step guide before choosing a provider.';
 
 function fileExists(fp) {
   try {

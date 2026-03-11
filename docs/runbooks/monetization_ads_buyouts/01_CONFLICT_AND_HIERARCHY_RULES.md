@@ -34,7 +34,7 @@ The Next Steps CTA is a **runtime** mechanism that exists ONLY when a Vertical P
 
 **Canonical CTA copy (universal across packs):**
 
-> See current local availability and next-step options.
+> Review the local next-step guide before choosing a provider.
 
 CTA placement (Option A):
 

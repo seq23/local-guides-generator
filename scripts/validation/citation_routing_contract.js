@@ -37,6 +37,12 @@ function run() {
     if (!html.includes('data-request-assistance-link="true"')) {
       failures.push(`${file}: missing request assistance routing link`);
     }
+    if (!html.includes('Review the local next-step guide before choosing a provider.')) {
+      failures.push(`${file}: missing approved primary next-step guidance line`);
+    }
+    if (!html.includes('Use the request-assistance tool to find local options.') && !html.includes('Use the <a data-request-assistance-link="true"')) {
+      failures.push(`${file}: missing approved secondary request-assistance guidance line`);
+    }
   }
 
   if (targets.length === 0) {

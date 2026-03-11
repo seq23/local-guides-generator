@@ -24,7 +24,7 @@ Required pages (enforced by core validation):
 ### B) Request page
 - `/request-assistance/`
 
-This page is not just a form. It is a **routing tool page** that explains:
+This page is not just a form. It is a **routing tool page** that helps users find local options before reaching out and explains:
 - what the tool does
 - who it is for
 - what happens after submission

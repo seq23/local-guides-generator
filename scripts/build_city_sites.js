@@ -1114,11 +1114,16 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
   });
   var rows = listingsSorted.filter(function(x){ return x && x.display !== false; }).map(function(l){
     var name = (l.firm_name || l.name) ? String(l.firm_name || l.name) : 'Firm';
-    var market = String(l.__marketLabel || l.city || l.market || '').trim();
-    var notes = market || 'Listed in this market';
+    var compare = String(
+      l.practice_focus ||
+      l.notes ||
+      (Array.isArray(l.practice_areas) ? l.practice_areas.join(', ') : '') ||
+      ''
+    ).trim();
+    if (!compare) compare = 'Compare scope, written policies, and first-step requirements';
     return '<tr>' +
       '<td class="pi-dir-name">' + escapeHtml(name) + '</td>' +
-      '<td class="pi-dir-notes">' + escapeHtml(notes) + '</td>' +
+      '<td class="pi-dir-notes">' + escapeHtml(compare) + '</td>' +
       '</tr>';
   }).join('');
 
@@ -1133,7 +1138,7 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
       '<summary>Other firms in this market (neutral list)</summary>' +
       '<div class="pi-dir-table-wrap">' +
       '<table class="pi-dir-table pi-directory-table" role="table">' +
-      '<thead><tr><th>Firm name</th><th>Market</th></tr></thead>' +
+      '<thead><tr><th>Firm name</th><th>What to Compare</th></tr></thead>' +
       '<tbody>' + rows + '</tbody>' +
       '</table>' +
       '</div>' +
@@ -1142,7 +1147,7 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
 
   return '<div class="pi-dir-table-wrap">' +
     '<table class="pi-dir-table pi-directory-table" role="table">' +
-    '<thead><tr><th>Firm name</th><th>Market</th></tr></thead>' +
+    '<thead><tr><th>Firm name</th><th>What to Compare</th></tr></thead>' +
     '<tbody>' + rows + '</tbody>' +
     '</table>' +
     '</div>';
@@ -1185,7 +1190,7 @@ function renderNextStepsZoneHtml(opts) {
   var href = opts && opts.href ? String(opts.href) : '';
   if (!href) return '';
 
-  var ctaText = 'See current local availability and next-step options.';
+  var ctaText = 'Review the local next-step guide before choosing a provider.';
   var ctaButton = 'View next steps';
   var requestAssistanceHref = '/request-assistance/';
 
@@ -1200,7 +1205,7 @@ function renderNextStepsZoneHtml(opts) {
     '<li>Confirm what documents, records, or written questions you should prepare before the first consultation or appointment.</li>' +
     '<li>Use a routing tool first if you still need help narrowing provider type, market, or next-step fit.</li>' +
     '</ul>' +
-    '<p class="muted" data-next-steps-routing="true">If you want help narrowing options by provider type or market first, use the <a data-request-assistance-link="true" href="' + escapeHtml(requestAssistanceHref) + '">request assistance tool</a> before choosing a local next-step path.</p>' +
+    '<p class="muted" data-next-steps-routing="true">Use the <a data-request-assistance-link="true" href="' + escapeHtml(requestAssistanceHref) + '">request-assistance tool</a> to find local options.</p>' +
     '<div class="actions">' +
     '<a class="button button-primary" data-next-steps-cta="true" href="' + escapeHtml(href) + '">' +
     escapeHtml(ctaButton) +

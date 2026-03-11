@@ -15,7 +15,7 @@ When a **Vertical Pack Buyout** is LIVE, a universal CTA appears on eligible pag
 
 **CTA copy (LOCKED):**
 
-> See current local availability and next-step options.
+> Review the local next-step guide before choosing a provider.
 
 ---
 

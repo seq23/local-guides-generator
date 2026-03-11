@@ -71,7 +71,7 @@ The runtime contract markers for Next Steps are:
 - `data-next-steps-routing="true"`
 - `data-request-assistance-link="true"`
 
-If those markers are missing under a LIVE vertical buyout, validation should fail. The zone is now intentionally answer-first: it must include a short explanatory paragraph, a practical checklist, and an owned routing link to the request assistance tool in addition to the primary CTA.
+If those markers are missing under a LIVE vertical buyout, validation should fail. The zone is now intentionally answer-first: it must include a short explanatory paragraph, a practical checklist, and an owned routing link to the request-assistance tool in addition to the primary CTA. The canonical user-facing copy is “Review the local next-step guide before choosing a provider” plus “Use the request-assistance tool to find local options.”
 
 ---
 

@@ -99,7 +99,7 @@ The validator extracts the JSON block below and compares it to the rendered `/fo
   },
   "runtime_next_steps_cta": {
     "enabled_when": "vertical_buyout_live_or_pi_state_buyout_live_on_state_page",
-    "copy": "See current local availability and next-step options.",
+    "copy": "Review the local next-step guide before choosing a provider.",
     "button": "View next steps",
     "placement_option": "A",
     "eligible_surfaces": [
