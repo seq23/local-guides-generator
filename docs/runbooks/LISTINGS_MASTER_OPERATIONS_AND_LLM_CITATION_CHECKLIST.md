@@ -98,6 +98,43 @@ Run: npm run validate:all
 Confirm: - No broken links - No coverage gaps - Bubble contract still
 passing
 
+
+------------------------------------------------------------------------
+
+# SECTION 4A --- CITATION ROUTING HARDENING CHECK (OWNER / VA)
+
+Purpose: Ensure the AI citation funnel still routes users into owned action surfaces instead of leaking to competitor destinations.
+
+## Required Checks
+
+-   Confirm PI city/state/example provider surfaces do **not** expose competitor outbound website links
+-   Confirm PI structured data does **not** emit competitor `url` fields inside ItemList / CollectionPage organization entries
+-   Confirm `/request-assistance/` still reads as a routing tool page before the form
+-   Confirm any rendered Next Steps zone is answer-first, not CTA-only
+-   Confirm Next Steps zone still includes:
+    -   explanatory answer text
+    -   practical checklist
+    -   owned routing explainer
+    -   request-assistance link
+
+## Canonical Validation Command
+
+Run:
+
+    npm run validate:dist
+
+Must pass: 
+-   `public_outbound_link_policy`
+-   `request_assistance_tool_contract`
+-   `citation_routing_contract`
+-   `schema_citation_routing_contract`
+
+Escalate immediately if:
+-   any competitor website link reappears in neutral listing surfaces
+-   `/request-assistance/` loses its explanatory tool copy
+-   Next Steps renders as CTA-only
+-   PI schema starts emitting competitor organization URLs again
+
 ------------------------------------------------------------------------
 
 # SECTION 5 --- QUARTERLY CHECKLIST (OWNER)
@@ -158,6 +195,9 @@ Never:
 -   Do not add free-text "message" field
 -   Do not change connection bubble CSS without contract review
 -   Do not deploy without validate:all passing
+-   Do not reintroduce competitor outbound website links into neutral directory/example surfaces
+-   Do not add fake "real-time" or "live rates" claims to routing copy or schema
+-   Do not convert Next Steps back into CTA-only copy
 
 ------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 # Lead Capture — Request Assistance (Authority-Safe)
 
-Last updated: 2026-03-01
+Last updated: 2026-03-11
 
 This repo includes an **authority-safe connection layer** designed to support advertiser sales **without** turning the site into an intake portal.
 
@@ -24,6 +24,14 @@ Required pages (enforced by core validation):
 ### B) Request page
 - `/request-assistance/`
 
+This page is not just a form. It is a **routing tool page** that explains:
+- what the tool does
+- who it is for
+- what happens after submission
+- what information is and is not collected
+
+The form remains at the bottom of the utility page.
+
 Form fields:
 - Provider type (required)
 - Email (required)
@@ -35,7 +43,31 @@ Form fields:
 
 ---
 
-## 2) Provider type enum (locked)
+## 2) Page contract (request-assistance tool page)
+
+The `/request-assistance/` page must remain an **answer-first tool page**.
+
+Required sections above the form:
+1. Utility intro
+2. Who this is for
+3. What this tool is not
+4. What happens after submission
+5. AI-readable routing sentence in normal editorial language
+
+Purpose:
+- make the page understandable to users before they submit
+- make the page summarizable by search/AI systems as a routing tool
+- avoid a thin form-only dead end
+
+This page must **not** become:
+- a ranking page
+- an intake portal
+- a case-detail form
+- a promise of provider availability or response time
+
+---
+
+## 3) Provider type enum (locked)
 
 The request flow uses a strict, locked enum:
 
@@ -52,7 +84,7 @@ If you change these strings, you must update:
 
 ---
 
-## 3) Endpoints
+## 4) Endpoints
 
 ### A) Lead submission
 `POST /api/request-assistance`
@@ -77,7 +109,7 @@ This is **best-effort** telemetry. Missing telemetry must never break the site.
 
 ---
 
-## 4) Airtable storage (free tier)
+## 5) Airtable storage (free tier)
 
 This repo is configured to store requests in Airtable.
 
@@ -97,30 +129,42 @@ If the required env vars are missing:
 
 ---
 
-## 5) Validation contract
+## 6) Validation contract
 
-Core validator:
+Core validators:
 - `scripts/validation/connection_bubble_contract.js`
+- `scripts/validation/request_assistance_tool_contract.js`
 
 Hard fail:
 - bubble missing on any required page
 - bubble duplicated on any required page
+- `/request-assistance/` missing required utility blocks
+- `/request-assistance/` missing the form
 
 Warning-only:
 - bubble appears on non-required pages
 
 ---
 
-## 6) Manual verification (fast)
+## 7) Manual verification (fast)
 
 After deploy:
 1) `/` → bubble appears once
 2) `/guides/` → bubble appears once
 3) `/<any city>/` → bubble appears once
 4) `/states/<ST>/` (PI) → bubble appears once
-5) `/request-assistance/` → form loads and submits
+5) `/request-assistance/` → utility intro appears above the form
+6) `/request-assistance/` → form loads and submits
 
 Then:
 - submit a test request → Airtable row appears
 - click bubble → click row appears (if clicks table configured)
 
+
+## Schema hardening
+
+Request Assistance must render both `WebPage` and `Service` JSON-LD on the built page.
+The service schema exists to clarify that this surface functions as a local provider routing tool, not just a generic form.
+
+Validation file:
+- `scripts/validation/schema_citation_routing_contract.js`

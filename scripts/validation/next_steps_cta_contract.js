@@ -4,7 +4,7 @@ const path = require('path');
 
 const sponsorship = require('../helpers/sponsorship');
 
-const CANONICAL_CTA_TEXT = 'Speak directly with a vetted provider serving your location.';
+const CANONICAL_CTA_TEXT = 'See current local availability and next-step options.';
 
 function fileExists(fp) {
   try {
@@ -128,6 +128,8 @@ function run(ctx) {
     }
     assertContains(html, CANONICAL_CTA_TEXT, label);
     assertContains(html, 'data-next-steps-cta="true"', label);
+    assertContains(html, 'View next steps', label);
+    assertNotContains(html, 'Speak directly with a vetted provider serving your location.', label);
   }
 
   if (scannedCount === 0) {

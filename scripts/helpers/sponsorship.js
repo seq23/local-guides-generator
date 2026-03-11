@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const CTA_COPY = {
-  text: 'Speak directly with a vetted provider serving your location.',
+  text: 'See current local availability and next-step options.',
+  button: 'View next steps',
 };
 
 function normalizeSlug(s) {
@@ -111,6 +112,10 @@ function getNextStepsCtaCopy() {
   return CTA_COPY.text;
 }
 
+function getNextStepsButtonCopy() {
+  return CTA_COPY.button;
+}
+
 function getNextStepsHref({ distPath }) {
   try {
     if (!distPath) return null;
@@ -137,5 +142,6 @@ module.exports = {
   isLiveVerticalBuyout,
   shouldRenderNextSteps,
   getNextStepsCtaCopy,
+  getNextStepsButtonCopy,
   getNextStepsHref,
 };

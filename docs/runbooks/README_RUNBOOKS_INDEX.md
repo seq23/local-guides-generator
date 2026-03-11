@@ -18,6 +18,8 @@ From repo root:
 ```bash
 npm ci
 npm run build
+npm run validate:dist
+npm run validate:citation-routing
 ```
 
 ## Releases
@@ -25,3 +27,5 @@ npm run build
 - [Snapshot Apply — One-Shot (Non-Interactive)](releases/SNAPSHOT_ONE_SHOT_APPLY.md)
 
 - [Update LKG from ZIP — Install + Use (Hardened)](releases/UPDATE_LKG_FROM_ZIP_HARDENED_INSTALL.md)
+
+- `docs/runbooks/llm_visibility/02_AI_CITATION_ROUTING_HARDENING.md` — citation-routing hardening contracts, validators, and verification

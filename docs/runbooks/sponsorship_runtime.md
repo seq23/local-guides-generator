@@ -62,11 +62,16 @@ The generator’s build scripts produce the final page HTML, using:
 - `templates/base.html` for the global frame
 - build scripts (e.g. `scripts/build_city_sites.js`) for page-specific bodies
 
-The runtime contract marker for Next Steps is:
+The runtime contract markers for Next Steps are:
 
+- `data-next-steps-zone="true"`
 - `data-next-steps-cta="true"`
+- `data-next-steps-answer="true"`
+- `data-next-steps-checklist="true"`
+- `data-next-steps-routing="true"`
+- `data-request-assistance-link="true"`
 
-If that marker is missing under a LIVE vertical buyout, validation should fail.
+If those markers are missing under a LIVE vertical buyout, validation should fail. The zone is now intentionally answer-first: it must include a short explanatory paragraph, a practical checklist, and an owned routing link to the request assistance tool in addition to the primary CTA.
 
 ---
 

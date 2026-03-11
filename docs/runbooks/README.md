@@ -27,3 +27,5 @@ Owner + VA operational runbooks for this repo.
 ## LLM visibility + freshness
 - **Primer (why we run workflows + what they do):** `docs/runbooks/llm_visibility/01_LLM_VISIBILITY_PRIMER.md`
 - **GitHub Actions runbook (Verify / Validate LKG / Rotating Refresh):** `docs/runbooks/github_actions/README_GITHUB_ACTIONS.md`
+
+- `docs/runbooks/llm_visibility/02_AI_CITATION_ROUTING_HARDENING.md` — citation-routing hardening contracts, validators, and verification

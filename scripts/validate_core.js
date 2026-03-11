@@ -19,6 +19,8 @@ const linkAudit = require('./validation/link_audit');
 const entrypointExports = require("./validation/entrypoint_exports_contract");
 const packShadowGlobals = require('./validation/pack_shadow_globals');
 const connectionBubbleContract = require('./validation/connection_bubble_contract');
+const citationRoutingBundle = require('./validation/citation_routing_bundle');
+const pageSetFileContract = require('./validation/pagesetfile_contract');
 
 function readSiteJsonOrNull() {
   const p = path.join(__dirname, '..', 'data', 'site.json');
@@ -52,8 +54,7 @@ function main() {
   }
   entrypointExports.run();
 
-const pageSetFileContract = require('./validation/pagesetfile_contract');
-pageSetFileContract.run();
+  pageSetFileContract.run();
   if (!starter) {
     buyoutNextStepsHardfail.run({ site });
     stateBuyoutRequiresStateSponsor.run({ site });
@@ -92,6 +93,13 @@ pageSetFileContract.run();
     linkAudit.run({ site });
     nextStepsCtaContract.run({ site });
     connectionBubbleContract.run({ site });
+    // AI citation-routing hardening bundle (Batches 1–6):
+    //  - public outbound leak shutdown
+    //  - request-assistance tool contract
+    //  - answer-first next-steps routing surfaces
+    //  - schema hardening for owned routing pages
+    //  - consolidated validation entrypoint
+    citationRoutingBundle.run({ site });
   } else {
     // Unreachable now because missing dist hard-fails unless explicitly allowed.
     console.log('ℹ️ dist/ missing: skipping dist-dependent core validators.');

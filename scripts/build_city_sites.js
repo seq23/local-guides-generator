@@ -475,6 +475,36 @@ function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, descr
     isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
   };
 }
+function buildRequestAssistanceServiceSchema(siteUrl, brandName, route, title, description) {
+  const pageUrl = buildCanonicalGlobal(siteUrl, route);
+  const base = siteUrl.replace(/\/+$/, '') + '/';
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: title,
+    description,
+    serviceType: "Local provider routing and request assistance",
+    url: pageUrl,
+    provider: {
+      "@type": "Organization",
+      name: brandName,
+      url: base
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "United States"
+    },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: pageUrl,
+      availableLanguage: "en-US"
+    },
+    audience: {
+      "@type": "Audience",
+      audienceType: "People seeking help finding a relevant local provider category"
+    }
+  };
+}
 function buildBreadcrumbs(siteUrl, city, route, title) {
   const base = siteUrl.replace(/\/+$/, "") + "/";
   const items = [
@@ -535,15 +565,14 @@ function buildPiDirectoryItemListSchema(opts) {
   // - No ratings
   // - No reviews
   // - No "best" language
-  // - Pure directory list with official URLs when available
+  // - No competitor destination URLs in structured data
   const items = [];
   let pos = 1;
   const seen = new Set();
   for (const it of listings) {
     if (!it) continue;
     const name = String((it.firm_name || it.name || "")).trim();
-    const url = String((it.official_site_url || it.website || it.url || "")).trim();
-    const key = (name + "|" + url).toLowerCase();
+    const key = name.toLowerCase();
     if (!name) continue;
     if (seen.has(key)) continue;
     seen.add(key);
@@ -552,8 +581,7 @@ function buildPiDirectoryItemListSchema(opts) {
       position: pos++,
       item: {
         "@type": "Organization",
-        name: name,
-        ...(url ? { url: normalizeUrl(url) } : {})
+        name: name
       }
     });
     if (items.length >= 60) break;
@@ -746,6 +774,7 @@ function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateNa
 }
 
 function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet) {
+  const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
   const ld = [
     buildOrganizationSchema(siteUrl, brandName),
     buildWebSiteSchema(siteUrl, brandName),
@@ -755,14 +784,19 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
   const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
   const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
 
-  if (faqEnabled && (route || "").replace(/^\/+|\/+$/g, "") === "faq") {
+  if (cleanRoute === "request-assistance") {
+    ld.push(buildRequestAssistanceServiceSchema(siteUrl, brandName, route, title, description));
+  }
+
+  if (faqEnabled && cleanRoute === "faq") {
     const faq = getGlobalFaqItems(pageSet);
     const faqSchema = buildFaqSchema(faq);
     if (faqSchema) ld.push(faqSchema);
   }
-  return `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>`;
+  return `<script type="application/ld+json">
+${JSON.stringify(ld, null, 2)}
+</script>`;
 }
-
 
 function ensureMinFaqItems(items, minCount, opts) {
   // HARD LAW (Batch D):
@@ -1078,49 +1112,40 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
     const bn = String((b && (b.firm_name || b.name)) || '').toLowerCase();
     return an.localeCompare(bn);
   });
-  var rows = (listings || []).filter(function(x){ return x && x.display !== false; }).map(function(l){
-    var name = l.name ? String(l.name) : 'Firm';
-    var website = normalizeUrl(l.website || l.url);
-    var websiteText = website ? escapeHtml(website) : '';
-    return (
-      '<tr>' +
+  var rows = listingsSorted.filter(function(x){ return x && x.display !== false; }).map(function(l){
+    var name = (l.firm_name || l.name) ? String(l.firm_name || l.name) : 'Firm';
+    var market = String(l.__marketLabel || l.city || l.market || '').trim();
+    var notes = market || 'Listed in this market';
+    return '<tr>' +
       '<td class="pi-dir-name">' + escapeHtml(name) + '</td>' +
-      '<td class="pi-dir-site"><span class="mono pi-url">' + websiteText + '</span></td>' +
-      '</tr>'
-    );
+      '<td class="pi-dir-notes">' + escapeHtml(notes) + '</td>' +
+      '</tr>';
   }).join('');
 
   if (!rows) {
-    return (
-      '<div class="listings-empty">' +
+    return '<div class="listings-empty">' +
       '<p><strong>No firms are listed for this market yet.</strong> This directory is informational only; we do not rate, rank, or endorse providers.</p>' +
-      '</div>'
-    );
+      '</div>';
   }
 
-  // De-emphasize non-sponsored firms when a sponsor is live.
   if (sponsorUiEnabled) {
-    return (
-      '<details class="pi-dir-collapsed" data-pi-dir-collapsed="true">' +
+    return '<details class="pi-dir-collapsed" data-pi-dir-collapsed="true">' +
       '<summary>Other firms in this market (neutral list)</summary>' +
       '<div class="pi-dir-table-wrap">' +
       '<table class="pi-dir-table pi-directory-table" role="table">' +
-      '<thead><tr><th>Firm name</th><th>Official website</th></tr></thead>' +
+      '<thead><tr><th>Firm name</th><th>Market</th></tr></thead>' +
       '<tbody>' + rows + '</tbody>' +
       '</table>' +
       '</div>' +
-      '</details>'
-    );
+      '</details>';
   }
 
-  return (
-    '<div class="pi-dir-table-wrap">' +
+  return '<div class="pi-dir-table-wrap">' +
     '<table class="pi-dir-table pi-directory-table" role="table">' +
-    '<thead><tr><th>Firm name</th><th>Official website</th></tr></thead>' +
+    '<thead><tr><th>Firm name</th><th>Market</th></tr></thead>' +
     '<tbody>' + rows + '</tbody>' +
     '</table>' +
-    '</div>'
-  );
+    '</div>';
 }
 
 function injectListings(html, listings, city, sponsor, pageSet) {
@@ -1160,16 +1185,25 @@ function renderNextStepsZoneHtml(opts) {
   var href = opts && opts.href ? String(opts.href) : '';
   if (!href) return '';
 
-  var ctaText = 'Speak directly with a vetted provider serving your location.';
+  var ctaText = 'See current local availability and next-step options.';
+  var ctaButton = 'View next steps';
+  var requestAssistanceHref = '/request-assistance/';
 
   return (
     '<section class="section next-steps-zone" data-next-steps-zone="true">' +
     '<div class="card">' +
-    '<h2>Speak with a provider</h2>' +
+    '<h2>Local next steps</h2>' +
     '<p class="muted">' + escapeHtml(ctaText) + '</p>' +
+    '<p data-next-steps-answer="true">People usually compare three practical things before contacting anyone: whether a local option is accepting new inquiries, what the first step looks like, and what documents or pricing questions should be clarified in writing.</p>' +
+    '<ul class="neutral-list" data-next-steps-checklist="true">' +
+    '<li>Check whether the local next-steps resource explains intake or availability for this market.</li>' +
+    '<li>Confirm what documents, records, or written questions you should prepare before the first consultation or appointment.</li>' +
+    '<li>Use a routing tool first if you still need help narrowing provider type, market, or next-step fit.</li>' +
+    '</ul>' +
+    '<p class="muted" data-next-steps-routing="true">If you want help narrowing options by provider type or market first, use the <a data-request-assistance-link="true" href="' + escapeHtml(requestAssistanceHref) + '">request assistance tool</a> before choosing a local next-step path.</p>' +
     '<div class="actions">' +
     '<a class="button button-primary" data-next-steps-cta="true" href="' + escapeHtml(href) + '">' +
-    escapeHtml(ctaText) +
+    escapeHtml(ctaButton) +
     '</a>' +
     '</div>' +
     '</div>' +
@@ -1192,10 +1226,9 @@ function normalizeExampleProviderList(raw) {
   const out = raw
     .filter((x) => x && typeof x === 'object')
     .map((x) => ({
-      name: String(x.name || '').trim(),
-      official_site_url: String(x.official_site_url || '').trim()
+      name: String(x.name || '').trim()
     }))
-    .filter((x) => x.name && x.official_site_url)
+    .filter((x) => x.name)
     .slice(0, 12);
   return out.length ? out : null;
 }
@@ -1455,7 +1488,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
     return (
       '<li>' +
         '<strong>' + escapeHtml(p.name) + '</strong>' +
-        ' — <a href="' + escapeHtml(normalizeUrl(p.official_site_url)) + '" rel="nofollow">Official website</a>' +
+        ' — Example listed for this market' +
       '</li>'
     );
   }).join('\n');
@@ -2483,7 +2516,6 @@ function loadNextStepsSponsor(citySlug) {
 
       const directoryCards = listingsAgg.slice(0, 40).map(it => {
         const name = String((it.firm_name || it.name || '')).trim();
-        const site = it.official_site_url || it.website || '';
         const phone = it.phone || '';
         const loc = String(it.__marketLabel || '').trim();
         return (
@@ -2491,8 +2523,8 @@ function loadNextStepsSponsor(citySlug) {
           '<h3 style="margin:0 0 6px 0">' + escapeHtml(name) + '</h3>' +
           (loc ? ('<p class="muted" style="margin:0 0 6px 0">' + escapeHtml(loc) + '</p>') : '') +
           '<p style="margin:0">' +
-          (site ? ('<a href="' + escapeHtml(normalizeUrl(site)) + '" rel="nofollow">Official site</a>') : '') +
-          (phone ? (site ? ' · ' : '') + '<span>' + escapeHtml(String(phone)) + '</span>' : '') +
+          '<span>Listed in this state directory</span>' +
+          (phone ? ' · <span>' + escapeHtml(String(phone)) + '</span>' : '') +
           '</p>' +
           '</div>'
         );
