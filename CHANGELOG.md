@@ -1,9 +1,12 @@
+# 2026-03-17 — Phase 1 hardening closeout
+
+- Synced runbooks to the Phase 1 hardening state.
+- Added Phase 1 system hardening summary for Owner + VA.
+- Updated runbook indexes to point to sitemap parity, homepage schema, IndexNow/LLM surface, request-assistance production guardrail, and executable-bit verification.
+- Standardized the documented validation loop around `build:all`, `postbuild`, and `LKG_VALIDATE_DIST=1 npm run validate:all`.
+
 # Changelog
 
-# 2026-03-18
-
-- Revalidated core contracts and inventories (rotating focus: Dentistry).
-- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-03-17
 
 - Revalidated core contracts and inventories (rotating focus: TRT).
@@ -261,3 +264,12 @@ Phase-2 PI Distribution Governance requires a sponsored placement block (one fir
 ### Validation status
 - ✅ `npm run build`: PASS
 - ✅ `node scripts/validate_tbs.js`: PASS
+## 2026-03-18 — Phase 2 Batch 5
+- added coverage expansion runbooks for the planning framework, owner/VA SOP, and Phase 3 handoff
+- updated runbook indexes to include the new coverage expansion section
+
+
+## 2026-03-18 — Phase 3 Wave 1 Batch 6
+- added Wave 1 USCIS execution runbook documenting the promoted-city, runtime-support, publication, and parity-validation flow
+- added Phase 3 expansion-rules runbook documenting when USCIS can scale further and how TRT/Neuro follow inside Phase 3
+- updated runbook indexes to expose the new Phase 3 execution docs

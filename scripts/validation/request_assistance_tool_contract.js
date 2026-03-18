@@ -27,13 +27,15 @@ function run(ctx) {
   const label = path.relative(repoRoot, fp);
 
   mustContain(html, 'data-request-assistance-tool-intro="true"', label);
+  mustContain(html, 'data-request-assistance-form-primary="true"', label);
   mustContain(html, 'data-request-assistance-who-its-for="true"', label);
   mustContain(html, 'data-request-assistance-what-happens-next="true"', label);
-  mustContain(html, 'Use this tool if you want help finding local options before reaching out.', label);
   mustContain(html, 'id="request-assistance-form"', label);
+  mustContain(html, 'Submit a routing request', label);
   mustContain(html, 'What this tool does', label);
   mustContain(html, 'What happens after submission', label);
-  mustContain(html, 'Many people review the local next-step guide first, then use this tool to narrow local options.', label);
+  mustContain(html, 'No rankings', label);
+  mustContain(html, 'No case details are collected here.', label);
 
   console.log('✅ request assistance tool contract pass');
 }

@@ -50,6 +50,7 @@ Preferred invocation:
 Always run:
 ```bash
 npm ci
+bash scripts/repair_executable_bits.sh
 npm run validate:all || npm run build
 ```
 
@@ -238,3 +239,24 @@ This produces:
 - `dist/_lkg_snapshot.json`
 - `_lkg_snapshot.json` (repo root)
 - `releases/releases_index.json` (append-only index)
+
+## Production request-assistance guardrail
+
+Production deploy contexts must provide:
+
+- `AIRTABLE_API_TOKEN`
+- `AIRTABLE_BASE_ID`
+- `AIRTABLE_TABLE_NAME`
+
+The validator differentiates non-production vs production contexts.
+
+- Non-production: contract presence is verified, envs are not required.
+- Production: missing Airtable envs hard-fail validation.
+
+Recommended explicit production invocation:
+
+```bash
+LKG_DEPLOY_ENV=production AIRTABLE_API_TOKEN=... AIRTABLE_BASE_ID=... AIRTABLE_TABLE_NAME=... npm run validate:all
+```
+
+This prevents shipping a live request-assistance page whose backend would operate in dead mode.

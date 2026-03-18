@@ -29,6 +29,59 @@ const ADS_PATH = path.join(DATA_DIR, "ad_placements.json");
 
 const BUILD_ISO = new Date().toISOString();
 
+const COVERAGE_TARGETS_PATH = path.join(DATA_DIR, "research", "coverage", "coverage_targets.csv");
+const SHARED_CITY_REGISTRY_PATH = path.join(DATA_DIR, "research", "shared", "us_city_registry.csv");
+const COVERAGE_PROMOTED_PATH = path.join(DATA_DIR, "research", "coverage", "coverage_promoted.csv");
+const COVERAGE_RUNTIME_SUPPORT_PATH = path.join(DATA_DIR, "research", "coverage", "coverage_runtime_support.csv");
+
+function parseCsvRows(text) {
+  const lines = String(text || "").split(/\r?\n/).filter(Boolean);
+  if (!lines.length) return [];
+  const headers = lines[0].split(',').map((v) => v.trim());
+  return lines.slice(1).map((line) => {
+    const parts = line.split(',');
+    const row = {};
+    headers.forEach((header, idx) => {
+      row[header] = String(parts[idx] || '').trim();
+    });
+    return row;
+  });
+}
+
+function loadCoveragePlanningMeta() {
+  const meta = {
+    phase2Planning: {
+      coverageTargetsPresent: fs.existsSync(COVERAGE_TARGETS_PATH),
+      sharedCityRegistryPresent: fs.existsSync(SHARED_CITY_REGISTRY_PATH),
+      scopedVerticals: [],
+      targetRows: 0,
+      sharedRegistryRows: 0
+    }
+  };
+
+  if (meta.phase2Planning.coverageTargetsPresent) {
+    try {
+      const rows = parseCsvRows(fs.readFileSync(COVERAGE_TARGETS_PATH, 'utf8'));
+      const verticals = Array.from(new Set(rows.map((row) => row.vertical).filter(Boolean))).sort();
+      meta.phase2Planning.scopedVerticals = verticals;
+      meta.phase2Planning.targetRows = rows.length;
+    } catch (err) {
+      meta.phase2Planning.coverageTargetsError = err.message;
+    }
+  }
+
+  if (meta.phase2Planning.sharedCityRegistryPresent) {
+    try {
+      const rows = parseCsvRows(fs.readFileSync(SHARED_CITY_REGISTRY_PATH, 'utf8'));
+      meta.phase2Planning.sharedRegistryRows = rows.length;
+    } catch (err) {
+      meta.phase2Planning.sharedCityRegistryError = err.message;
+    }
+  }
+
+  return meta;
+}
+
 // Canonical city disclosure block (Appendix L — Canonical City Page Skeleton)
 // Source of truth: LISTINGS-TBS-MASTER-INDEX-v2.1-corrected.pdf
 function renderCityDisclosureHtml() {
@@ -335,7 +388,34 @@ function loadGlobalPagesDir(pageSet) {
   return path.join(DATA_DIR, "global_pages");
 }
 
-function loadCities(pageSet) {
+function loadPromotedReadyCities(verticalKey) {
+  const normalizeVertical = (value) => String(value || '').trim().toLowerCase().replace(/_/g, '-');
+  const vk = normalizeVertical(verticalKey);
+  if (!vk) return [];
+  if (!fs.existsSync(COVERAGE_PROMOTED_PATH) || !fs.existsSync(COVERAGE_RUNTIME_SUPPORT_PATH)) return [];
+  try {
+    const promotedRows = parseCsvRows(fs.readFileSync(COVERAGE_PROMOTED_PATH, 'utf8'))
+      .filter((row) => normalizeVertical(row.vertical || '') === vk)
+      .filter((row) => String(row.publish_enabled || '').trim().toLowerCase() === 'true');
+    const supportRows = parseCsvRows(fs.readFileSync(COVERAGE_RUNTIME_SUPPORT_PATH, 'utf8'))
+      .filter((row) => normalizeVertical(row.vertical || '') === vk)
+      .filter((row) => String(row.runtime_ready || '').trim().toLowerCase() === 'true');
+    const supportBySlug = new Map(supportRows.map((row) => [String(row.city_slug || '').trim(), row]));
+    return promotedRows
+      .filter((row) => supportBySlug.has(String(row.city_slug || '').trim()))
+      .map((row) => ({
+        slug: String(row.city_slug || '').trim(),
+        state: String(row.state_code || '').trim().toUpperCase(),
+        status: 'live'
+      }))
+      .filter((row) => row.slug);
+  } catch (err) {
+    console.warn('WARN: failed to load promoted ready cities:', err.message);
+    return [];
+  }
+}
+
+function loadCities(pageSet, verticalKey) {
   const baseCities = readJson(BASE_CITIES_PATH);
   const usStates = readJson(path.join(DATA_DIR, 'us_states.json'));
   const usStatesByAbbr = new Map(
@@ -373,9 +453,11 @@ function loadCities(pageSet) {
     if (!fs.existsSync(cf)) throw new Error(`citiesFile not found: ${cf}`);
     packCities = readJson(cf);
   }
+  const promotedReadyCities = loadPromotedReadyCities(verticalKey);
   const bySlug = new Map();
-  // Pack cities first so pack can override fields, but base top10 always included.
+  // Pack cities first so pack can override fields, then promoted ready cities, then base top10.
   for (const c of (packCities || [])) bySlug.set(String(c.slug), c);
+  for (const c of (promotedReadyCities || [])) if (!bySlug.has(String(c.slug))) bySlug.set(String(c.slug), c);
   for (const c of (baseCities || [])) if (!bySlug.has(String(c.slug))) bySlug.set(String(c.slug), c);
   // Ensure we always have minimally usable city metadata (city/state labels).
   // Some packs provide cities files that only contain slugs.
@@ -775,10 +857,13 @@ function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateNa
 
 function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet) {
   const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
+  const primaryPageSchema = (cleanRoute === 'guides' || cleanRoute === 'faq')
+    ? buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description)
+    : buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description);
   const ld = [
     buildOrganizationSchema(siteUrl, brandName),
     buildWebSiteSchema(siteUrl, brandName),
-    buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description),
+    primaryPageSchema,
     buildBreadcrumbsGlobal(siteUrl, route, title)
   ];
   const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
@@ -2088,7 +2173,7 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   const brandName = String(site.brandName || "Local Guides").trim();
   const siteUrl = String(site.siteUrl || "https://example.com").trim();
 
-  const cities = loadCities(pageSet).map((c) => {
+  const cities = loadCities(pageSet, verticalKey).map((c) => {
     const st = states[c.state] || {};
     return {
       ...c,
@@ -2704,7 +2789,8 @@ function loadNextStepsSponsor(citySlug) {
   }
 
   // Write build meta
-  writeFileEnsured(path.join(OUT_DIR, "_build.json"), JSON.stringify({ buildIso: BUILD_ISO, pageSetFile, cities: cities.length }, null, 2));
+  const coveragePlanningMeta = loadCoveragePlanningMeta();
+  writeFileEnsured(path.join(OUT_DIR, "_build.json"), JSON.stringify({ buildIso: BUILD_ISO, pageSetFile, cities: cities.length, ...coveragePlanningMeta }, null, 2));
 
   console.log(`Built dist with pageSetFile=${pageSetFile}, cities=${cities.length}`);
 }

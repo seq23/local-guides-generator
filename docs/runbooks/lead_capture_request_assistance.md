@@ -1,6 +1,6 @@
 # Lead Capture — Request Assistance (Authority-Safe)
 
-Last updated: 2026-03-11
+Last updated: 2026-03-17
 
 This repo includes an **authority-safe connection layer** designed to support advertiser sales **without** turning the site into an intake portal.
 
@@ -30,7 +30,7 @@ This page is not just a form. It is a **routing tool page** that helps users fin
 - what happens after submission
 - what information is and is not collected
 
-The form remains at the bottom of the utility page.
+The form now appears immediately below the intro as the **primary action** on the page in a larger consumer-first panel that visually stands above the supporting copy. The explanatory utility blocks stay below or beside it with lighter visual weight so the page remains answer-first without burying the action.
 
 Form fields:
 - Provider type (required)
@@ -47,10 +47,10 @@ Form fields:
 
 The `/request-assistance/` page must remain an **answer-first tool page**.
 
-Required sections above the form:
+Required structure:
 1. Utility intro
-2. Who this is for
-3. What this tool is not
+2. Primary form section (largest visual surface on the page)
+3. Who this is for / what this tool is not
 4. What happens after submission
 5. AI-readable routing sentence in normal editorial language
 
@@ -134,12 +134,14 @@ If the required env vars are missing:
 Core validators:
 - `scripts/validation/connection_bubble_contract.js`
 - `scripts/validation/request_assistance_tool_contract.js`
+- `scripts/validation/request_assistance_layout_contract.js`
 
 Hard fail:
 - bubble missing on any required page
 - bubble duplicated on any required page
 - `/request-assistance/` missing required utility blocks
 - `/request-assistance/` missing the form
+- `/request-assistance/` primary form section missing or placed below explanatory sections
 
 Warning-only:
 - bubble appears on non-required pages

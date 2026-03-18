@@ -100,9 +100,15 @@ function main() {
   // Deterministic ordering
   paths.sort((a,b)=>a.localeCompare(b));
 
-  const urls = paths.map(p => {
+  const urls = paths.map((p) => {
+    const filePath = p === "/" ? path.join(distDir, "index.html") : path.join(distDir, p.replace(/^\//, ""), "index.html");
+    let lastmod = "";
+    try {
+      const st = fs.statSync(filePath);
+      lastmod = new Date(st.mtimeMs || st.mtime).toISOString().slice(0, 10);
+    } catch (_) {}
     const loc = new URL(p, base).toString();
-    return `  <url><loc>${xmlEscape(loc)}</loc></url>`;
+    return `  <url><loc>${xmlEscape(loc)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}</url>`;
   }).join("\n");
 
   const xml =

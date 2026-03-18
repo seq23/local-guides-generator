@@ -22,6 +22,13 @@ const connectionBubbleContract = require('./validation/connection_bubble_contrac
 const citationRoutingBundle = require('./validation/citation_routing_bundle');
 const publicSourceUrlPolicy = require('./validation/public_source_url_policy');
 const pageSetFileContract = require('./validation/pagesetfile_contract');
+const sitemapParityContract = require('./validation/sitemap_parity_contract');
+const homepageSchemaContract = require('./validation/homepage_schema_contract');
+const requestAssistanceProductionGuardrail = require('./validation/request_assistance_production_guardrail');
+const executableBitsContract = require('./validation/executable_bits_contract');
+const coveragePlanContract = require('./validation/coverage_plan_contract');
+const coverageRuntimeSupportContract = require('./validation/coverage_runtime_support_contract');
+const coverageRenderingContract = require('./validation/coverage_rendering_contract');
 
 function readSiteJsonOrNull() {
   const p = path.join(__dirname, '..', 'data', 'site.json');
@@ -57,6 +64,10 @@ function main() {
   publicSourceUrlPolicy.run();
 
   pageSetFileContract.run();
+  requestAssistanceProductionGuardrail.run();
+  executableBitsContract.run();
+  coveragePlanContract.run();
+  require('./validation/coverage_runtime_support_contract');
   if (!starter) {
     buyoutNextStepsHardfail.run({ site });
     stateBuyoutRequiresStateSponsor.run({ site });
@@ -102,6 +113,9 @@ function main() {
     //  - schema hardening for owned routing pages
     //  - consolidated validation entrypoint
     citationRoutingBundle.run({ site });
+    sitemapParityContract.run({ site });
+    homepageSchemaContract.run({ site });
+    require('./validation/coverage_rendering_contract');
   } else {
     // Unreachable now because missing dist hard-fails unless explicitly allowed.
     console.log('ℹ️ dist/ missing: skipping dist-dependent core validators.');
