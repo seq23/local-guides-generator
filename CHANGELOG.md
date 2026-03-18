@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-03-18
+
+- Revalidated core contracts and inventories (rotating focus: Dentistry).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-03-17
 
 - Revalidated core contracts and inventories (rotating focus: TRT).
