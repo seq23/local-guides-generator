@@ -1,3 +1,9 @@
+# Changelog
+
+# 2026-03-19
+
+- Revalidated core contracts and inventories (rotating focus: Neuro).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-03-17 — Phase 1 hardening closeout
 
 - Synced runbooks to the Phase 1 hardening state.
