@@ -80,3 +80,91 @@
   background: #f9fafb;
   border: 1px solid #e5e7eb;
 }
+
+
+/* =========================================================
+   Command Center guide overrides
+   ========================================================= */
+.guide-article {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.72;
+}
+
+.guide-article > * {
+  max-width: 100%;
+}
+
+.guide-article h1 {
+  margin: 0 0 16px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.guide-article h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.45rem, 2.6vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.14;
+}
+
+.guide-article h3 {
+  margin: 0 0 10px;
+  font-size: 1.16rem;
+  font-weight: 760;
+}
+
+.guide-article p,
+.guide-article ul,
+.guide-article ol,
+.guide-article details,
+.guide-article table,
+.guide-article blockquote {
+  margin-bottom: 18px;
+}
+
+.guide-article ul,
+.guide-article ol {
+  padding-left: 1.1rem;
+}
+
+.guide-article li {
+  margin: 0.45rem 0;
+}
+
+.guide-article blockquote {
+  padding: 18px 20px;
+  border-left: 3px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.guide-article code {
+  border-radius: 6px;
+}
+
+.guide-article .guide-section {
+  margin-bottom: 44px;
+}
+
+.guide-article .guide-sponsor {
+  margin: 44px 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+@media (max-width: 720px) {
+  .guide-article {
+    font-size: 1rem;
+    line-height: 1.68;
+  }
+
+  .guide-article .guide-section {
+    margin-bottom: 36px;
+  }
+}

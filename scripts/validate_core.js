@@ -19,6 +19,7 @@ const linkAudit = require('./validation/link_audit');
 const entrypointExports = require("./validation/entrypoint_exports_contract");
 const packShadowGlobals = require('./validation/pack_shadow_globals');
 const connectionBubbleContract = require('./validation/connection_bubble_contract');
+const conversionContract = require('./validation/conversion_contract');
 const citationRoutingBundle = require('./validation/citation_routing_bundle');
 const publicSourceUrlPolicy = require('./validation/public_source_url_policy');
 const pageSetFileContract = require('./validation/pagesetfile_contract');
@@ -106,6 +107,7 @@ function main() {
     linkAudit.run({ site });
     nextStepsCtaContract.run({ site });
     connectionBubbleContract.run({ site });
+    conversionContract.run({ site });
     // AI citation-routing hardening bundle (Batches 1–6):
     //  - public outbound leak shutdown
     //  - request-assistance tool contract

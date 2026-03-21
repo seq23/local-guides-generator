@@ -1,0 +1,16 @@
+<!-- Inline Conversion CTA
+     Contract:
+       - Mid-page contextual routing module on required pages
+       - Must include data-inline-conversion-cta="true" marker when rendered as inline
+       - Button links to /request-assistance/ with context query params
+-->
+<section class="section conversion-cta conversion-cta--%%CTA_VARIANT%%" %%CTA_MARKER%%>
+  <div class="conversion-cta__panel conversion-cta__panel--inline">
+    <p class="conversion-cta__eyebrow">%%CTA_EYEBROW%%</p>
+    <h2 class="conversion-cta__heading">%%CTA_HEADING%%</h2>
+    <p class="conversion-cta__body">%%CTA_BODY%%</p>
+    <p class="conversion-cta__actions">
+      <a class="button button-primary conversion-cta__button" href="%%REQUEST_ASSISTANCE_HREF%%" data-provider-type="%%PROVIDER_TYPE_LABEL%%" data-page-src="%%PAGE_SRC%%">%%CTA_BUTTON%%</a>
+    </p>
+  </div>
+</section>

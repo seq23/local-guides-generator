@@ -274,26 +274,191 @@ function shouldRenderConnectionBubble(opts) {
   return false;
 }
 
-function renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, ctx) {
+function buildRequestAssistanceContext(verticalKey, ctx) {
   const label = providerTypeLabelForVertical(verticalKey);
   const labelLower = (label === 'provider') ? 'a provider' : label.toLowerCase();
-
   const src = String(ctx?.src || '').trim();
   const pt = (label === 'provider') ? '' : label;
   const qs = [];
   if (pt) qs.push('pt=' + encodeURIComponent(pt));
   if (src) qs.push('src=' + encodeURIComponent(src));
   const href = '/request-assistance/' + (qs.length ? ('?' + qs.join('&')) : '');
+  return { label, labelLower, src, pt, href };
+}
+
+function conversionCopyForContext(pageType, verticalKey, ctx) {
+  const info = buildRequestAssistanceContext(verticalKey, ctx);
+  const marketLabel = String(ctx?.marketLabel || '').trim();
+  const marketShort = marketLabel ? marketLabel.split(',')[0].trim() : 'your area';
+  const lowerProvider = info.labelLower;
+
+  if (pageType === 'city-primary') {
+    return {
+      eyebrow: 'Next step',
+      heading: 'Start your ' + escapeHtml(marketShort) + ' request for help',
+      body: 'Use the request-assistance tool if you want help narrowing the next step with ' + escapeHtml(lowerProvider) + ' near ' + escapeHtml(marketShort) + '.',
+      button: 'Start your local request',
+      variant: 'primary'
+    };
+  }
+
+  if (pageType === 'city-inline') {
+    return {
+      eyebrow: 'Still comparing options?',
+      heading: 'Request help narrowing the next step',
+      body: 'If you want a cleaner handoff after reviewing the guide, use the request-assistance tool for ' + escapeHtml(marketShort) + '.',
+      button: 'Request local help',
+      variant: 'inline'
+    };
+  }
+
+  if (pageType === 'state-primary') {
+    return {
+      eyebrow: 'State-wide help',
+      heading: 'Start a ' + escapeHtml(marketLabel || 'local') + ' request for help',
+      body: 'Use the request-assistance tool if you want help narrowing the next step with ' + escapeHtml(lowerProvider) + ' in ' + escapeHtml(marketLabel || 'this state') + '.',
+      button: 'Start your state request',
+      variant: 'primary'
+    };
+  }
+
+  if (pageType === 'state-inline') {
+    return {
+      eyebrow: 'Need a faster shortlist?',
+      heading: 'Request help after reviewing the city hubs',
+      body: 'After you compare the city pages, you can use the request-assistance tool to narrow the next step in ' + escapeHtml(marketLabel || 'this state') + '.',
+      button: 'Request state help',
+      variant: 'inline'
+    };
+  }
+
+  if (pageType === 'guides-hub-primary') {
+    return {
+      eyebrow: 'Use the guides, then act',
+      heading: 'Use the guides, then request help',
+      body: 'When you are ready to move from research to action, the request-assistance tool can help you narrow the next step with ' + escapeHtml(lowerProvider) + '.',
+      button: 'Use the request-assistance tool',
+      variant: 'primary'
+    };
+  }
+
+  if (pageType === 'guides-hub-inline') {
+    return {
+      eyebrow: 'Ready to move?',
+      heading: 'Turn the framework into a next step',
+      body: 'After you review the guides, use the request-assistance tool to narrow the next local step without leaving the educational flow.',
+      button: 'Request help now',
+      variant: 'inline'
+    };
+  }
+
+  if (pageType === 'global-primary') {
+    return {
+      eyebrow: 'Need help now?',
+      heading: 'Use the request-assistance tool',
+      body: 'This site is educational first, but you can also use the request-assistance tool when you want help narrowing the next local step with ' + escapeHtml(lowerProvider) + '.',
+      button: 'Open request assistance',
+      variant: 'primary'
+    };
+  }
+
+  if (pageType === 'global-inline') {
+    return {
+      eyebrow: 'Prefer a direct handoff?',
+      heading: 'Request help after you review the basics',
+      body: 'Once you have reviewed the core framework, the request-assistance tool can help narrow the next local step.',
+      button: 'Request help',
+      variant: 'inline'
+    };
+  }
+
+  if (pageType === 'guide-primary') {
+    return {
+      eyebrow: 'Use the guide, then decide',
+      heading: 'Request help after you review this guide',
+      body: 'If this guide answers the basics and you want help narrowing the next step with ' + escapeHtml(lowerProvider) + ', use the request-assistance tool.',
+      button: 'Request help from this guide',
+      variant: 'primary'
+    };
+  }
+
+  if (pageType === 'guide-inline') {
+    return {
+      eyebrow: 'Need a faster next step?',
+      heading: 'Request help once this guide gives you the basics',
+      body: 'If you want a more direct next step after reviewing this guide, use the request-assistance tool for ' + escapeHtml(lowerProvider) + '.',
+      button: 'Request help from this guide',
+      variant: 'inline'
+    };
+  }
+
+  return {
+    eyebrow: 'Need help?',
+    heading: 'Use the request-assistance tool',
+    body: 'Use the request-assistance tool if you want help narrowing the next local step.',
+    button: 'Request assistance',
+    variant: 'inline'
+  };
+}
+
+function renderConversionCtaHtml(conversionTemplate, verticalKey, ctx) {
+  const info = buildRequestAssistanceContext(verticalKey, ctx);
+  const copy = conversionCopyForContext(String(ctx?.pageType || ''), verticalKey, ctx);
+  let html = String(conversionTemplate || '');
+  html = html.replace(/%%CTA_VARIANT%%/g, escapeHtml(copy.variant || 'inline'));
+  html = html.replace(/%%CTA_MARKER%%/g, String(ctx?.marker || 'data-inline-conversion-cta="true"'));
+  html = html.replace(/%%CTA_EYEBROW%%/g, copy.eyebrow || 'Next step');
+  html = html.replace(/%%CTA_HEADING%%/g, copy.heading || 'Use the request-assistance tool');
+  html = html.replace(/%%CTA_BODY%%/g, copy.body || '');
+  html = html.replace(/%%CTA_BUTTON%%/g, copy.button || 'Request assistance');
+  html = html.replace(/%%REQUEST_ASSISTANCE_HREF%%/g, escapeHtml(info.href));
+  html = html.replace(/%%PROVIDER_TYPE_LABEL%%/g, escapeHtml(info.pt));
+  html = html.replace(/%%PAGE_SRC%%/g, escapeHtml(info.src));
+  return html;
+}
+
+function injectPrimaryConversionCta(mainHtml, conversionTemplate, verticalKey, ctx) {
+  const marker = 'data-primary-conversion-cta="true"';
+  if (String(mainHtml || '').includes(marker)) return String(mainHtml || '');
+  const html = renderConversionCtaHtml(conversionTemplate, verticalKey, { ...ctx, pageType: ctx.pageType, marker });
+  const out = String(mainHtml || '');
+  const heroRe = /(<section class="hero"[\s\S]*?<\/section>)/i;
+  if (heroRe.test(out)) return out.replace(heroRe, '$1\n' + html);
+  return html + '\n' + out;
+}
+
+function injectInlineConversionCta(mainHtml, conversionTemplate, verticalKey, ctx) {
+  const marker = 'data-inline-conversion-cta="true"';
+  if (String(mainHtml || '').includes(marker)) return String(mainHtml || '');
+  const html = renderConversionCtaHtml(conversionTemplate, verticalKey, { ...ctx, pageType: ctx.pageType, marker });
+  let out = String(mainHtml || '');
+  const primaryRe = /(<section[^>]*data-primary-conversion-cta="true"[\s\S]*?<\/section>)/i;
+  if (primaryRe.test(out)) return out.replace(primaryRe, '$1\n' + html);
+  const faqRe = /(<section class="section"[^>]*data-pi-state-faq="true"[\s\S]*?<\/section>|<details\s+class="accordion"\s+id="city-faq"[^>]*>[\s\S]*?<\/details>|<details\s+class="accordion"\s+id="state-faq"[^>]*>[\s\S]*?<\/details>)/i;
+  if (faqRe.test(out)) return out.replace(faqRe, html + '\n$1');
+  const sectionRe = /(<section[^>]*>[\s\S]*?<\/section>)/gi;
+  let count = 0;
+  out = out.replace(sectionRe, (m) => {
+    count += 1;
+    if (count === 2) return m + '\n' + html;
+    return m;
+  });
+  if (count >= 2) return out;
+  return out + '\n' + html;
+}
+
+function renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, ctx) {
+  const info = buildRequestAssistanceContext(verticalKey, ctx);
 
   let html = String(connectionBubbleTemplate || '');
-  html = html.replace(/%%PROVIDER_TYPE_LABEL_LOWER%%/g, escapeHtml(labelLower));
-  html = html.replace(/%%REQUEST_ASSISTANCE_HREF%%/g, escapeHtml(href));
+  html = html.replace(/%%PROVIDER_TYPE_LABEL_LOWER%%/g, escapeHtml(info.labelLower));
+  html = html.replace(/%%REQUEST_ASSISTANCE_HREF%%/g, escapeHtml(info.href));
 
   // Attach data attributes for tracking (defensive: inject into the primary button).
   if (!/data-provider-type=/.test(html)) {
     html = html.replace(
       /class="button button-primary connection-bubble__button"/,
-      'class="button button-primary connection-bubble__button" data-provider-type="' + escapeHtml(pt) + '" data-page-slug="' + escapeHtml(src) + '"'
+      'class="button button-primary connection-bubble__button" data-provider-type="' + escapeHtml(info.pt) + '" data-page-slug="' + escapeHtml(info.src) + '"'
     );
   }
 
@@ -1593,7 +1758,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
   );
 }
 
-function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, page, city, siteUrl, brandName, pageSet, sponsorsByStack, sponsor, listings, ads, verticalKey) {
+function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryConversionTemplate, inlineConversionTemplate, page, city, siteUrl, brandName, pageSet, sponsorsByStack, sponsor, listings, ads, verticalKey) {
   const route = applyCityTokens(page.route || "", city).replace(/^\/+|\/+$/g, "");
   const title = applyCityTokens(page.title, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
   const description = applyCityTokens(page.description, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
@@ -1664,6 +1829,19 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, page, ci
   // City disclosure: footer carries the disclosure universally.
   // Do not duplicate disclosure in main content (it is redundant and breaks flow).
   mainHtml = stripCityDisclosureBlocks(mainHtml);
+
+  if (route === '') {
+    mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
+      pageType: 'city-primary',
+      src: '/' + city.slug + '/',
+      marketLabel: city.marketLabel || ''
+    });
+    mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
+      pageType: 'city-inline',
+      src: '/' + city.slug + '/',
+      marketLabel: city.marketLabel || ''
+    });
+  }
 
   // Non-PI: optional example provider lists (only when city files exist)
   // Goal: give users concrete options without rankings/endorsements. This is NOT a directory.
@@ -1830,7 +2008,7 @@ function stripForbiddenInlineBlocks(html) {
   return out;
 }
 
-function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
+function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryConversionTemplate, inlineConversionTemplate, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
   const route = (globalPage.route || "").replace(/^\/+|\/+$/g, "");
   const title = String(globalPage.title || "").split("%%BRAND_NAME%%").join(brandName);
   const description = String(globalPage.description || "");
@@ -2028,12 +2206,50 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, gl
     mainHtml = mainHtml.split("%%FAQ_ITEMS_GLOBAL%%").join(renderFaqCardsHtml(getGlobalFaqItems(pageSet)));
   }
   if (route === "guides" && mainHtml.includes("%%GUIDE_CARDS%%")) {
-  mainHtml = mainHtml
-    .split("%%GUIDE_CARDS%%")
-    .join(renderGuideCardsHtml(pageSet.guides || []));
-}
+    mainHtml = mainHtml
+      .split("%%GUIDE_CARDS%%")
+      .join(renderGuideCardsHtml(pageSet.guides || []));
+  }
   if (mainHtml.includes("%%MARKETS_STATUS_LIST%%")) {
     mainHtml = mainHtml.split("%%MARKETS_STATUS_LIST%%").join(marketsStatusListHtml || "");
+  }
+  if (route === '') {
+    mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
+      pageType: 'global-primary',
+      src: '/',
+      marketLabel: brandName
+    });
+    mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
+      pageType: 'global-inline',
+      src: '/',
+      marketLabel: brandName
+    });
+  }
+
+  if (route === 'guides') {
+    mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
+      pageType: 'guides-hub-primary',
+      src: '/guides/',
+      marketLabel: 'Guides'
+    });
+    mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
+      pageType: 'guides-hub-inline',
+      src: '/guides/',
+      marketLabel: 'Guides'
+    });
+  }
+
+  if (route.startsWith('guides/') && route !== 'guides') {
+    mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
+      pageType: 'guide-primary',
+      src: '/' + route + '/',
+      marketLabel: title
+    });
+    mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
+      pageType: 'guide-inline',
+      src: '/' + route + '/',
+      marketLabel: title
+    });
   }
 
   // Next-steps zone injection (GLOBAL pages + guides pages that are implemented as global routes)
@@ -2189,6 +2405,8 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   const baseTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, "base.html"), "utf8");
   const footerHtmlRaw = fs.readFileSync(path.join(TEMPLATES_DIR, "partials", "footer.html"), "utf8");
   const connectionBubbleTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'connection_bubble.html'), 'utf8');
+  const primaryConversionTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'primary_conversion_cta.html'), 'utf8');
+  const inlineConversionTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'inline_conversion_cta.html'), 'utf8');
   const footerHtml = footerHtmlRaw
     .replace(/%%CURRENT_YEAR%%/g, String(new Date().getFullYear()))
     .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName));
@@ -2399,6 +2617,8 @@ function loadNextStepsSponsor(citySlug) {
       baseTemplate,
       footerHtml,
       connectionBubbleTemplate,
+      primaryConversionTemplate,
+      inlineConversionTemplate,
       gp,
       siteUrl,
       brandName,
@@ -2440,6 +2660,8 @@ function loadNextStepsSponsor(citySlug) {
         baseTemplate,
         footerHtml,
         connectionBubbleTemplate,
+        primaryConversionTemplate,
+        inlineConversionTemplate,
         p,
         city,
         siteUrl,
@@ -2713,6 +2935,17 @@ function loadNextStepsSponsor(citySlug) {
         (disciplineUrl ? ('<p><a href="' + escapeHtml(disciplineUrl) + '" rel="nofollow">Open official ' + escapeHtml(stateName) + ' lookup</a></p>') : '<p class="muted">(Missing link — pack config required.)</p>') +
         '</section>'
       );
+
+      mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
+        pageType: 'state-primary',
+        src: '/states/' + ab + '/',
+        marketLabel: stateName
+      });
+      mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
+        pageType: 'state-inline',
+        src: '/states/' + ab + '/',
+        marketLabel: stateName
+      });
 
       // Next-steps on PI state pages:
       // - sponsor-driven (based on any live sponsor in the state's cities) OR

@@ -1,8 +1,8 @@
 # Link Integrity Report
 
-Generated: 2026-02-01T20:38:26.854Z
+Generated: 2026-03-21T17:48:36.576Z
 
-Scanned HTML files: 45
+Scanned HTML files: 148
 
 ## Empty/placeholder links
 

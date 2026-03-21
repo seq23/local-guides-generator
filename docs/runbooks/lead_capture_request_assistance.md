@@ -1,6 +1,6 @@
 # Lead Capture — Request Assistance (Authority-Safe)
 
-Last updated: 2026-03-17
+Last updated: 2026-03-21
 
 This repo includes an **authority-safe connection layer** designed to support advertiser sales **without** turning the site into an intake portal.
 
@@ -10,8 +10,13 @@ This repo includes an **authority-safe connection layer** designed to support ad
 
 ## 1) What ships (runtime surfaces)
 
-### A) Connection Bubble (bottom-of-page module)
-A consistent module appears **above the footer** on **required pages only**.
+### A) Primary conversion hierarchy (required runtime contract)
+Core conversion pages no longer rely on the footer module alone.
+
+Required hierarchy on enforced surfaces:
+1. **Primary conversion CTA** (hero-adjacent / above the fold)
+2. **Inline conversion CTA** (mid-page contextual routing block)
+3. **Connection Bubble** (bottom recapture above the footer)
 
 Required pages (enforced by core validation):
 - Global home: `/`
@@ -19,7 +24,11 @@ Required pages (enforced by core validation):
 - City hubs: `/<city>/`
 - PI state hubs: `/states/<ST>/`
 
-**It must render exactly once** on each required page.
+Guide detail pages under `/guides/<topic>/` must render the first two layers:
+- Primary conversion CTA
+- Inline conversion CTA
+
+The bottom Connection Bubble remains required on the main hub surfaces above and stays optional on guide detail pages.
 
 ### B) Request page
 - `/request-assistance/`
@@ -133,11 +142,15 @@ If the required env vars are missing:
 
 Core validators:
 - `scripts/validation/connection_bubble_contract.js`
+- `scripts/validation/conversion_contract.js`
 - `scripts/validation/request_assistance_tool_contract.js`
 - `scripts/validation/request_assistance_layout_contract.js`
 
 Hard fail:
-- bubble missing on any required page
+- primary conversion CTA missing on any required conversion page
+- inline conversion CTA missing on any required conversion page
+- connection bubble missing on any required hub page
+- primary / inline / bubble order broken on enforced surfaces
 - bubble duplicated on any required page
 - `/request-assistance/` missing required utility blocks
 - `/request-assistance/` missing the form
