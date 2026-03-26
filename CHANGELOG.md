@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-03-26
+
+- Revalidated core contracts and inventories (rotating focus: Neuro).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-03-25
 
 - Revalidated core contracts and inventories (rotating focus: Dentistry).
