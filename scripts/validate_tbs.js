@@ -51,6 +51,7 @@ function main() {
   // Audits (non-blocking): keep them useful, never annoying.
   run('node scripts/validate_dist_compliance_scan.js', { hardFail: false, label: 'dist compliance scan' });
   run('node scripts/validate_pi_keyword_containment.js', { hardFail: false, label: 'pi keyword containment' });
+  run('node scripts/validation/neuro_new_guides_qa_warn.js', { hardFail: false, label: 'neuro new guides QA' });
 
   console.log('OK: TBS audit: PASS (no warnings)');
 }

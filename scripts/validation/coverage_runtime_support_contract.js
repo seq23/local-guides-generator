@@ -27,10 +27,16 @@ function groupedSubKeys(vertical) {
 function loadJson(file, key) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { fail(`invalid json for ${key}: ${path.relative(REPO_ROOT, file)}`); }
 }
-function hasSortedThree(list) {
+function hasSortedThree(list, vertical) {
   if (!Array.isArray(list) || list.length !== 3) return false;
-  const names = list.map(x => String(x && x.name || '').trim());
-  if (names.some(n => !n)) return false;
+  const names = [];
+  for (const item of list) {
+    if (!item || typeof item !== 'object') return false;
+    const name = String(item.name || '').trim();
+    if (!name) return false;
+    if (String(vertical || '').toLowerCase() === 'neuro' && typeof item.offers_therapy !== 'boolean') return false;
+    names.push(name);
+  }
   const dedup = new Set(names.map(n => n.toLowerCase()));
   if (dedup.size !== names.length) return false;
   const sorted = [...names].sort((a,b)=>a.localeCompare(b, undefined, {sensitivity:'base'}));
@@ -63,7 +69,7 @@ for (const row of rows) {
       const file = path.join(baseDir, `${row.city_slug}__${subKey}.json`);
       if (!fs.existsSync(file)) fail(`missing grouped provider dataset for ${key}: ${path.relative(REPO_ROOT, file)}`);
       const data = loadJson(file, key);
-      if (!hasSortedThree(data)) fail(`grouped provider dataset must contain exactly 3 alphabetized unique names for ${key} (${subKey})`);
+      if (!hasSortedThree(data, row.vertical)) fail(`grouped provider dataset must contain exactly 3 alphabetized unique provider objects for ${key} (${subKey})${String(row.vertical).toLowerCase()==='neuro' ? ' with boolean offers_therapy flags' : ''}`);
     }
   } else {
     const providerPath = path.join(REPO_ROOT, row.provider_dataset_path);

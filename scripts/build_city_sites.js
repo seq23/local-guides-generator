@@ -1481,7 +1481,8 @@ function normalizeExampleProviderList(raw) {
   const out = raw
     .filter((x) => x && typeof x === 'object')
     .map((x) => ({
-      name: String(x.name || '').trim()
+      name: String(x.name || '').trim(),
+      offers_therapy: x.offers_therapy === true
     }))
     .filter((x) => x.name)
     .slice(0, 12);
@@ -1744,6 +1745,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
       '<li>' +
         '<strong>' + escapeHtml(p.name) + '</strong>' +
         ' — Example listed for this market' +
+        (p.offers_therapy === true ? '. Also offers therapy.' : '') +
       '</li>'
     );
   }).join('\n');
@@ -1877,7 +1879,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
         if (v === 'neuro') {
           if (s === 'adhd_eval') heading = 'Examples of ADHD evaluation providers in ' + market;
           else if (s === 'autism_eval') heading = 'Examples of autism evaluation providers in ' + market;
-          lead = 'Below are non-exhaustive examples of nearby providers that offer evaluation services. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
+          lead = 'Below are non-exhaustive examples of nearby providers that offer evaluation services. Some listed providers may also offer therapy. Confirm services, age range, wait times, insurance, and follow-up care directly with the provider. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
         }
 
         if (v === 'uscis_medical' || v === 'uscis') {

@@ -93,13 +93,21 @@ for (const row of promoted) {
   if (subKeys.length) {
     const grouped = loadGroupedProviders(row.vertical, row.city_slug);
     if (allSections.length < grouped.length) fail(`missing grouped example providers sections for ${key}`);
+    let therapyTrueCount = 0;
     for (const entry of grouped) {
       for (const provider of entry.providers) {
         const name = String(provider?.name || '').trim();
         const rawNeedle = `<strong>${name}</strong>`;
         const escapedNeedle = `<strong>${escapeHtmlForRegex(name)}</strong>`;
         if (!html.includes(rawNeedle) && !html.includes(escapedNeedle)) fail(`provider name not rendered for ${key}: ${name}`);
+        if (String(row.vertical).toLowerCase() === 'neuro' && provider && provider.offers_therapy === true) {
+          therapyTrueCount += 1;
+        }
       }
+    }
+    if (String(row.vertical).toLowerCase() === 'neuro' && therapyTrueCount > 0) {
+      const markerCount = (html.match(/Also offers therapy\./g) || []).length;
+      if (markerCount < therapyTrueCount) fail(`therapy capability marker count too low for ${key}: expected >= ${therapyTrueCount}, found ${markerCount}`);
     }
   } else {
     const providerPath = path.join(REPO_ROOT, runtime.provider_dataset_path);
