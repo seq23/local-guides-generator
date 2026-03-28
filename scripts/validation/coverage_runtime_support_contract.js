@@ -35,6 +35,11 @@ function hasSortedThree(list, vertical) {
     const name = String(item.name || '').trim();
     if (!name) return false;
     if (String(vertical || '').toLowerCase() === 'neuro' && typeof item.offers_therapy !== 'boolean') return false;
+    if (String(vertical || '').toLowerCase() === 'trt') {
+      if (typeof item.offers_peptide_programs !== 'boolean') return false;
+      if (typeof item.peptide_program_notes !== 'string') return false;
+      if (typeof item.peptide_program_source !== 'string') return false;
+    }
     names.push(name);
   }
   const dedup = new Set(names.map(n => n.toLowerCase()));
@@ -69,7 +74,7 @@ for (const row of rows) {
       const file = path.join(baseDir, `${row.city_slug}__${subKey}.json`);
       if (!fs.existsSync(file)) fail(`missing grouped provider dataset for ${key}: ${path.relative(REPO_ROOT, file)}`);
       const data = loadJson(file, key);
-      if (!hasSortedThree(data, row.vertical)) fail(`grouped provider dataset must contain exactly 3 alphabetized unique provider objects for ${key} (${subKey})${String(row.vertical).toLowerCase()==='neuro' ? ' with boolean offers_therapy flags' : ''}`);
+      if (!hasSortedThree(data, row.vertical)) fail(`grouped provider dataset must contain exactly 3 alphabetized unique provider objects for ${key} (${subKey})${String(row.vertical).toLowerCase()==='neuro' ? ' with boolean offers_therapy flags' : (String(row.vertical).toLowerCase()==='trt' ? ' with peptide-program fields' : '')}`);
     }
   } else {
     const providerPath = path.join(REPO_ROOT, row.provider_dataset_path);

@@ -94,6 +94,7 @@ for (const row of promoted) {
     const grouped = loadGroupedProviders(row.vertical, row.city_slug);
     if (allSections.length < grouped.length) fail(`missing grouped example providers sections for ${key}`);
     let therapyTrueCount = 0;
+    let peptideTrueCount = 0;
     for (const entry of grouped) {
       for (const provider of entry.providers) {
         const name = String(provider?.name || '').trim();
@@ -103,11 +104,18 @@ for (const row of promoted) {
         if (String(row.vertical).toLowerCase() === 'neuro' && provider && provider.offers_therapy === true) {
           therapyTrueCount += 1;
         }
+        if (String(row.vertical).toLowerCase() === 'trt' && provider && provider.offers_peptide_programs === true) {
+          peptideTrueCount += 1;
+        }
       }
     }
     if (String(row.vertical).toLowerCase() === 'neuro' && therapyTrueCount > 0) {
       const markerCount = (html.match(/Also offers therapy\./g) || []).length;
       if (markerCount < therapyTrueCount) fail(`therapy capability marker count too low for ${key}: expected >= ${therapyTrueCount}, found ${markerCount}`);
+    }
+    if (String(row.vertical).toLowerCase() === 'trt' && peptideTrueCount > 0) {
+      const markerCount = (html.match(/Offers peptide programs\./g) || []).length;
+      if (markerCount < peptideTrueCount) fail(`peptide-program marker count too low for ${key}: expected >= ${peptideTrueCount}, found ${markerCount}`);
     }
   } else {
     const providerPath = path.join(REPO_ROOT, runtime.provider_dataset_path);

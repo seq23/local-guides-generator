@@ -1482,7 +1482,10 @@ function normalizeExampleProviderList(raw) {
     .filter((x) => x && typeof x === 'object')
     .map((x) => ({
       name: String(x.name || '').trim(),
-      offers_therapy: x.offers_therapy === true
+      offers_therapy: x.offers_therapy === true,
+      offers_peptide_programs: x.offers_peptide_programs === true,
+      peptide_program_notes: String(x.peptide_program_notes || '').trim(),
+      peptide_program_source: String(x.peptide_program_source || 'unknown').trim() || 'unknown'
     }))
     .filter((x) => x.name)
     .slice(0, 12);
@@ -1685,6 +1688,7 @@ function renderEvalFrameworkHtml(verticalKey, city) {
       'Clinical evaluation steps (what screening is done before treatment is discussed)',
       'Lab testing and monitoring (what labs are typically ordered and how follow-ups are scheduled)',
       'Medication and safety policies (how dosing decisions are typically made and what contraindications are considered)',
+      'Whether the clinic also offers add-on services like weight loss programs, IV support, or peptide programs — and what extra monitoring those services require',
       'Pricing and membership structure (what is included, what is billed separately, and cancellation terms)',
       'Credential verification (confirm licensure and disciplinary status through official state resources)'
     ];
@@ -1746,6 +1750,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
         '<strong>' + escapeHtml(p.name) + '</strong>' +
         ' — Example listed for this market' +
         (p.offers_therapy === true ? '. Also offers therapy.' : '') +
+        (p.offers_peptide_programs === true ? '. Offers peptide programs.' : '') +
       '</li>'
     );
   }).join('\n');
@@ -1873,7 +1878,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
           if (s === 'trt') heading = 'Examples of TRT / men\'s health clinics in ' + market;
           else if (s === 'iv_hydration') heading = 'Examples of IV hydration / IV therapy clinics in ' + market;
           else if (s === 'hair_restoration') heading = 'Examples of hair restoration (including PRP / non-surgical) providers in ' + market;
-          lead = 'Below are non-exhaustive examples of nearby providers that offer this service. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
+          lead = 'Below are non-exhaustive examples of nearby providers that offer this service. Some listed clinics may also offer peptide programs. Confirm services, supervision, pricing, and follow-up directly with the clinic. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
         }
 
         if (v === 'neuro') {
