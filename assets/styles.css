@@ -1726,3 +1726,24 @@ button.btn:focus {
     width: 100%;
   }
 }
+
+.fanout-query-cluster {
+  border: 1px solid rgba(11,31,58,.12);
+  border-radius: 20px;
+  background: #f7fafc;
+}
+.fanout-query-group + .fanout-query-group {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(11,31,58,.08);
+}
+.fanout-query-list {
+  margin: 0;
+  padding-left: 20px;
+}
+.fanout-query-item {
+  margin: 0 0 8px 0;
+}
+.fanout-query-path {
+  color: #516173;
+}

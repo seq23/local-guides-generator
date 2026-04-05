@@ -30,6 +30,7 @@ const executableBitsContract = require('./validation/executable_bits_contract');
 const coveragePlanContract = require('./validation/coverage_plan_contract');
 const coverageRuntimeSupportContract = require('./validation/coverage_runtime_support_contract');
 const coverageRenderingContract = require('./validation/coverage_rendering_contract');
+const fanoutWarning = require('./validation/fanout_warning');
 
 function readSiteJsonOrNull() {
   const p = path.join(__dirname, '..', 'data', 'site.json');
@@ -118,6 +119,7 @@ function main() {
     sitemapParityContract.run({ site });
     homepageSchemaContract.run({ site });
     require('./validation/coverage_rendering_contract');
+    fanoutWarning.run({ site });
   } else {
     // Unreachable now because missing dist hard-fails unless explicitly allowed.
     console.log('ℹ️ dist/ missing: skipping dist-dependent core validators.');

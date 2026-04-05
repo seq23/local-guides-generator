@@ -16,6 +16,7 @@ const path = require("path");
 
 const sponsorship = require("./helpers/sponsorship");
 const buyouts = require("./helpers/buyouts");
+const fanout = require("./helpers/fanout");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -1965,6 +1966,17 @@ function stripForbiddenInlineBlocks(html) {
 
     mainHtml = stripForbiddenInlineBlocks(mainHtml);
 
+  const cityFanoutCluster = fanout.buildFanoutCluster({
+    verticalKey,
+    pageKind: "city",
+    route: route ? `/${city.slug}/${route}/` : `/${city.slug}/`,
+    title,
+    marketLabel: city.marketLabel
+  }, pageSet);
+  const cityFanoutHtml = fanout.renderFanoutClusterHtml(cityFanoutCluster);
+  if (cityFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) {
+    mainHtml += "\n" + cityFanoutHtml;
+  }
 
 // Next-steps zone injection (global buyout OR sponsor-driven)
   // - Global: pack-controlled via sponsorship.globalNextStepsEnabled
@@ -2271,6 +2283,18 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   mainHtml = injectAdPlacements(mainHtml, ads, { city: null, verticalKey: verticalKey, cityFeatures: pageSet && pageSet.__cityFeatures ? pageSet.__cityFeatures : null });
   mainHtml = injectSponsors(mainHtml, globalSponsorsByStack || {});
 
+  const globalFanoutCluster = fanout.buildFanoutCluster({
+    verticalKey,
+    pageKind: fanout.classifyPageKind({ route: route ? ('/' + route + '/') : '/' }),
+    route: route ? ('/' + route + '/') : '/',
+    title,
+    description
+  }, pageSet);
+  const globalFanoutHtml = fanout.renderFanoutClusterHtml(globalFanoutCluster);
+  if (globalFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) {
+    mainHtml += "\n" + globalFanoutHtml;
+  }
+
   const connectionBubbleHtml = shouldRenderConnectionBubble({ pageKind: 'global', route })
     ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: route ? ('/' + route + '/') : '/' })
     : '';
@@ -2387,6 +2411,7 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
     process.exit(1);
   }
   const pageSet = loadPageSet(pageSetFile);
+  pageSet.__pageSetFile = pageSetFile;
   const verticalKey = deriveVerticalKey(pageSetFile);
 
   // City page feature toggles (future-proof): directory vs state lookup (mutually exclusive).
@@ -2395,6 +2420,7 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
 
   const brandName = String(site.brandName || "Local Guides").trim();
   const siteUrl = String(site.siteUrl || "https://example.com").trim();
+  const fanoutRecords = [];
 
   const cities = loadCities(pageSet, verticalKey).map((c) => {
     const st = states[c.state] || {};
@@ -2636,6 +2662,13 @@ function loadNextStepsSponsor(citySlug) {
       verticalKey
     );
     writeFileEnsured(outPathForGlobal(route), html);
+    fanoutRecords.push(fanout.buildFanoutCluster({
+      verticalKey,
+      pageKind: fanout.classifyPageKind({ route: route ? ('/' + route + '/') : '/' }),
+      route: route ? ('/' + route + '/') : '/',
+      title: String(gp.title || '').split('%%BRAND_NAME%%').join(brandName),
+      description: String(gp.description || '')
+    }, pageSet));
   }
 
   // Build city pages
@@ -2681,6 +2714,13 @@ function loadNextStepsSponsor(citySlug) {
         verticalKey
       );
       writeFileEnsured(outPathFor(city, route), html);
+      fanoutRecords.push(fanout.buildFanoutCluster({
+        verticalKey,
+        pageKind: 'city',
+        route: route ? `/${city.slug}/${route}/` : `/${city.slug}/`,
+        title: applyCityTokens(p.title, city).split('%%MARKET_LABEL%%').join(city.marketLabel),
+        marketLabel: city.marketLabel
+      }, pageSet));
     }
   }
 
@@ -2963,6 +3003,18 @@ function loadNextStepsSponsor(citySlug) {
         mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/states/' + escapeHtml(ab) + '/next-steps/' });
       }
 
+      const stateFanoutCluster = fanout.buildFanoutCluster({
+        verticalKey,
+        pageKind: 'state',
+        route: '/states/' + ab + '/',
+        title,
+        stateName
+      }, pageSet);
+      const stateFanoutHtml = fanout.renderFanoutClusterHtml(stateFanoutCluster);
+      if (stateFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) {
+        mainHtml += '\n' + stateFanoutHtml;
+      }
+
       const connectionBubbleHtml = shouldRenderConnectionBubble({ pageKind: 'state', route: 'states/' + ab })
         ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: '/states/' + ab + '/' })
         : '';
@@ -2994,6 +3046,8 @@ function loadNextStepsSponsor(citySlug) {
     for (const ab of piStateAbbrs) {
       const html = renderPiStatePageHtml(ab);
       writeFileEnsured(outPathForPiState(ab), html);
+      const stateName = String((ALL_US_STATES && ALL_US_STATES[ab] && ALL_US_STATES[ab].name) || ((states[ab] || {}).stateName) || ab);
+      fanoutRecords.push(fanout.buildFanoutCluster({ verticalKey, pageKind: 'state', route: '/states/' + ab + '/', title: 'Personal injury lawyers in ' + stateName + ' — directory & guides', stateName }, pageSet));
     }
 
     // Write PI state next-steps pages when enabled (sponsor-driven or global switch).
@@ -3026,7 +3080,10 @@ function loadNextStepsSponsor(citySlug) {
       '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
     });
     writeFileEnsured(outPathForGlobal('personal-injury'), piHubHtml);
+    fanoutRecords.push(fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury — browse by state' }, pageSet));
   }
+
+  fanout.writeFanoutExport(OUT_DIR, fanoutRecords, pageSet, verticalKey);
 
   // Write build meta
   const coveragePlanningMeta = loadCoveragePlanningMeta();
