@@ -6,9 +6,12 @@
   <title>%%TITLE%%</title>
   <meta name="description" content="%%DESCRIPTION%%" />
   <link rel="canonical" href="%%CANONICAL%%" />
-  <meta name="robots" content="index,follow" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <link rel="alternate" type="application/json" href="/citation-manifest.json" title="Citation manifest" />
+  <link rel="alternate" type="application/x-ndjson" href="/citation-corpus.jsonl" title="Citation corpus" />
   <link rel="stylesheet" href="/assets/styles.css" />
   <link rel="stylesheet" href="/assets/guide.css" />
+  %%HEAD_META%%
   %%HEAD_JSON_LD%%
 </head>
 <body data-city="%%DATA_CITY%%">

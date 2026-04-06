@@ -59,6 +59,17 @@ const queryCompilerOverridesContract = require('./validation/query_compiler_over
 const verticalGuideDepthContract = require('./validation/vertical_guide_depth_contract');
 const sponsorPlaceholderContract = require('./validation/sponsor_placeholder_contract');
 const siteUrlContract = require('./validation/site_url_contract');
+const cityDecisionSupportContract = require('./validation/city_decision_support_contract');
+const piTrustToneContract = require('./validation/pi_trust_tone_contract');
+const piSurfaceContract = require('./validation/pi_surface_contract');
+const piQueryCompletenessContract = require('./validation/pi_query_completeness_contract');
+const citationExtractabilityContract = require('./validation/citation_extractability_contract');
+const citationMetadataContract = require('./validation/citation_metadata_contract');
+const citationManifestContract = require('./validation/citation_manifest_contract');
+const sitemapDistributionContract = require('./validation/sitemap_distribution_contract');
+const distributionArtifactsContract = require('./validation/distribution_artifacts_contract');
+const internalDistributionContract = require('./validation/internal_distribution_contract');
+const distributionDominanceContract = require('./validation/distribution_dominance_contract');
 
 function readSiteJsonOrNull() {
   const p = path.join(__dirname, '..', 'data', 'site.json');
@@ -150,6 +161,17 @@ function main() {
     sitemapParityContract.run({ site });
     homepageSchemaContract.run({ site });
     sponsorPlaceholderContract.run({ site });
+    cityDecisionSupportContract.run({ site });
+    piTrustToneContract.run({ site });
+    piSurfaceContract.run({ site });
+    piQueryCompletenessContract.run({ site });
+    citationExtractabilityContract.run({ site });
+    citationMetadataContract.run({ site });
+    citationManifestContract.run({ site });
+    sitemapDistributionContract.run({ site });
+    distributionArtifactsContract.run({ site });
+    internalDistributionContract.run({ site });
+    distributionDominanceContract.run({ site });
     require('./validation/coverage_rendering_contract');
     fanoutWarning.run({ site });
     fanoutDistributionContract.run({ site });

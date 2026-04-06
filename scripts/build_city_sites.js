@@ -122,6 +122,33 @@ function stripCityDisclosureBlocks(html) {
   return out;
 }
 
+function loadPageContracts() {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'page_contracts.json'), 'utf8'));
+  } catch (_) {
+    return {};
+  }
+}
+
+function shouldRenderDeterministicNextSteps(pageSet, opts) {
+  if (!packHasNextStepsRoute(pageSet)) return false;
+  const contracts = loadPageContracts();
+  const conf = contracts && contracts.next_steps_required ? contracts.next_steps_required : {};
+  const pageType = String((opts && opts.pageType) || '').trim();
+  const route = String((opts && opts.route) || '/').trim();
+  const routeNorm = route === '/' ? '/' : ('/' + route.replace(/^\/+|\/+$/g, '') + '/');
+  const pageTypes = Array.isArray(conf.page_types) ? conf.page_types : [];
+  const globalRoutes = new Set(Array.isArray(conf.global_routes) ? conf.global_routes : []);
+  const keywords = Array.isArray(conf.guide_route_keywords) ? conf.guide_route_keywords : [];
+  if (pageTypes.includes(pageType)) return true;
+  if (globalRoutes.has(routeNorm)) return true;
+  if (pageType === 'global' && /^\/guides\/.+\/$/.test(routeNorm)) {
+    return keywords.some((kw) => routeNorm.includes(String(kw).toLowerCase()));
+  }
+  return false;
+}
+
+
 function readJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
@@ -734,6 +761,113 @@ function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, descr
     isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
   };
 }
+function buildCollectionPageSchemaCity(siteUrl, brandName, city, route, title, description, verticalKey) {
+  const serviceName = isPersonalInjury(verticalKey)
+    ? 'Personal injury legal services'
+    : (String(verticalKey || '').replace(/_/g, ' ') + ' services').trim();
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: title,
+    description,
+    datePublished: BUILD_ISO,
+    dateModified: BUILD_ISO,
+    url: buildCanonical(siteUrl, city, route),
+    about: {
+      "@type": "Service",
+      name: serviceName,
+      areaServed: {
+        "@type": "AdministrativeArea",
+        name: String(city && (city.marketLabel || city.city || city.slug || ''))
+      }
+    },
+    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
+  };
+}
+
+function buildArticleSchemaGlobal(siteUrl, brandName, route, title, description, options) {
+  const opts = options || {};
+  const pageUrl = buildCanonicalGlobal(siteUrl, route);
+  const base = siteUrl.replace(/\/+$/, '') + '/';
+  const keywords = Array.isArray(opts.keywords) ? opts.keywords.filter(Boolean).slice(0, 12) : [];
+  const articleSection = String(opts.articleSection || 'Guide');
+  const aboutName = String(opts.aboutName || title);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    inLanguage: 'en-US',
+    url: pageUrl,
+    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+    articleSection,
+    datePublished: BUILD_ISO,
+    dateModified: BUILD_ISO,
+    author: { "@type": "Organization", name: brandName, url: base },
+    publisher: { "@type": "Organization", name: brandName, url: base },
+    about: { "@type": "Thing", name: aboutName },
+    ...(keywords.length ? { keywords } : {})
+  };
+}
+
+function buildKeywords(title, description, extras) {
+  const raw = []
+    .concat(Array.isArray(extras) ? extras : [])
+    .concat(String(title || '').split(/[^A-Za-z0-9]+/))
+    .concat(String(description || '').split(/[^A-Za-z0-9]+/));
+  const stop = new Set(['the','and','for','with','this','that','from','into','your','about','only','guide','city','local','what','when','after','before','into','best','page','pages','overview']);
+  const seen = new Set();
+  const out = [];
+  for (const token of raw) {
+    const clean = String(token || '').trim();
+    if (!clean) continue;
+    if (clean.length < 3 || clean.length > 40) continue;
+    const lower = clean.toLowerCase();
+    if (stop.has(lower)) continue;
+    if (seen.has(lower)) continue;
+    seen.add(lower);
+    out.push(clean);
+    if (out.length >= 12) break;
+  }
+  return out;
+}
+
+function renderHeadMeta(opts) {
+  const pageType = String((opts && opts.pageType) || 'other');
+  const title = escapeHtml(String((opts && opts.title) || ''));
+  const description = escapeHtml(String((opts && opts.description) || ''));
+  const canonical = escapeHtml(String((opts && opts.canonical) || ''));
+  const brandName = escapeHtml(String((opts && opts.brandName) || ''));
+  const section = escapeHtml(String((opts && opts.section) || pageType));
+  const ogType = pageType === 'guide-detail' ? 'article' : 'website';
+  const keywords = buildKeywords(opts && opts.title, opts && opts.description, opts && opts.keywords);
+  const keywordString = escapeHtml(keywords.join(', '));
+  return [
+    '<meta property="og:title" content="' + title + '" />',
+    '<meta property="og:description" content="' + description + '" />',
+    '<meta property="og:url" content="' + canonical + '" />',
+    '<meta property="og:type" content="' + ogType + '" />',
+    '<meta property="og:site_name" content="' + brandName + '" />',
+    '<meta name="twitter:card" content="summary" />',
+    '<meta name="twitter:title" content="' + title + '" />',
+    '<meta name="twitter:description" content="' + description + '" />',
+    '<meta name="citation_title" content="' + title + '" />',
+    '<meta name="citation_public_url" content="' + canonical + '" />',
+    '<meta name="citation_author" content="' + brandName + '" />',
+    '<meta name="citation_publisher" content="' + brandName + '" />',
+    '<meta name="citation_publication_date" content="' + BUILD_ISO + '" />',
+    '<meta name="citation_modified_date" content="' + BUILD_ISO + '" />',
+    '<meta name="citation_language" content="en-US" />',
+    '<meta name="citation_abstract" content="' + description + '" />',
+    '<meta name="citation_section" content="' + section + '" />',
+    '<meta name="citation_keywords" content="' + keywordString + '" />',
+    '<meta name="page-family" content="' + escapeHtml(pageType) + '" />',
+    (keywordString ? '<meta name="keywords" content="' + keywordString + '" />' : ''),
+    (pageType === 'guide-detail' ? '<meta property="article:published_time" content="' + BUILD_ISO + '" />' : ''),
+    (pageType === 'guide-detail' ? '<meta property="article:modified_time" content="' + BUILD_ISO + '" />' : '')
+  ].filter(Boolean).join('\n');
+}
+
 function buildRequestAssistanceServiceSchema(siteUrl, brandName, route, title, description) {
   const pageUrl = buildCanonicalGlobal(siteUrl, route);
   const base = siteUrl.replace(/\/+$/, '') + '/';
@@ -928,6 +1062,7 @@ function buildResourceItemListSchema(opts) {
 }
 
 function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings) {
+  const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
   const ld = [
     buildOrganizationSchema(siteUrl, brandName),
     buildWebSiteSchema(siteUrl, brandName),
@@ -935,9 +1070,12 @@ function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, p
     buildBreadcrumbs(siteUrl, city, route, title)
   ];
 
+  if (cleanRoute === '' && city) {
+    ld.push(buildCollectionPageSchemaCity(siteUrl, brandName, city, route, title, description, verticalKey));
+  }
+
   // PI: Add a non-promotional directory ItemList schema to help LLM and search engines
   // answer neutral queries like "list of firms in [city/state]" without implying rankings.
-  const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
   if (isPersonalInjury(verticalKey) && cleanRoute === "" && city && Array.isArray(listings)) {
     const areaName = String(city.stateName || city.state || "").trim();
     const pageUrl = buildCanonical(siteUrl, city, cleanRoute);
@@ -1043,6 +1181,14 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
     primaryPageSchema,
     buildBreadcrumbsGlobal(siteUrl, route, title)
   ];
+
+  if (/^guides\/.+/.test(cleanRoute)) {
+    ld.push(buildArticleSchemaGlobal(siteUrl, brandName, route, title, description, {
+      articleSection: 'Guide',
+      aboutName: title,
+      keywords: buildKeywords(title, description, ['guide', 'short answer', 'decision support'])
+    }));
+  }
   const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
   const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
 
@@ -1739,6 +1885,179 @@ function renderEvalFrameworkHtml(verticalKey, city) {
   );
 }
 
+
+function renderCityDecisionSupportHtml(verticalKey, city) {
+  const vk = String(verticalKey || '').trim().toLowerCase();
+  const marketRaw = String((city && (city.marketLabel || city.slug)) || 'this area');
+  const market = escapeHtml(marketRaw);
+
+  if (vk === 'pi') {
+    const links = [
+      ['/guides/what-to-do-after-an-accident/', 'After an accident'],
+      ['/guides/evidence-checklist-after-an-accident/', 'Evidence checklist'],
+      ['/guides/recorded-statements-and-insurance-calls/', 'Insurance calls'],
+      ['/guides/personal-injury-fees-explained/', 'Fee guide'],
+      ['/guides/questions-to-ask-a-personal-injury-lawyer/', 'Questions to ask'],
+      ['/guides/personal-injury-lawyer-red-flags/', 'Lawyer red flags'],
+      ['/guides/car-accidents/', 'Car accidents'],
+      ['/guides/truck-accidents/', 'Truck accidents'],
+      ['/guides/motorcycle-accidents/', 'Motorcycle accidents'],
+      ['/guides/slip-and-fall/', 'Slip and fall'],
+      ['/guides/dog-bites/', 'Dog bites'],
+      ['/guides/pedestrian-accidents/', 'Pedestrian accidents'],
+      ['/guides/bicycle-accidents/', 'Bicycle accidents'],
+      ['/guides/rideshare-accidents/', 'Rideshare accidents'],
+      ['/guides/premises-liability/', 'Premises liability'],
+      ['/guides/product-liability/', 'Product liability'],
+      ['/guides/workplace-injuries/', 'Workplace injuries'],
+      ['/guides/wrongful-death/', 'Wrongful death'],
+      ['/guides/brain-injury/', 'Brain injury'],
+      ['/guides/spinal-cord-injury/', 'Spinal cord injury'],
+      ['/guides/medical-malpractice/', 'Medical malpractice'],
+      ['/guides/nursing-home-abuse/', 'Nursing home abuse'],
+      ['/guides/burn-injury/', 'Burn injury'],
+      ['/guides/bus-accidents/', 'Bus accidents'],
+      ['/guides/catastrophic-injury/', 'Catastrophic injury'],
+      ['/guides/bystander-injuries-near-law-enforcement/', 'Bystander injuries near law enforcement'],
+      ['/guides/injuries-during-immigration-enforcement/', 'Injuries during immigration enforcement'],
+      ['/guides/vehicle-collisions-near-law-enforcement-activity/', 'Vehicle collisions near law enforcement']
+    ].map(([href, label]) => '<li><a href="' + href + '">' + label + '</a></li>').join('');
+
+    return (
+      '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="pi">' +
+        '<h2>What to clarify before you sign anything in ' + market + '</h2>' +
+        '<p class="muted">The useful version of a PI city page is not just who advertises nearby. It is whether the firm fits the accident type, explains fees clearly, protects evidence early, and sounds careful around insurer contact and case timing.</p>' +
+        '<div class="grid-2">' +
+          '<div class="card" data-city-case-fit-clarity="true"><h3>Case type and file fit</h3><p>Ask whether the firm regularly handles your kind of case and what makes it stronger or weaker. A serious city page should help readers compare case fit instead of flattening every injury into the same shortlist.</p></div>' +
+          '<div class="card" data-city-fee-clarity="true"><h3>Fee and cost clarity</h3><p>Use the city page to slow down around contingency language. The right question is not just whether the consultation is free. It is how fees, costs, liens, and settlement deductions are actually explained before you sign.</p></div>' +
+          '<div class="card" data-city-evidence-timing="true"><h3>Evidence and timing</h3><p>Good firms usually ask early about photos, witnesses, records, scene conditions, and treatment timing. If a page never sounds interested in facts, that is useful information.</p></div>' +
+          '<div class="card" data-city-insurance-caution="true"><h3>Insurance pressure and statements</h3><p>Many readers need help because insurer calls start before the medical picture is stable. A useful city page should make room for caution around recorded statements, early narratives, and pressure to move too fast.</p></div>' +
+        '</div>' +
+        '<h3>Best companion guides for this decision</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+      '</section>'
+    );
+  }
+
+  if (vk === 'dentistry') {
+    const links = [
+      ['/guides/how-to-choose/', 'How to choose a dentist'],
+      ['/guides/dental-implants/', 'Dental implants'],
+      ['/guides/veneers/', 'Veneers'],
+      ['/guides/dental-red-flags/', 'Dental red flags'],
+      ['/guides/questions-to-ask/', 'Questions to ask'],
+      ['/guides/dental-second-opinion/', 'Second opinion'],
+      ['/guides/emergency-dentist-vs-waiting/', 'Emergency vs waiting']
+    ].map(([href, label]) => '<li><a href= + href + >' + label + '</a></li>').join('');
+
+    return (
+      '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="dentistry">' +
+        '<h2>What to clarify before you book in ' + market + '</h2>' +
+        '<p class="muted">The useful version of a dental city page is not just who is nearby. It is whether the office matches the kind of treatment you need, explains costs cleanly, and knows when specialist care or a second opinion makes more sense.</p>' +
+        '<div class="grid-2">' +
+          '<div class="card" data-city-treatment-scope="true"><h3>Treatment scope and fit</h3><p>Ask whether your issue sounds cosmetic, restorative, periodontal, urgent, or surgical. City pages should help people match the office to the problem instead of forcing every case into the same generic shortlist.</p></div>' +
+          '<div class="card" data-city-pricing-clarity="true"><h3>Pricing clarity</h3><p>Ask what the estimate includes, what may change after imaging, and which parts of the plan are urgent versus elective. The best dental quotes feel broken into stages, not bundled into one stressful number.</p></div>' +
+          '<div class="card" data-city-specialist-fit="true"><h3>Generalist vs specialist</h3><p>Before you book, ask whether this sounds like general dental care or whether an endodontist, periodontist, oral surgeon, or cosmetic-focused provider should weigh in. Fit matters more than broad marketing claims.</p></div>' +
+          '<div class="card" data-city-second-opinion-check="true"><h3>When to slow down</h3><p>If the plan is expensive, irreversible, or poorly explained, use the city page to pivot into the second-opinion and red-flag guides before committing. Pressure is not proof that treatment is urgent.</p></div>' +
+        '</div>' +
+        '<h3>Best companion guides for this decision</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+      '</section>'
+    );
+  }
+
+  if (vk === 'neuro') {
+    const links = [
+      ['/guides/neuro-evaluation-pricing/', 'Pricing'],
+      ['/guides/neuro-insurance-and-out-of-network/', 'Insurance / out-of-network'],
+      ['/guides/telehealth-vs-in-person-neuro/', 'Telehealth vs in-person'],
+      ['/guides/what-a-neuro-report-includes/', 'Report contents'],
+      ['/guides/what-to-expect-after-a-neuro-evaluation/', 'After the evaluation'],
+      ['/guides/neuro-provider-red-flags/', 'Provider red flags'],
+      ['/guides/questions-to-ask-before-neuro-testing/', 'Questions to ask']
+    ].map(([href, label]) => '<li><a href="' + href + '">' + label + '</a></li>').join('');
+
+    return (
+      '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="neuro">' +
+        '<h2>What to clarify before you book in ' + market + '</h2>' +
+        '<p class="muted">The useful version of a city page is not just who exists locally. It is whether the evaluation scope, report quality, timing, and follow-up path match the reason you are looking in the first place.</p>' +
+        '<div class="grid-2">' +
+          '<div class="card" data-city-pricing-expectations="true"><h3>Pricing and scope</h3><p>Ask whether intake, testing, scoring, report writing, and feedback are included. A lower number is not automatically better if the report or follow-up is too thin to support school, work, or treatment decisions.</p></div>' +
+          '<div class="card" data-city-report-expectations="true"><h3>Report and feedback</h3><p>Confirm what arrives in writing, how long delivery usually takes, and whether someone will walk you through the results in plain language. This matters more than generic claims about comprehensive testing.</p></div>' +
+          '<div class="card" data-city-records-expectations="true"><h3>Records to gather</h3><p>Before you contact anyone, organize prior diagnoses, school or work history, questionnaires, and outside records that could affect scope. Missing context often creates delay or unnecessary repeat testing.</p></div>' +
+          '<div class="card" data-city-next-step-expectations="true"><h3>What happens next</h3><p>Ask what decisions the evaluation can realistically support after the report: accommodations, therapy referrals, medication follow-up, coaching, or more testing. Good providers explain next steps without overselling certainty.</p></div>' +
+        '</div>' +
+        '<h3>Best companion guides for this decision</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+      '</section>'
+    );
+  }
+
+  if (vk === 'trt') {
+    const links = [
+      ['/guides/testosterone-replacement-therapy-overview/', 'TRT overview'],
+      ['/guides/who-is-a-good-candidate-for-trt/', 'TRT candidacy'],
+      ['/guides/trt-pricing-and-labs/', 'TRT pricing'],
+      ['/guides/trt-side-effects-and-safety/', 'TRT side effects and safety'],
+      ['/guides/trt-red-flags/', 'TRT red flags'],
+      ['/guides/trt-telehealth-vs-local-clinic/', 'Telehealth vs local'],
+      ['/guides/peptides-vs-trt/', 'Peptides vs TRT'],
+      ['/guides/are-peptides-safe/', 'Peptide safety'],
+      ['/guides/peptide-program-costs/', 'Peptide program costs'],
+      ['/guides/peptide-clinic-red-flags/', 'Peptide red flags'],
+      ['/guides/medical-weight-loss-programs-overview/', 'Weight loss overview'],
+      ['/guides/medical-weight-loss-pricing/', 'Weight loss pricing'],
+      ['/guides/testosterone-and-hair-loss-explained/', 'Testosterone and hair loss'],
+      ['/guides/iv-hydration-therapy-overview/', 'IV hydration overview'],
+      ['/guides/iv-hydration-red-flags/', 'IV hydration red flags']
+    ].map(([href, label]) => '<li><a href="' + href + '">' + label + '</a></li>').join('');
+
+    return (
+      '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="trt">' +
+        '<h2>What to clarify before you book in ' + market + '</h2>' +
+        '<p class="muted">The useful version of a TRT city page is not just which clinic is nearby. It is whether the clinic explains candidacy, labs, risks, and the difference between hormone, peptide, IV, or weight-loss style offers clearly enough to trust the shortlist.</p>' +
+        '<div class="grid-2">' +
+          '<div class="card" data-city-candidacy-clarity="true"><h3>Candidacy and diagnosis</h3><p>Ask what symptoms, labs, and history are being used before anyone recommends treatment. A strong city page should help you compare clinics on evaluation discipline, not just on convenience.</p></div>' +
+          '<div class="card" data-city-monitoring-clarity="true"><h3>Labs and monitoring</h3><p>Use the city page to compare what is included before treatment starts and what follow-up exists after it starts. Real clinic differences show up in monitoring, not just in marketing claims.</p></div>' +
+          '<div class="card" data-city-treatment-selection="true"><h3>TRT vs adjacent services</h3><p>Some clinics bundle TRT, peptides, IV hydration, weight loss, and hair services together. The right question is whether the clinic can explain why one path fits better than another instead of routing every reader into the same sale.</p></div>' +
+          '<div class="card" data-city-trust-checks="true"><h3>When to slow down</h3><p>If pricing is vague, side effects are minimized, or the page sounds universally optimistic, use the guides below before booking. Pressure is not proof that treatment fit is strong.</p></div>' +
+        '</div>' +
+        '<h3>Best companion guides for this decision</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+      '</section>'
+    );
+  }
+
+  if (vk === 'uscis_medical') {
+    const links = [
+      ['/guides/uscis-medical-exam-overview/', 'Exam overview'],
+      ['/guides/i-693-medical-exam-requirements/', 'I-693 requirements'],
+      ['/guides/document-checklist/', 'Document checklist'],
+      ['/guides/uscis-vaccination-requirements/', 'Vaccination requirements'],
+      ['/guides/costs-and-timeframes/', 'Costs and timeframes'],
+      ['/guides/questions-to-ask-a-civil-surgeon/', 'Questions to ask'],
+      ['/guides/after-your-exam-next-steps/', 'After-exam next steps']
+    ].map(([href, label]) => '<li><a href="' + href + '">' + label + '</a></li>').join('');
+
+    return (
+      '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="uscis_medical">' +
+        '<h2>What to confirm before you schedule in ' + market + '</h2>' +
+        '<p class="muted">The useful version of a city page is not just where a civil surgeon is located. It is what the office includes, what you need to bring, and how the paperwork handoff actually works.</p>' +
+        '<div class="grid-2">' +
+          '<div class="card" data-city-authorization-check="true"><h3>Authorization and exam scope</h3><p>Confirm the office is a USCIS-designated civil surgeon and ask what the quoted visit actually covers. Some offices bundle paperwork and basic steps; others price parts separately.</p></div>' +
+          '<div class="card" data-city-document-check="true"><h3>Documents and records</h3><p>Ask for the office checklist before you book. Identification, vaccination records, and clinic-specific instructions matter more than generic internet lists when timing is tight.</p></div>' +
+          '<div class="card" data-city-turnaround-check="true"><h3>Turnaround and delays</h3><p>Ask when the sealed paperwork or pickup instructions should be ready, what delays are common, and what happens if additional follow-up items are needed after the appointment.</p></div>' +
+          '<div class="card" data-city-after-exam-check="true"><h3>After the appointment</h3><p>Before you leave, clarify how the office handles final paperwork, whether anything else is pending, and what instructions apply to your next immigration filing step.</p></div>' +
+        '</div>' +
+        '<h3>Best companion guides for this decision</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+      '</section>'
+    );
+  }
+
+  return '';
+}
+
 function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
   if (!providers || providers.length === 0) return '';
   const marketRaw = String(city.marketLabel || city.slug || 'this market');
@@ -1781,6 +2100,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
   const route = applyCityTokens(page.route || "", city).replace(/^\/+|\/+$/g, "");
   const title = applyCityTokens(page.title, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
   const description = applyCityTokens(page.description, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
+  const globalPagesDir = loadGlobalPagesDir(pageSet);
 
   let mainHtml = applyCityTokens(page.main_html, city);
 
@@ -1795,7 +2115,11 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
 
   // Inject canonical evaluation framework (AI-safe) on city hub pages
   if (route === '' && mainHtml.includes("%%EVAL_FRAMEWORK%%")) {
-    mainHtml = mainHtml.split("%%EVAL_FRAMEWORK%%").join(renderLLMBaitQuestionHtml(verticalKey, city) + renderEvalFrameworkHtml(verticalKey, city));
+    mainHtml = mainHtml.split("%%EVAL_FRAMEWORK%%").join(
+      renderLLMBaitQuestionHtml(verticalKey, city) +
+      renderEvalFrameworkHtml(verticalKey, city) +
+      renderCityDecisionSupportHtml(verticalKey, city)
+    );
   }
 
 
@@ -1850,6 +2174,30 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
   mainHtml = stripCityDisclosureBlocks(mainHtml);
 
   if (route === '') {
+    if (!mainHtml.includes('data-distribution-priority-block="true"')) {
+      const cityDistributionHtml = renderInternalDistributionZoneHtml({
+        kind: 'city-home',
+        title,
+        buildIso: BUILD_ISO,
+        guideLinks: selectPriorityGuideSummaries(globalPagesDir, 5).map((g) => ({ href: g.route, label: g.title, description: g.description })),
+        primaryLinks: [
+          { href: '/guides/', label: 'Guides hub', description: 'Owned answer index for this pack.' },
+          { href: '/faq/', label: 'FAQ', description: 'Fast clarifications before contacting anyone.' },
+          { href: '/request-assistance/', label: 'Request assistance', description: 'Owned help flow when the next step is clear.' }
+        ].concat(selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }))),
+        cityLinks: [
+          { href: '/faq/', label: 'FAQ', description: 'Fast clarifications before contacting anyone.' },
+          { href: '/methodology/', label: 'Methodology', description: 'How to read the site safely.' }
+        ]
+      });
+      if (mainHtml.includes('data-citation-summary-type="city-home"')) {
+        mainHtml = mainHtml.replace(/(<section class="section citation-summary"[\s\S]*?<\/section>)/, '$1\n' + cityDistributionHtml);
+      } else if (mainHtml.includes('<section class="hero"')) {
+        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + cityDistributionHtml);
+      } else {
+        mainHtml = cityDistributionHtml + '\n' + mainHtml;
+      }
+    }
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
       pageType: 'city-primary',
       src: '/' + city.slug + '/',
@@ -1928,6 +2276,39 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
   if (!isPersonalInjury(verticalKey) && route === "") {
     mainHtml = mainHtml.split("%%EXAMPLE_PROVIDERS%%").join("");
   }
+
+  if (route === '' && !mainHtml.includes('data-citation-summary="true"')) {
+    const verticalLabelMap = {
+      dentistry: 'dentistry and dental-provider',
+      neuro: 'neuropsychology and evaluation-provider',
+      trt: 'TRT, peptide, IV therapy, and clinic',
+      uscis: 'USCIS medical-exam and civil-surgeon',
+      uscis_medical: 'USCIS medical-exam and civil-surgeon',
+      pi: 'personal-injury lawyer'
+    };
+    const officialResources = getNonPiResourcesForState(verticalKey, city.state, pageSet);
+    const officialPrimary = officialResources && officialResources.length ? officialResources[0] : null;
+    const citationSummaryHtml = renderCitationSummaryZoneHtml({
+      kind: 'city-home',
+      title,
+      description,
+      marketLabel: city.marketLabel,
+      verticalLabel: verticalLabelMap[String(verticalKey || '').toLowerCase()] || 'local service',
+      officialResourceName: officialPrimary && officialPrimary.name ? officialPrimary.name : 'official state verification source',
+      officialResourceUrl: officialPrimary && officialPrimary.url ? normalizeUrl(officialPrimary.url) : '',
+      hrefs: {
+        guides: '/guides/',
+        faq: '/faq/',
+        methodology: '/methodology/',
+        requestAssistance: '/request-assistance/'
+      }
+    });
+    if (mainHtml.includes('<section class="hero"')) {
+      mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + citationSummaryHtml);
+    } else {
+      mainHtml = citationSummaryHtml + '\n' + mainHtml;
+    }
+  }
   // PI: add city → state backlink (tiny LLM boost + navigation sanity)
   if (isPersonalInjury(verticalKey) && city && city.state) {
     const ab = String(city.state).toUpperCase();
@@ -1992,7 +2373,7 @@ function stripForbiddenInlineBlocks(html) {
 // Next-steps zone injection (global buyout OR sponsor-driven)
   // - Global: pack-controlled via sponsorship.globalNextStepsEnabled
   // - Sponsor-driven: pack sponsorship.nextStepsEnabled + sponsor live
-  if (route !== 'next-steps' && packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'city', citySlug: city.slug, stateCode: city.state, route: '/' + city.slug + '/' })) {
+  if (route !== 'next-steps' && shouldRenderDeterministicNextSteps(pageSet, { pageType: 'city', route: '/' + city.slug + '/' })) {
     mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/' + city.slug + '/next-steps/' });
   }
 
@@ -2022,6 +2403,7 @@ function stripForbiddenInlineBlocks(html) {
     "%%MAIN_HTML%%": mainHtml,
     "%%INLINE_SCRIPTS%%": inline,
     "%%CANONICAL%%": buildCanonical(siteUrl, city, route),
+    "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "city-home" : "city-detail", title, description, canonical: buildCanonical(siteUrl, city, route), brandName, section: route === "" ? "City home" : "City detail", keywords: [city.city, city.state, verticalKey] }),
     "%%HEAD_JSON_LD%%": renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings),
     "%%FOOTER%%": footerHtml,
     "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
@@ -2042,6 +2424,8 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   const route = (globalPage.route || "").replace(/^\/+|\/+$/g, "");
   const title = String(globalPage.title || "").split("%%BRAND_NAME%%").join(brandName);
   const description = String(globalPage.description || "");
+  const globalPagesDir = loadGlobalPagesDir(pageSet);
+  const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
 
   let mainHtml = String(globalPage.main_html || "").split("%%BRAND_NAME%%").join(brandName);
 
@@ -2244,6 +2628,25 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     mainHtml = mainHtml.split("%%MARKETS_STATUS_LIST%%").join(marketsStatusListHtml || "");
   }
   if (route === '') {
+    if (!mainHtml.includes('data-distribution-priority-block="true"')) {
+      const globalDistributionHtml = renderInternalDistributionZoneHtml({
+        kind: 'home',
+        title,
+        buildIso: BUILD_ISO,
+        guideLinks: selectPriorityGuideSummaries(globalPagesDir, 6).map((g) => ({ href: g.route, label: g.title, description: g.description })),
+        primaryLinks: [
+          { href: '/guides/', label: 'Guides hub', description: 'Start here when the question is still broad.' },
+          { href: '/faq/', label: 'FAQ', description: 'Fast clarifications and common definitions.' },
+          { href: '/methodology/', label: 'Methodology', description: 'Editorial and verification boundaries.' }
+        ].concat(selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }))),
+        cityLinks: distributionCities.map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug, description: 'Local hub' }))
+      });
+      if (mainHtml.includes('<section class="hero"')) {
+        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + globalDistributionHtml);
+      } else {
+        mainHtml = globalDistributionHtml + '\n' + mainHtml;
+      }
+    }
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
       pageType: 'global-primary',
       src: '/',
@@ -2257,6 +2660,44 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   }
 
   if (route === 'guides') {
+    if (!mainHtml.includes('data-citation-summary="true"')) {
+      const guidesHubCitationHtml = renderCitationSummaryZoneHtml({
+        kind: 'guides-hub',
+        title,
+        description,
+        hrefs: {
+          faq: '/faq/',
+          methodology: '/methodology/',
+          requestAssistance: '/request-assistance/'
+        }
+      });
+      if (mainHtml.includes('<section class="hero"')) {
+        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guidesHubCitationHtml);
+      } else {
+        mainHtml = guidesHubCitationHtml + '\n' + mainHtml;
+      }
+    }
+    if (!mainHtml.includes('data-distribution-priority-block="true"')) {
+      const guidesHubDistributionHtml = renderInternalDistributionZoneHtml({
+        kind: 'guides-hub',
+        title,
+        buildIso: BUILD_ISO,
+        guideLinks: selectPriorityGuideSummaries(globalPagesDir, 6).map((g) => ({ href: g.route, label: g.title, description: g.description })),
+        primaryLinks: selectPriorityGuideSummaries(globalPagesDir, 6).map((g) => ({ href: g.route, label: g.title, description: g.description })),
+        cityLinks: [
+          { href: '/faq/', label: 'FAQ', description: 'Clarify definitions and common questions.' },
+          { href: '/methodology/', label: 'Methodology', description: 'Editorial and verification boundaries.' },
+          { href: '/request-assistance/', label: 'Request assistance', description: 'Owned action route after the right guide is clear.' }
+        ]
+      });
+      if (mainHtml.includes('data-citation-summary-type="guides-hub"')) {
+        mainHtml = mainHtml.replace(/(<section class="section citation-summary"[\s\S]*?<\/section>)/, '$1\n' + guidesHubDistributionHtml);
+      } else if (mainHtml.includes('<section class="hero"')) {
+        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guidesHubDistributionHtml);
+      } else {
+        mainHtml = guidesHubDistributionHtml + '\n' + mainHtml;
+      }
+    }
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
       pageType: 'guides-hub-primary',
       src: '/guides/',
@@ -2270,6 +2711,25 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   }
 
   if (route.startsWith('guides/') && route !== 'guides') {
+    if (!mainHtml.includes('data-citation-summary="true"')) {
+      const guideCitationHtml = renderCitationSummaryZoneHtml({
+        kind: 'guide-detail',
+        title,
+        description,
+        route: '/' + route + '/',
+        hrefs: {
+          guides: '/guides/',
+          nextSteps: '/next-steps/',
+          requestAssistance: '/request-assistance/',
+          methodology: '/methodology/'
+        }
+      });
+      if (mainHtml.includes('</section>')) {
+        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guideCitationHtml);
+      } else {
+        mainHtml = guideCitationHtml + '\n' + mainHtml;
+      }
+    }
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
       pageType: 'guide-primary',
       src: '/' + route + '/',
@@ -2284,9 +2744,9 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
 
   // Next-steps zone injection (GLOBAL pages + guides pages that are implemented as global routes)
   // This is the LIVE BUYOUT CTA (Option A): only for an active vertical buyout, suppressed on excluded pages.
-  if (route !== 'next-steps' && packHasNextStepsRoute(pageSet)) {
+  if (route !== 'next-steps') {
     var globalRoutePath = route ? ('/' + route.replace(/^\//, '') + '/') : '/';
-    if (sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'global', route: globalRoutePath })) {
+    if (shouldRenderDeterministicNextSteps(pageSet, { pageType: 'global', route: globalRoutePath })) {
       mainHtml += renderNextStepsZoneHtml({ href: '/next-steps/' });
     }
   }
@@ -2320,6 +2780,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     "%%MAIN_HTML%%": mainHtml,
     "%%INLINE_SCRIPTS%%": "",
     "%%CANONICAL%%": buildCanonicalGlobal(siteUrl, route),
+    "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "home" : (route === "guides" ? "guides-hub" : (route.startsWith("guides/") ? "guide-detail" : "global")), title, description, canonical: buildCanonicalGlobal(siteUrl, route), brandName, section: route.startsWith("guides/") ? "Guide" : (route === "guides" ? "Guides hub" : "Global"), keywords: [verticalKey, route.replace(/\//g, " "), title] }),
     "%%HEAD_JSON_LD%%": renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet),
     "%%FOOTER%%": footerHtml,
     "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
@@ -2394,6 +2855,197 @@ function renderCityGuideCardsHtml(guides, city) {
     "</div>" +
     "</section>"
   );
+}
+
+
+
+function inferGuideLabelFromRoute(route) {
+  const r = String(route || '').replace(/^\/+|\/+$/g, '').toLowerCase();
+  if (r.includes('pricing') || r.includes('cost') || r.includes('fees')) return 'pricing and comparison';
+  if (r.includes('red-flags')) return 'red-flag screening';
+  if (r.includes('questions')) return 'provider interview prep';
+  if (r.includes('insurance')) return 'insurance and coverage';
+  if (r.includes('telehealth')) return 'care-format comparison';
+  if (r.includes('report')) return 'report and records expectations';
+  if (r.includes('overview')) return 'high-level orientation';
+  if (r.includes('requirements') || r.includes('checklist')) return 'requirements and checklist planning';
+  if (r.includes('next-steps')) return 'next-step planning';
+  return 'decision support';
+}
+
+
+function stripHtmlTags(value) {
+  return String(value || '').replace(/<[^>]+>/g, ' ').replace(/[#*_`>\-]+/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function loadGlobalPageSummaries(globalPagesDir) {
+  const out = [];
+  if (!globalPagesDir || !fs.existsSync(globalPagesDir)) return out;
+  for (const fp of listJsonFiles(globalPagesDir)) {
+    try {
+      const raw = readJson(fp);
+      const routeRaw = String(raw.route || '').trim();
+      const route = routeRaw ? (routeRaw.startsWith('/') ? routeRaw : ('/' + routeRaw.replace(/^\/+/, ''))) : '/';
+      out.push({
+        route: route.endsWith('/') ? route : route + '/',
+        title: stripHtmlTags(raw.title || path.basename(fp, '.json')),
+        description: stripHtmlTags(raw.description || ''),
+        file: path.basename(fp)
+      });
+    } catch (_) {}
+  }
+  return out.sort((a, b) => String(a.route).localeCompare(String(b.route)));
+}
+
+function selectPriorityGuideSummaries(globalPagesDir, limit) {
+  const guides = loadGlobalPageSummaries(globalPagesDir).filter((p) => /^\/guides\/[^/]+\/$/.test(String(p.route || '')));
+  const wanted = [
+    /cost|pricing|fees/i,
+    /questions/i,
+    /red-flags/i,
+    /next-steps|after-your/i,
+    /overview|requirements|checklist/i,
+    /insurance|report|choose|timeline|telehealth|safety/i
+  ];
+  const chosen = [];
+  const seen = new Set();
+  for (const rx of wanted) {
+    const hit = guides.find((g) => !seen.has(g.route) && (rx.test(g.route) || rx.test(g.title) || rx.test(g.description)));
+    if (hit) {
+      seen.add(hit.route);
+      chosen.push(hit);
+    }
+  }
+  for (const g of guides) {
+    if (chosen.length >= (limit || 6)) break;
+    if (seen.has(g.route)) continue;
+    chosen.push(g);
+    seen.add(g.route);
+  }
+  return chosen.slice(0, limit || 6);
+}
+
+function renderInternalDistributionZoneHtml(opts) {
+  const kind = String((opts && opts.kind) || '').trim();
+  const title = escapeHtml(String((opts && opts.title) || 'Priority surfaces'));
+  const guideLinks = Array.isArray(opts && opts.guideLinks) ? opts.guideLinks : [];
+  const cityLinks = Array.isArray(opts && opts.cityLinks) ? opts.cityLinks : [];
+  const primaryLinks = Array.isArray(opts && opts.primaryLinks) ? opts.primaryLinks : [];
+  const buildStamp = escapeHtml(String((opts && opts.buildIso) || BUILD_ISO));
+  const deploymentLabel = buildStamp.slice(0, 10) || 'this deploy';
+
+  const linkList = (items, attr) => {
+    if (!items.length) return '';
+    return '<ul ' + attr + '="true">' + items.map((item) => {
+      const href = escapeHtml(String(item.href || '#'));
+      const label = escapeHtml(String(item.label || item.href || 'Page'));
+      const desc = stripHtmlTags(item.description || '');
+      return '<li><a href="' + href + '">' + label + '</a>' + (desc ? ' <span class="muted">— ' + escapeHtml(desc) + '</span>' : '') + '</li>';
+    }).join('') + '</ul>';
+  };
+
+  const priorityIntroByKind = {
+    'home': 'Start with the highest-signal answer surfaces instead of browsing the whole site at random.',
+    'guides-hub': 'These are the leaf pages and owned routes that should receive the first crawl and the first click.',
+    'city-home': 'Use the local hub to jump directly into the strongest owned decision pages for this market.',
+    'state-home': 'Use this state page as a routing layer into city hubs, core guides, and official verification paths.'
+  };
+  const freshIntroByKind = {
+    'home': 'These pages were refreshed in this deployment and should be crawled again before lower-value inventory.',
+    'guides-hub': 'These are the refreshed guide surfaces and supporting routes from this deployment.',
+    'city-home': 'These are the refreshed local answer surfaces and support routes for this market.',
+    'state-home': 'These are the refreshed state-level routing and answer surfaces for this deployment.'
+  };
+
+  const priorityPrimary = primaryLinks.length ? primaryLinks : guideLinks;
+  const freshPrimary = (guideLinks.length ? guideLinks : primaryLinks).slice(0, 4);
+  const freshSupport = cityLinks.slice(0, 4);
+
+  return (
+    '<section class="section distribution-priority" data-distribution-priority-block="true" data-distribution-kind="' + escapeHtml(kind) + '">' +
+    '<h2>Priority answer surfaces</h2>' +
+    '<p class="muted">' + escapeHtml(priorityIntroByKind[kind] || 'Use these priority routes first.') + '</p>' +
+    linkList(priorityPrimary, 'data-distribution-priority-links') +
+    (cityLinks.length && kind !== 'city-home' ? '<p class="muted"><strong>Local routing layer</strong></p>' + linkList(cityLinks, 'data-distribution-city-links') : '') +
+    '</section>' +
+    '<section class="section distribution-fresh" data-distribution-fresh-block="true" data-distribution-build="' + buildStamp + '">' +
+    '<h2>Updated in this deployment</h2>' +
+    '<p class="muted">' + escapeHtml(freshIntroByKind[kind] || 'Refreshed pages from this deployment.') + ' <span data-distribution-updated-label="true">Build: ' + buildStamp + '</span></p>' +
+    linkList(freshPrimary, 'data-distribution-fresh-links') +
+    (freshSupport.length ? '<p class="muted">Supporting routes touched by this deploy (' + escapeHtml(deploymentLabel) + '):</p>' + linkList(freshSupport, 'data-distribution-support-links') : '') +
+    '</section>'
+  );
+}
+
+function renderCitationSummaryZoneHtml(opts) {
+  const kind = String((opts && opts.kind) || '').trim();
+  if (!kind) return '';
+
+  const title = escapeHtml(String((opts && opts.title) || 'This page'));
+  const description = escapeHtml(String((opts && opts.description) || ''));
+  const route = String((opts && opts.route) || '').trim();
+  const hrefs = Object.assign({
+    guides: '/guides/',
+    faq: '/faq/',
+    methodology: '/methodology/',
+    requestAssistance: '/request-assistance/',
+    nextSteps: '/next-steps/'
+  }, (opts && opts.hrefs) || {});
+
+  if (kind === 'city-home') {
+    const marketLabel = escapeHtml(String((opts && opts.marketLabel) || 'this market'));
+    const verticalLabel = escapeHtml(String((opts && opts.verticalLabel) || 'local services'));
+    const officialResourceName = escapeHtml(String((opts && opts.officialResourceName) || 'official state verification source'));
+    const officialResourceUrl = escapeHtml(String((opts && opts.officialResourceUrl) || ''));
+    const verificationHtml = officialResourceUrl
+      ? 'Start verification with <a href="' + officialResourceUrl + '" rel="nofollow noopener" target="_blank">' + officialResourceName + '</a>.'
+      : 'Start verification with the official state licensing or lookup source.';
+    return (
+      '<section class="section citation-summary" data-citation-summary="true" data-citation-summary-type="city-home">' +
+      '<h2 id="citation-summary">Short answer</h2>' +
+      '<p data-citation-summary-lede="true">' + marketLabel + ' is a local starting page for ' + verticalLabel + ' research. It helps people compare what to verify first, which questions narrow the field fastest, and which owned guides answer pricing, red flags, and next-step questions.</p>' +
+      '<ul data-citation-key-points="true">' +
+      '<li>This page is best used as a local orientation layer before contacting providers.</li>' +
+      '<li>' + verificationHtml + '</li>' +
+      '<li>Use the guide hub, FAQ, and request-assistance flow only after the local comparison questions are clear.</li>' +
+      '</ul>' +
+      '<p data-citation-routing-links="true">Fast path: <a href="' + escapeHtml(hrefs.guides) + '">guides</a>, <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">request assistance</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
+      '</section>'
+    );
+  }
+
+  if (kind === 'guide-detail') {
+    const guideLabel = escapeHtml(inferGuideLabelFromRoute(route));
+    return (
+      '<section class="section citation-summary" data-citation-summary="true" data-citation-summary-type="guide-detail">' +
+      '<h2 id="citation-summary">Short answer</h2>' +
+      '<p data-citation-summary-lede="true">' + title + ' is a guide for ' + guideLabel + '. ' + description + '</p>' +
+      '<ul data-citation-key-points="true">' +
+      '<li>This page is meant to answer one decision question clearly before a person contacts a provider.</li>' +
+      '<li>It should be paired with the guide hub, methodology page, and next-steps page instead of treated like a ranking or endorsement.</li>' +
+      '<li>When local help is needed, use the owned request-assistance route rather than guessing from generic search results.</li>' +
+      '</ul>' +
+      '<p data-citation-routing-links="true">Related owned routes: <a href="' + escapeHtml(hrefs.guides) + '">guides hub</a>, <a href="' + escapeHtml(hrefs.nextSteps) + '">next steps</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">request assistance</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
+      '</section>'
+    );
+  }
+
+  if (kind === 'guides-hub') {
+    return (
+      '<section class="section citation-summary" data-citation-summary="true" data-citation-summary-type="guides-hub">' +
+      '<h2 id="citation-summary">Short answer</h2>' +
+      '<p data-citation-summary-lede="true">' + title + ' is the owned guide index for this pack. It is meant to route specific decision questions into tighter leaf pages rather than keep people on a generic hub.</p>' +
+      '<ul data-citation-key-points="true">' +
+      '<li>Use this page when the question is still broad and needs to be narrowed into a single guide.</li>' +
+      '<li>Leaf guides should carry the real pricing, trust, red-flag, requirements, or next-step answer blocks.</li>' +
+      '<li>The FAQ and methodology pages explain boundaries, definitions, and how to read the site safely.</li>' +
+      '</ul>' +
+      '<p data-citation-routing-links="true">Primary owned routes: <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>, and <a href="' + escapeHtml(hrefs.requestAssistance) + '">request assistance</a>.</p>' +
+      '</section>'
+    );
+  }
+
+  return '';
 }
 
 
@@ -2707,7 +3359,7 @@ function loadNextStepsSponsor(citySlug) {
         continue;
       }
       const cityData = (loadNextStepsSponsor(city.slug) || {});
-      if (route === 'next-steps' && !sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'city', citySlug: cityData.city_slug || cityData.slug || city.slug, stateCode: cityData.state || city.state, route: '/' + (cityData.city_slug || cityData.slug || city.slug) + '/next-steps/' })) {
+      if (route === 'next-steps' && !shouldRenderDeterministicNextSteps(pageSet, { pageType: 'city', route: '/' + (cityData.city_slug || cityData.slug || city.slug) + '/' })) {
         continue;
       }
 
@@ -2836,6 +3488,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%MAIN_HTML%%': mainHtml,
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'),
+        '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-next-steps', title, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'), brandName, section: 'State next steps', keywords: ['state next steps', stateName, 'personal injury'] }),
         '%%HEAD_JSON_LD%%': '',
         '%%FOOTER%%': footerHtml,
         '%%CONNECTION_BUBBLE%%': '',
@@ -2973,6 +3626,17 @@ function loadNextStepsSponsor(citySlug) {
         '<span class="muted">(educational)</span></p>' +
         '</section>' +
         '%%AD:pi_state_mid%%' +
+        renderInternalDistributionZoneHtml({
+          kind: 'state-home',
+          title,
+          buildIso: BUILD_ISO,
+          guideLinks: selectPriorityGuideSummaries(globalPagesDir, 5).map((g) => ({ href: g.route, label: g.title, description: g.description })),
+          primaryLinks: selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description })).concat([
+            { href: '/personal-injury/', label: 'Personal injury hub', description: 'Browse the owned state routing surface.' },
+            { href: '/guides/', label: 'Guides hub', description: 'Owned answer index for PI.' }
+          ]),
+          cityLinks: cityRows.slice(0, 6).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug, description: 'City PI hub in ' + stateName }))
+        }) +
 
         '<section class="section" data-pi-state-directory="true">' +
         '<h2>Directory coverage in ' + escapeHtml(stateName) + '</h2>' +
@@ -3014,7 +3678,7 @@ function loadNextStepsSponsor(citySlug) {
       // - global buyout switch
       // Default remains OFF because all packs ship educationOnly=true.
       const stateSponsor = selectPiStateSponsor(ab);
-      if (sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'state', stateCode: ab, route: '/states/' + ab + '/' }) && !mainHtml.includes('data-next-steps-zone="true"')) {
+      if (shouldRenderDeterministicNextSteps(pageSet, { pageType: 'state', route: '/states/' + ab + '/' }) && !mainHtml.includes('data-next-steps-zone="true"')) {
         mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/states/' + escapeHtml(ab) + '/next-steps/' });
       }
 
@@ -3044,6 +3708,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%MAIN_HTML%%': mainHtml,
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
+        '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-home', title, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab), brandName, section: 'State directory', keywords: [stateName, 'personal injury', 'directory'] }),
         '%%HEAD_JSON_LD%%': renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg),
         '%%FOOTER%%': footerHtml,
         '%%CONNECTION_BUBBLE%%': connectionBubbleHtml,
@@ -3068,7 +3733,7 @@ function loadNextStepsSponsor(citySlug) {
     // Write PI state next-steps pages when enabled (sponsor-driven or global switch).
     for (const ab of piStateAbbrs) {
       const s = selectPiStateSponsor(ab);
-      if (!sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'state', stateCode: ab, route: '/states/' + ab + '/' })) continue;
+      if (!shouldRenderDeterministicNextSteps(pageSet, { pageType: 'state', route: '/states/' + ab + '/' })) continue;
       const html = renderPiStateNextStepsPageHtml(ab, s);
       writeFileEnsured(outPathForPiStateNextSteps(ab), html);
     }
@@ -3088,6 +3753,7 @@ function loadNextStepsSponsor(citySlug) {
       ),
       '%%INLINE_SCRIPTS%%': '',
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
+      '%%HEAD_META%%': renderHeadMeta({ pageType: 'pi-hub', title: 'Personal injury — browse by state', description: 'Browse personal injury by state.', canonical: buildCanonicalGlobal(siteUrl, 'personal-injury'), brandName, section: 'Personal injury hub', keywords: ['personal injury', 'states', 'browse by state'] }),
       '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury — browse by state', 'Browse personal injury by state.', pageSet),
       '%%FOOTER%%': footerHtml,
       '%%CONNECTION_BUBBLE%%': '',

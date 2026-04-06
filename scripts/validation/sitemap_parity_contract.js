@@ -28,7 +28,7 @@ function toUrlPath(distDir, filePath) {
   return `/${rel.slice(0, -'/index.html'.length)}/`;
 }
 
-function parseSitemapLocs(xml) {
+function parseLocs(xml) {
   const locs = [];
   const re = /<loc>([\s\S]*?)<\/loc>/g;
   let m;
@@ -36,6 +36,23 @@ function parseSitemapLocs(xml) {
     locs.push(String(m[1] || '').trim());
   }
   return locs;
+}
+
+function readAllSitemapLocs(distDir, sitemapPath) {
+  const rootXml = fs.readFileSync(sitemapPath, 'utf8');
+  if (rootXml.includes('<sitemapindex')) {
+    const nested = parseLocs(rootXml).map((loc) => {
+      try { return new URL(loc).pathname.replace(/^\//, ''); } catch (_) { return ''; }
+    }).filter(Boolean);
+    const out = [];
+    for (const rel of nested) {
+      const full = path.join(distDir, rel);
+      if (!exists(full)) continue;
+      out.push(...parseLocs(fs.readFileSync(full, 'utf8')));
+    }
+    return out;
+  }
+  return parseLocs(rootXml);
 }
 
 function canonicalizeLoc(loc) {
@@ -68,8 +85,7 @@ function run(ctx = {}) {
       .filter(Boolean)
   );
 
-  const sitemapXml = fs.readFileSync(sitemapPath, 'utf8');
-  const actualPaths = new Set(parseSitemapLocs(sitemapXml).map(canonicalizeLoc).filter(Boolean));
+  const actualPaths = new Set(readAllSitemapLocs(distDir, sitemapPath).map(canonicalizeLoc).filter(Boolean));
 
   const missingFromSitemap = [...expectedPaths].filter((p) => !actualPaths.has(p)).sort();
   const missingFromDist = [...actualPaths].filter((p) => !expectedPaths.has(p)).sort();

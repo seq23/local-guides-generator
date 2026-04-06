@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const EXPECTED = ['dentistry', 'neuro', 'trt', 'pi'];
+const EXPECTED = ['dentistry', 'neuro', 'trt', 'pi', 'uscis_medical'];
 
 function run() {
   const repoRoot = path.join(__dirname, '..', '..');

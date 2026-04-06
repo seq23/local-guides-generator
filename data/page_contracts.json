@@ -24,8 +24,12 @@
     "require": [
       "<p class=\"kicker\">Market</p>",
       "id=\"city-faq\"",
-      "class=\"faq-accordion\""
-    ]
+      "class=\"faq-accordion\"",
+      "data-citation-summary-type=\"city-home\"",
+      "data-distribution-priority-block=\"true\"",
+      "data-distribution-fresh-block=\"true\""
+    ],
+    "must_appear_in_sitemap": true
   },
   "city_next_steps": {
     "forbid": [],
@@ -35,8 +39,12 @@
     "forbid": [],
     "require": [
       "<p class=\"kicker\">Guide</p>",
-      "Educational framework only"
-    ]
+      "Educational framework only",
+      "data-citation-summary-type=\"guide-detail\"",
+      "data-distribution-priority-block=\"true\"",
+      "data-distribution-fresh-block=\"true\""
+    ],
+    "must_appear_in_sitemap": true
   },
   "guides_hub": {
     "forbid": [],
@@ -44,13 +52,20 @@
       "<section class=\"hero\"",
       "data-sponsor-stack=\"global_guides_top\"",
       "<section class=\"section guides-grid\"",
-      "<div class=\"grid\""
-    ]
+      "<div class=\"grid\"",
+      "data-pi-guides-routing=\"true\"",
+      "data-citation-summary-type=\"guides-hub\"",
+      "data-distribution-priority-block=\"true\"",
+      "data-distribution-fresh-block=\"true\""
+    ],
+    "must_appear_in_sitemap": true
   },
   "pi_hub": {
     "forbid": [],
     "require": [
-      "data-markets-status-list=\"states\""
+      "data-markets-status-list=\"states\"",
+      "data-pi-home-routing=\"true\"",
+      "data-pi-home-case-routing=\"true\""
     ]
   },
   "pi_state": {
@@ -58,7 +73,37 @@
     "require": [
       "data-disciplinary-lookup=\"true\"",
       "data-pi-state-directory=\"true\"",
-      "data-pi-state-page=\"true\""
+      "data-pi-state-page=\"true\"",
+      "data-distribution-priority-block=\"true\"",
+      "data-distribution-fresh-block=\"true\""
+    ]
+  },
+  "next_steps_required": {
+    "page_types": [
+      "city",
+      "state"
+    ],
+    "global_routes": [
+      "/",
+      "/guides/"
+    ],
+    "guide_route_keywords": [
+      "cost",
+      "pricing",
+      "fees",
+      "questions",
+      "red-flags",
+      "what-to",
+      "next-steps",
+      "checklist",
+      "requirements",
+      "overview",
+      "insurance",
+      "telehealth",
+      "report",
+      "choose",
+      "timeline",
+      "vaccination"
     ]
   }
 }

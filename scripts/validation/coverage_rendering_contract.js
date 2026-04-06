@@ -6,7 +6,7 @@ const REPO_ROOT = path.join(__dirname, '..', '..');
 const PROMOTED_PATH = path.join(REPO_ROOT, 'data', 'research', 'coverage', 'coverage_promoted.csv');
 const RUNTIME_PATH = path.join(REPO_ROOT, 'data', 'research', 'coverage', 'coverage_runtime_support.csv');
 const DIST_DIR = path.join(REPO_ROOT, 'dist');
-const SITEMAP_PATH = path.join(DIST_DIR, 'sitemap.xml');
+const SITEMAP_GLOB = /^sitemap(?:-[a-z]+)?\.xml$/i;
 const HOME_PATH = path.join(DIST_DIR, 'index.html');
 const SITE_PATH = path.join(REPO_ROOT, 'data', 'site.json');
 
@@ -61,14 +61,15 @@ function loadGroupedProviders(vertical, citySlug) {
 if (!fs.existsSync(PROMOTED_PATH)) fail('missing coverage_promoted.csv');
 if (!fs.existsSync(RUNTIME_PATH)) fail('missing coverage_runtime_support.csv');
 if (!fs.existsSync(DIST_DIR)) fail('missing dist directory');
-if (!fs.existsSync(SITEMAP_PATH)) fail('missing dist/sitemap.xml');
+const sitemapFiles = fs.readdirSync(DIST_DIR).filter((name) => SITEMAP_GLOB.test(name));
+if (!sitemapFiles.length) fail('missing dist sitemap files');
 if (!fs.existsSync(HOME_PATH)) fail('missing dist/index.html');
 
 const promoted = parseCsv(fs.readFileSync(PROMOTED_PATH, 'utf8')).filter((row) => String(row.publish_enabled).toLowerCase() === 'true' && currentPackIsVertical(row.vertical));
 const runtimeRows = parseCsv(fs.readFileSync(RUNTIME_PATH, 'utf8')).filter((row) => String(row.runtime_ready).toLowerCase() === 'true');
 if (!promoted.length) { console.log('COVERAGE RENDERING CONTRACT SKIP (no promoted cities for current pack)'); process.exit(0); }
 const runtimeMap = new Map(runtimeRows.map((row) => [`${row.vertical}::${row.city_slug}`, row]));
-const sitemap = fs.readFileSync(SITEMAP_PATH, 'utf8');
+const sitemap = sitemapFiles.map((name) => fs.readFileSync(path.join(DIST_DIR, name), 'utf8')).join('\n');
 const home = fs.readFileSync(HOME_PATH, 'utf8');
 
 let checked = 0;

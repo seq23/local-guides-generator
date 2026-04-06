@@ -84,15 +84,23 @@ for (const pageSetFile of PACKS) {
   });
 
   // Postbuild artifacts required by dist-dependent validators.
-  run('node', ['scripts/indexnow_emit.js'], {
-    PAGE_SET_FILE: pageSetFile,
-    LKG_ENV: process.env.LKG_ENV || 'baseline',
-  });
   run('node', ['scripts/sitemap_emit.js'], {
     PAGE_SET_FILE: pageSetFile,
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
   run('node', ['scripts/llms_emit.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+  run('node', ['scripts/citation_manifest_emit.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+  run('node', ['scripts/indexnow_emit.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+  run('node', ['scripts/distribution_manifest_emit.js'], {
     PAGE_SET_FILE: pageSetFile,
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });

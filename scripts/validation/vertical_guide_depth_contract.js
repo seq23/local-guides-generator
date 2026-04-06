@@ -2,10 +2,11 @@ const fs = require('fs');
 const path = require('path');
 
 const RULES = {
-  dentistry: { dir: 'data/page_sets/examples/dentistry_global_pages', minCount: 16, minWords: 220 },
+  dentistry: { dir: 'data/page_sets/examples/dentistry_global_pages', minCount: 16, minWords: 260 },
   neuro: { dir: 'data/page_sets/examples/neuro_global_pages', minCount: 26, minWords: 220 },
   trt: { dir: 'data/page_sets/examples/trt_global_pages', minCount: 40, minWords: 220 },
-  pi: { dir: 'data/page_sets/examples/pi_global_pages', minCount: 29, minWords: 220 }
+  pi: { dir: 'data/page_sets/examples/pi_global_pages', minCount: 29, minWords: 260 },
+  uscis_medical: { dir: 'data/page_sets/examples/uscis_medical_global_pages', minCount: 8, minWords: 220 }
 };
 
 function wordsFromHtml(html) {
@@ -36,8 +37,37 @@ function run() {
       const json = JSON.parse(fs.readFileSync(fp, 'utf8'));
       if (!String(json.route || '').startsWith('/')) issues.push(`${vertical}: ${file} missing route`);
       if (!String(json.title || '').trim()) issues.push(`${vertical}: ${file} missing title`);
-      const words = wordsFromHtml(json.main_html || '');
+      const html = String(json.main_html || '');
+      const words = wordsFromHtml(html);
       if (words < rule.minWords) issues.push(`${vertical}: ${file} is thin (${words} words)`);
+      if (vertical === 'dentistry') {
+        ['definition', 'cost', 'recovery', 'candidacy', 'questions', 'red-flags', 'next-steps'].forEach((sectionId) => {
+          if (!html.includes(`id=\"${sectionId}\"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
+        });
+      }
+      if (vertical === 'neuro') {
+        ['definition', 'pricing', 'trust', 'process', 'questions', 'next-steps'].forEach((sectionId) => {
+          if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
+        });
+      }
+      if (vertical === 'uscis_medical') {
+        ['quick-answer', 'cost', 'documents', 'process', 'questions', 'next-steps'].forEach((sectionId) => {
+          if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
+        });
+      }
+      if (vertical === 'trt') {
+        ['definition', 'cost', 'safety', 'candidacy', 'questions', 'red-flags', 'next-steps'].forEach((sectionId) => {
+          if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
+        });
+      }
+      if (vertical === 'pi') {
+        ['definition', 'when-to-call', 'cost', 'evidence', 'questions', 'red-flags', 'next-steps'].forEach((sectionId) => {
+          if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
+        });
+        if (!/(timing|24 to 72 hours|24-72|urgent|early)/i.test(html)) issues.push(`${vertical}: ${file} missing timing or urgency language`);
+        if (!/(photo|record|timeline|witness|medical|document)/i.test(html)) issues.push(`${vertical}: ${file} missing evidence-specific language`);
+        if (!/(do not|don't|avoid|be careful|slow down|cautious|pressure)/i.test(html)) issues.push(`${vertical}: ${file} missing what-not-to-do / caution language`);
+      }
     });
   });
 
