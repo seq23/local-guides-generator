@@ -461,29 +461,19 @@ function injectPrimaryConversionCta(mainHtml, conversionTemplate, verticalKey, c
   if (String(mainHtml || '').includes(marker)) return String(mainHtml || '');
   const html = renderConversionCtaHtml(conversionTemplate, verticalKey, { ...ctx, pageType: ctx.pageType, marker });
   const out = String(mainHtml || '');
-  const heroRe = /(<section class="hero"[\s\S]*?<\/section>)/i;
-  if (heroRe.test(out)) return out.replace(heroRe, '$1\n' + html);
-  return html + '\n' + out;
+  const anchors = [
+    /(<section[^>]*data-distribution-priority-block="true"[\s\S]*?<\/section>)/i,
+    /(<section[^>]*data-citation-summary="true"[\s\S]*?<\/section>)/i,
+    /(<section class="hero"[\s\S]*?<\/section>)/i
+  ];
+  for (const re of anchors) {
+    if (re.test(out)) return out.replace(re, '$1\n' + html);
+  }
+  return out + '\n' + html;
 }
 
 function injectInlineConversionCta(mainHtml, conversionTemplate, verticalKey, ctx) {
-  const marker = 'data-inline-conversion-cta="true"';
-  if (String(mainHtml || '').includes(marker)) return String(mainHtml || '');
-  const html = renderConversionCtaHtml(conversionTemplate, verticalKey, { ...ctx, pageType: ctx.pageType, marker });
-  let out = String(mainHtml || '');
-  const primaryRe = /(<section[^>]*data-primary-conversion-cta="true"[\s\S]*?<\/section>)/i;
-  if (primaryRe.test(out)) return out.replace(primaryRe, '$1\n' + html);
-  const faqRe = /(<section class="section"[^>]*data-pi-state-faq="true"[\s\S]*?<\/section>|<details\s+class="accordion"\s+id="city-faq"[^>]*>[\s\S]*?<\/details>|<details\s+class="accordion"\s+id="state-faq"[^>]*>[\s\S]*?<\/details>)/i;
-  if (faqRe.test(out)) return out.replace(faqRe, html + '\n$1');
-  const sectionRe = /(<section[^>]*>[\s\S]*?<\/section>)/gi;
-  let count = 0;
-  out = out.replace(sectionRe, (m) => {
-    count += 1;
-    if (count === 2) return m + '\n' + html;
-    return m;
-  });
-  if (count >= 2) return out;
-  return out + '\n' + html;
+  return String(mainHtml || '');
 }
 
 function renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, ctx) {
@@ -2208,6 +2198,13 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
       src: '/' + city.slug + '/',
       marketLabel: city.marketLabel || ''
     });
+    mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
+      kind: 'city-home',
+      buildIso: BUILD_ISO,
+      guideLinks: selectPriorityGuideSummaries(globalPagesDir, 5).map((g) => ({ href: g.route, label: g.title })),
+      primaryLinks: [{ href: '/guides/', label: 'Guides hub' }],
+      cityLinks: []
+    }));
   }
 
   // Non-PI: optional example provider lists (only when city files exist)
@@ -2657,6 +2654,13 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
       src: '/',
       marketLabel: brandName
     });
+    mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
+      kind: 'home',
+      buildIso: BUILD_ISO,
+      guideLinks: selectPriorityGuideSummaries(globalPagesDir, 6).map((g) => ({ href: g.route, label: g.title })),
+      primaryLinks: [{ href: '/guides/', label: 'Guides hub' }],
+      cityLinks: distributionCities.map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }))
+    }));
   }
 
   if (route === 'guides') {
@@ -2708,6 +2712,13 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
       src: '/guides/',
       marketLabel: 'Guides'
     });
+    mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
+      kind: 'guides-hub',
+      buildIso: BUILD_ISO,
+      guideLinks: selectPriorityGuideSummaries(globalPagesDir, 6).map((g) => ({ href: g.route, label: g.title })),
+      primaryLinks: [{ href: '/guides/', label: 'Guides hub' }],
+      cityLinks: []
+    }));
   }
 
   if (route.startsWith('guides/') && route !== 'guides') {
@@ -2740,6 +2751,13 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
       src: '/' + route + '/',
       marketLabel: title
     });
+    mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
+      kind: 'guides-hub',
+      buildIso: BUILD_ISO,
+      guideLinks: [{ href: '/' + route + '/', label: title }],
+      primaryLinks: [{ href: '/guides/', label: 'Guides hub' }],
+      cityLinks: []
+    }));
   }
 
   // Next-steps zone injection (GLOBAL pages + guides pages that are implemented as global routes)
@@ -2950,16 +2968,7 @@ function renderInternalDistributionZoneHtml(opts) {
     'city-home': 'Use the local hub to jump directly into the strongest owned decision pages for this market.',
     'state-home': 'Use this state page as a routing layer into city hubs, core guides, and official verification paths.'
   };
-  const freshIntroByKind = {
-    'home': 'These pages were refreshed in this deployment and should be crawled again before lower-value inventory.',
-    'guides-hub': 'These are the refreshed guide surfaces and supporting routes from this deployment.',
-    'city-home': 'These are the refreshed local answer surfaces and support routes for this market.',
-    'state-home': 'These are the refreshed state-level routing and answer surfaces for this deployment.'
-  };
-
   const priorityPrimary = primaryLinks.length ? primaryLinks : guideLinks;
-  const freshPrimary = (guideLinks.length ? guideLinks : primaryLinks).slice(0, 4);
-  const freshSupport = cityLinks.slice(0, 4);
 
   return (
     '<section class="section distribution-priority" data-distribution-priority-block="true" data-distribution-kind="' + escapeHtml(kind) + '">' +
@@ -2967,14 +2976,47 @@ function renderInternalDistributionZoneHtml(opts) {
     '<p class="muted">' + escapeHtml(priorityIntroByKind[kind] || 'Use these priority routes first.') + '</p>' +
     linkList(priorityPrimary, 'data-distribution-priority-links') +
     (cityLinks.length && kind !== 'city-home' ? '<p class="muted"><strong>Local routing layer</strong></p>' + linkList(cityLinks, 'data-distribution-city-links') : '') +
-    '</section>' +
-    '<section class="section distribution-fresh" data-distribution-fresh-block="true" data-distribution-build="' + buildStamp + '">' +
-    '<h2>Updated in this deployment</h2>' +
-    '<p class="muted">' + escapeHtml(freshIntroByKind[kind] || 'Refreshed pages from this deployment.') + ' <span data-distribution-updated-label="true">Build: ' + buildStamp + '</span></p>' +
-    linkList(freshPrimary, 'data-distribution-fresh-links') +
-    (freshSupport.length ? '<p class="muted">Supporting routes touched by this deploy (' + escapeHtml(deploymentLabel) + '):</p>' + linkList(freshSupport, 'data-distribution-support-links') : '') +
     '</section>'
   );
+}
+
+function renderRecentlyRefreshedHtml(opts) {
+  const kind = String((opts && opts.kind) || '').trim();
+  const guideLinks = Array.isArray(opts && opts.guideLinks) ? opts.guideLinks : [];
+  const cityLinks = Array.isArray(opts && opts.cityLinks) ? opts.cityLinks : [];
+  const primaryLinks = Array.isArray(opts && opts.primaryLinks) ? opts.primaryLinks : [];
+  const buildStamp = escapeHtml(String((opts && opts.buildIso) || BUILD_ISO));
+
+  const linkList = (items, attr) => {
+    if (!items.length) return '';
+    return '<ul ' + attr + '="true">' + items.map((item) => {
+      const href = escapeHtml(String(item.href || '#'));
+      const label = escapeHtml(String(item.label || item.href || 'Page'));
+      return '<li><a href="' + href + '">' + label + '</a></li>';
+    }).join('') + '</ul>';
+  };
+
+  const freshPrimary = (guideLinks.length ? guideLinks : primaryLinks).slice(0, 4);
+  const freshSupport = cityLinks.slice(0, 4);
+  if (!freshPrimary.length && !freshSupport.length) return '';
+
+  return (
+    '<section class="section distribution-fresh" data-distribution-fresh-block="true" data-distribution-kind="' + escapeHtml(kind) + '" data-distribution-build="' + buildStamp + '">' +
+    '<h3>Recently refreshed</h3>' +
+    linkList(freshPrimary, 'data-distribution-fresh-links') +
+    (freshSupport.length ? '<p class="muted distribution-fresh__label">Local routes touched in this deployment</p>' + linkList(freshSupport, 'data-distribution-support-links') : '') +
+    '</section>'
+  );
+}
+
+function injectRecentlyRefreshedBlock(mainHtml, refreshHtml) {
+  const marker = 'data-distribution-fresh-block="true"';
+  if (!refreshHtml) return String(mainHtml || '');
+  if (String(mainHtml || '').includes(marker)) return String(mainHtml || '');
+  let out = String(mainHtml || '');
+  const ctaRe = /(<section[^>]*data-primary-conversion-cta="true"[\s\S]*?<\/section>)/i;
+  if (ctaRe.test(out)) return out.replace(ctaRe, '$1\n' + refreshHtml);
+  return out + '\n' + refreshHtml;
 }
 
 function renderCitationSummaryZoneHtml(opts) {
@@ -3672,6 +3714,13 @@ function loadNextStepsSponsor(citySlug) {
         src: '/states/' + ab + '/',
         marketLabel: stateName
       });
+      mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
+        kind: 'state-home',
+        buildIso: BUILD_ISO,
+        guideLinks: [{ href: '/states/' + ab + '/', label: stateName }],
+        primaryLinks: [{ href: '/states/' + ab + '/', label: stateName }],
+        cityLinks: []
+      }));
 
       // Next-steps on PI state pages:
       // - sponsor-driven (based on any live sponsor in the state's cities) OR

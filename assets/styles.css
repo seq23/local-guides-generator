@@ -1747,3 +1747,92 @@ button.btn:focus {
 .fanout-query-path {
   color: #516173;
 }
+
+
+/* UX cleanup pass: footer, CTA, distribution scaffolding */
+.site-footer {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  background: #0f172a;
+  color: rgba(255,255,255,0.72);
+  padding: 18px 0 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.site-footer .footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.site-footer p,
+.site-footer .footer-meta,
+.site-footer .footer-nav a {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.site-footer p {
+  margin: 0 0 6px;
+  color: rgba(255,255,255,0.74);
+}
+
+.site-footer .footer-meta {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.64);
+}
+
+.site-footer .footer-nav {
+  margin-top: 8px;
+  gap: 14px;
+}
+
+.site-footer .footer-nav a {
+  color: rgba(255,255,255,0.82);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
+.section.distribution-priority {
+  background: transparent;
+  border: 1px solid var(--border);
+  box-shadow: none;
+  padding: 14px 16px;
+}
+
+.section.distribution-priority h2 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.section.distribution-fresh {
+  background: transparent;
+  border: 1px solid var(--border);
+  box-shadow: none;
+  padding: 12px 16px;
+}
+
+.section.distribution-fresh h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.section.distribution-fresh ul,
+.section.distribution-fresh li,
+.section.distribution-fresh p {
+  font-size: 0.95rem;
+}
+
+.section.distribution-fresh .distribution-fresh__label {
+  margin: 10px 0 6px;
+}
+
+.conversion-cta {
+  margin-top: 16px;
+}
+
+.conversion-cta__panel--primary {
+  padding: 16px 18px;
+}

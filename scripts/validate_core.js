@@ -70,6 +70,8 @@ const sitemapDistributionContract = require('./validation/sitemap_distribution_c
 const distributionArtifactsContract = require('./validation/distribution_artifacts_contract');
 const internalDistributionContract = require('./validation/internal_distribution_contract');
 const distributionDominanceContract = require('./validation/distribution_dominance_contract');
+require('./validation/footer_weight_contract');
+require('./validation/cta_dedup_contract');
 
 function readSiteJsonOrNull() {
   const p = path.join(__dirname, '..', 'data', 'site.json');
