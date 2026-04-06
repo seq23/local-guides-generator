@@ -7,6 +7,7 @@
 //      * Global guides hub: dist/guides/index.html (if present)
 //      * City hubs: dist/<citySlug>/index.html (all city directories)
 //      * PI state hubs: dist/states/<ST>/index.html (if present)
+//      * Guide detail pages: dist/guides/<slug>/index.html
 //  - Hard-fail if duplicated on required pages.
 //  - Non-required pages containing the bubble are WARNING-ONLY (never fail).
 
@@ -73,6 +74,20 @@ function listStateHubIndexHtmlPaths(distDir) {
   return out;
 }
 
+function listGuideDetailIndexHtmlPaths(distDir) {
+  const out = [];
+  const guidesDir = path.join(distDir, 'guides');
+  if (!exists(guidesDir)) return out;
+  const entries = fs.readdirSync(guidesDir, { withFileTypes: true });
+  for (const e of entries) {
+    if (!e.isDirectory()) continue;
+    const p = path.join(guidesDir, e.name, 'index.html');
+    if (!exists(p)) continue;
+    out.push(p);
+  }
+  return out;
+}
+
 function walkHtmlFiles(dir) {
   const out = [];
   function walk(p) {
@@ -113,6 +128,11 @@ function run() {
   // Required state hubs (if present)
   for (const p of listStateHubIndexHtmlPaths(distDir)) {
     required.set(p, 'state_hub');
+  }
+
+  // Required guide detail pages
+  for (const p of listGuideDetailIndexHtmlPaths(distDir)) {
+    required.set(p, 'guide_detail');
   }
 
   // Validate required pages: exactly one bubble marker.

@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-04-05T19:54:56.978Z",
+  "generatedAt": "2026-04-06T16:55:23.032Z",
   "verticalKey": "dentistry",
-  "pageSetFile": "examples/dentistry_v1.json",
-  "totalPages": 78,
+  "pageSetFile": "data/page_sets/examples/dentistry_v1.json",
+  "totalPages": 85,
   "records": [
     {
       "pageKind": "global-detail",
       "route": "/about/",
-      "title": "About | The Industry Guides",
+      "title": "About | The Dentistry Guides",
       "topic": "About",
       "groups": [
         {
@@ -215,34 +215,57 @@
       "topic": "dentists FAQ",
       "groups": [
         {
-          "id": "faq",
-          "label": "Common question paths",
+          "id": "costs",
+          "label": "FAQ and decision paths",
           "items": [
             {
-              "query": "dentists FAQ",
-              "href": "/faq/",
-              "label": "FAQ hub"
-            },
+              "query": "dental crown cost and timeline",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "FAQ and decision paths",
+          "items": [
             {
-              "query": "questions to ask a dentist",
-              "href": "/faq/",
-              "label": "FAQ hub"
-            },
+              "query": "root canal vs extraction questions",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and decision paths",
+          "items": [
             {
-              "query": "red flags when choosing a dentist",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
+            }
+          ]
+        },
+        {
+          "id": "faq",
+          "label": "FAQ and decision paths",
+          "items": [
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
             }
           ]
         },
         {
           "id": "next",
-          "label": "Common question paths",
+          "label": "FAQ and decision paths",
           "items": [
             {
-              "query": "how to compare dentists",
-              "href": "/guides/",
-              "label": "Guides hub"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -251,7 +274,7 @@
     {
       "pageKind": "global-detail",
       "route": "/for-providers/",
-      "title": "Advertising & Provider Info | The Industry Guides",
+      "title": "Advertising & Provider Info | The Dentistry Guides",
       "topic": "Advertising & Provider Info",
       "groups": [
         {
@@ -302,61 +325,66 @@
     {
       "pageKind": "guides-hub",
       "route": "/guides/",
-      "title": "Guides | The Industry Guides",
+      "title": "Guides | The Dentistry Guides",
       "topic": "dentists guides",
       "groups": [
         {
           "id": "costs",
-          "label": "Costs",
+          "label": "Costs and value",
           "items": [
             {
-              "query": "dentist costs",
-              "href": "/guides/#costs/",
-              "label": "Costs cluster"
+              "query": "dental crown cost and longevity",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal cost vs extraction cost",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
         {
-          "id": "timeline",
-          "label": "Timeline",
+          "id": "compare",
+          "label": "Compare and shortlist",
           "items": [
             {
-              "query": "dentist timeline",
-              "href": "/guides/#timeline/",
-              "label": "Timeline cluster"
+              "query": "implant vs bridge for one missing tooth",
+              "href": "/guides/dental-bridge-vs-implant/",
+              "label": "Bridge vs implant"
             }
           ]
         },
         {
           "id": "questions",
-          "label": "Questions to ask",
+          "label": "Questions and planning",
           "items": [
             {
-              "query": "questions to ask a dentist",
-              "href": "/guides/#questions/",
-              "label": "Questions cluster"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
         {
-          "id": "red-flags",
-          "label": "Red flags",
+          "id": "faq",
+          "label": "Questions and planning",
           "items": [
             {
-              "query": "red flags for dentist",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
             }
           ]
         },
         {
           "id": "next",
-          "label": "Next steps",
+          "label": "Questions and planning",
           "items": [
             {
-              "query": "find a dentist",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -373,14 +401,9 @@
           "label": "Core discovery paths",
           "items": [
             {
-              "query": "dentists near me",
+              "query": "dentist near me",
               "href": "/",
               "label": "Home"
-            },
-            {
-              "query": "how to choose a dentist",
-              "href": "/guides/",
-              "label": "Guides hub"
             }
           ]
         },
@@ -389,9 +412,31 @@
           "label": "Core discovery paths",
           "items": [
             {
-              "query": "dentist FAQ",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "how to choose a dentist",
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Core discovery paths",
+          "items": [
+            {
+              "query": "dental crown cost and longevity",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            }
+          ]
+        },
+        {
+          "id": "faq",
+          "label": "Core discovery paths",
+          "items": [
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
             }
           ]
         },
@@ -513,7 +558,7 @@
     {
       "pageKind": "global-detail",
       "route": "/request-assistance/",
-      "title": "Request assistance | The Industry Guides",
+      "title": "Request assistance | The Dentistry Guides",
       "topic": "Request assistance",
       "groups": [
         {
@@ -588,14 +633,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Clear Aligners",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Clear Aligners",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -604,9 +660,9 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Clear Aligners",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -639,14 +695,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Cosmetic Dentistry",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Cosmetic Dentistry",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -655,9 +722,9 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Cosmetic Dentistry",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -690,14 +757,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Cost Financing",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Cost Financing",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -706,9 +784,133 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Cost Financing",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "guide-detail",
+      "route": "/guides/dental-bridge-vs-implant/",
+      "title": "Dental Bridge vs Implant",
+      "topic": "Dental Bridge vs Implant",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Dental Bridge vs Implant",
+              "href": "/guides/dental-bridge-vs-implant/",
+              "label": "This guide"
+            },
+            {
+              "query": "what to know about Dental Bridge vs Implant",
+              "href": "/guides/dental-bridge-vs-implant/",
+              "label": "This guide"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
+            },
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "guide-detail",
+      "route": "/guides/dental-crowns/",
+      "title": "Dental Crowns",
+      "topic": "Dental Crowns",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Dental Crowns",
+              "href": "/guides/dental-crowns/",
+              "label": "This guide"
+            },
+            {
+              "query": "what to know about Dental Crowns",
+              "href": "/guides/dental-crowns/",
+              "label": "This guide"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
+            },
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -741,14 +943,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Dental Implants",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Dental Implants",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -757,9 +970,195 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Dental Implants",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "guide-detail",
+      "route": "/guides/dental-red-flags/",
+      "title": "Dental Treatment Red Flags",
+      "topic": "Dental Treatment Red Flags",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Dental Treatment Red Flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "This guide"
+            },
+            {
+              "query": "what to know about Dental Treatment Red Flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "This guide"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
+            },
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "guide-detail",
+      "route": "/guides/dental-second-opinion/",
+      "title": "When to Get a Dental Second Opinion",
+      "topic": "When to Get a Dental Second Opinion",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "When to Get a Dental Second Opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "This guide"
+            },
+            {
+              "query": "what to know about When to Get a Dental Second Opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "This guide"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
+            },
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "guide-detail",
+      "route": "/guides/emergency-dentist-vs-waiting/",
+      "title": "Emergency Dentist vs Waiting",
+      "topic": "Emergency Dentist vs Waiting",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Emergency Dentist vs Waiting",
+              "href": "/guides/emergency-dentist-vs-waiting/",
+              "label": "This guide"
+            },
+            {
+              "query": "what to know about Emergency Dentist vs Waiting",
+              "href": "/guides/emergency-dentist-vs-waiting/",
+              "label": "This guide"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
+            },
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -792,14 +1191,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Full Arch Implants",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Full Arch Implants",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -808,9 +1218,71 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Full Arch Implants",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "guide-detail",
+      "route": "/guides/gum-disease-treatment/",
+      "title": "Gum Disease Treatment Basics",
+      "topic": "Gum Disease Treatment Basics",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Gum Disease Treatment Basics",
+              "href": "/guides/gum-disease-treatment/",
+              "label": "This guide"
+            },
+            {
+              "query": "what to know about Gum Disease Treatment Basics",
+              "href": "/guides/gum-disease-treatment/",
+              "label": "This guide"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
+            },
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -843,14 +1315,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about How To Choose",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for How To Choose",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -859,9 +1342,9 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with How To Choose",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -894,14 +1377,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Oral Surgery",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Oral Surgery",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -910,9 +1404,9 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Oral Surgery",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -945,14 +1439,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Questions To Ask",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Questions To Ask",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -961,9 +1466,71 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Questions To Ask",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "guide-detail",
+      "route": "/guides/root-canal-treatment/",
+      "title": "Root Canal Treatment",
+      "topic": "Root Canal Treatment",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Root Canal Treatment",
+              "href": "/guides/root-canal-treatment/",
+              "label": "This guide"
+            },
+            {
+              "query": "what to know about Root Canal Treatment",
+              "href": "/guides/root-canal-treatment/",
+              "label": "This guide"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
+            },
+            {
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -996,14 +1563,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Sedation Dentistry",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Sedation Dentistry",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -1012,9 +1590,9 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Sedation Dentistry",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -1047,14 +1625,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Tooth Extractions",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Tooth Extractions",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -1063,9 +1652,9 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Tooth Extractions",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -1098,14 +1687,25 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "questions to ask about Veneers",
-              "href": "/faq/",
-              "label": "FAQ"
+              "query": "questions to ask before major dental work",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             },
             {
-              "query": "red flags for Veneers",
-              "href": "/guides/#red-flags/",
-              "label": "Red-flags cluster"
+              "query": "dental treatment red flags",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how dental treatment costs are usually structured",
+              "href": "/guides/cost-financing/",
+              "label": "Cost financing"
             }
           ]
         },
@@ -1114,9 +1714,9 @@
           "label": "Related decision paths",
           "items": [
             {
-              "query": "find help with Veneers",
-              "href": "/request-assistance/",
-              "label": "Request assistance"
+              "query": "when to get a dental second opinion",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             }
           ]
         }
@@ -1139,8 +1739,24 @@
             },
             {
               "query": "how to choose a dentist in Sacramento, CA",
-              "href": "/sacramento-ca/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Sacramento, CA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Sacramento, CA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1149,14 +1765,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Sacramento, CA",
-              "href": "/sacramento-ca/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Sacramento, CA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Sacramento, CA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Sacramento, CA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1165,14 +1787,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Sacramento, CA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Sacramento, CA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Sacramento, CA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Sacramento, CA",
@@ -1200,8 +1817,24 @@
             },
             {
               "query": "how to choose a dentist in Fresno, CA",
-              "href": "/fresno-ca/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Fresno, CA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Fresno, CA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1210,14 +1843,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Fresno, CA",
-              "href": "/fresno-ca/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Fresno, CA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Fresno, CA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Fresno, CA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1226,14 +1865,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Fresno, CA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Fresno, CA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Fresno, CA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Fresno, CA",
@@ -1261,8 +1895,24 @@
             },
             {
               "query": "how to choose a dentist in Modesto, CA",
-              "href": "/modesto-ca/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Modesto, CA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Modesto, CA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1271,14 +1921,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Modesto, CA",
-              "href": "/modesto-ca/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Modesto, CA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Modesto, CA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Modesto, CA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1287,14 +1943,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Modesto, CA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Modesto, CA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Modesto, CA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Modesto, CA",
@@ -1322,8 +1973,24 @@
             },
             {
               "query": "how to choose a dentist in Elk Grove, CA",
-              "href": "/elk-grove-ca/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Elk Grove, CA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Elk Grove, CA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1332,14 +1999,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Elk Grove, CA",
-              "href": "/elk-grove-ca/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Elk Grove, CA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Elk Grove, CA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Elk Grove, CA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1348,14 +2021,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Elk Grove, CA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Elk Grove, CA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Elk Grove, CA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Elk Grove, CA",
@@ -1383,8 +2051,24 @@
             },
             {
               "query": "how to choose a dentist in Memphis, TN",
-              "href": "/memphis-tn/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Memphis, TN",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Memphis, TN",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1393,14 +2077,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Memphis, TN",
-              "href": "/memphis-tn/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Memphis, TN",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Memphis, TN",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Memphis, TN",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1409,14 +2099,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Memphis, TN",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Memphis, TN",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Memphis, TN",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Memphis, TN",
@@ -1444,8 +2129,24 @@
             },
             {
               "query": "how to choose a dentist in Nashville, TN",
-              "href": "/nashville-tn/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Nashville, TN",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Nashville, TN",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1454,14 +2155,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Nashville, TN",
-              "href": "/nashville-tn/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Nashville, TN",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Nashville, TN",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Nashville, TN",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1470,14 +2177,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Nashville, TN",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Nashville, TN",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Nashville, TN",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Nashville, TN",
@@ -1505,8 +2207,24 @@
             },
             {
               "query": "how to choose a dentist in Chattanooga, TN",
-              "href": "/chattanooga-tn/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Chattanooga, TN",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Chattanooga, TN",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1515,14 +2233,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Chattanooga, TN",
-              "href": "/chattanooga-tn/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Chattanooga, TN",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Chattanooga, TN",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Chattanooga, TN",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1531,14 +2255,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Chattanooga, TN",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Chattanooga, TN",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Chattanooga, TN",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Chattanooga, TN",
@@ -1566,8 +2285,24 @@
             },
             {
               "query": "how to choose a dentist in Austin, TX",
-              "href": "/austin-tx/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Austin, TX",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Austin, TX",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1576,14 +2311,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Austin, TX",
-              "href": "/austin-tx/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Austin, TX",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Austin, TX",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Austin, TX",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1592,14 +2333,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Austin, TX",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Austin, TX",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Austin, TX",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Austin, TX",
@@ -1627,8 +2363,24 @@
             },
             {
               "query": "how to choose a dentist in Arlington, TX",
-              "href": "/arlington-tx/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Arlington, TX",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Arlington, TX",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1637,14 +2389,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Arlington, TX",
-              "href": "/arlington-tx/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Arlington, TX",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Arlington, TX",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Arlington, TX",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1653,14 +2411,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Arlington, TX",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Arlington, TX",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Arlington, TX",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Arlington, TX",
@@ -1688,8 +2441,24 @@
             },
             {
               "query": "how to choose a dentist in Amarillo, TX",
-              "href": "/amarillo-tx/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Amarillo, TX",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Amarillo, TX",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1698,14 +2467,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Amarillo, TX",
-              "href": "/amarillo-tx/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Amarillo, TX",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Amarillo, TX",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Amarillo, TX",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1714,14 +2489,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Amarillo, TX",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Amarillo, TX",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Amarillo, TX",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Amarillo, TX",
@@ -1749,8 +2519,24 @@
             },
             {
               "query": "how to choose a dentist in Boca Raton, FL",
-              "href": "/boca-raton-fl/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Boca Raton, FL",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Boca Raton, FL",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1759,14 +2545,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Boca Raton, FL",
-              "href": "/boca-raton-fl/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Boca Raton, FL",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Boca Raton, FL",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Boca Raton, FL",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1775,14 +2567,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Boca Raton, FL",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Boca Raton, FL",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Boca Raton, FL",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Boca Raton, FL",
@@ -1810,8 +2597,24 @@
             },
             {
               "query": "how to choose a dentist in Fort Lauderdale, FL",
-              "href": "/fort-lauderdale-fl/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Fort Lauderdale, FL",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Fort Lauderdale, FL",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1820,14 +2623,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Fort Lauderdale, FL",
-              "href": "/fort-lauderdale-fl/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Fort Lauderdale, FL",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Fort Lauderdale, FL",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Fort Lauderdale, FL",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1836,14 +2645,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Fort Lauderdale, FL",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Fort Lauderdale, FL",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Fort Lauderdale, FL",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Fort Lauderdale, FL",
@@ -1871,8 +2675,24 @@
             },
             {
               "query": "how to choose a dentist in Tampa, FL",
-              "href": "/tampa-fl/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Tampa, FL",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Tampa, FL",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1881,14 +2701,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Tampa, FL",
-              "href": "/tampa-fl/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Tampa, FL",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Tampa, FL",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Tampa, FL",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1897,14 +2723,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Tampa, FL",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Tampa, FL",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Tampa, FL",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Tampa, FL",
@@ -1932,8 +2753,24 @@
             },
             {
               "query": "how to choose a dentist in Columbus, OH",
-              "href": "/columbus-oh/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Columbus, OH",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Columbus, OH",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -1942,14 +2779,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Columbus, OH",
-              "href": "/columbus-oh/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Columbus, OH",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Columbus, OH",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Columbus, OH",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -1958,14 +2801,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Columbus, OH",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Columbus, OH",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Columbus, OH",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Columbus, OH",
@@ -1993,8 +2831,24 @@
             },
             {
               "query": "how to choose a dentist in Cincinnati, OH",
-              "href": "/cincinnati-oh/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Cincinnati, OH",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Cincinnati, OH",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2003,14 +2857,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Cincinnati, OH",
-              "href": "/cincinnati-oh/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Cincinnati, OH",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Cincinnati, OH",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Cincinnati, OH",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2019,14 +2879,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Cincinnati, OH",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Cincinnati, OH",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Cincinnati, OH",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Cincinnati, OH",
@@ -2054,8 +2909,24 @@
             },
             {
               "query": "how to choose a dentist in Dayton, OH",
-              "href": "/dayton-oh/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Dayton, OH",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Dayton, OH",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2064,14 +2935,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Dayton, OH",
-              "href": "/dayton-oh/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Dayton, OH",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Dayton, OH",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Dayton, OH",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2080,14 +2957,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Dayton, OH",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Dayton, OH",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Dayton, OH",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Dayton, OH",
@@ -2115,8 +2987,24 @@
             },
             {
               "query": "how to choose a dentist in Charlotte, NC",
-              "href": "/charlotte-nc/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Charlotte, NC",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Charlotte, NC",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2125,14 +3013,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Charlotte, NC",
-              "href": "/charlotte-nc/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Charlotte, NC",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Charlotte, NC",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Charlotte, NC",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2141,14 +3035,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Charlotte, NC",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Charlotte, NC",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Charlotte, NC",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Charlotte, NC",
@@ -2176,8 +3065,24 @@
             },
             {
               "query": "how to choose a dentist in Raleigh, NC",
-              "href": "/raleigh-nc/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Raleigh, NC",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Raleigh, NC",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2186,14 +3091,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Raleigh, NC",
-              "href": "/raleigh-nc/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Raleigh, NC",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Raleigh, NC",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Raleigh, NC",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2202,14 +3113,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Raleigh, NC",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Raleigh, NC",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Raleigh, NC",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Raleigh, NC",
@@ -2237,8 +3143,24 @@
             },
             {
               "query": "how to choose a dentist in Asheville, NC",
-              "href": "/asheville-nc/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Asheville, NC",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Asheville, NC",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2247,14 +3169,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Asheville, NC",
-              "href": "/asheville-nc/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Asheville, NC",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Asheville, NC",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Asheville, NC",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2263,14 +3191,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Asheville, NC",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Asheville, NC",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Asheville, NC",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Asheville, NC",
@@ -2298,8 +3221,24 @@
             },
             {
               "query": "how to choose a dentist in Indianapolis, IN",
-              "href": "/indianapolis-in/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Indianapolis, IN",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Indianapolis, IN",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2308,14 +3247,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Indianapolis, IN",
-              "href": "/indianapolis-in/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Indianapolis, IN",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Indianapolis, IN",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Indianapolis, IN",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2324,14 +3269,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Indianapolis, IN",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Indianapolis, IN",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Indianapolis, IN",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Indianapolis, IN",
@@ -2359,8 +3299,24 @@
             },
             {
               "query": "how to choose a dentist in Fort Wayne, IN",
-              "href": "/fort-wayne-in/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Fort Wayne, IN",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Fort Wayne, IN",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2369,14 +3325,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Fort Wayne, IN",
-              "href": "/fort-wayne-in/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Fort Wayne, IN",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Fort Wayne, IN",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Fort Wayne, IN",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2385,14 +3347,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Fort Wayne, IN",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Fort Wayne, IN",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Fort Wayne, IN",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Fort Wayne, IN",
@@ -2420,8 +3377,24 @@
             },
             {
               "query": "how to choose a dentist in Evansville, IN",
-              "href": "/evansville-in/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Evansville, IN",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Evansville, IN",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2430,14 +3403,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Evansville, IN",
-              "href": "/evansville-in/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Evansville, IN",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Evansville, IN",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Evansville, IN",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2446,14 +3425,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Evansville, IN",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Evansville, IN",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Evansville, IN",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Evansville, IN",
@@ -2481,8 +3455,24 @@
             },
             {
               "query": "how to choose a dentist in Virginia Beach, VA",
-              "href": "/virginia-beach-va/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Virginia Beach, VA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Virginia Beach, VA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2491,14 +3481,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Virginia Beach, VA",
-              "href": "/virginia-beach-va/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Virginia Beach, VA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Virginia Beach, VA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Virginia Beach, VA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2507,14 +3503,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Virginia Beach, VA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Virginia Beach, VA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Virginia Beach, VA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Virginia Beach, VA",
@@ -2542,8 +3533,24 @@
             },
             {
               "query": "how to choose a dentist in Fredericksburg, VA",
-              "href": "/fredericksburg-va/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Fredericksburg, VA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Fredericksburg, VA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2552,14 +3559,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Fredericksburg, VA",
-              "href": "/fredericksburg-va/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Fredericksburg, VA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Fredericksburg, VA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Fredericksburg, VA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2568,14 +3581,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Fredericksburg, VA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Fredericksburg, VA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Fredericksburg, VA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Fredericksburg, VA",
@@ -2603,8 +3611,24 @@
             },
             {
               "query": "how to choose a dentist in Charlottesville, VA",
-              "href": "/charlottesville-va/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Charlottesville, VA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Charlottesville, VA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2613,14 +3637,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Charlottesville, VA",
-              "href": "/charlottesville-va/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Charlottesville, VA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Charlottesville, VA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Charlottesville, VA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2629,14 +3659,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Charlottesville, VA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Charlottesville, VA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Charlottesville, VA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Charlottesville, VA",
@@ -2664,8 +3689,24 @@
             },
             {
               "query": "how to choose a dentist in Phoenix, AZ",
-              "href": "/phoenix-az/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Phoenix, AZ",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Phoenix, AZ",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2674,14 +3715,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Phoenix, AZ",
-              "href": "/phoenix-az/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Phoenix, AZ",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Phoenix, AZ",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Phoenix, AZ",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2690,14 +3737,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Phoenix, AZ",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Phoenix, AZ",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Phoenix, AZ",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Phoenix, AZ",
@@ -2725,8 +3767,24 @@
             },
             {
               "query": "how to choose a dentist in Mesa, AZ",
-              "href": "/mesa-az/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Mesa, AZ",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Mesa, AZ",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2735,14 +3793,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Mesa, AZ",
-              "href": "/mesa-az/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Mesa, AZ",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Mesa, AZ",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Mesa, AZ",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2751,14 +3815,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Mesa, AZ",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Mesa, AZ",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Mesa, AZ",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Mesa, AZ",
@@ -2786,8 +3845,24 @@
             },
             {
               "query": "how to choose a dentist in Chandler, AZ",
-              "href": "/chandler-az/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Chandler, AZ",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Chandler, AZ",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2796,14 +3871,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Chandler, AZ",
-              "href": "/chandler-az/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Chandler, AZ",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Chandler, AZ",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Chandler, AZ",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2812,14 +3893,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Chandler, AZ",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Chandler, AZ",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Chandler, AZ",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Chandler, AZ",
@@ -2847,8 +3923,24 @@
             },
             {
               "query": "how to choose a dentist in Colorado Springs, CO",
-              "href": "/colorado-springs-co/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Colorado Springs, CO",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Colorado Springs, CO",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2857,14 +3949,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Colorado Springs, CO",
-              "href": "/colorado-springs-co/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Colorado Springs, CO",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Colorado Springs, CO",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Colorado Springs, CO",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2873,14 +3971,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Colorado Springs, CO",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Colorado Springs, CO",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Colorado Springs, CO",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Colorado Springs, CO",
@@ -2908,8 +4001,24 @@
             },
             {
               "query": "how to choose a dentist in Fort Collins, CO",
-              "href": "/fort-collins-co/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Fort Collins, CO",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Fort Collins, CO",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2918,14 +4027,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Fort Collins, CO",
-              "href": "/fort-collins-co/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Fort Collins, CO",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Fort Collins, CO",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Fort Collins, CO",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2934,14 +4049,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Fort Collins, CO",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Fort Collins, CO",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Fort Collins, CO",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Fort Collins, CO",
@@ -2969,8 +4079,24 @@
             },
             {
               "query": "how to choose a dentist in Lakewood, CO",
-              "href": "/lakewood-co/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Lakewood, CO",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Lakewood, CO",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -2979,14 +4105,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Lakewood, CO",
-              "href": "/lakewood-co/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Lakewood, CO",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Lakewood, CO",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Lakewood, CO",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -2995,14 +4127,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Lakewood, CO",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Lakewood, CO",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Lakewood, CO",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Lakewood, CO",
@@ -3030,8 +4157,24 @@
             },
             {
               "query": "how to choose a dentist in Spokane, WA",
-              "href": "/spokane-wa/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Spokane, WA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Spokane, WA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3040,14 +4183,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Spokane, WA",
-              "href": "/spokane-wa/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Spokane, WA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Spokane, WA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Spokane, WA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3056,14 +4205,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Spokane, WA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Spokane, WA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Spokane, WA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Spokane, WA",
@@ -3091,8 +4235,24 @@
             },
             {
               "query": "how to choose a dentist in Vancouver, WA",
-              "href": "/vancouver-wa/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Vancouver, WA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Vancouver, WA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3101,14 +4261,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Vancouver, WA",
-              "href": "/vancouver-wa/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Vancouver, WA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Vancouver, WA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Vancouver, WA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3117,14 +4283,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Vancouver, WA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Vancouver, WA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Vancouver, WA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Vancouver, WA",
@@ -3152,8 +4313,24 @@
             },
             {
               "query": "how to choose a dentist in Puyallup, WA",
-              "href": "/puyallup-wa/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Puyallup, WA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Puyallup, WA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3162,14 +4339,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Puyallup, WA",
-              "href": "/puyallup-wa/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Puyallup, WA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Puyallup, WA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Puyallup, WA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3178,14 +4361,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Puyallup, WA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Puyallup, WA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Puyallup, WA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Puyallup, WA",
@@ -3213,8 +4391,24 @@
             },
             {
               "query": "how to choose a dentist in Wichita, KS",
-              "href": "/wichita-ks/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Wichita, KS",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Wichita, KS",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3223,14 +4417,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Wichita, KS",
-              "href": "/wichita-ks/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Wichita, KS",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Wichita, KS",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Wichita, KS",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3239,14 +4439,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Wichita, KS",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Wichita, KS",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Wichita, KS",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Wichita, KS",
@@ -3274,8 +4469,24 @@
             },
             {
               "query": "how to choose a dentist in Overland Park, KS",
-              "href": "/overland-park-ks/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Overland Park, KS",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Overland Park, KS",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3284,14 +4495,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Overland Park, KS",
-              "href": "/overland-park-ks/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Overland Park, KS",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Overland Park, KS",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Overland Park, KS",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3300,14 +4517,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Overland Park, KS",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Overland Park, KS",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Overland Park, KS",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Overland Park, KS",
@@ -3335,8 +4547,24 @@
             },
             {
               "query": "how to choose a dentist in Olathe, KS",
-              "href": "/olathe-ks/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Olathe, KS",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Olathe, KS",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3345,14 +4573,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Olathe, KS",
-              "href": "/olathe-ks/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Olathe, KS",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Olathe, KS",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Olathe, KS",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3361,14 +4595,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Olathe, KS",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Olathe, KS",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Olathe, KS",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Olathe, KS",
@@ -3396,8 +4625,24 @@
             },
             {
               "query": "how to choose a dentist in Albany, NY",
-              "href": "/albany-ny/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Albany, NY",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Albany, NY",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3406,14 +4651,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Albany, NY",
-              "href": "/albany-ny/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Albany, NY",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Albany, NY",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Albany, NY",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3422,14 +4673,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Albany, NY",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Albany, NY",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Albany, NY",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Albany, NY",
@@ -3457,8 +4703,24 @@
             },
             {
               "query": "how to choose a dentist in Buffalo, NY",
-              "href": "/buffalo-ny/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Buffalo, NY",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Buffalo, NY",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3467,14 +4729,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Buffalo, NY",
-              "href": "/buffalo-ny/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Buffalo, NY",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Buffalo, NY",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Buffalo, NY",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3483,14 +4751,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Buffalo, NY",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Buffalo, NY",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Buffalo, NY",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Buffalo, NY",
@@ -3518,8 +4781,24 @@
             },
             {
               "query": "how to choose a dentist in Rochester, NY",
-              "href": "/rochester-ny/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Rochester, NY",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Rochester, NY",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3528,14 +4807,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Rochester, NY",
-              "href": "/rochester-ny/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Rochester, NY",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Rochester, NY",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Rochester, NY",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3544,14 +4829,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Rochester, NY",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Rochester, NY",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Rochester, NY",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Rochester, NY",
@@ -3579,8 +4859,24 @@
             },
             {
               "query": "how to choose a dentist in Allentown, PA",
-              "href": "/allentown-pa/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Allentown, PA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Allentown, PA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3589,14 +4885,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Allentown, PA",
-              "href": "/allentown-pa/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Allentown, PA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Allentown, PA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Allentown, PA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3605,14 +4907,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Allentown, PA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Allentown, PA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Allentown, PA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Allentown, PA",
@@ -3640,8 +4937,24 @@
             },
             {
               "query": "how to choose a dentist in Pittsburgh, PA",
-              "href": "/pittsburgh-pa/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Pittsburgh, PA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Pittsburgh, PA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3650,14 +4963,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Pittsburgh, PA",
-              "href": "/pittsburgh-pa/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Pittsburgh, PA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Pittsburgh, PA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Pittsburgh, PA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3666,14 +4985,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Pittsburgh, PA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Pittsburgh, PA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Pittsburgh, PA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Pittsburgh, PA",
@@ -3701,8 +5015,24 @@
             },
             {
               "query": "how to choose a dentist in Philadelphia, PA",
-              "href": "/philadelphia-pa/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Philadelphia, PA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Philadelphia, PA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3711,14 +5041,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Philadelphia, PA",
-              "href": "/philadelphia-pa/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Philadelphia, PA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Philadelphia, PA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Philadelphia, PA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3727,14 +5063,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Philadelphia, PA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Philadelphia, PA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Philadelphia, PA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Philadelphia, PA",
@@ -3762,8 +5093,24 @@
             },
             {
               "query": "how to choose a dentist in Grand Rapids, MI",
-              "href": "/grand-rapids-mi/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Grand Rapids, MI",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Grand Rapids, MI",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3772,14 +5119,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Grand Rapids, MI",
-              "href": "/grand-rapids-mi/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Grand Rapids, MI",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Grand Rapids, MI",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Grand Rapids, MI",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3788,14 +5141,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Grand Rapids, MI",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Grand Rapids, MI",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Grand Rapids, MI",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Grand Rapids, MI",
@@ -3823,8 +5171,24 @@
             },
             {
               "query": "how to choose a dentist in Lansing, MI",
-              "href": "/lansing-mi/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Lansing, MI",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Lansing, MI",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3833,14 +5197,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Lansing, MI",
-              "href": "/lansing-mi/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Lansing, MI",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Lansing, MI",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Lansing, MI",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3849,14 +5219,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Lansing, MI",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Lansing, MI",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Lansing, MI",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Lansing, MI",
@@ -3884,8 +5249,24 @@
             },
             {
               "query": "how to choose a dentist in Detroit, MI",
-              "href": "/detroit-mi/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Detroit, MI",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Detroit, MI",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3894,14 +5275,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Detroit, MI",
-              "href": "/detroit-mi/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Detroit, MI",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Detroit, MI",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Detroit, MI",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3910,14 +5297,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Detroit, MI",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Detroit, MI",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Detroit, MI",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Detroit, MI",
@@ -3945,8 +5327,24 @@
             },
             {
               "query": "how to choose a dentist in Atlanta, GA",
-              "href": "/atlanta-ga/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Atlanta, GA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Atlanta, GA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -3955,14 +5353,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Atlanta, GA",
-              "href": "/atlanta-ga/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Atlanta, GA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Atlanta, GA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Atlanta, GA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -3971,14 +5375,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Atlanta, GA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Atlanta, GA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Atlanta, GA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Atlanta, GA",
@@ -4006,8 +5405,24 @@
             },
             {
               "query": "how to choose a dentist in Augusta, GA",
-              "href": "/augusta-ga/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Augusta, GA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Augusta, GA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4016,14 +5431,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Augusta, GA",
-              "href": "/augusta-ga/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Augusta, GA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Augusta, GA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Augusta, GA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4032,14 +5453,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Augusta, GA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Augusta, GA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Augusta, GA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Augusta, GA",
@@ -4067,8 +5483,24 @@
             },
             {
               "query": "how to choose a dentist in Athens, GA",
-              "href": "/athens-ga/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Athens, GA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Athens, GA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4077,14 +5509,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Athens, GA",
-              "href": "/athens-ga/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Athens, GA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Athens, GA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Athens, GA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4093,14 +5531,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Athens, GA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Athens, GA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Athens, GA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Athens, GA",
@@ -4128,8 +5561,24 @@
             },
             {
               "query": "how to choose a dentist in Chicago, IL",
-              "href": "/chicago-il/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Chicago, IL",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Chicago, IL",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4138,14 +5587,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Chicago, IL",
-              "href": "/chicago-il/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Chicago, IL",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Chicago, IL",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Chicago, IL",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4154,14 +5609,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Chicago, IL",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Chicago, IL",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Chicago, IL",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Chicago, IL",
@@ -4189,8 +5639,24 @@
             },
             {
               "query": "how to choose a dentist in Champaign, IL",
-              "href": "/champaign-il/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Champaign, IL",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Champaign, IL",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4199,14 +5665,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Champaign, IL",
-              "href": "/champaign-il/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Champaign, IL",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Champaign, IL",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Champaign, IL",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4215,14 +5687,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Champaign, IL",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Champaign, IL",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Champaign, IL",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Champaign, IL",
@@ -4250,8 +5717,24 @@
             },
             {
               "query": "how to choose a dentist in Bloomington, IL",
-              "href": "/bloomington-il/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Bloomington, IL",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Bloomington, IL",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4260,14 +5743,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Bloomington, IL",
-              "href": "/bloomington-il/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Bloomington, IL",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Bloomington, IL",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Bloomington, IL",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4276,14 +5765,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Bloomington, IL",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Bloomington, IL",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Bloomington, IL",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Bloomington, IL",
@@ -4311,8 +5795,24 @@
             },
             {
               "query": "how to choose a dentist in Dallas, TX",
-              "href": "/dallas-tx/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Dallas, TX",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Dallas, TX",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4321,14 +5821,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Dallas, TX",
-              "href": "/dallas-tx/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Dallas, TX",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Dallas, TX",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Dallas, TX",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4337,14 +5843,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Dallas, TX",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Dallas, TX",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Dallas, TX",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Dallas, TX",
@@ -4372,8 +5873,24 @@
             },
             {
               "query": "how to choose a dentist in Los Angeles, CA",
-              "href": "/los-angeles-ca/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Los Angeles, CA",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Los Angeles, CA",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4382,14 +5899,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Los Angeles, CA",
-              "href": "/los-angeles-ca/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Los Angeles, CA",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Los Angeles, CA",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Los Angeles, CA",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4398,14 +5921,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Los Angeles, CA",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Los Angeles, CA",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Los Angeles, CA",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Los Angeles, CA",
@@ -4433,8 +5951,24 @@
             },
             {
               "query": "how to choose a dentist in New York City, NY",
-              "href": "/new-york-city-ny/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in New York City, NY",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in New York City, NY",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4443,14 +5977,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in New York City, NY",
-              "href": "/new-york-city-ny/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in New York City, NY",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in New York City, NY",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in New York City, NY",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4459,14 +5999,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in New York City, NY",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in New York City, NY",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in New York City, NY",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in New York City, NY",
@@ -4494,8 +6029,24 @@
             },
             {
               "query": "how to choose a dentist in Orlando, FL",
-              "href": "/orlando-fl/",
-              "label": "City hub"
+              "href": "/guides/how-to-choose/",
+              "label": "How to choose"
+            }
+          ]
+        },
+        {
+          "id": "costs",
+          "label": "Costs, timing, next steps",
+          "items": [
+            {
+              "query": "dental crown cost in Orlando, FL",
+              "href": "/guides/dental-crowns/",
+              "label": "Dental crowns"
+            },
+            {
+              "query": "root canal vs extraction cost in Orlando, FL",
+              "href": "/guides/root-canal-treatment/",
+              "label": "Root canal guide"
             }
           ]
         },
@@ -4504,14 +6055,20 @@
           "label": "FAQ and red flags",
           "items": [
             {
-              "query": "dentist questions in Orlando, FL",
-              "href": "/orlando-fl/#city-faq/",
-              "label": "City FAQ"
-            },
+              "query": "dental treatment red flags in Orlando, FL",
+              "href": "/guides/dental-red-flags/",
+              "label": "Dental red flags"
+            }
+          ]
+        },
+        {
+          "id": "questions",
+          "label": "FAQ and red flags",
+          "items": [
             {
-              "query": "red flags when choosing a dentist in Orlando, FL",
-              "href": "/guides/#red-flags/",
-              "label": "Red flags guide"
+              "query": "questions to ask a dentist in Orlando, FL",
+              "href": "/guides/questions-to-ask/",
+              "label": "Questions to ask"
             }
           ]
         },
@@ -4520,14 +6077,9 @@
           "label": "Costs, timing, next steps",
           "items": [
             {
-              "query": "dentist cost in Orlando, FL",
-              "href": "/guides/#costs/",
-              "label": "Costs path"
-            },
-            {
-              "query": "questions to ask a dentist in Orlando, FL",
-              "href": "/guides/#questions/",
-              "label": "Questions path"
+              "query": "when to get a dental second opinion in Orlando, FL",
+              "href": "/guides/dental-second-opinion/",
+              "label": "Second opinion guide"
             },
             {
               "query": "find a dentist in Orlando, FL",

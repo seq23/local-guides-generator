@@ -1,11 +1,31 @@
-// Cloudflare Pages Function
-// Endpoint: POST /api/request-assistance
-// Purpose: store request-assistance lead capture into Airtable (free tier) OR email fallback.
-// Contract:
-//   - Minimal data: provider_type, email, consent (required), phone (optional), zip (optional), src (optional)
-//   - No case details / no free-text message field (compliance + minimization)
-//   - Honeypot: website (must be empty)
-//   - Strict enum for provider_type (prevents drift)
+/**
+ * Cloudflare Pages Function for POST /api/request-assistance.
+ *
+ * Purpose:
+ * - Accept structured provider lead-capture requests from the public request-assistance page.
+ * - Validate a compliance-safe payload.
+ * - Write qualified requests into Airtable when production environment variables are configured.
+ *
+ * Accepted input:
+ * - provider_type (required enum)
+ * - email (required)
+ * - consent (required)
+ * - phone (optional)
+ * - zip (optional)
+ * - src (optional)
+ * - website (honeypot; must remain empty)
+ *
+ * Output:
+ * - JSON success or validation-failure response.
+ *
+ * Failure modes:
+ * - Unsupported content type
+ * - Invalid provider_type
+ * - Invalid email
+ * - Missing consent
+ * - Missing Airtable environment variables
+ * - Airtable write failure
+ */
 
 const ALLOWED_PROVIDER_TYPES = new Set([
   'Personal Injury Attorney',

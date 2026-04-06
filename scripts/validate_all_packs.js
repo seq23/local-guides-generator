@@ -18,11 +18,11 @@ const repoRoot = path.resolve(__dirname, "..");
 const siteJsonPath = path.join(repoRoot, "data", "site.json");
 
 const PACKS = [
-  "examples/pi_v1.json",
-  "examples/dentistry_v1.json",
-  "examples/trt_v1.json",
-  "examples/neuro_v1.json",
-  "examples/uscis_medical_v1.json"
+  "data/page_sets/examples/pi_v1.json",
+  "data/page_sets/examples/dentistry_v1.json",
+  "data/page_sets/examples/trt_v1.json",
+  "data/page_sets/examples/neuro_v1.json",
+  "data/page_sets/examples/uscis_medical_v1.json"
 ];
 
 function readJson(p) {

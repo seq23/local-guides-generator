@@ -1,19 +1,27 @@
 #!/usr/bin/env node
 
 /**
- * build_all_packs.js
+ * Build all supported vertical packs in a deterministic sequence.
  *
- * Deterministic "build everything" entrypoint.
+ * Purpose:
+ * - Rebuild each canonical pack one at a time using the same pipeline.
+ * - Intentionally overwrite ./dist for each pass so pack-specific breakage is exposed.
  *
- * Per pack:
- *   1) PAGE_SET_FILE=<pack> node scripts/prepare_site.js
- *   2) node scripts/build_city_sites.js
- *   3) node scripts/snapshot_lkg.js
- *   4) node scripts/validate_tbs.js
- *   5) node scripts/validate_core.js
+ * Inputs:
+ * - Explicit PACKS array of page-set files.
+ * - Optional environment overrides such as PAGE_SET_FILE and LKG_ENV.
  *
- * This overwrites ./dist per pack. That is intentional: the goal is to catch
- * breakage across packs, not to preserve dist artifacts for multiple packs.
+ * Outputs:
+ * - Fresh dist/ output for the active pack during each pass.
+ * - Generated artifacts such as sitemap files, llms.txt, redirects, and release snapshots.
+ *
+ * Side effects:
+ * - Rewrites data/site.json through scripts/prepare_site.js.
+ * - Rewrites dist/.
+ * - Calls validation entrypoints for each pack.
+ *
+ * Use this when:
+ * - You need full cross-pack build and validation confidence before release.
  */
 
 const { spawnSync } = require('node:child_process');
@@ -42,19 +50,19 @@ function run(cmd, args, envExtras = {}) {
 // Canonical packs to build.
 // We keep this explicit (not globbed) to avoid surprising builds.
 const PACKS = [
-  'examples/trt_v1.json',
-  'examples/pi_v1.json',
-  'examples/dentistry_v1.json',
-  'examples/neuro_v1.json',
-  'examples/uscis_medical_v1.json',
+  'data/page_sets/examples/trt_v1.json',
+  'data/page_sets/examples/pi_v1.json',
+  'data/page_sets/examples/dentistry_v1.json',
+  'data/page_sets/examples/neuro_v1.json',
+  'data/page_sets/examples/uscis_medical_v1.json',
 ];
 
 // Basic sanity: ensure these files exist.
 for (const p of PACKS) {
-  const abs = path.join(process.cwd(), 'data', 'page_sets', p);
+  const abs = path.join(process.cwd(), p);
   const fs = require('node:fs');
   if (!fs.existsSync(abs)) {
-    die(`Missing pack pageset: data/page_sets/${p}`);
+    die(`Missing pack pageset: ${p}`);
   }
 }
 

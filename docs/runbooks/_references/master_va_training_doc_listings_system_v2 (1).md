@@ -849,7 +849,7 @@ If unsure → STOP and escalate.
 
   "name": "Example Provider Name",
 
-  "official\_site\_url": "https://www.example.com"
+  "official\_site\_url": "https://www.placeholder-domain.invalid"
 
 }
 
@@ -2770,7 +2770,7 @@ Domain redirects to canonical domain, preserving path.
 2. Disable Pages for that domain  
 3. Create redirect rule (or Worker):
 
-example.com/\* → https://canonical.com/$1  
+placeholder-domain.invalid/\* → https://canonical.com/$1  
 Status: 301
 
 4. Enforce trailing slash  

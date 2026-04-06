@@ -21,11 +21,15 @@ function run(ctx = {}) {
   const whoItsFor = html.indexOf('data-request-assistance-who-its-for="true"');
   const whatHappensNext = html.indexOf('data-request-assistance-what-happens-next="true"');
   const formId = html.indexOf('id="request-assistance-form"');
+  const topCta = html.indexOf('data-request-assistance-top-cta="true"');
+  const bottomCta = html.indexOf('data-request-assistance-bottom-cta="true"');
 
   if (hero === -1) fail('missing utility intro section marker');
   if (formPrimary === -1) fail('missing primary form section marker');
   if (formPanel === -1) fail('missing primary form panel marker');
   if (formId === -1) fail('missing request assistance form');
+  if (topCta === -1) fail('missing top CTA button');
+  if (bottomCta === -1) fail('missing bottom CTA button');
   if (sideNote === -1) fail('missing before-you-submit side note');
   if (whoItsFor === -1) fail('missing who-its-for section');
   if (whatHappensNext === -1) fail('missing what-happens-next section');
@@ -41,6 +45,8 @@ function run(ctx = {}) {
   if (!html.includes('Submit a routing request')) fail('missing submit-a-routing-request headline');
   if (!html.includes('Primary action')) fail('missing primary action label');
   if (!html.includes('Before you submit')) fail('missing before-you-submit guidance label');
+  if (!html.includes('Start your request')) fail('missing top CTA label');
+  if (!html.includes('Email info@spryvc.com')) fail('missing bottom CTA label');
   console.log('✅ request_assistance_layout_contract PASS');
 }
 

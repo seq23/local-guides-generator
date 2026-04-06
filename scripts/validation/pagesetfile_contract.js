@@ -7,8 +7,8 @@
  *   data/page_sets/data/page_sets/examples/pi_v1.json
  *
  * Canonical rule:
- * - data/site.json -> site.pageSetFile MUST be repo-relative UNDER data/page_sets/
- *   Example: "examples/pi_v1.json" (NOT "data/page_sets/examples/pi_v1.json")
+ * - data/site.json -> site.pageSetFile MUST be a canonical repo-relative path UNDER data/page_sets/
+ *   Example: "data/page_sets/examples/pi_v1.json"
  *
  * Also validates (when present):
  * - dist/_lkg_snapshot.json -> snapshot.site.pageSetFile MUST match the same normalized value
@@ -38,21 +38,17 @@ function normalizeInputPath(raw) {
   return s.replace(/\\/g, '/').replace(/^\.\//, '');
 }
 
-function normalizeToPageSetsRel(rawPageSetFile) {
+function normalizeToCanonicalPageSetPath(rawPageSetFile) {
   const s0 = normalizeInputPath(rawPageSetFile);
   if (!s0) return '';
 
-  // If caller provided "data/page_sets/..." (or accidentally doubled), strip the prefix(es).
-  let s = s0;
-  for (let i = 0; i < 5; i++) {
-    if (s.startsWith('data/page_sets/')) s = s.slice('data/page_sets/'.length);
-    else break;
-  }
+  const needle = 'data/page_sets/';
+  const idx = s0.indexOf(needle);
+  if (idx === -1) return '';
 
-  // If caller provided absolute-ish repo-root path fragments, strip leading "/".
-  s = s.replace(/^\/+/, '');
-
-  return s;
+  const rel = s0.slice(idx + needle.length).replace(/^\/+/, '');
+  if (!rel) return '';
+  return `${needle}${rel}`;
 }
 
 function fail(msg) {
@@ -84,25 +80,22 @@ function run() {
     }
   }
 
-  const norm = normalizeToPageSetsRel(raw);
+  const norm = normalizeToCanonicalPageSetPath(raw);
 
   if (!raw) fail('missing pageSetFile (site.pageSetFile or PAGE_SET_FILE env)');
-  if (!norm) fail(`site.pageSetFile normalized to empty from: "${raw}"`);
+  if (!norm) fail(`pageSetFile must be canonical under data/page_sets/. Got: "${raw}"`);
 
   // hard rules
-  if (/^data\//.test(norm)) fail(`site.pageSetFile must NOT start with "data/". Got: "${norm}"`);
   if (/data\/page_sets\/data\/page_sets\//.test(normalizeInputPath(raw))) {
     fail(`site.pageSetFile contains doubled prefix. Raw: "${raw}"`);
   }
-  // When site.json exists, raw MUST already be normalized (we enforce stored format).
-  // When only env is available, raw can be either already-normalized or include the prefix.
-  if (exists(sitePath) && normalizeInputPath(raw) !== norm) {
-    fail(`site.pageSetFile must be stored normalized. Expected "${norm}" but found "${raw}"`);
+  if (normalizeInputPath(raw) !== norm) {
+    fail(`pageSetFile must use the canonical repo-relative form. Expected "${norm}" but found "${raw}"`);
   }
 
-  const pageSetAbs = path.join(root, 'data', 'page_sets', norm);
+  const pageSetAbs = path.join(root, norm);
   if (!exists(pageSetAbs)) {
-    fail(`pageSetFile does not exist: data/page_sets/${norm}`);
+    fail(`pageSetFile does not exist: ${norm}`);
   }
 
   // snapshot (optional)
@@ -115,9 +108,9 @@ function run() {
       fail(`snapshot site.pageSetFile mismatch. Expected "${norm}" but got "${snapPS}"`);
     }
     const snapFile = snap?.pageSet?.file;
-    if (snapFile && snapFile !== `data/page_sets/${norm}`) {
-      // allow absolute repo-relative variants like "data/page_sets/<...>" only
-      fail(`snapshot pageSet.file mismatch. Expected "data/page_sets/${norm}" but got "${snapFile}"`);
+    if (snapFile && snapFile !== norm) {
+      // snapshot must store the same canonical repo-relative path
+      fail(`snapshot pageSet.file mismatch. Expected "${norm}" but got "${snapFile}"`);
     }
   }
 

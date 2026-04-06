@@ -1,0 +1,267 @@
+{
+  "overrides": {
+    "home:/": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "primary",
+          "groupLabel": "Core discovery paths",
+          "query": "trt clinics near me",
+          "href": "/",
+          "label": "Home"
+        },
+        {
+          "groupId": "questions",
+          "groupLabel": "Core discovery paths",
+          "query": "am i a good candidate for trt",
+          "href": "/guides/who-is-a-good-candidate-for-trt/",
+          "label": "TRT candidacy"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Core discovery paths",
+          "query": "trt pricing and lab work",
+          "href": "/guides/trt-pricing-and-labs/",
+          "label": "TRT pricing"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Core discovery paths",
+          "query": "trt clinic red flags",
+          "href": "/guides/trt-red-flags/",
+          "label": "TRT red flags"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "Core discovery paths",
+          "query": "telehealth vs local trt clinic",
+          "href": "/guides/trt-telehealth-vs-local-clinic/",
+          "label": "Telehealth vs local"
+        }
+      ]
+    },
+    "faq:/faq/": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "questions",
+          "groupLabel": "Eligibility and fit",
+          "query": "am i a good candidate for trt",
+          "href": "/guides/who-is-a-good-candidate-for-trt/",
+          "label": "TRT candidacy"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Eligibility and fit",
+          "query": "trt pricing and lab work",
+          "href": "/guides/trt-pricing-and-labs/",
+          "label": "TRT pricing"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Eligibility and fit",
+          "query": "trt clinic red flags",
+          "href": "/guides/trt-red-flags/",
+          "label": "TRT red flags"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Eligibility and fit",
+          "query": "trt side effects and monitoring",
+          "href": "/guides/trt-side-effects-and-safety/",
+          "label": "Side effects and safety"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Eligibility and fit",
+          "query": "telehealth vs local trt clinic",
+          "href": "/guides/trt-telehealth-vs-local-clinic/",
+          "label": "Telehealth vs local"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "Eligibility and fit",
+          "query": "medical weight loss monthly cost and labs",
+          "href": "/guides/medical-weight-loss-pricing/",
+          "label": "Weight loss pricing"
+        }
+      ]
+    },
+    "guides-hub:/guides/": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "questions",
+          "groupLabel": "Eligibility and fit",
+          "query": "am i a good candidate for trt",
+          "href": "/guides/who-is-a-good-candidate-for-trt/",
+          "label": "TRT candidacy"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Costs and monitoring",
+          "query": "trt pricing and lab work",
+          "href": "/guides/trt-pricing-and-labs/",
+          "label": "TRT pricing"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Red flags and safety",
+          "query": "trt clinic red flags",
+          "href": "/guides/trt-red-flags/",
+          "label": "TRT red flags"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Red flags and safety",
+          "query": "trt side effects and monitoring",
+          "href": "/guides/trt-side-effects-and-safety/",
+          "label": "Side effects and safety"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Red flags and safety",
+          "query": "telehealth vs local trt clinic",
+          "href": "/guides/trt-telehealth-vs-local-clinic/",
+          "label": "Telehealth vs local"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Costs and monitoring",
+          "query": "medical weight loss monthly cost and labs",
+          "href": "/guides/medical-weight-loss-pricing/",
+          "label": "Weight loss pricing"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Red flags and safety",
+          "query": "peptide clinic red flags",
+          "href": "/guides/peptide-clinic-red-flags/",
+          "label": "Peptide red flags"
+        }
+      ]
+    },
+    "city:*": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "compare",
+          "groupLabel": "Compare and shortlist",
+          "query": "trt clinics in {market}",
+          "href": "{route}",
+          "label": "City hub"
+        },
+        {
+          "groupId": "questions",
+          "groupLabel": "Costs, timing, next steps",
+          "query": "trt candidacy in {market}",
+          "href": "/guides/who-is-a-good-candidate-for-trt/",
+          "label": "TRT candidacy"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Costs, timing, next steps",
+          "query": "trt pricing and labs in {market}",
+          "href": "/guides/trt-pricing-and-labs/",
+          "label": "TRT pricing"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "FAQ and red flags",
+          "query": "trt clinic red flags in {market}",
+          "href": "/guides/trt-red-flags/",
+          "label": "TRT red flags"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "FAQ and red flags",
+          "query": "trt side effects and monitoring in {market}",
+          "href": "/guides/trt-side-effects-and-safety/",
+          "label": "Side effects and safety"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Compare and shortlist",
+          "query": "telehealth vs local trt clinic in {market}",
+          "href": "/guides/trt-telehealth-vs-local-clinic/",
+          "label": "Telehealth vs local"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Costs, timing, next steps",
+          "query": "weight loss program cost in {market}",
+          "href": "/guides/medical-weight-loss-pricing/",
+          "label": "Weight loss pricing"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "FAQ and red flags",
+          "query": "peptide clinic red flags in {market}",
+          "href": "/guides/peptide-clinic-red-flags/",
+          "label": "Peptide red flags"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "Costs, timing, next steps",
+          "query": "find a trt clinic in {market}",
+          "href": "/request-assistance/",
+          "label": "Request assistance"
+        }
+      ]
+    },
+    "guide-detail:*": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "primary",
+          "groupLabel": "Primary route",
+          "query": "{topic}",
+          "href": "{route}",
+          "label": "This guide"
+        },
+        {
+          "groupId": "primary",
+          "groupLabel": "Primary route",
+          "query": "what to know about {topic}",
+          "href": "{route}",
+          "label": "This guide"
+        },
+        {
+          "groupId": "questions",
+          "groupLabel": "Related decision paths",
+          "query": "am i a good candidate for trt",
+          "href": "/guides/who-is-a-good-candidate-for-trt/",
+          "label": "TRT candidacy"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Related decision paths",
+          "query": "trt pricing and lab work",
+          "href": "/guides/trt-pricing-and-labs/",
+          "label": "TRT pricing"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Related decision paths",
+          "query": "trt clinic red flags",
+          "href": "/guides/trt-red-flags/",
+          "label": "TRT red flags"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Related decision paths",
+          "query": "trt side effects and monitoring",
+          "href": "/guides/trt-side-effects-and-safety/",
+          "label": "Side effects and safety"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Related decision paths",
+          "query": "telehealth vs local trt clinic",
+          "href": "/guides/trt-telehealth-vs-local-clinic/",
+          "label": "Telehealth vs local"
+        }
+      ]
+    }
+  }
+}

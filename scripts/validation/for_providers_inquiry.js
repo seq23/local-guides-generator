@@ -79,12 +79,18 @@ function run(ctx){
 
   for (const u of uniq){
     const p = parseMailto(u);
+    const subject = String(p.subject || '');
     const body = normalizeBody(p.body);
+
+    // Only enforce intake-template fields on actual sponsorship inquiry CTAs.
+    // Plain contact/support mailto links are valid but should not trigger template warnings.
+    if (!/Sponsorship Inquiry/i.test(subject)) continue;
+
     for (const line of mustMention){
-      if (!body.includes(line)) warn(`One mailto body missing expected line: ${line}`);
+      if (!body.includes(line)) warn(`One sponsorship inquiry mailto body missing expected line: ${line}`);
     }
     for (const line of shouldMentionWarn){
-      if (!body.includes(line)) warn(`One mailto body missing recommended line: ${line}`);
+      if (!body.includes(line)) warn(`One sponsorship inquiry mailto body missing recommended line: ${line}`);
     }
   }
 

@@ -1,15 +1,24 @@
-/* 
-Time2Read / TBS Local Guides Generator — Canonical Base
-
-Core laws:
-- Industry-agnostic base (starter pack default)
-- Packs selected by data/site.json.pageSetFile
-- Pack lookup: data/page_sets/<file> then data/page_sets/examples/<file>
-- Base city list (top 10) is merged with pack cities (dedupe by slug)
-- Ads-only monetization (no sponsored directory listings). Directory entries are neutral: name + official site link only.
-- Ad placements use sponsor stack keys from data/ad_placements.json and are injected via %%AD:<key>%% tokens.
-- FAQs: on-page cards and FAQPage JSON-LD are generated from a single source-of-truth list in the selected page set.
-*/
+/**
+ * Render the active pack into a static site under dist/.
+ *
+ * Purpose:
+ * - Convert pack configuration, guide data, listings data, templates, ad placements,
+ *   and query-routing data into static city, guide, and global pages.
+ *
+ * Inputs:
+ * - Active pack state from data/site.json.
+ * - Structured data under data/, template files under templates/, and helper modules under scripts/.
+ *
+ * Outputs:
+ * - Static HTML and site artifacts in dist/.
+ *
+ * Side effects:
+ * - Rewrites dist/.
+ * - Emits content that downstream scripts use for sitemap, llms.txt, redirects, and validation.
+ *
+ * Use this when:
+ * - Building a single active pack after prepare_site.js has resolved site state.
+ */
 
 const fs = require("fs");
 const path = require("path");
@@ -17,6 +26,7 @@ const path = require("path");
 const sponsorship = require("./helpers/sponsorship");
 const buyouts = require("./helpers/buyouts");
 const fanout = require("./helpers/fanout");
+const { getPackSiteConfig } = require("./lib/pack_site_config");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -261,10 +271,11 @@ function shouldRenderConnectionBubble(opts) {
   // Required surfaces:
   //  - Vertical home: /
   //  - Vertical guides hub: /guides/
+  //  - Guide detail: /guides/<slug>/
   //  - City hub: /<city>/
-  //  - State hub: /states/<ST>/ (PI only, but safe to gate by route)
+  //  - State hub: /states/<ST>/
   if (pageKind === 'global') {
-    return (route === '' || route === 'guides');
+    return (route === '' || route === 'guides' || /^guides\/[^/]+$/.test(route));
   }
   if (pageKind === 'city') {
     return (route === '');
@@ -1191,9 +1202,9 @@ function renderAdPlacement(key, opts) {
     </div>
 
     <div class="sponsor-items">
-      <div class="sponsor-card">
-        <div class="badges"><span class="badge badge-sponsored">SPONSORED</span></div>
-        <div class="sponsor-meta"><strong>${escapeHtml(k)}</strong> placeholder</div>
+      <div class="sponsor-card sponsor-card--empty" data-sponsored-empty="true">
+        <div class="badges"><span class="badge badge-sponsored">ADVERTISING</span></div>
+        <div class="sponsor-meta">Disclosed advertising inventory. See <a href="/for-providers/">Advertising &amp; Provider Info</a> for surfaces, pricing, and rules.</div>
       </div>
     </div>
   </div>
@@ -2418,8 +2429,12 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   pageSet.__cityFeatures = getCityFeatures(pageSet, verticalKey);
 
 
-  const brandName = String(site.brandName || "Local Guides").trim();
-  const siteUrl = String(site.siteUrl || "https://example.com").trim();
+  const packSite = getPackSiteConfig(site.pageSetFile || process.env.PAGE_SET_FILE || pageSetFile || '');
+  const brandName = String(site.brandName || packSite?.brandName || "Local Guides").trim();
+  const siteUrl = String(site.siteUrl || packSite?.siteUrl || "").trim();
+  if (!siteUrl || /placeholder-domain\.invalid/i.test(siteUrl)) {
+    throw new Error(`Invalid siteUrl for pack ${site.pageSetFile || process.env.PAGE_SET_FILE || pageSetFile || 'unknown'}: ${siteUrl || '(empty)'}`);
+  }
   const fanoutRecords = [];
 
   const cities = loadCities(pageSet, verticalKey).map((c) => {

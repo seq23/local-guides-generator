@@ -1,0 +1,239 @@
+{
+  "overrides": {
+    "home:/": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "primary",
+          "groupLabel": "Core discovery paths",
+          "query": "dentist near me",
+          "href": "/",
+          "label": "Home"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Core discovery paths",
+          "query": "how to choose a dentist",
+          "href": "/guides/how-to-choose/",
+          "label": "How to choose"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Core discovery paths",
+          "query": "dental crown cost and longevity",
+          "href": "/guides/dental-crowns/",
+          "label": "Dental crowns"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Core discovery paths",
+          "query": "dental treatment red flags",
+          "href": "/guides/dental-red-flags/",
+          "label": "Dental red flags"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "Core discovery paths",
+          "query": "find a dentist",
+          "href": "/request-assistance/",
+          "label": "Request assistance"
+        }
+      ]
+    },
+    "faq:/faq/": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "costs",
+          "groupLabel": "FAQ and decision paths",
+          "query": "dental crown cost and timeline",
+          "href": "/guides/dental-crowns/",
+          "label": "Dental crowns"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "FAQ and decision paths",
+          "query": "root canal vs extraction questions",
+          "href": "/guides/root-canal-treatment/",
+          "label": "Root canal guide"
+        },
+        {
+          "groupId": "questions",
+          "groupLabel": "FAQ and decision paths",
+          "query": "questions to ask before major dental work",
+          "href": "/guides/questions-to-ask/",
+          "label": "Questions to ask"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "FAQ and decision paths",
+          "query": "dental treatment red flags",
+          "href": "/guides/dental-red-flags/",
+          "label": "Dental red flags"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "FAQ and decision paths",
+          "query": "when to get a dental second opinion",
+          "href": "/guides/dental-second-opinion/",
+          "label": "Second opinion guide"
+        }
+      ]
+    },
+    "guides-hub:/guides/": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "costs",
+          "groupLabel": "Costs and value",
+          "query": "dental crown cost and longevity",
+          "href": "/guides/dental-crowns/",
+          "label": "Dental crowns"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Costs and value",
+          "query": "root canal cost vs extraction cost",
+          "href": "/guides/root-canal-treatment/",
+          "label": "Root canal guide"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Compare and shortlist",
+          "query": "implant vs bridge for one missing tooth",
+          "href": "/guides/dental-bridge-vs-implant/",
+          "label": "Bridge vs implant"
+        },
+        {
+          "groupId": "questions",
+          "groupLabel": "Questions and planning",
+          "query": "questions to ask before major dental work",
+          "href": "/guides/questions-to-ask/",
+          "label": "Questions to ask"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "Questions and planning",
+          "query": "dental treatment red flags",
+          "href": "/guides/dental-red-flags/",
+          "label": "Dental red flags"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "Questions and planning",
+          "query": "when to get a dental second opinion",
+          "href": "/guides/dental-second-opinion/",
+          "label": "Second opinion guide"
+        }
+      ]
+    },
+    "city:*": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "compare",
+          "groupLabel": "Compare and shortlist",
+          "query": "best dentists in {market}",
+          "href": "{route}",
+          "label": "City hub"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Compare and shortlist",
+          "query": "how to choose a dentist in {market}",
+          "href": "/guides/how-to-choose/",
+          "label": "How to choose"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Costs, timing, next steps",
+          "query": "dental crown cost in {market}",
+          "href": "/guides/dental-crowns/",
+          "label": "Dental crowns"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Costs, timing, next steps",
+          "query": "root canal vs extraction cost in {market}",
+          "href": "/guides/root-canal-treatment/",
+          "label": "Root canal guide"
+        },
+        {
+          "groupId": "faq",
+          "groupLabel": "FAQ and red flags",
+          "query": "dental treatment red flags in {market}",
+          "href": "/guides/dental-red-flags/",
+          "label": "Dental red flags"
+        },
+        {
+          "groupId": "questions",
+          "groupLabel": "FAQ and red flags",
+          "query": "questions to ask a dentist in {market}",
+          "href": "/guides/questions-to-ask/",
+          "label": "Questions to ask"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "Costs, timing, next steps",
+          "query": "when to get a dental second opinion in {market}",
+          "href": "/guides/dental-second-opinion/",
+          "label": "Second opinion guide"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "Costs, timing, next steps",
+          "query": "find a dentist in {market}",
+          "href": "/request-assistance/",
+          "label": "Request assistance"
+        }
+      ]
+    },
+    "guide-detail:*": {
+      "replaceDefault": true,
+      "items": [
+        {
+          "groupId": "primary",
+          "groupLabel": "Primary route",
+          "query": "{topic}",
+          "href": "{route}",
+          "label": "This guide"
+        },
+        {
+          "groupId": "primary",
+          "groupLabel": "Primary route",
+          "query": "what to know about {topic}",
+          "href": "{route}",
+          "label": "This guide"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Related decision paths",
+          "query": "questions to ask before major dental work",
+          "href": "/guides/questions-to-ask/",
+          "label": "Questions to ask"
+        },
+        {
+          "groupId": "compare",
+          "groupLabel": "Related decision paths",
+          "query": "dental treatment red flags",
+          "href": "/guides/dental-red-flags/",
+          "label": "Dental red flags"
+        },
+        {
+          "groupId": "costs",
+          "groupLabel": "Related decision paths",
+          "query": "how dental treatment costs are usually structured",
+          "href": "/guides/cost-financing/",
+          "label": "Cost financing"
+        },
+        {
+          "groupId": "next",
+          "groupLabel": "Related decision paths",
+          "query": "when to get a dental second opinion",
+          "href": "/guides/dental-second-opinion/",
+          "label": "Second opinion guide"
+        }
+      ]
+    }
+  }
+}

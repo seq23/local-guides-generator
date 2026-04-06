@@ -1,8 +1,8 @@
 # Buyout Click Audit — Expected URLs
 
-Vertical: **pi_v1**
+Vertical: **uscis_medical_v1**
 
-Generated: 2026-03-21T17:48:36.982Z
+Generated: 2026-04-06T06:06:53.528Z
 
 ## Records
 

@@ -99,7 +99,7 @@ Meaning:
 - Something produced a **duplicated prefix** (e.g. `data/page_sets/` got glued on twice).
 Fix:
 - `data/site.json` must store a normalized path:
-  - ✅ `examples/pi_v1.json`
+  - ✅ `data/page_sets/examples/pi_v1.json`
   - ❌ `data/page_sets/examples/pi_v1.json`
   - ❌ `data/page_sets/data/page_sets/examples/pi_v1.json`
 

@@ -52,20 +52,17 @@ function rel(p) {
   return p.replace(repoRoot + path.sep, '').replaceAll('\\', '/');
 }
 
-function normalizeToPageSetsRel(rawPageSetFile) {
+function normalizeToCanonicalPageSetPath(rawPageSetFile) {
   const raw = String(rawPageSetFile || '').trim();
   if (!raw) return '';
 
-  // Normalize windows separators and leading ./
   let s = raw.replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
-
-  // Allow callers to pass full repo paths like "data/page_sets/examples/pi_v1.json"
-  s = s.replace(/^data\/page_sets\//, '');
-
-  // Also tolerate "page_sets/..." inputs
-  s = s.replace(/^page_sets\//, '');
-
-  return s;
+  const needle = 'data/page_sets/';
+  const idx = s.indexOf(needle);
+  if (idx === -1) return '';
+  const rel = s.slice(idx + needle.length).replace(/^\/+/, '');
+  if (!rel) return '';
+  return `${needle}${rel}`;
 }
 
 function resolvePageSetPath(pageSetFile) {
@@ -120,7 +117,7 @@ function main() {
   // Prefer site.pageSetFile; fall back to env if present.
   const envPageSet = process.env.PAGE_SET_FILE || process.env.PAGE_SET_FILE_REL || '';
   const pageSetFileRaw = site.pageSetFile ? String(site.pageSetFile) : String(envPageSet || '');
-  const pageSetFileRel = pageSetFileRaw ? normalizeToPageSetsRel(pageSetFileRaw) : '';
+  const pageSetFileRel = pageSetFileRaw ? normalizeToCanonicalPageSetPath(pageSetFileRaw) : '';
 
   let pageSetPath = null;
   let pageSet = null;

@@ -135,7 +135,7 @@ async function main() {
       const payload = {
         host,
         key: cfg.key,
-        keyLocation: `https://${host}/indexnow.txt`,
+        keyLocation: `https://${host}/${cfg.key}.txt`,
         urlList: urls,
       };
 

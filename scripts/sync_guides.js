@@ -1,16 +1,25 @@
 #!/usr/bin/env node
 /**
- * sync_guides.js
+ * Normalize guide source files and guide hub relationships.
  *
- * Goal: make guides "drop-in" by treating the folder as the source of truth.
- * - Any JSON in a vertical's *_global_pages folder with route "/guides/<slug>/" is a guide.
- * - Filenames are normalized to the repo convention so other tooling stays deterministic.
- * - The vertical's guides hub JSON (guides.json) is updated with guide_cards[] (route/title/description).
- * - A canonical markdown document is regenerated (filename/slug/title/plain-text content).
+ * Purpose:
+ * - Treat guide JSON folders as the source of truth.
+ * - Normalize filenames to repo conventions.
+ * - Update guide hub cards and regenerate canonical guide markdown references.
  *
- * This script is intentionally conservative:
- * - It never edits guide ROUTES.
- * - It only renames files when it can do so safely (no overwrite).
+ * Inputs:
+ * - Guide JSON files inside vertical *_global_pages folders.
+ *
+ * Outputs:
+ * - Renamed or normalized guide files.
+ * - Updated guides.json hub metadata.
+ * - Regenerated canonical markdown documentation for guides.
+ *
+ * Side effects:
+ * - Can rename source guide files when safe.
+ *
+ * Use this when:
+ * - Guide source content changes and hub metadata needs to stay deterministic.
  */
 
 const fs = require("fs");

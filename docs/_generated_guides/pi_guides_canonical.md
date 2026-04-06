@@ -2,7 +2,7 @@
 
 Generated from: data/page_sets/examples/pi_global_pages
 
-Total guides: 22
+Total guides: 29
 
 ---
 ## Bicycle Accidents
@@ -11,95 +11,61 @@ Total guides: 22
 - file: `bicycle-accidents.json`
 - description: Bicycle accident claims often turn on visibility, positioning, and right-of-way assumptions, so understanding how these factors are examined matters before conclusions a…
 
-BICYCLE ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Bicycle Accidents
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a bicycle accident when drivers say they didn’t see me?
+ Bicycle Accidents should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- Authority Note
+ Bicycle accident claims often turn on visibility, positioning, and right-of-way assumptions, so understanding how these factors are examined matters before conclusions a…
 
- In general, bicycle accident claims involve unique considerations because cyclists share roadways without the protections of enclosed vehicles. This guide summarizes commonly accepted approaches and applies the Pre-Consultation Decision Framework to explain how these claims are typically evaluated—without endorsements or guarantees.
+ When to call a lawyer and when to handle health first
 
- If You Only Read One Thing
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Bicycle accident claims often turn on visibility, positioning, and right-of-way assumptions, so understanding how these factors are examined matters before conclusions are locked in.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- Hero Section
+ Fees, costs, and what people misunderstand
 
- Bicycle Accidents: How These Claims Are Commonly Evaluated
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Educational only. Not legal advice.
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- What This Guide Covers
+ Evidence, timing, and documentation
 
- How bicycle accidents differ from car crashes
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Why cyclists often consult lawyers after collisions
+ Preserve photos, witness information, records, bills, and timelines.
 
- How visibility and right-of-way are evaluated
+ Track symptoms and treatment changes in a dated, factual way.
 
- What documentation matters early
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Core Educational Content
+ Questions worth asking
 
- Bicycle accidents occur when cyclists are struck by motor vehicles or encounter hazardous roadway conditions. Unlike occupants of cars, cyclists are exposed and rely on visibility, predictability, and roadway design for safety. As a result, evaluations frequently focus on where the cyclist was positioned, whether a bike lane existed, lighting conditions, and how traffic controls applied.
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- People often consult lawyers after bicycle accidents because early assumptions can solidify quickly. Drivers may claim they did not see the cyclist, or suggest the cyclist was not following traffic rules. These narratives can influence how fault is initially framed, even when roadway design or driver inattention played a role. Understanding how investigators and insurers assess visibility, right-of-way, and compliance is central to evaluation.
+ What evidence matters most in this case type?
 
- Another factor is comparative responsibility. In some situations, responsibility may be shared based on positioning, signaling, or road conditions. Cyclists frequently seek legal guidance to understand how these determinations are made and what documentation may counter incomplete assumptions.
+ What should I do first if medical care is still ongoing?
 
- Bicycle accident evaluations also rely heavily on physical evidence. Photographs of the roadway, bike damage, skid marks, signage, and lighting conditions can matter. Helmet condition, clothing visibility, and bike equipment may be examined, even when not determinative.
+ What does the fee arrangement cover and what is billed separately?
 
- Immediate Priorities After a Bicycle Accident
+ What would make a good lawyer say this is not the right case for them?
 
- Seek medical evaluation
+ Red flags and trust checks
 
- Photograph the scene, bike damage, and road conditions
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- Document lighting, signage, and lane markings
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- Medical Evaluation and Documentation (Claim Impact)
+ What to do next
 
- Cycling injuries often involve fractures and head trauma; documentation helps establish severity and recovery.
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- How Bicycle Accident Claims Typically Progress
-
- 1. Medical treatment
-
- 2. Evidence review
-
- 3. Claim evaluation
-
- 4. Negotiation or litigation
-
- If You’re Considering Hiring a Personal Injury Lawyer
-
- Cyclists consult lawyers to address visibility disputes and bias.
-
- Common Mistakes & Red Flags
-
- Accepting assumptions about fault
-
- Delaying treatment
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Early assumptions about visibility can shape outcomes.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, cyclists benefit from addressing visibility issues early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Brain Injury
@@ -108,85 +74,61 @@ BICYCLE ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `brain-injury.json`
 - description: Brain injury symptoms may emerge over time.
 
-BRAIN INJURY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Brain Injury
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a brain injury even if symptoms appeared later?
-
- Authority Note
-
- In general, brain injury claims are evaluated based on neurological impact and documentation. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Brain Injury should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Brain injury symptoms may emerge over time.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Brain Injury: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How brain injuries are evaluated
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why delayed symptoms matter
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Core Educational Content
+ Evidence, timing, and documentation
 
- Brain injuries can result from trauma such as vehicle collisions, falls, or blunt-force impacts. Unlike visible injuries, cognitive and behavioral effects may emerge gradually over time.
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- People consult lawyers because delayed symptoms can complicate evaluation. Memory issues, personality changes, and cognitive deficits may not be apparent immediately but can affect daily functioning and employment.
+ Preserve photos, witness information, records, bills, and timelines.
 
- Evaluations often rely on neurological assessments, imaging, and longitudinal documentation. Understanding how symptom progression is assessed is critical to proper evaluation.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Early recognition and documentation of changes support accurate long-term assessment.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Immediate Priorities After Brain Injury
+ Questions worth asking
 
- Seek neurological evaluation
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Document symptoms
+ What evidence matters most in this case type?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What should I do first if medical care is still ongoing?
 
- Records establish neurological impact.
+ What does the fee arrangement cover and what is billed separately?
 
- How Brain Injury Claims Typically Progress
+ What would make a good lawyer say this is not the right case for them?
 
- 1. Diagnosis
+ Red flags and trust checks
 
- 2. Monitoring
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 3. Claim evaluation
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- If You’re Considering Hiring a Personal Injury Lawyer
+ What to do next
 
- People consult lawyers to address delayed effects.
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Common Mistakes & Red Flags
-
- Ignoring subtle symptoms
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Delayed symptoms affect claims.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from recognizing delayed injury effects early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Burn Injury
@@ -195,85 +137,61 @@ BRAIN INJURY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `burn-injury.json`
 - description: Burn injuries often involve long recovery and scarring.
 
-BURN INJURY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Burn Injury
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a burn injury with scarring?
-
- Authority Note
-
- In general, burn injury claims are evaluated based on severity, cause, and long-term effects. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Burn Injury should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Burn injuries often involve long recovery and scarring.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Burn Injury: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How burn injuries are evaluated
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why scarring matters
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Core Educational Content
+ Evidence, timing, and documentation
 
- Burn injuries vary in severity and can involve lasting scarring, nerve damage, or disfigurement. Evaluations focus on depth, extent, cause, and long-term effects.
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- People consult lawyers because recovery may involve multiple stages of treatment, surgeries, and rehabilitation. Long-term impact, including scarring and mobility limitations, is considered.
+ Preserve photos, witness information, records, bills, and timelines.
 
- Documentation of treatment progression and healing outcomes informs evaluation.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Understanding how severity classifications are used helps contextualize assessment.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Immediate Priorities After Burn Injury
+ Questions worth asking
 
- Seek medical treatment
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Document burns
+ What evidence matters most in this case type?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What should I do first if medical care is still ongoing?
 
- Records establish severity.
+ What does the fee arrangement cover and what is billed separately?
 
- How Burn Injury Claims Typically Progress
+ What would make a good lawyer say this is not the right case for them?
 
- 1. Treatment
+ Red flags and trust checks
 
- 2. Healing assessment
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 3. Claim evaluation
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- If You’re Considering Hiring a Personal Injury Lawyer
+ What to do next
 
- People consult lawyers for long-term impact assessment.
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Common Mistakes & Red Flags
-
- Delaying treatment
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Scarring affects quality of life.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from understanding burn severity early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Bus Accidents
@@ -282,95 +200,61 @@ BURN INJURY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `bus-accidents.json`
 - description: Bus accident claims can involve additional procedural rules and shorter notice windows, which is why people often seek clarity early.
 
-BUS ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Bus Accidents
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a bus accident if it was a public or city bus?
-
- Authority Note
-
- In general, bus accident claims are evaluated differently from standard vehicle crashes because they may involve public entities, private transit companies, or layered insurance arrangements. This guide summarizes commonly accepted approaches and applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Bus Accidents should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Bus accident claims can involve additional procedural rules and shorter notice windows, which is why people often seek clarity early.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Bus Accidents: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How bus accidents differ from car accidents
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why public vs. private buses matter
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- What documentation and notices may be required
+ Evidence, timing, and documentation
 
- What to understand before speaking with insurers or representatives
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Core Educational Content
+ Preserve photos, witness information, records, bills, and timelines.
 
- Bus accidents involve vehicles operated by public transit agencies, school districts, charter services, or private transportation companies. Unlike ordinary vehicle collisions, these incidents may trigger different evaluation frameworks depending on ownership, operation, and passenger status.
+ Track symptoms and treatment changes in a dated, factual way.
 
- People often consult lawyers after bus accidents because responsibility is not always limited to the driver. Evaluation may involve transit authorities, private contractors, maintenance vendors, or third-party operators. The presence of governmental entities can introduce procedural rules, notice requirements, or different insurance structures that do not exist in typical car accidents.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Bus accident evaluations frequently rely on institutional records rather than personal recollections. Onboard cameras, route data, maintenance logs, driver training records, and dispatch communications may all be relevant. These materials are usually controlled by agencies or companies and may be retained only for limited periods.
+ Questions worth asking
 
- Injury evaluation can also differ. Passengers may be standing, boarding, or exiting, and restraint systems are uncommon. This affects how injury mechanisms are analyzed and why people seek guidance early.
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Immediate Priorities After a Bus Accident
+ What evidence matters most in this case type?
 
- Seek medical evaluation
+ What should I do first if medical care is still ongoing?
 
- Document route number, bus ID, and operator information
+ What does the fee arrangement cover and what is billed separately?
 
- Photograph the scene if possible
+ What would make a good lawyer say this is not the right case for them?
 
- Medical Evaluation and Documentation (Claim Impact)
+ Red flags and trust checks
 
- Bus accidents can cause serious injuries due to passenger movement and lack of restraints.
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- How Bus Accident Claims Typically Progress
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- 1. Medical treatment
+ What to do next
 
- 2. Identification of operator and owner
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- 3. Evidence review
-
- 4. Claim evaluation
-
- If You’re Considering Hiring a Personal Injury Lawyer
-
- People consult lawyers to understand procedural rules and responsibility distinctions.
-
- Common Mistakes & Red Flags
-
- Assuming rules are the same as car accidents
-
- Missing notice deadlines
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Procedural missteps can limit options.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from understanding operator and notice differences early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Bystander Injuries Near Law Enforcement Activity: Liability & Claims
@@ -381,69 +265,59 @@ BUS ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 
 Bystander Injuries Near Law Enforcement Activity: Liability & Claims
 
- In some situations, people who are not the intended focus of law enforcement activity may still be injured nearby. This guide explains general personal injury and civil liability concepts that may apply to bystander injuries in these contexts.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- This guide is focused on injury law and civil claims only. It does not address immigration proceedings, enforcement processes, or how enforcement actions are conducted.
+ Quick answer
 
- Can bystanders bring an injury claim?
+ Bystander Injuries Near Law Enforcement Activity: Liability & Claims should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- There is no universal “automatic” answer. Whether a civil claim may exist depends on the facts: what happened, who caused the injury, what conduct occurred, and what legal standards apply in that jurisdiction. Some claims may be evaluated under general negligence principles; others may involve additional rules depending on the parties involved and the setting.
+ Neutral educational guidance about civil injury claims and evaluation factors, with non-endorsement disclaimers.
 
- This information is provided for general educational purposes only and does not constitute legal advice.
+ When to call a lawyer and when to handle health first
 
- Common injury scenarios
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Vehicle-related injuries nearby (collisions, evasive driving, sudden stops, or impacts involving third-party vehicles)
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- Crowd movement injuries (falls, trampling risk, secondary impacts, or injuries in tight shared spaces)
+ Fees, costs, and what people misunderstand
 
- Property-entry related injuries (doors, gates, or obstacles; injuries in hallways, stairwells, or shared areas)
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Secondary injuries (falls, strikes, or impacts caused by sudden movement, noise, or confusion)
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Who may be responsible
+ Evidence, timing, and documentation
 
- Liability depends on who caused the injury and why. Depending on the situation, potentially responsible parties may include:
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Third parties whose conduct contributed to the injury (for example, unsafe driving or negligent actions near the scene)
+ Preserve photos, witness information, records, bills, and timelines.
 
- Contractors or private entities involved in related activity
+ Track symptoms and treatment changes in a dated, factual way.
 
- Government entities evaluated under applicable civil liability frameworks, which can include special procedures and time limits
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Responsibility is assessed based on evidence, causation, reasonableness, and applicable legal standards. Outcomes vary by jurisdiction and case details.
+ Questions worth asking
 
- What personal injury attorneys typically evaluate
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- When reviewing a bystander injury scenario, attorneys often evaluate:
+ What evidence matters most in this case type?
 
- The medical impact : diagnosis, treatment timeline, prognosis, and whether there is objective documentation
+ What should I do first if medical care is still ongoing?
 
- The exact location and sequence of events (where the injured person was, what occurred, and what changed immediately before the injury)
+ What does the fee arrangement cover and what is billed separately?
 
- Witnesses and records : photos, video, incident reports, and any available third-party documentation
+ What would make a good lawyer say this is not the right case for them?
 
- Causation : how the conduct led to the injury (directly or through a chain of events)
+ Red flags and trust checks
 
- Time limits : deadlines for civil claims can be shorter in some contexts and vary by jurisdiction
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- Practical documentation checklist (non-legal)
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- This is a general information checklist to explain how claims are commonly evaluated, not a guide to filing a claim:
+ What to do next
 
- Medical visit summaries and discharge paperwork
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Photos of injuries and relevant scene details (when safely available)
-
- Names and contact info for witnesses (if available)
-
- Any receipts or records tied to injury-related costs
-
- Important disclaimers
-
- This guide provides general educational information only. It does not provide legal advice. It does not recommend or endorse any attorney or service provider. It does not provide immigration advice or guidance.
-
- If you have questions about a specific injury or legal situation, consider speaking directly with a qualified professional who can evaluate the facts of your case.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Car Accidents
@@ -452,119 +326,61 @@ Bystander Injuries Near Law Enforcement Activity: Liability & Claims
 - file: `car-accidents.json`
 - description: Before contacting anyone after a car accident, it is important to understand what is being offered, how fees and costs typically work, and what questions you should have…
 
-CAR ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Car Accidents
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a car accident, even if the insurance company already contacted me?
+ Car Accidents should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- Authority Note
+ Before contacting anyone after a car accident, it is important to understand what is being offered, how fees and costs typically work, and what questions you should have…
 
- In general, licensed personal injury attorneys follow similar baseline practices when evaluating car accident claims. This guide summarizes commonly accepted approaches and applies the Pre-Consultation Decision Framework so readers can understand how these claims are typically evaluated—without rankings, endorsements, or guarantees.
+ When to call a lawyer and when to handle health first
 
- If You Only Read One Thing
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Before contacting anyone after a car accident, it is important to understand what is being offered, how fees and costs typically work, and what questions you should have answered in writing before agreeing to representation.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- Hero Section
+ Fees, costs, and what people misunderstand
 
- Car Accidents: How These Claims Are Commonly Evaluated
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Educational only. Not legal advice.
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- What This Guide Covers
+ Evidence, timing, and documentation
 
- What typically happens after a car accident
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Why people consider hiring lawyers after crashes
+ Preserve photos, witness information, records, bills, and timelines.
 
- What information and documentation matter early
+ Track symptoms and treatment changes in a dated, factual way.
 
- How car accident claims are commonly evaluated
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- What to understand before agreeing to legal representation
+ Questions worth asking
 
- Core Educational Content
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Car accident claims arise when someone is injured in a collision involving one or more motor vehicles. These claims are commonly evaluated based on how the crash occurred, who may have been responsible, and how the injuries affected the person involved.
+ What evidence matters most in this case type?
 
- People consult lawyers after car accidents for several reasons. Insurance companies may contact injured parties quickly, statements may be requested before injuries are fully understood, and early decisions can influence how a claim is later evaluated.
+ What should I do first if medical care is still ongoing?
 
- Unlike many other situations, car accidents usually involve insurance coverage that is triggered automatically. This can create pressure to resolve matters quickly, sometimes before medical treatment is complete or the full impact of injuries is known.
+ What does the fee arrangement cover and what is billed separately?
 
- Car accident claims are often evaluated by looking at documentation rather than opinions. Police reports, photographs, vehicle damage, medical records, and timelines play a central role. Assumptions made early—about fault, injury severity, or recovery—can be difficult to undo later.
+ What would make a good lawyer say this is not the right case for them?
 
- Immediate Priorities After a Car Accident
+ Red flags and trust checks
 
- Safety and medical care come first. If anyone is injured or vehicles are unsafe, emergency services should be contacted.
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- If it is safe to do so:
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- Take photographs of vehicles, road conditions, and surroundings
+ What to do next
 
- Exchange contact and insurance information
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Obtain a police or incident report number
-
- Identify witnesses and collect their contact information
-
- Avoid speculating about fault or making statements you do not fully understand.
-
- Medical Evaluation and Documentation (Claim Impact)
-
- Medical records often become the foundation of car accident claims. Follow medical advice, attend follow-up appointments, and keep copies of visit summaries, diagnoses, treatment plans, and bills. Gaps in treatment or delayed evaluation can complicate later assessments.
-
- How Car Accident Claims Typically Progress
-
- 1. Medical evaluation and treatment
-
- 2. Information gathering and documentation
-
- 3. Insurance communications
-
- 4. Claim evaluation and negotiation
-
- 5. Litigation if disputes remain
-
- If You’re Considering Hiring a Personal Injury Lawyer
-
- People consult lawyers to understand how claims are evaluated and what representation involves.
-
- Common questions include:
-
- Should I talk to a lawyer before giving a recorded statement?
-
- What does “no fee unless you win” actually mean?
-
- Key points to clarify include scope of representation, who handles the case day to day, how fees and costs are structured, what happens in the first 30 days, and what documents are required.
-
- Common Mistakes & Red Flags
-
- Rushing to sign agreements without written terms
-
- Assuming “no fee” means no costs
-
- Ignoring medical follow-up
-
- Relying on marketing claims instead of verification
-
- Verification
-
- Attorney licenses can be verified through official state bar directories. Claims of being “the best” or “top-rated” should be treated as advertising unless independently verifiable.
-
- Why This Matters
-
- Early misunderstandings about scope, fees, or timelines can lead to delays, disputes, and unexpected costs later.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from confirming credentials, clarifying scope in writing, and understanding next steps before committing.
-
- Disclaimers
-
- This guide is educational only. It is not legal advice. We do not endorse or recommend providers. Advertising placements are clearly labeled and separate from editorial content.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Catastrophic Injury
@@ -573,85 +389,61 @@ CAR ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `catastrophic-injury.json`
 - description: Catastrophic injuries often involve lifelong consequences.
 
-CATASTROPHIC INJURY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Catastrophic Injury
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a catastrophic injury affecting long-term function?
-
- Authority Note
-
- In general, catastrophic injury claims are evaluated based on long-term impact and future needs. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Catastrophic Injury should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Catastrophic injuries often involve lifelong consequences.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Catastrophic Injury: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- What qualifies as catastrophic injury
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why long-term impact matters
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Core Educational Content
+ Evidence, timing, and documentation
 
- Catastrophic injuries include severe injuries that permanently affect a person’s ability to function independently or maintain prior quality of life. These injuries may involve paralysis, loss of cognitive capacity, amputations, or other conditions requiring long-term care.
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- People consult lawyers because catastrophic injury evaluations focus heavily on future impact rather than immediate medical bills alone. Assessment often involves projecting lifelong medical needs, rehabilitation, assistive devices, and loss of earning capacity.
+ Preserve photos, witness information, records, bills, and timelines.
 
- Unlike minor injury claims, catastrophic cases may require coordination among medical specialists, life-care planners, and vocational experts to understand long-term consequences. Documentation of prognosis and functional limitations plays a central role.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Understanding how these evaluations are conducted helps injured individuals and families anticipate the scope and duration of the process.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Immediate Priorities After Catastrophic Injury
+ Questions worth asking
 
- Seek specialized care
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Document prognosis
+ What evidence matters most in this case type?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What should I do first if medical care is still ongoing?
 
- Documentation establishes future needs.
+ What does the fee arrangement cover and what is billed separately?
 
- How Catastrophic Injury Claims Typically Progress
+ What would make a good lawyer say this is not the right case for them?
 
- 1. Medical assessment
+ Red flags and trust checks
 
- 2. Long-term planning
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 3. Claim evaluation
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- If You’re Considering Hiring a Personal Injury Lawyer
+ What to do next
 
- People consult lawyers to assess future costs.
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Common Mistakes & Red Flags
-
- Underestimating long-term needs
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Future planning depends on evaluation.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from understanding long-term impact early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Dog Bite Injuries: How These Claims Are Commonly Evaluated
@@ -662,60 +454,122 @@ CATASTROPHIC INJURY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 
 Dog Bite Injuries: How These Claims Are Commonly Evaluated
 
- DOG BITE INJURIES: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Educational only. Not legal advice.
+ Quick answer
 
- Primary question people ask: Should I hire a lawyer after a dog bite if the owner says the dog never bit anyone before?
+ Dog Bite Injuries: How These Claims Are Commonly Evaluated should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- Authority Note
- In general, dog bite claims are evaluated based on ownership, control, and local responsibility rules. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
  Dog bite claims often depend on ownership and prior behavior assumptions.
 
- Hero Section
- Dog Bite Injuries: How These Claims Are Commonly Evaluated Educational only. Not legal advice.
+ When to call a lawyer and when to handle health first
 
- What This Guide Covers
- How dog bite claims are evaluated
- Why people consult lawyers
- What documentation matters
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Core Educational Content
- Dog bite injuries occur when animals injure people, often in residential neighborhoods or public spaces. Evaluations typically focus on ownership, control, and prior knowledge of the animal’s behavior.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- People consult lawyers because dog bite responsibility rules vary by jurisdiction. Some areas impose strict responsibility on owners, while others require proof of prior dangerous behavior. These distinctions are not intuitive and can affect how claims are evaluated.
+ Fees, costs, and what people misunderstand
 
- Medical considerations also matter. Dog bites can cause infections, nerve damage, and scarring, which may not be immediately apparent. Documentation of treatment and follow-up care often plays a significant role in evaluation.
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Evidence may include animal control records, vaccination status, witness statements, and photographs of injuries. Understanding how these elements are weighed often drives early consultation.
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Immediate Priorities After a Dog Bite
- Seek medical treatment
- Identify the dog and owner
- Document injuries
+ Evidence, timing, and documentation
 
- Medical Evaluation and Documentation (Claim Impact)
- Medical records establish severity and infection risk.
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- How Dog Bite Claims Typically Progress
- 1. Medical treatment 2. Ownership verification 3. Claim evaluation
+ Preserve photos, witness information, records, bills, and timelines.
 
- If You’re Considering Hiring a Personal Injury Lawyer People consult lawyers to understand liability rules.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Common Mistakes & Red Flags Failing to identify the dog owner
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Verification Verify credentials via official state bar directories.
+ Questions worth asking
 
- Why This Matters
- Ownership affects responsibility.
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Reference Anchor
- Using the Pre-Consultation Decision Framework, people benefit from clarifying ownership early.
+ What evidence matters most in this case type?
 
- Disclaimers
- Educational only. Not legal advice. No endorsements.
+ What should I do first if medical care is still ongoing?
+
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
+
+---
+## Evidence Checklist After an Accident
+- slug: `evidence-checklist-after-an-accident`
+- route: `/guides/evidence-checklist-after-an-accident/`
+- file: `evidence-checklist-after-an-accident.json`
+- description: Useful accident evidence usually includes photographs, witness details, incident reports, medical follow-up, wage-loss documentation, and a clean timeline of what happened next.
+
+Evidence Checklist After an Accident
+
+ Educational only. Not legal advice. No endorsements or rankings.
+
+ Quick answer
+
+ Evidence Checklist After an Accident should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
+
+ Useful accident evidence usually includes photographs, witness details, incident reports, medical follow-up, wage-loss documentation, and a clean timeline of what happened next.
+
+ When to call a lawyer and when to handle health first
+
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
+
+ That timing guidance is what separates a serious decision page from a generic legal article.
+
+ Fees, costs, and what people misunderstand
+
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
+
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
+
+ Evidence, timing, and documentation
+
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
+
+ Preserve photos, witness information, records, bills, and timelines.
+
+ Track symptoms and treatment changes in a dated, factual way.
+
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
+
+ Questions worth asking
+
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
+
+ What evidence matters most in this case type?
+
+ What should I do first if medical care is still ongoing?
+
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Injuries During Immigration Enforcement: Legal Rights & Civil Claims
@@ -726,75 +580,59 @@ Dog Bite Injuries: How These Claims Are Commonly Evaluated
 
 Injuries During Immigration Enforcement: Legal Rights & Civil Claims
 
- Immigration enforcement activity has increased in some regions over time. During any form of law enforcement activity, injuries can sometimes occur—not only to the individuals directly involved, but also to bystanders, nearby residents, or third parties who were not the intended focus of enforcement.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- This guide explains personal injury and civil liability concepts that may apply when someone is physically injured during immigration enforcement activity. It is focused on injury law and civil claims only. Immigration status is not the subject of this guide, and nothing here addresses immigration proceedings or enforcement processes themselves.
+ Quick answer
 
- Can you sue if you are injured during an ICE operation?
+ Injuries During Immigration Enforcement: Legal Rights & Civil Claims should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- There is no universal or automatic immunity when someone is injured during law enforcement activity. Whether a civil claim may exist depends on the specific facts and circumstances of the injury.
+ Civil claim concepts that may apply when someone is injured during immigration enforcement activity, with neutral educational guidance and non-endorsement disclaimers.
 
- In personal injury cases involving immigration enforcement activity, potential issues may include negligence, unreasonable or excessive force, vehicle-related incidents, or other conduct that caused harm. In some situations, civil claims may be available regardless of a person’s immigration status. Each case is evaluated individually based on what occurred, who was involved, and how the injury happened.
+ When to call a lawyer and when to handle health first
 
- This information is provided for general educational purposes only and does not constitute legal advice.
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Common Injury Scenarios
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- Injuries connected to immigration enforcement activity can arise in a variety of ways. Common examples may include:
+ Fees, costs, and what people misunderstand
 
- Vehicle collisions occurring near or during enforcement-related activity
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Injuries to bystanders or nearby residents who were not the intended focus
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Physical injuries related to entry into a residence or property
+ Evidence, timing, and documentation
 
- Injuries that occur during transport or temporary detention
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- The presence of an injury alone does not determine whether a claim exists. The surrounding circumstances and conduct involved matter.
+ Preserve photos, witness information, records, bills, and timelines.
 
- Who May Be Legally Responsible
+ Track symptoms and treatment changes in a dated, factual way.
 
- Liability in personal injury cases depends on who caused the injury and under what circumstances. Depending on the situation, potentially responsible parties may include:
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Federal entities, evaluated under applicable civil liability frameworks
+ Questions worth asking
 
- Contractors or third parties involved in related activity
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Local or state agencies participating in joint actions
+ What evidence matters most in this case type?
 
- Other individuals or entities whose actions contributed to the injury
+ What should I do first if medical care is still ongoing?
 
- Responsibility is assessed based on facts, conduct, and applicable civil standards. Outcomes vary by jurisdiction and case details.
+ What does the fee arrangement cover and what is billed separately?
 
- What Personal Injury Attorneys Typically Evaluate
+ What would make a good lawyer say this is not the right case for them?
 
- When reviewing injuries connected to law enforcement activity, personal injury attorneys often evaluate factors such as:
+ Red flags and trust checks
 
- The nature and severity of the injury
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- Medical records and treatment history
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- The location and surrounding circumstances of the incident
+ What to do next
 
- Whether conduct involved was reasonable under the circumstances
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Applicable time limits for civil claims, which vary by jurisdiction
-
- This checklist is intended to explain how injury claims are evaluated, not to provide guidance on filing a claim.
-
- Important Disclaimers
-
- This guide provides general educational information only.
-
- It does not provide legal advice.
-
- It does not recommend or endorse any attorney or service provider.
-
- It does not provide immigration advice or guidance.
-
- If you have questions about a specific injury or legal situation, consider speaking directly with a qualified professional who can evaluate the facts of your case.
-
- Status: PI-only guide · Neutral, educational tone · No operational detail · No city-page usage · No AI strategy disclosure
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Medical Malpractice
@@ -803,87 +641,61 @@ Injuries During Immigration Enforcement: Legal Rights & Civil Claims
 - file: `medical-malpractice.json`
 - description: Medical malpractice claims require showing a deviation from accepted care standards.
 
-MEDICAL MALPRACTICE: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Medical Malpractice
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer if I believe a medical error caused harm?
-
- Authority Note
-
- In general, medical malpractice claims are evaluated based on professional standards of care. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Medical Malpractice should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Medical malpractice claims require showing a deviation from accepted care standards.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Medical Malpractice: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How malpractice claims arise
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why people consult lawyers
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- What documentation matters
+ Evidence, timing, and documentation
 
- Core Educational Content
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Medical malpractice claims involve allegations that healthcare providers failed to meet accepted professional standards of care, resulting in injury. Evaluations focus on whether the care provided deviated from what is commonly expected under similar circumstances.
+ Preserve photos, witness information, records, bills, and timelines.
 
- People consult lawyers because poor outcomes alone do not establish malpractice. Evaluation requires comparing medical decisions to established practices, often through expert review of records.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Medical records, diagnostic tests, treatment timelines, and informed consent documentation are central to evaluation. Understanding how causation is assessed—whether the outcome was caused by the alleged error or by underlying conditions—is often critical.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- These cases tend to be complex and document-heavy, which is why people seek guidance early in the evaluation process.
+ Questions worth asking
 
- Immediate Priorities After Suspected Malpractice
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Obtain medical records
+ What evidence matters most in this case type?
 
- Seek follow-up care
+ What should I do first if medical care is still ongoing?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What does the fee arrangement cover and what is billed separately?
 
- Records establish treatment history.
+ What would make a good lawyer say this is not the right case for them?
 
- How Medical Malpractice Claims Typically Progress
+ Red flags and trust checks
 
- 1. Record review
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 2. Expert evaluation
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- 3. Claim determination
+ What to do next
 
- If You’re Considering Hiring a Personal Injury Lawyer
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- People consult lawyers to assess standards of care.
-
- Common Mistakes & Red Flags
-
- Assuming poor outcome equals malpractice
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Standards matter in evaluation.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, patients benefit from understanding care standards early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Motorcycle Accidents
@@ -892,99 +704,61 @@ MEDICAL MALPRACTICE: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `motorcycle-accidents.json`
 - description: Motorcycle accident claims are often influenced by assumptions about rider behavior, which is why early narratives can matter more than people expect.
 
-MOTORCYCLE ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Motorcycle Accidents
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a motorcycle accident because drivers assume the rider is at fault?
-
- Authority Note
-
- In general, motorcycle accident claims are evaluated differently from car accidents because riders are more exposed and subject to bias in fault assessments. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Motorcycle Accidents should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Motorcycle accident claims are often influenced by assumptions about rider behavior, which is why early narratives can matter more than people expect.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Motorcycle Accidents: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How motorcycle accidents differ from car accidents
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why riders often consult lawyers after crashes
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- How visibility, speed, and bias affect evaluation
+ Evidence, timing, and documentation
 
- What evidence matters early
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Core Educational Content
+ Preserve photos, witness information, records, bills, and timelines.
 
- Motorcycle accidents differ from car accidents because riders lack the physical protection of enclosed vehicles, making injuries more severe even at lower speeds. Fault evaluations often involve assumptions about visibility, lane positioning, and speed.
+ Track symptoms and treatment changes in a dated, factual way.
 
- People consult lawyers because motorcycle claims frequently involve driver statements that they “didn’t see” the rider, disputes over lane use, and bias suggesting reckless behavior. Helmet use and protective gear may also be raised during evaluation, even when not directly related to fault.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Immediate Priorities After a Motorcycle Accident
+ Questions worth asking
 
- Seek medical evaluation
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Photograph the scene and motorcycle damage
+ What evidence matters most in this case type?
 
- Document road conditions and visibility
+ What should I do first if medical care is still ongoing?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What does the fee arrangement cover and what is billed separately?
 
- Motorcycle injuries often involve fractures, road rash, and head trauma, making documentation especially important.
+ What would make a good lawyer say this is not the right case for them?
 
- How Motorcycle Accident Claims Typically Progress
+ Red flags and trust checks
 
- 1. Medical treatment
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 2. Evidence review
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- 3. Claim evaluation
+ What to do next
 
- 4. Negotiation or litigation
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- If You’re Considering Hiring a Personal Injury Lawyer
-
- Riders consult lawyers to counter bias and clarify fault.
-
- Common questions include:
-
- Are riders automatically blamed in crashes?
-
- Should I talk to a lawyer before giving a statement?
-
- Common Mistakes & Red Flags
-
- Accepting bias‑based assumptions
-
- Delaying treatment
-
- Public statements
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Motorcycle claims often hinge on perception as much as facts. Early clarity helps balance evaluation.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, riders benefit from addressing bias early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Nursing Home Abuse & Neglect: How These Claims Are Commonly Evaluated
@@ -995,60 +769,59 @@ MOTORCYCLE ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 
 Nursing Home Abuse & Neglect: How These Claims Are Commonly Evaluated
 
- NURSING HOME ABUSE & NEGLECT: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Educational only. Not legal advice.
+ Quick answer
 
- Primary question people ask: Should I hire a lawyer if I suspect abuse or neglect in a nursing home?
+ Nursing Home Abuse & Neglect: How These Claims Are Commonly Evaluated should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- Authority Note
- In general, nursing home abuse and neglect claims are evaluated based on care standards, documentation, and oversight responsibilities. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
  Abuse and neglect cases often rely on patterns rather than single events.
 
- Hero Section
- Nursing Home Abuse & Neglect: How These Claims Are Commonly Evaluated Educational only. Not legal advice.
+ When to call a lawyer and when to handle health first
 
- What This Guide Covers
- How abuse and neglect claims arise
- Why families consult lawyers
- What documentation matters
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Core Educational Content
- Nursing home abuse and neglect claims involve allegations that facilities failed to provide appropriate care, supervision, or protection to residents. Evaluations often rely on patterns of conduct rather than isolated incidents.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- People consult lawyers because these cases may involve regulatory standards, staffing requirements, and oversight obligations that are difficult for families to assess independently. Medical records, care plans, and inspection reports are commonly reviewed.
+ Fees, costs, and what people misunderstand
 
- Evaluation also considers whether injuries or conditions reflect neglect, such as pressure sores, dehydration, or unexplained falls. These determinations are fact-intensive and depend on documentation over time.
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Early understanding of reporting mechanisms and documentation requirements helps protect residents and preserve evaluation options.
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Immediate Priorities After Suspected Abuse
+ Evidence, timing, and documentation
 
- Seek medical evaluation
- Document observations
- Report concerns to authorities
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Medical Evaluation and Documentation (Claim Impact)
- Medical records may reveal injury patterns.
+ Preserve photos, witness information, records, bills, and timelines.
 
- How These Claims Typically Progress 1. Investigation 2. Documentation review 3. Claim evaluation
+ Track symptoms and treatment changes in a dated, factual way.
 
- If You’re Considering Hiring a Personal Injury Lawyer People consult lawyers to navigate regulatory frameworks.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Common Mistakes & Red Flags Delaying reporting
+ Questions worth asking
 
- Verification Verify credentials via official state bar directories.
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Why This Matters
- Early documentation protects residents.
+ What evidence matters most in this case type?
 
- Reference Anchor
- Using the Pre-Consultation Decision Framework, families benefit from recognizing care failures early.
+ What should I do first if medical care is still ongoing?
 
- Disclaimers
- Educational only. Not legal advice. No endorsements.
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Pedestrian Accidents
@@ -1057,89 +830,187 @@ Nursing Home Abuse & Neglect: How These Claims Are Commonly Evaluated
 - file: `pedestrian-accidents.json`
 - description: Pedestrian accident claims often involve severe injuries and disputed right-of-way, making early documentation important.
 
-PEDESTRIAN ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Pedestrian Accidents
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after being hit as a pedestrian, even in a crosswalk?
-
- Authority Note
-
- In general, pedestrian accident claims involve heightened injury risk and complex right-of-way analysis. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Pedestrian Accidents should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Pedestrian accident claims often involve severe injuries and disputed right-of-way, making early documentation important.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Pedestrian Accidents: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How pedestrian accidents are evaluated
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why pedestrians often consult lawyers
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- How crosswalks and signals affect evaluation
+ Evidence, timing, and documentation
 
- Core Educational Content
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Pedestrian accidents occur when individuals on foot are struck by vehicles while crossing streets, walking along roadways, or moving through parking areas. Because pedestrians have no physical protection, injuries are often severe, and evaluations tend to focus closely on right-of-way, traffic controls, driver behavior, and environmental context.
+ Preserve photos, witness information, records, bills, and timelines.
 
- People frequently consult lawyers after pedestrian accidents because fault is often disputed even in seemingly clear situations, such as marked crosswalks or signal-controlled intersections. Drivers may claim the pedestrian stepped out unexpectedly, was distracted, or crossed against a signal. Understanding how investigators assess timing, visibility, and signal phases is central to how these claims are evaluated.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Another complicating factor is the role of surveillance and third-party data. Traffic cameras, nearby business cameras, and vehicle event data may exist but are not always preserved automatically. Pedestrians often seek legal guidance to understand what evidence may exist and how evaluation decisions are made before assumptions harden.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Pedestrian accident evaluations also consider roadway design. Poor lighting, obstructed sightlines, faded crosswalk markings, and traffic-calming measures can influence responsibility analysis. These contextual factors are not always obvious to injured individuals but can matter significantly in evaluation.
+ Questions worth asking
 
- Immediate Priorities After a Pedestrian Accident
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Seek medical care
+ What evidence matters most in this case type?
 
- Photograph the scene and signals
+ What should I do first if medical care is still ongoing?
 
- Obtain witness information
+ What does the fee arrangement cover and what is billed separately?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What would make a good lawyer say this is not the right case for them?
 
- Severe injuries require thorough documentation.
+ Red flags and trust checks
 
- How Pedestrian Accident Claims Typically Progress
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 1. Medical treatment
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- 2. Evidence review
+ What to do next
 
- 3. Claim evaluation
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- If You’re Considering Hiring a Personal Injury Lawyer
+ A strong PI guide should make the reader feel more organized and less pressured.
 
- Common questions include right-of-way and fault.
+---
+## Personal Injury Fees Explained
+- slug: `personal-injury-fees-explained`
+- route: `/guides/personal-injury-fees-explained/`
+- file: `personal-injury-fees-explained.json`
+- description: Contingency fee arrangements can reduce upfront cost, but they still require clear written terms about percentages, expenses, lien handling, and who pays which costs if the case does not resolve as hoped.
 
- Common Mistakes & Red Flags
+Personal Injury Fees Explained
 
- Leaving the scene without documentation
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Verification
+ Quick answer
 
- Verify credentials via official state bar directories.
+ Personal Injury Fees Explained should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- Why This Matters
+ Contingency fee arrangements can reduce upfront cost, but they still require clear written terms about percentages, expenses, lien handling, and who pays which costs if the case does not resolve as hoped.
 
- Early clarity helps prevent disputes.
+ When to call a lawyer and when to handle health first
 
- Reference Anchor
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Using the Pre-Consultation Decision Framework, pedestrians benefit from early documentation.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- Disclaimers
+ Fees, costs, and what people misunderstand
 
- Educational only. Not legal advice. No endorsements.
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
+
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
+
+ Evidence, timing, and documentation
+
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
+
+ Preserve photos, witness information, records, bills, and timelines.
+
+ Track symptoms and treatment changes in a dated, factual way.
+
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
+
+ Questions worth asking
+
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
+
+ What evidence matters most in this case type?
+
+ What should I do first if medical care is still ongoing?
+
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
+
+---
+## Personal Injury Lawyer Red Flags
+- slug: `personal-injury-lawyer-red-flags`
+- route: `/guides/personal-injury-lawyer-red-flags/`
+- file: `personal-injury-lawyer-red-flags.json`
+- description: Personal injury lawyer red flags usually involve weak explanation, aggressive urgency, unclear fee mechanics, inflated promises, or very little clarity about who will actually run the case.
+
+Personal Injury Lawyer Red Flags
+
+ Educational only. Not legal advice. No endorsements or rankings.
+
+ Quick answer
+
+ Personal Injury Lawyer Red Flags should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
+
+ Personal injury lawyer red flags usually involve weak explanation, aggressive urgency, unclear fee mechanics, inflated promises, or very little clarity about who will actually run the case.
+
+ When to call a lawyer and when to handle health first
+
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
+
+ That timing guidance is what separates a serious decision page from a generic legal article.
+
+ Fees, costs, and what people misunderstand
+
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
+
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
+
+ Evidence, timing, and documentation
+
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
+
+ Preserve photos, witness information, records, bills, and timelines.
+
+ Track symptoms and treatment changes in a dated, factual way.
+
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
+
+ Questions worth asking
+
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
+
+ What evidence matters most in this case type?
+
+ What should I do first if medical care is still ongoing?
+
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Premises Liability
@@ -1148,89 +1019,61 @@ PEDESTRIAN ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `premises-liability.json`
 - description: Premises claims depend on why you were on the property and what the owner knew.
 
-PREMISES LIABILITY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Premises Liability
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after being injured on someone else’s property?
-
- Authority Note
-
- In general, premises liability claims are evaluated based on property conditions, visitor status, and owner responsibilities. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Premises Liability should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Premises claims depend on why you were on the property and what the owner knew.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Premises Liability: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How premises liability differs from slip and fall
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why visitor status matters
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- What documentation is important
+ Evidence, timing, and documentation
 
- Core Educational Content
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Premises liability covers injuries that occur on another person’s or entity’s property due to unsafe conditions. Evaluations often depend on why the injured person was on the property and what duty of care applied in that context.
+ Preserve photos, witness information, records, bills, and timelines.
 
- People consult lawyers because visitor status—such as invitee, licensee, or trespasser—can materially affect how responsibility is assessed. These distinctions are not intuitive and are often misunderstood by injured individuals.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Premises evaluations also focus on foreseeability and maintenance practices. Property owners may be evaluated on whether hazards were predictable, whether inspections were conducted, and whether corrective actions were reasonable.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Evidence such as incident reports, maintenance records, photographs, and witness accounts plays a central role. Because these materials may be controlled by the property owner, understanding how evaluation works often drives early consultation.
+ Questions worth asking
 
- Immediate Priorities After a Premises Injury
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Seek medical care
+ What evidence matters most in this case type?
 
- Document conditions
+ What should I do first if medical care is still ongoing?
 
- Identify witnesses
+ What does the fee arrangement cover and what is billed separately?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What would make a good lawyer say this is not the right case for them?
 
- Injuries vary widely depending on conditions.
+ Red flags and trust checks
 
- How Premises Liability Claims Typically Progress
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 1. Medical treatment
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- 2. Status evaluation
+ What to do next
 
- 3. Claim review
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- If You’re Considering Hiring a Personal Injury Lawyer
-
- People consult lawyers to clarify legal status and duties.
-
- Common Mistakes & Red Flags
-
- Assuming all injuries are treated equally
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Status affects responsibility.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from understanding duty distinctions early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Product Liability
@@ -1239,89 +1082,187 @@ PREMISES LIABILITY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `product-liability.json`
 - description: Product liability claims often depend on product condition and use at the time of injury.
 
-PRODUCT LIABILITY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Product Liability
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer if a defective product caused my injury?
-
- Authority Note
-
- In general, product liability claims are evaluated based on product design, manufacturing, and warnings. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Product Liability should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Product liability claims often depend on product condition and use at the time of injury.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Product Liability: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- Types of product defects
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why people consult lawyers
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- What evidence matters
+ Evidence, timing, and documentation
 
- Core Educational Content
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Product liability claims arise when injuries are caused by products that are alleged to be defective in design, manufacturing, or warnings. Unlike accident claims involving momentary events, these evaluations focus on how a product was intended to function versus how it actually performed at the time of injury.
+ Preserve photos, witness information, records, bills, and timelines.
 
- People consult lawyers because product cases often involve multiple entities, such as manufacturers, distributors, retailers, and component suppliers. Determining responsibility requires understanding supply chains, product testing, recalls, and regulatory standards. These issues are rarely obvious to injured individuals at the outset.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Evaluation commonly centers on three defect theories. Design defects examine whether the product was inherently unsafe even when manufactured correctly. Manufacturing defects focus on errors that occurred during production. Failure-to-warn claims assess whether instructions or warnings were adequate given known risks.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Evidence preservation is critical. The product itself, packaging, instructions, and purchase records may all be relevant. Once altered or discarded, evaluation options can narrow significantly, which is why people seek guidance early.
+ Questions worth asking
 
- Immediate Priorities After a Product Injury
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Seek medical care
+ What evidence matters most in this case type?
 
- Preserve the product
+ What should I do first if medical care is still ongoing?
 
- Document injuries
+ What does the fee arrangement cover and what is billed separately?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What would make a good lawyer say this is not the right case for them?
 
- Documentation connects injury to product use.
+ Red flags and trust checks
 
- How Product Liability Claims Typically Progress
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 1. Medical treatment
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- 2. Product analysis
+ What to do next
 
- 3. Claim evaluation
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- If You’re Considering Hiring a Personal Injury Lawyer
+ A strong PI guide should make the reader feel more organized and less pressured.
 
- People consult lawyers to understand defect theories.
+---
+## Questions to Ask a Personal Injury Lawyer
+- slug: `questions-to-ask-a-personal-injury-lawyer`
+- route: `/guides/questions-to-ask-a-personal-injury-lawyer/`
+- file: `questions-to-ask-a-personal-injury-lawyer.json`
+- description: The best pre-signing questions clarify case handling, communication, fees, timing, evidence strategy, and what the first 30 to 90 days usually look like.
 
- Common Mistakes & Red Flags
+Questions to Ask a Personal Injury Lawyer
 
- Disposing of the product
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Verification
+ Quick answer
 
- Verify credentials via official state bar directories.
+ Questions to Ask a Personal Injury Lawyer should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- Why This Matters
+ The best pre-signing questions clarify case handling, communication, fees, timing, evidence strategy, and what the first 30 to 90 days usually look like.
 
- Evidence preservation affects claims.
+ When to call a lawyer and when to handle health first
 
- Reference Anchor
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Using the Pre-Consultation Decision Framework, people benefit from preserving products early.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- Disclaimers
+ Fees, costs, and what people misunderstand
 
- Educational only. Not legal advice. No endorsements.
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
+
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
+
+ Evidence, timing, and documentation
+
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
+
+ Preserve photos, witness information, records, bills, and timelines.
+
+ Track symptoms and treatment changes in a dated, factual way.
+
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
+
+ Questions worth asking
+
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
+
+ What evidence matters most in this case type?
+
+ What should I do first if medical care is still ongoing?
+
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
+
+---
+## Recorded Statements and Insurance Calls After an Accident
+- slug: `recorded-statements-and-insurance-calls`
+- route: `/guides/recorded-statements-and-insurance-calls/`
+- file: `recorded-statements-and-insurance-calls.json`
+- description: Insurance calls can feel routine, but what is said early can shape later claim disputes if symptoms, timelines, or fault assumptions are incomplete.
+
+Recorded Statements and Insurance Calls After an Accident
+
+ Educational only. Not legal advice. No endorsements or rankings.
+
+ Quick answer
+
+ Recorded Statements and Insurance Calls After an Accident should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
+
+ Insurance calls can feel routine, but what is said early can shape later claim disputes if symptoms, timelines, or fault assumptions are incomplete.
+
+ When to call a lawyer and when to handle health first
+
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
+
+ That timing guidance is what separates a serious decision page from a generic legal article.
+
+ Fees, costs, and what people misunderstand
+
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
+
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
+
+ Evidence, timing, and documentation
+
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
+
+ Preserve photos, witness information, records, bills, and timelines.
+
+ Track symptoms and treatment changes in a dated, factual way.
+
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
+
+ Questions worth asking
+
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
+
+ What evidence matters most in this case type?
+
+ What should I do first if medical care is still ongoing?
+
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Rideshare Accidents
@@ -1330,109 +1271,61 @@ PRODUCT LIABILITY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `rideshare-accidents.json`
 - description: Rideshare accident claims often depend on app status at the exact moment of the crash, which is why early assumptions about coverage can be misleading.
 
-RIDESHARE ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Rideshare Accidents
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a rideshare accident, and does it matter whether the driver was “on the app”?
-
- Authority Note
-
- In general, rideshare accident claims are evaluated differently from standard car accidents because they involve app-based platforms, changing insurance coverage, and questions about driver status. This guide summarizes commonly accepted approaches and applies the Pre-Consultation Decision Framework to explain how these claims are typically evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Rideshare Accidents should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Rideshare accident claims often depend on app status at the exact moment of the crash, which is why early assumptions about coverage can be misleading.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Rideshare Accidents: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How rideshare accidents differ from car accidents
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why people consult lawyers after Uber or Lyft crashes
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- How app status affects claim evaluation
+ Evidence, timing, and documentation
 
- What documentation matters early
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- What to understand before agreeing to legal representation
+ Preserve photos, witness information, records, bills, and timelines.
 
- Core Educational Content
+ Track symptoms and treatment changes in a dated, factual way.
 
- Rideshare accidents involve vehicles operating through app-based platforms such as Uber or Lyft. Unlike standard car accidents, insurance coverage may change depending on whether the driver was offline, waiting for a ride, en route to a passenger, or actively transporting one.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- People consult lawyers because these distinctions are not always obvious and may not be clearly explained by insurers. App records, timestamps, and platform policies can play an important role in how claims are evaluated.
+ Questions worth asking
 
- Rideshare accidents also raise unique questions for passengers, drivers, and third parties. Passengers may wonder whether they can leave the scene if they are uninjured. Drivers may worry about app ratings or account status. These concerns do not arise in ordinary car crashes.
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Immediate Priorities After a Rideshare Accident
+ What evidence matters most in this case type?
 
- Seek medical evaluation
+ What should I do first if medical care is still ongoing?
 
- Screenshot ride details and app status
+ What does the fee arrangement cover and what is billed separately?
 
- Photograph the scene
+ What would make a good lawyer say this is not the right case for them?
 
- Obtain an incident report
+ Red flags and trust checks
 
- Avoid deleting app data or messages.
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- Medical Evaluation and Documentation (Claim Impact)
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- Medical records connect injuries to the incident and help establish severity and recovery timelines.
+ What to do next
 
- How Rideshare Accident Claims Typically Progress
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- 1. Medical evaluation
-
- 2. App status verification
-
- 3. Insurance coverage review
-
- 4. Claim evaluation and negotiation
-
- If You’re Considering Hiring a Personal Injury Lawyer
-
- People consult lawyers to understand coverage layers and responsibility.
-
- Common questions include:
-
- Does rideshare insurance apply if the driver was waiting for a ride?
-
- Will contacting a lawyer affect the driver’s rating or account?
-
- Key points to clarify include scope, who handles the case, fees and costs, first 30 days expectations, and required documentation.
-
- Common Mistakes & Red Flags
-
- Assuming coverage is automatic
-
- Failing to preserve app evidence
-
- Making public statements about fault
-
- Verification
-
- Verify attorney credentials through official state bar directories.
-
- Why This Matters
-
- Rideshare claims hinge on timing and documentation. Early clarity prevents coverage disputes.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from confirming app status and coverage before committing to representation.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements. Advertising is separate.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Slip And Fall
@@ -1441,93 +1334,61 @@ RIDESHARE ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `slip-and-fall.json`
 - description: Slip and fall claims often depend on whether a hazard existed long enough to require action.
 
-SLIP AND FALL ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Slip And Fall
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a slip and fall if the property owner says it was my fault?
-
- Authority Note
-
- In general, slip and fall claims are evaluated based on property conditions, notice, and maintenance practices. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Slip And Fall should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Slip and fall claims often depend on whether a hazard existed long enough to require action.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Slip and Fall Accidents: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How slip and fall claims are evaluated
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why people consult lawyers after falls
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- What evidence matters on property
+ Evidence, timing, and documentation
 
- n
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Core Educational Content
+ Preserve photos, witness information, records, bills, and timelines.
 
- Slip and fall accidents occur when individuals are injured due to hazardous property conditions such as wet floors, uneven surfaces, poor lighting, or debris. Evaluations focus on whether a dangerous condition existed and whether the property owner knew or should have known about it.
+ Track symptoms and treatment changes in a dated, factual way.
 
- People consult lawyers because responsibility often depends on evidence that is not visible after the fact. Cleaning logs, inspection schedules, surveillance footage, and prior complaints may be relevant but are usually controlled by the property owner. Without understanding how these factors are evaluated, injured individuals may underestimate the importance of early documentation.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Another key aspect is timing. Evaluators often ask how long a hazard existed and whether there was a reasonable opportunity to address it. This makes photographs, witness statements, and incident reports particularly significant.
+ Questions worth asking
 
- Slip and fall evaluations also consider the injured person’s actions, footwear, and path of travel. These factors are commonly raised and can influence comparative responsibility analysis.
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Immediate Priorities After a Slip and Fall
+ What evidence matters most in this case type?
 
- Seek medical evaluation
+ What should I do first if medical care is still ongoing?
 
- Photograph the hazard
+ What does the fee arrangement cover and what is billed separately?
 
- Report the incident to property management
+ What would make a good lawyer say this is not the right case for them?
 
- Medical Evaluation and Documentation (Claim Impact)
+ Red flags and trust checks
 
- Falls frequently cause fractures and head injuries.
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- How Slip and Fall Claims Typically Progress
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- 1. Medical treatment
+ What to do next
 
- 2. Property condition review
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- 3. Claim evaluation
-
- If You’re Considering Hiring a Personal Injury Lawyer
-
- People consult lawyers to understand notice and responsibility.
-
- Common Mistakes & Red Flags
-
- Leaving without documentation
-
- Failing to report the incident
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Hazard documentation affects outcomes.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from documenting hazards early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Spinal Cord Injury
@@ -1536,85 +1397,61 @@ SLIP AND FALL ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `spinal-cord-injury.json`
 - description: Spinal cord injuries often involve permanent impairment.
 
-SPINAL CORD INJURY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Spinal Cord Injury
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a spinal cord injury with lasting impairment?
-
- Authority Note
-
- In general, spinal cord injury claims are evaluated based on permanence and functional loss. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Spinal Cord Injury should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Spinal cord injuries often involve permanent impairment.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Spinal Cord Injury: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How spinal cord injuries are evaluated
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why permanence matters
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Core Educational Content
+ Evidence, timing, and documentation
 
- Spinal cord injuries can result in partial or complete loss of motor or sensory function. These injuries often lead to permanent impairment and require extensive medical and rehabilitative care.
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- People consult lawyers because evaluations focus on permanence, future medical needs, and adaptive requirements. Determining the extent of impairment often requires specialist input.
+ Preserve photos, witness information, records, bills, and timelines.
 
- Documentation of functional limitations, mobility needs, and long-term prognosis plays a significant role in evaluation.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Understanding how permanence is assessed helps manage expectations.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Immediate Priorities After Spinal Cord Injury
+ Questions worth asking
 
- Seek specialized care
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Document functional loss
+ What evidence matters most in this case type?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What should I do first if medical care is still ongoing?
 
- Documentation establishes permanence.
+ What does the fee arrangement cover and what is billed separately?
 
- How Spinal Cord Injury Claims Typically Progress
+ What would make a good lawyer say this is not the right case for them?
 
- 1. Assessment
+ Red flags and trust checks
 
- 2. Long-term planning
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 3. Claim evaluation
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- If You’re Considering Hiring a Personal Injury Lawyer
+ What to do next
 
- People consult lawyers for lifetime impact analysis.
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Common Mistakes & Red Flags
-
- Underestimating care needs
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Permanent injuries affect future needs.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from understanding permanence early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Truck Accidents
@@ -1623,107 +1460,61 @@ SPINAL CORD INJURY: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `truck-accidents.json`
 - description: Truck accident claims are rarely just “bigger car accidents,” and many people consult lawyers early because evidence, responsibility, and insurance layers can become har…
 
-TRUCK ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Truck Accidents
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a truck accident, and how is this different from a normal car crash?
+ Truck Accidents should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- Authority Note
+ Truck accident claims are rarely just “bigger car accidents,” and many people consult lawyers early because evidence, responsibility, and insurance layers can become har…
 
- In general, truck accident claims are evaluated differently from car accidents because they often involve commercial vehicles, federal safety rules, and multiple potentially responsible parties. This guide summarizes commonly accepted approaches and applies the Pre-Consultation Decision Framework to explain how truck accident claims are typically evaluated—without endorsements or guarantees.
+ When to call a lawyer and when to handle health first
 
- If You Only Read One Thing
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Truck accident claims are rarely just “bigger car accidents,” and many people consult lawyers early because evidence, responsibility, and insurance layers can become harder to access or preserve as time passes.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- Hero Section
+ Fees, costs, and what people misunderstand
 
- Truck Accidents: How These Claims Are Commonly Evaluated
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Educational only. Not legal advice.
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- What This Guide Covers
+ Evidence, timing, and documentation
 
- How truck accidents differ from car accidents
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Why people often consult lawyers after crashes involving large commercial trucks
+ Preserve photos, witness information, records, bills, and timelines.
 
- What makes responsibility more complex in truck cases
+ Track symptoms and treatment changes in a dated, factual way.
 
- What evidence matters early
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- What to understand before agreeing to legal representation
+ Questions worth asking
 
- Core Educational Content
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Truck accidents typically involve large commercial vehicles such as semi-trucks and tractor‑trailers, not personal pickup trucks. These cases often include additional layers of responsibility, such as trucking companies, contractors, or maintenance providers.
+ What evidence matters most in this case type?
 
- People consult lawyers because truck accident claims may involve driver logbooks, maintenance records, cargo documentation, and safety regulations that do not apply in standard car crashes. These materials are often controlled by companies rather than individual drivers and may not be preserved indefinitely.
+ What should I do first if medical care is still ongoing?
 
- Another key difference is that responsibility may be shared among multiple parties. A crash may involve the driver’s actions, company policies, vehicle condition, or loading practices. This complexity is one reason early assumptions can be misleading.
+ What does the fee arrangement cover and what is billed separately?
 
- Immediate Priorities After a Truck Accident
+ What would make a good lawyer say this is not the right case for them?
 
- Seek medical evaluation
+ Red flags and trust checks
 
- Photograph vehicles, cargo, and surroundings
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- Identify the trucking company and vehicle markings
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- Obtain a police or incident report number
+ What to do next
 
- Medical Evaluation and Documentation (Claim Impact)
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Truck accidents often cause severe injuries due to vehicle size and force. Medical documentation establishes injury severity, recovery timelines, and long‑term impact.
-
- How Truck Accident Claims Typically Progress
-
- 1. Medical treatment
-
- 2. Identification of involved parties
-
- 3. Evidence and records review
-
- 4. Claim evaluation
-
- 5. Negotiation or litigation
-
- If You’re Considering Hiring a Personal Injury Lawyer
-
- People consult lawyers to understand who may be responsible and what evidence applies.
-
- Common questions include:
-
- Should I talk to a lawyer before the trucking company contacts me?
-
- Who is responsible—the driver, the company, or someone else?
-
- Common Mistakes & Red Flags
-
- Treating the crash like a normal car accident
-
- Delaying investigation
-
- Making public statements about fault
-
- Verification
-
- Verify attorney credentials through official state bar directories.
-
- Why This Matters
-
- Truck accident claims often involve higher stakes and longer timelines. Early misunderstandings can limit options later.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from understanding regulatory and responsibility differences before committing.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Vehicle Collisions Near Law Enforcement Activity: What Injury Claims Consider
@@ -1734,67 +1525,185 @@ TRUCK ACCIDENTS: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 
 Vehicle Collisions Near Law Enforcement Activity: What Injury Claims Consider
 
- Vehicle collisions can occur in many settings, including near high-activity events where there is increased traffic, sudden lane changes, stopped vehicles, or rapid movement in shared spaces. This guide explains general personal injury and civil liability concepts that may apply when a collision occurs near law enforcement activity.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- This guide is focused on injury law and civil claims only. It does not address immigration proceedings, enforcement processes, or how enforcement actions are conducted.
+ Quick answer
 
- Can you sue after a collision connected to nearby activity?
+ Vehicle Collisions Near Law Enforcement Activity: What Injury Claims Consider should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
- There is no universal “best” or automatic answer. Whether a civil claim may exist depends on the collision facts: who was driving, what traffic conditions existed, what conduct occurred, and how the crash happened. Many collision claims are evaluated under standard negligence principles (duty, breach, causation, damages).
+ Neutral educational guidance about civil injury claims and evaluation factors, with non-endorsement disclaimers.
 
- This information is provided for general educational purposes only and does not constitute legal advice.
+ When to call a lawyer and when to handle health first
 
- Common collision patterns in these settings
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Rear-end collisions caused by sudden braking or unexpected stops
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- Sideswipes and lane-change crashes from abrupt merges, evasive driving, or reduced visibility
+ Fees, costs, and what people misunderstand
 
- Intersection impacts when traffic signals are missed, blocked, or ignored
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Pedestrian or cyclist impacts in mixed-use areas with increased movement
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Secondary collisions where one crash triggers another (chain reaction)
+ Evidence, timing, and documentation
 
- Who may be responsible
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- In many vehicle injury cases, responsibility is evaluated based on driver conduct and road conditions. Depending on the situation, potentially responsible parties may include:
+ Preserve photos, witness information, records, bills, and timelines.
 
- Another driver (careless driving, unsafe lane changes, distracted driving, speeding)
+ Track symptoms and treatment changes in a dated, factual way.
 
- A third party whose actions contributed to the crash (for example, a commercial vehicle operator or contractor)
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- An entity responsible for roadway conditions where applicable (hazards, missing signage, or unsafe design issues), evaluated under jurisdiction-specific standards
+ Questions worth asking
 
- Responsibility is assessed based on evidence, causation, and applicable legal standards. Outcomes vary by jurisdiction and case details.
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- What personal injury attorneys typically evaluate
+ What evidence matters most in this case type?
 
- Medical impact : diagnosis, treatment plan, imaging, and functional limitations
+ What should I do first if medical care is still ongoing?
 
- Crash documentation : photos, dashcam footage, vehicle damage, repair estimates
+ What does the fee arrangement cover and what is billed separately?
 
- Police or incident reports (when available)
+ What would make a good lawyer say this is not the right case for them?
 
- Insurance coverage and how fault is assessed under local rules
+ Red flags and trust checks
 
- Time limits and notice requirements, which vary by jurisdiction
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- Practical documentation checklist (non-legal)
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- Medical records and follow-up care documentation
+ What to do next
 
- Photos of vehicles, injuries, and the roadway area (when safely available)
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Driver and witness contact information (if available)
+ A strong PI guide should make the reader feel more organized and less pressured.
 
- Receipts tied to injury-related costs
+---
+## What to Do After an Accident
+- slug: `what-to-do-after-an-accident`
+- route: `/guides/what-to-do-after-an-accident/`
+- file: `what-to-do-after-an-accident.json`
+- description: The first post-accident priorities are safety, medical evaluation, documentation, and avoiding preventable mistakes before the facts are clear.
 
- Important disclaimers
+What to Do After an Accident
 
- This guide provides general educational information only. It does not provide legal advice. It does not recommend or endorse any attorney or service provider. It does not provide immigration advice or guidance.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- If you have questions about a specific injury or legal situation, consider speaking directly with a qualified professional who can evaluate the facts of your case.
+ Quick answer
+
+ What to Do After an Accident should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
+
+ The first post-accident priorities are safety, medical evaluation, documentation, and avoiding preventable mistakes before the facts are clear.
+
+ When to call a lawyer and when to handle health first
+
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
+
+ That timing guidance is what separates a serious decision page from a generic legal article.
+
+ Fees, costs, and what people misunderstand
+
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
+
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
+
+ Evidence, timing, and documentation
+
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
+
+ Preserve photos, witness information, records, bills, and timelines.
+
+ Track symptoms and treatment changes in a dated, factual way.
+
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
+
+ Questions worth asking
+
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
+
+ What evidence matters most in this case type?
+
+ What should I do first if medical care is still ongoing?
+
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
+
+---
+## When to Call a Personal Injury Lawyer
+- slug: `when-to-call-a-personal-injury-lawyer`
+- route: `/guides/when-to-call-a-personal-injury-lawyer/`
+- file: `when-to-call-a-personal-injury-lawyer.json`
+- description: People often consider calling a lawyer when injuries are meaningful, facts are disputed, insurance pressure increases, or they are no longer comfortable handling the communications alone.
+
+When to Call a Personal Injury Lawyer
+
+ Educational only. Not legal advice. No endorsements or rankings.
+
+ Quick answer
+
+ When to Call a Personal Injury Lawyer should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
+
+ People often consider calling a lawyer when injuries are meaningful, facts are disputed, insurance pressure increases, or they are no longer comfortable handling the communications alone.
+
+ When to call a lawyer and when to handle health first
+
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
+
+ That timing guidance is what separates a serious decision page from a generic legal article.
+
+ Fees, costs, and what people misunderstand
+
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
+
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
+
+ Evidence, timing, and documentation
+
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
+
+ Preserve photos, witness information, records, bills, and timelines.
+
+ Track symptoms and treatment changes in a dated, factual way.
+
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
+
+ Questions worth asking
+
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
+
+ What evidence matters most in this case type?
+
+ What should I do first if medical care is still ongoing?
+
+ What does the fee arrangement cover and what is billed separately?
+
+ What would make a good lawyer say this is not the right case for them?
+
+ Red flags and trust checks
+
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
+
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
+
+ What to do next
+
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
+
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Workplace Injuries
@@ -1803,89 +1712,61 @@ Vehicle Collisions Near Law Enforcement Activity: What Injury Claims Consider
 - file: `workplace-injuries.json`
 - description: Workplace injury claims often involve strict reporting rules and limited benefits, which is why understanding the system early matters.
 
-WORKPLACE INJURIES: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Workplace Injuries
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after a workplace injury if workers’ compensation is involved?
-
- Authority Note
-
- In general, workplace injury claims are evaluated through workers’ compensation systems, but some situations involve additional legal considerations. This guide applies the Pre-Consultation Decision Framework to explain how workplace injuries are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Workplace Injuries should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Workplace injury claims often involve strict reporting rules and limited benefits, which is why understanding the system early matters.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Workplace Injuries: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How workplace injuries are handled
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- When workers’ compensation applies
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Why people sometimes consult lawyers
+ Evidence, timing, and documentation
 
- Core Educational Content
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- Workplace injuries occur when employees are hurt while performing job-related duties. Most claims are handled through workers’ compensation systems, which operate differently from traditional personal injury claims.
+ Preserve photos, witness information, records, bills, and timelines.
 
- People consult lawyers because workers’ compensation typically limits recovery to medical benefits and partial wage replacement. In some situations, additional claims may exist against third parties, such as equipment manufacturers or contractors, which are not always explained to injured workers.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Evaluation focuses on whether the injury arose out of and in the course of employment, whether reporting deadlines were met, and whether the injury is covered under the applicable system. Disputes often involve medical causation, disability ratings, and benefit duration.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Understanding how these determinations are made helps workers avoid missed deadlines and incomplete filings.
+ Questions worth asking
 
- Immediate Priorities After a Workplace Injury
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Report the injury promptly
+ What evidence matters most in this case type?
 
- Seek medical evaluation
+ What should I do first if medical care is still ongoing?
 
- Document the incident
+ What does the fee arrangement cover and what is billed separately?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What would make a good lawyer say this is not the right case for them?
 
- Documentation establishes eligibility and benefit scope.
+ Red flags and trust checks
 
- How Workplace Injury Claims Typically Progress
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 1. Injury reporting
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- 2. Medical treatment
+ What to do next
 
- 3. Benefit determination
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- If You’re Considering Hiring a Personal Injury Lawyer
-
- People consult lawyers to understand benefit limits and third-party claims.
-
- Common Mistakes & Red Flags
-
- Failing to report injuries promptly
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Missed deadlines can limit benefits.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, people benefit from understanding workers’ compensation limits early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.
 
 ---
 ## Wrongful Death
@@ -1894,82 +1775,58 @@ WORKPLACE INJURIES: HOW THESE CLAIMS ARE COMMONLY EVALUATED
 - file: `wrongful-death.json`
 - description: Wrongful death claims focus on survivor losses rather than the injury itself.
 
-WRONGFUL DEATH: HOW THESE CLAIMS ARE COMMONLY EVALUATED
+Wrongful Death
 
- Educational only. Not legal advice.
+ Educational only. Not legal advice. No endorsements or rankings.
 
- Primary question people ask:
+ Quick answer
 
- Should I hire a lawyer after losing a family member due to someone else’s actions?
-
- Authority Note
-
- In general, wrongful death claims are evaluated based on responsibility and survivor impact. This guide applies the Pre-Consultation Decision Framework to explain how these claims are commonly evaluated—without endorsements or guarantees.
-
- If You Only Read One Thing
+ Wrongful Death should function as calm decision support. The page should help a reader understand what matters, what does not, and what to do next without hype or ambulance-chasing tone.
 
  Wrongful death claims focus on survivor losses rather than the injury itself.
 
- Hero Section
+ When to call a lawyer and when to handle health first
 
- Wrongful Death: How These Claims Are Commonly Evaluated
+ PI pages should be explicit that medical safety comes first when emergency care or urgent evaluation is needed. Legal help becomes useful when evidence, liability, insurer contact, documentation, or case-type complexity starts to matter.
 
- Educational only. Not legal advice.
+ That timing guidance is what separates a serious decision page from a generic legal article.
 
- What This Guide Covers
+ Fees, costs, and what people misunderstand
 
- How wrongful death claims arise
+ Cost language in PI should reduce confusion, not sell. Readers need plain explanations of contingency fees, expenses, consult expectations, and what questions to ask before signing anything.
 
- Why families consult lawyers
+ If a page only pushes urgency and never explains fee structure or tradeoffs, trust drops fast.
 
- Core Educational Content
+ Evidence, timing, and documentation
 
- Wrongful death claims arise when a person dies due to another party’s actions or negligence. Unlike injury claims, evaluations focus on the losses suffered by surviving family members.
+ Documentation matters because evidence gets weaker as memories fade, vehicles are repaired, scene conditions change, and insurer narratives harden. The page should tell a reader what to preserve and why.
 
- People consult lawyers because these claims often involve determining responsibility and calculating economic and non-economic losses for survivors.
+ Preserve photos, witness information, records, bills, and timelines.
 
- Documentation such as death records, financial dependency information, and family impact statements play a role in evaluation.
+ Track symptoms and treatment changes in a dated, factual way.
 
- Understanding how survivor-focused assessments work helps families navigate the process.
+ Avoid casual statements that guess fault or minimize injury before the facts are clear.
 
- Immediate Priorities After a Wrongful Death
+ Questions worth asking
 
- Obtain death records
+ PI decision pages are strongest when they help the reader ask better questions about case type, evidence, timing, communication, and how the lawyer would actually manage the claim.
 
- Document family impact
+ What evidence matters most in this case type?
 
- Medical Evaluation and Documentation (Claim Impact)
+ What should I do first if medical care is still ongoing?
 
- Records establish cause of death.
+ What does the fee arrangement cover and what is billed separately?
 
- How Wrongful Death Claims Typically Progress
+ What would make a good lawyer say this is not the right case for them?
 
- 1. Investigation
+ Red flags and trust checks
 
- 2. Documentation
+ PI trust depends on tone and specificity. The page should help a reader avoid high-pressure intake framing, vague fee explanations, unrealistic value promises, or instructions that put marketing ahead of medical care and documentation.
 
- 3. Claim evaluation
+ If the content sounds more excited about signing than about helping the reader make a careful decision, the tone is wrong.
 
- If You’re Considering Hiring a Personal Injury Lawyer
+ What to do next
 
- Families consult lawyers to navigate survivor claims.
+ The next step should be concrete: get needed medical care, preserve evidence, compare lawyers by case fit and communication quality, and use city pages to shortlist local options by case type.
 
- Common Mistakes & Red Flags
-
- Delaying action
-
- Verification
-
- Verify credentials via official state bar directories.
-
- Why This Matters
-
- Survivor rights depend on evaluation.
-
- Reference Anchor
-
- Using the Pre-Consultation Decision Framework, families benefit from understanding survivor-focused evaluation early.
-
- Disclaimers
-
- Educational only. Not legal advice. No endorsements.
+ A strong PI guide should make the reader feel more organized and less pressured.

@@ -139,10 +139,12 @@ function run() {
     const label = `${row.label}:${path.relative(REPO_ROOT, row.fp)}`;
     validateExact(html, 'primary', 1, label, failures);
     validateExact(html, 'inline', 1, label, failures);
+    validateExact(html, 'bubble', 1, label, failures);
     const hero = markerPositions(html, 'primary')[0] ?? -1;
     const inline = markerPositions(html, 'inline')[0] ?? -1;
-    if (!(hero >= 0 && inline >= 0 && hero < inline)) {
-      failures.push(`${label}: guide detail conversion order must be primary -> inline`);
+    const bubble = markerPositions(html, 'bubble')[0] ?? -1;
+    if (!(hero >= 0 && inline >= 0 && bubble >= 0 && hero < inline && inline < bubble)) {
+      failures.push(`${label}: guide detail conversion order must be primary -> inline -> connection bubble`);
     }
   }
 

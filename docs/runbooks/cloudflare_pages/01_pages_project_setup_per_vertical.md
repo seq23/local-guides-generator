@@ -18,7 +18,7 @@ Create one Cloudflare Pages project per vertical pack, all building from the sam
 
 ## Inputs
 - GitHub repo: `seq23/local-guides-generator`
-- Pack file: `examples/<pack>.json` (set via env var)
+- Pack file: `data/page_sets/examples/<pack>.json` (set via env var)
 - Canonical domain for that vertical
 
 ## Step 1 — Create the Pages project
@@ -32,13 +32,13 @@ Set:
 
 ## Step 3 — Environment variables (Production)
 Add:
-- `PAGE_SET_FILE` = `examples/<pack>.json`
+- `PAGE_SET_FILE` = `data/page_sets/examples/<pack>.json`
 - `BRAND_NAME` = `<Brand>`
 - `SITE_URL` = `https://<canonical-domain>` (use the real canonical once verified)
 
 Notes:
 - Variable name = the key (e.g., `PAGE_SET_FILE`)
-- Value = the exact string (e.g., `examples/uscis_medical_v1.json`)
+- Value = the exact string (e.g., `data/page_sets/examples/uscis_medical_v1.json`)
 
 ## Step 4 — Deploy + confirm success
 Trigger deploy. Confirm logs show:
@@ -49,7 +49,7 @@ Trigger deploy. Confirm logs show:
 
 ## Step 5 — Failure recovery
 Common failures:
-- Wrong `PAGE_SET_FILE` path (must be relative like `examples/...`)
+- Wrong `PAGE_SET_FILE` path (must use the canonical repo-relative form `data/page_sets/examples/...`)
 - Wrong build output directory (must be `dist`)
 - Node/npm mismatch (Cloudflare chooses versions; you can set `.nvmrc` in repo if needed)
 

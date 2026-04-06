@@ -19,7 +19,7 @@ These runbooks are **deterministic**. Follow steps in order. Do not improvise.
    - Build command: `npm ci && npm run build`
    - Output directory: `dist`
 3) Env vars:
-   - `PAGE_SET_FILE` = `examples/<pack>.json`
+   - `PAGE_SET_FILE` = `data/page_sets/examples/<pack>.json`
    - `BRAND_NAME` = `<brand>`
    - `SITE_URL` = `https://<canonical>`
 4) Deploy and confirm logs show validator PASS

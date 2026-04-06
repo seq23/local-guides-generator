@@ -126,6 +126,9 @@ function buildCanonicalForProvidersHtml(globalHtml){
   out = renameBuyoutTier(out);
   out = addSubmitInquiryButtons(out);
   out = insertSlotDiagramAccordion(out);
+  if (!out.includes('data-sales-page-contract="true"')) {
+    out = out.replace('</section>\n\n<section class="section">\n  <h2>Placement surfaces (authoritative)</h2>', '</section>\n\n<section class="section notice" data-sales-page-contract="true">\n  <h2>Sales page contract</h2>\n  <p class="muted">This page is the authoritative inventory and pricing document. It is <strong>not</strong> an advertising surface and does not render sponsored placement blocks.</p>\n</section>\n\n<section class="section">\n  <h2>Placement surfaces (authoritative)</h2>');
+  }
   return out;
 }
 

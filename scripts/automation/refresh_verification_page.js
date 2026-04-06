@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
+const { getPackSiteConfig } = require('../lib/pack_site_config');
 
 const repoRoot = process.cwd();
 const distRoot = path.join(repoRoot, 'dist');
@@ -21,6 +22,22 @@ const refreshedAt = nowUtcIso();
 const VERTICAL = process.env.LKG_VERTICAL || 'all';
 const NOTES = process.env.LKG_NOTES || '';
 const CADENCE = process.env.LKG_CADENCE || 'nightly integrity + rotating vertical refresh';
+
+function getSiteUrl() {
+  const envUrl = String(process.env.SITE_URL || '').trim();
+  if (envUrl) return envUrl.replace(/\/+$/, '');
+  try {
+    const site = JSON.parse(fs.readFileSync(path.join(repoRoot, 'data', 'site.json'), 'utf8'));
+    const url = String(site && site.siteUrl || '').trim();
+    if (url && !/placeholder-domain\.invalid/i.test(url)) return url.replace(/\/+$/, '');
+    const packSite = getPackSiteConfig(site && site.pageSetFile || process.env.PAGE_SET_FILE || '');
+    if (packSite && packSite.siteUrl) return packSite.siteUrl.replace(/\/+$/, '');
+  } catch {}
+  throw new Error('refresh_verification_page requires a real siteUrl; placeholder domains are forbidden.');
+}
+
+const SITE_URL = getSiteUrl();
+
 
 const verification = {
   version: 'LKG_VERIFICATION_V1',
@@ -42,7 +59,7 @@ const html = `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Verification & Updates</title>
   <meta name="description" content="How this directory is verified, validated, and updated over time." />
-  <link rel="canonical" href="https://example.com/verification/" />
+  <link rel="canonical" href="${SITE_URL}/verification/" />
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fff;color:#111}
     main{max-width:860px;margin:0 auto;padding:32px 18px 64px}

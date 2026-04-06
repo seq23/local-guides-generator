@@ -31,11 +31,17 @@ function run(ctx) {
   mustContain(html, 'data-request-assistance-who-its-for="true"', label);
   mustContain(html, 'data-request-assistance-what-happens-next="true"', label);
   mustContain(html, 'id="request-assistance-form"', label);
+  mustContain(html, 'action="/api/request-assistance"', label);
+  mustContain(html, "fetch('/api/request-assistance'", label);
   mustContain(html, 'Submit a routing request', label);
   mustContain(html, 'What this tool does', label);
   mustContain(html, 'What happens after submission', label);
   mustContain(html, 'No rankings', label);
   mustContain(html, 'No case details are collected here.', label);
+  mustContain(html, 'data-request-assistance-top-cta="true"', label);
+  mustContain(html, 'data-request-assistance-bottom-cta="true"', label);
+  mustContain(html, 'Airtable-backed routing workflow', label);
+  mustContain(html, 'mailto:info@spryvc.com', label);
 
   console.log('✅ request assistance tool contract pass');
 }

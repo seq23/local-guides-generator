@@ -14,7 +14,7 @@ These runbooks are **deterministic**. Follow steps in order. Do not improvise.
 
 
 ## What this covers
-- Creating a new `examples/<pack>.json` page set file
+- Creating a new `data/page_sets/examples/<pack>.json` page set file
 - Wiring Cloudflare Pages env vars to build that pack
 - Validation and failure recovery
 
@@ -53,9 +53,9 @@ If this is non-PI and requires licensing references:
 
 ## Step 4 — Local build + validation
 ```bash
-export PAGE_SET_FILE="examples/<new_pack>.json"
+export PAGE_SET_FILE="data/page_sets/examples/<new_pack>.json"
 export BRAND_NAME="Your Brand Name"
-export SITE_URL="https://example.com"  # placeholder; Pages will set real domain
+export SITE_URL="https://your-canonical-domain.com"  # set to the real canonical domain for the pack
 npm ci
 npm run build
 ```
@@ -64,7 +64,7 @@ Expected: validators pass.
 
 ## Step 5 — Cloudflare Pages config
 In Pages project settings:
-- Env var: `PAGE_SET_FILE` value should be `examples/<new_pack>.json` (relative path)
+- Env var: `PAGE_SET_FILE` value should be `data/page_sets/examples/<new_pack>.json` (relative path)
 - `BRAND_NAME` and `SITE_URL` must match the canonical domain once live
 
 ## Step 6 — Rollback

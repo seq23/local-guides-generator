@@ -88,6 +88,20 @@ function getTopicLabel(ctx) {
   return explicitTitle || titleCase(slugToWords(ctx.route));
 }
 
+
+function interpolateTemplate(value, ctx) {
+  const raw = String(value || '');
+  const replacements = {
+    market: String(ctx.marketLabel || '').trim(),
+    state: String(ctx.stateName || '').trim(),
+    topic: getTopicLabel(ctx),
+    route: routeWithSlash(ctx.route),
+    verticalNoun: getVerticalNoun(ctx.verticalKey),
+    verticalPlural: getVerticalPlural(ctx.verticalKey)
+  };
+  return raw.replace(/\{(market|state|topic|route|verticalNoun|verticalPlural)\}/g, (_, key) => replacements[key] || '');
+}
+
 function normalizeOverrideItems(items) {
   return (Array.isArray(items) ? items : []).map((item) => {
     if (!item) return null;
@@ -179,6 +193,14 @@ function applyOverrides(items, ctx, pageSet) {
       current = current.concat(match.addItems);
     }
   });
+
+  current = current.map((item) => ({
+    ...item,
+    query: interpolateTemplate(item.query, ctx),
+    href: interpolateTemplate(item.href, ctx),
+    label: interpolateTemplate(item.label, ctx),
+    groupLabel: interpolateTemplate(item.groupLabel, ctx)
+  }));
 
   const seen = new Set();
   return current.filter((item) => {

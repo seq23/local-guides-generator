@@ -1,22 +1,14 @@
-# Docs — Canonical Locations (Single Source of Truth)
+# Documentation
 
-This repo treats docs as **two canonical roots**:
+Start here:
 
-1) `docs/runbooks/` — operational SOPs, deployment, governance, validators, release discipline
-2) `docs/training_v1/` — Day-0 VA training + setup + execution drills
-
-Everything else that used to live under `docs/` has been moved into:
-
-- `docs/_archive_2026-02-01/` (historical / legacy / sandbox / generated)
-
-References that must remain available (but not clutter the top-level) live in:
-
-- `docs/runbooks/_references/`
-
-Policy:
-- **Do not** add new top-level folders under `docs/`.
-- If something doesn’t belong in `runbooks/` or `training_v1/`, it goes into `runbooks/_references/` or the next dated `_archive_*` folder.
-
-## VA training additions
-
-- `training_v1/VA_GUIDE_UPDATES.md` — how to add/edit guide JSONs safely (no template edits)
+- [Local Guides Generator Overview](local-guides-generator-overview.md)
+- [How the Multi-Pack Build System Works](how-the-multi-pack-build-system-works.md)
+- [How to Build and Validate a Vertical Pack](how-to-build-and-validate-a-vertical-pack.md)
+- [AI Search Optimization Architecture](ai-search-optimization-architecture.md)
+- [Guide Rendering and Content Flow](guide-rendering-and-content-flow.md)
+- [Request Assistance Airtable Flow](request-assistance-airtable-flow.md)
+- [Release Validation and Deployment Checklist](release-validation-and-deployment-checklist.md)
+- [Canonical Domains and Pack Configuration](canonical-domains-and-pack-configuration.md)
+- [Repo Glossary for Developers and AI Assistants](repo-glossary-for-developers-and-ai-assistants.md)
+- [Common Build and Validation Failures](common-build-and-validation-failures.md)

@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 function parseMaybeDotenv(value) {
   // Supports the user accidentally pasting:
@@ -42,7 +43,13 @@ function getIndexNowConfig() {
     ? hostsFromEnv.split(/[,\s]+/).map(h=>h.trim()).filter(Boolean)
     : [];
 
-  const siteUrl = (process.env.SITE_URL || "").trim();
+  let siteUrl = (process.env.SITE_URL || "").trim();
+  if (!siteUrl) {
+    try {
+      const site = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'site.json'), 'utf8'));
+      siteUrl = String(site && site.siteUrl || '').trim();
+    } catch {}
+  }
   let siteHost = "";
   try {
     if (siteUrl) siteHost = new URL(siteUrl).host;
