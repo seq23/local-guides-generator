@@ -4,6 +4,12 @@ const path = require("path");
 const https = require("https");
 
 const HOME = process.env.HOME || "";
+const DEFAULT_REPO_LOCAL_FILE = path.join(
+  process.cwd(),
+  "data",
+  "reference",
+  "promotion_candidates.source.json"
+);
 const DEFAULT_LOCAL_FILE = HOME
   ? path.join(
       HOME,
@@ -68,6 +74,9 @@ function resolveSource() {
   if (LOCAL_FILE) {
     return { kind: "file", value: path.resolve(LOCAL_FILE) };
   }
+  if (fs.existsSync(DEFAULT_REPO_LOCAL_FILE)) {
+    return { kind: "file", value: DEFAULT_REPO_LOCAL_FILE };
+  }
   if (DEFAULT_LOCAL_FILE && fs.existsSync(DEFAULT_LOCAL_FILE)) {
     return { kind: "file", value: DEFAULT_LOCAL_FILE };
   }
@@ -78,7 +87,7 @@ function resolveSource() {
     return { kind: "url", value: RAW_URL };
   }
   throw new Error(
-    "No promotion candidates source found. Set REPO2_PROMOTION_CANDIDATES_FILE or place promotion_candidates.json at ~/Documents/GitHub/local-guides-citation-velocity/content/_shared/promotion_candidates.json"
+    "No promotion candidates source found. Set REPO2_PROMOTION_CANDIDATES_FILE or commit data/reference/promotion_candidates.source.json"
   );
 }
 
@@ -163,14 +172,20 @@ function validCandidate(c) {
   const source = resolveSource();
   const payload = normalizePayload(await readPayload(source));
 
-  const registry = readJsonSafe(REGISTRY, null);
+  const registry = readJsonSafe(REGISTRY, {
+    processed_ids: [],
+    pages: [],
+    promoted_ids: [],
+  });
 
-  if (!registry || !Array.isArray(registry.processed_ids)) {
-    throw new Error("reference_registry.json missing or invalid");
+  if (!Array.isArray(registry.processed_ids)) {
+    throw new Error("reference_registry.json missing processed_ids array");
   }
-
-  if (!registry.processed_ids) {
-    registry.processed_ids = [];
+  if (!Array.isArray(registry.pages)) {
+    registry.pages = [];
+  }
+  if (!Array.isArray(registry.promoted_ids)) {
+    registry.promoted_ids = [];
   }
 
   const processed = new Set(registry.processed_ids || []);
@@ -188,11 +203,10 @@ function validCandidate(c) {
 
   filtered.forEach((c) => processed.add(c.id));
 
-  fs.writeFileSync(
-    REGISTRY,
-    JSON.stringify({ processed_ids: Array.from(processed) }, null, 2)
-  );
+  registry.processed_ids = Array.from(processed);
+  registry.updated_at = new Date().toISOString();
 
+  fs.writeFileSync(REGISTRY, JSON.stringify(registry, null, 2));
   fs.writeFileSync(INCOMING, JSON.stringify(filtered, null, 2));
   fs.writeFileSync(
     LAST_PULL,

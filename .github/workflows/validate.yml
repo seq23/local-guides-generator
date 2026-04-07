@@ -16,8 +16,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci --ignore-scripts
-      - name: Build (dist required)
-        run: PAGE_SET_FILE=data/page_sets/examples/pi_v1.json npm run build
+      - name: Build all packs
+        run: node scripts/build_all_packs.js
       - name: Core validate (dist enforced)
         run: npm run validate:all
         env:

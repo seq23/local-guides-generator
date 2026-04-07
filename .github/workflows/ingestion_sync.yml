@@ -15,6 +15,9 @@ jobs:
     permissions:
       contents: write
 
+    env:
+      REPO2_PROMOTION_CANDIDATES_FILE: data/reference/promotion_candidates.source.json
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
