@@ -3717,9 +3717,9 @@ function loadNextStepsSponsor(citySlug) {
       mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
         kind: 'state-home',
         buildIso: BUILD_ISO,
-        guideLinks: [{ href: '/states/' + ab + '/', label: stateName }],
-        primaryLinks: [{ href: '/states/' + ab + '/', label: stateName }],
-        cityLinks: []
+        guideLinks: selectPriorityGuideSummaries(globalPagesDir, 3).map((g) => ({ href: g.route, label: g.title, description: g.description })),
+        primaryLinks: [{ href: '/states/' + ab + '/', label: stateName }].concat(selectPriorityGuideSummaries(globalPagesDir, 2).map((g) => ({ href: g.route, label: g.title, description: g.description }))),
+        cityLinks: cityRows.slice(0, 4).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug, description: 'City PI hub in ' + stateName }))
       }));
 
       // Next-steps on PI state pages:
@@ -3788,6 +3788,14 @@ function loadNextStepsSponsor(citySlug) {
     }
 
     // Optional PI hub route (/personal-injury/)
+    const piHubFanoutCluster = fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury — browse by state' }, pageSet);
+    const piHubFanoutHtml = fanout.renderFanoutClusterHtml(piHubFanoutCluster);
+    const piHubMainHtml = (
+      '<section class="section"><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p></section>' +
+      marketsStatusListHtml +
+      (packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'global', route: '/personal-injury/' }) ? ('\n' + renderNextStepsZoneHtml({ href: '/next-steps/' })) : '') +
+      (piHubFanoutHtml ? ('\n' + piHubFanoutHtml) : '')
+    );
     const piHubHtml = replaceAll(baseTemplate, {
       '%%TITLE%%': 'Personal injury — browse by state',
       '%%DESCRIPTION%%': 'Browse personal injury guides and directories by U.S. state. Educational only. No rankings.',
@@ -3795,11 +3803,7 @@ function loadNextStepsSponsor(citySlug) {
       '%%SLUG%%': 'personal-injury',
       '%%MARKET_LABEL%%': '',
       '%%MARKET_NAV%%': '',
-      '%%MAIN_HTML%%': (
-        '<section class="section"><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p></section>' +
-        marketsStatusListHtml +
-        (packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'global', route: '/personal-injury/' }) ? ('\n' + renderNextStepsZoneHtml({ href: '/next-steps/' })) : '')
-      ),
+      '%%MAIN_HTML%%': piHubMainHtml,
       '%%INLINE_SCRIPTS%%': '',
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
       '%%HEAD_META%%': renderHeadMeta({ pageType: 'pi-hub', title: 'Personal injury — browse by state', description: 'Browse personal injury by state.', canonical: buildCanonicalGlobal(siteUrl, 'personal-injury'), brandName, section: 'Personal injury hub', keywords: ['personal injury', 'states', 'browse by state'] }),
@@ -3810,7 +3814,7 @@ function loadNextStepsSponsor(citySlug) {
       '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
     });
     writeFileEnsured(outPathForGlobal('personal-injury'), piHubHtml);
-    fanoutRecords.push(fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury — browse by state' }, pageSet));
+    fanoutRecords.push(piHubFanoutCluster);
   }
 
   fanout.writeFanoutExport(OUT_DIR, fanoutRecords, pageSet, verticalKey);

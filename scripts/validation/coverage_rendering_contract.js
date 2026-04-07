@@ -67,13 +67,19 @@ if (!fs.existsSync(HOME_PATH)) fail('missing dist/index.html');
 
 const promoted = parseCsv(fs.readFileSync(PROMOTED_PATH, 'utf8')).filter((row) => String(row.publish_enabled).toLowerCase() === 'true' && currentPackIsVertical(row.vertical));
 const runtimeRows = parseCsv(fs.readFileSync(RUNTIME_PATH, 'utf8')).filter((row) => String(row.runtime_ready).toLowerCase() === 'true');
-if (!promoted.length) { console.log('COVERAGE RENDERING CONTRACT SKIP (no promoted cities for current pack)'); process.exit(0); }
-const runtimeMap = new Map(runtimeRows.map((row) => [`${row.vertical}::${row.city_slug}`, row]));
-const sitemap = sitemapFiles.map((name) => fs.readFileSync(path.join(DIST_DIR, name), 'utf8')).join('\n');
-const home = fs.readFileSync(HOME_PATH, 'utf8');
+function run() {
+  const promoted = parseCsv(fs.readFileSync(PROMOTED_PATH, 'utf8')).filter((row) => String(row.publish_enabled).toLowerCase() === 'true' && currentPackIsVertical(row.vertical));
+  const runtimeRows = parseCsv(fs.readFileSync(RUNTIME_PATH, 'utf8')).filter((row) => String(row.runtime_ready).toLowerCase() === 'true');
+  if (!promoted.length) {
+    console.log('COVERAGE RENDERING CONTRACT SKIP (no promoted cities for current pack)');
+    return;
+  }
+  const runtimeMap = new Map(runtimeRows.map((row) => [`${row.vertical}::${row.city_slug}`, row]));
+  const sitemap = sitemapFiles.map((name) => fs.readFileSync(path.join(DIST_DIR, name), 'utf8')).join('\n');
+  const home = fs.readFileSync(HOME_PATH, 'utf8');
 
-let checked = 0;
-for (const row of promoted) {
+  let checked = 0;
+  for (const row of promoted) {
   const key = `${row.vertical}::${row.city_slug}`;
   const runtime = runtimeMap.get(key);
   if (!runtime) continue;
@@ -135,6 +141,10 @@ for (const row of promoted) {
   const homePattern = new RegExp(`href="/${escapeRegex(row.city_slug)}/"`, 'i');
   if (!homePattern.test(home)) fail(`homepage/hub missing promoted city link for ${key}`);
 
-  checked += 1;
+    checked += 1;
+  }
+  console.log(`COVERAGE RENDERING CONTRACT PASS (${checked} promoted cities)`);
 }
-console.log(`COVERAGE RENDERING CONTRACT PASS (${checked} promoted cities)`);
+
+if (require.main === module) run();
+module.exports = { run };

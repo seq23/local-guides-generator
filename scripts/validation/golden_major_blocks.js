@@ -22,8 +22,14 @@ function getSite(repoRoot){
 
 function getPageSet(repoRoot, pageSetFile){
   if (!pageSetFile) return {};
-  const fp = path.join(repoRoot,'data','page_sets', pageSetFile);
-  if (!fs.existsSync(fp)) return {};
+  const normalized = String(pageSetFile || '').replace(/^\.\//, '');
+  const candidates = [
+    path.join(repoRoot, normalized),
+    path.join(repoRoot, 'data', 'page_sets', normalized),
+    path.join(repoRoot, 'data', 'page_sets', path.basename(normalized))
+  ];
+  const fp = candidates.find((candidate) => fs.existsSync(candidate));
+  if (!fp) return {};
   try{
     return readJSON(fp);
   }catch{
@@ -49,7 +55,8 @@ function run(ctx){
   const pageSetName = String(pageSetFile).split('/').pop() || 'unknown';
   const pageSet = getPageSet(repoRoot, pageSetFile);
 
-  const isPI = String(pageSet.verticalKey || '').toLowerCase() === 'pi';
+  const resolvedVerticalKey = String(pageSet.verticalKey || (String(pageSetFile).toLowerCase().includes('/pi_') || String(pageSetFile).toLowerCase().includes('pi_v') ? 'pi' : '')).toLowerCase();
+  const isPI = resolvedVerticalKey === 'pi';
   const cityHasDirectory = (pageSet.cityFeatures && typeof pageSet.cityFeatures.directory === 'boolean') ? pageSet.cityFeatures.directory : true;
   const cityHasStateLookup = (pageSet.cityFeatures && typeof pageSet.cityFeatures.stateLookup === 'boolean') ? pageSet.cityFeatures.stateLookup : true;
 

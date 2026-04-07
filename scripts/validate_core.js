@@ -174,7 +174,7 @@ function main() {
     distributionArtifactsContract.run({ site });
     internalDistributionContract.run({ site });
     distributionDominanceContract.run({ site });
-    require('./validation/coverage_rendering_contract');
+    coverageRenderingContract.run({ site });
     fanoutWarning.run({ site });
     fanoutDistributionContract.run({ site });
   } else {

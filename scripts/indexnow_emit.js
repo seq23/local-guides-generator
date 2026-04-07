@@ -146,15 +146,24 @@ function ensureRobotsSitemap(distDir, host) {
   const robotsPath = path.join(distDir, 'robots.txt');
   let robots = '';
   if (fs.existsSync(robotsPath)) robots = fs.readFileSync(robotsPath, 'utf8');
-  const sitemapLine = host ? `Sitemap: https://${host}/sitemap.xml` : '';
-  if (!sitemapLine) return;
-  const hasSitemap = robots.toLowerCase().includes('sitemap:');
-  if (!hasSitemap) {
-    robots = robots ? robots.trimEnd() + '\n' : '';
-    robots += sitemapLine + '\n';
-    fs.writeFileSync(robotsPath, robots, 'utf8');
+  if (!host) return;
+  const requiredLines = [
+    `Sitemap: https://${host}/sitemap.xml`,
+    `Sitemap: https://${host}/sitemap-fresh.xml`
+  ];
+  const existing = new Set(String(robots || '').split(/\r?\n/).map((line) => line.trim()).filter(Boolean));
+  let changed = false;
+  for (const line of requiredLines) {
+    if (!existing.has(line)) {
+      robots = robots ? robots.trimEnd() + '\n' : '';
+      robots += line + '\n';
+      existing.add(line);
+      changed = true;
+    }
   }
+  if (changed) fs.writeFileSync(robotsPath, robots, 'utf8');
 }
+
 
 function main() {
   const cfg = getIndexNowConfig();
