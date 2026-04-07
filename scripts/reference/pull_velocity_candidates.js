@@ -3,9 +3,20 @@ const fs = require("fs");
 const path = require("path");
 const https = require("https");
 
-const DEFAULT_URL =
-  "https://raw.githubusercontent.com/seq23/local-guides-citation-velocity/main/data/promotion_candidates.json";
+const HOME = process.env.HOME || "";
+const DEFAULT_LOCAL_FILE = HOME
+  ? path.join(
+      HOME,
+      "Documents",
+      "GitHub",
+      "local-guides-citation-velocity",
+      "content",
+      "_shared",
+      "promotion_candidates.json"
+    )
+  : "";
 
+const DEFAULT_URL = "";
 const RAW_URL = process.env.REPO2_PROMOTION_CANDIDATES_URL || DEFAULT_URL;
 const LOCAL_FILE = process.env.REPO2_PROMOTION_CANDIDATES_FILE || "";
 const EXPECTED_CONTRACT_VERSION = "1.0";
@@ -24,6 +35,10 @@ function readJsonSafe(file, fallback) {
   } catch {
     return fallback;
   }
+}
+
+function readJsonFile(file) {
+  return JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
 }
 
 function fetchJson(url) {
@@ -49,28 +64,70 @@ function fetchJson(url) {
   });
 }
 
-function readPayload() {
+function resolveSource() {
   if (LOCAL_FILE) {
-    return JSON.parse(fs.readFileSync(path.resolve(LOCAL_FILE), "utf8"));
+    return { kind: "file", value: path.resolve(LOCAL_FILE) };
+  }
+  if (DEFAULT_LOCAL_FILE && fs.existsSync(DEFAULT_LOCAL_FILE)) {
+    return { kind: "file", value: DEFAULT_LOCAL_FILE };
   }
   if (RAW_URL.startsWith("file://")) {
-    return JSON.parse(fs.readFileSync(RAW_URL.replace(/^file:\/\//, ""), "utf8"));
+    return { kind: "file", value: RAW_URL.replace(/^file:\/\//, "") };
   }
-  return fetchJson(RAW_URL);
+  if (RAW_URL) {
+    return { kind: "url", value: RAW_URL };
+  }
+  throw new Error(
+    "No promotion candidates source found. Set REPO2_PROMOTION_CANDIDATES_FILE or place promotion_candidates.json at ~/Documents/GitHub/local-guides-citation-velocity/content/_shared/promotion_candidates.json"
+  );
+}
+
+async function readPayload(source) {
+  if (source.kind === "file") {
+    return readJsonFile(source.value);
+  }
+  return fetchJson(source.value);
+}
+
+function normalizeLegacyItem(item) {
+  return {
+    id: item.id,
+    vertical: item.vertical,
+    query: item.query,
+    cluster: Array.isArray(item.cluster)
+      ? item.cluster
+      : typeof item.cluster === "string" && item.cluster.trim()
+      ? [item.cluster.trim()]
+      : [],
+    source: item.source || item.source_bucket || "repo2",
+    status: item.status || item.promotion_status || "candidate",
+    geo: item.geo ?? null,
+    confidence: item.confidence ?? null,
+    evidence: item.evidence ?? null,
+  };
 }
 
 function normalizePayload(payload) {
   if (Array.isArray(payload)) {
     return {
-      contract_version: "legacy-array",
+      contract_version: EXPECTED_CONTRACT_VERSION,
       source_repo: "legacy-array",
       generated_at: null,
-      candidates: payload,
+      candidates: payload.map(normalizeLegacyItem),
     };
   }
 
   if (!payload || typeof payload !== "object") {
     throw new Error("promotion candidates payload must be an array or object");
+  }
+
+  if (Array.isArray(payload.items)) {
+    return {
+      contract_version: EXPECTED_CONTRACT_VERSION,
+      source_repo: payload.source_repo || "local-guides-citation-velocity",
+      generated_at: payload.generated_at || null,
+      candidates: payload.items.map(normalizeLegacyItem),
+    };
   }
 
   if (payload.contract_version !== EXPECTED_CONTRACT_VERSION) {
@@ -83,7 +140,10 @@ function normalizePayload(payload) {
     throw new Error("promotion candidates object missing candidates array");
   }
 
-  return payload;
+  return {
+    ...payload,
+    candidates: payload.candidates.map(normalizeLegacyItem),
+  };
 }
 
 function validCandidate(c) {
@@ -100,9 +160,19 @@ function validCandidate(c) {
 }
 
 (async function main() {
-  const payload = normalizePayload(await readPayload());
+  const source = resolveSource();
+  const payload = normalizePayload(await readPayload(source));
 
-  const registry = readJsonSafe(REGISTRY, { processed_ids: [] });
+  const registry = readJsonSafe(REGISTRY, null);
+
+  if (!registry || !Array.isArray(registry.processed_ids)) {
+    throw new Error("reference_registry.json missing or invalid");
+  }
+
+  if (!registry.processed_ids) {
+    registry.processed_ids = [];
+  }
+
   const processed = new Set(registry.processed_ids || []);
   const seenKeys = new Set();
 
@@ -116,6 +186,13 @@ function validCandidate(c) {
       return true;
     });
 
+  filtered.forEach((c) => processed.add(c.id));
+
+  fs.writeFileSync(
+    REGISTRY,
+    JSON.stringify({ processed_ids: Array.from(processed) }, null, 2)
+  );
+
   fs.writeFileSync(INCOMING, JSON.stringify(filtered, null, 2));
   fs.writeFileSync(
     LAST_PULL,
@@ -126,8 +203,8 @@ function validCandidate(c) {
         generated_at: payload.generated_at || null,
         accepted_count: filtered.length,
         pulled_at: new Date().toISOString(),
-        source_url: LOCAL_FILE ? null : RAW_URL,
-        source_file: LOCAL_FILE || null
+        source_url: source.kind === "url" ? source.value : null,
+        source_file: source.kind === "file" ? source.value : null,
       },
       null,
       2
