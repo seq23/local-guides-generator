@@ -1,56 +1,57 @@
 #!/usr/bin/env bash
 set -euo pipefail
+export PYTHONDONTWRITEBYTECODE=1
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT_DIR"
+MODE="${1:-batch}"
+INDEXNOW_MODE="$MODE" python3 - <<'PY'
+import json, os, subprocess
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path('distribution_scripts').resolve()))
+from distribution_common import load_config, read_urls, split_urls_by_host, chunked
 
-# Usage:
-# ./distribution_scripts/indexnow_submit.sh yourdomain.com YOUR_INDEXNOW_KEY dist/indexnow-priority.txt
-# ./distribution_scripts/indexnow_submit.sh yourdomain.com YOUR_INDEXNOW_KEY dist/indexnow-batch.txt
-
-HOST="${1:?Missing host, e.g. example.com}"
-KEY="${2:?Missing IndexNow key}"
-URL_FILE="${3:?Missing URL file path}"
-
-if [[ ! -f "$URL_FILE" ]]; then
-  echo "ERROR: URL file not found: $URL_FILE"
-  exit 1
-fi
-
-if [[ ! -f "${KEY}.txt" ]]; then
-  echo "WARNING: ${KEY}.txt not found in current directory."
-  echo "IndexNow requires your key file to be hosted at the root of your site."
-  echo "Expected public URL: https://${HOST}/${KEY}.txt"
-fi
-
-TMP_JSON="$(mktemp)"
-
-python3 - <<'PY' "$HOST" "$KEY" "$URL_FILE" "$TMP_JSON"
-import json, sys, pathlib
-
-host = sys.argv[1]
-key = sys.argv[2]
-url_file = pathlib.Path(sys.argv[3])
-tmp_json = pathlib.Path(sys.argv[4])
-
-urls = []
-for line in url_file.read_text(encoding="utf-8").splitlines():
-    line = line.strip()
-    if line:
-        urls.append(line)
-
-payload = {
-    "host": host,
-    "key": key,
-    "urlList": urls
-}
-
-tmp_json.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-print(f"Wrote payload with {len(urls)} URLs to {tmp_json}")
+config = load_config()
+idx = config.get('indexnow', {})
+hosts = idx.get('hosts', [])
+key = str(idx.get('key', '')).strip()
+key_file = str(idx.get('key_file', '')).strip()
+chunk_size = int(idx.get('chunk_size', 100))
+mode = os.environ.get('INDEXNOW_MODE', 'batch').strip().lower()
+if mode not in {'batch', 'priority'}:
+    raise SystemExit(f'Unsupported mode: {mode}')
+source_file = Path(idx.get('priority_file' if mode == 'priority' else 'batch_file', ''))
+if not source_file.exists():
+    raise SystemExit(f'URL file not found: {source_file}')
+if not key:
+    raise SystemExit('distribution.config.json missing indexnow.key')
+if not key_file:
+    raise SystemExit('distribution.config.json missing indexnow.key_file')
+key_path = Path(key_file)
+if not key_path.exists():
+    raise SystemExit(f'Committed IndexNow key file missing: {key_file}')
+if key_path.read_text(encoding='utf-8').strip() != key:
+    raise SystemExit(f'Committed IndexNow key file does not match configured key: {key_file}')
+urls = read_urls(source_file)
+by_host = split_urls_by_host(urls, hosts)
+submitted = 0
+for host, host_urls in by_host.items():
+    if not host_urls:
+        continue
+    for batch in chunked(host_urls, chunk_size):
+        payload = {
+            'host': host,
+            'key': key,
+            'keyLocation': f'https://{host}/{key_file}',
+            'urlList': batch,
+        }
+        subprocess.run([
+            'curl', '-sS', '-X', 'POST', 'https://api.indexnow.org/indexnow',
+            '-H', 'Content-Type: application/json; charset=utf-8',
+            '--data-binary', json.dumps(payload)
+        ], check=True)
+        print(f'INDEXNOW_OK host={host} mode={mode} urls={len(batch)} key_file={key_file}')
+        submitted += len(batch)
+if submitted == 0:
+    print(f'INDEXNOW_NOOP mode={mode} no matching URLs for configured hosts')
 PY
-
-echo "Submitting to IndexNow..."
-curl -sS -X POST "https://api.indexnow.org/indexnow" \
-  -H "Content-Type: application/json; charset=utf-8" \
-  --data-binary @"$TMP_JSON"
-
-echo
-echo "Done."
-rm -f "$TMP_JSON"

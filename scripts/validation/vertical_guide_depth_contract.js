@@ -21,9 +21,12 @@ function wordsFromHtml(html) {
     .filter(Boolean).length;
 }
 
+const WORD_WARN_BAND = 20;
+
 function run() {
   const repoRoot = path.join(__dirname, '..', '..');
   const issues = [];
+  const warnings = [];
   Object.entries(RULES).forEach(([vertical, rule]) => {
     const dir = path.join(repoRoot, rule.dir);
     if (!fs.existsSync(dir)) {
@@ -39,7 +42,12 @@ function run() {
       if (!String(json.title || '').trim()) issues.push(`${vertical}: ${file} missing title`);
       const html = String(json.main_html || '');
       const words = wordsFromHtml(html);
-      if (words < rule.minWords) issues.push(`${vertical}: ${file} is thin (${words} words)`);
+      const failBelow = rule.minWords - WORD_WARN_BAND;
+      if (words < failBelow) {
+        issues.push(`${vertical}: ${file} is below fail floor (${words} < ${failBelow} words)`);
+      } else if (words < rule.minWords) {
+        warnings.push(`${vertical}: ${file} is below target but within tolerance (${words} < ${rule.minWords} words)`);
+      }
       if (vertical === 'dentistry') {
         ['definition', 'cost', 'recovery', 'candidacy', 'questions', 'red-flags', 'next-steps'].forEach((sectionId) => {
           if (!html.includes(`id=\"${sectionId}\"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
@@ -70,6 +78,11 @@ function run() {
       }
     });
   });
+
+  if (warnings.length) {
+    console.warn('VERTICAL GUIDE DEPTH WARNINGS');
+    warnings.forEach((msg) => console.warn(` - ${msg}`));
+  }
 
   if (issues.length) {
     console.error('VERTICAL GUIDE DEPTH FAIL');

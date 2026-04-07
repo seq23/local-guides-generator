@@ -6,7 +6,7 @@
     "prebuild": "node scripts/validation/entrypoint_exports_contract.js && node scripts/validation/pagesetfile_contract.js",
     "build": "npm run prepare:site && node scripts/build_city_sites.js",
     "build:all": "node scripts/build_all_packs.js",
-    "validate:all": "node scripts/validate_core.js",
+    "validate:all": "node scripts/validate_coverage_parity.js && node scripts/validate_llm_surface.js && node scripts/validate_core.js && node scripts/validate_indexnow.js && node scripts/validate_snapshot_package.js",
     "validate:citation-routing": "LKG_VALIDATE_DIST=1 node scripts/validate_citation_routing.js",
     "snapshot:lkg": "node scripts/snapshot_lkg.js",
     "postbuild": "node scripts/sitemap_emit.js && node scripts/llms_emit.js && node scripts/citation_manifest_emit.js && node scripts/indexnow_emit.js && node scripts/distribution_manifest_emit.js && node scripts/redirects_emit.js && node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
@@ -23,7 +23,18 @@
     "prepare:site": "node scripts/prepare_site.js",
     "build:dist": "rm -rf dist && node scripts/build_all_packs.js",
     "validate:dist": "rm -rf dist && node scripts/build_all_packs.js && LKG_VALIDATE_DIST=1 npm run validate:all",
-    "indexnow:ping": "node scripts/indexnow_ping.js"
+    "indexnow:ping": "node scripts/indexnow_ping.js",
+    "distribution:bootstrap": "bash distribution_scripts/bootstrap_distribution.sh",
+    "distribution:prepare": "npm run build:all && LKG_VALIDATE_DIST=1 npm run validate:all",
+    "distribution:deploy": "bash distribution_scripts/deploy_distribution.sh",
+    "ingestion:pull": "node scripts/reference/pull_velocity_candidates.js",
+    "ingestion:generate": "node scripts/reference/generate_from_candidates.js",
+    "ingestion:guard": "node scripts/reference/guard_visible_surfaces.js",
+    "validate:indexnow": "node scripts/validate_indexnow.js",
+    "validate:coverage-parity": "node scripts/validate_coverage_parity.js",
+    "validate:llm-surface": "node scripts/validate_llm_surface.js",
+    "full:dry-run": "node scripts/reference/pull_velocity_candidates.js && node scripts/reference/generate_from_candidates.js && node scripts/reference/guard_visible_surfaces.js && node scripts/build_all_packs.js && LKG_VALIDATE_DIST=1 npm run validate:all && npm run distribution:prepare && node scripts/validate_indexnow.js && node scripts/validate_snapshot_package.js",
+    "validate:snapshot-package": "node scripts/validate_snapshot_package.js"
   },
   "dependencies": {},
   "engines": {

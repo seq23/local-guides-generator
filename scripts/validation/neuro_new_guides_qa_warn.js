@@ -33,30 +33,44 @@ function htmlToText(html) {
     .trim();
 }
 
+const WORD_TARGET = 600;
+const WORD_FAIL_BELOW = 520;
+const H3_TARGET = 6;
+const H3_FAIL_BELOW = 4;
+const AVG_SENTENCE_WARN_ABOVE = 20;
+const AVG_SENTENCE_FAIL_ABOVE = 24;
+
+let failures = [];
 let warnings = [];
 for (const file of TARGETS) {
   const fp = path.join(GUIDES_DIR, file);
   if (!fs.existsSync(fp)) {
-    warnings.push(`${file}: missing guide file`);
+    failures.push(`${file}: missing guide file`);
     continue;
   }
   let j;
-  try { j = JSON.parse(fs.readFileSync(fp, 'utf8')); } catch (e) { warnings.push(`${file}: invalid json`); continue; }
+  try { j = JSON.parse(fs.readFileSync(fp, 'utf8')); } catch (e) { failures.push(`${file}: invalid json`); continue; }
   const html = String(j.main_html || '');
   const text = htmlToText(html);
   const words = text.split(/\s+/).filter(Boolean);
   const sentences = text.split(/[.!?]+/).map(s=>s.trim()).filter(Boolean);
   const avgSentence = sentences.length ? (words.length / sentences.length) : 999;
   const h3s = (html.match(/<h3>/g) || []).length;
-  if (words.length < 600) warnings.push(`${file}: thin guide (${words.length} words)`);
-  if (h3s < 6) warnings.push(`${file}: weak section depth (${h3s} h3 sections)`);
-  if (avgSentence > 20) warnings.push(`${file}: reading level may be too high (avg sentence ${avgSentence.toFixed(1)} words)`);
+  if (words.length < WORD_FAIL_BELOW) failures.push(`${file}: guide below fail floor (${words.length} < ${WORD_FAIL_BELOW} words)`);
+  else if (words.length < WORD_TARGET) warnings.push(`${file}: guide below target but within tolerance (${words.length} < ${WORD_TARGET} words)`);
+  if (h3s < H3_FAIL_BELOW) failures.push(`${file}: section depth below fail floor (${h3s} < ${H3_FAIL_BELOW} h3 sections)`);
+  else if (h3s < H3_TARGET) warnings.push(`${file}: section depth below target but within tolerance (${h3s} < ${H3_TARGET} h3 sections)`);
+  if (avgSentence > AVG_SENTENCE_FAIL_ABOVE) failures.push(`${file}: reading level above fail ceiling (avg sentence ${avgSentence.toFixed(1)} > ${AVG_SENTENCE_FAIL_ABOVE} words)`);
+  else if (avgSentence > AVG_SENTENCE_WARN_ABOVE) warnings.push(`${file}: reading level above target but within tolerance (avg sentence ${avgSentence.toFixed(1)} > ${AVG_SENTENCE_WARN_ABOVE} words)`);
   if (!/what to ask|questions to ask|how to choose|what to compare|next steps|red flags|green flags/i.test(text)) warnings.push(`${file}: low decision-utility signal`);
   if (!/provider|clinic|therapist/i.test(text)) warnings.push(`${file}: weak provider-seeking alignment`);
   if (!/Educational only\.|not medical advice/i.test(html)) warnings.push(`${file}: missing compliance reminder`);
 }
 if (warnings.length) {
   for (const w of warnings) console.warn(`GUIDE QA WARNING: ${w}`);
+}
+if (failures.length) {
+  for (const f of failures) console.error(`GUIDE QA FAIL: ${f}`);
   process.exit(1);
 }
 console.log('GUIDE QA PASS (neuro new guides)');

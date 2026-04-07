@@ -1,0 +1,65 @@
+{
+  "indexnow": {
+    "hosts": [
+      "uscisexam.com",
+      "theaccidentguides.com",
+      "dentistryguides.com",
+      "hormonesivhair.com",
+      "neuroevalguides.com"
+    ],
+    "key": "6f1a4f27d8c9b2e3a4f518709c2d6b3e1f0a9d8c7b6e5f4a3c2b1d0e9f8a7b6c",
+    "key_file": "6f1a4f27d8c9b2e3a4f518709c2d6b3e1f0a9d8c7b6e5f4a3c2b1d0e9f8a7b6c.txt",
+    "priority_file": "dist/indexnow-priority.txt",
+    "batch_file": "dist/indexnow-batch.txt",
+    "chunk_size": 100
+  },
+  "gsc": {
+    "credentials_path": "/absolute/path/to/search-console-service-account.json",
+    "sites": [
+      {
+        "host": "uscisexam.com",
+        "site_url": "sc-domain:uscisexam.com",
+        "sitemaps": [
+          "https://uscisexam.com/sitemap.xml",
+          "https://uscisexam.com/sitemap-fresh.xml"
+        ]
+      },
+      {
+        "host": "theaccidentguides.com",
+        "site_url": "sc-domain:theaccidentguides.com",
+        "sitemaps": [
+          "https://theaccidentguides.com/sitemap.xml",
+          "https://theaccidentguides.com/sitemap-fresh.xml"
+        ]
+      },
+      {
+        "host": "dentistryguides.com",
+        "site_url": "sc-domain:dentistryguides.com",
+        "sitemaps": [
+          "https://dentistryguides.com/sitemap.xml",
+          "https://dentistryguides.com/sitemap-fresh.xml"
+        ]
+      },
+      {
+        "host": "hormonesivhair.com",
+        "site_url": "sc-domain:hormonesivhair.com",
+        "sitemaps": [
+          "https://hormonesivhair.com/sitemap.xml",
+          "https://hormonesivhair.com/sitemap-fresh.xml"
+        ]
+      },
+      {
+        "host": "neuroevalguides.com",
+        "site_url": "sc-domain:neuroevalguides.com",
+        "sitemaps": [
+          "https://neuroevalguides.com/sitemap.xml",
+          "https://neuroevalguides.com/sitemap-fresh.xml"
+        ]
+      }
+    ]
+  },
+  "inspection": {
+    "priority_file": "dist/distribution-priority-urls.txt",
+    "output_dir": "dist/inspection-results"
+  }
+}

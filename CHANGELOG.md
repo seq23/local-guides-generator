@@ -1,5 +1,13 @@
 # Changelog
 
+# 2026-04-07
+
+- Revalidated core contracts and inventories (rotating focus: TRT).
+- Updated Verification & Updates page and machine-readable snapshot.
+- Revalidated core contracts and inventories (rotating focus: TRT).
+- Updated Verification & Updates page and machine-readable snapshot.
+- Revalidated core contracts and inventories (rotating focus: TRT).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-04-05
 
 - Revalidated core contracts and inventories (rotating focus: PI).

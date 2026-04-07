@@ -5,15 +5,19 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+
+concurrency:
+  group: rotating-refresh
+  cancel-in-progress: false
 jobs:
   rotate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: { fetch-depth: 0 }
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci --ignore-scripts
       - run: node scripts/automation/rotate_vertical_refresh.js
@@ -23,4 +27,5 @@ jobs:
           git add -A
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "chore: rotating verification refresh"
+          git pull --rebase origin main || true
           git push

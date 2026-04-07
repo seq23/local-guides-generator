@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+const WARN_THRESHOLD = 20;
+const FAIL_THRESHOLD = 50;
+
 function collectFiles(dir, results = []) {
   if (!fs.existsSync(dir)) return results;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -47,16 +50,30 @@ function run() {
   const deduped = Array.from(new Set(required));
   const missing = deduped.filter((fp) => !fs.readFileSync(fp, 'utf8').includes('data-fanout-query-cluster="true"'));
   const exportPath = path.join(distDir, '_fanout_query_clusters.json');
-  const warnings = [];
-  if (!fs.existsSync(exportPath)) warnings.push('missing dist/_fanout_query_clusters.json export artifact');
-  warnings.push(...missing.map((fp) => `missing fan-out query cluster block: ${path.relative(repoRoot, fp).replace(/\\/g, '/')}`));
+  const issues = [];
+  if (!fs.existsSync(exportPath)) issues.push('missing dist/_fanout_query_clusters.json export artifact');
+  issues.push(...missing.map((fp) => `missing fan-out query cluster block: ${path.relative(repoRoot, fp).replace(/\\/g, '/')}`));
 
-  if (warnings.length) {
-    console.warn('⚠️ FANOUT WARNING: fan-out coverage is incomplete.');
-    warnings.forEach((msg) => console.warn(`   - ${msg}`));
-  } else {
-    console.log('ℹ️ FANOUT WARNING CHECK: all required fan-out surfaces are present.');
+  const issueCount = issues.length;
+  if (issueCount >= FAIL_THRESHOLD) {
+    console.error(`FANOUT WARNING FAIL: fan-out issues ${issueCount} (threshold ${FAIL_THRESHOLD})`);
+    issues.forEach((msg) => console.error(` - ${msg}`));
+    process.exit(1);
   }
+
+  if (issueCount >= WARN_THRESHOLD) {
+    console.warn(`⚠️ FANOUT WARNING: fan-out issues ${issueCount} (warning threshold ${WARN_THRESHOLD})`);
+    issues.forEach((msg) => console.warn(`   - ${msg}`));
+    return;
+  }
+
+  if (issueCount > 0) {
+    console.log(`ℹ️ FANOUT WARNING CHECK: minor fan-out issues ${issueCount} below warning threshold ${WARN_THRESHOLD}.`);
+    issues.forEach((msg) => console.log(`   - ${msg}`));
+    return;
+  }
+
+  console.log('ℹ️ FANOUT WARNING CHECK: all required fan-out surfaces are present.');
 }
 
 module.exports = { run };

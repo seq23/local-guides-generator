@@ -1,50 +1,56 @@
 #!/usr/bin/env bash
 set -euo pipefail
+export PYTHONDONTWRITEBYTECODE=1
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT_DIR"
 
-# Usage:
-# ./distribution_scripts/deploy_distribution.sh \
-#   example.com \
-#   YOUR_INDEXNOW_KEY \
-#   service-account.json \
-#   "sc-domain:example.com"
+npm run distribution:prepare
 
-HOST="${1:?Missing host}"
-INDEXNOW_KEY="${2:?Missing IndexNow key}"
-GSC_CREDS="${3:?Missing service account json path}"
-GSC_SITE_URL="${4:?Missing GSC siteUrl, e.g. sc-domain:example.com}"
+python3 - <<'PY2'
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path('distribution_scripts').resolve()))
+from distribution_common import load_config
+config = load_config()
+if not config.get('indexnow', {}).get('key', '').strip():
+    raise SystemExit('ERROR: IndexNow key missing. Run: npm run distribution:bootstrap')
+if not config.get('indexnow', {}).get('key_file', '').strip():
+    raise SystemExit('ERROR: IndexNow key_file missing. Run: npm run distribution:bootstrap')
+print('CONFIG_OK')
+PY2
 
-echo "== 1) Submit Google sitemaps =="
-python3 distribution_scripts/gsc_submit_sitemaps.py \
-  "$GSC_CREDS" \
-  "$GSC_SITE_URL" \
-  "https://${HOST}/sitemap.xml" \
-  "https://${HOST}/sitemap-fresh.xml"
+GSC_READY=1
+python3 - <<'PY3' || GSC_READY=0
+import importlib.util
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path('distribution_scripts').resolve()))
+from distribution_common import load_config
+config = load_config()
+creds = config.get('gsc', {}).get('credentials_path', '').strip()
+if not creds:
+    raise SystemExit(1)
+for mod in ('google.oauth2','googleapiclient.discovery'):
+    if importlib.util.find_spec(mod) is None:
+        raise SystemExit(1)
+print('GSC_READY')
+PY3
+
+if [[ "$GSC_READY" == "1" ]]; then
+  python3 distribution_scripts/gsc_submit_sitemaps.py
+else
+  echo 'GSC_SKIP missing credentials_path or Google API python packages'
+fi
+
+bash distribution_scripts/indexnow_submit.sh priority
+bash distribution_scripts/indexnow_submit.sh batch
+
+if [[ "$GSC_READY" == "1" ]]; then
+  python3 distribution_scripts/gsc_inspect_urls.py
+else
+  echo 'INSPECTION_SKIP missing credentials_path or Google API python packages'
+fi
 
 echo
-echo "== 2) Submit IndexNow priority URLs =="
-./distribution_scripts/indexnow_submit.sh \
-  "$HOST" \
-  "$INDEXNOW_KEY" \
-  "dist/indexnow-priority.txt"
-
-echo
-echo "== 3) Submit IndexNow batch URLs =="
-./distribution_scripts/indexnow_submit.sh \
-  "$HOST" \
-  "$INDEXNOW_KEY" \
-  "dist/indexnow-batch.txt"
-
-echo
-echo "== 4) Inspect priority URLs in GSC API =="
-python3 distribution_scripts/gsc_inspect_urls.py \
-  "$GSC_CREDS" \
-  "$GSC_SITE_URL" \
-  "dist/indexnow-priority.txt" \
-  "dist/inspection-results.json"
-
-echo
-echo "Done."
-echo
-echo "IMPORTANT:"
-echo "- Google 'Request indexing' is still manual in Search Console UI."
-echo "- After this script finishes, open GSC and manually request indexing for 5-10 top URLs."
+echo 'DONE'
+echo 'Manual step: in Search Console, request indexing for 5-10 highest-priority URLs only.'
