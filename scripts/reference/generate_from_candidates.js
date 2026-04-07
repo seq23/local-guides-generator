@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require("fs");
 const path = require("path");
+const { PACK_SITE_CONFIG } = require("../lib/pack_site_config");
 
 const ROOT = process.cwd();
 const DATA_DIR = path.join(ROOT, "data", "reference");
@@ -40,15 +41,36 @@ function escapeHtml(s) {
     .replace(/'/g, "&#39;");
 }
 
-function getSiteConfig() {
+function getFallbackSiteConfig() {
   const site = readJsonSafe(SITE_JSON, {});
-  const siteUrl = String(site.siteUrl || "").trim();
+  const siteUrl = String(site.siteUrl || "").trim().replace(/\/$/, "");
   const brandName = String(site.brandName || "Site").trim() || "Site";
-  if (!siteUrl) throw new Error("data/site.json missing siteUrl");
-  return { siteUrl: siteUrl.replace(/\/$/, ""), brandName };
+  return siteUrl ? { siteUrl, brandName } : null;
 }
 
-function renderPage(c, pageUrl, brandName) {
+function getSiteConfigForVertical(vertical) {
+  const key = String(vertical || "").trim();
+  const fromPack = PACK_SITE_CONFIG[key];
+  if (fromPack && fromPack.siteUrl) {
+    return {
+      siteUrl: String(fromPack.siteUrl).trim().replace(/\/$/, ""),
+      brandName: String(fromPack.brandName || "Site").trim() || "Site",
+    };
+  }
+
+  const envUrl = String(process.env.SITE_URL || "").trim().replace(/\/$/, "");
+  const envBrand = String(process.env.BRAND_NAME || "Site").trim() || "Site";
+  if (envUrl) return { siteUrl: envUrl, brandName: envBrand };
+
+  const fallback = getFallbackSiteConfig();
+  if (fallback) return fallback;
+
+  throw new Error(
+    `Unable to resolve site config for vertical '${key}'. Add it to PACK_SITE_CONFIG or provide SITE_URL.`
+  );
+}
+
+function renderPage(c, pageUrl, siteUrl, brandName) {
   const safeQuery = escapeHtml(c.query);
   const safeVertical = escapeHtml(c.vertical);
   const safeSource = escapeHtml(c.source);
@@ -82,7 +104,7 @@ function renderPage(c, pageUrl, brandName) {
     "@type": "WebPage",
     name: c.query,
     url: pageUrl,
-    isPartOf: { "@type": "WebSite", name: brandName, url: `${pageUrl.split('/reference/')[0]}/` },
+    isPartOf: { "@type": "WebSite", name: brandName, url: `${siteUrl}/` },
   })}</script>
   <script type="application/ld+json">${JSON.stringify(faqJson)}</script>
 </head>
@@ -128,48 +150,86 @@ function renderPage(c, pageUrl, brandName) {
 </html>`;
 }
 
+function normalizePageRecord(page) {
+  const relFile = String(page.file || "").replace(/\\/g, "/");
+  const vertical = String(page.vertical || "").trim() || relFile.split("/").filter(Boolean)[1] || "";
+  return { ...page, file: relFile, vertical };
+}
+
+function writeReferencePage(page, candidateRecord) {
+  const relFile = String(page.file || "").replace(/\\/g, "/");
+  if (!relFile) return;
+  const outFile = path.join(ROOT, relFile);
+  if (!fs.existsSync(outFile) && !candidateRecord) return;
+
+  const siteCfg = getSiteConfigForVertical(page.vertical);
+  const pageUrl = `${siteCfg.siteUrl}/${relFile.replace(/index\.html$/, "").replace(/\\/g, "/")}`;
+  const candidate = candidateRecord || {
+    id: page.id,
+    vertical: page.vertical,
+    query: page.query || page.id || relFile,
+    source: page.source || "repo-local",
+    cluster: Array.isArray(page.cluster) && page.cluster.length ? page.cluster : ["reference"],
+  };
+
+  ensureDir(path.dirname(outFile));
+  fs.writeFileSync(outFile, renderPage(candidate, pageUrl, siteCfg.siteUrl, siteCfg.brandName));
+}
+
 function main() {
   ensureDir(DATA_DIR);
   ensureDir(REFERENCE_ROOT);
 
   const incoming = readJsonSafe(INCOMING, []);
-  const registry = readJsonSafe(REGISTRY, { processed_ids: [], pages: [] });
-  const { siteUrl, brandName } = getSiteConfig();
-  const usedFiles = new Set((registry.pages || []).map((p) => p.file));
+  const registry = readJsonSafe(REGISTRY, { processed_ids: [], pages: [], promoted_ids: [] });
 
-  incoming.sort((a, b) => Number(b.confidence || 0) - Number(a.confidence || 0));
+  if (!Array.isArray(registry.processed_ids)) registry.processed_ids = [];
+  if (!Array.isArray(registry.pages)) registry.pages = [];
+  if (!Array.isArray(registry.promoted_ids)) registry.promoted_ids = [];
+
+  registry.pages = registry.pages.map(normalizePageRecord);
+
+  const incomingById = new Map(
+    incoming.filter((c) => c && typeof c.id === "string").map((c) => [c.id, c])
+  );
+
+  const usedFiles = new Set(registry.pages.map((p) => p.file));
 
   let count = 0;
   for (const c of incoming) {
     if (count >= MAX_NEW_PAGES_PER_RUN) break;
 
     let slug = slugify(c.id);
-    let relFile = path.join("reference", c.vertical, slug, "index.html");
+    let relFile = path.join("reference", c.vertical, slug, "index.html").replace(/\\/g, "/");
     let collisionCounter = 2;
     while (usedFiles.has(relFile)) {
       slug = `${slugify(c.id)}-${collisionCounter++}`;
-      relFile = path.join("reference", c.vertical, slug, "index.html");
+      relFile = path.join("reference", c.vertical, slug, "index.html").replace(/\\/g, "/");
     }
     usedFiles.add(relFile);
 
-    const outFile = path.join(ROOT, relFile);
-    const outDir = path.dirname(outFile);
-    const pageUrl = `${siteUrl}/${relFile.replace(/index\.html$/, "").replace(/\\/g, "/")}`;
-    ensureDir(outDir);
-
-    fs.writeFileSync(outFile, renderPage(c, pageUrl, brandName));
-    registry.processed_ids.push(c.id);
-    registry.pages.push({
+    const page = {
       id: c.id,
       vertical: c.vertical,
       source: c.source,
-      file: relFile.replace(/\\/g, "/"),
+      query: c.query,
+      cluster: c.cluster,
+      file: relFile,
       promoted: false,
       created_at: new Date().toISOString(),
-    });
+    };
+
+    writeReferencePage(page, c);
+    registry.processed_ids.push(c.id);
+    registry.pages.push(page);
     count++;
   }
 
+  for (const page of registry.pages) {
+    writeReferencePage(page, incomingById.get(page.id));
+  }
+
+  registry.updated_at = new Date().toISOString();
   fs.writeFileSync(REGISTRY, JSON.stringify(registry, null, 2));
   console.log(`generate_from_candidates: wrote ${count} reference page(s)`);
 }

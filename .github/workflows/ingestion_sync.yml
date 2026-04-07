@@ -56,6 +56,8 @@ jobs:
 
       - name: Submit IndexNow
         run: node scripts/indexnow_submit.js
+        env:
+          INDEXNOW_ALLOW_FAILURE: '1'
 
       - name: Commit and push if changed
         run: |

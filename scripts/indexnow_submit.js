@@ -5,6 +5,9 @@ const https = require('https');
 
 const ROOT = process.cwd();
 const CONFIG = path.join(ROOT, 'distribution.config.json');
+const ALLOW_FAILURE = process.env.INDEXNOW_ALLOW_FAILURE === '1';
+const MAX_RETRIES = Number(process.env.INDEXNOW_MAX_RETRIES || 3);
+const RETRYABLE_STATUSES = new Set([408, 425, 429, 500, 502, 503, 504]);
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -18,6 +21,10 @@ function chunk(arr, size) {
   const out = [];
   for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
   return out;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function postJson(url, body) {
@@ -43,6 +50,31 @@ function postJson(url, body) {
     req.write(payload);
     req.end();
   });
+}
+
+function isRetryableError(errOrRes) {
+  if (!errOrRes) return false;
+  if (errOrRes instanceof Error) return true;
+  return RETRYABLE_STATUSES.has(Number(errOrRes.status || 0));
+}
+
+async function submitWithRetry(host, payload) {
+  let lastError = null;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt += 1) {
+    try {
+      const res = await postJson('https://www.bing.com/indexnow', payload);
+      if (res.status && res.status < 300) return res;
+      lastError = new Error(`IndexNow submit failed for ${host}: HTTP ${res.status || 'unknown'} ${res.body || ''}`);
+      if (!isRetryableError(res) || attempt === MAX_RETRIES) throw lastError;
+    } catch (err) {
+      lastError = err;
+      if (attempt === MAX_RETRIES || !isRetryableError(err)) throw err;
+    }
+    const delay = 1000 * attempt;
+    console.warn(`indexnow_submit: retrying host=${host} attempt=${attempt + 1}/${MAX_RETRIES} after ${delay}ms`);
+    await sleep(delay);
+  }
+  throw lastError || new Error(`IndexNow submit failed for ${host}`);
 }
 
 async function main() {
@@ -72,16 +104,17 @@ async function main() {
         keyLocation: `https://${host}/${idx.key}.txt`,
         urlList: urls,
       };
-      const res = await postJson('https://www.bing.com/indexnow', payload);
-      if (!res.status || res.status >= 300) {
-        throw new Error(`IndexNow submit failed for ${host}: HTTP ${res.status || 'unknown'} ${res.body || ''}`);
-      }
+      const res = await submitWithRetry(host, payload);
       console.log(`indexnow_submit: host=${host} status=${res.status} urls=${urls.length}`);
     }
   }
 }
 
 main().catch((err) => {
+  if (ALLOW_FAILURE) {
+    console.warn(`indexnow_submit: non-blocking warning: ${err.message}`);
+    process.exit(0);
+  }
   console.error(err);
   process.exit(1);
 });
