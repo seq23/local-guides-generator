@@ -49,9 +49,17 @@ function run() {
   if (pct(cityPages.filter(p => p.inIndexNowBatch || p.inIndexNowPriority).length, cityPages.length) < 25) fail('city-home batch/priority coverage below 25%');
   if (pct(guidePages.filter(p => p.inLlms || p.inLlmsFull || p.inLlmsGuides).length, guidePages.length) < 80) fail('guide-detail llms coverage below 80%');
 
-  const freshPages = pages.filter(p => /^fresh-/.test(String(p.freshnessClass || '')));
-  const freshTracked = freshPages.filter(p => p.inFreshSitemap).length;
-  if (freshPages.length && pct(freshTracked, freshPages.length) < 70) fail('fresh pages underrepresented in sitemap-fresh.xml');
+  const guidesHubPages = pages.filter(p => p.pageFamily === 'guides-hub');
+  const guidePagesForFresh = pages.filter(p => p.pageFamily === 'guide-detail');
+  const cityPagesForFresh = pages.filter(p => p.pageFamily === 'city-home');
+
+  if (homePages.some(p => !p.inFreshSitemap)) fail('home page missing from sitemap-fresh.xml');
+  if (guidesHubPages.some(p => !p.inFreshSitemap)) fail('guides hub missing from sitemap-fresh.xml');
+
+  const guideFreshMin = Math.min(15, guidePagesForFresh.length);
+  const cityFreshMin = Math.min(20, cityPagesForFresh.length);
+  if (guidePagesForFresh.filter(p => p.inFreshSitemap).length < guideFreshMin) fail(`guide-detail fresh coverage below expected minimum (${guideFreshMin})`);
+  if (cityPagesForFresh.filter(p => p.inFreshSitemap).length < cityFreshMin) fail(`city-home fresh coverage below expected minimum (${cityFreshMin})`);
 
   const summary = fs.readFileSync(summaryPath, 'utf8');
   if (!/Focus family coverage:/i.test(summary)) fail('distribution-summary.txt missing focus coverage block');

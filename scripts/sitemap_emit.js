@@ -185,10 +185,63 @@ function run() {
   const cities = records.filter((r) => r.bucket === 'cities');
   const states = records.filter((r) => r.bucket === 'states');
   const core = records.filter((r) => r.bucket === 'core');
-  const fresh = records
-    .filter((r) => r.fresh || r.priority >= 0.9)
-    .sort((a, b) => b.priority - a.priority || b.lastmod.localeCompare(a.lastmod) || a.route.localeCompare(b.route))
-    .slice(0, 250);
+
+  function routeRank(route) {
+    return {
+      '/': 100,
+      '/guides/': 95,
+      '/faq/': 40,
+      '/request-assistance/': 35,
+      '/next-steps/': 20,
+    }[route] || 0;
+  }
+
+  function byFreshPriority(a, b) {
+    return (
+      Number(b.fresh) - Number(a.fresh) ||
+      b.priority - a.priority ||
+      routeRank(b.route) - routeRank(a.route) ||
+      b.lastmod.localeCompare(a.lastmod) ||
+      a.route.localeCompare(b.route)
+    );
+  }
+
+  const uniqueByRoute = (items) => {
+    const seen = new Set();
+    return items.filter((item) => {
+      if (seen.has(item.route)) return false;
+      seen.add(item.route);
+      return true;
+    });
+  };
+
+  const freshCoreRoutes = new Set(['/', '/guides/', '/faq/', '/request-assistance/']);
+  const freshCore = core
+    .filter((r) => freshCoreRoutes.has(r.route))
+    .sort(byFreshPriority)
+    .slice(0, 4);
+
+  const freshGuidesHub = guides
+    .filter((r) => r.pageFamily === 'guides-hub' || r.route === '/guides/')
+    .sort(byFreshPriority)
+    .slice(0, 1);
+
+  const freshGuides = guides
+    .filter((r) => r.pageFamily === 'guide-detail')
+    .sort(byFreshPriority)
+    .slice(0, 15);
+
+  const freshCities = cities
+    .filter((r) => r.pageFamily === 'city-home')
+    .sort(byFreshPriority)
+    .slice(0, 20);
+
+  const fresh = uniqueByRoute([
+    ...freshCore,
+    ...freshGuidesHub,
+    ...freshGuides,
+    ...freshCities,
+  ]).slice(0, 60);
 
   const outputs = {
     'sitemap-guides.xml': guides,

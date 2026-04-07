@@ -70,6 +70,7 @@ const sitemapDistributionContract = require('./validation/sitemap_distribution_c
 const distributionArtifactsContract = require('./validation/distribution_artifacts_contract');
 const internalDistributionContract = require('./validation/internal_distribution_contract');
 const distributionDominanceContract = require('./validation/distribution_dominance_contract');
+const sitemapFreshContract = require('./validation/sitemap_fresh_contract');
 require('./validation/footer_weight_contract');
 require('./validation/cta_dedup_contract');
 
@@ -174,6 +175,7 @@ function main() {
     distributionArtifactsContract.run({ site });
     internalDistributionContract.run({ site });
     distributionDominanceContract.run({ site });
+    sitemapFreshContract.run({ site });
     coverageRenderingContract.run({ site });
     fanoutWarning.run({ site });
     fanoutDistributionContract.run({ site });
