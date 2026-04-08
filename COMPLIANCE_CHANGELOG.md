@@ -71,3 +71,10 @@ Executed the approved cumulative hierarchy pass on top of the ADA-compliant base
 - Packaged as a full baseline snapshot ZIP from repo root.
 
 - Reduced fanout/deployment telemetry leakage in user-facing UI: removed visible "Local routing layer" city lists from the rendered priority block, kept city links only in hidden contract markup, moved "Recently refreshed" to the end of the page flow, and reduced its visual weight so it behaves like tertiary support instead of a primary content block.
+
+## 2026-04-08 — Answer Surface Authority Upgrade
+- strengthened existing answer surfaces instead of adding redundant blocks
+- upgraded evaluation frameworks with decision-weighting and common-mistake language
+- added localized conclusion layer on city pages and stronger authority framing on state pages
+- added comparison blocks and stronger guides/home answer hierarchy
+- added answer-block strength validation to keep the new surfaces from regressing

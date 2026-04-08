@@ -2242,3 +2242,58 @@ details.accordion#state-faq .accordion-meta {
     font-size: 0.84rem;
   }
 }
+
+
+
+/* Answer-surface authority upgrades */
+.answer-block,
+.citation-summary {
+  margin: 0 0 24px 0;
+  padding: 14px 16px;
+  border-left: 4px solid var(--accent);
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.answer-block p:last-child,
+.citation-summary p:last-child {
+  margin-bottom: 0;
+}
+.answer-block strong,
+.citation-summary strong {
+  font-weight: 800;
+}
+.answer-when,
+.answer-tradeoff,
+.answer-context,
+.citation-summary ul {
+  color: var(--text);
+}
+.answer-microcopy,
+.citation-summary .muted {
+  color: var(--muted);
+}
+.comparison-block,
+.localized-conclusion,
+.state-authority-block {
+  margin: 20px 0 24px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.comparison-block ul,
+.localized-conclusion ul,
+.state-authority-block ul {
+  margin: 10px 0 0 0;
+}
+.decision-links-list li {
+  margin: 0.5rem 0;
+}
+.recently-refreshed,
+[data-distribution-priority-block="true"] .small-tertiary-note,
+.local-routes-touched,
+.local-routes {
+  font-size: 0.82rem;
+}

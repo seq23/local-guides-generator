@@ -353,3 +353,10 @@ Phase-2 PI Distribution Governance requires a sponsored placement block (one fir
 - added Wave 1 USCIS execution runbook documenting the promoted-city, runtime-support, publication, and parity-validation flow
 - added Phase 3 expansion-rules runbook documenting when USCIS can scale further and how TRT/Neuro follow inside Phase 3
 - updated runbook indexes to expose the new Phase 3 execution docs
+
+## 2026-04-08 — Answer Surface Authority Upgrade
+- strengthened existing answer surfaces instead of adding redundant blocks
+- upgraded evaluation frameworks with decision-weighting and common-mistake language
+- added localized conclusion layer on city pages and stronger authority framing on state pages
+- added comparison blocks and stronger guides/home answer hierarchy
+- added answer-block strength validation to keep the new surfaces from regressing

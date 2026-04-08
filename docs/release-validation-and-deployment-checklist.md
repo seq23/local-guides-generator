@@ -17,3 +17,7 @@
 - `package.json`
 - `_headers`
 - `_redirects` when applicable
+
+
+## Answer Surface Authority Upgrade
+All major public surfaces now require a stronger answer-first layer. Existing short-answer / citation-summary surfaces remain the canonical answer zone, but they must now (1) appear before the evaluation framework when present, (2) include explicit decision language, (3) include contrast or tradeoff language, and (4) remain visually dominant over tertiary support rails.

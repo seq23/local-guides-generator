@@ -941,6 +941,24 @@ function buildFaqSchema(items) {
   };
 }
 
+
+function buildAnswerFaqSchema(question, answer) {
+  const q = String(question || '').trim();
+  const a = String(answer || '').replace(/\s+/g, ' ').trim();
+  if (!q || !a) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a }
+      }
+    ]
+  };
+}
+
 function buildPiDirectoryItemListSchema(opts) {
   const areaName = opts && opts.areaName ? String(opts.areaName) : "";
   const pageName = opts && opts.pageName ? String(opts.pageName) : "";
@@ -1079,12 +1097,21 @@ function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, p
       listings: listings
     });
     if (schema) ld.push(schema);
+  const answerSchema = buildAnswerFaqSchema(title, `${title}. ${description}`.trim());
+  if (answerSchema) ld.push(answerSchema);
   }
 
   // Non-PI: Resource ItemList + FAQPage schema on city home pages (pack-controlled)
   const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
   const itemListEnabled = schemaCfg && schemaCfg.itemListEnabled === true;
   const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
+
+  if (cleanRoute === "" && city) {
+    const answerQuestion = title;
+    const answerText = `${title}. ${description}`.trim();
+    const answerSchema = buildAnswerFaqSchema(answerQuestion, answerText);
+    if (answerSchema) ld.push(answerSchema);
+  }
 
   if (!isPersonalInjury(verticalKey) && cleanRoute === "" && city) {
     if (itemListEnabled) {
@@ -1174,6 +1201,8 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
     primaryPageSchema,
     buildBreadcrumbsGlobal(siteUrl, route, title)
   ];
+  const answerSchema = buildAnswerFaqSchema(title, `${title}. ${description}`.trim());
+  if (answerSchema) ld.push(answerSchema);
 
   if (/^guides\/.+/.test(cleanRoute)) {
     ld.push(buildArticleSchemaGlobal(siteUrl, brandName, route, title, description, {
@@ -1871,15 +1900,72 @@ function renderEvalFrameworkHtml(verticalKey, city) {
   const items = bullets.map((b) => '<li>' + escapeHtml(b) + '</li>').join('\n');
 
   return (
-    '<section class="section" data-eval-framework="true">' +
+    '<section class="section answer-block" data-eval-framework="true">' +
       '<h2>' + heading + '</h2>' +
-      '<p class="muted">' + lead + '</p>' +
+      '<p class="answer-context"><strong>Direct answer:</strong> ' + lead + '</p>' +
+      '<p class="answer-when"><strong>What usually matters most:</strong> People tend to make a better decision when they compare fit, verification, process, and follow-up before they compare convenience or marketing language.</p>' +
+      '<p class="answer-tradeoff"><strong>Common mistake:</strong> Moving too fast on a price quote, a “best/top” claim, or a rushed intake before the service scope and documentation requirements are clear.</p>' +
       '<ul class="neutral-list">' + items + '</ul>' +
-      '<p class="muted" style="font-size:0.95em;margin-top:0.75rem">These factors describe common decision frameworks. They are not recommendations, rankings, or endorsements.</p>' +
+      '<p class="muted answer-microcopy" style="font-size:0.95em;margin-top:0.75rem">These factors describe common decision frameworks. They are not recommendations, rankings, or endorsements.</p>' +
     '</section>'
   );
 }
 
+
+
+function renderLocalizedConclusionHtml(verticalKey, city) {
+  const vk = String(verticalKey || '').trim().toLowerCase();
+  const marketRaw = String((city && (city.marketLabel || city.slug)) || 'this market');
+  const market = escapeHtml(marketRaw);
+  const stateName = escapeHtml(String((city && (city.stateName || city.state)) || 'this state'));
+
+  const map = {
+    pi: {
+      factor: 'injury seriousness, treatment timeline, and how much uncertainty still exists around fault and insurer pressure',
+      caution: 'a fast consultation pitch is not the same thing as a clean fit for your case'
+    },
+    dentistry: {
+      factor: 'how clearly the office explains diagnosis, alternatives, sequencing, and what is included in the written plan',
+      caution: 'the lowest headline number can hide the most expensive long-term path'
+    },
+    neuro: {
+      factor: 'what the evaluation is actually meant to answer, who performs it, and what the report can realistically support afterward',
+      caution: 'faster scheduling is not automatically better if the scope is too thin for the real decision'
+    },
+    trt: {
+      factor: 'whether the clinic explains candidacy, labs, monitoring, and tradeoffs instead of just selling convenience',
+      caution: 'a simple monthly pitch can mask weak follow-up or weak safety structure'
+    },
+    uscis_medical: {
+      factor: 'whether document handling, vaccination questions, and sealed-form logistics are explained clearly before the appointment',
+      caution: 'the real risk is usually paperwork friction, not just finding a nearby appointment'
+    }
+  };
+  const item = map[vk] || {
+    factor: 'fit, verification, and what happens next',
+    caution: 'marketing confidence is not the same thing as decision clarity'
+  };
+
+  return (
+    '<section class="localized-conclusion" data-localized-conclusion="true">' +
+      '<h2>What usually matters most in ' + market + '</h2>' +
+      '<p>In ' + market + ', people usually make a better decision when they focus first on ' + escapeHtml(item.factor) + '.</p>' +
+      '<p><strong>Why this matters:</strong> City pages should help you slow the decision down enough to compare the right questions against ' + stateName + ' verification steps, not just click the nearest option.</p>' +
+      '<p><strong>Watch for this tradeoff:</strong> ' + escapeHtml(item.caution) + '.</p>' +
+    '</section>'
+  );
+}
+
+function renderStateAuthorityBlockHtml(stateName, cityCount) {
+  return (
+    '<section class="state-authority-block" data-state-authority-block="true">' +
+      '<h2>How to use this state page well</h2>' +
+      '<p><strong>Direct answer:</strong> A state page should help you understand what stays constant across the state and which questions still need a city-level page.</p>' +
+      '<p>This page is strongest when you use it as a synthesis layer: statewide verification, statewide rules-of-thumb, and clean routing into ' + escapeHtml(String(cityCount || 0)) + ' city hubs where local comparison starts to matter.</p>' +
+      '<p><strong>Common mistake:</strong> Treating a state page like a ranking page instead of a routing and verification page.</p>' +
+    '</section>'
+  );
+}
 
 function renderCityDecisionSupportHtml(verticalKey, city) {
   const vk = String(verticalKey || '').trim().toLowerCase();
@@ -1928,8 +2014,8 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-evidence-timing="true"><h3>Evidence and timing</h3><p>Good firms usually ask early about photos, witnesses, records, scene conditions, and treatment timing. If a page never sounds interested in facts, that is useful information.</p></div>' +
           '<div class="card" data-city-insurance-caution="true"><h3>Insurance pressure and statements</h3><p>Many readers need help because insurer calls start before the medical picture is stable. A useful city page should make room for caution around recorded statements, early narratives, and pressure to move too fast.</p></div>' +
         '</div>' +
-        '<h3>Best companion guides for this decision</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+        '<h3>Compare these guides next</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -1955,8 +2041,8 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-specialist-fit="true"><h3>Generalist vs specialist</h3><p>Before you book, ask whether this sounds like general dental care or whether an endodontist, periodontist, oral surgeon, or cosmetic-focused provider should weigh in. Fit matters more than broad marketing claims.</p></div>' +
           '<div class="card" data-city-second-opinion-check="true"><h3>When to slow down</h3><p>If the plan is expensive, irreversible, or poorly explained, use the city page to pivot into the second-opinion and red-flag guides before committing. Pressure is not proof that treatment is urgent.</p></div>' +
         '</div>' +
-        '<h3>Best companion guides for this decision</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+        '<h3>Compare these guides next</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -1982,8 +2068,8 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-records-expectations="true"><h3>Records to gather</h3><p>Before you contact anyone, organize prior diagnoses, school or work history, questionnaires, and outside records that could affect scope. Missing context often creates delay or unnecessary repeat testing.</p></div>' +
           '<div class="card" data-city-next-step-expectations="true"><h3>What happens next</h3><p>Ask what decisions the evaluation can realistically support after the report: accommodations, therapy referrals, medication follow-up, coaching, or more testing. Good providers explain next steps without overselling certainty.</p></div>' +
         '</div>' +
-        '<h3>Best companion guides for this decision</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+        '<h3>Compare these guides next</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -2017,8 +2103,8 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-treatment-selection="true"><h3>TRT vs adjacent services</h3><p>Some clinics bundle TRT, peptides, IV hydration, weight loss, and hair services together. The right question is whether the clinic can explain why one path fits better than another instead of routing every reader into the same sale.</p></div>' +
           '<div class="card" data-city-trust-checks="true"><h3>When to slow down</h3><p>If pricing is vague, side effects are minimized, or the page sounds universally optimistic, use the guides below before booking. Pressure is not proof that treatment fit is strong.</p></div>' +
         '</div>' +
-        '<h3>Best companion guides for this decision</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+        '<h3>Compare these guides next</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -2044,8 +2130,8 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-turnaround-check="true"><h3>Turnaround and delays</h3><p>Ask when the sealed paperwork or pickup instructions should be ready, what delays are common, and what happens if additional follow-up items are needed after the appointment.</p></div>' +
           '<div class="card" data-city-after-exam-check="true"><h3>After the appointment</h3><p>Before you leave, clarify how the office handles final paperwork, whether anything else is pending, and what instructions apply to your next immigration filing step.</p></div>' +
         '</div>' +
-        '<h3>Best companion guides for this decision</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true">' + links + '</ul>' +
+        '<h3>Compare these guides next</h3>' +
+        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -2186,7 +2272,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
         ]
       });
       if (mainHtml.includes('data-citation-summary-type="city-home"')) {
-        mainHtml = mainHtml.replace(/(<section class="section citation-summary"[\s\S]*?<\/section>)/, '$1\n' + cityDistributionHtml);
+        mainHtml = mainHtml.replace(/(<section class="section citation-summary[^"]*"[\s\S]*?<\/section>)/, '$1\n' + cityDistributionHtml);
       } else if (mainHtml.includes('<section class="hero"')) {
         mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + cityDistributionHtml);
       } else {
@@ -2609,6 +2695,19 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
         out = head + '\n\n' + blocks.join('\n\n') + '\n\n' + BOT + '\n';
       }
     }
+    if (!out.includes('data-guide-comparison="true"')) {
+      const comparisonBlock =
+        '<section class="section guide-section comparison-block" data-guide-section="true" data-guide-comparison="true">' +
+        '<h2>How to compare the next options</h2>' +
+        '<p><strong>Use this guide to decide three things:</strong> what matters most in the decision, what tradeoff is easy to miss, and what should be verified before you move into a provider conversation.</p>' +
+        '<ul>' +
+        '<li>Compare fit before convenience.</li>' +
+        '<li>Compare written scope before headline pricing.</li>' +
+        '<li>Compare follow-up clarity before trusting a fast pitch.</li>' +
+        '</ul>' +
+        '</section>';
+      out = out.replace(/\s*%%AD:global_guide_bottom%%\s*/i, '\n\n' + comparisonBlock + '\n\n%%AD:global_guide_bottom%%\n');
+    }
 
     return out;
   }
@@ -2700,7 +2799,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
         ]
       });
       if (mainHtml.includes('data-citation-summary-type="guides-hub"')) {
-        mainHtml = mainHtml.replace(/(<section class="section citation-summary"[\s\S]*?<\/section>)/, '$1\n' + guidesHubDistributionHtml);
+        mainHtml = mainHtml.replace(/(<section class="section citation-summary[^"]*"[\s\S]*?<\/section>)/, '$1\n' + guidesHubDistributionHtml);
       } else if (mainHtml.includes('<section class="hero"')) {
         mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guidesHubDistributionHtml);
       } else {
@@ -3046,11 +3145,13 @@ function renderCitationSummaryZoneHtml(opts) {
       ? 'Start verification with <a href="' + officialResourceUrl + '" rel="nofollow noopener" target="_blank">' + officialResourceName + '</a>.'
       : 'Start verification with the official state licensing or lookup source.';
     return (
-      '<section class="section citation-summary" data-citation-summary="true" data-citation-summary-type="city-home">' +
+      '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="city-home">' +
       '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true">' + marketLabel + ' is a local starting page for ' + verticalLabel + ' research. It helps people compare what to verify first, which questions narrow the field fastest, and which owned guides answer pricing, red flags, and next-step questions.</p>' +
+      '<p data-citation-summary-lede="true"><strong>' + marketLabel + '</strong> is a local decision page for ' + verticalLabel + ' research. Use it to decide what to verify first, which questions narrow the field fastest, and which owned guides answer cost, red-flag, and next-step questions before you contact anyone.</p>' +
+      '<p class="answer-when"><strong>When this page helps most:</strong> when you know the market but still need to decide what matters most locally before comparing providers or programs.</p>' +
+      '<p class="answer-tradeoff"><strong>Common mistake:</strong> treating convenience, proximity, or a fast quote like the whole decision before fit, verification, and follow-up are clear.</p>' +
       '<ul data-citation-key-points="true">' +
-      '<li>This page is best used as a local orientation layer before contacting providers.</li>' +
+      '<li>This page works best as a local orientation layer before contacting providers.</li>' +
       '<li>' + verificationHtml + '</li>' +
       '<li>Use the guide hub, FAQ, and request-assistance flow only after the local comparison questions are clear.</li>' +
       '</ul>' +
@@ -3059,12 +3160,27 @@ function renderCitationSummaryZoneHtml(opts) {
     );
   }
 
+
+  if (kind === 'state-home') {
+    return (
+      '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="state-home">' +
+      '<h2 id="citation-summary">Short answer</h2>' +
+      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is a state-level routing page. Use it to verify statewide rules, compare city entry points, and decide which local hub or guide should be read next.</p>' +
+      '<p class="answer-when"><strong>When this page helps most:</strong> when the decision is still broad and you need to narrow it into the right city page, guide, or official verification source.</p>' +
+      '<p class="answer-tradeoff"><strong>Common mistake:</strong> treating the state page like a final answer when the real comparison still belongs on a city or guide page.</p>' +
+      '<p data-citation-routing-links="true">Fast path: <a href="' + escapeHtml(hrefs.guides) + '">guides</a>, <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>, and linked city hubs.</p>' +
+      '</section>'
+    );
+  }
+
   if (kind === 'guide-detail') {
     const guideLabel = escapeHtml(inferGuideLabelFromRoute(route));
     return (
-      '<section class="section citation-summary" data-citation-summary="true" data-citation-summary-type="guide-detail">' +
+      '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="guide-detail">' +
       '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true">' + title + ' is a guide for ' + guideLabel + '. ' + description + '</p>' +
+      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is a guide for ' + guideLabel + '. ' + description + '</p>' +
+      '<p class="answer-when"><strong>When this guide is most useful:</strong> when the question is narrow enough that you need a direct comparison, a red-flag check, or a clearer next step rather than a broad hub page.</p>' +
+      '<p class="answer-tradeoff"><strong>Common mistake:</strong> reading a guide for reassurance only, instead of using it to eliminate weaker options and clarify what to verify next.</p>' +
       '<ul data-citation-key-points="true">' +
       '<li>This page is meant to answer one decision question clearly before a person contacts a provider.</li>' +
       '<li>It should be paired with the guide hub, methodology page, and next-steps page instead of treated like a ranking or endorsement.</li>' +
@@ -3077,9 +3193,11 @@ function renderCitationSummaryZoneHtml(opts) {
 
   if (kind === 'guides-hub') {
     return (
-      '<section class="section citation-summary" data-citation-summary="true" data-citation-summary-type="guides-hub">' +
+      '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="guides-hub">' +
       '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true">' + title + ' is the owned guide index for this pack. It is meant to route specific decision questions into tighter leaf pages rather than keep people on a generic hub.</p>' +
+      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is the owned guide index for this pack. It is meant to route specific decision questions into tighter leaf pages rather than keep people on a generic hub.</p>' +
+      '<p class="answer-when"><strong>When this page helps most:</strong> when you still need to decide which decision path fits your situation before you open a single leaf guide.</p>' +
+      '<p class="answer-tradeoff"><strong>Common mistake:</strong> staying on a generic hub when the real answer lives on a comparison, cost, red-flags, or questions-to-ask guide.</p>' +
       '<ul data-citation-key-points="true">' +
       '<li>Use this page when the question is still broad and needs to be narrowed into a single guide.</li>' +
       '<li>Leaf guides should carry the real pricing, trust, red-flag, requirements, or next-step answer blocks.</li>' +
@@ -3661,6 +3779,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%AD:pi_state_top%%' +
 
         queryBlock +
+        renderStateAuthorityBlockHtml(stateName, cityRows.length) +
 
         '<section class="section micro-guides" data-guides-micro="true">' +
         '<p><strong>Start here:</strong> ' +
@@ -3671,6 +3790,7 @@ function loadNextStepsSponsor(citySlug) {
         '<span class="muted">(educational)</span></p>' +
         '</section>' +
         '%%AD:pi_state_mid%%' +
+        renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
         renderInternalDistributionZoneHtml({
           kind: 'state-home',
           title,
