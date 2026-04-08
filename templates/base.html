@@ -15,6 +15,7 @@
   %%HEAD_JSON_LD%%
 </head>
 <body data-city="%%DATA_CITY%%">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/" aria-label="Home">%%BRAND_NAME%%</a>
@@ -24,14 +25,13 @@
         %%OPTIONAL_TOP_NAV%%
         <a href="/faq/">FAQ</a>
         <a href="/methodology/">Methodology</a>
-        <a href="/for-providers/">Advertising & Provider Info</a>
-        <a href="/about/">About</a>
+        <a href="/for-providers/">Advertising &amp; Provider Info</a>
         <a href="/contact/">Contact</a>
       </nav>
     </div>
   </header>
 
-  <main class="container site-main">
+  <main id="main-content" class="container site-main" tabindex="-1">
     %%MAIN_HTML%%
   </main>
 
@@ -82,7 +82,7 @@
           items.forEach(function(d){ d.open = true; });
         });
         collapseBtn.addEventListener('click', function(){
-          items.forEach(function(d){ d.open = true; });
+          items.forEach(function(d){ d.open = false; });
         });
 
         wrap.appendChild(expandBtn);
@@ -112,6 +112,22 @@
           var grid = main.querySelector(".grid");
           if (grid) grid.classList.add("state-grid");
         }
+      } catch (e) {}
+    })();
+
+    // Mark the current primary-nav item for assistive tech.
+    (function () {
+      try {
+        var path = (window.location && window.location.pathname ? window.location.pathname : '/').replace(/index\.html$/, '');
+        var nav = document.querySelector('.top-nav');
+        if (!nav) return;
+        Array.prototype.forEach.call(nav.querySelectorAll('a[href]'), function (link) {
+          var href = (link.getAttribute('href') || '').replace(/index\.html$/, '');
+          if (!href) return;
+          if (href === '/' ? path === '/' : path === href || path.indexOf(href) === 0) {
+            link.setAttribute('aria-current', 'page');
+          }
+        });
       } catch (e) {}
     })();
 

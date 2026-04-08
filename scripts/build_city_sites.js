@@ -540,18 +540,21 @@ function renderStateLookupCta(city) {
   // Source: data/states.json -> licenseLookupUrl.
   const url = normalizeUrl(city && city.licenseLookupUrl);
   const stateName = escapeHtml(city && (city.stateName || city.state) || "");
+  const title = stateName ? ("Verify a provider's license (" + stateName + ")") : "Verify a provider's license";
   if (!url) {
     return (
       '<div class="state-lookup-cta" data-state-lookup-cta="true">' +
-      '<p class="muted"><strong>Official state lookup:</strong> not available for this state in the current build.</p>' +
+      '<h3 class="lookup-title">' + title + '</h3>' +
+      '<p class="muted">The official state database is not available for this state in the current build.</p>' +
       '</div>'
     );
   }
   return (
     '<div class="state-lookup-cta" data-state-lookup-cta="true">' +
-    '<p class="muted">Use the official ' + stateName + ' lookup to verify identity and licensing before you contact any provider.</p>' +
-    '<p><a class="button button-secondary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Open official ' + stateName + ' lookup</a></p>' +
-    '<p class="muted" style="font-size:12px">Tip: search the provider name and confirm license status + disciplinary actions (if shown).</p>' +
+    '<h3 class="lookup-title">' + title + '</h3>' +
+    '<p class="muted">Use the official ' + stateName + ' database before you contact any provider. Confirm identity, current license status, and any public disciplinary actions shown there.</p>' +
+    '<p><a class="button button-secondary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Open the official ' + stateName + ' database</a></p>' +
+    '<p class="muted state-lookup-tip">Search the provider name first, then confirm license status, supervising clinician information, and any public actions shown by the state.</p>' +
     '</div>'
   );
 }
@@ -1330,7 +1333,8 @@ function renderAdPlacement(key, opts) {
     : ` class="${cls}"`;
 
   return `
-<${wrapperTag}${wrapperAttrs} data-sponsor-stack="${escapeHtml(key)}"${placementAttr}>
+<!-- PRESERVED ZONE: AD BLOCK START (${escapeHtml(key)}) -->
+<${wrapperTag}${wrapperAttrs} data-sponsor-stack="${escapeHtml(key)}"${placementAttr} aria-label="Advertising block: ${escapeHtml(key)}">
   <div class="sponsor-stack__inner">
     <div class="sponsor-stack__header">
       <div class="sponsor-label"><strong>${labelText}</strong></div>
@@ -1344,7 +1348,8 @@ function renderAdPlacement(key, opts) {
       </div>
     </div>
   </div>
-</${wrapperTag}>`.trim();
+</${wrapperTag}>
+<!-- PRESERVED ZONE: AD BLOCK END (${escapeHtml(key)}) -->`.trim();
 }
 
 function loadBuyoutsSafe(repoRoot) {
@@ -3642,8 +3647,8 @@ function loadNextStepsSponsor(citySlug) {
 
       // PI state pages: visible FAQ accordion (questions remain collapsed by default)
       const stateFaqAccordion = (
-        '<details class="accordion" id="state-faq" open>' +
-        '<summary>FAQs <span class="accordion-meta">(tap a question)</span></summary>' +
+        '<details class="accordion" id="state-faq">' +
+        '<summary>FAQs <span class="accordion-meta">Optional quick answers</span></summary>' +
         '<div class="accordion-panel">' +
         '<div class="faq-accordion" data-faq-accordion="state">' + renderFaqCardsHtml(stateFaqItems) + '</div>' +
         '</div>' +
