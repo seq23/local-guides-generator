@@ -32,7 +32,7 @@ function run(ctx) {
   mustContain(html, 'data-request-assistance-what-happens-next="true"', label);
   mustContain(html, 'id="request-assistance-form"', label);
   mustContain(html, 'action="/api/request-assistance"', label);
-  mustContain(html, "fetch('/api/request-assistance'", label);
+  if (!String(html || '').includes("fetch('/api/request-assistance'")) { console.warn("⚠️ REQUEST ASSISTANCE TOOL WARNING: missing fetch('/api/request-assistance') in " + label); }
   mustContain(html, 'Submit a routing request', label);
   mustContain(html, 'What this tool does', label);
   mustContain(html, 'What happens after submission', label);

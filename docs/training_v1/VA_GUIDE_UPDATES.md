@@ -117,3 +117,12 @@ If you see that full hub inline anywhere else, stop and escalate.
 - Priority answer surfaces as a visible block are retired; use the canonical Short answer layer instead.
 - Recently refreshed is tertiary metadata only.
 - USCIS now follows the same vertical-upgrade architecture family as PI, Dentistry, Neuro, and TRT via scripts/vertical_upgrades/uscis.js.
+
+
+## 2026-04 UX + hierarchy update
+
+- Treat state pages as narrowing pages, not city clones.
+- Keep provider cards structured with: name, category, city/state, and 2-4 attributes.
+- Do not add provider website links in public directory/example surfaces.
+- Homepage FAQ must remain an in-body destination, not nav-only.
+- “Choose your next guide” modules should be grouped by intent, not dumped as one long list.

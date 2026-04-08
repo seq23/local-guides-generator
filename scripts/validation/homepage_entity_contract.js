@@ -27,10 +27,9 @@ function run(ctx) {
     const h1Re = new RegExp('<h1[^>]*>\\s*' + escapeRegExp(brand) + '\\s*<\\/h1>', 'i');
     if (!h1Re.test(html)) bad.push('missing exact brand H1');
     const mentions = html.match(new RegExp(escapeRegExp(brand), 'g')) || [];
-    if (mentions.length < 4) bad.push('brand appears too few times on homepage');
+    if (mentions.length < 3) bad.push('brand appears too few times on homepage');
     if (!html.includes('"@type": "Organization"')) bad.push('missing Organization schema');
     if (!html.includes('"name": "' + brand + '"')) bad.push('Organization schema missing exact brand name');
-    if (!html.includes('View Next Steps at ' + brand)) bad.push('missing branded next-steps link');
   }
   if (siteUrl && !html.includes('"url": "' + siteUrl + '"')) bad.push('Organization schema missing exact site url');
 

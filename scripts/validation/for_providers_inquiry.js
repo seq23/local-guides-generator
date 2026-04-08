@@ -3,16 +3,12 @@ const fs = require('fs');
 const path = require('path');
 
 const EXPECTED_TO = 'info@spryvc.com';
-const MAX_UNIQ_MAILTOS = 20; // warning-only guardrail (current reality: 7)
+const MAX_UNIQ_MAILTOS = 20;
 
 function fail(msg){
   const err = new Error(msg);
   err._validation = 'FOR_PROVIDERS_INQUIRY';
   throw err;
-}
-
-function warn(msg){
-  console.warn('⚠️ FOR-PROVIDERS INQUIRY WARNING:', msg);
 }
 
 function parseMailto(href){
@@ -58,12 +54,10 @@ function run(ctx){
       fail(`Mailto recipient must be ${EXPECTED_TO}; found: ${m.to}`);
     }
   }
-  // Warning-only: guardrail on unique mailto href count (content is authoritative).
   const uniq = Array.from(new Set(mailtos));
-  if (uniq.length > MAX_UNIQ_MAILTOS) warn(`Found ${uniq.length} distinct mailto links (allowed, but review).`);
+  if (uniq.length > MAX_UNIQ_MAILTOS) fail(`Found ${uniq.length} distinct mailto links on /for-providers/ (max ${MAX_UNIQ_MAILTOS}).`);
 
-  // Warning-only: body capture fields.
-  // We do NOT hard-fail on body text (copy evolves), but we flag obvious omissions.
+  // Enforce intake-template fields on actual sponsorship inquiry CTAs.
   const mustMention = [
     'Full name:',
     'Work email:',
@@ -75,7 +69,7 @@ function run(ctx){
     'Estimated monthly budget:'
   ];
 
-  const shouldMentionWarn = ['How did you find us:'];
+  const shouldMention = ['How did you find us:'];
 
   for (const u of uniq){
     const p = parseMailto(u);
@@ -87,14 +81,14 @@ function run(ctx){
     if (!/Sponsorship Inquiry/i.test(subject)) continue;
 
     for (const line of mustMention){
-      if (!body.includes(line)) warn(`One sponsorship inquiry mailto body missing expected line: ${line}`);
+      if (!body.includes(line)) fail(`A sponsorship inquiry mailto body is missing required line: ${line}`);
     }
-    for (const line of shouldMentionWarn){
-      if (!body.includes(line)) warn(`One sponsorship inquiry mailto body missing recommended line: ${line}`);
+    for (const line of shouldMention){
+      if (!body.includes(line)) fail(`A sponsorship inquiry mailto body is missing required line: ${line}`);
     }
   }
 
-  console.log('✅ FOR-PROVIDERS INQUIRY PASS (mailto exists + single recipient; body fields = warnings)');
+  console.log('✅ FOR-PROVIDERS INQUIRY PASS');
 }
 
 module.exports = { run };

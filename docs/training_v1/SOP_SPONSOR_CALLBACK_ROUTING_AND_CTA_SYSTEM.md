@@ -88,3 +88,11 @@ All three paths feed the same sponsor-aware routing system. The full three-optio
 - Priority answer surfaces as a visible block are retired; use the canonical Short answer layer instead.
 - Recently refreshed is tertiary metadata only.
 - USCIS now follows the same vertical-upgrade architecture family as PI, Dentistry, Neuro, and TRT via scripts/vertical_upgrades/uscis.js.
+
+
+## 2026-04 UX + hierarchy update
+
+- Homepage order is now hero -> primary CTA -> short answer -> about -> provider preview -> mid CTA -> FAQ entry -> state grid -> tertiary support.
+- Homepages route through state hubs first. Do not add direct homepage-to-city links.
+- State hubs must show covered cities and a request-city mailto to info@spry.vc.
+- Provider previews and provider cards must be structured, non-ranked, and non-sponsored unless explicitly disclosed.

@@ -18,7 +18,7 @@ function run() {
   const repoRoot = path.join(__dirname, '..', '..');
   const distDir = path.join(repoRoot, 'dist');
   if (!fs.existsSync(distDir)) {
-    console.warn('⚠️ FANOUT WARNING: dist/ is missing; could not inspect fan-out query clusters.');
+    console.log('ℹ️ FANOUT CHECK: dist/ is missing; could not inspect fan-out query clusters.');
     return;
   }
 
@@ -56,24 +56,24 @@ function run() {
 
   const issueCount = issues.length;
   if (issueCount >= FAIL_THRESHOLD) {
-    console.error(`FANOUT WARNING FAIL: fan-out issues ${issueCount} (threshold ${FAIL_THRESHOLD})`);
+    console.error(`FANOUT CONTRACT FAIL: fan-out issues ${issueCount} (threshold ${FAIL_THRESHOLD})`);
     issues.forEach((msg) => console.error(` - ${msg}`));
     process.exit(1);
   }
 
   if (issueCount >= WARN_THRESHOLD) {
-    console.warn(`⚠️ FANOUT WARNING: fan-out issues ${issueCount} (warning threshold ${WARN_THRESHOLD})`);
+    console.warn(`⚠️ FANOUT CONTRACT: fan-out issues ${issueCount} (warning threshold ${WARN_THRESHOLD})`);
     issues.forEach((msg) => console.warn(`   - ${msg}`));
     return;
   }
 
   if (issueCount > 0) {
-    console.log(`ℹ️ FANOUT WARNING CHECK: minor fan-out issues ${issueCount} below warning threshold ${WARN_THRESHOLD}.`);
+    console.log(`ℹ️ FANOUT CHECK: minor fan-out issues ${issueCount} below warning threshold ${WARN_THRESHOLD}.`);
     issues.forEach((msg) => console.log(`   - ${msg}`));
     return;
   }
 
-  console.log('ℹ️ FANOUT WARNING CHECK: all required fan-out surfaces are present.');
+  console.log('ℹ️ FANOUT CHECK: all required fan-out surfaces are present.');
 }
 
 module.exports = { run };

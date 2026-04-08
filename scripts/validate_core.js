@@ -81,7 +81,10 @@ const internalLinkingQualityContract = require('./validation/internal_linking_qu
 const metadataSchemaStrengthContract = require('./validation/metadata_schema_strength_contract');
 const homepageGuidesHubContract = require('./validation/homepage_guides_hub_contract');
 const homepageEntityContract = require('./validation/homepage_entity_contract');
+const homepageSurfaceContract = require('./validation/homepage_surface_contract');
 const uscisVerticalCongruenceContract = require('./validation/uscis_vertical_congruence_contract');
+const providerCardContract = require('./validation/provider_card_contract');
+const stateHubContract = require('./validation/state_hub_contract');
 require('./validation/footer_weight_contract');
 require('./validation/cta_dedup_contract');
 
@@ -197,6 +200,9 @@ function main() {
     metadataSchemaStrengthContract.run({ site });
     homepageGuidesHubContract.run({ site });
     homepageEntityContract.run({ site });
+    homepageSurfaceContract.run({ site });
+    stateHubContract.run({ site });
+    providerCardContract.run({ site });
     uscisVerticalCongruenceContract.run({ site });
     coverageRenderingContract.run({ site });
     fanoutWarning.run({ site });

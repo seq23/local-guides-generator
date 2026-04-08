@@ -9,7 +9,7 @@ const THRESHOLDS = {
   uscis_medical: { maxGenericShare: 0.18, requiredRoutes: ['/guides/costs-and-timeframes/', '/guides/document-checklist/', '/guides/i-693-medical-exam-requirements/', '/guides/questions-to-ask-a-civil-surgeon/', '/guides/after-your-exam-next-steps/'] }
 };
 
-const GENERIC_DESTINATIONS = new Set(['/', '/guides/', '/faq/', '/request-assistance/', '/personal-injury/', '/guides/#costs', '/guides/#questions', '/guides/#red-flags', '/states/']);
+const GENERIC_DESTINATIONS = new Set(['/', '/guides/', '/faq/', '/request-assistance/', '/personal-injury/', '/guides/#costs', '/guides/#questions', '/guides/#red-flags']);
 
 function loadFanoutPayload(repoRoot) {
   const fp = path.join(repoRoot, 'dist', '_fanout_query_clusters.json');

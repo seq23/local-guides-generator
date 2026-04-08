@@ -2322,3 +2322,38 @@ details.accordion#state-faq .accordion-meta {
 .distribution-fresh--quiet {
   margin-top: 2.5rem;
 }
+
+/* Master plan UX hierarchy pass */
+main { max-width: 1240px; }
+.container, .shell, .page-shell { max-width: 1240px; }
+.section { margin-block: 3.75rem; }
+.hero { padding: 2.5rem 0 1.5rem; }
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -0.02em; }
+.hero .muted { max-width: 70ch; font-size: 1.08rem; }
+.answer-block, .citation-summary.answer-block { background: #f6f4ef; border: 1px solid #e4dfd1; border-radius: 18px; padding: 1.2rem 1.25rem; max-width: 78ch; }
+.tertiary-support, .fanout-query-cluster--tertiary { opacity: .82; }
+.tertiary-support .support-links, .fanout-query-cluster--tertiary a { font-size: .95rem; }
+.state-card-grid, .state-city-grid, .provider-directory-grid, .guide-group-grid { display: grid; gap: 1rem; }
+.state-card-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.state-city-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.provider-directory-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.guide-group-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.state-card, .state-city-card { display: block; border: 1px solid #d8d3c6; border-radius: 18px; padding: 1rem 1.05rem; background: #fffdfa; text-decoration: none; color: inherit; }
+.state-card__name, .state-city-card__name { display:block; font-weight: 700; font-size: 1.08rem; margin-bottom: .2rem; }
+.state-card__meta, .state-city-card__meta { display:block; color:#70685d; font-size: .92rem; }
+.provider-directory-section--preview { margin-top: 1.25rem; }
+.provider-card { border: 1px solid #d9d4c7; border-radius: 20px; padding: 1rem 1.1rem; background: #ffffff; box-shadow: 0 8px 28px rgba(23,16,7,.05); }
+.provider-card__name { margin: 0 0 .35rem; font-size: 1.18rem; }
+.provider-card__meta { margin: 0 0 .7rem; color: #6b655b; font-size: .94rem; }
+.provider-card__attributes { margin: 0; padding-left: 1.1rem; }
+.provider-card__attributes li { margin-bottom: .35rem; }
+.provider-card__verify { margin-top: .75rem; font-size: .94rem; }
+.guide-group-card { border: 1px solid #ddd7ca; border-radius: 20px; padding: 1rem 1.05rem; background: #fbfaf7; }
+.guide-group-card h3 { margin-top: 0; font-size: 1.05rem; }
+.faq-entry-card { border: 1px solid #d7d1c3; border-radius: 20px; padding: 1.1rem 1.2rem; background: #faf8f2; }
+[data-branded-links="true"] { display:none !important; }
+.markets-status-list, .state-cities-list { list-style: none; padding: 0; margin: 0; }
+@media (max-width: 840px) {
+  main, .container, .shell, .page-shell { max-width: 100%; }
+  .section { margin-block: 2.5rem; }
+}
