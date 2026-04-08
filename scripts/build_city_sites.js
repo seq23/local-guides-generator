@@ -369,7 +369,16 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
     page_slug: pageSlug,
     market: marketSlug
   });
-  return { label, labelLower, src, pt, href, pageKind, pageSlug, marketSlug, intentType, buttonSource, verticalKey };
+  const nextStepsHref = buildTrackedHref(marketSlug ? ('/' + marketSlug + '/next-steps/') : '/next-steps/', {
+    src,
+    intent: 'decision_hub',
+    button: 'next_steps_cta',
+    vertical: verticalKey,
+    page_kind: pageKind,
+    page_slug: pageSlug,
+    market: marketSlug
+  });
+  return { label, labelLower, src, pt, href, nextStepsHref, pageKind, pageSlug, marketSlug, intentType, buttonSource, verticalKey };
 }
 
 function conversionCopyForContext(pageType, verticalKey, ctx) {
@@ -390,10 +399,10 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
 
   if (pageType === 'city-inline') {
     return {
-      eyebrow: 'Still comparing options?',
-      heading: 'Want a provider call back after you compare?',
-      body: 'When you are ready to move from research to action, use the callback path for ' + escapeHtml(marketShort) + '.',
-      button: 'Request a Provider Call Back',
+      eyebrow: 'Next step',
+      heading: 'View your next steps for ' + escapeHtml(marketShort),
+      body: 'Use the dedicated next-steps page when you want the full form, comparison path, and lookup tools in one place.',
+      button: 'View Your Next Steps',
       variant: 'inline'
     };
   }
@@ -410,10 +419,10 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
 
   if (pageType === 'state-inline') {
     return {
-      eyebrow: 'Need a faster shortlist?',
-      heading: 'Need a provider call back after comparing cities?',
-      body: 'After you compare the city pages, use the callback path when you are ready to hear from a relevant provider in ' + escapeHtml(marketLabel || 'this state') + '.',
-      button: 'Request a Provider Call Back',
+      eyebrow: 'Next step',
+      heading: 'View your next steps for ' + escapeHtml(marketLabel || 'this state'),
+      body: 'Use the dedicated next-steps page when you want the full form, comparison path, and lookup tools in one place.',
+      button: 'View Your Next Steps',
       variant: 'inline'
     };
   }
@@ -430,10 +439,10 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
 
   if (pageType === 'guides-hub-inline') {
     return {
-      eyebrow: 'Ready to move?',
-      heading: 'Turn the framework into a next step',
-      body: 'After you review the guides, use the callback path when you want a direct handoff without leaving the educational flow.',
-      button: 'Request a Provider Call Back',
+      eyebrow: 'Next step',
+      heading: 'View your next steps after you review the guides',
+      body: 'Use the dedicated next-steps page when you want the full form, comparison path, and lookup tools in one place.',
+      button: 'View Your Next Steps',
       variant: 'inline'
     };
   }
@@ -450,10 +459,10 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
 
   if (pageType === 'global-inline') {
     return {
-      eyebrow: 'Prefer a direct handoff?',
-      heading: 'Request a provider call back after you review the basics',
-      body: 'Once you have reviewed the core framework, use the callback path when you want to hear from a relevant provider.',
-      button: 'Request a Provider Call Back',
+      eyebrow: 'Next step',
+      heading: 'View your next steps',
+      body: 'Use the dedicated next-steps page when you want the full form, comparison path, and lookup tools in one place.',
+      button: 'View Your Next Steps',
       variant: 'inline'
     };
   }
@@ -470,10 +479,10 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
 
   if (pageType === 'guide-inline') {
     return {
-      eyebrow: 'Need a faster next step?',
-      heading: 'Request a provider call back once this guide gives you the basics',
-      body: 'If you want a more direct next step after reviewing this guide, use the callback path for ' + escapeHtml(lowerProvider) + '.',
-      button: 'Get Matched With a Provider',
+      eyebrow: 'Next step',
+      heading: 'View your next steps once this guide gives you the basics',
+      body: 'Use the dedicated next-steps page when you want the full form, comparison path, and lookup tools in one place.',
+      button: 'View Your Next Steps',
       variant: 'inline'
     };
   }
@@ -497,11 +506,12 @@ function renderConversionCtaHtml(conversionTemplate, verticalKey, ctx) {
   html = html.replace(/%%CTA_HEADING%%/g, copy.heading || 'Use the request-assistance tool');
   html = html.replace(/%%CTA_BODY%%/g, copy.body || '');
   html = html.replace(/%%CTA_BUTTON%%/g, copy.button || 'Request assistance');
-  html = html.replace(/%%REQUEST_ASSISTANCE_HREF%%/g, escapeHtml(info.href));
+  const isNextSteps = /next steps/i.test(String(copy.button || ''));
+  html = html.replace(/%%CTA_HREF%%/g, escapeHtml(isNextSteps ? info.nextStepsHref : info.href));
   html = html.replace(/%%PROVIDER_TYPE_LABEL%%/g, escapeHtml(info.pt));
   html = html.replace(/%%PAGE_SRC%%/g, escapeHtml(info.src));
-  html = html.replace(/%%BUTTON_SOURCE%%/g, escapeHtml(info.buttonSource));
-  html = html.replace(/%%INTENT_TYPE%%/g, escapeHtml(info.intentType));
+  html = html.replace(/%%BUTTON_SOURCE%%/g, escapeHtml(isNextSteps ? 'next_steps_cta' : info.buttonSource));
+  html = html.replace(/%%INTENT_TYPE%%/g, escapeHtml(isNextSteps ? 'decision_hub' : info.intentType));
   html = html.replace(/%%MARKET_SLUG%%/g, escapeHtml(info.marketSlug));
   html = html.replace(/%%PAGE_KIND%%/g, escapeHtml(info.pageKind));
   html = html.replace(/%%VERTICAL_KEY%%/g, escapeHtml(info.verticalKey));
@@ -514,7 +524,7 @@ function injectPrimaryConversionCta(mainHtml, conversionTemplate, verticalKey, c
   const html = renderConversionCtaHtml(conversionTemplate, verticalKey, { ...ctx, pageType: ctx.pageType, marker });
   const out = String(mainHtml || '');
   const anchors = [
-    /(<section[^>]*data-distribution-priority-block="true"[\s\S]*?<\/section>)/i,
+    /(<section[^>]*data-short-answer="true"[\s\S]*?<\/section>)/i,
     /(<section[^>]*data-citation-summary="true"[\s\S]*?<\/section>)/i,
     /(<section class="hero"[\s\S]*?<\/section>)/i
   ];
@@ -525,7 +535,20 @@ function injectPrimaryConversionCta(mainHtml, conversionTemplate, verticalKey, c
 }
 
 function injectInlineConversionCta(mainHtml, conversionTemplate, verticalKey, ctx) {
-  return String(mainHtml || '');
+  const marker = 'data-inline-conversion-cta="true"';
+  const out = String(mainHtml || '');
+  if (out.includes(marker)) return out;
+  const html = renderConversionCtaHtml(conversionTemplate, verticalKey, { ...ctx, pageType: ctx.pageType, marker });
+  if (out.includes('%%MID_NEXT_STEPS%%')) return out.replace(/%%MID_NEXT_STEPS%%/g, html);
+  const anchors = [
+    /(<section[^>]*data-citation-summary="true"[\s\S]*?<\/section>)/i,
+    /(<section[^>]*data-short-answer="true"[\s\S]*?<\/section>)/i,
+    /(<section class="hero"[\s\S]*?<\/section>)/i
+  ];
+  for (const re of anchors) {
+    if (re.test(out)) return out.replace(re, '$1\n' + html);
+  }
+  return out + '\n' + html;
 }
 
 function renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, ctx) {
@@ -746,13 +769,15 @@ function buildCanonicalGlobal(siteUrl, route) {
   return base + r + "/";
 }
 
-function buildOrganizationSchema(siteUrl, brandName) {
-  return {
+function buildOrganizationSchema(siteUrl, brandName, sameAs) {
+  const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: brandName,
     url: siteUrl.replace(/\/+$/, "") + "/"
   };
+  if (Array.isArray(sameAs)) schema.sameAs = sameAs.filter(Boolean);
+  return schema;
 }
 function buildWebSiteSchema(siteUrl, brandName) {
   const base = siteUrl.replace(/\/+$/, "") + "/";
@@ -1127,7 +1152,7 @@ function buildResourceItemListSchema(opts) {
 function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings) {
   const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
   const ld = [
-    buildOrganizationSchema(siteUrl, brandName),
+    buildOrganizationSchema(siteUrl, brandName, (pageSet && pageSet.schema && pageSet.schema.sameAs) || []),
     buildWebSiteSchema(siteUrl, brandName),
     buildWebPageSchema(siteUrl, brandName, city, route, title, description),
     buildBreadcrumbs(siteUrl, city, route, title)
@@ -1197,7 +1222,7 @@ function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, p
 function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateName, title, description, pageSet, listingsAgg) {
   const route = 'states/' + String(stateAbbr).toUpperCase();
   const ld = [
-    buildOrganizationSchema(siteUrl, brandName),
+    buildOrganizationSchema(siteUrl, brandName, (pageSet && pageSet.schema && pageSet.schema.sameAs) || []),
     buildWebSiteSchema(siteUrl, brandName),
     // PI state pages are collection hubs (not generic WebPage)
     buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description),
@@ -1266,7 +1291,7 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
     ? buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description)
     : buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description);
   const ld = [
-    buildOrganizationSchema(siteUrl, brandName),
+    buildOrganizationSchema(siteUrl, brandName, (pageSet && pageSet.schema && pageSet.schema.sameAs) || []),
     buildWebSiteSchema(siteUrl, brandName),
     primaryPageSchema,
     buildBreadcrumbsGlobal(siteUrl, route, title)
@@ -1775,8 +1800,8 @@ function renderDedicatedNextStepsHubHtml(opts) {
       '<div class="grid" data-next-steps-cards="true">' +
         '<div class="card" data-next-steps-card="direct-match">' +
           '<h3>Get matched with a provider</h3>' +
-          '<p>The full callback form lives on this page below. Submit it when you want a relevant provider to reach out after you review the basics.</p>' +
-          '<p class="actions"><a class="button button-primary" data-next-steps-primary="true" href="#request-assistance-form">Jump to the form</a></p>' +
+          '<p>The full callback form lives directly on this page below. Use it when you want a provider call back without leaving the decision hub.</p>' +
+          '<p class="actions"><a class="button button-primary" data-next-steps-primary="true" href="#request-assistance-form">Jump to the full form</a></p>' +
         '</div>' +
         '<div class="card" data-next-steps-card="compare">' +
           '<h3>Compare your options</h3>' +
@@ -2412,50 +2437,6 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
   mainHtml = stripCityDisclosureBlocks(mainHtml);
 
   if (route === '') {
-    if (!mainHtml.includes('data-distribution-priority-block="true"')) {
-      const cityDistributionHtml = renderInternalDistributionZoneHtml({
-        kind: 'city-home',
-        title,
-        buildIso: BUILD_ISO,
-        guideLinks: selectPriorityGuideSummaries(globalPagesDir, 5).map((g) => ({ href: g.route, label: g.title, description: g.description })),
-        primaryLinks: [
-          { href: '/guides/', label: 'Guides hub', description: 'Owned answer index for this pack.' },
-          { href: '/faq/', label: 'FAQ', description: 'Fast clarifications before contacting anyone.' },
-          { href: '/request-assistance/', label: 'Get matched with a provider', description: 'Owned callback route when the next step is clear.' }
-        ].concat(selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }))),
-        cityLinks: [
-          { href: '/faq/', label: 'FAQ', description: 'Fast clarifications before contacting anyone.' },
-          { href: '/methodology/', label: 'Methodology', description: 'How to read the site safely.' }
-        ]
-      });
-      if (mainHtml.includes('data-citation-summary-type="city-home"')) {
-        mainHtml = mainHtml.replace(/(<section class="section citation-summary[^"]*"[\s\S]*?<\/section>)/, '$1\n' + cityDistributionHtml);
-      } else if (mainHtml.includes('<section class="hero"')) {
-        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + cityDistributionHtml);
-      } else {
-        mainHtml = cityDistributionHtml + '\n' + mainHtml;
-      }
-    }
-    if (!mainHtml.includes('data-guide-opening="true"')) {
-      const guideOpeningHtml = renderGuideOpeningHtml(title);
-      if (mainHtml.includes('data-citation-summary-type="guide-detail"')) {
-        mainHtml = mainHtml.replace(/(<section class="section citation-summary[^"]*"[\s\S]*?<\/section>)/, '$1\n' + guideOpeningHtml);
-      } else if (mainHtml.includes('<section class="hero"')) {
-        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guideOpeningHtml);
-      } else {
-        mainHtml = guideOpeningHtml + '\n' + mainHtml;
-      }
-    }
-    if (!mainHtml.includes('data-guide-opening="true"')) {
-      const guideOpeningHtml = renderGuideOpeningHtml(title);
-      if (mainHtml.includes('data-citation-summary-type="guide-detail"')) {
-        mainHtml = mainHtml.replace(/(<section class="section citation-summary[^"]*"[\s\S]*?<\/section>)/, '$1\n' + guideOpeningHtml);
-      } else if (mainHtml.includes('<section class="hero"')) {
-        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guideOpeningHtml);
-      } else {
-        mainHtml = guideOpeningHtml + '\n' + mainHtml;
-      }
-    }
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
       pageType: 'city-primary',
       src: '/' + city.slug + '/',
@@ -2467,17 +2448,11 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
       pageType: 'city-inline',
       src: '/' + city.slug + '/',
       marketLabel: city.marketLabel || '',
-      intentType: 'direct_match',
-      buttonSource: 'inline_conversion_cta'
+      intentType: 'decision_hub',
+      buttonSource: 'next_steps_cta'
     });
-    mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
-      kind: 'city-home',
-      buildIso: BUILD_ISO,
-      guideLinks: selectPriorityGuideSummaries(globalPagesDir, 5).map((g) => ({ href: g.route, label: g.title })),
-      primaryLinks: [{ href: '/guides/', label: 'Guides hub' }],
-      cityLinks: []
-    }));
   }
+
 
   // Non-PI: optional example provider lists (only when city files exist)
   // Goal: give users concrete options without rankings/endorsements. This is NOT a directory.
@@ -2930,7 +2905,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     mainHtml = mainHtml.split("%%MARKETS_STATUS_LIST%%").join(marketsStatusListHtml || "");
   }
   if (route === '') {
-    if (!mainHtml.includes('data-distribution-priority-block="true"')) {
+    if (false && !mainHtml.includes('data-distribution-priority-block="true"')) {
       const globalDistributionHtml = renderInternalDistributionZoneHtml({
         kind: 'home',
         title,
@@ -2986,7 +2961,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
         mainHtml = guidesHubCitationHtml + '\n' + mainHtml;
       }
     }
-    if (!mainHtml.includes('data-distribution-priority-block="true"')) {
+    if (false && !mainHtml.includes('data-distribution-priority-block="true"')) {
       const guidesHubDistributionHtml = renderInternalDistributionZoneHtml({
         kind: 'guides-hub',
         title,
@@ -3302,10 +3277,10 @@ function renderInternalDistributionZoneHtml(opts) {
   };
 
   const priorityIntroByKind = {
-    'home': 'Start with the highest-signal answer surfaces instead of browsing the whole site at random. Use these links to move from a broad question into the right decision path.',
-    'guides-hub': 'These are the decision paths that should receive the first click when the question is still broad but not purely local.',
-    'city-home': 'Use the local hub to jump directly into the strongest owned decision pages for this market and avoid generic browsing.',
-    'state-home': 'Use this state page as a routing layer into city hubs, core guides, and official verification paths before you narrow to a local page.'
+    'home': 'Use these owned routes first when you want the clearest path into guides, next steps, and local markets.',
+    'guides-hub': 'Use these guide routes first when the question is still broad but not purely local.',
+    'city-home': 'Use this lighter routing block only after the main framework and next-steps CTA.',
+    'state-home': 'Use this state page as a routing layer into city hubs, core guides, and official verification paths.'
   };
   const priorityPrimary = primaryLinks.length ? primaryLinks : guideLinks;
 
@@ -3315,7 +3290,7 @@ function renderInternalDistributionZoneHtml(opts) {
 
   return (
     '<section class="section distribution-priority decision-routing-block" data-distribution-priority-block="true" data-decision-routing-block="true" data-distribution-kind="' + escapeHtml(kind) + '">' +
-    '<h2>Priority answer surfaces</h2>' +
+    '<h2>Start here</h2>' +
     '<p class="muted">' + escapeHtml(priorityIntroByKind[kind] || 'Use these priority routes first.') + '</p>' +
     linkList(priorityPrimary, 'data-distribution-priority-links') +
     hiddenCityLinks +
@@ -3324,6 +3299,7 @@ function renderInternalDistributionZoneHtml(opts) {
 }
 
 function renderRecentlyRefreshedHtml(opts) {
+  return '';
   const kind = String((opts && opts.kind) || '').trim();
   const guideLinks = Array.isArray(opts && opts.guideLinks) ? opts.guideLinks : [];
   const primaryLinks = Array.isArray(opts && opts.primaryLinks) ? opts.primaryLinks : [];
@@ -3386,23 +3362,19 @@ function renderCitationSummaryZoneHtml(opts) {
   if (kind === 'city-home') {
     const marketLabel = escapeHtml(String((opts && opts.marketLabel) || 'this market'));
     const verticalLabel = escapeHtml(String((opts && opts.verticalLabel) || 'local services'));
-    const officialResourceName = escapeHtml(String((opts && opts.officialResourceName) || 'official state verification source'));
-    const officialResourceUrl = escapeHtml(String((opts && opts.officialResourceUrl) || ''));
-    const verificationHtml = officialResourceUrl
-      ? 'Start verification with <a href="' + officialResourceUrl + '" rel="nofollow noopener" target="_blank">' + officialResourceName + '</a>.'
-      : 'Start verification with the official state licensing or lookup source.';
     return (
       '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="city-home">' +
       '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true"><strong>' + marketLabel + '</strong> is a local decision page for ' + verticalLabel + ' research. Use it to decide what to verify first, which questions narrow the field fastest, and which owned guides answer cost, red-flag, and next-step questions before you contact anyone.</p>' +
-      '<p class="answer-when"><strong>When this page helps most:</strong> when you know the market but still need to decide what matters most locally before comparing providers or programs.</p>' +
-      '<p class="answer-tradeoff"><strong>Common mistake:</strong> treating convenience, proximity, or a fast quote like the whole decision before fit, verification, and follow-up are clear.</p>' +
-      '<ul data-citation-key-points="true">' +
+      '<p data-citation-summary-lede="true">People using <strong>' + marketLabel + '</strong> to research ' + verticalLabel + ' usually start by figuring out what to verify first, which questions narrow the field fastest, and what differences matter before they contact anyone.</p>' +
+      '<p class="answer-when">Most people compare fit, process clarity, follow-up expectations, and whether the provider or program explains the next step in plain language, but convenience alone is rarely the full answer.</p>' +
+      '<p class="answer-tradeoff">Costs, timelines, and verification steps can vary by market, so this page works best as a local orientation layer before a person decides which guide, official lookup, or callback path to use.</p>' +
+      '<p class="answer-boundary">This page is educational and is designed to help you understand the local decision before you choose what to do next.</p>' +
+      '<ul class="visually-hidden" data-citation-key-points="true">' +
       '<li>This page works best as a local orientation layer before contacting providers.</li>' +
-      '<li>' + verificationHtml + '</li>' +
-      '<li>Use the guide hub, FAQ, and provider callback flow only after the local comparison questions are clear.</li>' +
+      '<li>Use an official verification source when licensing, credentials, or lookup requirements need to be confirmed.</li>' +
+      '<li>Use the guide layer and next-steps flow only after the local comparison questions are clear.</li>' +
       '</ul>' +
-      '<p data-citation-routing-links="true">Fast path: <a href="' + escapeHtml(hrefs.guides) + '">guides</a>, <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
+      '<p class="visually-hidden" data-citation-routing-links="true">Fast path: <a href="' + escapeHtml(hrefs.guides) + '">guides</a>, <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
       '</section>'
     );
   }
@@ -3412,10 +3384,10 @@ function renderCitationSummaryZoneHtml(opts) {
     return (
       '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="state-home">' +
       '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is a state-level routing page. Use it to verify statewide rules, compare city entry points, and decide which local hub or guide should be read next.</p>' +
-      '<p class="answer-when"><strong>When this page helps most:</strong> when the decision is still broad and you need to narrow it into the right city page, guide, or official verification source.</p>' +
-      '<p class="answer-tradeoff"><strong>Common mistake:</strong> treating the state page like a final answer when the real comparison still belongs on a city or guide page.</p>' +
-      '<p data-citation-routing-links="true">Fast path: <a href="' + escapeHtml(hrefs.guides) + '">guides</a>, <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>, and linked city hubs.</p>' +
+      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> works best when the question is still broad and you need to narrow it into the right city page, guide, or statewide verification step.</p>' +
+      '<p class="answer-when">Most people use the state layer to understand what changes across markets, which local hubs are worth opening next, and what statewide rules or lookup steps matter, but the final comparison usually still happens on a city or guide page.</p>' +
+      '<p class="answer-tradeoff">The state page is usually not the final answer; it is the page that helps you choose the right local answer path first.</p>' +
+      '<p class="answer-boundary">This page is educational and is designed to help you understand the statewide decision before you choose what to do next.</p>' +
       '</section>'
     );
   }
@@ -3426,14 +3398,15 @@ function renderCitationSummaryZoneHtml(opts) {
       '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="guide-detail">' +
       '<h2 id="citation-summary">Short answer</h2>' +
       '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is a guide for ' + guideLabel + '. ' + description + '</p>' +
-      '<p class="answer-when"><strong>When this guide is most useful:</strong> when the question is narrow enough that you need a direct comparison, a red-flag check, or a clearer next step rather than a broad hub page.</p>' +
-      '<p class="answer-tradeoff"><strong>Common mistake:</strong> reading a guide for reassurance only, instead of using it to eliminate weaker options and clarify what to verify next.</p>' +
-      '<ul data-citation-key-points="true">' +
+      '<p class="answer-when">This guide helps most when the decision is narrow enough that you need a cleaner comparison, a red-flag check, or one clarified next step rather than a broad hub page.</p>' +
+      '<p class="answer-tradeoff">The goal is not reassurance alone; instead, the guide should narrow the field, clarify what still needs to be verified, and make the next move more obvious.</p>' +
+      '<p class="answer-boundary">This guide is educational and is designed to help you understand one decision more clearly before you choose what to do next.</p>' +
+      '<ul class="visually-hidden" data-citation-key-points="true">' +
       '<li>This page is meant to answer one decision question clearly before a person contacts a provider.</li>' +
       '<li>It should be paired with the guide hub, methodology page, and next-steps page instead of treated like a ranking or endorsement.</li>' +
       '<li>When local help is needed, use the owned provider-callback route rather than guessing from generic search results.</li>' +
       '</ul>' +
-      '<p data-citation-routing-links="true">Related owned routes: <a href="' + escapeHtml(hrefs.guides) + '">guides hub</a>, <a href="' + escapeHtml(hrefs.nextSteps) + '">next steps</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
+      '<p class="visually-hidden" data-citation-routing-links="true">Related owned routes: <a href="' + escapeHtml(hrefs.guides) + '">guides hub</a>, <a href="' + escapeHtml(hrefs.nextSteps) + '">next steps</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
       '</section>'
     );
   }
@@ -3442,15 +3415,16 @@ function renderCitationSummaryZoneHtml(opts) {
     return (
       '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="guides-hub">' +
       '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is the owned guide index for this pack. It is meant to route specific decision questions into tighter leaf pages rather than keep people on a generic hub.</p>' +
-      '<p class="answer-when"><strong>When this page helps most:</strong> when you still need to decide which decision path fits your situation before you open a single leaf guide.</p>' +
-      '<p class="answer-tradeoff"><strong>Common mistake:</strong> staying on a generic hub when the real answer lives on a comparison, cost, red-flags, or questions-to-ask guide.</p>' +
-      '<ul data-citation-key-points="true">' +
+      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is the owned guide index for this pack. It helps when the question is still broad and you need to choose the best guide before opening a single leaf page.</p>' +
+      '<p class="answer-when">Most people use this page to narrow a broad topic into cost, red flags, questions to ask, requirements, or next steps, but the best next click depends on what still feels unclear.</p>' +
+      '<p class="answer-tradeoff">The hub is not the final answer; the goal is to route you into the one guide that makes the decision cleaner fastest.</p>' +
+      '<p class="answer-boundary">This page is educational and is designed to help you understand which decision path to open next.</p>' +
+      '<ul class="visually-hidden" data-citation-key-points="true">' +
       '<li>Use this page when the question is still broad and needs to be narrowed into a single guide.</li>' +
       '<li>Leaf guides should carry the real pricing, trust, red-flag, requirements, or next-step answer blocks.</li>' +
       '<li>The FAQ and methodology pages explain boundaries, definitions, and how to read the site safely.</li>' +
       '</ul>' +
-      '<p data-citation-routing-links="true">Primary owned routes: <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>, and <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>.</p>' +
+      '<p class="visually-hidden" data-citation-routing-links="true">Primary owned routes: <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>, and <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>.</p>' +
       '</section>'
     );
   }

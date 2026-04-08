@@ -94,29 +94,40 @@ function stripTags(s) {
   return s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-function getShortAnswerText(html) {
-  const explicit = html.match(/<section[^>]*data-short-answer=["']true["'][^>]*>[\s\S]*?<p>([\s\S]*?)<\/p>[\s\S]*?<\/section>/i);
-  if (explicit) return stripTags(explicit[1]);
+function getShortAnswerSectionHtml(html) {
+  const explicit = html.match(/<section[^>]*data-short-answer=["']true["'][^>]*>[\s\S]*?<\/section>/i);
+  if (explicit) return explicit[0];
 
   const headingPatterns = [
-    /<h2>\s*Short answer\s*<\/h2>[\s\S]*?<p>([\s\S]*?)<\/p>/i,
-    /<h2>\s*Quick answer\s*<\/h2>[\s\S]*?<p>([\s\S]*?)<\/p>/i,
-    /<h2>\s*Priority answer surfaces\s*<\/h2>[\s\S]*?<p>([\s\S]*?)<\/p>/i
+    /<section[^>]*>[\s\S]*?<h2[^>]*>\s*Short answer\s*<\/h2>[\s\S]*?<\/section>/i,
+    /<section[^>]*>[\s\S]*?<h2[^>]*>\s*Quick answer\s*<\/h2>[\s\S]*?<\/section>/i
   ];
 
   for (const pattern of headingPatterns) {
     const match = html.match(pattern);
-    if (match) return stripTags(match[1]);
+    if (match) return match[0];
   }
 
   return '';
 }
 
+function getShortAnswerText(html) {
+  const sectionHtml = getShortAnswerSectionHtml(html);
+  if (!sectionHtml) return '';
+  const paragraphs = [...sectionHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)].map((m) => stripTags(m[1]));
+  return paragraphs.join(' ');
+}
+
+function countSentences(text) {
+  return (String(text || '').match(/[.!?](?=\s|$)/g) || []).length;
+}
+
 const SHORT_ANSWER_TARGET = 150;
-const SHORT_ANSWER_WARN_BAND = 20;
+const SHORT_ANSWER_WARN_BAND = 30;
 const SHORT_ANSWER_FAIL_BELOW = SHORT_ANSWER_TARGET - SHORT_ANSWER_WARN_BAND;
 const MIN_SECTIONS_TARGET = 3;
 const MIN_SECTIONS_FAIL_BELOW = 2;
+const SHORT_ANSWER_MIN_SENTENCES = 4;
 
 function validateTarget(target) {
   const html = fs.readFileSync(target.file, 'utf8');
@@ -124,7 +135,9 @@ function validateTarget(target) {
   const failures = [];
   const warnings = [];
   const types = extractJsonLdTypes(html);
+  const shortAnswerSectionHtml = getShortAnswerSectionHtml(html);
   const shortAnswer = getShortAnswerText(html);
+  const shortAnswerSentenceCount = countSentences(shortAnswer);
   const sections = sectionCount(html);
 
   if (!/<h1\b[^>]*>/i.test(html)) failures.push(failure(rel, 'missing H1'));

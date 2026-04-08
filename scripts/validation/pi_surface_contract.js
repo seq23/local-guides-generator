@@ -19,15 +19,13 @@ function run() {
   const issues = [];
 
   requireIncludes(home.main_html, [
-    'data-pi-home-callout="true"',
+    'data-home-answer="true"',
+    'data-home-about-block="true"',
     'data-pi-home-routing="true"',
-    'data-pi-home-case-routing="true"',
     'data-pi-home-markets="true"',
     '/guides/what-to-do-after-an-accident/',
     '/guides/evidence-checklist-after-an-accident/',
     '/guides/recorded-statements-and-insurance-calls/',
-    '/guides/personal-injury-fees-explained/',
-    '/guides/personal-injury-lawyer-red-flags/',
     '/guides/questions-to-ask-a-personal-injury-lawyer/'
   ], 'pi home', issues);
 

@@ -4,7 +4,7 @@ const PACK_SITE_CONFIG = {
   pi: {
     pageSetSlugs: ['pi_v1.json', 'cities_pi_v1.json'],
     siteUrl: 'https://theaccidentguides.com',
-    brandName: 'Accident Guides',
+    brandName: 'The Accident Guides',
   },
   dentistry: {
     pageSetSlugs: ['dentistry_v1.json', 'cities_dentistry_v1.json'],
@@ -14,7 +14,7 @@ const PACK_SITE_CONFIG = {
   trt: {
     pageSetSlugs: ['trt_v1.json', 'cities_trt_v1.json'],
     siteUrl: 'https://hormonesivhair.com',
-    brandName: 'Hormone Health Guides',
+    brandName: 'Hormone Optimization Guides',
   },
   neuro: {
     pageSetSlugs: ['neuro_v1.json', 'cities_neuro_v1.json'],
@@ -24,7 +24,7 @@ const PACK_SITE_CONFIG = {
   uscis_medical: {
     pageSetSlugs: ['uscis_medical_v1.json', 'cities_uscis_medical_v1.json'],
     siteUrl: 'https://uscisexam.com',
-    brandName: 'Immigration Medical Guides',
+    brandName: 'USCIS Exam Guides',
   },
 };
 

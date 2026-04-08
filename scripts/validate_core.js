@@ -80,6 +80,8 @@ const hierarchyReinforcementContract = require('./validation/hierarchy_reinforce
 const internalLinkingQualityContract = require('./validation/internal_linking_quality_contract');
 const metadataSchemaStrengthContract = require('./validation/metadata_schema_strength_contract');
 const homepageGuidesHubContract = require('./validation/homepage_guides_hub_contract');
+const homepageEntityContract = require('./validation/homepage_entity_contract');
+const uscisVerticalCongruenceContract = require('./validation/uscis_vertical_congruence_contract');
 require('./validation/footer_weight_contract');
 require('./validation/cta_dedup_contract');
 
@@ -194,6 +196,8 @@ function main() {
     internalLinkingQualityContract.run({ site });
     metadataSchemaStrengthContract.run({ site });
     homepageGuidesHubContract.run({ site });
+    homepageEntityContract.run({ site });
+    uscisVerticalCongruenceContract.run({ site });
     coverageRenderingContract.run({ site });
     fanoutWarning.run({ site });
     fanoutDistributionContract.run({ site });

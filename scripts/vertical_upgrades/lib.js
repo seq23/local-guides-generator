@@ -199,6 +199,51 @@ function profileConfig(vertical) {
         ].join('');
       }
     },
+
+    uscis_medical: {
+      relDir: 'data/page_sets/examples/uscis_medical_global_pages',
+      minGuides: 8,
+      requiredRoutes: ['/guides/uscis-medical-exam-overview/', '/guides/i-693-medical-exam-requirements/', '/guides/document-checklist/', '/guides/costs-and-timeframes/', '/guides/questions-to-ask-a-civil-surgeon/'],
+      requiredIds: ['definition', 'documents', 'cost', 'process', 'questions', 'next-steps'],
+      disclaimer: 'Educational only. Not legal or medical advice. No endorsements or rankings.',
+      sections({ title, description }) {
+        const safeTitle = escapeHtml(title);
+        const desc = escapeHtml(description || `${title} should explain the USCIS medical exam process, what documents matter, and what to verify before you book.`);
+        return [
+          sectionHtml('definition', 'Quick answer', [
+            `${safeTitle} should answer the practical question first: what part of the USCIS medical exam process this page explains, who it helps, and what decision it clarifies next.`,
+            `${desc}`
+          ]),
+          sectionHtml('documents', 'Documents and records that matter', [
+            `USCIS exam pages should make document readiness obvious. People need to know what identity records, vaccination records, prior medical records, and case paperwork affect the visit before they book.`
+          ], [
+            'Bring identity documents and any appointment or case paperwork requested.',
+            'Bring vaccination and relevant medical records when available.',
+            'Clarify what happens if records are missing or incomplete.'
+          ]),
+          sectionHtml('cost', 'Costs, timing, and what changes the quote', [
+            `The useful pricing question is what is included in the visit, what follow-up or lab work changes cost, and when sealed paperwork is usually ready.`,
+            `If a page skips timing and sealed-envelope logistics, it is leaving out one of the main reasons people research this topic.`
+          ]),
+          sectionHtml('process', 'What the process usually looks like', [
+            `A strong USCIS page explains the flow: booking, records review, exam, vaccination questions, form completion, and what happens after the visit.`,
+            `That process detail is what makes city pages and next-steps pages feel useful instead of generic.`
+          ]),
+          sectionHtml('questions', 'Questions worth asking before you book', [
+            `The best questions reduce surprises around records, timelines, what is included, and what could delay completion.`
+          ], [
+            'What documents and vaccination records should I bring?',
+            'What is included in the quoted fee and what is separate?',
+            'How long does sealed paperwork usually take after the visit?',
+            'What happens if a required record is missing?' 
+          ]),
+          sectionHtml('next-steps', 'What to do next', [
+            `Use this guide to decide whether you need more document prep, a city page, or the dedicated next-steps page before contacting a civil surgeon.`,
+            `The right next move is usually to verify records, compare local options, and use the owned next-steps path once the basic process is clear.`
+          ])
+        ].join('');
+      }
+    },
     pi: {
       relDir: 'data/page_sets/examples/pi_global_pages',
       minGuides: 28,

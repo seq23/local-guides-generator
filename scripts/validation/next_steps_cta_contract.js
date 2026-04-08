@@ -47,7 +47,7 @@ function run(ctx) {
     assertContains(html, 'data-next-steps-card="compare"', rel);
     assertContains(html, 'data-next-steps-card="tools"', rel);
     assertContains(html, 'id="request-assistance-form"', rel);
-    assertContains(html, 'Jump to the form', rel);
+    assertContains(html, 'Jump to the full form', rel);
     assertContains(html, 'Compare Options', rel);
     assertContains(html, 'Use Lookup Tools', rel);
     assertContains(html, 'data-next-steps-routing="true"', rel);

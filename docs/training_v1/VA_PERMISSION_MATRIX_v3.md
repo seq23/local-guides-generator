@@ -46,3 +46,17 @@ If you are not the Owner, stop here.
 ---
 
 **END OF FILE**
+
+
+## Homepage Entity Checklist
+- Exact brand string in H1, title, meta description, footer, and About block.
+- Homepage intro must repeat the exact brand string at least twice naturally.
+- Add branded internal links between homepage, guides, and next-steps.
+- Dedicated /next-steps/ pages keep the full form; city pages keep only the middle View Your Next Steps CTA.
+
+
+## Fanout / short-answer hierarchy note
+- Related search paths stay in the system for fanout/query-routing and owned-route reinforcement, but they must render as a tertiary/collapsed surface below the main decision path.
+- Priority answer surfaces as a visible block are retired; use the canonical Short answer layer instead.
+- Recently refreshed is tertiary metadata only.
+- USCIS now follows the same vertical-upgrade architecture family as PI, Dentistry, Neuro, and TRT via scripts/vertical_upgrades/uscis.js.

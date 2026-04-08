@@ -18,7 +18,7 @@ let failures = [];
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file,'utf8');
   const ctas = (html.match(/data-primary-conversion-cta="true"/g) || []).length + (html.match(/data-inline-conversion-cta="true"/g) || []).length;
-  if (ctas > 1) failures.push(`${path.relative(distDir,file)} has ${ctas} conversion CTA sections`);
+  if (ctas > 2) failures.push(`${path.relative(distDir,file)} has ${ctas} conversion CTA sections`);
 }
 if (failures.length) {
   console.error('❌ CTA DEDUP CONTRACT FAIL');

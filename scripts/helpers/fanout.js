@@ -360,11 +360,13 @@ function renderFanoutClusterHtml(cluster) {
   }).join('\n');
 
   return (
-    '<section class="section fanout-query-cluster" data-fanout-query-cluster="true">' +
-      '<h2>Related search paths</h2>' +
-      '<p class="muted">These are the exact question paths this page is built to answer. Each line routes to the best owned page for that query cluster.</p>' +
-      groupHtml +
-    '</section>'
+    '<details class="section fanout-query-cluster fanout-query-cluster--tertiary accordion" data-fanout-query-cluster="true">' +
+      '<summary><span>Related search paths</span><span class="accordion-meta">Additional owned routes for this topic</span></summary>' +
+      '<div class="accordion-panel">' +
+        '<p class="muted">These routes support fanout/query coverage and keep owned paths visible, but they are intentionally secondary to the main framework and next-step flow.</p>' +
+        groupHtml +
+      '</div>' +
+    '</details>'
   );
 }
 
