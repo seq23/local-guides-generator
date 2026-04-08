@@ -69,3 +69,5 @@ Executed the approved cumulative hierarchy pass on top of the ADA-compliant base
 
 ## Packaging
 - Packaged as a full baseline snapshot ZIP from repo root.
+
+- Reduced fanout/deployment telemetry leakage in user-facing UI: removed visible "Local routing layer" city lists from the rendered priority block, kept city links only in hidden contract markup, moved "Recently refreshed" to the end of the page flow, and reduced its visual weight so it behaves like tertiary support instead of a primary content block.

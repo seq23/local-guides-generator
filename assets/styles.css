@@ -1795,6 +1795,19 @@ button.btn:focus {
   font-weight: 600;
 }
 
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .section.distribution-priority {
   background: transparent;
   border: 1px solid var(--border);
@@ -1825,8 +1838,23 @@ button.btn:focus {
   font-size: 0.95rem;
 }
 
-.section.distribution-fresh .distribution-fresh__label {
-  margin: 10px 0 6px;
+.section.distribution-fresh--quiet {
+  margin-top: 24px;
+  padding: 10px 14px;
+  border-color: rgba(11, 31, 58, 0.08);
+  background: rgba(11, 31, 58, 0.015);
+}
+
+.section.distribution-fresh--quiet h3 {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.section.distribution-fresh--quiet ul,
+.section.distribution-fresh--quiet li,
+.section.distribution-fresh--quiet p,
+.section.distribution-fresh--quiet a {
+  font-size: 0.9rem;
 }
 
 .conversion-cta {

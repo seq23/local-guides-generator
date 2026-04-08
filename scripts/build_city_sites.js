@@ -2975,12 +2975,16 @@ function renderInternalDistributionZoneHtml(opts) {
   };
   const priorityPrimary = primaryLinks.length ? primaryLinks : guideLinks;
 
+  const hiddenCityLinks = (cityLinks.length && kind !== 'city-home')
+    ? '<div class="visually-hidden" aria-hidden="true" data-distribution-city-links="true">' + linkList(cityLinks, 'data-distribution-city-links-hidden') + '</div>'
+    : '';
+
   return (
     '<section class="section distribution-priority" data-distribution-priority-block="true" data-distribution-kind="' + escapeHtml(kind) + '">' +
     '<h2>Priority answer surfaces</h2>' +
     '<p class="muted">' + escapeHtml(priorityIntroByKind[kind] || 'Use these priority routes first.') + '</p>' +
     linkList(priorityPrimary, 'data-distribution-priority-links') +
-    (cityLinks.length && kind !== 'city-home' ? '<p class="muted"><strong>Local routing layer</strong></p>' + linkList(cityLinks, 'data-distribution-city-links') : '') +
+    hiddenCityLinks +
     '</section>'
   );
 }
@@ -2988,7 +2992,6 @@ function renderInternalDistributionZoneHtml(opts) {
 function renderRecentlyRefreshedHtml(opts) {
   const kind = String((opts && opts.kind) || '').trim();
   const guideLinks = Array.isArray(opts && opts.guideLinks) ? opts.guideLinks : [];
-  const cityLinks = Array.isArray(opts && opts.cityLinks) ? opts.cityLinks : [];
   const primaryLinks = Array.isArray(opts && opts.primaryLinks) ? opts.primaryLinks : [];
   const buildStamp = escapeHtml(String((opts && opts.buildIso) || BUILD_ISO));
 
@@ -3002,14 +3005,12 @@ function renderRecentlyRefreshedHtml(opts) {
   };
 
   const freshPrimary = (guideLinks.length ? guideLinks : primaryLinks).slice(0, 4);
-  const freshSupport = cityLinks.slice(0, 4);
-  if (!freshPrimary.length && !freshSupport.length) return '';
+  if (!freshPrimary.length) return '';
 
   return (
-    '<section class="section distribution-fresh" data-distribution-fresh-block="true" data-distribution-kind="' + escapeHtml(kind) + '" data-distribution-build="' + buildStamp + '">' +
+    '<section class="section distribution-fresh distribution-fresh--quiet" data-distribution-fresh-block="true" data-distribution-kind="' + escapeHtml(kind) + '" data-distribution-build="' + buildStamp + '">' +
     '<h3>Recently refreshed</h3>' +
     linkList(freshPrimary, 'data-distribution-fresh-links') +
-    (freshSupport.length ? '<p class="muted distribution-fresh__label">Local routes touched in this deployment</p>' + linkList(freshSupport, 'data-distribution-support-links') : '') +
     '</section>'
   );
 }
@@ -3018,10 +3019,7 @@ function injectRecentlyRefreshedBlock(mainHtml, refreshHtml) {
   const marker = 'data-distribution-fresh-block="true"';
   if (!refreshHtml) return String(mainHtml || '');
   if (String(mainHtml || '').includes(marker)) return String(mainHtml || '');
-  let out = String(mainHtml || '');
-  const ctaRe = /(<section[^>]*data-primary-conversion-cta="true"[\s\S]*?<\/section>)/i;
-  if (ctaRe.test(out)) return out.replace(ctaRe, '$1\n' + refreshHtml);
-  return out + '\n' + refreshHtml;
+  return String(mainHtml || '') + '\n' + refreshHtml;
 }
 
 function renderCitationSummaryZoneHtml(opts) {
