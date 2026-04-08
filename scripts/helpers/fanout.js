@@ -227,7 +227,7 @@ function defaultClusterItems(ctx) {
       { groupId: 'faq', groupLabel: 'FAQ and red flags', query: `red flags when choosing a ${noun} in ${market}`, href: '/guides/#red-flags', label: 'Red flags guide' },
       { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `${noun} cost in ${market}`, href: '/guides/#costs', label: 'Costs path' },
       { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `questions to ask a ${noun} in ${market}`, href: '/guides/#questions', label: 'Questions path' },
-      { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `find a ${noun} in ${market}`, href: '/request-assistance/', label: 'Request assistance' }
+      { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `find a ${noun} in ${market}`, href: '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
@@ -237,7 +237,7 @@ function defaultClusterItems(ctx) {
       { groupId: 'compare', groupLabel: 'State-level lookup paths', query: `how to find a ${noun} in ${market}`, href: route, label: 'State hub' },
       { groupId: 'faq', groupLabel: 'State-level lookup paths', query: `${noun} questions in ${market}`, href: route, label: 'State FAQ' },
       { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `${noun} checklist in ${market}`, href: '/guides/', label: 'Guides hub' },
-      { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `request help finding a ${noun} in ${market}`, href: '/request-assistance/', label: 'Request assistance' }
+      { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `request help finding a ${noun} in ${market}`, href: '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
@@ -256,7 +256,7 @@ function defaultClusterItems(ctx) {
       { groupId: 'timeline', groupLabel: 'Timeline', query: `${noun} timeline`, href: '/guides/#timeline', label: 'Timeline cluster' },
       { groupId: 'questions', groupLabel: 'Questions to ask', query: `questions to ask a ${noun}`, href: '/guides/#questions', label: 'Questions cluster' },
       { groupId: 'red-flags', groupLabel: 'Red flags', query: `red flags for ${noun}`, href: '/guides/#red-flags', label: 'Red-flags cluster' },
-      { groupId: 'next', groupLabel: 'Next steps', query: `find a ${noun}`, href: '/request-assistance/', label: 'Request assistance' }
+      { groupId: 'next', groupLabel: 'Next steps', query: `find a ${noun}`, href: '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
@@ -266,7 +266,7 @@ function defaultClusterItems(ctx) {
       { groupId: 'primary', groupLabel: 'Primary route', query: `what to know about ${topic}`, href: route, label: 'This guide' },
       { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${topic}`, href: '/faq/', label: 'FAQ' },
       { groupId: 'compare', groupLabel: 'Related decision paths', query: `red flags for ${topic}`, href: '/guides/#red-flags', label: 'Red-flags cluster' },
-      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${topic}`, href: '/request-assistance/', label: 'Request assistance' }
+      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${topic}`, href: '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
@@ -276,7 +276,7 @@ function defaultClusterItems(ctx) {
       { groupId: 'primary', groupLabel: 'Primary route', query: `what should I know about ${topic}`, href: route, label: 'This page' },
       { groupId: 'compare', groupLabel: 'Related decision paths', query: `how to compare options for ${topic}`, href: '/guides/', label: 'Guides hub' },
       { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${topic}`, href: '/faq/', label: 'FAQ' },
-      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${topic}`, href: '/request-assistance/', label: 'Request assistance' }
+      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${topic}`, href: '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
@@ -285,13 +285,13 @@ function defaultClusterItems(ctx) {
       { groupId: 'primary', groupLabel: 'Core discovery paths', query: `${plural} near me`, href: route, label: 'Home' },
       { groupId: 'primary', groupLabel: 'Core discovery paths', query: `how to choose a ${noun}`, href: '/guides/', label: 'Guides hub' },
       { groupId: 'compare', groupLabel: 'Core discovery paths', query: `${noun} FAQ`, href: '/faq/', label: 'FAQ' },
-      { groupId: 'next', groupLabel: 'Core discovery paths', query: `find a ${noun}`, href: '/request-assistance/', label: 'Request assistance' }
+      { groupId: 'next', groupLabel: 'Core discovery paths', query: `find a ${noun}`, href: '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
   return [
     { groupId: 'primary', groupLabel: 'Related search paths', query: topic || `${plural} guide`, href: route, label: 'This page' },
-    { groupId: 'next', groupLabel: 'Related search paths', query: `find a ${noun}`, href: '/request-assistance/', label: 'Request assistance' }
+    { groupId: 'next', groupLabel: 'Related search paths', query: `find a ${noun}`, href: '/request-assistance/', label: 'Get matched with a provider' }
   ];
 }
 

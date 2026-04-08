@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const CANONICAL_CTA_TEXT = 'Review the local next-step guide before choosing a provider.';
+const CANONICAL_CTA_TEXT = 'Use this decision hub when you want to move forward without guessing which path fits best.';
 
 function fileExists(fp) {
   try { fs.accessSync(fp, fs.constants.R_OK); return true; } catch (_) { return false; }
@@ -87,7 +87,7 @@ function run(ctx) {
     if (!hasZone) throw new Error(`NEXT STEPS CTA CONTRACT FAIL: missing CTA zone on expected page. File=${label}`);
     assertContains(html, CANONICAL_CTA_TEXT, label);
     assertContains(html, 'data-next-steps-cta="true"', label);
-    assertContains(html, 'View next steps', label);
+    assertContains(html, 'View Next Steps', label);
   }
 
   console.log('✅ NEXT STEPS CTA CONTRACT PASS');

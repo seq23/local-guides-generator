@@ -58,6 +58,7 @@ const fanoutDistributionContract = require('./validation/fanout_distribution_con
 const queryCompilerOverridesContract = require('./validation/query_compiler_overrides_contract');
 const verticalGuideDepthContract = require('./validation/vertical_guide_depth_contract');
 const sponsorPlaceholderContract = require('./validation/sponsor_placeholder_contract');
+const conversionIntentContract = require('./validation/conversion_intent_contract');
 const siteUrlContract = require('./validation/site_url_contract');
 const cityDecisionSupportContract = require('./validation/city_decision_support_contract');
 const piTrustToneContract = require('./validation/pi_trust_tone_contract');
@@ -172,6 +173,7 @@ function main() {
     sitemapParityContract.run({ site });
     homepageSchemaContract.run({ site });
     sponsorPlaceholderContract.run({ site });
+    conversionIntentContract.run({ site });
     cityDecisionSupportContract.run({ site });
     piTrustToneContract.run({ site });
     piSurfaceContract.run({ site });

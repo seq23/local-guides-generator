@@ -35,13 +35,13 @@ function run() {
       failures.push(`${file}: missing data-next-steps-routing="true" explainer`);
     }
     if (!html.includes('data-request-assistance-link="true"')) {
-      failures.push(`${file}: missing request assistance routing link`);
+      failures.push(`${file}: missing direct match routing link`);
     }
-    if (!html.includes('Review the local next-step guide before choosing a provider.')) {
-      failures.push(`${file}: missing approved primary next-step guidance line`);
+    if (!html.includes('Use this decision hub when you want to move forward without guessing which path fits best.')) {
+      failures.push(`${file}: missing approved primary next-steps guidance line`);
     }
-    if (!html.includes('Use the request-assistance tool to find local options.') && !html.includes('Use the <a data-request-assistance-link="true"')) {
-      failures.push(`${file}: missing approved secondary request-assistance guidance line`);
+    if (!html.includes('Get matched with a provider') || !html.includes('Compare your options') || !html.includes('Use lookup tools')) {
+      failures.push(`${file}: missing required next-steps decision hub actions`);
     }
   }
 

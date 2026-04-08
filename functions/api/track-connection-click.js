@@ -46,6 +46,13 @@ export async function onRequestPost(context) {
     const provider_type = String(body.provider_type || '').trim().slice(0, 80);
     const page_slug = String(body.page_slug || '').trim().slice(0, 160);
     const source_domain = String(body.source_domain || '').trim().slice(0, 120);
+    const intent_type = String(body.intent_type || '').trim().slice(0, 64);
+    const button_source = String(body.button_source || '').trim().slice(0, 64);
+    const market_slug = String(body.market_slug || '').trim().slice(0, 120);
+    const page_kind = String(body.page_kind || '').trim().slice(0, 32);
+    const vertical_key = String(body.vertical_key || '').trim().slice(0, 32);
+    const sponsor_slug = String(body.sponsor_slug || '').trim().slice(0, 120);
+    const sponsor_scope = String(body.sponsor_scope || '').trim().slice(0, 32);
     const nowIso = new Date().toISOString();
 
     const at = await writeToAirtable({
@@ -54,6 +61,13 @@ export async function onRequestPost(context) {
         provider_type,
         page_slug,
         source_domain,
+        intent_type,
+        button_source,
+        market_slug,
+        page_kind,
+        vertical_key,
+        sponsor_slug,
+        sponsor_scope,
         created_at: nowIso
       }
     });

@@ -82,7 +82,7 @@ const overrides = {
         {"groupId":"questions","groupLabel":"FAQ and red flags","query":"questions to ask before neuro testing in {market}","href":"/guides/questions-to-ask-before-neuro-testing/","label":"Pre-testing questions"},
         {"groupId":"compare","groupLabel":"Compare and shortlist","query":"telehealth vs in person neuro evaluation in {market}","href":"/guides/telehealth-vs-in-person-neuro/","label":"Telehealth vs in-person"},
         {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"what to expect after a neuro evaluation in {market}","href":"/guides/what-to-expect-after-a-neuro-evaluation/","label":"After evaluation"},
-        {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"find a neuro evaluation provider in {market}","href":"/request-assistance/","label":"Request assistance"}
+        {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"find a neuro evaluation provider in {market}","href":"/request-assistance/","label":"Get matched with a provider"}
       ]
     },
     "guide-detail:*": {

@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const CTA_COPY = {
-  text: 'Review the local next-step guide before choosing a provider.',
-  button: 'View next steps',
+  text: 'Use the decision hub to get matched now, compare options, or use lookup tools before you submit anything.',
+  button: 'View Next Steps',
 };
 
 function normalizeSlug(s) {

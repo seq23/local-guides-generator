@@ -2,11 +2,11 @@
   <div class="connection-bubble__inner">
     <div class="connection-bubble__copy">
       <p class="connection-bubble__eyebrow">Next Step</p>
-      <h2 class="connection-bubble__title">Need help connecting with a %%PROVIDER_TYPE_LABEL_LOWER%%?</h2>
-      <p class="connection-bubble__subtext">If you’d like assistance connecting with a relevant provider in your area, you may submit a request.</p>
+      <h2 class="connection-bubble__title">Ready to hear from a %%PROVIDER_TYPE_LABEL_LOWER%%?</h2>
+      <p class="connection-bubble__subtext">Use the direct callback path when you want to hear from a relevant provider without digging through multiple pages first.</p>
     </div>
     <div class="connection-bubble__actions">
-      <a class="button button-primary connection-bubble__button" href="%%REQUEST_ASSISTANCE_HREF%%">Request Assistance</a>
+      <a class="button button-primary connection-bubble__button" href="%%REQUEST_ASSISTANCE_HREF%%">Get Matched With a Provider</a>
     </div>
   </div>
 </section>
@@ -22,7 +22,12 @@
           var payload = {
             provider_type: (btn.getAttribute('data-provider-type') || ''),
             page_slug: (btn.getAttribute('data-page-slug') || ''),
-            source_domain: (window.location && window.location.host) ? window.location.host : ''
+            source_domain: (window.location && window.location.host) ? window.location.host : '',
+            intent_type: (btn.getAttribute('data-intent-type') || ''),
+            button_source: (btn.getAttribute('data-button-source') || ''),
+            market_slug: (btn.getAttribute('data-market-slug') || ''),
+            page_kind: (btn.getAttribute('data-page-kind') || ''),
+            vertical_key: (btn.getAttribute('data-vertical-key') || '')
           };
           // Fire and forget. Do not block navigation.
           fetch('/api/track-connection-click', {

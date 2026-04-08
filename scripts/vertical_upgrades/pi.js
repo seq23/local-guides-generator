@@ -90,7 +90,7 @@ const overrides = {
         {"groupId":"faq","groupLabel":"FAQ and red flags","query":"personal injury lawyer red flags in {market}","href":"/guides/personal-injury-lawyer-red-flags/","label":"Lawyer red flags"},
         {"groupId":"questions","groupLabel":"Costs, timing, next steps","query":"questions to ask a personal injury lawyer in {market}","href":"/guides/questions-to-ask-a-personal-injury-lawyer/","label":"Questions to ask"},
         {"groupId":"questions","groupLabel":"Costs, timing, next steps","query":"personal injury fees explained in {state}","href":"/guides/personal-injury-fees-explained/","label":"Fee guide"},
-        {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"find a personal injury lawyer in {market}","href":"/request-assistance/","label":"Request assistance"}
+        {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"find a personal injury lawyer in {market}","href":"/request-assistance/","label":"Get matched with a provider"}
       ]
     },
     "state:*": {
@@ -101,7 +101,7 @@ const overrides = {
         {"groupId":"questions","groupLabel":"State-level lookup paths","query":"personal injury fees explained in {state}","href":"/guides/personal-injury-fees-explained/","label":"Fee guide"},
         {"groupId":"compare","groupLabel":"State-level lookup paths","query":"when to call a personal injury lawyer in {state}","href":"/guides/when-to-call-a-personal-injury-lawyer/","label":"When to call"},
         {"groupId":"faq","groupLabel":"State-level lookup paths","query":"personal injury lawyer red flags in {state}","href":"/guides/personal-injury-lawyer-red-flags/","label":"Lawyer red flags"},
-        {"groupId":"next","groupLabel":"State-level lookup paths","query":"find a personal injury lawyer in {state}","href":"/request-assistance/","label":"Request assistance"}
+        {"groupId":"next","groupLabel":"State-level lookup paths","query":"find a personal injury lawyer in {state}","href":"/request-assistance/","label":"Get matched with a provider"}
       ]
     },
     "guide-detail:*": {

@@ -54,7 +54,7 @@ const overrides = {
         {"groupId":"compare","groupLabel":"Core discovery paths","query":"how to choose a dentist","href":"/guides/how-to-choose/","label":"How to choose"},
         {"groupId":"costs","groupLabel":"Core discovery paths","query":"dental crown cost and longevity","href":"/guides/dental-crowns/","label":"Dental crowns"},
         {"groupId":"faq","groupLabel":"Core discovery paths","query":"dental treatment red flags","href":"/guides/dental-red-flags/","label":"Dental red flags"},
-        {"groupId":"next","groupLabel":"Core discovery paths","query":"find a dentist","href":"/request-assistance/","label":"Request assistance"}
+        {"groupId":"next","groupLabel":"Core discovery paths","query":"find a dentist","href":"/request-assistance/","label":"Get matched with a provider"}
       ]
     },
     "faq:/faq/": {
@@ -88,7 +88,7 @@ const overrides = {
         {"groupId":"faq","groupLabel":"FAQ and red flags","query":"dental treatment red flags in {market}","href":"/guides/dental-red-flags/","label":"Dental red flags"},
         {"groupId":"questions","groupLabel":"FAQ and red flags","query":"questions to ask a dentist in {market}","href":"/guides/questions-to-ask/","label":"Questions to ask"},
         {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"when to get a dental second opinion in {market}","href":"/guides/dental-second-opinion/","label":"Second opinion guide"},
-        {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"find a dentist in {market}","href":"/request-assistance/","label":"Request assistance"}
+        {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"find a dentist in {market}","href":"/request-assistance/","label":"Get matched with a provider"}
       ]
     },
     "guide-detail:*": {

@@ -313,16 +313,63 @@ function shouldRenderConnectionBubble(opts) {
   return false;
 }
 
+function inferPageKindFromSrc(src) {
+  const clean = String(src || '').trim();
+  if (!clean || clean === '/') return 'global';
+  if (clean === '/guides/') return 'global';
+  if (clean === '/faq/') return 'global';
+  if (clean === '/methodology/') return 'global';
+  if (clean === '/request-assistance/') return 'request_assistance';
+  if (clean.endsWith('/next-steps/')) return 'next_steps';
+  if (/^\/guides\/[^/]+\/$/.test(clean)) return 'guide';
+  if (/^\/states\/[A-Za-z]{2}\/$/.test(clean)) return 'state';
+  if (/^\/[a-z0-9-]+\/$/.test(clean)) return 'city';
+  return 'global';
+}
+
+function inferPageSlugFromSrc(src) {
+  const clean = String(src || '').trim();
+  if (!clean || clean === '/') return 'home';
+  return clean.replace(/^\/+|\/+$/g, '') || 'home';
+}
+
+function inferMarketSlugFromSrc(src) {
+  const clean = String(src || '').trim();
+  const m = clean.match(/^\/([a-z0-9-]+)\//i);
+  return m ? String(m[1]).toLowerCase() : '';
+}
+
+function buildTrackedHref(basePath, params) {
+  const qs = [];
+  Object.entries(params || {}).forEach(([k, v]) => {
+    const val = String(v || '').trim();
+    if (!val) return;
+    qs.push(encodeURIComponent(k) + '=' + encodeURIComponent(val));
+  });
+  return String(basePath || '') + (qs.length ? ('?' + qs.join('&')) : '');
+}
+
 function buildRequestAssistanceContext(verticalKey, ctx) {
   const label = providerTypeLabelForVertical(verticalKey);
   const labelLower = (label === 'provider') ? 'a provider' : label.toLowerCase();
   const src = String(ctx?.src || '').trim();
   const pt = (label === 'provider') ? '' : label;
-  const qs = [];
-  if (pt) qs.push('pt=' + encodeURIComponent(pt));
-  if (src) qs.push('src=' + encodeURIComponent(src));
-  const href = '/request-assistance/' + (qs.length ? ('?' + qs.join('&')) : '');
-  return { label, labelLower, src, pt, href };
+  const pageKind = String(ctx?.pageKind || inferPageKindFromSrc(src));
+  const pageSlug = String(ctx?.pageSlug || inferPageSlugFromSrc(src));
+  const marketSlug = String(ctx?.marketSlug || inferMarketSlugFromSrc(src));
+  const intentType = String(ctx?.intentType || 'direct_match');
+  const buttonSource = String(ctx?.buttonSource || 'primary_cta');
+  const href = buildTrackedHref('/request-assistance/', {
+    pt,
+    src,
+    intent: intentType,
+    button: buttonSource,
+    vertical: verticalKey,
+    page_kind: pageKind,
+    page_slug: pageSlug,
+    market: marketSlug
+  });
+  return { label, labelLower, src, pt, href, pageKind, pageSlug, marketSlug, intentType, buttonSource, verticalKey };
 }
 
 function conversionCopyForContext(pageType, verticalKey, ctx) {
@@ -334,9 +381,9 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'city-primary') {
     return {
       eyebrow: 'Next step',
-      heading: 'Start your ' + escapeHtml(marketShort) + ' request for help',
-      body: 'Use the request-assistance tool if you want help narrowing the next step with ' + escapeHtml(lowerProvider) + ' near ' + escapeHtml(marketShort) + '.',
-      button: 'Start your local request',
+      heading: 'Get matched with a provider in ' + escapeHtml(marketShort),
+      body: 'Use the direct callback path when you want a provider to reach out after you review the basics for ' + escapeHtml(marketShort) + '.',
+      button: 'Get Matched With a Provider',
       variant: 'primary'
     };
   }
@@ -344,9 +391,9 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'city-inline') {
     return {
       eyebrow: 'Still comparing options?',
-      heading: 'Request help narrowing the next step',
-      body: 'If you want a cleaner handoff after reviewing the guide, use the request-assistance tool for ' + escapeHtml(marketShort) + '.',
-      button: 'Request local help',
+      heading: 'Want a provider call back after you compare?',
+      body: 'When you are ready to move from research to action, use the callback path for ' + escapeHtml(marketShort) + '.',
+      button: 'Request a Provider Call Back',
       variant: 'inline'
     };
   }
@@ -354,9 +401,9 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'state-primary') {
     return {
       eyebrow: 'State-wide help',
-      heading: 'Start a ' + escapeHtml(marketLabel || 'local') + ' request for help',
+      heading: 'Get matched with a provider in ' + escapeHtml(marketLabel || 'this state'),
       body: 'Use the request-assistance tool if you want help narrowing the next step with ' + escapeHtml(lowerProvider) + ' in ' + escapeHtml(marketLabel || 'this state') + '.',
-      button: 'Start your state request',
+      button: 'Get Matched With a Provider',
       variant: 'primary'
     };
   }
@@ -364,9 +411,9 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'state-inline') {
     return {
       eyebrow: 'Need a faster shortlist?',
-      heading: 'Request help after reviewing the city hubs',
-      body: 'After you compare the city pages, you can use the request-assistance tool to narrow the next step in ' + escapeHtml(marketLabel || 'this state') + '.',
-      button: 'Request state help',
+      heading: 'Need a provider call back after comparing cities?',
+      body: 'After you compare the city pages, use the callback path when you are ready to hear from a relevant provider in ' + escapeHtml(marketLabel || 'this state') + '.',
+      button: 'Request a Provider Call Back',
       variant: 'inline'
     };
   }
@@ -374,9 +421,9 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'guides-hub-primary') {
     return {
       eyebrow: 'Use the guides, then act',
-      heading: 'Use the guides, then request help',
-      body: 'When you are ready to move from research to action, the request-assistance tool can help you narrow the next step with ' + escapeHtml(lowerProvider) + '.',
-      button: 'Use the request-assistance tool',
+      heading: 'Use the guides, then get matched with a provider',
+      body: 'When you are ready to move from research to action, use the callback path to hear from a relevant ' + escapeHtml(lowerProvider) + '.',
+      button: 'Get Matched With a Provider',
       variant: 'primary'
     };
   }
@@ -385,8 +432,8 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
     return {
       eyebrow: 'Ready to move?',
       heading: 'Turn the framework into a next step',
-      body: 'After you review the guides, use the request-assistance tool to narrow the next local step without leaving the educational flow.',
-      button: 'Request help now',
+      body: 'After you review the guides, use the callback path when you want a direct handoff without leaving the educational flow.',
+      button: 'Request a Provider Call Back',
       variant: 'inline'
     };
   }
@@ -394,9 +441,9 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'global-primary') {
     return {
       eyebrow: 'Need help now?',
-      heading: 'Use the request-assistance tool',
-      body: 'This site is educational first, but you can also use the request-assistance tool when you want help narrowing the next local step with ' + escapeHtml(lowerProvider) + '.',
-      button: 'Open request assistance',
+      heading: 'Get matched with a provider',
+      body: 'This site is educational first, but you can also use the callback path when you want a provider to reach out after you review the basics.',
+      button: 'Get Matched With a Provider',
       variant: 'primary'
     };
   }
@@ -404,9 +451,9 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'global-inline') {
     return {
       eyebrow: 'Prefer a direct handoff?',
-      heading: 'Request help after you review the basics',
-      body: 'Once you have reviewed the core framework, the request-assistance tool can help narrow the next local step.',
-      button: 'Request help',
+      heading: 'Request a provider call back after you review the basics',
+      body: 'Once you have reviewed the core framework, use the callback path when you want to hear from a relevant provider.',
+      button: 'Request a Provider Call Back',
       variant: 'inline'
     };
   }
@@ -414,9 +461,9 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'guide-primary') {
     return {
       eyebrow: 'Use the guide, then decide',
-      heading: 'Request help after you review this guide',
-      body: 'If this guide answers the basics and you want help narrowing the next step with ' + escapeHtml(lowerProvider) + ', use the request-assistance tool.',
-      button: 'Request help from this guide',
+      heading: 'Use this guide, then get matched with a provider',
+      body: 'If this guide answers the basics and you want to hear from a relevant ' + escapeHtml(lowerProvider) + ', use the callback path.',
+      button: 'Get Matched With a Provider',
       variant: 'primary'
     };
   }
@@ -424,18 +471,18 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
   if (pageType === 'guide-inline') {
     return {
       eyebrow: 'Need a faster next step?',
-      heading: 'Request help once this guide gives you the basics',
-      body: 'If you want a more direct next step after reviewing this guide, use the request-assistance tool for ' + escapeHtml(lowerProvider) + '.',
-      button: 'Request help from this guide',
+      heading: 'Request a provider call back once this guide gives you the basics',
+      body: 'If you want a more direct next step after reviewing this guide, use the callback path for ' + escapeHtml(lowerProvider) + '.',
+      button: 'Get Matched With a Provider',
       variant: 'inline'
     };
   }
 
   return {
     eyebrow: 'Need help?',
-    heading: 'Use the request-assistance tool',
-    body: 'Use the request-assistance tool if you want help narrowing the next local step.',
-    button: 'Request assistance',
+    heading: 'Get matched with a provider',
+    body: 'Use the callback path when you want a relevant provider to reach out.',
+    button: 'Get Matched With a Provider',
     variant: 'inline'
   };
 }
@@ -453,6 +500,11 @@ function renderConversionCtaHtml(conversionTemplate, verticalKey, ctx) {
   html = html.replace(/%%REQUEST_ASSISTANCE_HREF%%/g, escapeHtml(info.href));
   html = html.replace(/%%PROVIDER_TYPE_LABEL%%/g, escapeHtml(info.pt));
   html = html.replace(/%%PAGE_SRC%%/g, escapeHtml(info.src));
+  html = html.replace(/%%BUTTON_SOURCE%%/g, escapeHtml(info.buttonSource));
+  html = html.replace(/%%INTENT_TYPE%%/g, escapeHtml(info.intentType));
+  html = html.replace(/%%MARKET_SLUG%%/g, escapeHtml(info.marketSlug));
+  html = html.replace(/%%PAGE_KIND%%/g, escapeHtml(info.pageKind));
+  html = html.replace(/%%VERTICAL_KEY%%/g, escapeHtml(info.verticalKey));
   return html;
 }
 
@@ -487,7 +539,7 @@ function renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, ctx) 
   if (!/data-provider-type=/.test(html)) {
     html = html.replace(
       /class="button button-primary connection-bubble__button"/,
-      'class="button button-primary connection-bubble__button" data-provider-type="' + escapeHtml(info.pt) + '" data-page-slug="' + escapeHtml(info.src) + '"'
+      'class="button button-primary connection-bubble__button" data-provider-type="' + escapeHtml(info.pt) + '" data-page-slug="' + escapeHtml(info.pageSlug) + '" data-button-source="connection_bubble" data-intent-type="direct_match" data-market-slug="' + escapeHtml(info.marketSlug) + '" data-page-kind="' + escapeHtml(info.pageKind) + '" data-vertical-key="' + escapeHtml(info.verticalKey) + '"'
     );
   }
 
@@ -1656,32 +1708,41 @@ function packHasNextStepsRoute(pageSet) {
 }
 
 function renderNextStepsZoneHtml(opts) {
-  // LIVE BUYOUT CTA (runtime). Not the for-providers inquiry button.
-  // Copy is canonical + universal across packs.
   var href = opts && opts.href ? String(opts.href) : '';
   if (!href) return '';
-
-  var ctaText = 'Review the local next-step guide before choosing a provider.';
-  var ctaButton = 'View next steps';
-  var requestAssistanceHref = '/request-assistance/';
-
+  var requestAssistanceHref = String(opts && opts.requestAssistanceHref ? opts.requestAssistanceHref : '/request-assistance/');
+  var compareHref = String(opts && opts.compareHref ? opts.compareHref : '/guides/');
+  var toolsHref = String(opts && opts.toolsHref ? opts.toolsHref : '/faq/');
   return (
     '<section class="section next-steps-zone" data-next-steps-zone="true">' +
     '<div class="card">' +
-    '<h2>Local next steps</h2>' +
-    '<p class="muted">' + escapeHtml(ctaText) + '</p>' +
-    '<p data-next-steps-answer="true">People usually compare three practical things before contacting anyone: whether a local option is accepting new inquiries, what the first step looks like, and what documents or pricing questions should be clarified in writing.</p>' +
-    '<ul class="neutral-list" data-next-steps-checklist="true">' +
-    '<li>Check whether the local next-steps resource explains intake or availability for this market.</li>' +
-    '<li>Confirm what documents, records, or written questions you should prepare before the first consultation or appointment.</li>' +
-    '<li>Use a routing tool first if you still need help narrowing provider type, market, or next-step fit.</li>' +
-    '</ul>' +
-    '<p class="muted" data-next-steps-routing="true">Use the <a data-request-assistance-link="true" href="' + escapeHtml(requestAssistanceHref) + '">request-assistance tool</a> to find local options.</p>' +
-    '<div class="actions">' +
-    '<a class="button button-primary" data-next-steps-cta="true" href="' + escapeHtml(href) + '">' +
-    escapeHtml(ctaButton) +
-    '</a>' +
+    '<h2>Next steps</h2>' +
+    '<p class="muted">Use this decision hub when you want to move forward without guessing which path fits best.</p>' +
+    '<p data-next-steps-answer="true">Most people move forward in one of three ways: get matched with a provider now, compare the options first, or use the lookup and research surfaces before they submit anything.</p>' +
+    '<div class="grid" data-next-steps-cards="true">' +
+      '<div class="card" data-next-steps-card="direct-match">' +
+        '<h3>Get matched with a provider</h3>' +
+        '<p>Use the direct callback path when you want a relevant provider to reach out after you review the basics.</p>' +
+        '<p class="actions"><a class="button button-primary" data-next-steps-primary="true" data-request-assistance-link="true" href="' + escapeHtml(requestAssistanceHref) + '">Get Matched With a Provider</a></p>' +
+      '</div>' +
+      '<div class="card" data-next-steps-card="compare">' +
+        '<h3>Compare your options</h3>' +
+        '<p>Review the education-first guides before you decide which provider type, market, or program structure fits.</p>' +
+        '<p class="actions"><a class="button button-secondary" data-next-steps-compare="true" href="' + escapeHtml(compareHref) + '">Compare Options</a></p>' +
+      '</div>' +
+      '<div class="card" data-next-steps-card="tools">' +
+        '<h3>Use lookup tools</h3>' +
+        '<p>Start with the FAQ and verification-style lookup surfaces when you want the fastest self-serve path.</p>' +
+        '<p class="actions"><a class="button button-secondary" data-next-steps-tools="true" href="' + escapeHtml(toolsHref) + '">Use Lookup Tools</a></p>' +
+      '</div>' +
     '</div>' +
+    '<ul class="neutral-list" data-next-steps-checklist="true">' +
+    '<li>Use the direct match path when you want a provider call back.</li>' +
+    '<li>Use the comparison path when you still need to review costs, timing, or questions to ask.</li>' +
+    '<li>Use the lookup tools path when you want the fastest self-serve route before you submit anything.</li>' +
+    '</ul>' +
+    '<p class="muted" data-next-steps-routing="true">The same routing system can capture all three paths while keeping the public experience useful and education-first.</p>' +
+    '<div class="actions"><a class="button button-primary" data-next-steps-cta="true" href="' + escapeHtml(href) + '">View Next Steps</a></div>' +
     '</div>' +
     '</section>'
   );
@@ -2308,7 +2369,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
         primaryLinks: [
           { href: '/guides/', label: 'Guides hub', description: 'Owned answer index for this pack.' },
           { href: '/faq/', label: 'FAQ', description: 'Fast clarifications before contacting anyone.' },
-          { href: '/request-assistance/', label: 'Request assistance', description: 'Owned help flow when the next step is clear.' }
+          { href: '/request-assistance/', label: 'Get matched with a provider', description: 'Owned callback route when the next step is clear.' }
         ].concat(selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }))),
         cityLinks: [
           { href: '/faq/', label: 'FAQ', description: 'Fast clarifications before contacting anyone.' },
@@ -2346,12 +2407,16 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
       pageType: 'city-primary',
       src: '/' + city.slug + '/',
-      marketLabel: city.marketLabel || ''
+      marketLabel: city.marketLabel || '',
+      intentType: 'direct_match',
+      buttonSource: 'primary_cta'
     });
     mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
       pageType: 'city-inline',
       src: '/' + city.slug + '/',
-      marketLabel: city.marketLabel || ''
+      marketLabel: city.marketLabel || '',
+      intentType: 'direct_match',
+      buttonSource: 'inline_conversion_cta'
     });
     mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
       kind: 'city-home',
@@ -2526,7 +2591,7 @@ function stripForbiddenInlineBlocks(html) {
   // - Global: pack-controlled via sponsorship.globalNextStepsEnabled
   // - Sponsor-driven: pack sponsorship.nextStepsEnabled + sponsor live
   if (route !== 'next-steps' && shouldRenderDeterministicNextSteps(pageSet, { pageType: 'city', route: '/' + city.slug + '/' })) {
-    mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/' + city.slug + '/next-steps/' });
+    mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/' + city.slug + '/next-steps/', requestAssistanceHref: buildTrackedHref('/request-assistance/', { pt: providerTypeLabelForVertical(verticalKey), src: '/' + city.slug + '/next-steps/', intent: 'direct_match', button: 'next_steps_page_primary', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }), compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }), toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }) });
   }
 
   mainHtml = injectAdPlacements(mainHtml, ads, { city: city, verticalKey: verticalKey, cityFeatures: (pageSet && pageSet.__cityFeatures) ? pageSet.__cityFeatures : null });
@@ -2870,7 +2935,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
         cityLinks: [
           { href: '/faq/', label: 'FAQ', description: 'Clarify definitions and common questions.' },
           { href: '/methodology/', label: 'Methodology', description: 'Editorial and verification boundaries.' },
-          { href: '/request-assistance/', label: 'Request assistance', description: 'Owned action route after the right guide is clear.' }
+          { href: '/request-assistance/', label: 'Get matched with a provider', description: 'Owned callback route after the right guide is clear.' }
         ]
       });
       if (mainHtml.includes('data-citation-summary-type="guides-hub"')) {
@@ -2884,12 +2949,16 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
       pageType: 'guides-hub-primary',
       src: '/guides/',
-      marketLabel: 'Guides'
+      marketLabel: 'Guides',
+      intentType: 'direct_match',
+      buttonSource: 'primary_cta'
     });
     mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
       pageType: 'guides-hub-inline',
       src: '/guides/',
-      marketLabel: 'Guides'
+      marketLabel: 'Guides',
+      intentType: 'direct_match',
+      buttonSource: 'inline_conversion_cta'
     });
     mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
       kind: 'guides-hub',
@@ -2923,12 +2992,16 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
       pageType: 'guide-primary',
       src: '/' + route + '/',
-      marketLabel: title
+      marketLabel: title,
+      intentType: 'direct_match',
+      buttonSource: 'primary_cta'
     });
     mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
       pageType: 'guide-inline',
       src: '/' + route + '/',
-      marketLabel: title
+      marketLabel: title,
+      intentType: 'direct_match',
+      buttonSource: 'inline_conversion_cta'
     });
     mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
       kind: 'guides-hub',
@@ -2964,7 +3037,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   if (route !== 'next-steps') {
     var globalRoutePath = route ? ('/' + route.replace(/^\//, '') + '/') : '/';
     if (shouldRenderDeterministicNextSteps(pageSet, { pageType: 'global', route: globalRoutePath })) {
-      mainHtml += renderNextStepsZoneHtml({ href: '/next-steps/' });
+      mainHtml += renderNextStepsZoneHtml({ href: '/next-steps/', requestAssistanceHref: buildTrackedHref('/request-assistance/', { pt: providerTypeLabelForVertical(verticalKey), src: '/next-steps/', intent: 'direct_match', button: 'next_steps_page_primary', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }), compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }), toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }) });
     }
   }
 
@@ -3260,9 +3333,9 @@ function renderCitationSummaryZoneHtml(opts) {
       '<ul data-citation-key-points="true">' +
       '<li>This page works best as a local orientation layer before contacting providers.</li>' +
       '<li>' + verificationHtml + '</li>' +
-      '<li>Use the guide hub, FAQ, and request-assistance flow only after the local comparison questions are clear.</li>' +
+      '<li>Use the guide hub, FAQ, and provider callback flow only after the local comparison questions are clear.</li>' +
       '</ul>' +
-      '<p data-citation-routing-links="true">Fast path: <a href="' + escapeHtml(hrefs.guides) + '">guides</a>, <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">request assistance</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
+      '<p data-citation-routing-links="true">Fast path: <a href="' + escapeHtml(hrefs.guides) + '">guides</a>, <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
       '</section>'
     );
   }
@@ -3291,9 +3364,9 @@ function renderCitationSummaryZoneHtml(opts) {
       '<ul data-citation-key-points="true">' +
       '<li>This page is meant to answer one decision question clearly before a person contacts a provider.</li>' +
       '<li>It should be paired with the guide hub, methodology page, and next-steps page instead of treated like a ranking or endorsement.</li>' +
-      '<li>When local help is needed, use the owned request-assistance route rather than guessing from generic search results.</li>' +
+      '<li>When local help is needed, use the owned provider-callback route rather than guessing from generic search results.</li>' +
       '</ul>' +
-      '<p data-citation-routing-links="true">Related owned routes: <a href="' + escapeHtml(hrefs.guides) + '">guides hub</a>, <a href="' + escapeHtml(hrefs.nextSteps) + '">next steps</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">request assistance</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
+      '<p data-citation-routing-links="true">Related owned routes: <a href="' + escapeHtml(hrefs.guides) + '">guides hub</a>, <a href="' + escapeHtml(hrefs.nextSteps) + '">next steps</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
       '</section>'
     );
   }
@@ -3310,7 +3383,7 @@ function renderCitationSummaryZoneHtml(opts) {
       '<li>Leaf guides should carry the real pricing, trust, red-flag, requirements, or next-step answer blocks.</li>' +
       '<li>The FAQ and methodology pages explain boundaries, definitions, and how to read the site safely.</li>' +
       '</ul>' +
-      '<p data-citation-routing-links="true">Primary owned routes: <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>, and <a href="' + escapeHtml(hrefs.requestAssistance) + '">request assistance</a>.</p>' +
+      '<p data-citation-routing-links="true">Primary owned routes: <a href="' + escapeHtml(hrefs.faq) + '">FAQ</a>, <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>, and <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>.</p>' +
       '</section>'
     );
   }
@@ -3715,7 +3788,7 @@ function loadNextStepsSponsor(citySlug) {
       const mainHtml = (
         '<section class="hero">' +
         '<p class="kicker">Next steps</p>' +
-        '<h1>Continue to a sponsor’s intake form</h1>' +
+        '<h1>Next steps after you decide you want a provider call back</h1>' +
         '<p class="muted">Educational only. This site does not receive your case details.</p>' +
         '</section>' +
 
@@ -3723,16 +3796,16 @@ function loadNextStepsSponsor(citySlug) {
         (sponsorLive ? (
           '<div class="card" data-next-steps-card="true">' +
           '<h2>' + sponsorName + '</h2>' +
-          '<p class="muted">You will be taken to the sponsor’s intake form to request a confidential consultation.</p>' +
+          '<p class="muted">Use the sponsor-aware callback path if you want a provider to reach out after you review the basics.</p>' +
           '<div class="actions">' +
-          '<a class="button button-primary" data-next-steps-intake="true" href="' + intakeUrl + '" rel="sponsored noopener noreferrer" target="_blank">Continue to secure inquiry form</a>' +
+          '<a class="button button-primary" data-next-steps-intake="true" href="' + intakeUrl + '" rel="sponsored noopener noreferrer" target="_blank">Request a Provider Call Back</a>' +
           '<a class="button button-secondary" href="' + officialUrl + '" rel="sponsored noopener noreferrer" target="_blank">Visit official site</a>' +
           '</div>' +
           '</div>'
         ) : (
           '<div class="card">' +
-          '<h2>Sponsor intake (not yet enabled)</h2>' +
-          '<p class="muted">This state page supports sponsor next-steps, but no sponsor is active yet.</p>' +
+          '<h2>Provider callback routing (not yet enabled)</h2>' +
+          '<p class="muted">This state page supports the provider callback path, but no sponsor is active yet.</p>' +
           '</div>'
         )) +
         '<div class="card">' +
@@ -3937,12 +4010,16 @@ function loadNextStepsSponsor(citySlug) {
       mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
         pageType: 'state-primary',
         src: '/states/' + ab + '/',
-        marketLabel: stateName
+        marketLabel: stateName,
+        intentType: 'direct_match',
+        buttonSource: 'primary_cta'
       });
       mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
         pageType: 'state-inline',
         src: '/states/' + ab + '/',
-        marketLabel: stateName
+        marketLabel: stateName,
+        intentType: 'direct_match',
+        buttonSource: 'inline_conversion_cta'
       });
       mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
         kind: 'state-home',
@@ -3958,7 +4035,7 @@ function loadNextStepsSponsor(citySlug) {
       // Default remains OFF because all packs ship educationOnly=true.
       const stateSponsor = selectPiStateSponsor(ab);
       if (shouldRenderDeterministicNextSteps(pageSet, { pageType: 'state', route: '/states/' + ab + '/' }) && !mainHtml.includes('data-next-steps-zone="true"')) {
-        mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/states/' + escapeHtml(ab) + '/next-steps/' });
+        mainHtml += '\n' + renderNextStepsZoneHtml({ href: '/states/' + escapeHtml(ab) + '/next-steps/', requestAssistanceHref: buildTrackedHref('/request-assistance/', { pt: providerTypeLabelForVertical(verticalKey), src: '/states/' + ab + '/next-steps/', intent: 'direct_match', button: 'next_steps_page_primary', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'states-' + String(ab).toLowerCase() + '-next-steps', market: String(ab).toLowerCase() }), compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'states-' + String(ab).toLowerCase() + '-next-steps', market: String(ab).toLowerCase() }), toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'states-' + String(ab).toLowerCase() + '-next-steps', market: String(ab).toLowerCase() }) });
       }
 
       const stateFanoutCluster = fanout.buildFanoutCluster({

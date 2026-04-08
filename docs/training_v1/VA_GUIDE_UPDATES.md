@@ -86,3 +86,8 @@ If a guide:
 - [ ] Description is 1–2 sentences and not spammy
 - [ ] No obvious typos
 - [ ] Page builds without errors
+
+
+## 7) CTA and callback routing edits
+
+Do not change CTA wording, sponsor routing, or Next Steps behavior by editing guide files alone. Those are system-level surfaces and must be changed through templates, scripts, and validation. Follow `SOP_SPONSOR_CALLBACK_ROUTING_AND_CTA_SYSTEM.md`.

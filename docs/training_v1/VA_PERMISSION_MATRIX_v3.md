@@ -10,6 +10,7 @@ May:
 - perform click audits
 - run LLM visibility checks
 - prepare sponsor intake materials
+- update sponsor and campaign JSON files for approved callback-routing launches
 
 May NOT:
 - edit code

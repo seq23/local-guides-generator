@@ -45,7 +45,7 @@ function run(ctx = {}) {
   if (!html.includes('Submit a routing request')) fail('missing submit-a-routing-request headline');
   if (!html.includes('Primary action')) fail('missing primary action label');
   if (!html.includes('Before you submit')) fail('missing before-you-submit guidance label');
-  if (!html.includes('Start your request')) fail('missing top CTA label');
+  if (!(html.includes('Start your request') || html.includes('Request a Provider Call Back'))) fail('missing top CTA label');
   if (!html.includes('Email info@spryvc.com')) fail('missing bottom CTA label');
   console.log('✅ request_assistance_layout_contract PASS');
 }

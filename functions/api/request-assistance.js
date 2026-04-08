@@ -8,11 +8,11 @@
  *
  * Accepted input:
  * - provider_type (required enum)
- * - email (required)
+ * - email or phone (at least one required)
  * - consent (required)
  * - phone (optional)
  * - zip (optional)
- * - src (optional)
+ * - src, intent_type, button_source, vertical_key, page_kind, page_slug, market_slug (optional)
  * - website (honeypot; must remain empty)
  *
  * Output:
@@ -21,7 +21,7 @@
  * Failure modes:
  * - Unsupported content type
  * - Invalid provider_type
- * - Invalid email
+ * - Missing email and phone
  * - Missing consent
  * - Missing Airtable environment variables
  * - Airtable write failure
@@ -119,6 +119,15 @@ export async function onRequestPost(context) {
 
     const provider_type = String(body.provider_type || '').trim();
     const email = String(body.email || '').trim();
+    const intent_type = String(body.intent_type || body.intent || '').trim().slice(0, 64);
+    const button_source = String(body.button_source || body.button || '').trim().slice(0, 64);
+    const vertical_key = String(body.vertical_key || body.vertical || '').trim().slice(0, 32);
+    const page_kind = String(body.page_kind || '').trim().slice(0, 32);
+    const page_slug = String(body.page_slug || '').trim().slice(0, 160);
+    const market_slug = String(body.market_slug || body.market || '').trim().slice(0, 120);
+    const sponsor_slug = String(body.sponsor_slug || '').trim().slice(0, 120);
+    const sponsor_scope = String(body.sponsor_scope || '').trim().slice(0, 32);
+    const campaign_slug = String(body.campaign_slug || '').trim().slice(0, 120);
     const consent = String(body.consent || '').trim();
     const phone = normalizePhone(body.phone || '');
     const zip = normalizeZip(body.zip || '');
@@ -127,8 +136,11 @@ export async function onRequestPost(context) {
     if (!provider_type || !ALLOWED_PROVIDER_TYPES.has(provider_type)) {
       return json({ ok: false, error: 'provider_type' }, { status: 400 });
     }
-    if (!email || !isEmail(email)) {
+    if (email && !isEmail(email)) {
       return json({ ok: false, error: 'email' }, { status: 400 });
+    }
+    if (!email && !phone) {
+      return json({ ok: false, error: 'contact_required' }, { status: 400 });
     }
     if (!consent) {
       return json({ ok: false, error: 'consent' }, { status: 400 });
@@ -146,12 +158,21 @@ export async function onRequestPost(context) {
 
     const record = {
       provider_type,
-      email,
+      email: email || '',
       phone: phone || '',
       zip: zip || '',
       src: src || '',
       source_domain: host,
       consent: 'yes',
+      intent_type: intent_type || '',
+      button_source: button_source || '',
+      vertical_key: vertical_key || '',
+      page_kind: page_kind || '',
+      page_slug: page_slug || '',
+      market_slug: market_slug || '',
+      sponsor_slug: sponsor_slug || '',
+      sponsor_scope: sponsor_scope || '',
+      campaign_slug: campaign_slug || '',
       created_at: nowIso
     };
 

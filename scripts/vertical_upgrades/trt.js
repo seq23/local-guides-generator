@@ -85,7 +85,7 @@ const overrides = {
         {"groupId":"compare","groupLabel":"Compare and shortlist","query":"telehealth vs local trt clinic in {market}","href":"/guides/trt-telehealth-vs-local-clinic/","label":"Telehealth vs local"},
         {"groupId":"costs","groupLabel":"Costs, timing, next steps","query":"weight loss program cost in {market}","href":"/guides/medical-weight-loss-pricing/","label":"Weight loss pricing"},
         {"groupId":"faq","groupLabel":"FAQ and red flags","query":"peptide clinic red flags in {market}","href":"/guides/peptide-clinic-red-flags/","label":"Peptide red flags"},
-        {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"find a trt clinic in {market}","href":"/request-assistance/","label":"Request assistance"}
+        {"groupId":"next","groupLabel":"Costs, timing, next steps","query":"find a trt clinic in {market}","href":"/request-assistance/","label":"Get matched with a provider"}
       ]
     },
     "guide-detail:*": {
