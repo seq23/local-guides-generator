@@ -2,94 +2,59 @@
 const fs = require('fs');
 const path = require('path');
 
-const CANONICAL_CTA_TEXT = 'Use this decision hub when you want to move forward without guessing which path fits best.';
+function walk(dir, acc) {
+  for (const name of fs.readdirSync(dir)) {
+    const full = path.join(dir, name);
+    const st = fs.statSync(full);
+    if (st.isDirectory()) walk(full, acc);
+    else if (st.isFile() && name.toLowerCase().endsWith('.html')) acc.push(full);
+  }
+}
 
-function fileExists(fp) {
-  try { fs.accessSync(fp, fs.constants.R_OK); return true; } catch (_) { return false; }
+function isNextStepsPage(relPath) {
+  return /(^|\/)next-steps\/index\.html$/i.test(relPath.replace(/\\/g, '/'));
 }
-function readJson(fp) { return JSON.parse(fs.readFileSync(fp, 'utf8')); }
-function readText(fp) { return fs.readFileSync(fp, 'utf8'); }
-function assertContains(haystack, needle, label) {
-  if (!haystack.includes(needle)) throw new Error(`NEXT STEPS CTA CONTRACT FAIL: missing "${needle}" in ${label}`);
-}
-function assertNotContains(haystack, needle, label) {
-  if (haystack.includes(needle)) throw new Error(`NEXT STEPS CTA CONTRACT FAIL: forbidden "${needle}" present in ${label}`);
-}
-function readContracts(repoRoot) {
-  try { return JSON.parse(fs.readFileSync(path.join(repoRoot, 'data', 'page_contracts.json'), 'utf8')); }
-  catch (_) { return {}; }
-}
-function shouldExpectNextSteps(contracts, meta) {
-  const conf = contracts && contracts.next_steps_required ? contracts.next_steps_required : {};
-  const pageTypes = Array.isArray(conf.page_types) ? conf.page_types : [];
-  const globalRoutes = new Set(Array.isArray(conf.global_routes) ? conf.global_routes : []);
-  const keywords = Array.isArray(conf.guide_route_keywords) ? conf.guide_route_keywords : [];
-  const route = String(meta.route || '/');
-  if (pageTypes.includes(meta.pageType)) return true;
-  if (globalRoutes.has(route)) return true;
-  if (meta.pageType === 'guide' && keywords.some((kw) => route.includes(String(kw).toLowerCase()))) return true;
-  return false;
+
+function assertContains(html, needle, label) {
+  if (!html.includes(needle)) throw new Error(`NEXT STEPS CTA CONTRACT FAIL: missing "${needle}" in ${label}`);
 }
 
 function run(ctx) {
   const repoRoot = (ctx && ctx.repoRoot) || process.cwd();
   const distDir = path.join(repoRoot, 'dist');
-  if (!fileExists(distDir)) throw new Error('NEXT STEPS CTA CONTRACT FAIL: dist/ not found. Run build first.');
-  const contracts = readContracts(repoRoot);
-  const pages = [];
+  if (!fs.existsSync(distDir)) throw new Error('NEXT STEPS CTA CONTRACT FAIL: dist/ not found. Run build first.');
 
-  const home = path.join(distDir, 'index.html');
-  if (fileExists(home)) pages.push({ fp: home, meta: { pageType: 'home', route: '/' } });
+  const files = [];
+  walk(distDir, files);
+  const failures = [];
+  let nextStepsCount = 0;
 
-  const citiesFile = path.join(repoRoot, 'data', 'cities.json');
-  if (fileExists(citiesFile)) {
-    const cities = readJson(citiesFile);
-    if (Array.isArray(cities)) {
-      for (const c of cities) {
-        const slug = c && c.slug ? String(c.slug) : null;
-        if (!slug) continue;
-        const fp = path.join(distDir, slug, 'index.html');
-        if (fileExists(fp)) pages.push({ fp, meta: { pageType: 'city', route: '/' + slug + '/' } });
-      }
-    }
-  }
-
-  const statesDir = path.join(distDir, 'states');
-  if (fileExists(statesDir)) {
-    for (const ab0 of fs.readdirSync(statesDir).filter((d) => !d.startsWith('.'))) {
-      const fp = path.join(statesDir, ab0, 'index.html');
-      if (fileExists(fp)) pages.push({ fp, meta: { pageType: 'state', route: '/states/' + String(ab0).toLowerCase() + '/' } });
-    }
-  }
-
-  const guidesRoot = path.join(distDir, 'guides');
-  if (fileExists(guidesRoot)) {
-    const hub = path.join(guidesRoot, 'index.html');
-    if (fileExists(hub)) pages.push({ fp: hub, meta: { pageType: 'guides-hub', route: '/guides/' } });
-    for (const dir of fs.readdirSync(guidesRoot).filter((d) => !d.startsWith('.'))) {
-      const fp = path.join(guidesRoot, dir, 'index.html');
-      if (fileExists(fp)) pages.push({ fp, meta: { pageType: 'guide', route: '/guides/' + dir + '/' } });
-    }
-  }
-
-  if (!pages.length) throw new Error('NEXT STEPS CTA CONTRACT FAIL: no pages were scanned.');
-
-  for (const row of pages) {
-    const label = path.relative(repoRoot, row.fp);
-    const html = readText(row.fp);
+  for (const fp of files) {
+    const rel = path.relative(distDir, fp).replace(/\\/g, '/');
+    const html = fs.readFileSync(fp, 'utf8');
     const hasZone = html.includes('data-next-steps-zone="true"');
-    const expected = shouldExpectNextSteps(contracts, row.meta || {});
-    if (!expected) {
-      if (hasZone) throw new Error(`NEXT STEPS CTA CONTRACT FAIL: CTA zone rendered but not expected. File=${label}`);
-      assertNotContains(html, CANONICAL_CTA_TEXT, label);
-      continue;
+    const isNext = isNextStepsPage(rel);
+
+    if (!isNext && hasZone) {
+      failures.push(`${rel}: inline next-steps zone should not render outside dedicated /next-steps/ pages`);
     }
-    if (!hasZone) throw new Error(`NEXT STEPS CTA CONTRACT FAIL: missing CTA zone on expected page. File=${label}`);
-    assertContains(html, CANONICAL_CTA_TEXT, label);
-    assertContains(html, 'data-next-steps-cta="true"', label);
-    assertContains(html, 'View Next Steps', label);
+
+    if (!isNext) continue;
+    nextStepsCount += 1;
+    assertContains(html, 'data-next-steps-page-shell="true"', rel);
+    assertContains(html, 'data-next-steps-cards="true"', rel);
+    assertContains(html, 'data-next-steps-card="direct-match"', rel);
+    assertContains(html, 'data-next-steps-card="compare"', rel);
+    assertContains(html, 'data-next-steps-card="tools"', rel);
+    assertContains(html, 'id="request-assistance-form"', rel);
+    assertContains(html, 'Jump to the form', rel);
+    assertContains(html, 'Compare Options', rel);
+    assertContains(html, 'Use Lookup Tools', rel);
+    assertContains(html, 'data-next-steps-routing="true"', rel);
   }
 
+  if (nextStepsCount === 0) failures.push('no dedicated /next-steps/ pages found in dist');
+  if (failures.length) throw new Error('NEXT STEPS CTA CONTRACT FAIL\n' + failures.join('\n'));
   console.log('✅ NEXT STEPS CTA CONTRACT PASS');
 }
 

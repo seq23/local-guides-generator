@@ -91,3 +91,15 @@ If a guide:
 ## 7) CTA and callback routing edits
 
 Do not change CTA wording, sponsor routing, or Next Steps behavior by editing guide files alone. Those are system-level surfaces and must be changed through templates, scripts, and validation. Follow `SOP_SPONSOR_CALLBACK_ROUTING_AND_CTA_SYSTEM.md`.
+
+
+## 8) Next Steps hub rule
+
+The full three-option Next Steps hub must not be rendered inline on city pages, guides pages, hubs, or other non-`/next-steps/` pages.
+
+Only dedicated `/next-steps/` pages may contain:
+- the full callback form
+- the compare-options path
+- the lookup-tools path
+
+If you see that full hub inline anywhere else, stop and escalate.

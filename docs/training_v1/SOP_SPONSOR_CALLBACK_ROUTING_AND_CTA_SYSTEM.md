@@ -5,10 +5,10 @@ Last updated: 2026-04-08
 This SOP governs the three public user paths:
 
 1. **Get Matched With a Provider** — direct callback capture
-2. **Next Steps** — public decision hub
+2. **Next Steps** — dedicated public decision hub page only
 3. **Use Lookup Tools / Compare Options** — self-serve research path
 
-All three paths feed the same sponsor-aware routing system.
+All three paths feed the same sponsor-aware routing system. The full three-option hub and the full callback form must live only on dedicated `/next-steps/` pages.
 
 ---
 
@@ -44,8 +44,10 @@ All three paths feed the same sponsor-aware routing system.
 - Routes through owned form with sponsor-aware tracking
 
 ### Next Steps
-- Public decision hub
+- Dedicated public decision hub page only
 - Must show three actions: direct match, compare options, use lookup tools
+- Must include the full callback form directly on the `/next-steps/` page
+- Must not be rendered inline on city pages, guide pages, hub pages, or other non-`/next-steps/` surfaces
 - Must remain public-facing and not expose sponsor-ops language
 
 ### Use Lookup Tools / Compare Options
@@ -58,7 +60,8 @@ All three paths feed the same sponsor-aware routing system.
 ## Validation checklist
 
 - [ ] Direct conversion CTA shows **Get Matched With a Provider**
-- [ ] Next Steps page shows all three required actions
+- [ ] Next Steps page shows all three required actions and the full callback form
+- [ ] No inline page outside `/next-steps/` renders the full Next Steps hub
 - [ ] Self-serve path lands on a real surface
 - [ ] Sponsor-enabled pages still preserve utility and educational structure
 - [ ] Tracking payload captures intent type and button source

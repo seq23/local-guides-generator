@@ -16,45 +16,30 @@ function run() {
 
   const files = [];
   walk(distDir, files);
-
-  const targets = [];
   const failures = [];
+  const targets = [];
 
   for (const file of files) {
+    const rel = path.relative(distDir, file).replace(/\\/g, '/');
     const html = fs.readFileSync(file, 'utf8');
-    if (!html.includes('data-next-steps-zone="true"')) continue;
-    targets.push(file);
+    if (!/(^|\/)next-steps\/index\.html$/i.test(rel)) continue;
+    targets.push(rel);
 
-    if (!html.includes('data-next-steps-answer="true"')) {
-      failures.push(`${file}: missing data-next-steps-answer="true" block`);
-    }
-    if (!html.includes('data-next-steps-checklist="true"')) {
-      failures.push(`${file}: missing data-next-steps-checklist="true" list`);
-    }
-    if (!html.includes('data-next-steps-routing="true"')) {
-      failures.push(`${file}: missing data-next-steps-routing="true" explainer`);
-    }
-    if (!html.includes('data-request-assistance-link="true"')) {
-      failures.push(`${file}: missing direct match routing link`);
-    }
-    if (!html.includes('Use this decision hub when you want to move forward without guessing which path fits best.')) {
-      failures.push(`${file}: missing approved primary next-steps guidance line`);
-    }
+    if (!html.includes('data-next-steps-answer="true"')) failures.push(`${rel}: missing decision-hub answer block`);
+    if (!html.includes('data-next-steps-checklist="true"')) failures.push(`${rel}: missing decision-hub checklist`);
+    if (!html.includes('data-next-steps-routing="true"')) failures.push(`${rel}: missing routing explainer`);
+    if (!html.includes('id="request-assistance-form"')) failures.push(`${rel}: missing full request-assistance form`);
     if (!html.includes('Get matched with a provider') || !html.includes('Compare your options') || !html.includes('Use lookup tools')) {
-      failures.push(`${file}: missing required next-steps decision hub actions`);
+      failures.push(`${rel}: missing required next-steps decision hub actions`);
     }
   }
 
   if (targets.length === 0) {
-    console.log('ℹ️ citation routing contract skip (no next-steps zone present in dist)');
+    console.log('ℹ️ citation routing contract skip (no dedicated next-steps pages present in dist)');
     return;
   }
-
-  if (failures.length) {
-    throw new Error('CITATION ROUTING CONTRACT FAIL\n' + failures.join('\n'));
-  }
-
-  console.log(`✓ citation routing contract ok (${targets.length} files with next-steps zone)`);
+  if (failures.length) throw new Error('CITATION ROUTING CONTRACT FAIL\n' + failures.join('\n'));
+  console.log(`✓ citation routing contract ok (${targets.length} dedicated next-steps pages)`);
 }
 
 module.exports = { run };
