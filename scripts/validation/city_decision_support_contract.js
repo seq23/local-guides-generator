@@ -31,6 +31,7 @@ function run() {
   let verticalKey = String(site.vertical || site.verticalKey || '').trim();
   if (!verticalKey && /neuro/i.test(pageSetFile)) verticalKey = 'neuro';
   if (!verticalKey && /uscis_medical/i.test(pageSetFile)) verticalKey = 'uscis_medical';
+  if (!verticalKey && /pi/i.test(pageSetFile)) verticalKey = 'pi';
   if (!verticalKey && /trt/i.test(pageSetFile)) verticalKey = 'trt';
   if (!['dentistry', 'neuro', 'uscis_medical', 'trt', 'pi'].includes(verticalKey)) {
     console.log(`ℹ️ CITY DECISION SUPPORT SKIP (${verticalKey || 'unknown'})`);
@@ -44,47 +45,49 @@ function run() {
     process.exit(1);
   }
 
-  const sample = cityPages[0];
-  const html = fs.readFileSync(sample, 'utf8');
-  const label = path.relative(repoRoot, sample);
   const failures = [];
+  for (const sample of cityPages.slice(0, 8)) {
+    const html = fs.readFileSync(sample, 'utf8');
+    const label = path.relative(repoRoot, sample);
+    assertContains(html, 'data-city-decision-support="true"', label, failures);
+    assertContains(html, 'data-city-decision-links="true"', label, failures);
+    assertContains(html, 'data-localized-conclusion="true"', label, failures);
 
-  assertContains(html, 'data-city-decision-support="true"', label, failures);
-  assertContains(html, 'data-city-decision-links="true"', label, failures);
-
-  if (verticalKey === 'dentistry') {
+    if (verticalKey === 'dentistry') {
     assertContains(html, 'data-city-treatment-scope="true"', label, failures);
     assertContains(html, 'data-city-pricing-clarity="true"', label, failures);
     assertContains(html, 'data-city-specialist-fit="true"', label, failures);
     assertContains(html, 'data-city-second-opinion-check="true"', label, failures);
   }
 
-  if (verticalKey === 'neuro') {
+    if (verticalKey === 'neuro') {
     assertContains(html, 'data-city-pricing-expectations="true"', label, failures);
     assertContains(html, 'data-city-report-expectations="true"', label, failures);
     assertContains(html, 'data-city-records-expectations="true"', label, failures);
     assertContains(html, 'data-city-next-step-expectations="true"', label, failures);
   }
 
-  if (verticalKey === 'uscis_medical') {
+    if (verticalKey === 'uscis_medical') {
     assertContains(html, 'data-city-authorization-check="true"', label, failures);
     assertContains(html, 'data-city-document-check="true"', label, failures);
     assertContains(html, 'data-city-turnaround-check="true"', label, failures);
     assertContains(html, 'data-city-after-exam-check="true"', label, failures);
   }
 
-  if (verticalKey === 'trt') {
+    if (verticalKey === 'trt') {
     assertContains(html, 'data-city-candidacy-clarity="true"', label, failures);
     assertContains(html, 'data-city-monitoring-clarity="true"', label, failures);
     assertContains(html, 'data-city-treatment-selection="true"', label, failures);
     assertContains(html, 'data-city-trust-checks="true"', label, failures);
   }
 
-  if (verticalKey === 'pi') {
+    if (verticalKey === 'pi') {
     assertContains(html, 'data-city-case-fit-clarity="true"', label, failures);
     assertContains(html, 'data-city-fee-clarity="true"', label, failures);
     assertContains(html, 'data-city-evidence-timing="true"', label, failures);
     assertContains(html, 'data-city-insurance-caution="true"', label, failures);
+  }
+
   }
 
   if (failures.length) {

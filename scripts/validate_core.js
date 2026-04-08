@@ -72,6 +72,13 @@ const internalDistributionContract = require('./validation/internal_distribution
 const distributionDominanceContract = require('./validation/distribution_dominance_contract');
 const sitemapFreshContract = require('./validation/sitemap_fresh_contract');
 const answerBlockStrengthContract = require('./validation/answer_block_strength_contract');
+const evaluationFrameworkContract = require('./validation/evaluation_framework_contract');
+const stateAuthorityContract = require('./validation/state_authority_contract');
+const guideIntroContract = require('./validation/guide_intro_contract');
+const hierarchyReinforcementContract = require('./validation/hierarchy_reinforcement_contract');
+const internalLinkingQualityContract = require('./validation/internal_linking_quality_contract');
+const metadataSchemaStrengthContract = require('./validation/metadata_schema_strength_contract');
+const homepageGuidesHubContract = require('./validation/homepage_guides_hub_contract');
 require('./validation/footer_weight_contract');
 require('./validation/cta_dedup_contract');
 
@@ -178,6 +185,13 @@ function main() {
     distributionDominanceContract.run({ site });
     sitemapFreshContract.run({ site });
     answerBlockStrengthContract.run({ site });
+    evaluationFrameworkContract.run({ site });
+    stateAuthorityContract.run({ site });
+    guideIntroContract.run({ site });
+    hierarchyReinforcementContract.run({ site });
+    internalLinkingQualityContract.run({ site });
+    metadataSchemaStrengthContract.run({ site });
+    homepageGuidesHubContract.run({ site });
     coverageRenderingContract.run({ site });
     fanoutWarning.run({ site });
     fanoutDistributionContract.run({ site });

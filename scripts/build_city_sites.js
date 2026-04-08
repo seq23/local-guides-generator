@@ -1190,6 +1190,24 @@ function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateNa
   return `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>`;
 }
 
+function buildGuideHowToSchema(siteUrl, route, title, description) {
+  const cleanRoute = String(route || '').replace(/^\/+|\/+$/g, '');
+  if (!/^guides\/.+/.test(cleanRoute)) return null;
+  const url = buildCanonicalGlobal(siteUrl, cleanRoute);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: title,
+    description: description,
+    url,
+    step: [
+      { '@type': 'HowToStep', name: 'Clarify the real decision', text: 'Use the guide to identify what matters most in the decision before comparing providers or programs.' },
+      { '@type': 'HowToStep', name: 'Compare the tradeoff', text: 'Use the comparison and caution sections to understand what is easy to miss.' },
+      { '@type': 'HowToStep', name: 'Verify the next step', text: 'Move into methodology, FAQ, or local pages only after the decision path is clearer.' }
+    ]
+  };
+}
+
 function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet) {
   const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
   const primaryPageSchema = (cleanRoute === 'guides' || cleanRoute === 'faq')
@@ -1210,6 +1228,27 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
       aboutName: title,
       keywords: buildKeywords(title, description, ['guide', 'short answer', 'decision support'])
     }));
+    const howToSchema = buildGuideHowToSchema(siteUrl, route, title, description);
+    if (howToSchema) ld.push(howToSchema);
+  }
+
+  if (cleanRoute === 'guides') {
+    const guideSchemaDir = loadGlobalPagesDir(pageSet);
+    const guideItems = selectPriorityGuideSummaries(guideSchemaDir, 8).map((g, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      url: normalizeUrl(siteUrl.replace(/\/+$/, '') + g.route),
+      name: g.title
+    }));
+    if (guideItems.length) {
+      ld.push({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        itemListOrder: 'https://schema.org/ItemListUnordered',
+        numberOfItems: guideItems.length,
+        itemListElement: guideItems
+      });
+    }
   }
   const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
   const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
@@ -1903,8 +1942,11 @@ function renderEvalFrameworkHtml(verticalKey, city) {
     '<section class="section answer-block" data-eval-framework="true">' +
       '<h2>' + heading + '</h2>' +
       '<p class="answer-context"><strong>Direct answer:</strong> ' + lead + '</p>' +
-      '<p class="answer-when"><strong>What usually matters most:</strong> People tend to make a better decision when they compare fit, verification, process, and follow-up before they compare convenience or marketing language.</p>' +
-      '<p class="answer-tradeoff"><strong>Common mistake:</strong> Moving too fast on a price quote, a “best/top” claim, or a rushed intake before the service scope and documentation requirements are clear.</p>' +
+      '<p class="answer-when" data-eval-priority="true"><strong>What usually matters most:</strong> People tend to make a better decision when they compare fit, verification, process, and follow-up before they compare convenience or marketing language.</p>' +
+      '<p class="answer-tradeoff" data-eval-tradeoff="true"><strong>Common mistake:</strong> Moving too fast on a price quote, a “best/top” claim, or a rushed intake before the service scope and documentation requirements are clear.</p>' +
+      '<p class="answer-best-for" data-eval-best-for="true"><strong>Best for:</strong> readers who still need to decide which questions should narrow the field before they compare providers or programs.</p>' +
+      '<p class="answer-avoid-if" data-eval-avoid-if="true"><strong>Do not use this section as:</strong> a ranking, endorsement, or substitute for official verification.</p>' +
+      '<p class="answer-cost-outcome" data-eval-cost-outcome="true"><strong>Cost vs outcome tradeoff:</strong> a faster quote or lighter intake can feel easier now, but the more useful path is usually the one that explains scope, verification, and follow-up clearly enough to reduce rework later.</p>' +
       '<ul class="neutral-list">' + items + '</ul>' +
       '<p class="muted answer-microcopy" style="font-size:0.95em;margin-top:0.75rem">These factors describe common decision frameworks. They are not recommendations, rankings, or endorsements.</p>' +
     '</section>'
@@ -1947,22 +1989,23 @@ function renderLocalizedConclusionHtml(verticalKey, city) {
   };
 
   return (
-    '<section class="localized-conclusion" data-localized-conclusion="true">' +
+    '<section class="localized-conclusion" data-localized-conclusion="true" data-localized-conclusion-strength="true">' +
       '<h2>What usually matters most in ' + market + '</h2>' +
-      '<p>In ' + market + ', people usually make a better decision when they focus first on ' + escapeHtml(item.factor) + '.</p>' +
-      '<p><strong>Why this matters:</strong> City pages should help you slow the decision down enough to compare the right questions against ' + stateName + ' verification steps, not just click the nearest option.</p>' +
-      '<p><strong>Watch for this tradeoff:</strong> ' + escapeHtml(item.caution) + '.</p>' +
+      '<p data-localized-primary="true">In ' + market + ', people usually make a better decision when they focus first on ' + escapeHtml(item.factor) + '.</p>' +
+      '<p data-localized-why="true"><strong>Why this matters:</strong> City pages should help you slow the decision down enough to compare the right questions against ' + stateName + ' verification steps, not just click the nearest option.</p>' +
+      '<p data-localized-tradeoff="true"><strong>Watch for this tradeoff:</strong> ' + escapeHtml(item.caution) + '.</p>' +
     '</section>'
   );
 }
 
 function renderStateAuthorityBlockHtml(stateName, cityCount) {
   return (
-    '<section class="state-authority-block" data-state-authority-block="true">' +
+    '<section class="state-authority-block" data-state-authority-block="true" data-state-authority-strength="true">' +
       '<h2>How to use this state page well</h2>' +
-      '<p><strong>Direct answer:</strong> A state page should help you understand what stays constant across the state and which questions still need a city-level page.</p>' +
-      '<p>This page is strongest when you use it as a synthesis layer: statewide verification, statewide rules-of-thumb, and clean routing into ' + escapeHtml(String(cityCount || 0)) + ' city hubs where local comparison starts to matter.</p>' +
-      '<p><strong>Common mistake:</strong> Treating a state page like a ranking page instead of a routing and verification page.</p>' +
+      '<p data-state-authority-direct="true"><strong>Direct answer:</strong> A state page should help you understand what stays constant across the state and which questions still need a city-level page.</p>' +
+      '<p data-state-authority-dominance="true">This page is strongest when you use it as a synthesis layer: statewide verification, statewide rules-of-thumb, and clean routing into ' + escapeHtml(String(cityCount || 0)) + ' city hubs where local comparison starts to matter.</p>' +
+      '<p data-state-authority-tradeoff="true"><strong>Common mistake:</strong> Treating a state page like a ranking page instead of a routing and verification page.</p>' +
+      '<p data-state-authority-use="true"><strong>Use this page for:</strong> statewide boundaries, official resources, and deciding which city page or guide should come next.</p>' +
     '</section>'
   );
 }
@@ -2002,7 +2045,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ['/guides/bystander-injuries-near-law-enforcement/', 'Bystander injuries near law enforcement'],
       ['/guides/injuries-during-immigration-enforcement/', 'Injuries during immigration enforcement'],
       ['/guides/vehicle-collisions-near-law-enforcement-activity/', 'Vehicle collisions near law enforcement']
-    ].map(([href, label]) => '<li><a href="' + href + '">' + label + '</a></li>').join('');
+    ].map(([href, label]) => '<li><a href="' + href + '" data-decision-anchor="true">' + label + '</a></li>').join('');
 
     return (
       '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="pi">' +
@@ -2015,7 +2058,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-insurance-caution="true"><h3>Insurance pressure and statements</h3><p>Many readers need help because insurer calls start before the medical picture is stable. A useful city page should make room for caution around recorded statements, early narratives, and pressure to move too fast.</p></div>' +
         '</div>' +
         '<h3>Compare these guides next</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
+        '<ul class="neutral-list decision-links-list" data-city-decision-links="true" data-decision-routing-block="true">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -2029,7 +2072,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ['/guides/questions-to-ask/', 'Questions to ask'],
       ['/guides/dental-second-opinion/', 'Second opinion'],
       ['/guides/emergency-dentist-vs-waiting/', 'Emergency vs waiting']
-    ].map(([href, label]) => '<li><a href= + href + >' + label + '</a></li>').join('');
+    ].map(([href, label]) => '<li><a href="' + href + '" data-decision-anchor="true">' + label + '</a></li>').join('');
 
     return (
       '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="dentistry">' +
@@ -2042,7 +2085,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-second-opinion-check="true"><h3>When to slow down</h3><p>If the plan is expensive, irreversible, or poorly explained, use the city page to pivot into the second-opinion and red-flag guides before committing. Pressure is not proof that treatment is urgent.</p></div>' +
         '</div>' +
         '<h3>Compare these guides next</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
+        '<ul class="neutral-list decision-links-list" data-city-decision-links="true" data-decision-routing-block="true">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -2056,7 +2099,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ['/guides/what-to-expect-after-a-neuro-evaluation/', 'After the evaluation'],
       ['/guides/neuro-provider-red-flags/', 'Provider red flags'],
       ['/guides/questions-to-ask-before-neuro-testing/', 'Questions to ask']
-    ].map(([href, label]) => '<li><a href="' + href + '">' + label + '</a></li>').join('');
+    ].map(([href, label]) => '<li><a href="' + href + '" data-decision-anchor="true">' + label + '</a></li>').join('');
 
     return (
       '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="neuro">' +
@@ -2069,7 +2112,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-next-step-expectations="true"><h3>What happens next</h3><p>Ask what decisions the evaluation can realistically support after the report: accommodations, therapy referrals, medication follow-up, coaching, or more testing. Good providers explain next steps without overselling certainty.</p></div>' +
         '</div>' +
         '<h3>Compare these guides next</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
+        '<ul class="neutral-list decision-links-list" data-city-decision-links="true" data-decision-routing-block="true">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -2091,7 +2134,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ['/guides/testosterone-and-hair-loss-explained/', 'Testosterone and hair loss'],
       ['/guides/iv-hydration-therapy-overview/', 'IV hydration overview'],
       ['/guides/iv-hydration-red-flags/', 'IV hydration red flags']
-    ].map(([href, label]) => '<li><a href="' + href + '">' + label + '</a></li>').join('');
+    ].map(([href, label]) => '<li><a href="' + href + '" data-decision-anchor="true">' + label + '</a></li>').join('');
 
     return (
       '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="trt">' +
@@ -2104,7 +2147,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-trust-checks="true"><h3>When to slow down</h3><p>If pricing is vague, side effects are minimized, or the page sounds universally optimistic, use the guides below before booking. Pressure is not proof that treatment fit is strong.</p></div>' +
         '</div>' +
         '<h3>Compare these guides next</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
+        '<ul class="neutral-list decision-links-list" data-city-decision-links="true" data-decision-routing-block="true">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -2118,7 +2161,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ['/guides/costs-and-timeframes/', 'Costs and timeframes'],
       ['/guides/questions-to-ask-a-civil-surgeon/', 'Questions to ask'],
       ['/guides/after-your-exam-next-steps/', 'After-exam next steps']
-    ].map(([href, label]) => '<li><a href="' + href + '">' + label + '</a></li>').join('');
+    ].map(([href, label]) => '<li><a href="' + href + '" data-decision-anchor="true">' + label + '</a></li>').join('');
 
     return (
       '<section class="section" data-city-decision-support="true" data-city-decision-support-vertical="uscis_medical">' +
@@ -2131,7 +2174,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           '<div class="card" data-city-after-exam-check="true"><h3>After the appointment</h3><p>Before you leave, clarify how the office handles final paperwork, whether anything else is pending, and what instructions apply to your next immigration filing step.</p></div>' +
         '</div>' +
         '<h3>Compare these guides next</h3>' +
-        '<ul class="neutral-list" data-city-decision-links="true" class="decision-links-list">' + links + '</ul>' +
+        '<ul class="neutral-list decision-links-list" data-city-decision-links="true" data-decision-routing-block="true">' + links + '</ul>' +
       '</section>'
     );
   }
@@ -2199,6 +2242,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
     mainHtml = mainHtml.split("%%EVAL_FRAMEWORK%%").join(
       renderLLMBaitQuestionHtml(verticalKey, city) +
       renderEvalFrameworkHtml(verticalKey, city) +
+      renderLocalizedConclusionHtml(verticalKey, city) +
       renderCityDecisionSupportHtml(verticalKey, city)
     );
   }
@@ -2277,6 +2321,26 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
         mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + cityDistributionHtml);
       } else {
         mainHtml = cityDistributionHtml + '\n' + mainHtml;
+      }
+    }
+    if (!mainHtml.includes('data-guide-opening="true"')) {
+      const guideOpeningHtml = renderGuideOpeningHtml(title);
+      if (mainHtml.includes('data-citation-summary-type="guide-detail"')) {
+        mainHtml = mainHtml.replace(/(<section class="section citation-summary[^"]*"[\s\S]*?<\/section>)/, '$1\n' + guideOpeningHtml);
+      } else if (mainHtml.includes('<section class="hero"')) {
+        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guideOpeningHtml);
+      } else {
+        mainHtml = guideOpeningHtml + '\n' + mainHtml;
+      }
+    }
+    if (!mainHtml.includes('data-guide-opening="true"')) {
+      const guideOpeningHtml = renderGuideOpeningHtml(title);
+      if (mainHtml.includes('data-citation-summary-type="guide-detail"')) {
+        mainHtml = mainHtml.replace(/(<section class="section citation-summary[^"]*"[\s\S]*?<\/section>)/, '$1\n' + guideOpeningHtml);
+      } else if (mainHtml.includes('<section class="hero"')) {
+        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guideOpeningHtml);
+      } else {
+        mainHtml = guideOpeningHtml + '\n' + mainHtml;
       }
     }
     mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
@@ -2695,6 +2759,17 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
         out = head + '\n\n' + blocks.join('\n\n') + '\n\n' + BOT + '\n';
       }
     }
+    if (!out.includes('data-guide-opening="true"')) {
+      const guideOpeningBlock =
+        '<section class="section guide-section guide-opening-block answer-block" data-guide-section="true" data-guide-opening="true">' +
+        '<h2>What this guide is best for</h2>' +
+        '<p data-guide-opening-direct="true"><strong>Direct answer:</strong> Use this guide when the decision is narrow enough that you need to clarify the right comparison, the right caution, and the right next step before you contact anyone.</p>' +
+        '<p class="answer-when" data-guide-opening-when="true"><strong>When this guide helps most:</strong> when the question has moved beyond a broad city or state page and needs a cleaner decision path.</p>' +
+        '<p class="answer-tradeoff" data-guide-opening-tradeoff="true"><strong>Tradeoff to watch:</strong> a faster or more reassuring answer is not always the more useful answer if scope, follow-up, or verification are still vague.</p>' +
+        '</section>';
+      out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + guideOpeningBlock + '\n');
+    }
+
     if (!out.includes('data-guide-comparison="true"')) {
       const comparisonBlock =
         '<section class="section guide-section comparison-block" data-guide-section="true" data-guide-comparison="true">' +
@@ -2862,6 +2937,26 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
       primaryLinks: [{ href: '/guides/', label: 'Guides hub' }],
       cityLinks: []
     }));
+  }
+
+  if (route !== '' && route !== 'guides' && !route.startsWith('guides/') && !route.endsWith('next-steps') && route !== 'request-assistance' && route !== 'methodology' && route !== 'faq' && !mainHtml.includes('data-decision-routing-block="true"')) {
+    const genericDistributionHtml = renderInternalDistributionZoneHtml({
+      kind: 'home',
+      title,
+      buildIso: BUILD_ISO,
+      guideLinks: selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description })),
+      primaryLinks: [
+        { href: '/guides/', label: 'Guides hub', description: 'Start with the main decision paths.' },
+        { href: '/faq/', label: 'FAQ', description: 'Clarify common questions fast.' },
+        { href: '/methodology/', label: 'Methodology', description: 'See how the site handles neutrality and verification.' }
+      ],
+      cityLinks: []
+    });
+    if (mainHtml.includes('<section class="hero"')) {
+      mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + genericDistributionHtml);
+    } else {
+      mainHtml = genericDistributionHtml + '\n' + mainHtml;
+    }
   }
 
   // Next-steps zone injection (GLOBAL pages + guides pages that are implemented as global routes)
@@ -3067,10 +3162,10 @@ function renderInternalDistributionZoneHtml(opts) {
   };
 
   const priorityIntroByKind = {
-    'home': 'Start with the highest-signal answer surfaces instead of browsing the whole site at random.',
-    'guides-hub': 'These are the leaf pages and owned routes that should receive the first crawl and the first click.',
-    'city-home': 'Use the local hub to jump directly into the strongest owned decision pages for this market.',
-    'state-home': 'Use this state page as a routing layer into city hubs, core guides, and official verification paths.'
+    'home': 'Start with the highest-signal answer surfaces instead of browsing the whole site at random. Use these links to move from a broad question into the right decision path.',
+    'guides-hub': 'These are the decision paths that should receive the first click when the question is still broad but not purely local.',
+    'city-home': 'Use the local hub to jump directly into the strongest owned decision pages for this market and avoid generic browsing.',
+    'state-home': 'Use this state page as a routing layer into city hubs, core guides, and official verification paths before you narrow to a local page.'
   };
   const priorityPrimary = primaryLinks.length ? primaryLinks : guideLinks;
 
@@ -3079,7 +3174,7 @@ function renderInternalDistributionZoneHtml(opts) {
     : '';
 
   return (
-    '<section class="section distribution-priority" data-distribution-priority-block="true" data-distribution-kind="' + escapeHtml(kind) + '">' +
+    '<section class="section distribution-priority decision-routing-block" data-distribution-priority-block="true" data-decision-routing-block="true" data-distribution-kind="' + escapeHtml(kind) + '">' +
     '<h2>Priority answer surfaces</h2>' +
     '<p class="muted">' + escapeHtml(priorityIntroByKind[kind] || 'Use these priority routes first.') + '</p>' +
     linkList(priorityPrimary, 'data-distribution-priority-links') +
@@ -3099,7 +3194,7 @@ function renderRecentlyRefreshedHtml(opts) {
     return '<ul ' + attr + '="true">' + items.map((item) => {
       const href = escapeHtml(String(item.href || '#'));
       const label = escapeHtml(String(item.label || item.href || 'Page'));
-      return '<li><a href="' + href + '">' + label + '</a></li>';
+      return '<li><a href="' + href + '" data-decision-anchor="true">' + label + '</a></li>';
     }).join('') + '</ul>';
   };
 
@@ -3119,6 +3214,18 @@ function injectRecentlyRefreshedBlock(mainHtml, refreshHtml) {
   if (!refreshHtml) return String(mainHtml || '');
   if (String(mainHtml || '').includes(marker)) return String(mainHtml || '');
   return String(mainHtml || '') + '\n' + refreshHtml;
+}
+
+function renderGuideOpeningHtml(title) {
+  const safeTitle = escapeHtml(String(title || 'This guide'));
+  return (
+    '<section class="section guide-opening-block answer-block" data-guide-opening="true">' +
+    '<h2>What this guide is best for</h2>' +
+    '<p data-guide-opening-direct="true"><strong>Direct answer:</strong> ' + safeTitle + ' is most useful when you need one decision path clarified before you contact anyone.</p>' +
+    '<p class="answer-when" data-guide-opening-when="true"><strong>When this guide helps most:</strong> when the question is narrow enough that a city or state hub is too broad.</p>' +
+    '<p class="answer-tradeoff" data-guide-opening-tradeoff="true"><strong>Tradeoff to watch:</strong> a simpler answer can feel faster, but the more useful answer usually explains what still needs to be verified.</p>' +
+    '</section>'
+  );
 }
 
 function renderCitationSummaryZoneHtml(opts) {
@@ -3913,8 +4020,21 @@ function loadNextStepsSponsor(citySlug) {
     // Optional PI hub route (/personal-injury/)
     const piHubFanoutCluster = fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury — browse by state' }, pageSet);
     const piHubFanoutHtml = fanout.renderFanoutClusterHtml(piHubFanoutCluster);
+    const piHubRoutingHtml = renderInternalDistributionZoneHtml({
+      kind: 'home',
+      title: 'Personal injury — browse by state',
+      buildIso: BUILD_ISO,
+      guideLinks: selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description })),
+      primaryLinks: [
+        { href: '/guides/', label: 'Guides hub', description: 'Start with the main decision paths.' },
+        { href: '/faq/', label: 'FAQ', description: 'Clarify common PI questions quickly.' },
+        { href: '/methodology/', label: 'Methodology', description: 'See neutrality and verification rules.' }
+      ],
+      cityLinks: []
+    });
     const piHubMainHtml = (
-      '<section class="section"><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p></section>' +
+      '<section class="section answer-block" data-home-answer="true"><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p><p class="answer-when"><strong>Use this hub when:</strong> you need to move from a broad state question into the right state page, guide, or local market.</p><p class="answer-tradeoff"><strong>Common mistake:</strong> using a state browse page like a final answer instead of a routing layer.</p></section>' +
+      piHubRoutingHtml +
       marketsStatusListHtml +
       (packHasNextStepsRoute(pageSet) && sponsorship.shouldRenderNextSteps(pageSet, { pageType: 'global', route: '/personal-injury/' }) ? ('\n' + renderNextStepsZoneHtml({ href: '/next-steps/' })) : '') +
       (piHubFanoutHtml ? ('\n' + piHubFanoutHtml) : '')
