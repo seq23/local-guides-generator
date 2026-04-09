@@ -79,6 +79,17 @@ The validator extracts the JSON block below and compares it to the rendered `/fo
         "note": "mid and bottom separated by content"
       }
     },
+    "state": {
+      "placements": [
+        "top",
+        "mid"
+      ],
+      "shared_model": "stacked",
+      "buyout": {
+        "exclusive": true,
+        "top_upgrades_to": "hero"
+      }
+    },
     "state_pi": {
       "placements": [
         "top",
@@ -106,6 +117,7 @@ The validator extracts the JSON block below and compares it to the rendered `/fo
       "vertical_hub",
       "city",
       "guide",
+      "state",
       "state_pi"
     ],
     "suppressed_when": "excluded_by_active_lower_tier_contract"
@@ -119,7 +131,7 @@ The validator extracts the JSON block below and compares it to the rendered `/fo
 These are the ONLY placement surfaces that exist.
 
 ### 2.1 Guide pages
-Placements per guide page:
+Ad-slot placement by page type:
 
 - **Top**
 - **Bottom**
@@ -127,7 +139,7 @@ Placements per guide page:
 Total: **2 placements**
 
 ### 2.2 City pages
-Placements per city page:
+Ad-slot placement by page type:
 
 - **Top**
 - **Middle**
@@ -139,8 +151,8 @@ Important:
 
 - **Middle and Bottom placements are separated by editorial content**; they are not adjacent.
 
-### 2.3 State pages (PERSONAL INJURY vertical only)
-Placements per PI state hub page:
+### 2.3 State pages
+Ad-slot placement by page type:
 
 - **Top** (renders hero-style under state buyout)
 - **Middle**

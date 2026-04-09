@@ -63,6 +63,10 @@ function expectedEnabledKeysFromCanonical(inv) {
     out.add('city_hub_mid');
     out.add('city_hub_bottom');
   }
+  if (surfaces.state) {
+    out.add('state_hub_top');
+    out.add('state_hub_mid');
+  }
   if (surfaces.state_pi) {
     out.add('pi_state_top');
     out.add('pi_state_mid');

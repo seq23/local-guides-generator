@@ -1558,15 +1558,17 @@ a.btn.primary:hover {
 }
 
 .connection-bubble {
-  max-width: calc(var(--content-max) + 40px);
-  margin: 0 auto 28px;
-  padding: 0 20px;
+  width: 100%;
+  max-width: none;
+  margin: 0 0 28px;
+  padding: 0;
 }
 
 .connection-bubble__inner {
+  width: 100%;
   align-items: flex-end;
   gap: 18px;
-  padding: 22px 24px;
+  padding: 24px 28px;
   background: var(--surface);
 }
 
@@ -1705,7 +1707,7 @@ button.btn:focus {
   .connection-bubble__inner { padding: 18px; }
 
   .connection-bubble {
-    padding: 0 16px;
+    padding: 0;
   }
 
   .connection-bubble__inner {
@@ -2369,7 +2371,7 @@ main { max-width: 1240px; }
 .answer-block, .citation-summary.answer-block { background: #f5f1e8; }
 .provider-directory-section, .faq-entry-card, .state-cities-block, .request-city-block, .state-guides-support { background: #fffdfa; border-radius: 22px; }
 .state-guides-support .grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); display:grid; gap:1rem; }
-.tertiary-support, .fanout-query-cluster--tertiary { opacity: .74; }
+.tertiary-support, .fanout-query-cluster--tertiary { opacity: .66; }
 .fanout-query-cluster--tertiary summary { font-size: .98rem; }
 .fanout-query-cluster--tertiary .accordion-meta, .tertiary-support .muted { font-size: .9rem; }
 [data-pi-state-faq="true"], [data-disciplinary-lookup="true"] { background: #fbfaf7; }
@@ -2377,3 +2379,6 @@ main { max-width: 1240px; }
 .guide-opening-block { background: #f8f5ee; }
 .guide-opening-block p:last-child { margin-bottom: 0; }
 .guide-groups.comparison-block { background: #fbfaf7; }
+
+
+.connection-bubble__inner { border-radius: 24px; }

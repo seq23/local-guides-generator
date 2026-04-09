@@ -2156,7 +2156,7 @@ function renderGuideGroupsHtml(groups) {
     const items = (Array.isArray(group.items) ? group.items : []).map((item) => '<li><a href="' + escapeHtml(String(item.href || '#')) + '" data-decision-anchor="true">' + escapeHtml(String(item.label || 'Guide')) + '</a></li>').join('');
     return '<div class="guide-group-card" data-guide-group="true"><h3>' + escapeHtml(String(group.heading || 'Start here')) + '</h3><ul class="neutral-list">' + items + '</ul></div>';
   }).join('');
-  return '<section class="section guide-groups" data-guide-groups="true"><h2>Compare these guides next</h2><p class="muted">Use these grouped guide paths to move forward by intent instead of scanning one long undifferentiated list.</p><div class="guide-group-grid">' + rendered + '</div></section>';
+  return '<section class="section guide-groups" data-guide-groups="true" data-guides="true"><h2>Compare these guides next</h2><p class="muted">Use these grouped guide paths to move forward by intent instead of scanning one long undifferentiated list.</p><div class="guide-group-grid">' + rendered + '</div></section>';
 }
 
 function renderCityDecisionSupportHtml(verticalKey, city) {
@@ -2551,26 +2551,37 @@ function reorderMainSections(html, mode) {
   } else if (mode === 'state') {
     ordered = [
       take(b => /<section class="hero"/.test(b)),
+      ...takeAll(b => /data-sponsored-placement="top"/.test(b)),
       take(b => /data-short-answer="true"/.test(b) || /data-citation-summary-type="state-home"/.test(b)),
       take(b => /data-primary-conversion-cta="true"/.test(b)),
       take(b => /data-state-authority-block="true"/.test(b)),
+      ...takeAll(b => /data-guides-micro="true"/.test(b) || /data-start-here="true"/.test(b)),
+      ...takeAll(b => /data-sponsored-placement="mid"/.test(b)),
       ...takeAll(b => /data-covered-cities="true"/.test(b)),
       take(b => /data-request-city="true"/.test(b)),
       take(b => /state-guides-support/.test(b)),
+      ...takeAll(b => /data-pi-state-faq="true"/.test(b) || /data-disciplinary-lookup="true"/.test(b)),
+      ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b)),
       take(b => /data-inline-conversion-cta="true"/.test(b)),
-      ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b) || /data-pi-state-faq="true"/.test(b) || /data-disciplinary-lookup="true"/.test(b)),
       ...rest()
     ].filter(Boolean);
   } else if (mode === 'city') {
     ordered = [
       take(b => /<section class="hero"/.test(b)),
+      ...takeAll(b => /data-sponsored-placement="top"/.test(b)),
       take(b => /data-primary-conversion-cta="true"/.test(b)),
       take(b => /data-short-answer="true"/.test(b) || /data-citation-summary-type="city-home"/.test(b)),
-      take(b => /data-city-decision-support="true"/.test(b) || /How people typically evaluate/.test(b)),
-      take(b => /data-inline-conversion-cta="true"/.test(b)),
+      take(b => /How people typically evaluate/.test(b) || /data-eval-framework="true"/.test(b)),
+      take(b => /data-localized-conclusion="true"/.test(b)),
+      take(b => /data-city-decision-support="true"/.test(b)),
+      ...takeAll(b => /data-sponsored-placement="mid"/.test(b)),
+      take(b => /data-llm-bait="question"/.test(b)),
+      ...takeAll(b => /data-provider-directory="true"/.test(b) || /data-pi-home-directory="true"/.test(b) || /data-example-providers="true"/.test(b)),
       take(b => /data-guide-groups="true"/.test(b)),
-      ...takeAll(b => /data-provider-directory="true"/.test(b)),
-      ...takeAll(b => /Verify a provider/.test(b) || /guides-compact/.test(b) || /fanout-query-cluster/.test(b) || /tertiary-support/.test(b)),
+      ...takeAll(b => /Verify a provider/.test(b) || /guides-compact/.test(b) || /data-start-here="true"/.test(b) || /data-faq="true"/.test(b)),
+      ...takeAll(b => /data-sponsored-placement="bottom"/.test(b)),
+      ...takeAll(b => /fanout-query-cluster/.test(b) || /tertiary-support/.test(b)),
+      take(b => /data-inline-conversion-cta="true"/.test(b)),
       ...rest()
     ].filter(Boolean);
   } else if (mode === 'guides-hub') {
@@ -2646,6 +2657,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
     mainHtml = mainHtml
       .split("%%CITY_GUIDE_BLOCK%%")
       .join(renderCityGuideCardsHtml(guides, city));
+    mainHtml = mainHtml.replace(/<section class="section guides-compact"[\s\S]*?<\/section>\s*/g, '');
   }
 
   const __features = (pageSet && pageSet.__cityFeatures) ? pageSet.__cityFeatures : getCityFeatures(pageSet, verticalKey);
@@ -3390,45 +3402,9 @@ function renderGuideCardsHtml(guides) {
 
 
 function renderCityGuideCardsHtml(guides, city) {
-  var market = (city && city.marketLabel) ? String(city.marketLabel) : "";
-  var safeMarket = market ? escapeHtml(market) : "this market";
-
-  var cards = "";
-
-  if (Array.isArray(guides) && guides.length > 0) {
-    cards = guides
-      .map(function (g) {
-        // City block links to global guides (not city-prefixed)
-        var href = g && g.route ? String(g.route) : "";
-        var title = g && g.title ? String(g.title) : "Guide";
-        var desc = g && g.description ? String(g.description) : "";
-        if (!href) return "";
-        return (
-          "<div class=\"card\">" +
-          "<h3><a href=\"" + escapeHtml(href) + "\">" + escapeHtml(title) + "</a></h3>" +
-          "<p>" + escapeHtml(desc) + "</p>" +
-          "</div>"
-        );
-      })
-      .filter(Boolean)
-      .join("\n");
-  } else {
-    // Fallback (no taxonomy): keep it helpful, non-promissory, and validation-safe.
-    cards = (
-      "<div class=\"card\"><h3><a href=\"/guides/\">Guides hub</a></h3><p>Browse neutral checklists and comparison frameworks.</p></div>" +
-      "<div class=\"card\"><h3><a href=\"/faq/\">FAQ</a></h3><p>Answer-box style questions; no rankings or endorsements.</p></div>"
-    );
-  }
-
-  return (
-    "<section class=\"section city-guides\">" +
-    "<h2>Guides for " + safeMarket + "</h2>" +
-    "<p class=\"muted\">Use these neutral checklists and comparison frameworks before you contact any provider. No rankings. Educational only.</p>" +
-    "<div class=\"grid\">" +
-    cards +
-    "</div>" +
-    "</section>"
-  );
+  // The larger city-specific guide listing block is intentionally retired.
+  // City pages keep the compact grouped comparison module instead.
+  return "";
 }
 
 
@@ -4104,19 +4080,19 @@ function loadNextStepsSponsor(citySlug) {
       const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }));
       const stateLead = renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } });
       const groupedGuides = '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + guideLinks.map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.href) + '">' + escapeHtml(g.label) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>';
-let mainHtml = (
-  '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(brandName) + ' in ' + escapeHtml(stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
-  '%%AD:state_hub_top%%' +
-  '%%PRIMARY_CTA%%' +
-  stateLead +
-  '%%AD:state_hub_mid%%' +
-  renderStateAuthorityBlockHtml(stateName, cityLinks.length) +
-  renderStateCityGridHtml(stateName, cityLinks) +
-  renderRequestCitySectionHtml(brandName, stateName) +
-  groupedGuides +
-  '%%MID_NEXT_STEPS%%' +
-  '<section class="section tertiary-support" data-tertiary-support="true"><h2>Need a lighter support path?</h2><p class="muted"><a href="/faq/">FAQ</a> · <a href="/methodology/">Methodology</a> · <a href="/guides/">Guides hub</a></p></section>'
-);
+      let mainHtml = (
+        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(brandName) + ' in ' + escapeHtml(stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
+        '%%AD:state_hub_top%%' +
+        stateLead +
+        '%%PRIMARY_CTA%%' +
+        '%%AD:state_hub_mid%%' +
+        renderStateAuthorityBlockHtml(stateName, cityLinks.length) +
+        renderStateCityGridHtml(stateName, cityLinks) +
+        renderRequestCitySectionHtml(brandName, stateName) +
+        groupedGuides +
+        '%%MID_NEXT_STEPS%%' +
+        '<section class="section tertiary-support" data-tertiary-support="true"><h2>Need a lighter support path?</h2><p class="muted"><a href="/faq/">FAQ</a> · <a href="/methodology/">Methodology</a> · <a href="/guides/">Guides hub</a></p></section>'
+      );
       mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
         pageType: 'state-primary', src: '/states/' + ab + '/', marketLabel: stateName, intentType: 'direct_match', buttonSource: 'primary_cta'
       });
@@ -4242,12 +4218,12 @@ let mainHtml = (
       // city page set. The PI experience (hub + state pages) must be a full
       // 50-state universe regardless of which cities are present.
       const stateName = String(
-        (ALL_US_STATES && ALL_US_STATES[ab] && ALL_US_STATES[ab].name) ||
+        (ALL_US_STATES && (ALL_US_STATES[ab].name || ALL_US_STATES[ab])) ||
         st.stateName ||
         ab
       );
-      const title = 'Personal injury lawyers in ' + stateName + ' — directory & guides';
-      const description = 'Educational directory-style listings and neutral checklists for personal injury providers in ' + stateName + '. No rankings. No endorsements.';
+      const title = stateName + ' personal injury guide';
+      const description = 'Browse covered cities, compare local paths, and move into next steps in ' + stateName + '.';
 
       // Aggregate listings from live PI cities in this state
       const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
@@ -4338,14 +4314,14 @@ let mainHtml = (
         '</details>'
       );
       let mainHtml = (
-        '<section class="section" data-pi-state-page="true">' +
-        '<h1>' + escapeHtml(stateName) + ' personal injury guide + directory</h1>' +
-        '<p class="muted">Educational only. No rankings. No endorsements. Directory entries are neutral and for research.</p>' +
+        '<section class="hero" data-state-hero="true" data-pi-state-page="true">' +
+        '<p class="kicker">Personal injury · State guide</p>' +
+        '<h1>' + escapeHtml(stateName) + ' personal injury guide</h1>' +
+        '<p class="muted">Browse covered cities, compare local paths, and move into next steps.</p>' +
         '</section>' +
 
         '%%AD:pi_state_top%%' +
 
-        queryBlock +
         renderStateAuthorityBlockHtml(stateName, cityRows.length) +
 
         '<section class="section micro-guides" data-guides-micro="true">' +
@@ -4358,7 +4334,6 @@ let mainHtml = (
         '</section>' +
         '%%AD:pi_state_mid%%' +
         renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
-        renderStateAuthorityBlockHtml(stateName, cityRows.length) +
         renderStateCityGridHtml(stateName, cityRows.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }))) +
         renderRequestCitySectionHtml(brandName, stateName) +
         '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.route) + '">' + escapeHtml(g.title) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>' +
@@ -4451,7 +4426,7 @@ let mainHtml = (
       const html = renderPiStatePageHtml(ab);
       writeFileEnsured(outPathForPiState(ab), html);
       const stateName = String((ALL_US_STATES && ALL_US_STATES[ab] && ALL_US_STATES[ab].name) || ((states[ab] || {}).stateName) || ab);
-      fanoutRecords.push(fanout.buildFanoutCluster({ verticalKey, pageKind: 'state', route: '/states/' + ab + '/', title: 'Personal injury lawyers in ' + stateName + ' — directory & guides', stateName }, pageSet));
+      fanoutRecords.push(fanout.buildFanoutCluster({ verticalKey, pageKind: 'state', route: '/states/' + ab + '/', title: 'Personal injury lawyers in ' + stateName + ' — guide by city', stateName }, pageSet));
     }
 
     // Write PI state next-steps pages when enabled (sponsor-driven or global switch).
@@ -4478,10 +4453,9 @@ let mainHtml = (
       cityLinks: []
     });
     const piHubMainHtml = (
-      '<section class="section answer-block" data-home-answer="true"><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p><p class="answer-when"><strong>Use this hub when:</strong> you need to move from a broad state question into the right state page, guide, or local market.</p><p class="answer-tradeoff"><strong>Common mistake:</strong> using a state browse page like a final answer instead of a routing layer.</p></section>' +
-      piHubRoutingHtml +
+      '<section class="section answer-block" data-home-answer="true" data-short-answer="true"><p class="kicker">State routing hub</p><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p><h2>Short answer</h2><p>Use this hub when the question is still broad and you need to move into the right state page, guide, or local market before comparing firms.</p><p class="answer-when"><strong>Use this hub when:</strong> you need to move from a broad state question into the right state page, guide, or local market.</p><p class="answer-tradeoff"><strong>Common mistake:</strong> using a state browse page like a final answer instead of a routing layer.</p></section>' +
       marketsStatusListHtml +
-'' +
+      piHubRoutingHtml +
       (piHubFanoutHtml ? ('\n' + piHubFanoutHtml) : '')
     );
     const piHubHtml = replaceAll(baseTemplate, {
