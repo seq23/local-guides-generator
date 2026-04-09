@@ -4104,18 +4104,19 @@ function loadNextStepsSponsor(citySlug) {
       const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }));
       const stateLead = renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } });
       const groupedGuides = '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + guideLinks.map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.href) + '">' + escapeHtml(g.label) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>';
-      let mainHtml = (
-        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(brandName) + ' in ' + escapeHtml(stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
-        '%%PRIMARY_CTA%%' +
-        stateLead +
-        renderStateAuthorityBlockHtml(stateName, cityLinks.length) +
-        '%%AD:global_home_hero%%' +
-        renderStateCityGridHtml(stateName, cityLinks) +
-        renderRequestCitySectionHtml(brandName, stateName) +
-        groupedGuides +
-        '%%MID_NEXT_STEPS%%' +
-        '<section class="section tertiary-support" data-tertiary-support="true"><h2>Need a lighter support path?</h2><p class="muted"><a href="/faq/">FAQ</a> · <a href="/methodology/">Methodology</a> · <a href="/guides/">Guides hub</a></p></section>'
-      );
+let mainHtml = (
+  '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(brandName) + ' in ' + escapeHtml(stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
+  '%%AD:state_hub_top%%' +
+  '%%PRIMARY_CTA%%' +
+  stateLead +
+  '%%AD:state_hub_mid%%' +
+  renderStateAuthorityBlockHtml(stateName, cityLinks.length) +
+  renderStateCityGridHtml(stateName, cityLinks) +
+  renderRequestCitySectionHtml(brandName, stateName) +
+  groupedGuides +
+  '%%MID_NEXT_STEPS%%' +
+  '<section class="section tertiary-support" data-tertiary-support="true"><h2>Need a lighter support path?</h2><p class="muted"><a href="/faq/">FAQ</a> · <a href="/methodology/">Methodology</a> · <a href="/guides/">Guides hub</a></p></section>'
+);
       mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
         pageType: 'state-primary', src: '/states/' + ab + '/', marketLabel: stateName, intentType: 'direct_match', buttonSource: 'primary_cta'
       });
