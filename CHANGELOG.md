@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-04-09
+
+- Revalidated core contracts and inventories (rotating focus: Neuro).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-04-07
 
 - Revalidated core contracts and inventories (rotating focus: TRT).
