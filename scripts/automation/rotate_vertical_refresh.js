@@ -46,20 +46,47 @@ function addChangelogEntry(lines) {
   fs.writeFileSync(changelogPath, s);
 }
 
-function ensureSiteJsonBootstrapped() {
+function ensureSiteJsonBootstrapped(chosenKey) {
   const siteJsonPath = path.join(repoRoot, 'data', 'site.json');
-  const siteTemplatePath = path.join(repoRoot, 'data', 'site.template.json');
 
   if (fs.existsSync(siteJsonPath)) return;
 
-  if (!fs.existsSync(siteTemplatePath)) {
-    throw new Error('rotate_vertical_refresh requires data/site.template.json when data/site.json is missing');
+  const packConfigMap = {
+    pi: {
+      brandName: 'The Accident Guides',
+      siteUrl: 'https://theaccidentguides.com',
+      pageSetFile: 'data/page_sets/examples/pi_v1.json',
+    },
+    uscis_medical: {
+      brandName: 'USCIS Exam Guides',
+      siteUrl: 'https://uscisexam.com',
+      pageSetFile: 'data/page_sets/examples/uscis_medical_v1.json',
+    },
+    trt: {
+      brandName: 'Hormone Optimization Guides',
+      siteUrl: 'https://hormonesivhair.com',
+      pageSetFile: 'data/page_sets/examples/trt_v1.json',
+    },
+    dentistry: {
+      brandName: 'The Dentistry Guides',
+      siteUrl: 'https://dentistryguides.com',
+      pageSetFile: 'data/page_sets/examples/dentistry_v1.json',
+    },
+    neuro: {
+      brandName: 'Neuro Evaluation Guides',
+      siteUrl: 'https://neuroevalguides.com',
+      pageSetFile: 'data/page_sets/examples/neuro_v1.json',
+    },
+  };
+
+  const pack = packConfigMap[chosenKey];
+  if (!pack) {
+    throw new Error(`No bootstrap site config found for vertical: ${chosenKey}`);
   }
 
-  fs.copyFileSync(siteTemplatePath, siteJsonPath);
-  console.log('Bootstrapped data/site.json from data/site.template.json');
+  fs.writeFileSync(siteJsonPath, JSON.stringify(pack, null, 2) + '\n');
+  console.log(`Bootstrapped data/site.json for ${chosenKey}`);
 }
-
 const now = new Date();
 const day = now.getUTCDay(); // 0 Sun..6 Sat
 const rotation = [
@@ -86,7 +113,7 @@ if (!pageSetFile) {
   throw new Error(`No page set mapping found for vertical: ${chosen.key}`);
 }
 
-ensureSiteJsonBootstrapped();
+ensureSiteJsonBootstrapped(chosen.key);
 
 run(`node scripts/build_city_sites.js --page-set "${pageSetFile}"`, {
   LKG_ENV: 'baseline',
