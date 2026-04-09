@@ -13,6 +13,8 @@ function mustExist(rel) {
 }
 
 function run() {
+  const root = process.cwd();
+
   const requiredWorkflows = [
     '.github/workflows/distribution.yml',
     '.github/workflows/ingestion_sync.yml',
@@ -26,17 +28,56 @@ function run() {
 
   mustExist('scripts/automation/refresh_verification_page.sh');
   mustExist('scripts/automation/refresh_verification_page.js');
+  mustExist('scripts/automation/rotate_vertical_refresh.js');
 
-  const refreshWorkflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/refresh-verification-page.yml'), 'utf8');
-  if (!/npm run refresh:verification/.test(refreshWorkflow) && !/refresh_verification_page\.sh/.test(refreshWorkflow) && !/refresh_verification_page\.js/.test(refreshWorkflow)) {
-    fail('refresh-verification workflow does not reference the refresh pipeline');
+  const refreshWorkflow = fs.readFileSync(
+    path.join(root, '.github/workflows/refresh-verification-page.yml'),
+    'utf8'
+  );
+
+  const rotatingWorkflow = fs.readFileSync(
+    path.join(root, '.github/workflows/rotating_refresh.yml'),
+    'utf8'
+  );
+
+  const rotateScript = fs.readFileSync(
+    path.join(root, 'scripts/automation/rotate_vertical_refresh.js'),
+    'utf8'
+  );
+
+  const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+  if (!pkg.scripts || !pkg.scripts['refresh:verification']) {
+    fail('package.json missing refresh:verification script');
   }
-  if (!/sitemap_emit|refresh:verification/.test(refreshWorkflow)) {
+
+  // refresh-verification workflow must use the safe pipeline
+  if (!/npm run refresh:verification/.test(refreshWorkflow)) {
+    fail('refresh-verification workflow must call npm run refresh:verification');
+  }
+
+  // rotating workflow must not call the raw refresh script directly
+  if (/node scripts\/automation\/refresh_verification_page\.js/.test(rotatingWorkflow)) {
+    fail('rotating_refresh.yml must not call refresh_verification_page.js directly; use npm run refresh:verification');
+  }
+
+  // rotating workflow must still invoke the rotating entrypoint
+  if (!/node scripts\/automation\/rotate_vertical_refresh\.js/.test(rotatingWorkflow)) {
+    fail('rotating_refresh.yml must invoke rotate_vertical_refresh.js');
+  }
+
+  // rotate script must use the safe pipeline, not the raw script
+  if (/node scripts\/automation\/refresh_verification_page\.js/.test(rotateScript)) {
+    fail('rotate_vertical_refresh.js must not call refresh_verification_page.js directly; use npm run refresh:verification');
+  }
+
+  if (!/npm run refresh:verification/.test(rotateScript)) {
+    fail('rotate_vertical_refresh.js must call npm run refresh:verification');
+  }
+
+  // refresh workflow should still indicate dependent artifact regeneration path
+  if (!/refresh:verification|sitemap_emit/.test(refreshWorkflow)) {
     fail('refresh-verification workflow does not regenerate dependent artifacts');
   }
-
-  const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
-  if (!pkg.scripts || !pkg.scripts['refresh:verification']) fail('package.json missing refresh:verification script');
 
   console.log('✅ WORKFLOW INTEGRITY CONTRACT PASS');
 }
