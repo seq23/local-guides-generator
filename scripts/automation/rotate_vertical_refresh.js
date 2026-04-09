@@ -66,6 +66,22 @@ const rotation = [
 const chosen = rotation[day % rotation.length];
 
 const notes = `Rotating refresh focus: ${chosen.label}.`;
+const pageSetMap = {
+  pi: 'data/page_sets/examples/pi_v1.json',
+  uscis_medical: 'data/page_sets/examples/uscis_medical_v1.json',
+  trt: 'data/page_sets/examples/trt_v1.json',
+  dentistry: 'data/page_sets/examples/dentistry_v1.json',
+  neuro: 'data/page_sets/examples/neuro_v1.json',
+};
+
+const pageSetFile = pageSetMap[chosen.key];
+if (!pageSetFile) {
+  throw new Error(`No page set mapping found for vertical: ${chosen.key}`);
+}
+
+run(`node scripts/build_city_sites.js --page-set "${pageSetFile}"`, {
+  LKG_ENV: 'baseline',
+});
 run('npm run refresh:verification', {
   LKG_VERTICAL: chosen.key,
   LKG_NOTES: notes,
