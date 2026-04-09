@@ -20,7 +20,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: node scripts/automation/rotate_vertical_refresh.js
+      - run: npm run refresh:verification
       - run: |
           git config user.name "lkg-bot"
           git config user.email "lkg-bot@users.noreply.github.com"
