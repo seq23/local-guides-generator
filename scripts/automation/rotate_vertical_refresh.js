@@ -24,7 +24,6 @@ function addChangelogEntry(lines) {
   const dateKey = yyyyMmDd(now);
   let s = fs.existsSync(changelogPath) ? fs.readFileSync(changelogPath, 'utf8') : '# Changelog\n\n';
   if (!s.includes(`# ${dateKey}`)) {
-    // add at top after title
     const m = s.match(/^#\s+Changelog\s*\n+/);
     if (m) {
       const idx = m[0].length;
@@ -33,24 +32,23 @@ function addChangelogEntry(lines) {
       s = `# Changelog\n\n# ${dateKey}\n\n` + s;
     }
   }
-  // insert bullets under that header
+
   const headerRe = new RegExp(`(# ${dateKey}\\n)`);
   const parts = s.split(headerRe);
   if (parts.length < 3) {
     s += `\n# ${dateKey}\n`;
     parts.length = 0;
   }
-  // Re-find header position
+
   const idx = s.indexOf(`# ${dateKey}\n`);
   let afterHeader = s.slice(idx + (`# ${dateKey}\n`).length);
-  // ensure blank line
   if (!afterHeader.startsWith('\n')) afterHeader = '\n' + afterHeader;
-  // add new bullets at top of section
+
   const insert = lines.map(l => `- ${l}`).join('\n') + '\n';
-  // place after first blank line
   const firstBlank = afterHeader.indexOf('\n');
   const newAfter = afterHeader.slice(0, firstBlank + 1) + insert + afterHeader.slice(firstBlank + 1);
   s = s.slice(0, idx + (`# ${dateKey}\n`).length) + newAfter;
+
   fs.writeFileSync(changelogPath, s);
 }
 
@@ -82,6 +80,7 @@ if (!pageSetFile) {
 run(`node scripts/build_city_sites.js --page-set "${pageSetFile}"`, {
   LKG_ENV: 'baseline',
 });
+
 run('npm run refresh:verification', {
   LKG_VERTICAL: chosen.key,
   LKG_NOTES: notes,
@@ -89,7 +88,6 @@ run('npm run refresh:verification', {
   LKG_ENV: 'baseline',
 });
 
-// Refresh snapshot JSON (acts as an auditable “we re-validated” signal)
 run('node scripts/snapshot_lkg.js');
 
 addChangelogEntry([
