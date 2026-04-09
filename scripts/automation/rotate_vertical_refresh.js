@@ -86,6 +86,7 @@ run('npm run refresh:verification', {
   LKG_VERTICAL: chosen.key,
   LKG_NOTES: notes,
   LKG_CADENCE: 'nightly integrity + rotating vertical refresh',
+  LKG_ENV: 'baseline',
 });
 
 // Refresh snapshot JSON (acts as an auditable “we re-validated” signal)
