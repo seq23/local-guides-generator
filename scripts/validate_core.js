@@ -60,6 +60,7 @@ const verticalGuideDepthContract = require('./validation/vertical_guide_depth_co
 const sponsorPlaceholderContract = require('./validation/sponsor_placeholder_contract');
 const conversionIntentContract = require('./validation/conversion_intent_contract');
 const siteUrlContract = require('./validation/site_url_contract');
+const workflowIntegrityContract = require('./validation/workflow_integrity_contract');
 const cityDecisionSupportContract = require('./validation/city_decision_support_contract');
 const piTrustToneContract = require('./validation/pi_trust_tone_contract');
 const piSurfaceContract = require('./validation/pi_surface_contract');
@@ -85,6 +86,10 @@ const homepageSurfaceContract = require('./validation/homepage_surface_contract'
 const uscisVerticalCongruenceContract = require('./validation/uscis_vertical_congruence_contract');
 const providerCardContract = require('./validation/provider_card_contract');
 const stateHubContract = require('./validation/state_hub_contract');
+const ctaAdjacencyContract = require('./validation/cta_adjacency_contract');
+const guideStructureContract = require('./validation/guide_structure_contract');
+const guideQualityScore = require('./validation/guide_quality_score');
+const guideComplianceScore = require('./validation/guide_compliance_score');
 require('./validation/footer_weight_contract');
 require('./validation/cta_dedup_contract');
 
@@ -123,6 +128,7 @@ function main() {
   queryCompilerOverridesContract.run();
   verticalGuideDepthContract.run();
   siteUrlContract.run();
+  workflowIntegrityContract.run();
 
   pageSetFileContract.run();
   requestAssistanceProductionGuardrail.run();
@@ -195,6 +201,10 @@ function main() {
     evaluationFrameworkContract.run({ site });
     stateAuthorityContract.run({ site });
     guideIntroContract.run({ site });
+    guideStructureContract.run({ site });
+    ctaAdjacencyContract.run({ site });
+    guideQualityScore.run({ site });
+    guideComplianceScore.run({ site });
     hierarchyReinforcementContract.run({ site });
     internalLinkingQualityContract.run({ site });
     metadataSchemaStrengthContract.run({ site });

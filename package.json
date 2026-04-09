@@ -19,7 +19,7 @@
     "audit:buyouts": "node scripts/export_buyout_click_audit_urls.js",
     "smoke:buyouts": "node scripts/smoke_buyouts.js",
     "qa:release": "node scripts/qa_release.js",
-    "refresh:verification": "bash scripts/automation/refresh_verification_page.sh",
+    "refresh:verification": "bash scripts/automation/refresh_verification_page.sh && node scripts/sitemap_emit.js && node scripts/llms_emit.js && node scripts/citation_manifest_emit.js && node scripts/distribution_manifest_emit.js && node scripts/redirects_emit.js && node scripts/snapshot_lkg.js",
     "prepare:site": "node scripts/prepare_site.js",
     "build:dist": "rm -rf dist && node scripts/build_all_packs.js",
     "validate:dist": "rm -rf dist && node scripts/build_all_packs.js && LKG_VALIDATE_DIST=1 npm run validate:all",

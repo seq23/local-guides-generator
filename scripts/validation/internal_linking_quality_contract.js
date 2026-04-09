@@ -9,7 +9,7 @@ function run(){
   for(const f of files){
     const rel=path.relative(root,f);
     const html=fs.readFileSync(f,'utf8');
-    if(/for-providers|privacy|about|contact|next-steps|request-assistance|methodology|disclaimer|editorial-policy|faq/.test(rel)) continue;
+    if(/for-providers|privacy|about|contact|next-steps|request-assistance|methodology|disclaimer|editorial-policy|faq|verification/.test(rel)) continue;
     const isGuideDetail=/dist[\/]guides[\/][^\/]+[\/]index\.html$/.test(f);
     const isCity=/dist[\/][a-z0-9-]+[\/]index\.html$/i.test(f) && !/dist[\/]guides[\/]/.test(f) && !/dist[\/]states[\/]/.test(f);
     const isHome=/dist[\/]index\.html$/.test(f);

@@ -39,7 +39,7 @@ function run() {
     if (/^(assets|functions)\//.test(rel)) continue;
     if (rel.startsWith('guides/') && rel !== 'guides/index.html') required.push(fp);
     if (rel.startsWith('states/') && /\/index\.html$/.test(rel) && rel.split('/').length === 3) required.push(fp);
-    if (/^[a-z0-9-]+\/index\.html$/i.test(rel) && !['faq/index.html', 'guides/index.html', 'request-assistance/index.html', 'for-providers/index.html', 'methodology/index.html', 'about/index.html', 'contact/index.html', 'privacy/index.html', 'disclaimer/index.html', 'editorial-policy/index.html'].includes(rel)) {
+    if (/^[a-z0-9-]+\/index\.html$/i.test(rel) && !['faq/index.html', 'guides/index.html', 'request-assistance/index.html', 'for-providers/index.html', 'methodology/index.html', 'about/index.html', 'contact/index.html', 'privacy/index.html', 'disclaimer/index.html', 'editorial-policy/index.html', 'verification/index.html'].includes(rel)) {
       required.push(fp);
     }
     if (/^[a-z0-9-]+\/[a-z0-9-]+\/index\.html$/i.test(rel) && !rel.startsWith('states/')) {

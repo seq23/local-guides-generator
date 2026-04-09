@@ -70,7 +70,7 @@ function classify(routePath) {
   if (/^\/faq\/$/.test(route)) return 'faq';
   if (/^\/request-assistance\/$/.test(route)) return 'request-assistance';
   if (/^\/states\/$/.test(route) || /^\/states\/[a-z]{2}\/$/i.test(route)) return 'state-surface';
-  if (/^\/[a-z0-9-]+\/$/.test(route) && !['/faq/', '/about/', '/contact/', '/methodology/', '/editorial-policy/', '/privacy/', '/disclaimer/', '/for-providers/', '/request-assistance/', '/next-steps/', '/personal-injury/', '/states/'].includes(route)) return 'city-home';
+  if (/^\/[a-z0-9-]+\/$/.test(route) && !['/faq/', '/about/', '/contact/', '/methodology/', '/editorial-policy/', '/privacy/', '/disclaimer/', '/for-providers/', '/request-assistance/', '/next-steps/', '/personal-injury/', '/states/', '/verification/'].includes(route)) return 'city-home';
   return 'other';
 }
 

@@ -2917,6 +2917,49 @@ function stripForbiddenInlineBlocks(html) {
   return out;
 }
 
+const GUIDE_ENHANCEMENTS = {
+  '/guides/testosterone-replacement-therapy-overview/': { heading: 'TRT overview', best: 'Use this guide when you are trying to tell the difference between low-testosterone marketing and a real TRT workup.', key: 'TRT works best when the clinic explains why treatment is being considered, what will be tracked, and what would make them slow down.', mistake: 'Treating TRT like a quick energy product instead of a monitored medical decision.', good: 'A good clinic should explain baseline labs, follow-up timing, fertility questions, and what symptoms should trigger a review.', ask: 'Ask which labs are included, how often they repeat them, and what could make the clinic pause or change treatment.' },
+  '/guides/trt-red-flags/': { heading: 'TRT red flags', best: 'Use this guide when a clinic sounds fast, easy, or too certain.', key: 'Weak TRT clinics often skip a full workup, rush you into a subscription, or treat side effects like an afterthought.', mistake: 'Mistaking confidence or heavy marketing for careful clinical judgment.', good: 'A good clinic should explain who is not a fit, what they need to rule out first, and how they handle follow-up.', ask: 'Ask what would make them delay treatment, what monitoring schedule they use, and how they handle fertility concerns.' },
+  '/guides/trt-pricing-and-labs/': { heading: 'TRT pricing and labs', best: 'Use this guide when cost is the real question behind the TRT decision.', key: 'The total price is not just the medication. The workup, repeat labs, dose changes, and follow-up also matter.', mistake: 'Comparing monthly sticker prices without comparing what the clinic actually monitors.', good: 'A good clinic should break startup costs, refill costs, lab timing, and urgent check-in costs into simple pieces.', ask: 'Ask what is included up front, which labs repeat on schedule, and what services cost extra later.' },
+  '/guides/who-is-a-good-candidate-for-trt/': { heading: 'TRT candidacy', best: 'Use this guide when you are trying to decide whether TRT is even the right question.', key: 'Good candidacy depends on symptoms, lab context, risk factors, and whether simpler explanations have been checked first.', mistake: 'Assuming one low lab result automatically means long-term TRT is the answer.', good: 'A good clinic should explain why you are a fit or not a fit in plain language.', ask: 'Ask what else they ruled out, what repeat testing they require, and how fertility goals change the decision.' },
+  '/guides/trt-side-effects-and-safety/': { heading: 'TRT safety', best: 'Use this guide when you need the safety picture, not just the sales page.', key: 'A responsible TRT plan explains common side effects, what is watched in follow-up labs, and which symptoms need quick review.', mistake: 'Thinking every clinic means the same thing when it says treatment is monitored.', good: 'A good clinic should name the main tradeoffs before treatment starts, not after you pay.', ask: 'Ask which labs they repeat, how often they repeat them, and what changes would make them adjust or pause treatment.' },
+  '/guides/trt-telehealth-vs-local-clinic/': { heading: 'TRT telehealth vs local care', best: 'Use this guide when you think TRT may fit but you are not sure where the care should happen.', key: 'Telehealth often improves convenience while local care may improve in-person support. The right fit depends on your follow-up needs.', mistake: 'Choosing on convenience alone without asking how problems are handled when something feels off.', good: 'A good provider should make the care process, lab process, and escalation process clear either way.', ask: 'Ask how labs are coordinated, how urgent questions are handled, and whether you can switch formats later.' },
+  '/guides/trt-injections-vs-gels/': { heading: 'TRT format choices', best: 'Use this guide when the delivery format is the main decision.', key: 'The right format depends on routine, tolerance, consistency, and how easy it is for you to stay on plan.', mistake: 'Picking the format that sounds easiest without asking how it works in real life.', good: 'A good clinic should explain the tradeoffs of both formats instead of pretending one is always best.', ask: 'Ask how each option affects routine, dose changes, follow-up, and what happens if the first format is not a good fit.' },
+  '/guides/how-to-find-a-peptide-provider/': { heading: 'Finding a peptide provider', best: 'Use this guide when peptide interest is real but trust is the bigger issue.', key: 'The safest first move is finding a provider who explains what is being prescribed, why, what is uncertain, and how follow-up works.', mistake: 'Confusing high-energy marketing with medical oversight.', good: 'A good provider should be direct about uncertainty, sourcing, supervision, and what they will not promise.', ask: 'Ask what source they use, what review they perform first, how progress is judged, and what makes them say no.' },
+  '/guides/peptide-program-costs/': { heading: 'Peptide costs', best: 'Use this guide when budget and value are the real decision drivers.', key: 'Peptide program pricing usually includes more than the compound itself. Evaluation, follow-up, supplies, and protocol changes can matter just as much.', mistake: 'Comparing monthly prices without comparing what support or supervision comes with them.', good: 'A good provider should break costs into simple parts and say which items repeat.', ask: 'Ask which costs are one-time, which repeat monthly, and what services are included versus extra.' },
+  '/guides/iv-hydration-red-flags/': { heading: 'IV hydration red flags', best: 'Use this guide when the clinic sounds easier to understand than the treatment itself.', key: 'Weak IV hydration businesses often lean on vague promises, weak screening, and menu-heavy upsells instead of clear explanations.', mistake: 'Assuming wellness branding means careful clinical judgment.', good: 'A good clinic should make screening, ingredients, and limits easy to understand.', ask: 'Ask who reviews your situation, what they screen for, and what would make them say IV hydration is not the right next step.' },
+  '/guides/how-to-choose-a-personal-injury-lawyer/': { heading: 'Choosing a personal injury lawyer', best: 'Use this guide when you need to sort good case handling from good marketing.', key: 'A strong firm explains process, communication, fee structure, and who will actually work on your case.', mistake: 'Choosing on slogans or billboard familiarity alone.', good: 'A good firm should explain what happens first, what records matter, and how updates are handled.', ask: 'Ask who will be your day-to-day contact, how fees work, and what factors can slow a case down.' },
+  '/guides/personal-injury-fees-explained/': { heading: 'Personal injury fees', best: 'Use this guide when the main question is how the law firm gets paid.', key: 'Fees are only part of the money picture. Case costs, expenses, and timing matter too.', mistake: 'Hearing no fee unless we win and assuming every financial detail works the same way.', good: 'A good firm should explain fee percentages, costs, and how money is distributed in plain language.', ask: 'Ask which case costs are advanced, how they are repaid, and what happens if the case does not recover money.' },
+  '/guides/personal-injury-lawyer-red-flags/': { heading: 'Personal injury red flags', best: 'Use this guide when the firm sounds polished but you are not sure it sounds careful.', key: 'Red flags often show up as pressure, vagueness, poor communication, or promises no honest lawyer should make.', mistake: 'Mistaking confidence for reliability.', good: 'A good firm should be direct about uncertainty, timelines, and what they still need to review.', ask: 'Ask what they know now, what they do not know yet, and what would change their view of the case.' },
+  '/guides/questions-to-ask-a-personal-injury-lawyer/': { heading: 'Questions for a personal injury lawyer', best: 'Use this guide when you are preparing for a consultation and do not want to waste it.', key: 'Good questions help you understand staffing, communication, fees, timing, and whether the firm can explain your next steps clearly.', mistake: 'Leaving the consultation without asking who will handle the file day to day.', good: 'A good firm should answer directly, not dodge or oversell.', ask: 'Ask who handles the case, how updates work, what records matter most, and what happens right after you sign.' },
+  '/guides/what-to-do-after-an-accident/': { heading: 'After an accident', best: 'Use this guide when the question is what to do first, not which lawyer to hire.', key: 'The first steps should protect safety, records, and timing before big legal conclusions are made.', mistake: 'Waiting too long to gather basic information or assuming memory alone will be enough later.', good: 'A good firm should explain what records and timeline details matter most at the start.', ask: 'Ask which photos, reports, bills, and contact details are worth saving right away.' },
+  '/guides/truck-accident-lawyer-guide/': { heading: 'Truck accident claims', best: 'Use this guide when the crash involved a commercial vehicle and the process may be more complex.', key: 'Truck cases can involve more records, more parties, and faster evidence issues than a basic car crash case.', mistake: 'Treating a truck case exactly like a routine two-car claim.', good: 'A good firm should explain what extra records may matter and what should be preserved early.', ask: 'Ask what evidence may disappear fast, who the likely parties are, and how the case timeline can change.' },
+  '/guides/slip-and-fall-lawyer-guide/': { heading: 'Slip and fall cases', best: 'Use this guide when the issue is proving what the property owner knew or should have addressed.', key: 'These cases often turn on conditions, notice, records, and fast documentation.', mistake: 'Assuming the fact of a fall alone explains who is legally responsible.', good: 'A good firm should explain what facts still need proof and what records may matter most.', ask: 'Ask what photos, reports, witnesses, and timeline details are most useful.' },
+  '/guides/wrongful-death-lawyer-guide/': { heading: 'Wrongful death guidance', best: 'Use this guide when the issue is serious, time-sensitive, and emotionally heavy.', key: 'These cases often require clarity about timing, records, family roles, and expectations before legal strategy is discussed.', mistake: 'Expecting early certainty in a case that still needs fact gathering and family coordination.', good: 'A good firm should explain process with care and without promises.', ask: 'Ask what records are needed first, who may speak for the estate or family, and what early steps matter most.' },
+  '/guides/dental-implants/': { heading: 'Dental implants', best: 'Use this guide when you want to know whether implants match the problem you are trying to solve.', key: 'A useful consult explains fit, healing, timing, and what could change the plan after imaging.', mistake: 'Comparing implant prices without comparing which steps are actually included.', good: 'A good provider should make the treatment sequence clear from the start.', ask: 'Ask what imaging is needed, what steps are separate, and how long the full process usually takes.' },
+  '/guides/how-to-choose/': { heading: 'Choosing a dental practice', best: 'Use this guide when the problem is not one treatment but picking the right office.', key: 'A good office makes communication, treatment planning, and cost clarity easy to follow.', mistake: 'Choosing a practice based only on cosmetic branding or urgency.', good: 'A good dentist should explain options and tradeoffs in simple language.', ask: 'Ask how they handle treatment planning, follow-up, urgent concerns, and second opinions.' },
+  '/guides/questions-to-ask/': { heading: 'Questions for a dental consult', best: 'Use this guide when you already know the likely treatment and need a better consult.', key: 'The best questions reveal whether the office is clear about options, timing, cost, and why a specific plan is being recommended.', mistake: 'Focusing only on final price and not the treatment sequence.', good: 'A good office should answer without rushing and should explain alternatives clearly.', ask: 'Ask what the alternatives are, what happens if you wait, and how they define success.' },
+  '/guides/dental-red-flags/': { heading: 'Dental red flags', best: 'Use this guide when the office sounds polished but the plan still feels unclear.', key: 'Red flags often show up as pressure, weak cost clarity, thin explanations, or treatment recommendations that move too fast.', mistake: 'Assuming a modern-looking office always means the plan is thoughtful.', good: 'A good office should make tradeoffs, timing, and total cost easy to understand.', ask: 'Ask why the plan was chosen, what the alternatives are, and what could change the estimate.' },
+  '/guides/root-canal-treatment/': { heading: 'Root canal treatment', best: 'Use this guide when the choice is really about saving a tooth versus moving to another plan.', key: 'The main decision is usually about the tooth, symptoms, timing, and what the dentist sees on exam and imaging.', mistake: 'Treating the phrase root canal as the whole decision instead of asking what outcome the dentist is trying to preserve.', good: 'A good office should explain the goal of treatment, next steps after treatment, and what happens if the tooth cannot be saved.', ask: 'Ask what the treatment is trying to preserve, what happens after the procedure, and what alternatives exist.' },
+  '/guides/clear-aligners/': { heading: 'Clear aligners', best: 'Use this guide when you are comparing convenience, appearance, and treatment control.', key: 'The best fit depends on complexity, follow-through, and whether the plan needs close in-person adjustment.', mistake: 'Choosing based only on appearance or ads without asking whether the case is a good match.', good: 'A good provider should explain what aligners can and cannot correct in your case.', ask: 'Ask how often progress is checked, what limits the method has, and what happens if the teeth do not move as planned.' },
+  '/guides/cosmetic-dentistry/': { heading: 'Cosmetic dentistry', best: 'Use this guide when the goal is appearance but you still want a careful treatment plan.', key: 'Cosmetic care should still start with healthy structure, clear goals, and honest tradeoffs.', mistake: 'Treating cosmetic planning like shopping for a finished look without understanding the dental work underneath it.', good: 'A good provider should explain limits, maintenance, and what may need to happen before cosmetic work.', ask: 'Ask what the realistic outcome is, how long it lasts, and what maintenance or replacement could look like.' },
+  '/guides/emergency-dentist-vs-waiting/': { heading: 'Emergency dentist or wait', best: 'Use this guide when the issue is urgency and not just treatment type.', key: 'The main question is whether the symptom, injury, or swelling needs same-day attention or can safely wait for a planned visit.', mistake: 'Waiting too long because the pain changes or comes and goes.', good: 'A good office should explain what symptoms need faster care and what information they need from you first.', ask: 'Ask what symptoms change the urgency, what to do before the visit, and when they want you to go somewhere else first.' },
+  '/guides/neuropsychological-testing-overview/': { heading: 'Neuro testing overview', best: 'Use this guide when the question is what this process is really for.', key: 'A neuropsych evaluation is usually about clearer answers, better documentation, and a more useful plan—not just a long report.', mistake: 'Expecting the testing day to solve everything by itself.', good: 'A good provider should explain what questions the evaluation can answer and what it cannot answer.', ask: 'Ask what the referral question is, how long testing takes, and what the final report is meant to help with.' },
+  '/guides/neuro-evaluation-pricing/': { heading: 'Neuro evaluation pricing', best: 'Use this guide when cost is the main source of confusion.', key: 'Pricing can change based on complexity, records review, report depth, and whether insurance is involved.', mistake: 'Comparing one quoted number without asking what the fee includes.', good: 'A good provider should explain the scope of work in plain language.', ask: 'Ask what is included in the quote, what follow-up is included, and whether extra letters or revisions cost more.' },
+  '/guides/neuro-provider-red-flags/': { heading: 'Neuro provider red flags', best: 'Use this guide when a provider sounds easy to book but hard to understand.', key: 'Weak providers often sound vague about fit, wait times, report use, or who the evaluation is really for.', mistake: 'Assuming a short wait means a better process.', good: 'A good provider should explain scope, timeline, and next steps clearly.', ask: 'Ask what records they need, what the report will include, and how results are explained.' },
+  '/guides/questions-to-ask-before-neuro-testing/': { heading: 'Questions before neuro testing', best: 'Use this guide when you want the consult to answer the right questions before you spend money or time.', key: 'Good questions uncover scope, timeline, records, cost, and how the report will actually be used.', mistake: 'Not asking whether the evaluation matches the real referral question.', good: 'A good provider should answer directly and explain what the evaluation is designed to do.', ask: 'Ask what the evaluation is designed to answer, what documents to bring, and how results are shared.' },
+  '/guides/adhd-evaluations-what-to-expect/': { heading: 'ADHD evaluation expectations', best: 'Use this guide when the process itself feels unclear.', key: 'The value of the evaluation comes from matching the process to the real question, not from checking a box quickly.', mistake: 'Expecting every provider to use the same intake, testing, and follow-up process.', good: 'A good provider should explain scope, timing, and what the final answer may or may not include.', ask: 'Ask what the visit sequence looks like, what records help, and what happens after results are explained.' },
+  '/guides/autism-evaluation-adults/': { heading: 'Adult autism evaluations', best: 'Use this guide when the question is whether an adult evaluation is the right next step.', key: 'Adult autism evaluations often turn on history, current function, and what you need the evaluation to help with.', mistake: 'Assuming the goal is only a label instead of clarity, accommodations, or next-step planning.', good: 'A good provider should explain fit, timeline, and what kind of report or explanation you can expect.', ask: 'Ask what records help, how developmental history is handled, and how results are discussed afterward.' },
+  '/guides/neuropsych-testing-children-vs-adults/': { heading: 'Children versus adults in neuro testing', best: 'Use this guide when you are deciding whether the age group changes the kind of provider or process you need.', key: 'Children and adults can need different records, different interview structures, and different follow-through planning.', mistake: 'Assuming one provider or one process fits every age group the same way.', good: 'A good provider should explain how age changes scope, records, and result use.', ask: 'Ask how the process differs by age, who needs to participate, and how the report is used afterward.' },
+  '/guides/neuro-insurance-and-out-of-network/': { heading: 'Insurance and out-of-network neuro care', best: 'Use this guide when payment structure may change which provider is realistic.', key: 'The key issue is not just whether the provider takes insurance. It is what the fee covers and what paperwork support exists.', mistake: 'Comparing providers on insurance status alone without comparing scope or report depth.', good: 'A good provider should explain payment structure, receipts, and what help they give for reimbursement.', ask: 'Ask what is billed up front, what paperwork is provided, and what parts of the process are not covered.' },
+  '/guides/uscis-medical-exam-overview/': { heading: 'USCIS medical exam overview', best: 'Use this guide when you need the process in plain language before you book.', key: 'The exam is a process step with paperwork, identity checks, vaccine review, and timing questions. It is not the place for promises about immigration outcomes.', mistake: 'Booking without first checking what documents and vaccine records are needed.', good: 'A good civil surgeon office should explain the process clearly and tell you what can delay completion.', ask: 'Ask what to bring, how sealed documents are handled, and what issues can slow the process down.' },
+  '/guides/civil-surgeon-near-me/': { heading: 'Choosing a civil surgeon office', best: 'Use this guide when the problem is finding a legitimate office and understanding the booking process.', key: 'A strong office should make identity requirements, vaccine questions, pricing, and paperwork steps easy to follow.', mistake: 'Treating distance or speed as the only thing that matters.', good: 'A good office should explain how appointments work, what documents matter, and which issues may require extra follow-up.', ask: 'Ask what documents to bring, how vaccine records are handled, and how sealed paperwork is returned.' },
+  '/guides/uscis-medical-exam-costs/': { heading: 'USCIS medical exam costs', best: 'Use this guide when pricing and included services are the main questions.', key: 'The exam fee may not be the only cost. Vaccines, lab work, or follow-up steps can change the total.', mistake: 'Comparing quoted prices without asking what is included in the visit.', good: 'A good office should separate the exam fee from outside or extra costs.', ask: 'Ask which services are included, which costs are separate, and what could create an extra visit or extra fee.' },
+  '/guides/uscis-vaccination-records/': { heading: 'Vaccine record issues', best: 'Use this guide when missing records feel like the main risk in the process.', key: 'Vaccine questions often become simpler when you know what records you have, what may still be needed, and what the office can explain before the visit.', mistake: 'Assuming the office can solve unclear record history without you bringing details.', good: 'A good office should explain what records help and what they can review before the appointment.', ask: 'Ask which records to bring, what happens if records are incomplete, and what may need follow-up.' },
+  '/guides/uscis-what-to-bring/': { heading: 'What to bring', best: 'Use this guide when you want the visit to go smoothly the first time.', key: 'Bringing the right ID, forms, records, and contact details can prevent avoidable delays.', mistake: 'Showing up with only a booking confirmation and expecting the office to fill every gap.', good: 'A good office should give a simple checklist before the appointment.', ask: 'Ask what identification, forms, vaccine records, and prior medical details they want you to bring.' },
+  '/guides/uscis-medical-red-flags/': { heading: 'USCIS medical red flags', best: 'Use this guide when the office sounds vague, rushed, or too certain.', key: 'Red flags often show up as weak process explanations, unclear pricing, sloppy paperwork talk, or promises nobody should make.', mistake: 'Trusting speed claims over process clarity.', good: 'A good office should be clear about documents, timing, fees, and limits.', ask: 'Ask what the process looks like, what delays are common, and what they will and will not promise.' }
+};
+
 function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryConversionTemplate, inlineConversionTemplate, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
   const route = (globalPage.route || "").replace(/^\/+|\/+$/g, "");
   const title = String(globalPage.title || "").split("%%BRAND_NAME%%").join(brandName);
@@ -2930,7 +2973,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   // Guides must be block-structured and must include ad slots.
   // We intentionally enforce this at build-time so a flat/unstyled guide JSON
   // cannot silently ship even if authored incorrectly.
-  function enhanceGuideDetailHtml(rawHtml) {
+  function enhanceGuideDetailHtml(rawHtml, route, globalPagesDir) {
     let out = String(rawHtml || "");
 
     // Normalize legacy "heading-like" paragraphs into real headings so guides
@@ -3104,14 +3147,29 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
         out = head + '\n\n' + blocks.join('\n\n') + '\n\n' + BOT + '\n';
       }
     }
+    const enhancement = GUIDE_ENHANCEMENTS['/' + String(route || '').replace(/^\/+|\/+$/g, '') + '/'] || null;
     if (!out.includes('data-guide-opening="true"')) {
       const guideOpeningBlock =
         '<section class="section guide-section guide-opening-block answer-block" data-guide-section="true" data-guide-opening="true">' +
         '<h2>What this guide is best for</h2>' +
-        '<p data-guide-opening-direct="true"><strong>Direct answer:</strong> Use this guide when you need one clear comparison or caution explained before you contact anyone.</p>' +
-        '<p class="answer-when" data-guide-opening-when="true"><strong>Best used when:</strong> a city or state page is too broad and you need one cleaner decision path.</p>' +
+        '<p data-guide-opening-direct="true"><strong>Direct answer:</strong> ' + escapeHtml((enhancement && enhancement.best) || 'Use this guide when you need one clear comparison or caution explained before you contact anyone.') + '</p>' +
+        '<p class="answer-when" data-guide-opening-when="true"><strong>Best used when:</strong> ' + escapeHtml((enhancement && enhancement.key) || 'A city or state page is too broad and you need one cleaner decision path.') + '</p>' +
         '</section>';
-      out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + guideOpeningBlock + '\n');
+      if (out.includes('<article class="guide-article"')) out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + guideOpeningBlock + '\n');
+      else out = out.replace(/\s*%%AD:global_guide_top%%\s*/i, '\n%%AD:global_guide_top%%\n' + guideOpeningBlock + '\n');
+    }
+
+    if (enhancement && !out.includes('data-guide-custom-core="true"')) {
+      const customCore =
+        '<section class="section guide-section" data-guide-section="true" data-guide-custom-core="true">' +
+        '<h2>' + escapeHtml(enhancement.heading) + '</h2>' +
+        '<p><strong>Key point:</strong> ' + escapeHtml(enhancement.key) + '</p>' +
+        '<p><strong>What a good provider should make clear:</strong> ' + escapeHtml(enhancement.good) + '</p>' +
+        '<p><strong>Common mistake:</strong> ' + escapeHtml(enhancement.mistake) + '</p>' +
+        '<p><strong>Questions to ask:</strong> ' + escapeHtml(enhancement.ask) + '</p>' +
+        '</section>';
+      if (out.includes('data-guide-opening="true"')) out = out.replace(/(<section class="section guide-section guide-opening-block[\s\S]*?<\/section>)/i, '$1\n' + customCore + '\n');
+      else out = out.replace(/\s*%%AD:global_guide_top%%\s*/i, '\n%%AD:global_guide_top%%\n' + customCore + '\n');
     }
 
     if (!out.includes('data-guide-comparison="true"')) {
@@ -3234,13 +3292,6 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
       intentType: 'direct_match',
       buttonSource: 'primary_cta'
     });
-    mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
-      pageType: 'guides-hub-inline',
-      src: '/guides/',
-      marketLabel: 'Guides',
-      intentType: 'direct_match',
-      buttonSource: 'inline_conversion_cta'
-    });
     mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
       kind: 'guides-hub',
       buildIso: BUILD_ISO,
@@ -3276,13 +3327,6 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
       marketLabel: title,
       intentType: 'direct_match',
       buttonSource: 'primary_cta'
-    });
-    mainHtml = injectInlineConversionCta(mainHtml, inlineConversionTemplate, verticalKey, {
-      pageType: 'guide-inline',
-      src: '/' + route + '/',
-      marketLabel: title,
-      intentType: 'direct_match',
-      buttonSource: 'inline_conversion_cta'
     });
     mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
       kind: 'guides-hub',
@@ -3383,23 +3427,57 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   return out;
 }
 
-function renderGuideCardsHtml(guides) {
-  if (!Array.isArray(guides) || guides.length === 0) return "";
-  return guides
-    .map(function (g) {
-      var href = g && g.route ? String(g.route) : "#";
-      var title = g && g.title ? String(g.title) : "Guide";
-      var desc = g && g.description ? String(g.description) : "";
-      return (
-        "<div class=\"card\">" +
-        "\n  <h2><a href=\"" + escapeHtml(href) + "\">" + escapeHtml(title) + "</a></h2>" +
-        "\n  <p>" + escapeHtml(desc) + "</p>" +
-        "\n</div>"
-      );
-    })
-    .join("\n");
+function categorizeGuideHubCard(g) {
+  var src = [g && g.route, g && g.title, g && g.description].join(' ').toLowerCase();
+  if (/(overview|how to choose|start|first 90 days|what to expect|candidate|where to begin)/.test(src)) return 'start';
+  if (/(cost|pricing|fees|insurance|financing|fit|out-of-network)/.test(src)) return 'cost';
+  if (/(red flag|red-flags|risk|safety|side effect|warning|mistake)/.test(src)) return 'redflags';
+  if (/(vs|versus|comparison|compare|children vs adults|telehealth vs|injections vs|crown|bridge|implant|extraction)/.test(src)) return 'comparisons';
+  if (/(questions|what to ask|ask before|records to bring)/.test(src)) return 'questions';
+  if (/(next step|what happens next|after an evaluation|after an accident|family planning|progress looks like)/.test(src)) return 'next';
+  return 'continued';
 }
 
+function renderGuideHubCardsByGroup(guides) {
+  if (!Array.isArray(guides) || guides.length === 0) return '';
+  var groups = [
+    { key: 'start', heading: 'Start here first', intro: 'Use these first when the topic is broad and you need a simple starting point.' },
+    { key: 'cost', heading: 'Cost / pricing / fit', intro: 'Use these when the main question is cost, insurance, budgeting, or whether the program fits your situation.' },
+    { key: 'redflags', heading: 'Red flags and trust checks', intro: 'Use these when you need to spot weak providers, bad promises, or missing safety steps.' },
+    { key: 'comparisons', heading: 'Comparisons and alternatives', intro: 'Use these when you are comparing two paths and need the tradeoffs in plain language.' },
+    { key: 'questions', heading: 'Questions to ask', intro: 'Use these when you are getting ready to call, book, or compare providers.' },
+    { key: 'next', heading: 'What to do next', intro: 'Use these when you already understand the basics and need help with the next move.' },
+    { key: 'continued', heading: 'Continued learning and special cases', intro: 'Use these when the topic is narrower, deeper, or useful as follow-up reading after the main decision is clearer.' }
+  ];
+  var buckets = Object.create(null);
+  guides.forEach(function(g){
+    var key = categorizeGuideHubCard(g);
+    if (!buckets[key]) buckets[key] = [];
+    buckets[key].push(g);
+  });
+  return groups.filter(function(group){ return Array.isArray(buckets[group.key]) && buckets[group.key].length; }).map(function(group){
+    var cards = buckets[group.key].map(function (g) {
+      var href = g && g.route ? String(g.route) : '#';
+      var title = g && g.title ? String(g.title) : 'Guide';
+      var desc = g && g.description ? String(g.description) : '';
+      return (
+        '<div class="card">' +
+        '\n  <h3><a href="' + escapeHtml(href) + '">' + escapeHtml(title) + '</a></h3>' +
+        '\n  <p>' + escapeHtml(desc) + '</p>' +
+        '\n</div>'
+      );
+    }).join('\n');
+    return '<section class="section guides-group" data-guides-group="' + escapeHtml(group.key) + '" data-decision-routing-block="true">' +
+      '<h2>' + escapeHtml(group.heading) + '</h2>' +
+      '<p class="muted">' + escapeHtml(group.intro) + '</p>' +
+      '<div class="grid">' + cards + '</div>' +
+      '</section>';
+  }).join('\n');
+}
+
+function renderGuideCardsHtml(guides) {
+  return renderGuideHubCardsByGroup(guides);
+}
 
 function renderCityGuideCardsHtml(guides, city) {
   // The larger city-specific guide listing block is intentionally retired.
@@ -3553,53 +3631,28 @@ function injectRecentlyRefreshedBlock(mainHtml, refreshHtml) {
 function buildGuideDecisionGroups(route, globalPagesDir) {
   const currentRoute = String(route || '').replace(/^\/+|\/+$/g, '');
   const currentHref = currentRoute ? ('/' + currentRoute + '/') : '/';
-  const all = selectPriorityGuideSummaries(globalPagesDir, 18).filter((g) => String(g.route || '') !== currentHref);
-  const start = [];
-  const bySituation = [];
-  const next = [];
-
+  const all = loadGlobalPageSummaries(globalPagesDir).filter((g) => /^\/guides\/[^/]+\/$/.test(String(g.route || '')) && String(g.route || '') !== currentHref);
+  const buckets = { start: [], cost: [], redflags: [], comparisons: [], questions: [], next: [], continued: [] };
   for (const g of all) {
-    const href = String(g.route || '#');
-    const label = String(g.title || 'Guide');
-    const bucketSource = (href + ' ' + label + ' ' + String(g.description || '')).toLowerCase();
-    const item = { href, label };
-
-    if (/(questions|red-flag|red flag|cost|pricing|fees|requirements|checklist|documents|overview)/.test(bucketSource)) {
-      if (start.length < 4) start.push(item);
-      else if (bySituation.length < 4) bySituation.push(item);
-      else if (next.length < 4) next.push(item);
-      continue;
-    }
-
-    if (/(car|truck|slip|wrongful|adhd|autism|therapy|trt|iv|hair|peptide|civil surgeon|vaccination|document|i-693|insurance|report|timeline|telehealth|workplace|product liability|after your exam)/.test(bucketSource)) {
-      if (bySituation.length < 4) bySituation.push(item);
-      else if (start.length < 4) start.push(item);
-      else if (next.length < 4) next.push(item);
-      continue;
-    }
-
-    if (next.length < 4) next.push(item);
-    else if (start.length < 4) start.push(item);
-    else if (bySituation.length < 4) bySituation.push(item);
+    const source = [g.route, g.title, g.description].join(' ').toLowerCase();
+    let key = 'continued';
+    if (/(overview|how to choose|start|first 90 days|what to expect|candidate|where to begin)/.test(source)) key = 'start';
+    else if (/(cost|pricing|fees|insurance|financing|fit|out-of-network)/.test(source)) key = 'cost';
+    else if (/(red flag|red-flags|risk|safety|side effect|warning|mistake)/.test(source)) key = 'redflags';
+    else if (/(vs|versus|comparison|compare|telehealth vs|injections vs|bridge|implant|extraction|children vs adults)/.test(source)) key = 'comparisons';
+    else if (/(questions|what to ask|ask before|records to bring)/.test(source)) key = 'questions';
+    else if (/(next step|what happens next|after an evaluation|after an accident|family planning|progress looks like)/.test(source)) key = 'next';
+    buckets[key].push({ href: String(g.route || '#'), label: String(g.title || 'Guide') });
   }
-
-  const dedupe = (items) => {
-    const seen = new Set();
-    return items.filter((item) => {
-      const key = String(item.href || '');
-      if (!key || seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-  };
-
-  const groups = [
-    { heading: 'Start here first', items: dedupe(start).slice(0, 4) },
-    { heading: 'By situation', items: dedupe(bySituation).slice(0, 4) },
-    { heading: 'After you know your direction', items: dedupe(next).slice(0, 4) }
-  ].filter((group) => Array.isArray(group.items) && group.items.length);
-
-  return groups;
+  return [
+    { heading: 'Start here first', items: buckets.start.slice(0, 5) },
+    { heading: 'Cost / pricing / fit', items: buckets.cost.slice(0, 5) },
+    { heading: 'Red flags and trust checks', items: buckets.redflags.slice(0, 5) },
+    { heading: 'Comparisons and alternatives', items: buckets.comparisons.slice(0, 5) },
+    { heading: 'Questions to ask', items: buckets.questions.slice(0, 5) },
+    { heading: 'What to do next', items: buckets.next.slice(0, 5) },
+    { heading: 'Continued learning and special cases', items: buckets.continued.slice(0, 5) }
+  ].filter((group) => group.items && group.items.length);
 }
 
 function normalizeGuideSections(html) {
