@@ -29,6 +29,7 @@ function run() {
   mustExist('scripts/automation/refresh_verification_page.sh');
   mustExist('scripts/automation/refresh_verification_page.js');
   mustExist('scripts/automation/rotate_vertical_refresh.js');
+  mustExist('data/site.template.json');
 
   const refreshWorkflow = fs.readFileSync(
     path.join(root, '.github/workflows/refresh-verification-page.yml'),
@@ -65,13 +66,29 @@ function run() {
     fail('rotating_refresh.yml must invoke rotate_vertical_refresh.js');
   }
 
-  // rotate script must use the safe pipeline, not the raw script
+  // rotate script must not call the raw refresh script directly
   if (/node scripts\/automation\/refresh_verification_page\.js/.test(rotateScript)) {
     fail('rotate_vertical_refresh.js must not call refresh_verification_page.js directly; use npm run refresh:verification');
   }
 
+  // rotate script must use the safe refresh pipeline
   if (!/npm run refresh:verification/.test(rotateScript)) {
     fail('rotate_vertical_refresh.js must call npm run refresh:verification');
+  }
+
+  // rotate script must materialize pack context before refresh
+  if (!/node scripts\/build_city_sites\.js --page-set/.test(rotateScript)) {
+    fail('rotate_vertical_refresh.js must build/materialize the chosen page set before refresh:verification');
+  }
+
+  // rotate script must bootstrap site.json when missing
+  if (!/site\.json/.test(rotateScript) || !/site\.template\.json/.test(rotateScript)) {
+    fail('rotate_vertical_refresh.js must bootstrap data/site.json from a controlled source when missing');
+  }
+
+  // rotate script must define page-set mappings for rotating verticals
+  if (!/const pageSetMap = \{/.test(rotateScript)) {
+    fail('rotate_vertical_refresh.js must define pageSetMap for rotating verticals');
   }
 
   // refresh workflow should still indicate dependent artifact regeneration path
