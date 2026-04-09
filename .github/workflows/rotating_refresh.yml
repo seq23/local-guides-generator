@@ -3,24 +3,31 @@ on:
   schedule:
     - cron: "17 4 * * *"
   workflow_dispatch:
+
 permissions:
   contents: write
 
 concurrency:
   group: rotating-refresh
   cancel-in-progress: false
+
 jobs:
   rotate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with: { fetch-depth: 0 }
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: npm
+
       - run: npm ci --ignore-scripts
+
       - run: node scripts/automation/rotate_vertical_refresh.js
+
       - run: |
           git config user.name "lkg-bot"
           git config user.email "lkg-bot@users.noreply.github.com"
