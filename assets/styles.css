@@ -2357,3 +2357,23 @@ main { max-width: 1240px; }
   main, .container, .shell, .page-shell { max-width: 100%; }
   .section { margin-block: 2.5rem; }
 }
+
+
+/* Remediation pass: stronger hierarchy without deleting fanout */
+.hero { padding: 3rem 0 1.75rem; }
+.hero .kicker { letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; color: #6d6558; }
+[data-primary-conversion-cta="true"] { margin-top: .5rem; }
+[data-inline-conversion-cta="true"] { margin-top: 1.25rem; }
+[data-inline-conversion-cta="true"] .conversion-card,
+[data-primary-conversion-cta="true"] .conversion-card { border-radius: 22px; }
+.answer-block, .citation-summary.answer-block { background: #f5f1e8; }
+.provider-directory-section, .faq-entry-card, .state-cities-block, .request-city-block, .state-guides-support { background: #fffdfa; border-radius: 22px; }
+.state-guides-support .grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); display:grid; gap:1rem; }
+.tertiary-support, .fanout-query-cluster--tertiary { opacity: .74; }
+.fanout-query-cluster--tertiary summary { font-size: .98rem; }
+.fanout-query-cluster--tertiary .accordion-meta, .tertiary-support .muted { font-size: .9rem; }
+[data-pi-state-faq="true"], [data-disciplinary-lookup="true"] { background: #fbfaf7; }
+.provider-card__verify a { font-weight: 600; }
+.guide-opening-block { background: #f8f5ee; }
+.guide-opening-block p:last-child { margin-bottom: 0; }
+.guide-groups.comparison-block { background: #fbfaf7; }

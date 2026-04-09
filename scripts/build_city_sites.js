@@ -389,40 +389,40 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
 
   if (pageType === 'city-primary') {
     return {
-      eyebrow: 'Next step',
-      heading: 'Get matched with a provider in ' + escapeHtml(marketShort),
-      body: 'Use the direct callback path when you want a provider to reach out after you review the basics for ' + escapeHtml(marketShort) + '.',
-      button: 'Get Matched With a Provider',
+      eyebrow: 'Start here',
+      heading: 'View your next steps for ' + escapeHtml(marketShort),
+      body: 'Use the dedicated next-steps path once you understand the basics for ' + escapeHtml(marketShort) + '.',
+      button: 'View Your Next Steps',
       variant: 'primary'
     };
   }
 
   if (pageType === 'city-inline') {
     return {
-      eyebrow: 'Next step',
-      heading: 'View your next steps for ' + escapeHtml(marketShort),
-      body: 'Use the dedicated next-steps page when you want the full form, comparison path, and lookup tools in one place.',
-      button: 'View Your Next Steps',
+      eyebrow: 'Need help now?',
+      heading: 'Get matched with a provider in ' + escapeHtml(marketShort),
+      body: 'Use the callback path after you review the local framework, directory examples, and FAQs for ' + escapeHtml(marketShort) + '.',
+      button: 'Get Matched With a Provider',
       variant: 'inline'
     };
   }
 
   if (pageType === 'state-primary') {
     return {
-      eyebrow: 'State-wide help',
-      heading: 'Get matched with a provider in ' + escapeHtml(marketLabel || 'this state'),
-      body: 'Use the request-assistance tool if you want help narrowing the next step with ' + escapeHtml(lowerProvider) + ' in ' + escapeHtml(marketLabel || 'this state') + '.',
-      button: 'Get Matched With a Provider',
+      eyebrow: 'Start here',
+      heading: 'View your next steps for ' + escapeHtml(marketLabel || 'this state'),
+      body: 'Use the state-level next-steps path after you narrow into the right city and support surface.',
+      button: 'View Your Next Steps',
       variant: 'primary'
     };
   }
 
   if (pageType === 'state-inline') {
     return {
-      eyebrow: 'Next step',
-      heading: 'View your next steps for ' + escapeHtml(marketLabel || 'this state'),
-      body: 'Use the dedicated next-steps page when you want the full form, comparison path, and lookup tools in one place.',
-      button: 'View Your Next Steps',
+      eyebrow: 'Need help now?',
+      heading: 'Get matched with a provider in ' + escapeHtml(marketLabel || 'this state'),
+      body: 'Use the callback path only after you review the city coverage, request-city option, and state support guides.',
+      button: 'Get Matched With a Provider',
       variant: 'inline'
     };
   }
@@ -449,20 +449,20 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
 
   if (pageType === 'global-primary') {
     return {
-      eyebrow: 'Need help now?',
-      heading: 'Get matched with a provider',
-      body: 'This site is educational first, but you can also use the callback path when you want a provider to reach out after you review the basics.',
-      button: 'Get Matched With a Provider',
+      eyebrow: 'Start here',
+      heading: 'View your next steps',
+      body: 'Use the dedicated next-steps path after you review the homepage short answer, provider preview, and state routing.',
+      button: 'View Your Next Steps',
       variant: 'primary'
     };
   }
 
   if (pageType === 'global-inline') {
     return {
-      eyebrow: 'Next step',
-      heading: 'View your next steps',
-      body: 'Use the dedicated next-steps page when you want the full form, comparison path, and lookup tools in one place.',
-      button: 'View Your Next Steps',
+      eyebrow: 'Need help now?',
+      heading: 'Get matched with a provider',
+      body: 'This site is educational first, but you can still use the callback path after you narrow into the right state, city, or guide.',
+      button: 'Get Matched With a Provider',
       variant: 'inline'
     };
   }
@@ -1663,7 +1663,7 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
     const bn = String((b && (b.firm_name || b.name)) || '').toLowerCase();
     return an.localeCompare(bn);
   });
-  var rows = listingsSorted.filter(function(x){ return x && x.display !== false; }).map(function(l){
+  var cards = listingsSorted.filter(function(x){ return x && x.display !== false; }).map(function(l){
     var name = (l.firm_name || l.name) ? String(l.firm_name || l.name) : 'Firm';
     var compare = String(
       l.practice_focus ||
@@ -1672,13 +1672,19 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
       ''
     ).trim();
     if (!compare) compare = 'Compare scope, written policies, and first-step requirements';
-    return '<tr>' +
-      '<td class="pi-dir-name">' + escapeHtml(name) + '</td>' +
-      '<td class="pi-dir-notes">' + escapeHtml(compare) + '</td>' +
-      '</tr>';
+    var attrs = [
+      compare,
+      'City listing example',
+      'Use the questions and evidence guides before you contact anyone'
+    ].filter(Boolean).slice(0,3).map(function(item){ return '<li>' + escapeHtml(item) + '</li>'; }).join('');
+    return '<article class="provider-card" data-provider-card="true">' +
+      '<h3 class="provider-card__name">' + escapeHtml(name) + '</h3>' +
+      '<p class="provider-card__meta" data-provider-card-meta="true">Personal injury law firm</p>' +
+      '<ul class="provider-card__attributes" data-provider-card-attributes="true">' + attrs + '</ul>' +
+      '</article>';
   }).join('');
 
-  if (!rows) {
+  if (!cards) {
     return '<div class="listings-empty">' +
       '<p><strong>No firms are listed for this market yet.</strong> This directory is informational only; we do not rate, rank, or endorse providers.</p>' +
       '</div>';
@@ -1687,21 +1693,11 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
   if (sponsorUiEnabled) {
     return '<details class="pi-dir-collapsed" data-pi-dir-collapsed="true">' +
       '<summary>Other firms in this market (neutral list)</summary>' +
-      '<div class="pi-dir-table-wrap">' +
-      '<table class="pi-dir-table pi-directory-table" role="table">' +
-      '<thead><tr><th>Firm name</th><th>What to Compare</th></tr></thead>' +
-      '<tbody>' + rows + '</tbody>' +
-      '</table>' +
-      '</div>' +
+      '<div class="provider-directory-grid">' + cards + '</div>' +
       '</details>';
   }
 
-  return '<div class="pi-dir-table-wrap">' +
-    '<table class="pi-dir-table pi-directory-table" role="table">' +
-    '<thead><tr><th>Firm name</th><th>What to Compare</th></tr></thead>' +
-    '<tbody>' + rows + '</tbody>' +
-    '</table>' +
-    '</div>';
+  return '<div class="provider-directory-grid">' + cards + '</div>';
 }
 
 function injectListings(html, listings, city, sponsor, pageSet) {
@@ -2545,11 +2541,11 @@ function reorderMainSections(html, mode) {
       take(b => /data-home-answer="true"/.test(b) || /data-short-answer="true"/.test(b)),
       take(b => /data-home-about-block="true"/.test(b)),
       take(b => /data-home-provider-preview="true"/.test(b)),
-      take(b => /data-inline-conversion-cta="true"/.test(b)),
       take(b => /data-home-faq-entry="true"/.test(b)),
       take(b => /data-home-state-grid-shell="true"/.test(b)),
+      take(b => /data-inline-conversion-cta="true"/.test(b)),
       ...takeAll(b => /data-sponsored-placement="mid"/.test(b) || /data-sponsor-stack="global_home_mid"/.test(b)),
-      ...takeAll(b => /data-sponsored-placement="tertiary"/.test(b) || /tertiary-support/.test(b) || /fanout-query-cluster/.test(b)),
+      ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b) || /data-sponsored-placement="tertiary"/.test(b)),
       ...rest()
     ].filter(Boolean);
   } else if (mode === 'state') {
@@ -2562,7 +2558,7 @@ function reorderMainSections(html, mode) {
       take(b => /data-request-city="true"/.test(b)),
       take(b => /state-guides-support/.test(b)),
       take(b => /data-inline-conversion-cta="true"/.test(b)),
-      ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b)),
+      ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b) || /data-pi-state-faq="true"/.test(b) || /data-disciplinary-lookup="true"/.test(b)),
       ...rest()
     ].filter(Boolean);
   } else if (mode === 'city') {
@@ -2571,8 +2567,8 @@ function reorderMainSections(html, mode) {
       take(b => /data-primary-conversion-cta="true"/.test(b)),
       take(b => /data-short-answer="true"/.test(b) || /data-citation-summary-type="city-home"/.test(b)),
       take(b => /data-city-decision-support="true"/.test(b) || /How people typically evaluate/.test(b)),
-      take(b => /data-guide-groups="true"/.test(b)),
       take(b => /data-inline-conversion-cta="true"/.test(b)),
+      take(b => /data-guide-groups="true"/.test(b)),
       ...takeAll(b => /data-provider-directory="true"/.test(b)),
       ...takeAll(b => /Verify a provider/.test(b) || /guides-compact/.test(b) || /fanout-query-cluster/.test(b) || /tertiary-support/.test(b)),
       ...rest()
@@ -3100,9 +3096,8 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
       const guideOpeningBlock =
         '<section class="section guide-section guide-opening-block answer-block" data-guide-section="true" data-guide-opening="true">' +
         '<h2>What this guide is best for</h2>' +
-        '<p data-guide-opening-direct="true"><strong>Direct answer:</strong> Use this guide when the decision is narrow enough that you need to clarify the right comparison, the right caution, and the right next step before you contact anyone.</p>' +
-        '<p class="answer-when" data-guide-opening-when="true"><strong>When this guide helps most:</strong> when the question has moved beyond a broad city or state page and needs a cleaner decision path.</p>' +
-        '<p class="answer-tradeoff" data-guide-opening-tradeoff="true"><strong>Tradeoff to watch:</strong> a faster or more reassuring answer is not always the more useful answer if scope, follow-up, or verification are still vague.</p>' +
+        '<p data-guide-opening-direct="true"><strong>Direct answer:</strong> Use this guide when you need one clear comparison or caution explained before you contact anyone.</p>' +
+        '<p class="answer-when" data-guide-opening-when="true"><strong>Best used when:</strong> a city or state page is too broad and you need one cleaner decision path.</p>' +
         '</section>';
       out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + guideOpeningBlock + '\n');
     }
@@ -3648,8 +3643,7 @@ function renderGuideOpeningHtml(title) {
     '<section class="section guide-opening-block answer-block" data-guide-opening="true">' +
     '<h2>What this guide is best for</h2>' +
     '<p data-guide-opening-direct="true"><strong>Direct answer:</strong> ' + safeTitle + ' is most useful when you need one decision path clarified before you contact anyone.</p>' +
-    '<p class="answer-when" data-guide-opening-when="true"><strong>When this guide helps most:</strong> when the question is narrow enough that a city or state hub is too broad.</p>' +
-    '<p class="answer-tradeoff" data-guide-opening-tradeoff="true"><strong>Tradeoff to watch:</strong> a simpler answer can feel faster, but the more useful answer usually explains what still needs to be verified.</p>' +
+    '<p class="answer-when" data-guide-opening-when="true"><strong>Best used when:</strong> the question is narrow enough that a city or state hub is too broad.</p>' +
     '</section>'
   );
 }
@@ -3695,8 +3689,7 @@ function renderCitationSummaryZoneHtml(opts) {
       '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="state-home">' +
       '<h2 id="citation-summary">Short answer</h2>' +
       '<p data-citation-summary-lede="true"><strong>' + title + '</strong> works best when the question is still broad and you need to narrow it into the right city page, guide, or statewide verification step.</p>' +
-      '<p class="answer-when">Most people use the state layer to understand what changes across markets, which local hubs are worth opening next, and what statewide rules or lookup steps matter, but the final comparison usually still happens on a city or guide page.</p>' +
-      '<p class="answer-tradeoff">The state page is usually not the final answer; it is the page that helps you choose the right local answer path first.</p>' +
+      '<p class="answer-when">Use the state layer to see which cities are covered, what official resources matter, and which local page should come next.</p>' +
       '<p class="answer-boundary">This page is educational and is designed to help you understand the statewide decision before you choose what to do next.</p>' +
       '</section>'
     );
@@ -3708,8 +3701,8 @@ function renderCitationSummaryZoneHtml(opts) {
       '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="guide-detail">' +
       '<h2 id="citation-summary">Short answer</h2>' +
       '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is a guide for ' + guideLabel + '. ' + description + '</p>' +
-      '<p class="answer-when">This guide helps most when the decision is narrow enough that you need a cleaner comparison, a red-flag check, or one clarified next step rather than a broad hub page.</p>' +
-      '<p class="answer-tradeoff">The goal is not reassurance alone; instead, the guide should narrow the field, clarify what still needs to be verified, and make the next move more obvious.</p>' +
+      '<p class="answer-when">Use this guide when the question is narrow enough that you need one cleaner comparison, caution, or next step.</p>' +
+      '<p class="answer-tradeoff">The goal is not reassurance alone; it is to make the next move clearer without pretending the decision is already settled.</p>' +
       '<p class="answer-boundary">This guide is educational and is designed to help you understand one decision more clearly before you choose what to do next.</p>' +
       '<ul class="visually-hidden" data-citation-key-points="true">' +
       '<li>This page is meant to answer one decision question clearly before a person contacts a provider.</li>' +
@@ -4151,6 +4144,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%OPTIONAL_TOP_NAV%%': ''
       });
       mapped = injectAdPlacements(mapped, ads, { verticalKey, stateAbbr: ab });
+      mapped = reorderMainSections(mapped, 'state');
       return mapped;
     }
     for (const stateInfo of Array.from(stateMap.values()).sort((a,b)=>String(a.name).localeCompare(String(b.name)))) {
@@ -4363,27 +4357,10 @@ function loadNextStepsSponsor(citySlug) {
         '</section>' +
         '%%AD:pi_state_mid%%' +
         renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
-        renderInternalDistributionZoneHtml({
-          kind: 'state-home',
-          title,
-          buildIso: BUILD_ISO,
-          guideLinks: selectPriorityGuideSummaries(globalPagesDir, 5).map((g) => ({ href: g.route, label: g.title, description: g.description })),
-          primaryLinks: selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description })).concat([
-            { href: '/personal-injury/', label: 'Personal injury hub', description: 'Browse the owned state routing surface.' },
-            { href: '/guides/', label: 'Guides hub', description: 'Owned answer index for PI.' }
-          ]),
-          cityLinks: cityRows.slice(0, 6).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug, description: 'City PI hub in ' + stateName }))
-        }) +
-
+        renderStateAuthorityBlockHtml(stateName, cityRows.length) +
         renderStateCityGridHtml(stateName, cityRows.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }))) +
         renderRequestCitySectionHtml(brandName, stateName) +
-
-        '<section class="section" data-pi-state-directory="true">' +
-        '<h2>Directory coverage in ' + escapeHtml(stateName) + '</h2>' +
-        '<p class="muted">City pages contain firm directories. State pages summarize coverage and link you to the city hubs.</p>' +
-        '<div class="pi-state-directory provider-directory-grid">' + directoryCards + '</div>' +
-        '</section>' +
-
+        '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.route) + '">' + escapeHtml(g.title) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>' +
         '<section class="section" data-pi-state-faq="true">' +
         '<h2>FAQs</h2>' +
         '<p class="muted">This is a quick explainer layer. It is not legal advice. We do not rank providers.</p>' +
@@ -4442,7 +4419,7 @@ function loadNextStepsSponsor(citySlug) {
         ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: '/states/' + ab + '/' })
         : '';
 
-      const mapped = replaceAll(baseTemplate, {
+      let mapped = replaceAll(baseTemplate, {
         '%%TITLE%%': title,
         '%%DESCRIPTION%%': description,
         '%%DATA_CITY%%': 'state-' + ab,
@@ -4459,10 +4436,12 @@ function loadNextStepsSponsor(citySlug) {
         '%%BRAND_NAME%%': escapeHtml(brandName),
         '%%OPTIONAL_TOP_NAV%%': (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
       });
-      return injectAdPlacements(mapped, ads, {
+      mapped = injectAdPlacements(mapped, ads, {
         verticalKey: 'pi',
         stateAbbr: ab
       });
+      mapped = reorderMainSections(mapped, 'state');
+      return mapped;
     }
 
     // Write all 50 state pages (unconditional)
