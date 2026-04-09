@@ -66,7 +66,7 @@ const rotation = [
 const chosen = rotation[day % rotation.length];
 
 const notes = `Rotating refresh focus: ${chosen.label}.`;
-run('node scripts/automation/refresh_verification_page.js', {
+run('npm run refresh:verification', {
   LKG_VERTICAL: chosen.key,
   LKG_NOTES: notes,
   LKG_CADENCE: 'nightly integrity + rotating vertical refresh',
