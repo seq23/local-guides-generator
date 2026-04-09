@@ -23,6 +23,7 @@ function addChangelogEntry(lines) {
   const now = new Date();
   const dateKey = yyyyMmDd(now);
   let s = fs.existsSync(changelogPath) ? fs.readFileSync(changelogPath, 'utf8') : '# Changelog\n\n';
+
   if (!s.includes(`# ${dateKey}`)) {
     const m = s.match(/^#\s+Changelog\s*\n+/);
     if (m) {
@@ -31,13 +32,6 @@ function addChangelogEntry(lines) {
     } else {
       s = `# Changelog\n\n# ${dateKey}\n\n` + s;
     }
-  }
-
-  const headerRe = new RegExp(`(# ${dateKey}\\n)`);
-  const parts = s.split(headerRe);
-  if (parts.length < 3) {
-    s += `\n# ${dateKey}\n`;
-    parts.length = 0;
   }
 
   const idx = s.indexOf(`# ${dateKey}\n`);
@@ -52,6 +46,20 @@ function addChangelogEntry(lines) {
   fs.writeFileSync(changelogPath, s);
 }
 
+function ensureSiteJsonBootstrapped() {
+  const siteJsonPath = path.join(repoRoot, 'data', 'site.json');
+  const siteTemplatePath = path.join(repoRoot, 'data', 'site.template.json');
+
+  if (fs.existsSync(siteJsonPath)) return;
+
+  if (!fs.existsSync(siteTemplatePath)) {
+    throw new Error('rotate_vertical_refresh requires data/site.template.json when data/site.json is missing');
+  }
+
+  fs.copyFileSync(siteTemplatePath, siteJsonPath);
+  console.log('Bootstrapped data/site.json from data/site.template.json');
+}
+
 const now = new Date();
 const day = now.getUTCDay(); // 0 Sun..6 Sat
 const rotation = [
@@ -64,6 +72,7 @@ const rotation = [
 const chosen = rotation[day % rotation.length];
 
 const notes = `Rotating refresh focus: ${chosen.label}.`;
+
 const pageSetMap = {
   pi: 'data/page_sets/examples/pi_v1.json',
   uscis_medical: 'data/page_sets/examples/uscis_medical_v1.json',
@@ -76,6 +85,8 @@ const pageSetFile = pageSetMap[chosen.key];
 if (!pageSetFile) {
   throw new Error(`No page set mapping found for vertical: ${chosen.key}`);
 }
+
+ensureSiteJsonBootstrapped();
 
 run(`node scripts/build_city_sites.js --page-set "${pageSetFile}"`, {
   LKG_ENV: 'baseline',
