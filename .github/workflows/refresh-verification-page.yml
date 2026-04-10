@@ -28,6 +28,22 @@ jobs:
       - name: Install
         run: npm ci --ignore-scripts
 
+      - name: Bootstrap site state if missing
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          site_path = pathlib.Path('data/site.json')
+          if not site_path.exists():
+              site_path.write_text(
+                  json.dumps({
+                      "brandName": "USCIS Exam Guides",
+                      "siteUrl": "https://uscisexam.com",
+                      "pageSetFile": "data/page_sets/examples/uscis_medical_v1.json"
+                  }, indent=2) + "\n"
+              )
+          PY
+
       - name: Refresh dist/verification + dependent artifacts
         run: |
           npm run refresh:verification

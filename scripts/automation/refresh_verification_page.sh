@@ -21,8 +21,45 @@ if [[ -f "$SITE_JSON" ]]; then
   SITE_URL="$(node -e 'const fs=require("fs");const j=JSON.parse(fs.readFileSync(process.argv[1],"utf8"));process.stdout.write(String(j.siteUrl||"").replace(/\/+$/,""));' "$SITE_JSON")"
   BRAND_NAME="$(node -e 'const fs=require("fs");const j=JSON.parse(fs.readFileSync(process.argv[1],"utf8"));process.stdout.write(String(j.brandName||"The Industry Guides"));' "$SITE_JSON")"
 fi
+
 if [[ -z "$SITE_URL" || "$SITE_URL" =~ placeholder-domain\.invalid ]]; then
-  echo "ERROR: refresh_verification_page.sh requires a real siteUrl in data/site.json" >&2
+  RESOLVED="$(node - <<'NODE' "$ROOT" "$SITE_JSON"
+const fs = require('fs');
+const path = require('path');
+const root = process.argv[2];
+const siteJson = process.argv[3];
+const { getPackSiteConfig } = require(path.join(root, 'scripts/lib/pack_site_config'));
+let site = {};
+try {
+  if (fs.existsSync(siteJson)) site = JSON.parse(fs.readFileSync(siteJson, 'utf8'));
+} catch {}
+const pageSetFile = String(site.pageSetFile || process.env.PAGE_SET_FILE || '').trim();
+const packSite = getPackSiteConfig(pageSetFile);
+if (packSite && packSite.siteUrl) {
+  process.stdout.write(JSON.stringify({ siteUrl: packSite.siteUrl.replace(/\/+$/, ''), brandName: packSite.brandName || 'The Industry Guides' }));
+  process.exit(0);
+}
+const releasesPath = path.join(root, 'releases', 'releases_index.json');
+try {
+  const releases = JSON.parse(fs.readFileSync(releasesPath, 'utf8'));
+  const items = Array.isArray(releases.releases) ? releases.releases : [];
+  const latest = items.find(x => x && x.site && x.site.siteUrl && !/placeholder-domain\.invalid/i.test(String(x.site.siteUrl)));
+  if (latest) {
+    process.stdout.write(JSON.stringify({ siteUrl: String(latest.site.siteUrl).replace(/\/+$/, ''), brandName: String(latest.site.brandName || 'The Industry Guides') }));
+    process.exit(0);
+  }
+} catch {}
+process.stdout.write('');
+NODE
+)"
+  if [[ -n "$RESOLVED" ]]; then
+    SITE_URL="$(node -e 'const j=JSON.parse(process.argv[1]);process.stdout.write(String(j.siteUrl||""));' "$RESOLVED")"
+    BRAND_NAME="$(node -e 'const j=JSON.parse(process.argv[1]);process.stdout.write(String(j.brandName||"The Industry Guides"));' "$RESOLVED")"
+  fi
+fi
+
+if [[ -z "$SITE_URL" || "$SITE_URL" =~ placeholder-domain\.invalid ]]; then
+  echo "ERROR: refresh_verification_page.sh requires a real siteUrl in data/site.json or a resolvable pack fallback" >&2
   exit 1
 fi
 
