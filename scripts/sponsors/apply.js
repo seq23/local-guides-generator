@@ -371,7 +371,7 @@ function main() {
 
     const ads = c.placements?.ads || {};
     const nextStepsEnabled = !!c.placements?.next_steps?.enabled;
-    const listingsEnabled = !!c.placements?.listings?.enabled;
+    const listingsEnabled = !!c.placements?.listings?.enabled && String(c.vertical || '').toLowerCase() !== 'pi';
 
     const applyToObj = (obj) => {
       if (ads.header_leaderboard) obj.stacks.header_leaderboard.push(block);
@@ -379,6 +379,11 @@ function main() {
       if (ads.in_content) obj.stacks.in_content.push(block);
       if (nextStepsEnabled) obj.nextStepsSponsor = block;
     };
+
+    if (String(c.vertical || '').toLowerCase() === 'pi' && resolved.mode === 'city') {
+      console.warn(`WARN: ignoring PI city-scoped sponsor campaign after state-only migration: ${c.campaign_slug}`);
+      continue;
+    }
 
     if (resolved.mode === "site" || resolved.mode === "vertical") {
       applyToObj(global);

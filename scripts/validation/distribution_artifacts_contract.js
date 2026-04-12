@@ -19,8 +19,12 @@ function lines(text) {
   return text.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
 }
 
+function readSite(root) { try { return JSON.parse(fs.readFileSync(path.join(root, 'data', 'site.json'), 'utf8')); } catch { return {}; } }
+
 function run() {
   const root = path.join(__dirname, '..', '..');
+  const site = readSite(root);
+  const isPi = /(^|\/)pi_v1\.json$/i.test(String(site.pageSetFile || ''));
   const dist = path.join(root, 'dist');
   const required = [
     'indexnow-batch.txt',
@@ -46,7 +50,7 @@ function run() {
   if (!priorityUrls.length) fail('indexnow-priority.txt has no URLs');
   if (!batchUrls.length) fail('indexnow-batch.txt has no URLs');
 
-  const requiredFamilies = new Set(['home', 'guides-hub', 'guide-detail', 'city-home']);
+  const requiredFamilies = new Set(isPi ? ['home', 'guides-hub', 'guide-detail', 'state-home'] : ['home', 'guides-hub', 'guide-detail', 'city-home']);
   const familyMap = new Map();
   for (const p of pages) {
     if (p && p.url) familyMap.set(String(p.url), String(p.pageFamily || ''));
@@ -62,7 +66,9 @@ function run() {
 
   const priorityReview = readText(path.join(dist, 'distribution-priority-urls.txt'));
   if (!/Family:\s*guide-detail/i.test(priorityReview)) fail('distribution-priority-urls.txt missing guide-detail review block');
-  if (!/Family:\s*city-home/i.test(priorityReview)) fail('distribution-priority-urls.txt missing city-home review block');
+  if (isPi) {
+    if (!/Family:\s*state-home/i.test(priorityReview)) fail('distribution-priority-urls.txt missing state-home review block');
+  } else if (!/Family:\s*city-home/i.test(priorityReview)) fail('distribution-priority-urls.txt missing city-home review block');
 
   const checklist = readText(path.join(dist, 'distribution-checklist.txt'));
   if (!/indexnow-priority\.txt/i.test(checklist) || !/sitemap-fresh\.xml/i.test(checklist)) {

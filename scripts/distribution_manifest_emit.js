@@ -17,7 +17,7 @@ function xmlLocs(text) {
 function bucketLinkCount(pageFamily) {
   if (['home','guides-hub'].includes(pageFamily)) return 'very-high';
   if (['guide-detail','city-home'].includes(pageFamily)) return 'high';
-  if (['state','state-next-steps'].includes(pageFamily)) return 'medium';
+  if (['state','state-home','state-next-steps','state-hub'].includes(pageFamily)) return 'medium';
   return 'low';
 }
 function freshnessClass(updatedAt) {
@@ -69,7 +69,7 @@ function run() {
       priority: Number(p.priority || 0),
       updatedAt: p.updatedAt || '',
       freshnessClass: freshnessClass(p.updatedAt),
-      priorityTier: ['home','guides-hub'].includes(pageFamily) ? 'tier-1' : ['guide-detail','city-home'].includes(pageFamily) ? 'tier-2' : ['state','state-next-steps'].includes(pageFamily) ? 'tier-3' : 'tier-4',
+      priorityTier: ['home','guides-hub'].includes(pageFamily) ? 'tier-1' : ['guide-detail','city-home'].includes(pageFamily) ? 'tier-2' : ['state','state-home','state-next-steps','state-hub'].includes(pageFamily) ? 'tier-3' : 'tier-4',
       sitemapFiles: sitemaps,
       inSitemap: sitemaps.length > 0,
       inFreshSitemap: sitemaps.includes('sitemap-fresh.xml'),
@@ -95,7 +95,7 @@ function run() {
     inLlmsGuides: records.filter(r => r.inLlmsGuides).length,
   };
 
-  const focusFamilies = ['home','guides-hub','guide-detail','city-home'];
+  const focusFamilies = String(readJson(path.join(dist, 'citation-manifest.json'), {}).site || '').includes('theaccidentguides.com') ? ['home','guides-hub','guide-detail','state-home'] : ['home','guides-hub','guide-detail','city-home'];
   const focus = {};
   for (const fam of focusFamilies) {
     const famRecords = records.filter(r => r.pageFamily === fam);
@@ -110,7 +110,7 @@ function run() {
   }
 
   const underexposed = records
-    .filter(r => ['home','guides-hub','guide-detail','city-home'].includes(r.pageFamily))
+    .filter(r => ['home','guides-hub','guide-detail','city-home','state-home'].includes(r.pageFamily))
     .filter(r => !(r.inSitemap && (r.inIndexNowPriority || r.inIndexNowBatch) && (r.inLlms || r.inLlmsFull || r.inLlmsGuides)))
     .slice(0, 40)
     .map(r => ({ url: r.url, pageFamily: r.pageFamily, route: r.route }));

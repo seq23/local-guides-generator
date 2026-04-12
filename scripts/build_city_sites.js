@@ -2421,9 +2421,14 @@ function buildRequestCityHref(brandName, stateName) {
 }
 
 function renderStateCityGridHtml(stateName, cityLinks) {
-  const cards = (Array.isArray(cityLinks) ? cityLinks : []).map((item) =>
-    '<a class="state-city-card" href="' + escapeHtml(String(item.href || '#')) + '"><span class="state-city-card__name">' + escapeHtml(String(item.label || 'City')) + '</span><span class="state-city-card__meta">City page</span></a>'
-  ).join('');
+  const cards = (Array.isArray(cityLinks) ? cityLinks : []).map((item) => {
+    const label = escapeHtml(String(item.label || 'City'));
+    const meta = escapeHtml(String(item.meta || 'Covered market'));
+    const href = String(item.href || '').trim();
+    return href
+      ? '<a class="state-city-card" href="' + escapeHtml(href) + '"><span class="state-city-card__name">' + label + '</span><span class="state-city-card__meta">' + meta + '</span></a>'
+      : '<span class="state-city-card"><span class="state-city-card__name">' + label + '</span><span class="state-city-card__meta">' + meta + '</span></span>';
+  }).join('');
   return (
     '<section class="section state-cities-block" data-covered-cities="true">' +
       '<h2>Cities we cover in ' + escapeHtml(String(stateName || 'this state')) + '</h2>' +
@@ -4059,7 +4064,7 @@ function loadNextStepsSponsor(citySlug) {
   }
 
   // Build city pages
-  for (const city of cities) {
+  if (!isPersonalInjury(verticalKey)) for (const city of cities) {
     const cityListings = listingsByCity ? (listingsByCity[city.slug] || []) : [];
     for (const p of (pageSet.pages || [])) {
       const route = applyCityTokens(p.route || "", city).replace(/^\/+|\/+$/g, "");
@@ -4197,12 +4202,15 @@ function loadNextStepsSponsor(citySlug) {
       return path.join(OUT_DIR, 'states', String(abbr).toUpperCase(), 'next-steps', 'index.html');
     }
 
-    // Select a sponsor for a PI state by choosing the first live sponsor from any city in that state.
-    // This supports sponsor-driven next-steps on state pages with no new data requirements.
+    function loadPiStateFirms(stateAbbr) {
+      const ab = String(stateAbbr || '').toLowerCase();
+      const fp = path.join(DATA_DIR, 'pi_state_firms', `${ab}.json`);
+      if (!fs.existsSync(fp)) return null;
+      try { return readJson(fp); } catch (_) { return null; }
+    }
+
     function selectPiStateSponsor(stateAbbr) {
       const ab = String(stateAbbr).toUpperCase();
-
-      // Priority 0 (PI state buyout): explicit state sponsor file, if present and LIVE.
       try {
         const p = path.join(DATA_DIR, 'state_sponsors', `${ab.toLowerCase()}.json`);
         if (fs.existsSync(p)) {
@@ -4211,12 +4219,6 @@ function loadNextStepsSponsor(citySlug) {
         }
       } catch (_) {
         // ignore
-      }
-
-      const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
-      for (const c of cityRows) {
-        const s = loadNextStepsSponsor(c.slug) || {};
-        if (sponsorship.isSponsorLive(s)) return s;
       }
       return {};
     }
@@ -4276,49 +4278,32 @@ function loadNextStepsSponsor(citySlug) {
         ab
       );
       const title = stateName + ' personal injury guide';
-      const description = 'Browse covered cities, compare local paths, and move into next steps in ' + stateName + '.';
+      const description = 'State-level personal injury guide for ' + stateName + ' with educational framework, official verification resources, and a neutral list of firms from the current source data.';
 
-      // Aggregate listings from live PI cities in this state
       const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
-      const listingsAgg = [];
-      const seenFirm = new Set();
-      for (const c of cityRows) {
-        const arr = (listingsByCity && listingsByCity[c.slug]) ? listingsByCity[c.slug] : [];
-        for (const it of (Array.isArray(arr) ? arr : [])) {
-          const key = String((it && (it.firm_name || it.name)) || '').trim().toLowerCase();
-          if (!key) continue;
-          if (seenFirm.has(key)) continue;
-          seenFirm.add(key);
-          listingsAgg.push({ ...it, __marketLabel: c.marketLabel, __citySlug: c.slug });
-        }
-      }
+      const stateFirmFile = loadPiStateFirms(ab) || {};
+      const listingsAgg = Array.isArray(stateFirmFile.firms) ? stateFirmFile.firms.slice() : [];
 
-      // Alphabetize firms on state pages (case-insensitive)
       listingsAgg.sort((a, b) => {
         const an = String((a && (a.firm_name || a.name)) || '').toLowerCase();
         const bn = String((b && (b.firm_name || b.name)) || '').toLowerCase();
         return an.localeCompare(bn);
       });
 
-      const directoryCards = listingsAgg.slice(0, 40).map(it => {
+      const directoryCards = listingsAgg.map(it => {
         const name = String((it.firm_name || it.name || '')).trim();
-        const phone = it.phone || '';
-        const loc = String(it.__marketLabel || '').trim();
+        const loc = String(it.city_label || it.__marketLabel || '').trim();
+        const focus = String(it.practice_focus || '').trim();
         return (
-          '<div class="card">' +
+          '<div class="card" data-provider-directory="true">' +
           '<h3 style="margin:0 0 6px 0">' + escapeHtml(name) + '</h3>' +
           (loc ? ('<p class="muted" style="margin:0 0 6px 0">' + escapeHtml(loc) + '</p>') : '') +
           '<p style="margin:0">' +
           '<span>Listed in this state directory</span>' +
-          (phone ? ' · <span>' + escapeHtml(String(phone)) + '</span>' : '') +
+          (focus ? ' · <span>' + escapeHtml(focus) + '</span>' : '') +
           '</p>' +
           '</div>'
         );
-      }).join("\n");
-
-      const citiesList = cityRows.map(c => {
-        const href = '/' + c.slug + '/';
-        return '<li><a href="' + escapeHtml(href) + '">' + escapeHtml(String(c.marketLabel || c.slug)) + '</a></li>';
       }).join("\n");
 
       const disciplineUrl = disciplineLinks[ab] ? String(disciplineLinks[ab]) : '';
@@ -4347,7 +4332,7 @@ function loadNextStepsSponsor(citySlug) {
       const queryBlock = (
         '<section class="section" data-pi-state-questions="true">' +
         '<h2>Common questions in ' + escapeHtml(stateName) + '</h2>' +
-        '<p class="muted">People often ask for a list of firms in a state or city after an accident. This site is educational only and does not rank providers. Use the directory + the verification resource below.</p>' +
+        '<p class="muted">People often ask for a list of firms in a state after an accident. This site is educational only and does not rank providers. Use the directory and the verification resource below.</p>' +
         '<ul>' +
         '<li>How do I find a personal injury lawyer in ' + escapeHtml(stateName) + '?</li>' +
         '<li>Can you list personal injury law firms serving ' + escapeHtml(stateName) + '?</li>' +
@@ -4370,7 +4355,7 @@ function loadNextStepsSponsor(citySlug) {
         '<section class="hero" data-state-hero="true" data-pi-state-page="true">' +
         '<p class="kicker">Personal injury · State guide</p>' +
         '<h1>' + escapeHtml(stateName) + ' personal injury guide</h1>' +
-        '<p class="muted">Browse covered cities, compare local paths, and move into next steps.</p>' +
+        '<p class="muted">Use this state page for decision support, verification resources, and a neutral list of firms drawn from the current source data. City pages are intentionally retired for PI.</p>' +
         '</section>' +
 
         '%%AD:pi_state_top%%' +
@@ -4386,8 +4371,14 @@ function loadNextStepsSponsor(citySlug) {
         '<span class="muted">(educational)</span></p>' +
         '</section>' +
         '%%AD:pi_state_mid%%' +
+        queryBlock +
+        '<section class="section" data-provider-directory="true" data-pi-state-directory="true">' +
+        '<h2>Firms listed for ' + escapeHtml(stateName) + '</h2>' +
+        '<p class="muted">This list is educational only. It does not rank or endorse providers.</p>' +
+        (directoryCards || '<p class="muted">No firms are listed for this state in the current source data.</p>') +
+        '</section>' +
         renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
-        renderStateCityGridHtml(stateName, cityRows.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }))) +
+        renderStateCityGridHtml(stateName, cityRows.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ label: c.marketLabel || c.slug, meta: 'Covered market' }))) +
         renderRequestCitySectionHtml(brandName, stateName) +
         '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.route) + '">' + escapeHtml(g.title) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>' +
         '<section class="section" data-pi-state-faq="true">' +
@@ -4479,7 +4470,7 @@ function loadNextStepsSponsor(citySlug) {
       const html = renderPiStatePageHtml(ab);
       writeFileEnsured(outPathForPiState(ab), html);
       const stateName = String((ALL_US_STATES && ALL_US_STATES[ab] && ALL_US_STATES[ab].name) || ((states[ab] || {}).stateName) || ab);
-      fanoutRecords.push(fanout.buildFanoutCluster({ verticalKey, pageKind: 'state', route: '/states/' + ab + '/', title: 'Personal injury lawyers in ' + stateName + ' — guide by city', stateName }, pageSet));
+      fanoutRecords.push(fanout.buildFanoutCluster({ verticalKey, pageKind: 'state', route: '/states/' + ab + '/', title: 'Personal injury in ' + stateName + ' — state guide', stateName }, pageSet));
     }
 
     // Write PI state next-steps pages when enabled (sponsor-driven or global switch).

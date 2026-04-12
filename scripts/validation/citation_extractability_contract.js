@@ -19,8 +19,13 @@ function classify(rel) {
   return 'other';
 }
 
+function readSite(repoRoot) { try { return JSON.parse(fs.readFileSync(path.join(repoRoot, 'data', 'site.json'), 'utf8')); } catch { return {}; } }
+
 function run() {
-  const distDir = path.join(__dirname, '..', '..', 'dist');
+  const repoRoot = path.join(__dirname, '..', '..');
+  const site = readSite(repoRoot);
+  const isPi = /(^|\/)pi_v1\.json$/i.test(String(site.pageSetFile || ''));
+  const distDir = path.join(repoRoot, 'dist');
   if (!fs.existsSync(distDir)) return;
 
   const failures = [];
@@ -77,7 +82,7 @@ function run() {
   }
 
   if (guideCount === 0) failures.push('No guide-detail pages found in dist for extractability contract');
-  if (cityCount === 0) failures.push('No city-home pages found in dist for extractability contract');
+  if (cityCount === 0 && !isPi) failures.push('No city-home pages found in dist for extractability contract');
   if (!guidesHubChecked) failures.push('No guides hub found in dist for extractability contract');
 
   if (failures.length) {

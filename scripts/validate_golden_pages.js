@@ -149,10 +149,13 @@ function validateOneGuideSample() {
 }
 
 function validatePIStateSampleIfPresent() {
-  const tx = path.join(distRoot, 'states', 'tx', 'index.html');
+  const tx = path.join(distRoot, 'states', 'TX', 'index.html');
   if (!fs.existsSync(tx)) return;
   const html = fs.readFileSync(tx, 'utf8');
-  validateStateHasTopMid(html, 'state (tx)');
+  validateStateHasTopMid(html, 'state (TX)');
+  mustContain(html, 'data-pi-state-page="true"', 'state (TX)');
+  mustContain(html, 'data-covered-cities="true"', 'state (TX)');
+  mustContain(html, 'data-disciplinary-lookup="true"', 'state (TX)');
 }
 
 function validateCity(citySlug, verticalKey, pageSet) {
@@ -208,13 +211,20 @@ function main() {
   const pageSet = readPageSet(site.pageSetFile || '');
 
   // starter_v1 is TRAINING ONLY; do not block publishing (validate_tbs exits early).
-  for (const city of GOLDEN_CITIES) validateCity(city, verticalKey, pageSet);
+  if (isPI(verticalKey)) {
+    for (const city of GOLDEN_CITIES) {
+      const fp = path.join(distRoot, city, 'index.html');
+      if (fs.existsSync(fp)) fail(`PI city page should not exist after state-only migration: dist/${city}/index.html`);
+    }
+  } else {
+    for (const city of GOLDEN_CITIES) validateCity(city, verticalKey, pageSet);
+  }
 
   // Additional monetization contract checks (sales parity):
   // - At least one guide page must have exactly Top + Bottom (no Mid).
-  // - If a PI state sample exists, it must have exactly Top + Mid (no Bottom).
+  // - For PI only, a state sample must have exactly Top + Mid (no Bottom).
   validateOneGuideSample();
-  validatePIStateSampleIfPresent();
+  if (isPI(verticalKey)) validatePIStateSampleIfPresent();
 
   console.log('✅ GOLDEN CONTRACT PASS');
 }

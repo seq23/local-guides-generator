@@ -56,7 +56,7 @@ function classify(route, pageFamily) {
   if (family === 'guides-hub') return 'guides';
   if (family === 'guide-detail' || family === 'guide') return 'guides';
   if (family === 'city-home' || family === 'city_hub' || family === 'city') return 'cities';
-  if (family === 'pi-state' || family === 'state-surface' || family === 'state') return 'states';
+  if (family === 'pi-state' || family === 'state-surface' || family === 'state' || family === 'state-home' || family === 'state-hub') return 'states';
 
   if (route === '/' || route === '/guides/' || route === '/faq/' || route === '/request-assistance/' || route === '/next-steps/') return 'core';
   if (/^\/guides\/.+\/$/.test(route)) return 'guides';
@@ -148,6 +148,8 @@ function buildRecord(distDir, filePath) {
 
 function run() {
   const distDir = path.join(process.cwd(), 'dist');
+  const site = readJson(path.join(process.cwd(), 'data', 'site.json')) || {};
+  const isPi = /(^|\/)pi_v1\.json$/i.test(String(site.pageSetFile || ''));
   if (!fs.existsSync(distDir)) {
     console.error('sitemap_emit: dist/ not found. Run a build first.');
     process.exit(1);
@@ -236,11 +238,17 @@ function run() {
     .sort(byFreshPriority)
     .slice(0, 20);
 
+  const freshStates = states
+    .filter((r) => r.pageFamily === 'state-home' || r.pageFamily === 'state')
+    .sort(byFreshPriority)
+    .slice(0, isPi ? 20 : 8);
+
   const fresh = uniqueByRoute([
     ...freshCore,
     ...freshGuidesHub,
     ...freshGuides,
     ...freshCities,
+    ...freshStates,
   ]).slice(0, 60);
 
   const outputs = {
