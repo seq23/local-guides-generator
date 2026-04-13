@@ -139,3 +139,20 @@ Do not add:
 - top 10 / best lawyer ranking language
 - ratings, outcomes, or endorsement phrasing
 - city-page routing language on PI state or homepage surfaces
+
+
+## 10) Release trust rule (important)
+
+Do not assume a clean repo or green validators means the ZIP artifact is safe.
+
+Never trust only:
+- the working tree
+- a clean build
+- green validator output in the repo root
+
+Only trust a release after:
+- the ZIP is packaged
+- the ZIP is reopened in a clean temp folder
+- `node scripts/release_guard.js --post` passes
+- `node scripts/validate_snapshot_package.js .` passes
+- `npm run audit:links` passes

@@ -114,3 +114,26 @@ Stop. Fix the failure. Do not push.
 - Do not remove `--delete` unless explicitly doing patch mode.
 - Do not let VAs run this.
 - Do not bypass validation.
+
+
+---
+
+## RELEASE PACKAGING RULE (artifact-first)
+
+When creating a new baseline ZIP for this repo, do not trust only a green working tree.
+
+Required sequence:
+
+```bash
+npm run validate:all
+npm run qa:release
+node scripts/release_guard.js --pre
+node scripts/emit_snapshot_metadata.js
+# package zip here
+# reopen zip into clean temp dir
+node scripts/release_guard.js --post
+node scripts/validate_snapshot_package.js .
+npm run audit:links
+```
+
+A baseline ZIP is not deliverable until the reopened artifact passes the post-package checks.

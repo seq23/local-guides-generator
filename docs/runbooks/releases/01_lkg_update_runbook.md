@@ -260,3 +260,46 @@ LKG_DEPLOY_ENV=production AIRTABLE_API_TOKEN=... AIRTABLE_BASE_ID=... AIRTABLE_T
 ```
 
 This prevents shipping a live request-assistance page whose backend would operate in dead mode.
+
+
+## Critical surface release guard (required before delivery)
+
+This repo now uses a **release-only** critical surface guard. It is not part of normal build loops.
+
+### Purpose
+Catch bad baseline ZIPs that silently drop critical repo surfaces even when the repo itself still looks green.
+
+### Watchlist source of truth
+- `docs/releases/CRITICAL_SURFACES.json`
+
+### Pre-package check
+Run from the repo root:
+
+```bash
+node scripts/release_guard.js --pre
+```
+
+### Emit snapshot metadata
+Before packaging, write a small release metadata file:
+
+```bash
+node scripts/emit_snapshot_metadata.js
+```
+
+### Post-package artifact verification
+After packaging, reopen the ZIP in a clean temp folder and run:
+
+```bash
+node scripts/release_guard.js --post
+node scripts/validate_snapshot_package.js .
+npm run audit:links
+```
+
+### Override rule
+If a critical surface is being removed intentionally and that removal has been explicitly approved, use:
+
+```bash
+LKG_ALLOW_CRITICAL_DELETE=1 node scripts/release_guard.js --pre
+```
+
+Do not use the override casually. Missing critical surfaces in a release ZIP are treated as a release blocker by default.

@@ -47,3 +47,18 @@ If executable validation fails:
 ## Why this exists
 
 ZIP and rsync flows can normalize file modes. This contract prevents silent breakage in operator shell helpers.
+
+
+## Artifact-first verification rule
+
+Executable-bit repair is necessary but not sufficient. Before delivering any baseline ZIP:
+
+1. validate the repo
+2. run `node scripts/release_guard.js --pre`
+3. package the ZIP
+4. reopen the ZIP in a clean temp directory
+5. run `node scripts/release_guard.js --post`
+6. run `node scripts/validate_snapshot_package.js .`
+7. run `npm run audit:links`
+
+Only the reopened artifact is trusted for final delivery.
