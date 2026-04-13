@@ -154,8 +154,13 @@ function validatePIStateSampleIfPresent() {
   const html = fs.readFileSync(tx, 'utf8');
   validateStateHasTopMid(html, 'state (TX)');
   mustContain(html, 'data-pi-state-page="true"', 'state (TX)');
-  mustContain(html, 'data-covered-cities="true"', 'state (TX)');
+  mustContain(html, 'data-pi-state-directory="true"', 'state (TX)');
   mustContain(html, 'data-disciplinary-lookup="true"', 'state (TX)');
+  mustNotContain(html, 'data-covered-cities="true"', 'state (TX)');
+  mustNotContain(html, 'data-request-city="true"', 'state (TX)');
+  mustNotContain(html, 'Cities we cover in', 'state (TX)');
+  mustNotContain(html, 'Request your city', 'state (TX)');
+  mustOrder(html, 'data-pi-state-directory="true"', 'data-disciplinary-lookup="true"', 'state (TX)');
 }
 
 function validateCity(citySlug, verticalKey, pageSet) {

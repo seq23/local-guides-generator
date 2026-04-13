@@ -18,6 +18,7 @@ Owner + VA operational runbooks for this repo.
 - [Snapshot Apply — One-Shot (Non-Interactive)](releases/SNAPSHOT_ONE_SHOT_APPLY.md)
 - [LKG Update Runbook](releases/01_lkg_update_runbook.md)
 - [Executable Bit Restore and Verification](releases/02_EXECUTABLE_BIT_RESTORE_AND_VERIFICATION.md)
+- [PI State-Only Hardening + VA QA](releases/04_PI_STATE_ONLY_HARDENING_AND_VA_QA.md)
 - **Build/validate/deploy + rollback:** `docs/runbooks/releases/`
 
 ## Manual-only fallback

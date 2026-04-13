@@ -411,7 +411,7 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
     return {
       eyebrow: 'Start here',
       heading: 'View your next steps for ' + escapeHtml(marketLabel || 'this state'),
-      body: 'Use the state-level next-steps path after you narrow into the right city and support surface.',
+      body: 'Use the state-level next-steps path after you review the statewide framework, firm list, and verification resources.',
       button: 'View Your Next Steps',
       variant: 'primary'
     };
@@ -421,7 +421,7 @@ function conversionCopyForContext(pageType, verticalKey, ctx) {
     return {
       eyebrow: 'Need help now?',
       heading: 'Get matched with a provider in ' + escapeHtml(marketLabel || 'this state'),
-      body: 'Use the callback path only after you review the city coverage, request-city option, and state support guides.',
+      body: 'Use the callback path only after you review the statewide guidance, firm list, and official verification resources.',
       button: 'Get Matched With a Provider',
       variant: 'inline'
     };
@@ -2139,14 +2139,14 @@ function renderLocalizedConclusionHtml(verticalKey, city) {
   );
 }
 
-function renderStateAuthorityBlockHtml(stateName, cityCount) {
+function renderStateAuthorityBlockHtml(stateName) {
   return (
     '<section class="state-authority-block" data-state-authority-block="true" data-state-authority-strength="true">' +
       '<h2>How to use this state page well</h2>' +
-      '<p data-state-authority-direct="true"><strong>Direct answer:</strong> A state page should help you understand what stays constant across the state and which questions still need a city-level page.</p>' +
-      '<p data-state-authority-dominance="true">This page is strongest when you use it as a synthesis layer: statewide verification, statewide rules-of-thumb, and clean routing into ' + escapeHtml(String(cityCount || 0)) + ' city hubs where local comparison starts to matter.</p>' +
-      '<p data-state-authority-tradeoff="true"><strong>Common mistake:</strong> Treating a state page like a ranking page instead of a routing and verification page.</p>' +
-      '<p data-state-authority-use="true"><strong>Use this page for:</strong> statewide boundaries, official resources, and deciding which city page or guide should come next.</p>' +
+      '<p data-state-authority-direct="true"><strong>Direct answer:</strong> A PI state page should help you understand what stays constant across ' + escapeHtml(String(stateName || 'this state')) + ' before you contact any firm.</p>' +
+      '<p data-state-authority-dominance="true">This page is strongest when you use it as a statewide decision layer: verification, fee questions, evidence timing, and a neutral state firm list in one place.</p>' +
+      '<p data-state-authority-tradeoff="true"><strong>Common mistake:</strong> Treating a state page like a ranking page instead of a statewide decision and verification page.</p>' +
+      '<p data-state-authority-use="true"><strong>Use this page for:</strong> statewide boundaries, official resources, discipline checks, and calmer side-by-side firm comparison.</p>' +
     '</section>'
   );
 }
@@ -2341,7 +2341,7 @@ function defaultProviderAttributes(verticalKey, subKey, provider, city) {
   const vk = String(verticalKey || '').toLowerCase();
   const sk = String(subKey || '').toLowerCase();
   if (vk === 'pi') {
-    attrs.push('Use the city page to compare fit, fees, and case handling');
+    attrs.push('Use the state guide to compare fit, fees, and case handling');
     attrs.push('Verify license and disciplinary history before you contact any firm');
   } else if (vk === 'dentistry') {
     attrs.push('Compare treatment scope, written plan clarity, and follow-up expectations');
@@ -2448,19 +2448,45 @@ function renderRequestCitySectionHtml(brandName, stateName) {
   );
 }
 
+function assertNoLegacyPiSurfaceCopy(html, contextLabel) {
+  const raw = String(html || '');
+  const checks = [
+    { re: /data-covered-cities=\"true\"/i, label: 'legacy covered-cities block marker' },
+    { re: /data-request-city=\"true\"/i, label: 'legacy request-city block marker' },
+    { re: /Cities we cover in/i, label: 'legacy cities-we-cover copy' },
+    { re: /Don[’']t see your city yet\?/i, label: 'legacy request-city helper copy' },
+    { re: /Request your city/i, label: 'legacy request-city CTA copy' },
+    { re: /city-by-city routing/i, label: 'legacy city-by-city routing copy' },
+    { re: /state or city page/i, label: 'legacy state-or-city copy' },
+    { re: /narrow into the right city/i, label: 'legacy narrow-into-city copy' }
+  ];
+  const hits = checks.filter((item) => item.re.test(raw)).map((item) => item.label);
+  if (hits.length) {
+    throw new Error('PI SURFACE LEGACY COPY FAIL (' + String(contextLabel || 'unknown') + '): ' + hits.join(', '));
+  }
+  return raw;
+}
+
 function collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName) {
   const vk = String(verticalKey || '').toLowerCase();
   const cities = loadCities(pageSet, verticalKey).slice(0, 12);
   const cards = [];
   if (vk === 'pi') {
-    for (const city of cities) {
-      const listingPath = path.join(DATA_DIR, 'listings', city.slug + '.json');
-      if (!fs.existsSync(listingPath)) continue;
-      const raw = readJson(listingPath);
-      const listings = Array.isArray(raw) ? raw : (Array.isArray(raw.listings) ? raw.listings : []);
-      for (const item of listings) {
-        if (!item || !item.name) continue;
-        cards.push(normalizeProviderCard(verticalKey, '', { name: item.name, category: 'Personal injury law firm', city: city.city, state: city.state, attributes: ['City directory example', 'Use the city page to compare case fit and fee clarity'] }, city, ''));
+    const seen = new Set();
+    const allStates = readJson(path.join(DATA_DIR, 'us_states.json')) || {};
+    const stateEntries = Object.entries(allStates).slice(0, 12);
+    for (const [stateCode] of stateEntries) {
+      const ab = String(stateCode || '').toUpperCase();
+      if (!ab) continue;
+      const fp = path.join(DATA_DIR, 'pi_state_firms', `${ab.toLowerCase()}.json`);
+      if (!fs.existsSync(fp)) continue;
+      const raw = readJson(fp) || {};
+      const firms = Array.isArray(raw.firms) ? raw.firms : [];
+      for (const item of firms) {
+        const name = String((item && (item.firm_name || item.name)) || '').trim();
+        if (!name || seen.has(name.toLowerCase())) continue;
+        seen.add(name.toLowerCase());
+        cards.push(normalizeProviderCard(verticalKey, '', { name, category: 'Personal injury law firm', city: item.city_label || '', state: ab, attributes: ['State directory example', 'Use the state guide to compare case fit and fee clarity'] }, { city: item.city_label || '', state: ab }, ''));
         if (cards.length >= 4) break;
       }
       if (cards.length >= 4) break;
@@ -2481,7 +2507,7 @@ function collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName) {
     }
   }
   const leadMap = {
-    pi: 'These are neutral, non-ranked examples of local firms to make the homepage feel grounded before you narrow into a state or city page.',
+    pi: 'These are neutral, non-ranked examples of firms so the homepage feels grounded before you compare the state guide and verification resources.',
     dentistry: 'These are neutral, non-ranked examples of dental providers so the homepage feels concrete before you narrow into a state or city page.',
     neuro: 'These are neutral, non-ranked examples of evaluation providers so the homepage feels concrete before you narrow into a state or city page.',
     trt: 'These are neutral, non-ranked examples of clinics and providers so the homepage feels concrete before you narrow into a state or city page.',
@@ -2490,7 +2516,7 @@ function collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName) {
   if (!cards.length) return '';
   return renderStructuredProviderCardsSectionHtml({
     heading: 'Examples of providers',
-    lead: leadMap[vk] || 'These are neutral, non-ranked examples to ground the page before you narrow into a state or city page.',
+    lead: leadMap[vk] || 'These are neutral, non-ranked examples to ground the page before you narrow into the right educational surface.',
     cards,
     preview: true,
     verifyUrl: ''
@@ -2562,10 +2588,10 @@ function reorderMainSections(html, mode) {
       take(b => /data-state-authority-block="true"/.test(b)),
       ...takeAll(b => /data-guides-micro="true"/.test(b) || /data-start-here="true"/.test(b)),
       ...takeAll(b => /data-sponsored-placement="mid"/.test(b)),
-      ...takeAll(b => /data-covered-cities="true"/.test(b)),
-      take(b => /data-request-city="true"/.test(b)),
+      take(b => /data-pi-state-directory="true"/.test(b)),
+      take(b => /data-disciplinary-lookup="true"/.test(b)),
       take(b => /state-guides-support/.test(b)),
-      ...takeAll(b => /data-pi-state-faq="true"/.test(b) || /data-disciplinary-lookup="true"/.test(b)),
+      ...takeAll(b => /data-pi-state-faq="true"/.test(b)),
       ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b)),
       take(b => /data-inline-conversion-cta="true"/.test(b)),
       ...rest()
@@ -3581,7 +3607,7 @@ function renderInternalDistributionZoneHtml(opts) {
     'home': 'Use these owned routes first when you want the clearest path into guides, next steps, and local markets.',
     'guides-hub': 'Use these guide routes first when the question is still broad but not purely local.',
     'city-home': 'Use this lighter routing block only after the main framework and next-steps CTA.',
-    'state-home': 'Use this state page as a routing layer into city hubs, core guides, and official verification paths.'
+    'state-home': 'Use this state page for statewide decision support, core guides, and official verification paths.'
   };
   const priorityPrimary = primaryLinks.length ? primaryLinks : guideLinks;
 
@@ -3722,8 +3748,8 @@ function renderCitationSummaryZoneHtml(opts) {
     return (
       '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="state-home">' +
       '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> works best when the question is still broad and you need to narrow it into the right city page, guide, or statewide verification step.</p>' +
-      '<p class="answer-when">Use the state layer to see which cities are covered, what official resources matter, and which local page should come next.</p>' +
+      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> works best when you need one statewide decision layer: what to verify, what to compare, and which firms to review before you contact anyone.</p>' +
+      '<p class="answer-when">Use the state layer to compare firms, check official resources, and move through the decision in one place without opening local city pages.</p>' +
       '<p class="answer-boundary">This page is educational and is designed to help you understand the statewide decision before you choose what to do next.</p>' +
       '</section>'
     );
@@ -4360,7 +4386,7 @@ function loadNextStepsSponsor(citySlug) {
 
         '%%AD:pi_state_top%%' +
 
-        renderStateAuthorityBlockHtml(stateName, cityRows.length) +
+        renderStateAuthorityBlockHtml(stateName) +
 
         '<section class="section micro-guides" data-guides-micro="true">' +
         '<p><strong>Start here:</strong> ' +
@@ -4377,20 +4403,17 @@ function loadNextStepsSponsor(citySlug) {
         '<p class="muted">This list is educational only. It does not rank or endorse providers.</p>' +
         (directoryCards || '<p class="muted">No firms are listed for this state in the current source data.</p>') +
         '</section>' +
+        '<section class="section" data-disciplinary-lookup="true">' +
+        '<h2>Attorney discipline & license lookup</h2>' +
+        '<p class="muted">If you are checking a license or disciplinary history, use the official state resource:</p>' +
+        (disciplineUrl ? ('<p><a href="' + escapeHtml(disciplineUrl) + '" rel="nofollow">Open official ' + escapeHtml(stateName) + ' lookup</a></p>') : '<p class="muted">(Missing link — pack config required.)</p>') +
+        '</section>' +
         renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
-        renderStateCityGridHtml(stateName, cityRows.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ label: c.marketLabel || c.slug, meta: 'Covered market' }))) +
-        renderRequestCitySectionHtml(brandName, stateName) +
         '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.route) + '">' + escapeHtml(g.title) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>' +
         '<section class="section" data-pi-state-faq="true">' +
         '<h2>FAQs</h2>' +
         '<p class="muted">This is a quick explainer layer. It is not legal advice. We do not rank providers.</p>' +
         stateFaqAccordion +
-        '</section>' +
-
-        '<section class="section" data-disciplinary-lookup="true">' +
-        '<h2>Attorney discipline & license lookup</h2>' +
-        '<p class="muted">If you are checking a license or disciplinary history, use the official state resource:</p>' +
-        (disciplineUrl ? ('<p><a href="' + escapeHtml(disciplineUrl) + '" rel="nofollow">Open official ' + escapeHtml(stateName) + ' lookup</a></p>') : '<p class="muted">(Missing link — pack config required.)</p>') +
         '</section>'
       );
 
@@ -4413,7 +4436,7 @@ function loadNextStepsSponsor(citySlug) {
         buildIso: BUILD_ISO,
         guideLinks: selectPriorityGuideSummaries(globalPagesDir, 3).map((g) => ({ href: g.route, label: g.title, description: g.description })),
         primaryLinks: [{ href: '/states/' + ab + '/', label: stateName }].concat(selectPriorityGuideSummaries(globalPagesDir, 2).map((g) => ({ href: g.route, label: g.title, description: g.description }))),
-        cityLinks: cityRows.slice(0, 4).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug, description: 'City PI hub in ' + stateName }))
+        cityLinks: []
       }));
 
       // Next-steps on PI state pages:
@@ -4461,6 +4484,7 @@ function loadNextStepsSponsor(citySlug) {
         stateAbbr: ab
       });
       mapped = reorderMainSections(mapped, 'state');
+      mapped = assertNoLegacyPiSurfaceCopy(mapped, 'state:' + ab);
       return mapped;
     }
 

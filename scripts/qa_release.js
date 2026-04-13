@@ -22,4 +22,8 @@ run('npm run validate:pi:containment');
 run('npm run audit:links');
 run('npm run audit:buyouts');
 run('npm run smoke:buyouts');
+run('npm run audit:pi:click');
+if (process.env.ARTIFACT_ZIP) {
+  run(`node scripts/validate_packaged_zip.js "${process.env.ARTIFACT_ZIP}"`);
+}
 console.log('\n✅ RELEASE QA PASS');

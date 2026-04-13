@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
+const site = require(path.join(__dirname, '..', '..', 'data', 'site.json'));
 
 function fail(msg) {
   console.error('HOMEPAGE SURFACE CONTRACT FAIL\n' + msg);
@@ -27,8 +28,14 @@ function run() {
   if (heroIdx !== -1 && primaryIdx !== -1 && primaryIdx < heroIdx) bad.push('primary CTA appears before hero');
   if (heroIdx !== -1 && shortIdx !== -1 && shortIdx < heroIdx) bad.push('short answer appears before hero');
   if (/data-branded-links="true"/i.test(html)) bad.push('legacy branded link strip still present');
+  const pageSetFile = String((site && site.pageSetFile) || '').toLowerCase();
   const directCity = html.match(/href="\/(?!states\/|guides\/|faq\/|methodology\/|next-steps\/|request-assistance\/|contact\/|disclaimer\/|editorial-policy\/|privacy\/|for-providers\/|personal-injury\/)([a-z0-9-]+)\/"/gi) || [];
   if (directCity.length > 0) bad.push('homepage still contains direct city links');
+  if (pageSetFile.includes('/pi_v1.json')) {
+    if (/state or city page/i.test(html)) bad.push('PI homepage still contains state-or-city copy');
+    if (/city-by-city/i.test(html)) bad.push('PI homepage still contains city-by-city copy');
+    if (/Request your city/i.test(html)) bad.push('PI homepage still contains request-city CTA copy');
+  }
   if (bad.length) fail(bad.join('\n'));
   console.log('✅ homepage surface contract pass');
 }
