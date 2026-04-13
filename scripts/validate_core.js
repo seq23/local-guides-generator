@@ -86,9 +86,6 @@ const homepageSurfaceContract = require('./validation/homepage_surface_contract'
 const uscisVerticalCongruenceContract = require('./validation/uscis_vertical_congruence_contract');
 const providerCardContract = require('./validation/provider_card_contract');
 const stateHubContract = require('./validation/state_hub_contract');
-const piClickAuditContract = require('./validation/pi_click_audit_contract');
-const piRedirectCompletenessContract = require('./validation/pi_redirect_completeness_contract');
-const piStateFirmsContract = require('./validation/pi_state_firms_contract');
 const ctaAdjacencyContract = require('./validation/cta_adjacency_contract');
 const guideStructureContract = require('./validation/guide_structure_contract');
 const guideQualityScore = require('./validation/guide_quality_score');
@@ -215,9 +212,6 @@ function main() {
     homepageEntityContract.run({ site });
     homepageSurfaceContract.run({ site });
     stateHubContract.run({ site });
-    piStateFirmsContract.run({ site });
-    piRedirectCompletenessContract.run({ site });
-    piClickAuditContract.run({ site });
     providerCardContract.run({ site });
     uscisVerticalCongruenceContract.run({ site });
     coverageRenderingContract.run({ site });

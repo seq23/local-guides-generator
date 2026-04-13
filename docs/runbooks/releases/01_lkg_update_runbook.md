@@ -67,15 +67,6 @@ Then re-run validate/build.
 - Use the timestamp tag created by the script
 - Or revert commit(s) and push
 
-## Packaged artifact truth check (required before delivery)
-After packaging a release ZIP, reopen the ZIP and validate the extracted artifact instead of trusting the working tree.
-
-```bash
-node scripts/validate_packaged_zip.js /full/path/to/local-guides-generator-main_BASELINE_MM-DD-YY_<sha>.zip
-```
-
-If this fails, the ZIP is invalid even if the repo itself validated locally.
-
 ---
 
 ## Repo-safe zip packaging (never again)

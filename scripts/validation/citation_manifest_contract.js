@@ -19,13 +19,8 @@ function checkHtmlContains(distDir, relPath, snippet, failures) {
   if (!html.includes(snippet)) failures.push(`${relPath}: missing ${snippet}`);
 }
 
-function readSite(repoRoot) { try { return JSON.parse(fs.readFileSync(path.join(repoRoot, 'data', 'site.json'), 'utf8')); } catch { return {}; } }
-
 function run() {
-  const repoRoot = path.join(__dirname, '..', '..');
-  const site = readSite(repoRoot);
-  const isPi = /(^|\/)pi_v1\.json$/i.test(String(site.pageSetFile || ''));
-  const distDir = path.join(repoRoot, 'dist');
+  const distDir = path.join(__dirname, '..', '..', 'dist');
   if (!fs.existsSync(distDir)) return;
 
   const failures = [];
@@ -44,7 +39,7 @@ function run() {
   const pages = manifest && Array.isArray(manifest.pages) ? manifest.pages : [];
   if (pages.length < 10) failures.push('citation-manifest.json: too few pages indexed');
 
-  const requiredFamilies = isPi ? ['guide-detail', 'guides-hub', 'home', 'state-home'] : ['guide-detail', 'city-home', 'guides-hub', 'home'];
+  const requiredFamilies = ['guide-detail', 'city-home', 'guides-hub', 'home'];
   for (const family of requiredFamilies) {
     if (!sampleHas(pages, (p) => p && p.pageFamily === family)) failures.push(`citation-manifest.json: missing page family ${family}`);
   }
@@ -59,11 +54,7 @@ function run() {
   const priorityText = fs.readFileSync(priorityPath, 'utf8');
   if (!priorityText.includes('# citation-priority.txt')) failures.push('citation-priority.txt: missing header');
   if (!priorityText.includes('Family: guide-detail')) failures.push('citation-priority.txt: missing guide-detail entries');
-  if (isPi) {
-    if (!priorityText.includes('Family: state-home')) failures.push('citation-priority.txt: missing state-home entries');
-  } else {
-    if (!priorityText.includes('Family: city-home')) failures.push('citation-priority.txt: missing city-home entries');
-  }
+  if (!priorityText.includes('Family: city-home')) failures.push('citation-priority.txt: missing city-home entries');
 
   const ndjsonLines = fs.readFileSync(corpusPath, 'utf8').trim().split(/\n+/).filter(Boolean);
   if (ndjsonLines.length < pages.length) failures.push('citation-corpus.jsonl: fewer rows than manifest pages');

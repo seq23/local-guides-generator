@@ -21,7 +21,13 @@ function scanTextFiles(rootDir, patterns, opts = {}) {
         walk(p);
       } else if (entry.isFile()) {
         const rel = path.relative(process.cwd(), p);
-        const txt = fs.readFileSync(p, 'utf8');
+        let txt = '';
+        try {
+          txt = fs.readFileSync(p, 'utf8');
+        } catch (err) {
+          if (err && err.code === 'ENOENT') continue;
+          throw err;
+        }
         for (const rx of patterns) {
           if (rx.test(txt)) {
             hits.push(rel);

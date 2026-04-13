@@ -40,10 +40,6 @@ function run() {
 
   const cityPages = listCityPages(repoRoot, path.join(repoRoot, 'dist'));
   if (!cityPages.length) {
-    if (verticalKey === 'pi') {
-      console.log('✅ CITY DECISION SUPPORT PASS (pi state-only: no city pages expected)');
-      return;
-    }
     console.error('CITY DECISION SUPPORT FAIL');
     console.error(' - no city pages found in dist');
     process.exit(1);

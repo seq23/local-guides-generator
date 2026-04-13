@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
-const site = require(path.join(__dirname, '..', '..', 'data', 'site.json'));
 
 function walk(dir, acc) {
   for (const name of fs.readdirSync(dir)) {
@@ -12,16 +11,22 @@ function walk(dir, acc) {
   }
 }
 
+function activePageSetIsPi() {
+  try {
+    const site = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'site.json'), 'utf8'));
+    return /pi_v1\.json$/i.test(String(site.pageSetFile || ''));
+  } catch (_) {
+    return false;
+  }
+}
+
 function run() {
-  const pageSetFile = String((site && site.pageSetFile) || '').toLowerCase();
-  if (!pageSetFile.includes('/pi_v1.json')) {
+  if (!activePageSetIsPi()) {
     console.log('ℹ️ state hub contract skip (non-PI pack)');
     return;
   }
   const statesDir = path.join(process.cwd(), 'dist', 'states');
-  if (!fs.existsSync(statesDir)) {
-    throw new Error('STATE HUB CONTRACT FAIL\nmissing dist/states directory');
-  }
+  if (!fs.existsSync(statesDir)) throw new Error('STATE HUB CONTRACT FAIL\nmissing dist/states directory');
   const files = [];
   walk(statesDir, files);
   const bad = [];
@@ -29,22 +34,30 @@ function run() {
     const rel = path.relative(path.join(process.cwd(), 'dist'), fp).replace(/\\/g, '/');
     if (/\/next-steps\/index\.html$/i.test(rel)) return;
     const html = fs.readFileSync(fp, 'utf8');
-    if (!html.includes('data-pi-state-page="true"')) return;
-    if (html.includes('data-covered-cities="true"')) bad.push(rel + ': unexpected covered cities block');
-    if (html.includes('data-request-city="true"')) bad.push(rel + ': unexpected request city block');
-    if (/Cities we cover in/i.test(html)) bad.push(rel + ': stale cities-we-cover copy present');
-    if (/Don[’']t see your city yet\?/i.test(html)) bad.push(rel + ': stale request-city copy present');
-    if (/Request your city/i.test(html)) bad.push(rel + ': stale request-city CTA present');
-    if (/narrow into the right city/i.test(html)) bad.push(rel + ': stale next-steps city copy present');
-    if (/city-by-city routing/i.test(html)) bad.push(rel + ': stale state summary city-routing copy present');
-    if (/state or city page/i.test(html)) bad.push(rel + ': stale homepage-style city-page copy present');
-    const directCityLinks = html.match(/href="\/(?!states\/|guides\/|faq\/|methodology\/|next-steps\/|request-assistance\/|contact\/|disclaimer\/|editorial-policy\/|privacy\/|for-providers\/|personal-injury\/)([a-z0-9-]+)\/"/gi) || [];
-    if (directCityLinks.length) bad.push(rel + ': direct city links still present on PI state page');
-    const dirIdx = html.indexOf('data-pi-state-directory="true"');
-    const disciplineIdx = html.indexOf('data-disciplinary-lookup="true"');
-    if (dirIdx === -1) bad.push(rel + ': missing PI state directory block');
-    if (disciplineIdx === -1) bad.push(rel + ': missing discipline lookup block');
-    if (dirIdx !== -1 && disciplineIdx !== -1 && dirIdx > disciplineIdx) bad.push(rel + ': PI state directory appears after discipline lookup');
+    const idxBest = html.indexOf('data-pi-best-lawyer-answer="true"');
+    const idxChoose = html.indexOf('data-pi-how-to-choose="true"');
+    const idxDir = html.indexOf('data-pi-state-directory="true"');
+    const idxDisc = html.indexOf('data-disciplinary-lookup="true"');
+    if (idxBest === -1) bad.push(rel + ': missing PI best-lawyer block');
+    if (!html.includes('depends on your case')) bad.push(rel + ': missing sponsor-safe best-lawyer framing');
+    if (!html.includes('does not rank firms')) bad.push(rel + ': missing no-ranking statement');
+    if (idxChoose === -1) bad.push(rel + ': missing how-to-choose block');
+    if (!html.includes('data-pi-comparison-table="true"')) bad.push(rel + ': missing PI comparison table');
+    if (idxDir === -1) bad.push(rel + ': missing PI state directory block');
+    if (idxDisc === -1) bad.push(rel + ': missing discipline lookup block');
+    if (idxBest !== -1 && idxChoose !== -1 && idxChoose < idxBest) bad.push(rel + ': how-to-choose block appears before best-lawyer block');
+    if (idxChoose !== -1 && idxDir !== -1 && idxDir < idxChoose) bad.push(rel + ': directory appears before how-to-choose block');
+    if (idxDir !== -1 && idxDisc !== -1 && idxDisc < idxDir) bad.push(rel + ': discipline lookup appears before state directory');
+    const forbidden = [
+      'Cities we cover',
+      'Request your city',
+      'Don’t see your city yet?',
+      'city pages are intentionally retired',
+      'without opening local city pages'
+    ];
+    forbidden.forEach((needle) => {
+      if (html.includes(needle)) bad.push(rel + ': forbidden leftover copy present: ' + needle);
+    });
   });
   if (bad.length) throw new Error('STATE HUB CONTRACT FAIL\n' + bad.join('\n'));
   console.log('✅ state hub contract pass');

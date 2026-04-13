@@ -149,18 +149,20 @@ function validateOneGuideSample() {
 }
 
 function validatePIStateSampleIfPresent() {
-  const tx = path.join(distRoot, 'states', 'TX', 'index.html');
-  if (!fs.existsSync(tx)) return;
-  const html = fs.readFileSync(tx, 'utf8');
-  validateStateHasTopMid(html, 'state (TX)');
-  mustContain(html, 'data-pi-state-page="true"', 'state (TX)');
-  mustContain(html, 'data-pi-state-directory="true"', 'state (TX)');
-  mustContain(html, 'data-disciplinary-lookup="true"', 'state (TX)');
-  mustNotContain(html, 'data-covered-cities="true"', 'state (TX)');
-  mustNotContain(html, 'data-request-city="true"', 'state (TX)');
-  mustNotContain(html, 'Cities we cover in', 'state (TX)');
-  mustNotContain(html, 'Request your city', 'state (TX)');
-  mustOrder(html, 'data-pi-state-directory="true"', 'data-disciplinary-lookup="true"', 'state (TX)');
+  const samples = ['TX', 'TN', 'CA'];
+  for (const st of samples) {
+    const fp = path.join(distRoot, 'states', st, 'index.html');
+    if (!fs.existsSync(fp)) continue;
+    const html = fs.readFileSync(fp, 'utf8');
+    validateStateHasTopMid(html, `state (${st})`);
+    mustContain(html, 'Who Is the Best Personal Injury Lawyer in', `state (${st})`);
+    mustContain(html, 'How to Choose a Personal Injury Lawyer in', `state (${st})`);
+    mustContain(html, 'Firms listed for', `state (${st})`);
+    mustContain(html, 'Attorney discipline', `state (${st})`);
+    mustOrder(html, 'Firms listed for', 'Attorney discipline', `state (${st})`);
+    return;
+  }
+  fail('PI state sample missing: expected one of dist/states/tx, tn, or ca');
 }
 
 function validateCity(citySlug, verticalKey, pageSet) {
@@ -217,19 +219,15 @@ function main() {
 
   // starter_v1 is TRAINING ONLY; do not block publishing (validate_tbs exits early).
   if (isPI(verticalKey)) {
-    for (const city of GOLDEN_CITIES) {
-      const fp = path.join(distRoot, city, 'index.html');
-      if (fs.existsSync(fp)) fail(`PI city page should not exist after state-only migration: dist/${city}/index.html`);
-    }
+    validatePIStateSampleIfPresent();
   } else {
     for (const city of GOLDEN_CITIES) validateCity(city, verticalKey, pageSet);
   }
 
   // Additional monetization contract checks (sales parity):
   // - At least one guide page must have exactly Top + Bottom (no Mid).
-  // - For PI only, a state sample must have exactly Top + Mid (no Bottom).
+  // - If a PI state sample exists, it must have exactly Top + Mid (no Bottom).
   validateOneGuideSample();
-  if (isPI(verticalKey)) validatePIStateSampleIfPresent();
 
   console.log('✅ GOLDEN CONTRACT PASS');
 }

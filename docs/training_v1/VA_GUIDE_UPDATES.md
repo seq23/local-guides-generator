@@ -126,3 +126,16 @@ If you see that full hub inline anywhere else, stop and escalate.
 - Do not add provider website links in public directory/example surfaces.
 - Homepage FAQ must remain an in-body destination, not nav-only.
 - “Choose your next guide” modules should be grouped by intent, not dumped as one long list.
+
+
+## 9) PI canonical answer-shape rules
+
+For PI guides, do not bury the answer under a long intro. Start with:
+- a direct answer paragraph
+- an H2 that matches the user question closely
+- a numbered checklist, table, or decision framework in the first visible answer block
+
+Do not add:
+- top 10 / best lawyer ranking language
+- ratings, outcomes, or endorsement phrasing
+- city-page routing language on PI state or homepage surfaces

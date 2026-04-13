@@ -15,12 +15,8 @@ function pct(part, total) {
   return total ? (100 * part / total) : 0;
 }
 
-function readSite(root) { try { return JSON.parse(fs.readFileSync(path.join(root, 'data', 'site.json'), 'utf8')); } catch { return {}; } }
-
 function run() {
   const root = path.join(__dirname, '..', '..');
-  const site = readSite(root);
-  const isPi = /(^|\/)pi_v1\.json$/i.test(String(site.pageSetFile || ''));
   const dist = path.join(root, 'dist');
   const manifestPath = path.join(dist, 'distribution-manifest.json');
   const summaryPath = path.join(dist, 'distribution-summary.txt');
@@ -30,7 +26,7 @@ function run() {
   const pages = Array.isArray(manifest.pages) ? manifest.pages : [];
   if (!pages.length) fail('distribution-manifest.json pages[] missing/empty');
 
-  const requiredFamilies = isPi ? ['home', 'guides-hub', 'guide-detail', 'state-home'] : ['home', 'guides-hub', 'guide-detail', 'city-home'];
+  const requiredFamilies = ['home', 'guides-hub', 'guide-detail', 'city-home'];
   for (const fam of requiredFamilies) {
     const famPages = pages.filter(p => p.pageFamily === fam);
     if (!famPages.length) fail(`missing family in distribution manifest: ${fam}`);
@@ -49,28 +45,21 @@ function run() {
 
   const guidePages = pages.filter(p => p.pageFamily === 'guide-detail');
   const cityPages = pages.filter(p => p.pageFamily === 'city-home');
-  const statePages = pages.filter(p => p.pageFamily === 'state-home');
   if (pct(guidePages.filter(p => p.inIndexNowPriority).length, guidePages.length) < 25) fail('guide-detail priority coverage below 25%');
-  if (isPi) {
-    if (pct(statePages.filter(p => p.inIndexNowBatch || p.inIndexNowPriority).length, statePages.length) < 25) fail('state-home batch/priority coverage below 25%');
-  } else if (pct(cityPages.filter(p => p.inIndexNowBatch || p.inIndexNowPriority).length, cityPages.length) < 25) fail('city-home batch/priority coverage below 25%');
+  if (pct(cityPages.filter(p => p.inIndexNowBatch || p.inIndexNowPriority).length, cityPages.length) < 25) fail('city-home batch/priority coverage below 25%');
   if (pct(guidePages.filter(p => p.inLlms || p.inLlmsFull || p.inLlmsGuides).length, guidePages.length) < 80) fail('guide-detail llms coverage below 80%');
 
   const guidesHubPages = pages.filter(p => p.pageFamily === 'guides-hub');
   const guidePagesForFresh = pages.filter(p => p.pageFamily === 'guide-detail');
   const cityPagesForFresh = pages.filter(p => p.pageFamily === 'city-home');
-  const statePagesForFresh = pages.filter(p => p.pageFamily === 'state-home');
 
   if (homePages.some(p => !p.inFreshSitemap)) fail('home page missing from sitemap-fresh.xml');
   if (guidesHubPages.some(p => !p.inFreshSitemap)) fail('guides hub missing from sitemap-fresh.xml');
 
   const guideFreshMin = Math.min(15, guidePagesForFresh.length);
   const cityFreshMin = Math.min(20, cityPagesForFresh.length);
-  const stateFreshMin = Math.min(20, statePagesForFresh.length);
   if (guidePagesForFresh.filter(p => p.inFreshSitemap).length < guideFreshMin) fail(`guide-detail fresh coverage below expected minimum (${guideFreshMin})`);
-  if (isPi) {
-    if (statePagesForFresh.filter(p => p.inFreshSitemap).length < stateFreshMin) fail(`state-home fresh coverage below expected minimum (${stateFreshMin})`);
-  } else if (cityPagesForFresh.filter(p => p.inFreshSitemap).length < cityFreshMin) fail(`city-home fresh coverage below expected minimum (${cityFreshMin})`);
+  if (cityPagesForFresh.filter(p => p.inFreshSitemap).length < cityFreshMin) fail(`city-home fresh coverage below expected minimum (${cityFreshMin})`);
 
   const summary = fs.readFileSync(summaryPath, 'utf8');
   if (!/Focus family coverage:/i.test(summary)) fail('distribution-summary.txt missing focus coverage block');

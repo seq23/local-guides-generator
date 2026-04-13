@@ -1,11 +1,19 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
-const site = require(path.join(__dirname, '..', '..', 'data', 'site.json'));
 
 function fail(msg) {
   console.error('HOMEPAGE SURFACE CONTRACT FAIL\n' + msg);
   process.exit(1);
+}
+
+function isPiPack() {
+  try {
+    const site = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'site.json'), 'utf8'));
+    return /pi_v1\.json$/i.test(String(site.pageSetFile || ''));
+  } catch (_) {
+    return false;
+  }
 }
 
 function run() {
@@ -28,13 +36,21 @@ function run() {
   if (heroIdx !== -1 && primaryIdx !== -1 && primaryIdx < heroIdx) bad.push('primary CTA appears before hero');
   if (heroIdx !== -1 && shortIdx !== -1 && shortIdx < heroIdx) bad.push('short answer appears before hero');
   if (/data-branded-links="true"/i.test(html)) bad.push('legacy branded link strip still present');
-  const pageSetFile = String((site && site.pageSetFile) || '').toLowerCase();
-  const directCity = html.match(/href="\/(?!states\/|guides\/|faq\/|methodology\/|next-steps\/|request-assistance\/|contact\/|disclaimer\/|editorial-policy\/|privacy\/|for-providers\/|personal-injury\/)([a-z0-9-]+)\/"/gi) || [];
-  if (directCity.length > 0) bad.push('homepage still contains direct city links');
-  if (pageSetFile.includes('/pi_v1.json')) {
-    if (/state or city page/i.test(html)) bad.push('PI homepage still contains state-or-city copy');
-    if (/city-by-city/i.test(html)) bad.push('PI homepage still contains city-by-city copy');
-    if (/Request your city/i.test(html)) bad.push('PI homepage still contains request-city CTA copy');
+  if (isPiPack()) {
+    const requiredLinks = [
+      '/guides/questions-to-ask-a-personal-injury-lawyer/',
+      '/guides/personal-injury-lawyer-red-flags/',
+      '/guides/personal-injury-fees-explained/',
+      '/guides/recorded-statements-and-insurance-calls/',
+      '/guides/evidence-checklist-after-an-accident/'
+    ];
+    requiredLinks.forEach((href) => {
+      if (!html.includes('href="' + href + '"')) bad.push('missing PI homepage routing link: ' + href);
+    });
+    ['city-by-city', 'state or city page', 'narrow into city'].forEach((needle) => {
+      if (html.includes(needle)) bad.push('PI homepage still contains stale city-page language: ' + needle);
+    });
+    if (!/best personal injury lawyer/i.test(html)) bad.push('PI homepage missing best-lawyer query capture');
   }
   if (bad.length) fail(bad.join('\n'));
   console.log('✅ homepage surface contract pass');

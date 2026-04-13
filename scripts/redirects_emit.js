@@ -5,19 +5,15 @@
  *  - /indexnow  -> /indexnow.txt
  * Also supports .well-known/ for indexnow key discovery.
  *
- * For the PI pack, emits deterministic legacy city -> state redirects.
- *
  * Works on Cloudflare Pages + Netlify-style redirects.
  */
 const fs = require("fs");
 const path = require("path");
 
 function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }
-function readJsonSafe(p) { try { return JSON.parse(fs.readFileSync(p, "utf8")); } catch { return null; } }
 
 function main() {
-  const repoRoot = process.cwd();
-  const distDir = path.join(repoRoot, "dist");
+  const distDir = path.join(process.cwd(), "dist");
   ensureDir(distDir);
 
   const lines = [
@@ -27,26 +23,9 @@ function main() {
     "/indexnow /indexnow.txt 301",
     "/indexnow.txt /indexnow.txt 200",
     "/.well-known/indexnow.txt /indexnow.txt 301",
+    ""
   ];
 
-  const site = readJsonSafe(path.join(repoRoot, 'data', 'site.json')) || {};
-  const pageSetFile = String(site.pageSetFile || '').toLowerCase();
-  if (pageSetFile.includes('/pi_v1.json')) {
-    const cities = readJsonSafe(path.join(repoRoot, 'data', 'page_sets', 'examples', 'cities_pi_v1.json')) || [];
-    for (const row of cities) {
-      const slug = String(row && row.slug || '').trim();
-      if (!slug) continue;
-      const m = slug.match(/-([a-z]{2})$/i);
-      if (!m) continue;
-      const ab = m[1].toUpperCase();
-      lines.push(`/${slug}/ /states/${ab}/ 301`);
-      lines.push(`/${slug}/directory/ /states/${ab}/ 301`);
-      lines.push(`/${slug}/faq/ /states/${ab}/ 301`);
-      lines.push(`/${slug}/next-steps/ /states/${ab}/ 301`);
-    }
-  }
-
-  lines.push("");
   fs.writeFileSync(path.join(distDir, "_redirects"), lines.join("\n"), "utf8");
   console.log("redirects_emit: wrote dist/_redirects");
 }

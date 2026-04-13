@@ -26,7 +26,6 @@ function familyRank(family) {
     'guide-detail': 4,
     'city-home': 3,
     'state': 2,
-    'state-home': 2,
     'state-next-steps': 2,
   }[family] || 1;
 }
@@ -72,7 +71,7 @@ function emitDistributionArtifacts(distDir, cfg) {
   const featuredPages = featuredFamilies.flatMap((fam) => pages.filter((p) => String(p.pageFamily || '') === fam)).slice(0, 10);
   const priorityPages = uniq([
     ...featuredPages.map((p) => p.url),
-    ...pages.filter((p) => ['guide-detail', 'city-home', 'state', 'state-home', 'home', 'guides-hub'].includes(String(p.pageFamily || ''))).slice(0, 80).map((p) => p.url),
+    ...pages.filter((p) => ['guide-detail', 'city-home', 'state', 'home', 'guides-hub'].includes(String(p.pageFamily || ''))).slice(0, 80).map((p) => p.url),
   ]).map((url) => pages.find((p) => p.url === url)).filter(Boolean);
   const priorityUrls = uniq(priorityPages.map((p) => p.url));
   const batchUrls = uniq([...changedPages.map((p) => p.url), ...priorityUrls]).slice(0, 120);

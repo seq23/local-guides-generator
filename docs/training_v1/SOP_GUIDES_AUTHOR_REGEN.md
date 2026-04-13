@@ -45,3 +45,13 @@ This SOP covers creating or regenerating guides **without altering structure or 
 ---
 
 **END OF FILE**
+
+
+## PI guide opening rule
+
+When editing canonical PI guides, the first visible answer surface must contain one of the following before long prose:
+- a numbered checklist
+- a compact comparison table
+- a step-by-step decision framework
+
+This is required so the guide is readable by users and extractable by LLMs.

@@ -48,9 +48,9 @@ function run(ctx) {
       if (/(Official website|Official site)/i.test(table)) fail(rel, 'PI directory table still exposes official website label');
     }
 
-    const stateDirectoryCards = html.match(/<div class="card"[^>]*data-provider-directory="true"[^>]*>[\s\S]*?Listed in this state directory[\s\S]*?<\/div>/gi) || [];
-    for (const card of stateDirectoryCards) {
-      if (/<a\s+href=/i.test(card)) fail(rel, 'state directory card contains outbound link');
+    const stateDirectorySections = html.match(/<section[^>]*data-pi-state-directory="true"[^>]*>[\s\S]*?<\/section>/gi) || [];
+    for (const section of stateDirectorySections) {
+      if (/<a\s+href=/i.test(section)) fail(rel, 'state directory section contains outbound link');
     }
 
     const isPiDirectorySurface = /pi-directory-table|Listed in this state directory/i.test(html);

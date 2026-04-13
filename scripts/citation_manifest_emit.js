@@ -69,8 +69,7 @@ function classify(routePath) {
   if (/^\/guides\/.+\/$/.test(route)) return 'guide-detail';
   if (/^\/faq\/$/.test(route)) return 'faq';
   if (/^\/request-assistance\/$/.test(route)) return 'request-assistance';
-  if (/^\/states\/$/.test(route)) return 'state-hub';
-  if (/^\/states\/[a-z]{2}\/$/i.test(route)) return 'state-home';
+  if (/^\/states\/$/.test(route) || /^\/states\/[a-z]{2}\/$/i.test(route)) return 'state-surface';
   if (/^\/[a-z0-9-]+\/$/.test(route) && !['/faq/', '/about/', '/contact/', '/methodology/', '/editorial-policy/', '/privacy/', '/disclaimer/', '/for-providers/', '/request-assistance/', '/next-steps/', '/personal-injury/', '/states/', '/verification/'].includes(route)) return 'city-home';
   return 'other';
 }
@@ -81,8 +80,7 @@ function routePriority(type) {
   if (type === 'guides-hub') return 80;
   if (type === 'home') return 70;
   if (type === 'faq') return 60;
-  if (type === 'state-home') return 55;
-  if (type === 'state-hub') return 50;
+  if (type === 'state-surface') return 50;
   return 10;
 }
 
@@ -144,7 +142,7 @@ function main() {
     pages: entries
   };
 
-  const priority = entries.filter((e) => ['guide-detail', 'city-home', 'guides-hub', 'home', 'state-home'].includes(e.pageFamily)).map((e) => {
+  const priority = entries.filter((e) => ['guide-detail', 'city-home', 'guides-hub', 'home'].includes(e.pageFamily)).map((e) => {
     const points = e.keyPoints.slice(0, 3).map((point) => `- ${point}`).join('\n');
     return [
       `URL: ${e.url}`,
