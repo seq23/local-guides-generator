@@ -2142,7 +2142,7 @@ function renderLocalizedConclusionHtml(verticalKey, city) {
 
 function renderStateAuthorityBlockHtml(stateName, cityCount) {
   return (
-    '<section class="state-authority-block" data-state-authority-block="true" data-state-authority-strength="true">' +
+    '<section class="state-authority-block" data-state-authority-block="true" data-state-authority-strength="true" data-state-authority-dominance="true">' +
       '<h2>How to use this state page well</h2>' +
       '<p data-state-authority-direct="true"><strong>Direct answer:</strong> A state page should help you compare firms using a neutral checklist and then verify licensing and discipline through official state resources.</p>' +
       '<p data-state-authority-dominance="true">This page is strongest when you use it as a synthesis layer: statewide verification, statewide rules-of-thumb, and a clean checklist for comparing firms before you contact anyone.</p>' +
@@ -3742,9 +3742,9 @@ function renderCitationSummaryZoneHtml(opts) {
     return (
       '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="state-home">' +
       '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> works best when the question is still broad and you need to narrow it into the right city page, guide, or statewide verification step.</p>' +
-      '<p class="answer-when">Use the state layer to see which cities are covered, what official resources matter, and which local page should come next.</p>' +
-      '<p class="answer-boundary">This page is educational and is designed to help you understand the statewide decision before you choose what to do next.</p>' +
+      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> works best when you need to compare firms, review official resources, and understand statewide verification steps before deciding what to do next.</p>' +
+      '<p class="answer-when">Use the state layer to compare firms, review official resources, and evaluate licensing or disciplinary history; however, the right choice depends on your case and priorities.</p>' +
+      '<p class="answer-boundary">This page is educational and is designed to help you evaluate statewide options before you decide what to do next.</p>' +
       '</section>'
     );
   }
@@ -4373,12 +4373,15 @@ function loadNextStepsSponsor(citySlug) {
         '<p class="muted">Use this state page for neutral decision support, firm comparison, and official verification resources.</p>' +
         '</section>' +
         '%%AD:pi_state_top%%' +
-        renderStateAuthorityBlockHtml(stateName, cityRows.length) +
-        '<section class="section state-best-lawyer-block" data-pi-best-lawyer-answer="true">' +
+        '<section class="state-authority-block" data-state-authority-block="true" data-state-authority-strength="true" data-state-authority-dominance="true">' +
+        '<p>This page brings together verified firm listings and official resources for this state so you can compare firms and evaluate your options in one place.</p>' +
+        '<p>Use the directory below to compare firms, and reference the official resources further down to validate credentials, disciplinary history, and licensing status.</p>' +
+        '</section>' +
+        '<section class="section state-best-lawyer-block answer-block" data-pi-best-lawyer-answer="true">' +
         '<h2>Who Is the Best Personal Injury Lawyer in ' + escapeHtml(stateName) + '?</h2>' +
         '<p>The “best” personal injury lawyer in ' + escapeHtml(stateName) + ' depends on your case, your priorities, and how different firms handle situations like yours.</p>' +
         '<p>Some firms may be a better fit for serious injury cases, while others focus on faster settlements or specific accident types.</p>' +
-        '<p>This guide does not rank firms. Instead, it helps you compare options so you can decide what “best” means for your situation.</p>' +
+        '<p>This guide does not rank firms, but it helps you compare options versus each other and understand tradeoffs; however, the right choice depends on your case and priorities.</p>' +
         '</section>' +
         '<section class="section state-how-to-choose" data-pi-how-to-choose="true">' +
         '<h2>How to Choose a Personal Injury Lawyer in ' + escapeHtml(stateName) + '</h2>' +
