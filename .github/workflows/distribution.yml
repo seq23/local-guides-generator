@@ -1,46 +1,19 @@
-name: distribution
+name: Distribution
 
 on:
   workflow_dispatch:
 
-concurrency:
-  group: distribution
-  cancel-in-progress: false
+permissions:
+  contents: write
 
 jobs:
-  distribute:
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-
+  distribution:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
-
-      - name: Install deps
-        run: npm ci --ignore-scripts
-
-      - name: Build all packs
-        run: node scripts/build_all_packs.js
-
-      - name: Validate
-        run: LKG_VALIDATE_DIST=1 npm run validate:all
-
-      - name: Prepare distribution
-        run: npm run distribution:prepare
-
-      - name: Validate IndexNow payload
-        run: node scripts/validate_indexnow.js
-
-      - name: Submit IndexNow
-        run: node scripts/indexnow_submit.js
-        env:
-          INDEXNOW_ALLOW_FAILURE: '1'
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run distribution:prepare

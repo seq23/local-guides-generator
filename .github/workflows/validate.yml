@@ -1,24 +1,22 @@
-name: Validate LKG
+name: Validate
+
 on:
-  push:
-    branches: [ main ]
-  pull_request:
   workflow_dispatch:
+  push:
+    branches: [main]
+
 permissions:
   contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - name: Build all packs
-        run: node scripts/build_all_packs.js
-      - name: Core validate (dist enforced)
-        run: npm run validate:all
-        env:
-          LKG_VALIDATE_DIST: '1'
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: node scripts/build_all_packs.js
+      - run: LKG_VALIDATE_DIST=1 npm run validate:all

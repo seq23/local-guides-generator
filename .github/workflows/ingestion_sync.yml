@@ -1,69 +1,23 @@
-name: ingestion sync
+name: Ingestion Sync
 
 on:
-  schedule:
-    - cron: "0 12 * * *"
   workflow_dispatch:
+  schedule:
+    - cron: '15 13 * * *'
 
-concurrency:
-  group: ingestion-sync
-  cancel-in-progress: false
+permissions:
+  contents: write
 
 jobs:
-  ingest:
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-
-    env:
-      REPO2_PROMOTION_CANDIDATES_FILE: data/reference/promotion_candidates.source.json
-
+  ingestion-sync:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
-
-      - name: Install deps
-        run: npm ci --ignore-scripts
-
-      - name: Pull velocity candidates
-        run: node scripts/reference/pull_velocity_candidates.js
-
-      - name: Generate hidden reference pages
-        run: node scripts/reference/generate_from_candidates.js
-
-      - name: Guard visible surfaces
-        run: node scripts/reference/guard_visible_surfaces.js
-
-      - name: Build all packs
-        run: node scripts/build_all_packs.js
-
-      - name: Validate
-        run: LKG_VALIDATE_DIST=1 npm run validate:all
-
-      - name: Prepare distribution
-        run: npm run distribution:prepare
-
-      - name: Validate IndexNow payload
-        run: node scripts/validate_indexnow.js
-
-      - name: Submit IndexNow
-        run: node scripts/indexnow_submit.js
-        env:
-          INDEXNOW_ALLOW_FAILURE: '1'
-
-      - name: Commit and push if changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet || git commit -m "ingestion sync from velocity repo"
-          git pull --rebase origin main || true
-          git push
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: node scripts/reference/pull_velocity_candidates.js
+      - run: node scripts/reference/generate_from_candidates.js
+      - run: node scripts/reference/guard_visible_surfaces.js

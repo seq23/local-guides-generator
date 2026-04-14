@@ -56,11 +56,11 @@
     "city": [
       {
         "q": "Which dentist near me in {{marketLabel}} accepts my insurance?",
-        "a": "Insurance acceptance varies by office. Contact providers directly to confirm current participation."
+        "a": "Insurance acceptance varies by office. The useful comparison is whether the office is in-network, what preventive care is covered, and whether major treatment still carries separate costs or exclusions."
       },
       {
         "q": "How do I choose a dentist in {{marketLabel}}?",
-        "a": "Consider location, services offered, communication style, and office policies."
+        "a": "Start by matching the office to the type of care you need, then compare written treatment plans, cost clarity, follow-up expectations, and whether the office explains alternatives calmly."
       },
       {
         "q": "What dental services are commonly available in {{marketLabel}}?",
@@ -72,11 +72,11 @@
       },
       {
         "q": "How much do common dental procedures cost in {{marketLabel}}?",
-        "a": "Pricing depends on procedure type, materials, and insurance coverage."
+        "a": "Useful cost comparisons depend on what is included, what may change after imaging, whether specialist care is involved, and whether payment plans change the real total cost."
       },
       {
         "q": "Are payment plans available in {{marketLabel}} dental offices?",
-        "a": "Some practices offer financing or third-party payment options."
+        "a": "Some practices offer in-house payment plans, phased treatment, or third-party financing. The useful comparison is approval friction, total cost, and what treatment is still considered urgent even if you stage care."
       },
       {
         "q": "What should I bring to my first dental visit in {{marketLabel}}?",
@@ -93,6 +93,10 @@
       {
         "q": "Do dentists in {{marketLabel}} provide written estimates?",
         "a": "Many offices provide estimates before major procedures."
+      },
+      {
+        "q": "How do I navigate the American dental system if I am new to it?",
+        "a": "Start by identifying whether you need routine care, emergency care, or a specialist. Then compare offices based on written treatment plans, insurance clarity, follow-up policy, and whether referrals are explained before major treatment is discussed."
       }
     ]
   },
@@ -101,7 +105,7 @@
       "route": "",
       "title": "%%MARKET_LABEL%% Local Guides",
       "description": "Frameworks for %%MARKET_LABEL%%. No rankings. No endorsements.",
-      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Published by %%BRAND_NAME%%. Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n%%EVAL_FRAMEWORK%%\n\n%%MID_NEXT_STEPS%%\n\n<section class=\"section micro-guides\" data-start-here=\"true\">\n  <p><strong>Start here:</strong> <a href=\"/guides/#costs\">Costs</a> • <a href=\"/guides/#timeline\">Timeline</a> • <a href=\"/guides/#questions\">Questions to ask</a> • <a href=\"/guides/#red-flags\">Red flags</a> <span class=\"muted\">(educational)</span></p>\n</section>\n\n%%AD:city_hub_mid%%\n\n%%EXAMPLE_PROVIDERS%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\" open>\n    <summary>\n      <span>Verify provider license</span>\n      <span class=\"accordion-meta\">Opens the official state database</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Optional quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section guides-compact\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Published by %%BRAND_NAME%%. Educational only. No rankings or endorsements. Use this page to compare treatment clarity, cost transparency, follow-up expectations, and official license lookup before you book.</p>\n</section>\n%%AD:city_hub_top%%\n\n%%EVAL_FRAMEWORK%%\n\n%%MID_NEXT_STEPS%%\n\n<section class=\"section micro-guides\" data-start-here=\"true\">\n  <p><strong>Start here:</strong> <a href=\"/guides/#costs\">Costs</a> • <a href=\"/guides/#timeline\">Timeline</a> • <a href=\"/guides/#questions\">Questions to ask</a> • <a href=\"/guides/#red-flags\">Red flags</a> <span class=\"muted\">(educational)</span></p>\n</section>\n\n%%AD:city_hub_mid%%\n\n%%EXAMPLE_PROVIDERS%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\" open>\n    <summary>\n      <span>Verify provider license</span>\n      <span class=\"accordion-meta\">Opens the official state database</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Optional quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section guides-compact\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
     },
     {
       "route": "faq",

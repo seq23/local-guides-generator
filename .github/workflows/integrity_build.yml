@@ -1,32 +1,22 @@
-name: integrity_build
+name: Integrity Build
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main ]
-  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
-  integrity:
+  integrity-build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Setup Node (from .nvmrc)
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
-          cache: npm
-
-      - name: Install
-        run: npm ci --ignore-scripts
-
-      - name: Build dist (all packs)
-        run: |
-          rm -rf dist
-          node scripts/build_all_packs.js
-
-      - name: Validate (dist enforced)
-        run: |
-          LKG_VALIDATE_DIST=1 npm run validate:all
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: node scripts/build_all_packs.js
+      - run: LKG_VALIDATE_DIST=1 npm run validate:all

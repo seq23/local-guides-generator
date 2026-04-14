@@ -1,45 +1,19 @@
-name: promote reference
+name: Promote Reference
 
 on:
   workflow_dispatch:
-    inputs:
-      candidate_id:
-        required: true
-        type: string
 
-concurrency:
-  group: promote-reference
-  cancel-in-progress: false
+permissions:
+  contents: write
 
 jobs:
-  promote:
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-
+  promote-reference:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
-
-      - run: npm ci --ignore-scripts
-      - run: node scripts/reference/promote_reference_surface.js "${{ inputs.candidate_id }}"
-      - run: node scripts/build_all_packs.js
-      - run: LKG_VALIDATE_DIST=1 npm run validate:all
-      - run: npm run distribution:prepare
-      - run: node scripts/validate_indexnow.js
-      - run: node scripts/indexnow_submit.js
-        env:
-          INDEXNOW_ALLOW_FAILURE: '1'
-      - run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet || git commit -m "promote reference surface ${{ inputs.candidate_id }}"
-          git pull --rebase origin main || true
-          git push
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: node scripts/reference/generate_from_candidates.js
