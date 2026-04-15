@@ -67,6 +67,26 @@
       {
         "q": "How do I know if a peptide clinic is legitimate?",
         "a": "Look for a licensed medical provider, a real intake process, clear written pricing, discussion of risks, and a clear explanation of whether products are FDA-approved, compounded, or off-label."
+      },
+      {
+        "q": "How can I tell whether a TRT clinic actually monitors patients correctly?",
+        "a": "Ask the clinic when repeat labs usually happen, what symptoms trigger earlier follow-up, and what would make the plan change instead of simply continuing."
+      },
+      {
+        "q": "What does it mean if a clinic says my TRT dose will be tailored to me?",
+        "a": "A serious clinic should explain what it is tailoring the dose to, what labs and symptoms it tracks, and what would make it raise, lower, or delay adjustment instead of using a one-size-fits-all protocol."
+      },
+      {
+        "q": "What should I ask if blood work is billed separately from the TRT program?",
+        "a": "Ask which labs are expected at startup, which labs repeat on schedule, whether blood work is covered or separate, and what costs usually appear in the first 90 days."
+      },
+      {
+        "q": "When does switching TRT clinics make sense?",
+        "a": "Switching clinics becomes a real comparison when monitoring is vague, pricing is unclear, follow-up is weak, or you cannot get a clean explanation of what the clinic is doing and why."
+      },
+      {
+        "q": "Why is stopping TRT cold turkey considered a warning sign conversation?",
+        "a": "The key issue is not internet advice but whether the clinic can explain how it handles abrupt stopping decisions, symptom changes, and the next-step plan instead of leaving the patient without structure."
       }
     ],
     "city": [
@@ -107,7 +127,7 @@
         "a": "Regulations vary by state and affect prescribing and monitoring."
       },
       {
-        "q": "How do I verify a clinic’s legitimacy in {{marketLabel}}?",
+        "q": "How do I verify a clinic\u2019s legitimacy in {{marketLabel}}?",
         "a": "Check licenses, reviews, and official clinic websites."
       },
       {
@@ -133,7 +153,7 @@
       "route": "",
       "title": "%%MARKET_LABEL%% Local Guides",
       "description": "Frameworks for %%MARKET_LABEL%%. No rankings. No endorsements.",
-      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Published by %%BRAND_NAME%%. Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n%%EVAL_FRAMEWORK%%\n\n%%MID_NEXT_STEPS%%\n\n<section class=\"section micro-guides\" data-start-here=\"true\">\n  <p><strong>Start here:</strong> <a href=\"/guides/#costs\">Costs</a> • <a href=\"/guides/#timeline\">Timeline</a> • <a href=\"/guides/#questions\">Questions to ask</a> • <a href=\"/guides/#red-flags\">Red flags</a> <span class=\"muted\">(educational)</span></p>\n</section>\n\n%%AD:city_hub_mid%%\n\n%%EXAMPLE_PROVIDERS%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\" open>\n    <summary>\n      <span>Verify provider license</span>\n      <span class=\"accordion-meta\">Opens the official state database</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Optional quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section guides-compact\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Published by %%BRAND_NAME%%. Educational only. No rankings or endorsements.</p>\n</section>\n%%AD:city_hub_top%%\n\n%%EVAL_FRAMEWORK%%\n\n%%MID_NEXT_STEPS%%\n\n<section class=\"section micro-guides\" data-start-here=\"true\">\n  <p><strong>Start here:</strong> <a href=\"/guides/#costs\">Costs</a> \u2022 <a href=\"/guides/#timeline\">Timeline</a> \u2022 <a href=\"/guides/#questions\">Questions to ask</a> \u2022 <a href=\"/guides/#red-flags\">Red flags</a> <span class=\"muted\">(educational)</span></p>\n</section>\n\n%%AD:city_hub_mid%%\n\n%%EXAMPLE_PROVIDERS%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\" open>\n    <summary>\n      <span>Verify provider license</span>\n      <span class=\"accordion-meta\">Opens the official state database</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Optional quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section guides-compact\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n"
     },
     {
       "route": "faq",
@@ -145,7 +165,7 @@
       "route": "next-steps",
       "title": "%%MARKET_LABEL%% Next steps",
       "description": "Decision hub for %%MARKET_LABEL%% with a full provider callback form, comparison path, and lookup tools.",
-      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Next steps</p>\n  <h1>Contact a sponsoring provider in %%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Advertising. This site does not collect your medical information.</p>\n</section>\n\n<section class=\"section\">\n  <div class=\"card\" data-next-steps-card=\"true\">\n    <h2>%%SPONSOR_FIRM_NAME%%</h2>\n    <p class=\"muted\">You’ll be taken to the sponsor’s secure intake/contact form.</p>\n    <div class=\"actions\">\n      <a class=\"button button-primary\" data-next-steps-intake=\"true\" href=\"%%SPONSOR_INTAKE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Continue to secure form</a>\n      <a class=\"button button-secondary\" href=\"%%SPONSOR_OFFICIAL_SITE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Visit official site</a>\n    </div>\n    <p class=\"fineprint\">Official site: <span class=\"mono\">%%SPONSOR_OFFICIAL_SITE_URL%%</span></p>\n  </div>\n\n  <div class=\"card\">\n    <h2>What to prepare before you submit</h2>\n    <ul>\n      <li>Your basic contact details</li>\n      <li>What service you’re looking for</li>\n      <li>Any relevant timeline and prior records (if applicable)</li>\n    </ul>\n    <p class=\"muted\">Educational only. No medical advice.</p>\n  </div>\n</section>"
+      "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Next steps</p>\n  <h1>Contact a sponsoring provider in %%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Advertising. This site does not collect your medical information.</p>\n</section>\n\n<section class=\"section\">\n  <div class=\"card\" data-next-steps-card=\"true\">\n    <h2>%%SPONSOR_FIRM_NAME%%</h2>\n    <p class=\"muted\">You\u2019ll be taken to the sponsor\u2019s secure intake/contact form.</p>\n    <div class=\"actions\">\n      <a class=\"button button-primary\" data-next-steps-intake=\"true\" href=\"%%SPONSOR_INTAKE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Continue to secure form</a>\n      <a class=\"button button-secondary\" href=\"%%SPONSOR_OFFICIAL_SITE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Visit official site</a>\n    </div>\n    <p class=\"fineprint\">Official site: <span class=\"mono\">%%SPONSOR_OFFICIAL_SITE_URL%%</span></p>\n  </div>\n\n  <div class=\"card\">\n    <h2>What to prepare before you submit</h2>\n    <ul>\n      <li>Your basic contact details</li>\n      <li>What service you\u2019re looking for</li>\n      <li>Any relevant timeline and prior records (if applicable)</li>\n    </ul>\n    <p class=\"muted\">Educational only. No medical advice.</p>\n  </div>\n</section>"
     }
   ],
   "globalPagesDir": "data/page_sets/examples/trt_global_pages",
