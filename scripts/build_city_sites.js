@@ -37,6 +37,7 @@ const SITE_PATH = path.join(DATA_DIR, "site.json");
 const STATES_PATH = path.join(DATA_DIR, "states.json");
 const BASE_CITIES_PATH = path.join(DATA_DIR, "cities.json");
 const ADS_PATH = path.join(DATA_DIR, "ad_placements.json");
+const CITY_CONTENT_DIR = path.join(DATA_DIR, "city_content");
 
 const BUILD_ISO = new Date().toISOString();
 
@@ -245,6 +246,37 @@ function nonPiAboutServiceName(verticalKey) {
     case 'uscis': return 'USCIS medical exam verification resources';
     default: return 'Provider verification resources';
   }
+}
+
+
+function loadOptionalCityContent(verticalKey, citySlug) {
+  const vk = String(verticalKey || "").trim();
+  const slug = String(citySlug || "").trim();
+  if (!vk || !slug) return null;
+  const p = path.join(CITY_CONTENT_DIR, vk, `${slug}.json`);
+  if (!fs.existsSync(p)) return null;
+  try {
+    return readJson(p);
+  } catch (e) {
+    return null;
+  }
+}
+
+function renderOptionalCityContentHtml(content) {
+  if (!content || !content.heading) return "";
+  const body = Array.isArray(content.body)
+    ? content.body.map((p) => `<p>${p}</p>`).join("")
+    : "";
+  const bullets = Array.isArray(content.bullets) && content.bullets.length
+    ? `<ul class="neutral-list">${content.bullets.map((item) => `<li>${item}</li>`).join("")}</ul>`
+    : "";
+  return [
+    '<section class="city-supplement city-supplement-optional">',
+    `<h2>${content.heading}</h2>`,
+    body,
+    bullets,
+    '</section>'
+  ].join("");
 }
 
 function loadPageSet(pageSetFile) {
@@ -2648,7 +2680,8 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
       renderLLMBaitQuestionHtml(verticalKey, city) +
       renderEvalFrameworkHtml(verticalKey, city) +
       renderLocalizedConclusionHtml(verticalKey, city) +
-      renderCityDecisionSupportHtml(verticalKey, city)
+      renderCityDecisionSupportHtml(verticalKey, city) +
+      renderOptionalCityContentHtml(loadOptionalCityContent(verticalKey, city.slug))
     );
   }
 
