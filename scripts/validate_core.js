@@ -31,6 +31,7 @@ const path = require('path');
 const buyoutsSchema = require('./validation/buyouts_schema');
 const stateBuyoutRequiresStateSponsor = require('./validation/state_buyout_requires_state_sponsor');
 const buyoutNextStepsHardfail = require('./validation/buyout_next_steps_hardfail');
+const buyoutRuntimeCtaContract = require('./validation/buyout_runtime_cta_contract');
 const nextStepsCtaContract = require('./validation/next_steps_cta_contract');
 const forProvidersInquiry = require('./validation/for_providers_inquiry');
 const forProvidersSalesParity = require('./validation/for_providers_sales_parity');
@@ -137,6 +138,7 @@ function main() {
   require('./validation/coverage_runtime_support_contract');
   if (!starter) {
     buyoutNextStepsHardfail.run({ site });
+    buyoutRuntimeCtaContract.run({ site });
     stateBuyoutRequiresStateSponsor.run({ site });
     packShadowGlobals.run({ site });
   }

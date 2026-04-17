@@ -1523,7 +1523,7 @@ function renderAdPlacement(key, opts) {
     <div class="sponsor-items">
       <div class="sponsor-card sponsor-card--empty" data-sponsored-empty="true">
         <div class="badges"><span class="badge badge-sponsored">ADVERTISING</span></div>
-        <div class="sponsor-meta">Disclosed advertising inventory. See <a href="/for-providers/">Advertising &amp; Provider Info</a> for surfaces, pricing, and rules.</div>
+        <div class="sponsor-meta">${allowForProvidersLink ? 'Disclosed advertising inventory. See <a href="/for-providers/">Advertising &amp; Provider Info</a> for surfaces, pricing, and rules.' : 'Disclosed advertising inventory. Contracted buyout surface is live for this page.'}</div>
       </div>
     </div>
   </div>
@@ -1543,6 +1543,86 @@ function loadBuyoutsSafe(repoRoot) {
 }
 
 
+function resolveRuntimeBuyoutCtaMode(ctx, now = new Date()) {
+  const verticalKey = ctx && ctx.verticalKey ? String(ctx.verticalKey) : '';
+  if (!verticalKey) return null;
+  try {
+    const all = loadBuyoutsSafe(REPO_ROOT);
+    const route = ctx && typeof ctx.route === 'string' ? ctx.route : '';
+    const pageKind = ctx && ctx.pageKind ? String(ctx.pageKind) : '';
+    if (pageKind === 'vertical_hub') {
+      const winner = buyouts.resolveWinner(all, { verticalKey }, now);
+      return winner && winner.scope === 'vertical' ? { trigger: 'vertical_buyout', mode: 'hero' } : null;
+    }
+    if (pageKind === 'guide') {
+      const winner = buyouts.resolveWinner(all, { verticalKey, guideRoute: route }, now);
+      return winner && winner.scope === 'vertical' ? { trigger: 'vertical_buyout', mode: 'inline' } : null;
+    }
+    if (pageKind === 'city') {
+      const citySlug = ctx && ctx.citySlug ? String(ctx.citySlug) : '';
+      const stateAbbr = ctx && ctx.stateAbbr ? String(ctx.stateAbbr) : '';
+      const winner = buyouts.resolveWinner(all, { verticalKey, city: citySlug, state: stateAbbr }, now);
+      return winner && winner.scope === 'vertical' ? { trigger: 'vertical_buyout', mode: 'inline' } : null;
+    }
+    if (pageKind === 'state') {
+      const stateAbbr = ctx && ctx.stateAbbr ? String(ctx.stateAbbr) : '';
+      const winner = buyouts.resolveWinner(all, { verticalKey, state: stateAbbr }, now);
+      if (winner && winner.scope === 'vertical') return { trigger: 'vertical_buyout', mode: 'inline' };
+      if (winner && winner.scope === 'state' && verticalKey === 'pi') return { trigger: 'pi_state_buyout', mode: 'inline' };
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function renderRuntimeNextStepsCtaHtml(opts) {
+  const mode = opts && opts.mode === 'hero' ? 'hero' : 'inline';
+  const trigger = opts && opts.trigger ? String(opts.trigger) : 'vertical_buyout';
+  if (mode === 'hero') {
+    return (
+      '<section class="hero runtime-next-steps-hero" data-runtime-next-steps-cta="true" data-runtime-next-steps-mode="hero" data-runtime-next-steps-trigger="' + escapeHtml(trigger) + '" data-vertical-buyout-hero="true">' +
+      '<p class="kicker">Next Steps</p>' +
+      '<h2>Review the local next-step guide before choosing a provider.</h2>' +
+      '<p class="muted">Vertical buyout active. This locked CTA is reserved for contracted runtime coverage.</p>' +
+      '<p class="actions"><a class="button button-primary" data-runtime-next-steps-button="true" href="/next-steps/">View next steps</a></p>' +
+      '</section>'
+    );
+  }
+  return (
+    '<section class="section conversion-cta conversion-cta--primary conversion-cta--buyout" data-primary-conversion-cta="true" data-runtime-next-steps-cta="true" data-runtime-next-steps-mode="inline" data-runtime-next-steps-trigger="' + escapeHtml(trigger) + '">' +
+    '<div class="conversion-cta__panel conversion-cta__panel--primary">' +
+    '<p class="conversion-cta__eyebrow">Next Steps</p>' +
+    '<h2 class="conversion-cta__heading">Review the local next-step guide before choosing a provider.</h2>' +
+    '<p class="conversion-cta__body">This locked CTA appears only when the contracted buyout surface is live for this page.</p>' +
+    '<p class="conversion-cta__actions"><a class="button button-primary conversion-cta__button" data-runtime-next-steps-button="true" href="/next-steps/">View next steps</a></p>' +
+    '</div>' +
+    '</section>'
+  );
+}
+
+function applyRuntimeBuyoutCtaContract(html, ctx) {
+  const mode = resolveRuntimeBuyoutCtaMode(ctx);
+  if (!mode) return html;
+  const ctaHtml = renderRuntimeNextStepsCtaHtml(mode);
+  if (mode.mode === 'hero') {
+    if (/data-vertical-buyout-hero="true"/.test(html)) return html;
+    if (/(<section class="hero"[\s\S]*?<\/section>)/i.test(html)) {
+      return html.replace(/(<section class="hero"[\s\S]*?<\/section>)/i, '$1\n\n' + ctaHtml);
+    }
+    return ctaHtml + '\n' + html;
+  }
+  if (/data-runtime-next-steps-cta="true"/.test(html)) return html;
+  if (/<section class="section conversion-cta conversion-cta--primary"[\s\S]*?<\/section>/i.test(html)) {
+    return html.replace(/<section class="section conversion-cta conversion-cta--primary"[\s\S]*?<\/section>/i, ctaHtml);
+  }
+  if (/(<section class="hero"[\s\S]*?<\/section>)/i.test(html)) {
+    return html.replace(/(<section class="hero"[\s\S]*?<\/section>)/i, '$1\n\n' + ctaHtml);
+  }
+  return ctaHtml + '\n' + html;
+}
+
+
 function injectAdPlacements(html, ads, ctx) {
   if (!ads || typeof ads !== "object") return html;
   const city = ctx && ctx.city ? ctx.city : null;
@@ -1559,15 +1639,14 @@ function injectAdPlacements(html, ads, ctx) {
   let allowForProvidersLink = true;
   try {
     const all = loadBuyoutsSafe(REPO_ROOT);
-    const active = buyouts.getActiveBuyouts(all, new Date());
     const pageType = (ctx && ctx.pageType) ? String(ctx.pageType) : (ctx && ctx.guideRoute ? 'guide' : (city ? 'city' : ''));
     const bctx = {
       city: city && city.slug ? String(city.slug) : undefined,
-      state: city && city.state ? String(city.state) : (ctx && ctx.stateCode ? String(ctx.stateCode) : undefined),
+      state: city && city.state ? String(city.state) : (ctx && (ctx.stateCode || ctx.stateAbbr) ? String(ctx.stateCode || ctx.stateAbbr) : undefined),
       guideRoute: (ctx && ctx.guideRoute) ? String(ctx.guideRoute) : undefined,
       verticalKey: verticalKey
     };
-    const winner = buyouts.resolveWinner(active, bctx, new Date());
+    const winner = buyouts.resolveWinner(all, bctx, new Date());
     if (winner && winner.buyout === true) {
       // Under LIVE buyouts, remove the generic /for-providers link from sponsor stacks.
       allowForProvidersLink = false;
@@ -1576,7 +1655,7 @@ function injectAdPlacements(html, ads, ctx) {
         // Vertical buyout: runtime CTA is enabled elsewhere.
         // Keep fixed inventory placements intact (golden contract + sales parity).
         topIsHero = false;
-      } else if (winner.scope === 'category' || winner.scope === 'city' || winner.scope === 'state') {
+      } else if (winner.scope === 'category' || winner.scope === 'guide' || winner.scope === 'city' || winner.scope === 'state') {
         // Page-scope buyout: Top becomes hero, and other placements are suppressed (exclusive surface).
         const scopeMatches = (winner.scope === pageType) || (pageType === 'guide' && winner.scope === 'category');
         if (scopeMatches) {
@@ -2931,6 +3010,7 @@ function stripForbiddenInlineBlocks(html) {
     }
   }
 
+  mainHtml = applyRuntimeBuyoutCtaContract(mainHtml, { pageKind: (route === '' ? 'city' : ''), route, verticalKey, citySlug: city.slug, stateAbbr: city.state });
   mainHtml = injectAdPlacements(mainHtml, ads, { city: city, verticalKey: verticalKey, cityFeatures: (pageSet && pageSet.__cityFeatures) ? pageSet.__cityFeatures : null });
   mainHtml = injectSponsors(mainHtml, sponsorsByStack);
   mainHtml = injectListings(mainHtml, listings, city, sponsor || {}, pageSet);
@@ -3432,7 +3512,8 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     // Inline next-steps hub removed: dedicated /next-steps/ pages are the only full decision-hub surface.
   }
 
-  mainHtml = injectAdPlacements(mainHtml, ads, { city: null, verticalKey: verticalKey, cityFeatures: pageSet && pageSet.__cityFeatures ? pageSet.__cityFeatures : null });
+  mainHtml = applyRuntimeBuyoutCtaContract(mainHtml, { pageKind: (route === '' ? 'vertical_hub' : (route.startsWith('guides/') && route !== 'guides' ? 'guide' : '')), route, verticalKey });
+  mainHtml = injectAdPlacements(mainHtml, ads, { city: null, verticalKey: verticalKey, cityFeatures: pageSet && pageSet.__cityFeatures ? pageSet.__cityFeatures : null, guideRoute: (route.startsWith('guides/') && route !== 'guides') ? route : undefined, pageType: (route.startsWith('guides/') && route !== 'guides') ? 'guide' : ((route === '') ? 'vertical_hub' : '') });
   if (route.startsWith('guides/') && route !== 'guides') {
     if (!/data-sponsored-placement="top"/.test(mainHtml)) {
       mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/i, '$1\n\n' + renderAdPlacement('global_guide_top', {}));
@@ -4233,7 +4314,8 @@ function loadNextStepsSponsor(citySlug) {
         '%%BRAND_NAME%%': escapeHtml(brandName),
         '%%OPTIONAL_TOP_NAV%%': ''
       });
-      mapped = injectAdPlacements(mapped, ads, { verticalKey, stateAbbr: ab });
+      mapped = injectAdPlacements(mapped, ads, { verticalKey, stateAbbr: ab, pageType: 'state' });
+      mapped = applyRuntimeBuyoutCtaContract(mapped, { pageKind: 'state', route: 'states/' + ab, verticalKey, stateAbbr: ab });
       mapped = reorderMainSections(mapped, 'state');
       return mapped;
     }
@@ -4525,8 +4607,10 @@ function loadNextStepsSponsor(citySlug) {
       });
       mapped = injectAdPlacements(mapped, ads, {
         verticalKey: 'pi',
-        stateAbbr: ab
+        stateAbbr: ab,
+        pageType: 'state'
       });
+      mapped = applyRuntimeBuyoutCtaContract(mapped, { pageKind: 'state', route: 'states/' + ab, verticalKey: 'pi', stateAbbr: ab });
       mapped = reorderMainSections(mapped, 'state');
       return mapped;
     }
