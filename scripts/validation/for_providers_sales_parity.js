@@ -106,6 +106,9 @@ function run() {
     fail(lines.join('\n'));
   }
 
+  if ((((canonical||{}).surfaces||{}).guide||{}).availability !== 'vertical_buyout_only') fail('Canonical inventory must mark guide availability as vertical_buyout_only.');
+  const products = (canonical||{}).products || {};
+  if (!products.city_and_state_placement || !products.statewide_buyout || !products.vertical_buyout) fail('Canonical inventory JSON missing required product definitions.');
   console.log('✅ SALES PARITY PASS (runtime ad registry ⇄ for-providers ⇄ canonical inventory doc)');
 }
 

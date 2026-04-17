@@ -202,3 +202,7 @@ Use the structured source files instead of editing generated HTML.
 Spry Labs is the operating publisher and systems builder behind these guide properties. It maintains the editorial systems, validation workflow, routing logic, and release discipline used across the packs.
 
 Contact: `info@spryvc.com`
+
+
+## Advertising System
+See `docs/ADVERTISING_SYSTEM.md` and `docs/advertising_quick_reference.md` for the current advertising rules, homepage rule, and sponsor language.

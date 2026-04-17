@@ -9,7 +9,6 @@ const path = require('path');
 // - vertical: applies across an entire vertical pack (optionally filtered by verticalKey)
 // - state: applies to a state hub + covered pages within that state
 // - city: applies to a single city page
-// - category: applies to a guide page ("guide buyout" in business language)
 //
 // Contract rule (runtime): if a LIVE buyout exists, we must suppress conversion surfaces
 // (e.g., /for-providers/ links and mailto) and only render the contracted surface(s).
@@ -55,6 +54,28 @@ function loadBuyouts(repoRoot) {
   return data;
 }
 
+
+function loadSponsorships(repoRoot) {
+  const root = repoRoot || process.cwd();
+  const fp = path.join(root, 'data', 'sponsorships.json');
+  try {
+    const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+    return raw && typeof raw === 'object' ? raw : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function cityIncludedInStateBuyout(registry, stateAbbr, citySlug) {
+  const states = registry && registry.state_buyouts ? registry.state_buyouts : {};
+  const rec = states[String(stateAbbr || '').toUpperCase()] || states[String(stateAbbr || '').toLowerCase()] || null;
+  if (!rec) return false;
+  const included = []
+    .concat(Array.isArray(rec.cities_included) ? rec.cities_included : [])
+    .concat(Array.isArray(rec.extra_cities) ? rec.extra_cities : [])
+    .map((s) => String(s).trim().toLowerCase());
+  return included.includes(String(citySlug || '').trim().toLowerCase());
+}
 function matchesVerticalKey(rec, verticalKey) {
   if (!verticalKey) return true;
   // If the record declares a verticalKey, it must match.
@@ -90,9 +111,15 @@ function targetsMatch(rec, ctx) {
 
   if (scope === 'state') {
     if (!state) return false;
-    if (targets) return targets.some((t) => String(t).trim().toUpperCase() === state.trim().toUpperCase());
-    // legacy support
-    return String(rec.state || '').trim().toUpperCase() === state.trim().toUpperCase();
+    const stateMatch = targets
+      ? targets.some((t) => String(t).trim().toUpperCase() === state.trim().toUpperCase())
+      : String(rec.state || '').trim().toUpperCase() === state.trim().toUpperCase();
+    if (!stateMatch) return false;
+    if (citySlug) {
+      const registry = loadSponsorships(process.cwd());
+      return cityIncludedInStateBuyout(registry, state, citySlug);
+    }
+    return true;
   }
 
   if (scope === 'city') {
@@ -102,14 +129,9 @@ function targetsMatch(rec, ctx) {
     return String(rec.citySlug || '').trim().toLowerCase() === citySlug.trim().toLowerCase();
   }
 
-  // "category" / "guide" is the guide page buyout.
+    // Guide surfaces are vertical-buyout only. Standalone guide buyouts are not valid in the current model.
   if (scope === 'category' || scope === 'guide') {
-    if (!guideRoute) return false;
-    const norm = (s) => String(s || '').trim().replace(/^\/+|\/+$/g, '');
-    const gr = norm(guideRoute);
-    if (targets) return targets.some((t) => norm(t) === gr);
-    // legacy support
-    return norm(rec.guideSlug) === gr;
+    return false;
   }
 
   return false;

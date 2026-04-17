@@ -33,6 +33,39 @@ function loadBuyoutsSafe(repoRoot) {
   }
 }
 
+
+function loadSponsorshipsSafe(repoRoot) {
+  try {
+    const fp = path.join(repoRoot || process.cwd(), 'data', 'sponsorships.json');
+    if (!fs.existsSync(fp)) return {};
+    const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+    return raw && typeof raw === 'object' ? raw : {};
+  } catch {
+    return {};
+  }
+}
+
+function getActiveVerticalBuyoutConfig(verticalKey, now = new Date()) {
+  const registry = loadSponsorshipsSafe(process.cwd());
+  const recs = registry && registry.vertical_buyouts ? registry.vertical_buyouts : {};
+  const rec = recs[String(verticalKey || '')] || null;
+  if (!rec) return null;
+  if (rec.live === false) return null;
+  return rec;
+}
+
+function getActiveVerticalLeadRouting(verticalKey, now = new Date()) {
+  const rec = getActiveVerticalBuyoutConfig(verticalKey, now);
+  if (!rec || !rec.sponsor_slug) return null;
+  return {
+    sponsor_slug: String(rec.sponsor_slug),
+    sponsor_scope: 'vertical_buyout',
+    campaign_slug: String(rec.campaign_slug || ''),
+    lead_target: String(rec.lead_target || ''),
+    sponsor_name: String(rec.sponsor_name || rec.sponsor_slug || '')
+  };
+}
+
 function isLiveVerticalBuyout(buyouts = [], now = new Date()) {
   return (buyouts || []).some(
     (b) =>
@@ -71,7 +104,7 @@ function coreShouldRenderNextSteps({
   // Vertical buyout enables Next Steps CTA across eligible surfaces.
   if (winner.scope === 'vertical') return true;
 
-  // PI-only rule: state buyout may enable Next Steps CTA on the STATE page only.
+    // State buyout may enable a locked next-steps CTA on the state page only.
   if (winner.scope === 'state') {
     return pageType === 'state';
   }
@@ -144,4 +177,7 @@ module.exports = {
   getNextStepsCtaCopy,
   getNextStepsButtonCopy,
   getNextStepsHref,
+  loadSponsorshipsSafe,
+  getActiveVerticalBuyoutConfig,
+  getActiveVerticalLeadRouting,
 };

@@ -1668,7 +1668,13 @@ function injectAdPlacements(html, ads, ctx) {
   }
 
   return html.replace(/%%AD:([a-zA-Z0-9_\-]+)%%/g, (m, key) => {
+    const pageTypeLocal = (ctx && ctx.pageType) ? String(ctx.pageType) : (ctx && ctx.guideRoute ? 'guide' : (city ? 'city' : ''));
     const cfg = ads && ads[key] ? ads[key] : null;
+    if (pageTypeLocal === 'guide') {
+      const allGuideBuyouts = loadBuyoutsSafe(REPO_ROOT);
+      const guideWinner = buyouts.resolveWinner(allGuideBuyouts, { verticalKey, guideRoute: (ctx && ctx.guideRoute) ? String(ctx.guideRoute) : undefined }, new Date());
+      if (!(guideWinner && guideWinner.scope === 'vertical' && guideWinner.buyout === true)) return '';
+    }
     // state_lookup_cta is not an ad — it's a functional utility CTA.
     if (key === 'state_lookup_cta') {
       if (!cfg || cfg.enabled !== true) return '';
@@ -1894,7 +1900,9 @@ function stripRequestAssistanceHero(requestAssistanceHtml) {
 function renderDedicatedNextStepsHubHtml(opts) {
   var compareHref = String(opts && opts.compareHref ? opts.compareHref : '/guides/');
   var toolsHref = String(opts && opts.toolsHref ? opts.toolsHref : '/faq/');
+  var sponsorRouting = opts && opts.sponsorRouting ? opts.sponsorRouting : null;
   var requestAssistanceHtml = stripRequestAssistanceHero(String(opts && opts.requestAssistanceHtml ? opts.requestAssistanceHtml : ''));
+  requestAssistanceHtml = applyVerticalLeadRoutingToRequestAssistanceHtml(requestAssistanceHtml, sponsorRouting);
   var marketLabel = String(opts && opts.marketLabel ? opts.marketLabel : 'this market');
   var pageTitle = String(opts && opts.pageTitle ? opts.pageTitle : 'Next steps');
   return (
@@ -1913,6 +1921,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
           '<h3>Get matched with a provider</h3>' +
           '<p>The full callback form lives directly on this page below. Use it when you want a provider call back without leaving the decision hub.</p>' +
           '<p class="actions"><a class="button button-primary" data-next-steps-primary="true" href="#request-assistance-form">Jump to the full form</a></p>' +
+        (sponsorRouting && sponsorRouting.sponsor_slug ? '<p class="muted" data-next-steps-sponsor-routing="true">This live conversion flow is currently routed to the active vertical sponsor.</p>' : '') +
         '</div>' +
         '<div class="card" data-next-steps-card="compare">' +
           '<h3>Compare your options</h3>' +
@@ -1936,6 +1945,22 @@ function renderDedicatedNextStepsHubHtml(opts) {
   );
 }
 
+
+function applyVerticalLeadRoutingToRequestAssistanceHtml(requestAssistanceHtml, sponsorRouting) {
+  let html = String(requestAssistanceHtml || '');
+  if (!sponsorRouting || !sponsorRouting.sponsor_slug) return html;
+  const note = '<div class="card" data-sponsored-routing-note="true"><p><strong>Sponsored routing active.</strong> This conversion flow is currently operating under a vertical buyout. The public route stays the same, but callback routing may go directly to the active sponsor.</p></div>';
+  if (!html.includes('data-sponsored-routing-note="true"')) {
+    html = html.replace(/(<section class="section" data-request-assistance-form-primary="true">)/, '$1\n' + note);
+  }
+  html = html.replace('id="sponsor_slug" name="sponsor_slug" value=""', 'id="sponsor_slug" name="sponsor_slug" value="' + escapeHtml(String(sponsorRouting.sponsor_slug || '')) + '"');
+  html = html.replace('id="sponsor_scope" name="sponsor_scope" value=""', 'id="sponsor_scope" name="sponsor_scope" value="' + escapeHtml(String(sponsorRouting.sponsor_scope || 'vertical_buyout')) + '"');
+  html = html.replace('id="campaign_slug" name="campaign_slug" value=""', 'id="campaign_slug" name="campaign_slug" value="' + escapeHtml(String(sponsorRouting.campaign_slug || '')) + '"');
+  if (!html.includes('id="lead_target"')) {
+    html = html.replace('id="campaign_slug" name="campaign_slug" value="' + escapeHtml(String(sponsorRouting.campaign_slug || '')) + '" />', 'id="campaign_slug" name="campaign_slug" value="' + escapeHtml(String(sponsorRouting.campaign_slug || '')) + '" />\n            <input type="hidden" id="lead_target" name="lead_target" value="' + escapeHtml(String(sponsorRouting.lead_target || '')) + '" />');
+  }
+  return html;
+}
 function renderInlineScripts(inlineScripts, city) {
   if (!inlineScripts || inlineScripts.length === 0) return "";
   return inlineScripts.map((code) => `<script>\n${applyCityTokens(code, city)}\n</script>`).join("\n\n");
@@ -3505,7 +3530,8 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
-      requestAssistanceHtml: extractRequestAssistanceHtml(pageSet)
+      requestAssistanceHtml: extractRequestAssistanceHtml(pageSet),
+      sponsorRouting: sponsorship.getActiveVerticalLeadRouting(verticalKey)
     });
   } else {
     var globalRoutePath = route ? ('/' + route.replace(/^\//, '') + '/') : '/';
@@ -3523,6 +3549,14 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     }
   }
   mainHtml = injectSponsors(mainHtml, globalSponsorsByStack || {});
+  if (route.startsWith('guides/') && route !== 'guides') {
+    const guideWinner2 = buyouts.resolveWinner(loadBuyoutsSafe(REPO_ROOT), { verticalKey, guideRoute: route }, new Date());
+    const guideVerticalLive2 = !!(guideWinner2 && guideWinner2.scope === 'vertical' && guideWinner2.buyout === true);
+    if (!guideVerticalLive2) {
+      mainHtml = mainHtml.replace(/\s*<aside[^>]*data-sponsored-placement="top"[\s\S]*?<\/aside>\s*/ig, '\n');
+      mainHtml = mainHtml.replace(/\s*<aside[^>]*data-sponsored-placement="bottom"[\s\S]*?<\/aside>\s*/ig, '\n');
+    }
+  }
 
   const globalFanoutCluster = fanout.buildFanoutCluster({
     verticalKey,
@@ -4375,7 +4409,8 @@ function loadNextStepsSponsor(citySlug) {
         pageTitle: title,
         compareHref: '/guides/?intent=decision_hub&button=next_steps_page_compare&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         toolsHref: '/faq/?intent=self_serve&button=next_steps_page_tools&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
-        requestAssistanceHtml: extractRequestAssistanceHtml(pageSet)
+        requestAssistanceHtml: extractRequestAssistanceHtml(pageSet),
+        sponsorRouting: sponsorship.getActiveVerticalLeadRouting(verticalKey)
       });
 
       const mapped = replaceAll(baseTemplate, {

@@ -128,6 +128,7 @@ export async function onRequestPost(context) {
     const sponsor_slug = String(body.sponsor_slug || '').trim().slice(0, 120);
     const sponsor_scope = String(body.sponsor_scope || '').trim().slice(0, 32);
     const campaign_slug = String(body.campaign_slug || '').trim().slice(0, 120);
+    const lead_target = String(body.lead_target || '').trim().slice(0, 240);
     const consent = String(body.consent || '').trim();
     const phone = normalizePhone(body.phone || '');
     const zip = normalizeZip(body.zip || '');
@@ -173,6 +174,7 @@ export async function onRequestPost(context) {
       sponsor_slug: sponsor_slug || '',
       sponsor_scope: sponsor_scope || '',
       campaign_slug: campaign_slug || '',
+      lead_target: lead_target || '',
       created_at: nowIso
     };
 

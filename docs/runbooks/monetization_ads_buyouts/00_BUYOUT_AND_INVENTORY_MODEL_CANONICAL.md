@@ -1,67 +1,25 @@
-# BUYOUT + INVENTORY MODEL (CANONICAL)
+# BUYOUT AND INVENTORY MODEL (CANONICAL)
 
-**Status: LOCKED CANONICAL AUTHORITY**
+## Products
 
-This document defines the buyout tiers, inventory counting rules, and which pages are affected. Validators and sponsor-apply logic must match this 1:1.
+### City & State Placement
+- city pages
+- state pages
+- no homepage
+- no guides
 
----
+### Statewide Buyout
+- state page
+- up to 10 selected cities
+- extra cities are paid add-ons
+- no homepage
+- no guides
 
-## Live Buyout CTA (runtime)
+### Vertical Buyout
+- homepage hero
+- guides
+- broader eligible city/state coverage
+- CTA conversion dominance
 
-When a **Vertical Pack Buyout** is LIVE, a runtime CTA must render on eligible pages (suppressed by conflicts per the doctrine below).
-
-**Canonical CTA copy (must be identical):**
-
-> Review the local next-step guide before choosing a provider.
-
-(Implementation uses `data-next-steps-cta="true"` for validation.)
-
----
-
-## Scopes
-
-- **guide** — a specific guide route (e.g. `guides/trt/what-is-trt`)
-- **city** — a specific city page (e.g. `atlanta-ga`)
-- **state** — PI-only state page (e.g. `tx`), only in PI packs
-- **vertical** — the full vertical pack (the $75K buyout)
-
----
-
-## Inventory counting rules (locked)
-
-These are the surfaces that count as inventory when included in a scope.
-
-- **City pages**: 3 placements per city page (**all count**)
-- **Guide pages**: 2 placements per guide page (**all count**)
-- **PI state pages**: included in PI packs; placements count (state page inventory is defined by the current PI page contract)
-- **Hub hero**: counts as 1 placement
-
-### Hero rendering rule (locked)
-
-For **Guide Buyout**, **City Buyout**, and **State Buyout**:
-
-- The **Top placement** renders in a **hero-style format** (same placement; **no new slot is created**).
-- Shared placements do **not** render hero-style.
-
-Implementation note: the builder marks the Top placement with `data-sponsor-placement="top"` and adds `class="is-buyout-hero"` on that placement when the resolved winner is a buyout.
-
----
-
-## Canonical buyout record model
-
-```json
-{
-  "scope": "guide" | "city" | "state" | "vertical",
-  "targets": ["guides/trt/what-is-trt", "atlanta-ga", "tx", "ALL"],
-  "starts_on": "2026-02-01",
-  "ends_on": "2026-08-01",
-  "priority": 2,
-  "buyout": true,
-  "live": false
-}
-```
-
-Notes:
-- `targets:["ALL"]` is only valid for `scope:"vertical"`.
-- `priority` resolves overlaps deterministically.
-
+## CTA rule
+Vertical buyout may buy out the CTA conversion layer, but all public buttons still flow through the same /next-steps/ path.

@@ -35,6 +35,7 @@ const buyoutRuntimeCtaContract = require('./validation/buyout_runtime_cta_contra
 const nextStepsCtaContract = require('./validation/next_steps_cta_contract');
 const forProvidersInquiry = require('./validation/for_providers_inquiry');
 const forProvidersSalesParity = require('./validation/for_providers_sales_parity');
+const sponsorshipConflictValidator = require('./validation/sponsorship_conflict_validator');
 const forProvidersContract = require('./validation/for_providers_contract');
 const guidesIndexLinks = require('./validation/guides_index_links');
 const footerContract = require('./validation/footer_contract');
@@ -127,6 +128,7 @@ function main() {
   entrypointExports.run();
   publicSourceUrlPolicy.run();
   queryCompilerOverridesContract.run();
+  sponsorshipConflictValidator.run({ site });
   verticalGuideDepthContract.run();
   siteUrlContract.run();
   workflowIntegrityContract.run();
