@@ -16,7 +16,7 @@ function classify(rel) {
   if (route === '/guides/') return 'guides-hub';
   if (/^\/guides\/.+\/$/.test(route)) return 'guide-detail';
   if (/^\/states\/[a-z]{2}\/$/i.test(route)) return 'state-home';
-  if (/^\/[a-z0-9-]+\/$/.test(route) && !['/faq/', '/about/', '/contact/', '/methodology/', '/editorial-policy/', '/privacy/', '/disclaimer/', '/for-providers/', '/request-assistance/', '/next-steps/', '/personal-injury/', '/states/', '/verification/'].includes(route)) return 'city-home';
+  if (/^\/[a-z0-9-]+\/$/.test(route) && !['/faq/', '/about/', '/contact/', '/methodology/', '/editorial-policy/', '/privacy/', '/disclaimer/', '/for-providers/', '/request-assistance/', '/next-steps/', '/admin/', '/personal-injury/', '/states/', '/verification/'].includes(route)) return 'city-home';
   return 'other';
 }
 

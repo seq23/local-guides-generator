@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-16T19:02:55.069Z",
+  "generatedAt": "2026-04-18T01:11:17.590Z",
   "verticalKey": "dentistry",
   "pageSetFile": "data/page_sets/examples/dentistry_v1.json",
-  "totalPages": 159,
+  "totalPages": 160,
   "records": [
     {
       "pageKind": "global-detail",
@@ -48,6 +48,57 @@
           "items": [
             {
               "query": "find help with About",
+              "href": "/request-assistance/",
+              "label": "Get matched with a provider"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "global-detail",
+      "route": "/admin/",
+      "title": "Operator Admin | The Dentistry Guides",
+      "topic": "Operator Admin",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Operator Admin",
+              "href": "/admin/",
+              "label": "This page"
+            },
+            {
+              "query": "what should I know about Operator Admin",
+              "href": "/admin/",
+              "label": "This page"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how to compare options for Operator Admin",
+              "href": "/guides/",
+              "label": "Guides hub"
+            },
+            {
+              "query": "questions to ask about Operator Admin",
+              "href": "/faq/",
+              "label": "FAQ"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "find help with Operator Admin",
               "href": "/request-assistance/",
               "label": "Get matched with a provider"
             }

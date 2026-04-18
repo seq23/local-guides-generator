@@ -26,6 +26,11 @@ const PACK_SITE_CONFIG = {
     siteUrl: 'https://uscisexam.com',
     brandName: 'USCIS Exam Guides',
   },
+  starter: {
+    pageSetSlugs: ['starter_v1.json'],
+    siteUrl: 'https://local-guides-generator.pages.dev',
+    brandName: 'LKG Training Pack',
+  },
 };
 
 function normalizePageSet(raw) {

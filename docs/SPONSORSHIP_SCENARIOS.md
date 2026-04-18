@@ -26,3 +26,7 @@ Result:
 - no homepage
 - no guides
 - no CTA conversion buyout
+
+
+## Missing-city workflow
+Use `docs/CITY_ADDITION_RUNBOOK.md` with `data/templates/city_request.template.json` when a sponsor requests cities that are not yet in the system.

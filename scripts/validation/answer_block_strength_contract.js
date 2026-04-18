@@ -28,7 +28,7 @@ function main() {
 
   const globalExclusions = new Set([
     'about', 'contact', 'disclaimer', 'editorial-policy', 'faq', 'for-providers',
-    'methodology', 'next-steps', 'privacy', 'request-assistance', 'personal-injury', 'states', 'verification'
+    'methodology', 'next-steps', 'privacy', 'request-assistance', 'admin', 'personal-injury', 'states', 'verification'
   ]);
 
   const targets = walk(dist).filter((file) => {

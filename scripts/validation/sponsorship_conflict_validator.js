@@ -11,6 +11,8 @@ function run(ctx){
   const data = JSON.parse(fs.readFileSync(p,'utf8'));
   const base = (((data||{}).statewide_buyout)||{}).base_city_limit;
   if (base !== 10) fail('statewide_buyout.base_city_limit must equal 10');
+  const policy = (((data||{}).statewide_buyout)||{}).extra_city_policy;
+  if (String(policy || '') !== 'unlimited_with_explicit_declaration') fail('statewide_buyout.extra_city_policy must equal unlimited_with_explicit_declaration');
   const cities = (data && data.cities) || {};
   const states = (data && data.state_buyouts) || {};
   const seen = new Set(Object.keys(cities).map((s)=>String(s).toLowerCase()));
@@ -18,6 +20,9 @@ function run(ctx){
     const included = Array.isArray(rec.cities_included) ? rec.cities_included : [];
     const extra = Array.isArray(rec.extra_cities) ? rec.extra_cities : [];
     if (included.length > 10) fail(`${stateKey} includes ${included.length} base cities; max is 10`);
+    for (const city of included) {
+      if (extra.includes(city)) fail(`${stateKey} duplicates ${city} in both base and extra cities`);
+    }
     if (extra.length > 0 && String(rec.extra_city_pricing || '') !== 'contract_required') fail(`${stateKey} extra cities require extra_city_pricing=contract_required`);
     for (const city of included.concat(extra)) {
       const slug = String(city).toLowerCase();

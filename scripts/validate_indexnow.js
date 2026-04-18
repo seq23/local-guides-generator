@@ -32,6 +32,20 @@ function pickExisting(...candidates) {
 if (!fs.existsSync(CONFIG)) throw new Error('distribution.config.json missing');
 if (!fs.existsSync(INDEXNOW_TXT)) throw new Error('indexnow.txt missing');
 
+
+const SITE_PATH = path.join(ROOT, 'data', 'site.json');
+let ACTIVE_PAGESET = '';
+try {
+  if (fs.existsSync(SITE_PATH)) {
+    const site = readJson(SITE_PATH);
+    ACTIVE_PAGESET = String(site.pageSetFile || '');
+  }
+} catch {}
+if (ACTIVE_PAGESET.endsWith('starter_v1.json')) {
+  console.log('validate_indexnow: SKIP (starter_v1 training pack)');
+  process.exit(0);
+}
+
 const cfg = readJson(CONFIG);
 const indexnow = cfg.indexnow || {};
 if (!indexnow.key || !indexnow.key_file) {

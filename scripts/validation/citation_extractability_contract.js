@@ -14,7 +14,7 @@ function classify(rel) {
   const route = rel === 'index.html' ? '/' : `/${rel.slice(0, -'/index.html'.length)}/`;
   if (route === '/') return 'home';
   if (/^\/guides\/.+\/$/.test(route) && route !== '/guides/') return 'guide-detail';
-  if (/^\/[a-z0-9-]+\/$/.test(route) && !['/guides/', '/faq/', '/about/', '/contact/', '/methodology/', '/editorial-policy/', '/privacy/', '/disclaimer/', '/for-providers/', '/request-assistance/', '/next-steps/', '/personal-injury/', '/states/', '/verification/'].includes(route)) return 'city-home';
+  if (/^\/[a-z0-9-]+\/$/.test(route) && !['/guides/', '/faq/', '/about/', '/contact/', '/methodology/', '/editorial-policy/', '/privacy/', '/disclaimer/', '/for-providers/', '/request-assistance/', '/next-steps/', '/admin/', '/personal-injury/', '/states/', '/verification/'].includes(route)) return 'city-home';
   if (route === '/guides/') return 'guides-hub';
   return 'other';
 }

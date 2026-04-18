@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-16T19:06:21.454Z",
+  "generatedAt": "2026-04-18T01:11:21.746Z",
   "verticalKey": "neuro",
   "pageSetFile": "data/page_sets/examples/neuro_v1.json",
-  "totalPages": 200,
+  "totalPages": 201,
   "records": [
     {
       "pageKind": "global-detail",
@@ -48,6 +48,57 @@
           "items": [
             {
               "query": "find help with About",
+              "href": "/next-steps/",
+              "label": "Get matched with a provider"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "global-detail",
+      "route": "/admin/",
+      "title": "Operator Admin | Neuro Evaluation Guides",
+      "topic": "Operator Admin",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Operator Admin",
+              "href": "/admin/",
+              "label": "This page"
+            },
+            {
+              "query": "what should I know about Operator Admin",
+              "href": "/admin/",
+              "label": "This page"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how to compare options for Operator Admin",
+              "href": "/guides/how-to-choose-a-neuro-evaluation-provider/",
+              "label": "Guides hub"
+            },
+            {
+              "query": "questions to ask about Operator Admin",
+              "href": "/guides/questions-to-ask-before-neuro-testing/",
+              "label": "FAQ"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "find help with Operator Admin",
               "href": "/next-steps/",
               "label": "Get matched with a provider"
             }

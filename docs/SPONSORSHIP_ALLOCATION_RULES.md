@@ -6,9 +6,17 @@
 
 ## Allocation rules
 
-1. City sponsor wins locally.
-2. A statewide buyout includes the state page and up to 10 selected cities.
-3. Additional cities require explicit add-on approval.
-4. A statewide buyout cannot silently consume a city that already has a city sponsor.
-5. Guides and homepage are vertical-buyout-only surfaces.
-6. Only a vertical buyout can control CTA conversion surfaces.
+1. City shared placement exists and is stacked.
+2. City buyout exists and is exclusive at the city level.
+3. State shared placement does not exist.
+4. State Buyout (PI only) is the only state-level product.
+5. A State Buyout may expand to additional cities within the same state upon request, subject to hierarchy and conflict rules.
+6. A State Buyout cannot silently consume a city that already has a city sponsor.
+7. Guides do not have standalone sponsorship tiers. Guide-related conversion surfaces only appear through Vertical Buyout behavior.
+8. Only a Vertical Buyout can control CTA conversion surfaces across eligible pages.
+
+See `docs/SPONSOR_ACTIVATION_RUNBOOK.md` for the single step-by-step operator flow.
+
+
+## Missing-city workflow
+Use `docs/CITY_ADDITION_RUNBOOK.md` with `data/templates/city_request.template.json` when a sponsor requests cities that are not yet in the system.

@@ -1,39 +1,35 @@
-# Runbooks
+# Runbooks Index
 
-Owner + VA operational runbooks for this repo.
+Use this section after you have read:
+- `docs/START_HERE.md`
+- `docs/REPO_ARCHITECTURE_PRIMER.md`
 
-## Cloudflare
-- **Domains + bulk redirects:** `docs/runbooks/cloudflare_domains_redirects/`
-- **Cloudflare Pages (5 canonicals):** `docs/runbooks/cloudflare_pages/`
+These runbooks are organized by task, not by onboarding order.
 
-## Generator operations
-- **Vertical packs + schemas:** `docs/runbooks/packs_verticals/`
-- **Runtime inventory + coverage authority:** `docs/runbooks/runtime_inventory/`
-- **Guides system (auto discovery, prompts, QA):** `docs/runbooks/guides_system/`
-- **Monetization + ads (non-sponsor + sponsor hooks):** `docs/runbooks/monetization_ads/`
-- **Sponsor ads + buyouts (drop-in assets):** `docs/runbooks/sponsors_ads_buyouts/`
-- **Coverage expansion framework (planning + Phase 3 handoff + Wave 1 execution):** `docs/runbooks/coverage_expansion/`
+## Build and validation
+- `docs/how-to-build-and-validate-a-vertical-pack.md`
+- `docs/release-validation-and-deployment-checklist.md`
+- `docs/common-build-and-validation-failures.md`
 
-## Releases
-- [Snapshot Apply — One-Shot (Non-Interactive)](releases/SNAPSHOT_ONE_SHOT_APPLY.md)
-- [LKG Update Runbook](releases/01_lkg_update_runbook.md)
-- [Executable Bit Restore and Verification](releases/02_EXECUTABLE_BIT_RESTORE_AND_VERIFICATION.md)
-- **Build/validate/deploy + rollback:** `docs/runbooks/releases/`
+## Sponsorship, ads, and buyouts
+- `docs/SPONSOR_ACTIVATION_RUNBOOK.md`
+- `docs/SPONSORSHIP_ALLOCATION_RULES.md`
+- `docs/SPONSORSHIP_SCENARIOS.md`
+- `docs/runbooks/sponsorship_runtime.md`
 
-## Manual-only fallback
-- **No-terminal SOPs:** `docs/runbooks/manual_only/`
-- `guides_rendering.md` — guide discovery, normalization, hub cards, and rendering flow
-- `sponsorship_runtime.md` — hero vs slot rules, buyout/vertical buyout behavior, and Next Steps CTA runtime
+## Runtime inventory and city/state work
+- `docs/CITY_ADDITION_RUNBOOK.md`
+- `docs/runbooks/runtime_inventory/`
+- `docs/runbooks/packs_verticals/`
 
-## LLM visibility + freshness
-- [01 — LLM Visibility Primer](llm_visibility/01_LLM_VISIBILITY_PRIMER.md)
-- [02 — AI Citation Routing Hardening](llm_visibility/02_AI_CITATION_ROUTING_HARDENING.md)
-- [03 — Sitemap Crawl Parity](llm_visibility/03_SITEMAP_CRAWL_PARITY.md)
-- [04 — Homepage Schema Contract](llm_visibility/04_HOMEPAGE_SCHEMA_CONTRACT.md)
-- [05 — IndexNow and LLM Surface](llm_visibility/05_INDEXNOW_AND_LLM_SURFACE.md)
-- [06 — Request Assistance Production Guardrail](llm_visibility/06_REQUEST_ASSISTANCE_PRODUCTION_GUARDRAIL.md)
-- [07 — Phase 1 System Hardening Summary](llm_visibility/07_PHASE1_SYSTEM_HARDENING_SUMMARY.md)
-- **GitHub Actions runbook (Verify / Validate LKG / Rotating Refresh):** `docs/runbooks/github_actions/README_GITHUB_ACTIONS.md`
+## Cloudflare and infrastructure
+- `docs/runbooks/cloudflare_domains_redirects/`
+- `docs/runbooks/cloudflare_pages/`
 
-- coverage_expansion/06_PHASE3_WAVE2_TRT_NEURO_EXECUTION.md
-- `coverage_expansion/07_PHASE3_WAVE3_STATE_COMPLETION.md` — shared 50-state completion matrix for USCIS, TRT, and Neuro.
+## Releases and deployment
+- `docs/runbooks/releases/`
+- `docs/releases/RELEASE_INDEX.md`
+
+## Training and archive
+- `docs/training_v1/`
+- `docs/_archive_2026-02-01/`

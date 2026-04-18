@@ -18,6 +18,7 @@ const GLOBAL_DIST_EXCLUSIONS = new Set([
   'next-steps',
   'privacy',
   'request-assistance',
+  'admin',
   'assets'
 ]);
 

@@ -58,3 +58,7 @@ This means:
 - City sponsor wins locally
 - Statewide buyout includes only the selected cities in its contract
 - Vertical buyout controls guides, homepage, and conversion dominance
+
+
+## Missing-city workflow
+When a sponsor requests a city that does not yet exist, use `data/templates/city_request.template.json`, run `scripts/scaffold_city_from_request.js`, then follow `docs/CITY_ADDITION_RUNBOOK.md`.

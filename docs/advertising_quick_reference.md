@@ -3,7 +3,7 @@
 ## Fast answer
 
 - City & State Placement = city + state pages only
-- Statewide Buyout = state page + up to 10 selected cities
+- Statewide Buyout = state page + up to 10 base cities
 - Vertical Buyout = homepage + guides + conversion dominance
 
 ## What standard placement does not include
@@ -22,3 +22,9 @@ The form can route the lead to the sponsor.
 ## One-line rule
 
 No vertical buyout = no homepage ads and no guide ads.
+
+See `docs/SPONSOR_ACTIVATION_RUNBOOK.md` for the single step-by-step operator flow.
+
+
+## Missing-city workflow
+Use `docs/CITY_ADDITION_RUNBOOK.md` with `data/templates/city_request.template.json` when a sponsor requests cities that are not yet in the system.

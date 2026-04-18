@@ -1,0 +1,29 @@
+{
+  "template_version": "CITY_REQUEST_TEMPLATE_V1",
+  "purpose": "Use this template when a sponsor asks for a city that is missing or when operations needs to classify cities as base vs extra in a statewide buyout.",
+  "fields_required": [
+    "vertical",
+    "state_code",
+    "city_name",
+    "city_slug",
+    "market_label",
+    "intended_package",
+    "is_base_included",
+    "is_extra_city"
+  ],
+  "requests": [
+    {
+      "vertical": "uscis_medical",
+      "state_code": "TX",
+      "city_name": "Plano",
+      "city_slug": "plano-tx",
+      "market_label": "Plano, TX",
+      "requested_by_sponsor": true,
+      "sponsor_key": "example-sponsor",
+      "intended_package": "statewide",
+      "is_base_included": false,
+      "is_extra_city": true,
+      "notes": "Example only. Replace before use."
+    }
+  ]
+}

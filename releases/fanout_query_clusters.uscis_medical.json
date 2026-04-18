@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-17T22:03:48.625Z",
+  "generatedAt": "2026-04-18T01:11:25.997Z",
   "verticalKey": "uscis_medical",
   "pageSetFile": "data/page_sets/examples/uscis_medical_v1.json",
-  "totalPages": 182,
+  "totalPages": 183,
   "records": [
     {
       "pageKind": "global-detail",
@@ -48,6 +48,57 @@
           "items": [
             {
               "query": "find help with About",
+              "href": "/next-steps/",
+              "label": "Get matched with a provider"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageKind": "global-detail",
+      "route": "/admin/",
+      "title": "Operator Admin | USCIS Exam Guides",
+      "topic": "Operator Admin",
+      "groups": [
+        {
+          "id": "primary",
+          "label": "Primary route",
+          "items": [
+            {
+              "query": "Operator Admin",
+              "href": "/admin/",
+              "label": "This page"
+            },
+            {
+              "query": "what should I know about Operator Admin",
+              "href": "/admin/",
+              "label": "This page"
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "how to compare options for Operator Admin",
+              "href": "/guides/i-693-medical-exam-requirements/",
+              "label": "Guides hub"
+            },
+            {
+              "query": "questions to ask about Operator Admin",
+              "href": "/faq/",
+              "label": "FAQ"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Related decision paths",
+          "items": [
+            {
+              "query": "find help with Operator Admin",
               "href": "/next-steps/",
               "label": "Get matched with a provider"
             }

@@ -25,6 +25,7 @@ const path = require("path");
 
 const sponsorship = require("./helpers/sponsorship");
 const buyouts = require("./helpers/buyouts");
+const cityRegistry = require("./helpers/city_registry");
 const fanout = require("./helpers/fanout");
 const { getPackSiteConfig } = require("./lib/pack_site_config");
 
@@ -45,6 +46,152 @@ const COVERAGE_TARGETS_PATH = path.join(DATA_DIR, "research", "coverage", "cover
 const SHARED_CITY_REGISTRY_PATH = path.join(DATA_DIR, "research", "shared", "us_city_registry.csv");
 const COVERAGE_PROMOTED_PATH = path.join(DATA_DIR, "research", "coverage", "coverage_promoted.csv");
 const COVERAGE_RUNTIME_SUPPORT_PATH = path.join(DATA_DIR, "research", "coverage", "coverage_runtime_support.csv");
+
+
+function readJsonSafe(fp, fallback) {
+  try {
+    return JSON.parse(fs.readFileSync(fp, 'utf8'));
+  } catch (_) {
+    return fallback;
+  }
+}
+
+function buildAdminStatusData(pageSet, verticalKey, cities) {
+  const registry = sponsorship.loadSponsorshipsSafe(REPO_ROOT) || {};
+  const liveBuyouts = buyouts.loadBuyouts(REPO_ROOT) || [];
+  const stateCfg = registry.statewide_buyout || {};
+  const cityReservations = registry.cities || {};
+  const stateBuyouts = registry.state_buyouts || {};
+  const verticalBuyouts = registry.vertical_buyouts || {};
+  const activeVerticalRuntime = (liveBuyouts || []).find((b) => b && b.live === true && b.scope === 'vertical' && Array.isArray(b.targets) && b.targets.some((t) => String(t).toLowerCase() === 'all') && (!b.verticalKey || b.verticalKey === verticalKey)) || null;
+  const verticalOwnership = verticalBuyouts[String(verticalKey || '')] || null;
+  const reservedCitySet = new Set(Object.keys(cityReservations).map((s) => String(s).trim().toLowerCase()));
+  const coveredCities = (cities || []).map((c) => ({ slug: String(c.slug || '').toLowerCase(), label: String(c.marketLabel || c.slug || ''), state: String(c.state || '').toUpperCase() }));
+  const freeCities = coveredCities.filter((c) => !reservedCitySet.has(c.slug));
+  const byState = new Map();
+  for (const c of coveredCities) {
+    const key = String(c.state || '').toUpperCase();
+    if (!byState.has(key)) byState.set(key, []);
+    byState.get(key).push(c);
+  }
+  const activeStateRows = Object.entries(stateBuyouts).map(([abbr, rec]) => {
+    const baseCities = Array.isArray(rec && rec.cities_included) ? rec.cities_included : [];
+    const extraCities = Array.isArray(rec && rec.extra_cities) ? rec.extra_cities : [];
+    const covered = byState.get(String(abbr).toUpperCase()) || [];
+    const missing = baseCities.concat(extraCities).filter((slug) => !covered.some((row) => row.slug === String(slug).toLowerCase()));
+    return {
+      state: String(abbr).toUpperCase(),
+      sponsor: String((rec && (rec.sponsor_name || rec.sponsor_slug)) || '—'),
+      baseCities,
+      extraCities,
+      included: baseCities.concat(extraCities),
+      missing,
+      leadTarget: String((rec && rec.lead_target) || ''),
+      live: rec && rec.live === true
+    };
+  });
+  const templatePath = path.join(REPO_ROOT, 'data', 'templates', 'city_request.template.json');
+  let requestTemplate = { requests: [] };
+  try { requestTemplate = JSON.parse(fs.readFileSync(templatePath, 'utf8')); } catch {}
+  return {
+    pageSetFile: String((pageSet && pageSet.pageSetFile) || ''),
+    cityLimit: Number(stateCfg.base_city_limit || 10),
+    extraCityPolicy: String(stateCfg.extra_city_policy || 'unlimited_with_explicit_declaration'),
+    extraCityPricing: String(stateCfg.extra_city_pricing || 'contract_required'),
+    coveredCities,
+    freeCities,
+    reservedCitySet,
+    cityReservations,
+    activeStateRows,
+    verticalOwnership,
+    activeVerticalRuntime,
+    verticalKey: String(verticalKey || ''),
+    requestTemplateCount: Array.isArray(requestTemplate.requests) ? requestTemplate.requests.length : 0
+  };
+}
+
+function buildAdminStatusCardsHtml(admin) {
+  const cards = [
+    ['Active vertical buyout', admin.activeVerticalRuntime ? 'Yes' : 'No'],
+    ['Vertical ownership record', admin.verticalOwnership ? 'Present' : 'None'],
+    ['Reserved city count', String(admin.reservedCitySet.size)],
+    ['Free city count', String(admin.freeCities.length)],
+    ['Base city limit', String(admin.cityLimit)],
+    ['Extra city policy', admin.extraCityPolicy || 'unlimited_with_explicit_declaration'],
+    ['Template requests loaded', String(admin.requestTemplateCount || 0)]
+  ];
+  return '<div class="admin-grid" data-admin-status-cards="true">' + cards.map(([k,v]) => '<div class="admin-card"><p class="admin-mini">'+escapeHtml(k)+'</p><p><strong>'+escapeHtml(v)+'</strong></p></div>').join('') + '</div>';
+}
+
+function buildAdminProductSummaryHtml() {
+  return '<div class="admin-grid" data-admin-product-summary="true">'
+    + '<div class="admin-card"><h3>City &amp; State Placement</h3><p>Baseline inventory on city and state pages only.</p><p class="admin-mini">No homepage. No guides.</p></div>'
+    + '<div class="admin-card"><h3>Statewide Buyout</h3><p>One state page + up to 10 base cities in that state.</p><p class="admin-mini">Additional cities are unlimited but must be explicitly declared as extras.</p></div>'
+    + '<div class="admin-card"><h3>Vertical Buyout</h3><p>Homepage + guides + CTA conversion dominance.</p><p class="admin-mini">Uses the same public <code>/next-steps/</code> and <code>/request-assistance/</code> routes.</p></div>'
+    + '</div>';
+}
+
+function buildAdminInventoryTableHtml(admin) {
+  const cityRows = admin.coveredCities.slice().sort((a,b)=>a.label.localeCompare(b.label)).map((c)=>{
+    const rec = admin.cityReservations[c.slug] || null;
+    const status = rec ? 'Taken' : 'Free';
+    const sponsor = rec ? String(rec.sponsor_name || rec.sponsor_slug || 'Reserved') : '—';
+    return '<tr><td>'+escapeHtml(c.label)+'</td><td>'+escapeHtml(status)+'</td><td>'+escapeHtml(sponsor)+'</td></tr>';
+  }).join('');
+  const stateRows = admin.activeStateRows.length ? admin.activeStateRows.map((r)=>{
+    const included = (r.included || []).map((s)=>escapeHtml(String(s))).join(', ') || '—';
+    return '<tr><td>'+escapeHtml(r.state)+'</td><td>'+escapeHtml(r.sponsor)+'</td><td data-admin-statewide-counter="true">'+escapeHtml(String((r.baseCities||[]).length))+' / '+escapeHtml(String(admin.cityLimit))+' base<br><span class="admin-mini">'+escapeHtml(String((r.extraCities||[]).length))+' extra</span></td><td>'+included+(r.missing && r.missing.length ? '<br><span class="admin-mini">Missing in pack: '+escapeHtml(r.missing.join(', '))+'</span>' : '')+'</td></tr>';
+  }).join('') : '<tr><td colspan="4">No statewide buyouts configured.</td></tr>';
+  return '<div class="admin-grid">'
+    + '<div class="admin-card"><h3>City availability</h3><table class="admin-table" data-admin-city-table="true"><thead><tr><th>City</th><th>Status</th><th>Sponsor</th></tr></thead><tbody>'+cityRows+'</tbody></table></div>'
+    + '<div class="admin-card" data-admin-statewide-counter="true"><h3>Statewide buyouts</h3><table class="admin-table" data-admin-state-table="true"><thead><tr><th>State</th><th>Sponsor</th><th>Base / extra</th><th>City list</th></tr></thead><tbody>'+stateRows+'</tbody></table></div>'
+    + '</div>';
+}
+
+function buildAdminCtaStatusHtml(admin) {
+  const verticalLead = admin.verticalOwnership ? String(admin.verticalOwnership.lead_target || '') : '';
+  const state = admin.activeVerticalRuntime ? 'Live vertical buyout runtime record found.' : 'No live vertical buyout runtime record.';
+  const lead = verticalLead ? ('Lead target configured: ' + verticalLead) : 'Lead target missing or not configured.';
+  return '<div class="admin-grid" data-admin-cta-status="true">'
+    + '<div class="admin-card"><h3>Hero CTA rule</h3><p>When bought out, hero can use a Next Steps button, but it must still route to <code>/next-steps/</code>.</p></div>'
+    + '<div class="admin-card"><h3>Runtime status</h3><p>'+escapeHtml(state)+'</p><p class="admin-mini">'+escapeHtml(lead)+'</p></div>'
+    + '<div class="admin-card"><h3>Request-assistance routing</h3><p>Vertical buyout can control sponsor-facing lead routing through the existing <code>/request-assistance/</code> flow.</p></div>'
+    + '</div>';
+}
+
+function buildAdminActivationChecklistHtml() {
+  const items = [
+    'Check /admin to confirm what is free vs taken.',
+    'Choose product: City & State Placement, Statewide Buyout, or Vertical Buyout.',
+    'For statewide, classify up to 10 base cities and declare any additional cities as extras.',
+    'For vertical, confirm homepage + guides + CTA conversion dominance.',
+    'Update data/sponsorships.json ownership fields.',
+    'Update data/buyouts.json only when the campaign should be live at runtime.',
+    'Rebuild and run validation.',
+    'Click-audit /for-providers/, /next-steps/, /request-assistance/, and all affected pages.'
+  ];
+  return '<ol data-admin-activation-checklist="true">' + items.map((i)=>'<li>'+escapeHtml(i)+'</li>').join('') + '</ol><p class="admin-note">Runbooks: <a href="https://github.com/seq23/local-guides-generator/blob/main/docs/SPONSOR_ACTIVATION_RUNBOOK.md" target="_blank" rel="noopener">Sponsor Activation</a> · <a href="https://github.com/seq23/local-guides-generator/blob/main/docs/HEAD_VA_OPERATIONS_RUNBOOK.md" target="_blank" rel="noopener">Head VA Operations</a> · <a href="https://github.com/seq23/local-guides-generator/blob/main/docs/VA_QUICK_SOP.md" target="_blank" rel="noopener">VA Quick SOP</a></p>';
+}
+
+function buildAdminRedFlagsHtml(admin) {
+  const items = [
+    'Do not treat this page as secure authentication.',
+    'Do not sell homepage or guide inventory under anything except a Vertical Buyout.',
+    'Do not exceed the statewide base limit of ' + String(admin.cityLimit) + ' cities without explicit extras.',
+    'Do not override an already reserved city silently.',
+    'Do not activate CTA buyout behavior without a sponsor lead target.'
+  ];
+  return '<ul data-admin-red-flags="true">' + items.map((i)=>'<li>'+escapeHtml(i)+'</li>').join('') + '</ul>';
+}
+
+function buildAdminCityRequestGuideHtml(admin) {
+  return '<div data-admin-city-request-guide="true">'
+    + '<p><strong>Missing cities?</strong> Use <code>data/templates/city_request.template.json</code> and run <code>node scripts/scaffold_city_from_request.js data/templates/city_request.template.json --apply</code>.</p>'
+    + '<p class="admin-note">The scaffold script adds the city to the pack city file, creates placeholder city content, and leaves a clear marker for follow-up edits before production use.</p>'
+    + '<p class="admin-note">Then update <code>data/sponsorships.json</code> so each city is classified as either a base city or an extra city.</p>'
+    + '<p class="admin-note">Head VA can also use GitHub → Actions → <strong>Add City Request</strong> to generate a PR from structured inputs instead of using the local terminal path.</p>'
+    + '</div>';
+}
 
 function parseCsvRows(text) {
   const lines = String(text || "").split(/\r?\n/).filter(Boolean);
@@ -185,6 +332,32 @@ function replaceAll(str, map) {
     out = out.split(k).join(map[k]);
   });
   return out;
+}
+
+
+function isStarterTrainingPack(pageSet) {
+  return !!(pageSet && String(pageSet.name || '').toLowerCase() === 'starter_v1');
+}
+
+function renderTrainingBannerHtml(message) {
+  const body = message || 'Sandbox only. Not a production page.';
+  return '<section class="hero training-marker" data-training-page="true" style="background:#fff3cd;border:3px solid #d97706;border-radius:18px;padding:20px;margin-bottom:20px"><p class="kicker">TRAINING PAGE</p><h1>Training page</h1><p><strong>' + escapeHtml(body) + '</strong></p></section>';
+}
+
+function loadTrainingSponsorshipState() {
+  const p = path.join(DATA_DIR, 'training', 'sponsorships.json');
+  if (!fs.existsSync(p)) return { training_state_buyouts: {}, training_city_sponsors: {} };
+  return readJson(p) || { training_state_buyouts: {}, training_city_sponsors: {} };
+}
+
+function renderTrainingSponsorSpotlight(city) {
+  const state = loadTrainingSponsorshipState();
+  const byCity = state.training_city_sponsors || {};
+  const rec = byCity[String(city.slug || '')] || null;
+  if (!rec) return '';
+  const label = String(rec.cta_label || 'Continue to demo next steps');
+  const url = normalizeUrl(rec.official_site_url || 'https://example.com/');
+  return '<section class="section" data-training-sponsor="true"><div class="card"><p class="kicker">Fake sponsor for training</p><h2>' + escapeHtml(String(rec.sponsor_name || 'Demo sponsor')) + '</h2><p class="muted">This sponsor exists only in the training pack so a VA can practice sponsor flows safely.</p><p><a class="button button-primary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(label) + '</a></p></div></section>';
 }
 
 // Licensing/resource lookup maps (authoritative-only).
@@ -1899,6 +2072,9 @@ function stripRequestAssistanceHero(requestAssistanceHtml) {
 
 function renderDedicatedNextStepsHubHtml(opts) {
   var compareHref = String(opts && opts.compareHref ? opts.compareHref : '/guides/');
+  var trainingBanner = (String(process.env.LKG_ENV || '').toLowerCase() === 'training' && String(process.env.PAGE_SET_FILE || '').endsWith('starter_v1.json'))
+    ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.')
+    : '';
   var toolsHref = String(opts && opts.toolsHref ? opts.toolsHref : '/faq/');
   var sponsorRouting = opts && opts.sponsorRouting ? opts.sponsorRouting : null;
   var requestAssistanceHtml = stripRequestAssistanceHero(String(opts && opts.requestAssistanceHtml ? opts.requestAssistanceHtml : ''));
@@ -1906,6 +2082,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
   var marketLabel = String(opts && opts.marketLabel ? opts.marketLabel : 'this market');
   var pageTitle = String(opts && opts.pageTitle ? opts.pageTitle : 'Next steps');
   return (
+    trainingBanner +
     '<section class="hero" data-next-steps-page-hero="true">' +
       '<p class="kicker">Next steps</p>' +
       '<h1>' + escapeHtml(pageTitle) + '</h1>' +
@@ -2769,6 +2946,12 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
 
   let mainHtml = applyCityTokens(page.main_html, city);
 
+  if (isStarterTrainingPack(pageSet)) {
+    mainHtml = mainHtml.split("%%TRAINING_SPONSOR_SPOTLIGHT%%").join(renderTrainingSponsorSpotlight(city));
+  } else {
+    mainHtml = mainHtml.split("%%TRAINING_SPONSOR_SPOTLIGHT%%").join("");
+  }
+
   // Sponsor tokens (used by PI next-steps page; safe on all pages)
   const __sponsor = (sponsor || {});
   const __sponsorLive = (sponsorship.shouldRenderNextSteps(pageSet) && sponsorship.isSponsorLive(__sponsor));
@@ -3072,6 +3255,9 @@ function stripForbiddenInlineBlocks(html) {
   // Last-mile safety: ensure footer disclosure exists on every page.
   // Some regressions have produced city pages without the shared footer injection.
   let out = mapped;
+  if (isStarterTrainingPack(pageSet) && !out.includes('data-training-page="true"')) {
+    out = out.replace(/<main[^>]*>/i, function(m){ return m + renderTrainingBannerHtml('Sandbox only. Not a production page.'); });
+  }
   out = reorderMainSections(out, route === '' ? 'city' : '');
   if (!out.includes('<footer') || !out.includes('Advertising disclosure.') || !out.includes('No guarantees or endorsements.')) {
     // Inject footerHtml immediately before </body> if missing.
@@ -3133,6 +3319,22 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
 
   let mainHtml = String(globalPage.main_html || "").split("%%BRAND_NAME%%").join(brandName);
+  if (isStarterTrainingPack(pageSet) && !String(mainHtml).includes('data-training-page="true"')) {
+    mainHtml = renderTrainingBannerHtml('Sandbox only. Not a production page.') + mainHtml;
+  }
+
+const adminData = buildAdminStatusData(pageSet, verticalKey, loadCities(pageSet, verticalKey));
+if (route === 'admin') {
+  mainHtml = mainHtml
+    .split('%%ADMIN_STATUS_CARDS%%').join(buildAdminStatusCardsHtml(adminData))
+    .split('%%ADMIN_PRODUCT_SUMMARY%%').join(buildAdminProductSummaryHtml())
+    .split('%%ADMIN_INVENTORY_TABLE%%').join(buildAdminInventoryTableHtml(adminData))
+    .split('%%ADMIN_CTA_STATUS%%').join(buildAdminCtaStatusHtml(adminData))
+    .split('%%ADMIN_ACTIVATION_CHECKLIST%%').join(buildAdminActivationChecklistHtml())
+    .split('%%ADMIN_CITY_REQUEST_GUIDE%%').join(buildAdminCityRequestGuideHtml(adminData))
+    .split('%%ADMIN_RED_FLAGS%%').join(buildAdminRedFlagsHtml(adminData))
+    .split('%%PAGE_SET_FILE%%').join(escapeHtml(adminData.pageSetFile || 'data/page_sets/examples/uscis_medical_v1.json'));
+}
 
   // --- GUIDE DETAIL CONTRACT (SEV-1 REGRESSION GUARD) ---
   // Guides must be block-structured and must include ad slots.
@@ -4309,6 +4511,7 @@ function loadNextStepsSponsor(citySlug) {
       const stateLead = renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } });
       const groupedGuides = '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + guideLinks.map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.href) + '">' + escapeHtml(g.label) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>';
       let mainHtml = (
+        (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and city coverage checks.') : '') +
         '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(brandName) + ' in ' + escapeHtml(stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
         '%%AD:state_hub_top%%' +
         stateLead +
@@ -4404,7 +4607,7 @@ function loadNextStepsSponsor(citySlug) {
       const title = 'Next steps — ' + stateName + ' personal injury';
       const description = 'Sponsor contact and preparation checklist for personal injury in ' + stateName + '. Educational only.';
 
-      const mainHtml = renderDedicatedNextStepsHubHtml({
+      const mainHtml = (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.') : '') + renderDedicatedNextStepsHubHtml({
         marketLabel: stateName,
         pageTitle: title,
         compareHref: '/guides/?intent=decision_hub&button=next_steps_page_compare&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
@@ -4519,6 +4722,7 @@ function loadNextStepsSponsor(citySlug) {
         '</details>'
       );
       let mainHtml = (
+        (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and inventory checks.') : '') +
         '<section class="hero" data-state-hero="true" data-pi-state-page="true">' +
         '<p class="kicker">Personal injury · State guide</p>' +
         '<h1>' + escapeHtml(stateName) + ' personal injury guide</h1>' +

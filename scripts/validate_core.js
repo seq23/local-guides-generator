@@ -36,7 +36,9 @@ const nextStepsCtaContract = require('./validation/next_steps_cta_contract');
 const forProvidersInquiry = require('./validation/for_providers_inquiry');
 const forProvidersSalesParity = require('./validation/for_providers_sales_parity');
 const sponsorshipConflictValidator = require('./validation/sponsorship_conflict_validator');
+const cityRequestTemplateContract = require('./validation/city_request_template_contract');
 const forProvidersContract = require('./validation/for_providers_contract');
+const adminPageContract = require('./validation/admin_page_contract');
 const guidesIndexLinks = require('./validation/guides_index_links');
 const footerContract = require('./validation/footer_contract');
 const goldenMajorBlocks = require('./validation/golden_major_blocks');
@@ -169,7 +171,30 @@ function main() {
   }
 
   if (wantDistValidation || haveDist) {
+    if (starter) {
+      const runStarterWarnOnly = (label, fn) => {
+        try {
+          fn.run({ site });
+        } catch (err) {
+          const msg = (err && err.message) ? err.message : String(err || '');
+          console.warn(`⚠️ STARTER WARN-ONLY: ${label}\n${msg}`);
+        }
+      };
+
+      adminPageContract.run({ site });
+      linkAudit.run({ site });
+      nextStepsCtaContract.run({ site });
+
+      runStarterWarnOnly('footer_contract', footerContract);
+      runStarterWarnOnly('golden_major_blocks', goldenMajorBlocks);
+      runStarterWarnOnly('connection_bubble_contract', connectionBubbleContract);
+
+      console.log('✅ STARTER PACK DIST VALIDATION PASS (hard-fail sanity + warn-only polish set)');
+      console.log('CORE VALIDATION PASS');
+      return;
+    }
     forProvidersInquiry.run({ site });
+    adminPageContract.run({ site });
     forProvidersSalesParity.run({ site });
     guidesIndexLinks.run({ site });
     footerContract.run({ site });

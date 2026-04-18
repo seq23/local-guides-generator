@@ -108,7 +108,28 @@ function run() {
 
   if ((((canonical||{}).surfaces||{}).guide||{}).availability !== 'vertical_buyout_only') fail('Canonical inventory must mark guide availability as vertical_buyout_only.');
   const products = (canonical||{}).products || {};
-  if (!products.city_and_state_placement || !products.statewide_buyout || !products.vertical_buyout) fail('Canonical inventory JSON missing required product definitions.');
+  if (!products.city_shared_placement || !products.city_buyout || !products.state_buyout_pi || !products.vertical_buyout) fail('Canonical inventory JSON missing required product definitions.');
+
+  const srcFp = path.join(repoRoot, 'data', 'global_pages', 'for-providers.json');
+  const srcHtml = JSON.parse(readFileOrFail(srcFp, 'for-providers source must exist.')).main_html || '';
+  const requiredTierLabels = [
+    'City — Shared Placement (Stacked)',
+    'City — Buyout (Exclusive)',
+    'State Buyout (PI only)',
+    'Vertical Pack (total website) Buyout'
+  ];
+  for (const label of requiredTierLabels) {
+    if (!srcHtml.includes(label)) fail(`for-providers source missing required tier: ${label}`);
+  }
+  const requiredCtas = requiredTierLabels.length;
+  const ctaCount = (srcHtml.match(/>Sponsorship inquiry<\/a>/g) || []).length;
+  if (ctaCount < requiredCtas) fail('for-providers source missing required Sponsorship inquiry buttons for listed tiers.');
+  if (!srcHtml.includes('What slots look like (visual)')) fail('for-providers source missing What slots look like (visual) section.');
+  if (!srcHtml.includes('<details class="visual-card accordion">')) fail('for-providers visuals must be wrapped in accordion details.');
+  if (srcHtml.includes('<h3>Guide page</h3>')) fail('for-providers source still contains the removed Guide page visual.');
+  for (const forbidden of ['Guide — Shared Placement', 'Guide — Buyout', 'State Shared Placement']) {
+    if (srcHtml.includes(forbidden)) fail(`for-providers source contains forbidden tier text: ${forbidden}`);
+  }
   console.log('✅ SALES PARITY PASS (runtime ad registry ⇄ for-providers ⇄ canonical inventory doc)');
 }
 
