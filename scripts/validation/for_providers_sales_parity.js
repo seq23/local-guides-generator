@@ -125,11 +125,68 @@ function run() {
   const ctaCount = (srcHtml.match(/>Sponsorship inquiry<\/a>/g) || []).length;
   if (ctaCount < requiredCtas) fail('for-providers source missing required Sponsorship inquiry buttons for listed tiers.');
   if (!srcHtml.includes('What slots look like (visual)')) fail('for-providers source missing What slots look like (visual) section.');
-  if (!srcHtml.includes('<details class="visual-card accordion">')) fail('for-providers visuals must be wrapped in accordion details.');
-  if (srcHtml.includes('<h3>Guide page</h3>')) fail('for-providers source still contains the removed Guide page visual.');
-  for (const forbidden of ['Guide — Shared Placement', 'Guide — Buyout', 'State Shared Placement']) {
+  if (!srcHtml.includes('What buyout pages look like')) fail('for-providers source missing What buyout pages look like section.');
+
+  const forbiddenInternal = [
+    'Sales page contract',
+    'Calls to action on live pages',
+    'How sponsor-controlled conversion works',
+    'What the page-level CTAs do',
+    'Contract authority',
+    'three-CTA structure',
+    'runtime page anatomy',
+    'parity must be maintained'
+  ];
+  for (const forbidden of forbiddenInternal) {
+    if (srcHtml.includes(forbidden)) fail(`for-providers source still contains internal sales/contract copy: ${forbidden}`);
+  }
+
+  const forbiddenStale = [
+    'Vertical Buyout Runtime “Next Steps” Mechanism',
+    'When a vertical buyout is active, eligible pages display a runtime “Next Steps” CTA.',
+    'Locked CTA copy (vertical buyout only):'
+  ];
+  for (const forbidden of forbiddenStale) {
+    if (srcHtml.includes(forbidden)) fail(`for-providers source still contains stale runtime CTA mechanism copy: ${forbidden}`);
+  }
+
+  for (const forbidden of ['Guide — Shared Placement', 'Guide — Buyout', 'State Shared Placement', 'Guide Buyout']) {
     if (srcHtml.includes(forbidden)) fail(`for-providers source contains forbidden tier text: ${forbidden}`);
   }
+
+  const requiredPlacementSurfaces = [
+    'City pages',
+    'Guide pages',
+    'State pages (PI only)',
+    'Vertical hub / home pages',
+    'hero placement'
+  ];
+  for (const label of requiredPlacementSurfaces) {
+    if (!srcHtml.includes(label)) fail(`for-providers source missing required placement surface text: ${label}`);
+  }
+
+  const correctedHeroRule = 'For City Buyout and State Buyout (PI only), the top placement renders in a hero-style format rather than creating a new slot.';
+  if (!srcHtml.includes(correctedHeroRule)) fail('for-providers source missing corrected hero position rule.');
+  if (srcHtml.includes('For Guide Buyout, City Buyout, and State Buyout')) fail('for-providers source still contains stale guide-buyout hero rule.');
+
+  const requiredVisualSummaries = [
+    'City — Shared Placement (Stacked)',
+    'State — Shared Placement (Runtime surface example)',
+    'City Buyout — Hero example',
+    'State Buyout — Hero example',
+    'Guide page — Buyout hero example',
+    'Vertical hub / home page — Hero example',
+    'Sponsor lead form example'
+  ];
+  for (const label of requiredVisualSummaries) {
+    if (!srcHtml.includes(label)) fail(`for-providers source missing required visual summary: ${label}`);
+  }
+
+  if (!srcHtml.includes('All leads submitted through this sponsor flow go to the sponsor.')) fail('for-providers source missing sponsor lead routing note.');
+
+  const accordionCount = (srcHtml.match(/<details class=\"visual-card accordion\">/g) || []).length;
+  if (accordionCount < 7) fail('for-providers source must include at least seven accordion visual cards (shared + buyout + sponsor form examples).');
+
   console.log('✅ SALES PARITY PASS (runtime ad registry ⇄ for-providers ⇄ canonical inventory doc)');
 }
 

@@ -20,3 +20,34 @@ See `docs/SPONSOR_ACTIVATION_RUNBOOK.md` for the single step-by-step operator fl
 
 ## Missing-city workflow
 Use `docs/CITY_ADDITION_RUNBOOK.md` with `data/templates/city_request.template.json` when a sponsor requests cities that are not yet in the system.
+
+## Sponsor-facing /for-providers page requirements
+
+The public-facing /for-providers/ page must present:
+
+### Public-facing products
+- City — Shared Placement (Stacked)
+- City — Buyout (Exclusive)
+- State Buyout (PI only)
+- Vertical Pack (total website) Buyout
+
+### Runtime placement surfaces
+- City pages
+- Guide pages
+- State pages (PI only)
+- Vertical hub / home pages
+
+### Required visual examples
+- Shared city placement
+- Shared state placement
+- City buyout hero
+- State buyout hero
+- Guide-page buyout hero
+- Vertical hub / home-page buyout hero
+- Sponsor lead form example with note that leads go to sponsor
+
+The public-facing page must not present:
+- Guide Buyout
+- Guide Shared Placement
+- State Shared Placement
+- internal contract / runtime enforcement language as sponsor-facing copy

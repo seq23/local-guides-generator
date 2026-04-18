@@ -61,20 +61,6 @@ This document is the source-of-truth contract for runtime, sales page, and valid
       "buyout_only": true
     }
   },
-  "runtime_next_steps_cta": {
-    "enabled_when": "vertical_buyout_live_or_pi_state_buyout_live_on_state_page",
-    "copy": "Review the local next-step guide before choosing a provider.",
-    "button": "View next steps",
-    "placement_option": "A",
-    "eligible_surfaces": [
-      "vertical_hub",
-      "city",
-      "guide",
-      "state",
-      "state_pi"
-    ],
-    "suppressed_when": "excluded_by_active_lower_tier_contract"
-  },
   "products": {
     "city_shared_placement": {
       "includes": [
@@ -120,16 +106,33 @@ This document is the source-of-truth contract for runtime, sales page, and valid
         "guide",
         "city",
         "state",
-        "cta_buyout"
+        "hero_buyout_behavior",
+        "sponsor_form_routing"
       ]
     }
+  },
+  "runtime_conversion_flow": {
+    "cta_model": "three_cta_buttons_remain_live",
+    "buyout_behavior": "hero_ad_on_top_placement_with_sponsor_form_routing",
+    "eligible_surfaces": [
+      "vertical_hub",
+      "city",
+      "guide",
+      "state",
+      "state_pi"
+    ],
+    "lead_destination": "all_leads_go_to_sponsor_when_sponsor_flow_is_active"
   }
 }
 ```
 
-## Checklist
-- City Shared Placement + City Buyout + State Buyout (PI only) + Vertical Buyout never sells homepage or guide inventory
-- Statewide Buyout = state page + up to 10 selected cities
-- Guides are vertical-buyout-only
-- Homepage is vertical-buyout-only
-- CTA buyout is vertical-buyout-only
+## Public-facing inventory checklist
+- City Shared Placement + City Buyout + State Buyout (PI only) + Vertical Buyout are the only public-facing sponsorship products
+- Guide pages remain eligible runtime surfaces
+- Vertical hub / homepage visibility is a real runtime surface and must be named on the sales page
+- Shared placement visuals should be shown for city and state examples
+- Buyout hero visuals should be shown for city, state, guide, and vertical hub / homepage examples
+- Sponsor lead-form flow should be shown with a note that leads go to sponsor
+- Guide buyout does not exist as a standalone public-facing product
+- State shared placement does not exist as a standalone public-facing product
+- The /for-providers/ page must not use internal validator / contract-enforcement copy as sponsor-facing messaging
