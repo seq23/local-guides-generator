@@ -1,0 +1,21 @@
+END-TO-END CLICK AUDIT REPORT
+
+PI audit targets:
+- dist/states/DE/index.html
+- dist/for-providers/index.html
+
+Training audit targets:
+- dist/index.html
+- dist/testville-ca/index.html
+- dist/training/dentistry/index.html
+- dist/admin/index.html
+- dist/for-providers/index.html
+- dist/next-steps/index.html
+- dist/request-assistance/index.html
+
+Results:
+- No broken internal links found in audited pages.
+- Delaware state page rendered with 2 CTA sections and no adjacent CTA pattern.
+- /for-providers/ rendered the new buyout-only model labels and rule copy.
+- Training city page rendered the training banner and fake sponsor block.
+- Training-specific broken /testville-ca/next-steps/ link was fixed by routing training next-steps CTAs to /next-steps/.

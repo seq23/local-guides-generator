@@ -19,6 +19,8 @@
 This document is the **single source of truth** for the Listings Template-Based System (TBS).  
 If a rule, permission, structure, or behavior is not written here, **it does not exist**.
 
+**Active addendums:** `docs/LISTINGS_MASTER_INDEX_ADDENDUM_v4_SPONSOR_OPS.md` updates sponsor operations to the one-record + one-activation-file live model. `docs/LISTINGS_MASTER_INDEX_ADDENDUM_v5_CTA_SPONSOR_SURFACES.md` updates runtime sponsor surfaces to CTA-owned hero/inline rendering with no public empty ad-slot placeholders.
+
 ---
 
 # **ABSOLUTE GOVERNANCE LAWS (NON-NEGOTIABLE)**

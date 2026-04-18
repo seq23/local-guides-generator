@@ -1,100 +1,187 @@
-# Sponsor Activation Runbook
+# Sponsor Activation Runbook (Simple Live Model)
 
 ## Purpose
 
-This is the single Day 1 VA-safe runbook for checking inventory, activating a sponsor, validating the build, and click-auditing the affected routes.
+This is the canonical VA-safe runbook for making a sponsor live using the simplified buyout model.
 
-## Product definitions
+The live system has only two moving parts:
 
-### City & State Placement
-- baseline inventory only
-- city pages + state pages
-- does not include homepage
-- does not include guides
+1. **Sponsor record** — static sponsor identity, assets, and destinations
+2. **Activation file** — one live buyout entry that turns the sponsor on
 
-### Statewide Buyout
+## Source of truth
+
+### Sponsor record
+`data/sponsor_intake/sponsors/<sponsor_slug>/sponsor.json`
+
+### Sponsor assets
+`data/sponsor_intake/sponsors/<sponsor_slug>/assets/`
+
+### Live activation file
+`data/buyouts.json`
+
+VAs should not need to edit `data/sponsorships.json` to make a sponsor live. That file is legacy/supporting metadata only.
+
+---
+
+## Products
+
+### City Buyout
+- one city page
+- sponsor owns the CTA layer on that city page
+- sponsor owns lead routing for that city page
+
+### State Buyout
 - one state page
-- up to 10 base cities in that state
-- additional cities are unlimited but must be explicitly declared as extras
-- does not include homepage
-- does not include guides
+- sponsor owns the CTA layer on that state page
+- sponsor owns lead routing for that state page
 
 ### Vertical Buyout
-- homepage hero
-- guide influence
-- CTA conversion dominance
-- uses the same public `/next-steps/` and `/request-assistance/` routes
+- homepage
+- all guide pages
+- up to 10 cities by default
+- corresponding states
+- additional cities can be added as extras
 
-## Files to check before activation
+### Important constraints
+- guide pages are controlled only through vertical buyout
+- PI has no city pages in runtime
+- CTA above a directory becomes the sponsor feature surface when directory CTA takeover is enabled
 
-- `data/sponsorships.json`
-- `data/buyouts.json`
-- `data/global_pages/for-providers.json`
-- `data/global_pages/next-steps.json`
-- `data/global_pages/request-assistance.json`
+---
 
-## Step-by-step activation
+## Required sponsor fields
 
-1. Confirm the product being sold.
-2. Check whether any city is already reserved in `data/sponsorships.json`.
-3. For statewide buyout, confirm the state page, classify up to 10 base cities, and declare any additional cities as extras.
-4. For vertical buyout, confirm homepage + guides + CTA conversion dominance.
-5. If CTA buyout is active, confirm the sponsor lead target is present.
-6. Update `data/sponsorships.json` ownership fields.
-7. Update `data/buyouts.json` only when the campaign is meant to be live at runtime.
-8. Rebuild the pack.
-9. Run validation.
-10. Click-audit the affected routes.
+Each sponsor record must include:
+- `slug`
+- `display_name`
+- `website_url`
+- `phone`
+- `lead_email`
+- `assets.logo`
+- `assets.top_cta_image`
+- `assets.mid_cta_image`
+- `assets.bottom_cta_image`
+- `assets.directory_cta_image`
 
-## Validation command
+Optional but recommended:
+- `short_label`
+- `cta_label`
+- `tagline`
 
-```bash
-PAGE_SET_FILE=data/page_sets/examples/uscis_medical_v1.json LKG_VALIDATE_DIST=1 npm run validate:all
+---
+
+## Day-0 VA go-live steps
+
+### Step 1 — create the sponsor folder
+Create:
+`data/sponsor_intake/sponsors/<sponsor_slug>/`
+
+Inside it create:
+- `sponsor.json`
+- `assets/`
+
+### Step 2 — add assets
+Drop in:
+- `logo.png`
+- `top-cta.jpg`
+- `mid-cta.jpg`
+- `bottom-cta.jpg`
+- `directory-cta.jpg`
+
+### Step 3 — fill out sponsor.json
+Use the template in:
+`data/sponsor_intake/sponsors/_TEMPLATE/sponsor.json`
+
+### Step 4 — add one live entry to data/buyouts.json
+A VA makes a sponsor live by adding **one entry** to `data/buyouts.json`.
+
+### Step 5 — rebuild and validate
+Run:
+- `node scripts/build_all_packs.js`
+- `LKG_VALIDATE_DIST=1 npm run validate:all`
+
+### Step 6 — click audit
+Always check:
+- affected page
+- `/for-providers/`
+- `/next-steps/`
+- `/request-assistance/`
+- CTA above directory if the page contains a directory
+
+---
+
+## Simple live examples
+
+### City Buyout
+```json
+{
+  "id": "acme-law-austin-city",
+  "sponsor_slug": "acme-law",
+  "type": "city",
+  "vertical": "dentistry",
+  "state": "TX",
+  "cities": ["austin-tx"],
+  "cta_takeover": true,
+  "directory_cta_takeover": true,
+  "status": "live",
+  "start_at": "2026-04-20",
+  "end_at": "2099-12-31"
+}
 ```
 
-## Click-audit checklist
+### State Buyout
+```json
+{
+  "id": "acme-law-delaware-state",
+  "sponsor_slug": "acme-law",
+  "type": "state",
+  "vertical": "pi",
+  "state": "DE",
+  "cities": [],
+  "cta_takeover": true,
+  "directory_cta_takeover": true,
+  "status": "live",
+  "start_at": "2026-04-20",
+  "end_at": "2099-12-31"
+}
+```
 
-### Always check
-- `/for-providers/`
-- `/admin/`
-- `/next-steps/`
-- `/request-assistance/`
+### Vertical Buyout
+```json
+{
+  "id": "acme-law-pi-vertical",
+  "sponsor_slug": "acme-law",
+  "type": "vertical",
+  "vertical": "pi",
+  "homepage": true,
+  "guides": true,
+  "states": ["DE", "PA"],
+  "cities": [],
+  "included_city_limit": 10,
+  "extra_cities": [],
+  "cta_takeover": true,
+  "directory_cta_takeover": true,
+  "status": "live",
+  "start_at": "2026-04-20",
+  "end_at": "2099-12-31"
+}
+```
 
-### If statewide buyout is live
-- state page
-- each included city page
-- one excluded city page
-
-### If vertical buyout is live
-- homepage
-- guides hub
-- one guide detail page
-- one city page
-- `/next-steps/`
-- `/request-assistance/`
+---
 
 ## Red flags
+- sponsor folder exists but asset file paths are wrong
+- sponsor is live in `data/buyouts.json` but the sponsor record is missing
+- `cta_takeover` is true but `lead_email` is missing
+- `directory_cta_takeover` is true on a page type that has no directory
+- a vertical buyout claims PI city coverage
 
-- city already reserved by a direct sponsor
-- statewide buyout exceeds 10 base cities or includes undeclared extras
-- missing `lead_target` for a live CTA buyout
-- homepage behavior attached to anything other than vertical buyout
-- guide behavior attached to anything other than vertical buyout
+## Rollback
+1. Set the buyout record `status` to `paused` or remove the record from `data/buyouts.json`
+2. Rebuild
+3. Re-run validation
+4. Re-check the affected routes
 
-## Turn off / rollback
-
-1. Disable the campaign in `data/buyouts.json`.
-2. Remove or update ownership records in `data/sponsorships.json`.
-3. Rebuild.
-4. Re-run validation.
-5. Re-check `/next-steps/`, `/request-assistance/`, and one affected page.
-
-
-## Adding missing cities
-
-If a sponsor requests cities that do not yet exist, use `docs/CITY_ADDITION_RUNBOOK.md` and the city request template before activating the sponsorship.
-
-
-## City creation path options
-
-Head VA may create missing cities either locally with the scaffold script or through GitHub → Actions using the **Add City Request** workflow. Both paths must still pass validation and click-audit before merge/go-live.
+## CTA hero rule
+When a sponsor is live on a covered page, the top CTA upgrades into the hero sponsor surface for that page. The CTA directly above a directory keeps its special sponsor-feature behavior when `directory_cta_takeover` is enabled.

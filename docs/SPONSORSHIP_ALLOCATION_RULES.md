@@ -1,53 +1,31 @@
-# Sponsorship Allocation Rules
+# SPONSOR OWNERSHIP RULES
 
-## Source of truth
-- `data/buyouts.json` = live runtime activation windows
-- `data/sponsorships.json` = ownership, included cities, and sellability rules
+## Core Rule
 
-## Allocation rules
+Sponsor ownership is determined solely by active buyouts.
 
-1. City shared placement exists and is stacked.
-2. City buyout exists and is exclusive at the city level.
-3. State shared placement does not exist.
-4. State Buyout (PI only) is the only state-level product.
-5. A State Buyout may expand to additional cities within the same state upon request, subject to hierarchy and conflict rules.
-6. A State Buyout cannot silently consume a city that already has a city sponsor.
-7. Guides do not have standalone sponsorship tiers. Guide-related conversion surfaces only appear through Vertical Buyout behavior.
-8. Only a Vertical Buyout can control CTA conversion surfaces across eligible pages.
+## Ownership Matrix
 
-See `docs/SPONSOR_ACTIVATION_RUNBOOK.md` for the single step-by-step operator flow.
+### Vertical Buyout
+- owns CTAs and lead flow on all covered pages
+- includes homepage, guides, covered states, and covered cities
 
+### State Buyout
+- owns CTAs and lead flow on that state page
 
-## Missing-city workflow
-Use `docs/CITY_ADDITION_RUNBOOK.md` with `data/templates/city_request.template.json` when a sponsor requests cities that are not yet in the system.
+### City Buyout
+- owns CTAs and lead flow on that city page
 
-## Sponsor-facing /for-providers page requirements
+## Conflict Rule
 
-The public-facing /for-providers/ page must present:
+If a city or state is already bought out, a vertical buyout does not silently override that active contract.
 
-### Public-facing products
-- City — Shared Placement (Stacked)
-- City — Buyout (Exclusive)
-- State Buyout (PI only)
-- Vertical Pack (total website) Buyout
+## Guide Rule
 
-### Runtime placement surfaces
-- City pages
-- Guide pages
-- State pages (PI only)
-- Vertical hub / home pages
+Guide pages are covered only under vertical buyout.
 
-### Required visual examples
-- Shared city placement
-- Shared state placement
-- City buyout hero
-- State buyout hero
-- Guide-page buyout hero
-- Vertical hub / home-page buyout hero
-- Sponsor lead form example with note that leads go to sponsor
+There is no standalone guide-buyout product.
 
-The public-facing page must not present:
-- Guide Buyout
-- Guide Shared Placement
-- State Shared Placement
-- internal contract / runtime enforcement language as sponsor-facing copy
+## Directory Rule
+
+Where a directory exists, the CTA immediately above the directory is the sponsor feature surface under an active buyout. The directory itself remains visible and neutral.

@@ -5,14 +5,51 @@ const path = require('path');
 // -------
 // Source of truth: data/buyouts.json
 //
-// Supported scopes:
-// - vertical: applies across an entire vertical pack (optionally filtered by verticalKey)
-// - state: applies to a state hub + covered pages within that state
-// - city: applies to a single city page
+// Supported runtime scopes after normalization:
+// - vertical
+// - state
+// - city
 //
 // Contract rule (runtime): if a LIVE buyout exists, we must suppress conversion surfaces
 // (e.g., /for-providers/ links and mailto) and only render the contracted surface(s).
 
+
+function normalizeBuyoutRecord(rec) {
+  if (!rec || typeof rec !== 'object') return null;
+  if (rec.scope && rec.targets) return rec;
+  const type = String(rec.type || '').trim().toLowerCase();
+  if (!type) return rec;
+  const sponsorSlug = String(rec.sponsor_slug || '').trim();
+  const verticalKey = String(rec.vertical || rec.verticalKey || '').trim() || undefined;
+  const starts = String(rec.start_at || rec.starts_on || '').trim();
+  const ends = String(rec.end_at || rec.ends_on || '').trim();
+  const status = String(rec.status || '').trim().toLowerCase();
+  const live = status ? status === 'live' : (rec.live !== false);
+  const common = {
+    id: rec.id || '',
+    sponsor_slug: sponsorSlug,
+    verticalKey,
+    starts_on: starts || '1900-01-01',
+    ends_on: ends || '2099-12-31',
+    live,
+    buyout: true,
+    priority: typeof rec.priority === 'number' ? rec.priority : (type === 'vertical' ? 400 : type === 'state' ? 300 : 200),
+    cta_takeover: rec.cta_takeover !== false,
+    directory_cta_takeover: rec.directory_cta_takeover === true
+  };
+  if (type === 'vertical') {
+    return { ...common, scope: 'vertical', targets: ['ALL'], states: Array.isArray(rec.states) ? rec.states : [], cities: Array.isArray(rec.cities) ? rec.cities : [] };
+  }
+  if (type === 'state') {
+    const st = String(rec.state || '').trim().toUpperCase();
+    return { ...common, scope: 'state', targets: st ? [st] : [], state: st, cities: Array.isArray(rec.cities) ? rec.cities : [] };
+  }
+  if (type === 'city') {
+    const cities = Array.isArray(rec.cities) ? rec.cities.map((s)=>String(s).trim().toLowerCase()).filter(Boolean) : [];
+    return { ...common, scope: 'city', targets: cities, state: String(rec.state || '').trim().toUpperCase() || undefined };
+  }
+  return rec;
+}
 function parseIsoDate(s) {
   if (!s || typeof s !== 'string') return null;
   // Date-only ISO strings are interpreted in UTC by Date(). That's fine for contract windows.
@@ -51,8 +88,9 @@ function loadBuyouts(repoRoot) {
     throw new Error(`data/buyouts.json must be an array (got ${typeof data})`);
   }
 
-  return data;
+  return data.map(normalizeBuyoutRecord).filter(Boolean);
 }
+
 
 
 function loadSponsorships(repoRoot) {

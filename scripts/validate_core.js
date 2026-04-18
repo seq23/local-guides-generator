@@ -36,6 +36,7 @@ const nextStepsCtaContract = require('./validation/next_steps_cta_contract');
 const forProvidersInquiry = require('./validation/for_providers_inquiry');
 const forProvidersSalesParity = require('./validation/for_providers_sales_parity');
 const sponsorshipConflictValidator = require('./validation/sponsorship_conflict_validator');
+const sponsorCatalogContract = require('./validation/sponsor_catalog_contract');
 const cityRequestTemplateContract = require('./validation/city_request_template_contract');
 const forProvidersContract = require('./validation/for_providers_contract');
 const adminPageContract = require('./validation/admin_page_contract');
@@ -143,6 +144,7 @@ function main() {
   if (!starter) {
     buyoutNextStepsHardfail.run({ site });
     buyoutRuntimeCtaContract.run({ site });
+    sponsorCatalogContract.run({ site });
     stateBuyoutRequiresStateSponsor.run({ site });
     packShadowGlobals.run({ site });
   }

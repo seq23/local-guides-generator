@@ -1,64 +1,83 @@
-# Advertising System
+# LKG SPONSORSHIP SYSTEM (BUYOUT MODEL)
 
-## Core products
+## Core Principle
 
-### City & State Placement
-Standard placement means fixed page-level visibility on city and state pages only.
+The system does not sell shared ad placements.
 
-Includes:
-- City pages: top + middle + bottom placement
-- State pages: top + middle placement
+The system sells ownership of the decision layer.
 
-Does not include:
-- Homepage placement
-- Guide placement
-- Site-wide visibility
-- CTA conversion buyout rights
+All monetization occurs through:
+- CTA surfaces
+- Lead routing
 
-### Statewide Buyout
-A statewide buyout includes:
-- the state page
-- up to 10 selected city pages within that state
+## Products
 
-Additional cities are paid add-ons.
-Existing city sponsorship cannot be silently overridden.
+There are only three products:
 
-Does not include:
-- Homepage placement
-- Guide placement
-- Vertical CTA conversion takeover
+1. Vertical Buyout
+2. State Buyout
+3. City Buyout
 
-### Vertical Buyout
-A vertical buyout includes:
-- homepage hero placement
-- guide visibility
-- broader coverage across eligible city and state pages
-- sponsor-dominant CTA conversion surfaces
+No shared placements exist in the active model.
 
-## Homepage rule
+## Runtime Behavior
 
-The homepage is not part of standard inventory. It becomes an advertising surface only during an active vertical buyout.
+When no buyout is active:
+- CTAs route to platform flows
+- leads belong to the platform
 
-## Guide rule
+When a buyout is active:
+- CTAs are sponsor-owned
+- the lead form is sponsor-owned
+- all leads route to the sponsor
 
-Guide pages are not sold as standalone standard inventory and are not part of statewide buyouts. Guide visibility is reserved for vertical buyouts.
+## CTA System
 
-## CTA conversion rule
+CTA surfaces are the primary monetization surface.
 
-When a vertical buyout is active, the public CTA system can be bought out at the conversion layer.
+The number and placement of CTAs is determined by runtime page templates.
 
-This means:
-- hero buttons may use a Next Steps CTA
-- the button must still flow into the same /next-steps/ route
-- request-assistance submissions may route to the active sponsor
-- no parallel public sponsor-only route is created
+The system does not enforce a fixed CTA count across all page types.
 
-## Ownership rule
+Runtime CTAs are the source of truth.
 
-- City sponsor wins locally
-- Statewide buyout includes only the selected cities in its contract
-- Vertical buyout controls guides, homepage, and conversion dominance
+## Directory Rule
 
+If a page contains a directory, the CTA block directly above the directory becomes the sponsor feature surface when a buyout is active.
 
-## Missing-city workflow
-When a sponsor requests a city that does not yet exist, use `data/templates/city_request.template.json`, run `scripts/scaffold_city_from_request.js`, then follow `docs/CITY_ADDITION_RUNBOOK.md`.
+Directory listings:
+- remain visible
+- are not reordered
+- are not removed
+
+## Coverage
+
+City Buyout:
+- applies to that city page only
+
+State Buyout:
+- applies to that state page only
+
+Vertical Buyout:
+- homepage
+- all guide pages
+- up to 10 cities by default
+- corresponding state coverage for those city markets
+- additional cities as a paid expansion
+
+Personal Injury:
+- no city pages are rendered
+
+## Prohibited Behavior
+
+- No shared sponsor marketplace
+- No stacked placement product model
+- No fake ranking manipulation
+- No CTA adjacency without intervening content
+- No standalone guide-buyout product
+
+## Optional Visual Layer
+
+A hero sponsor block may be rendered at the top of the page.
+
+This is optional and not the primary monetization layer.

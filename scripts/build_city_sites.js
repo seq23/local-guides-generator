@@ -27,6 +27,7 @@ const sponsorship = require("./helpers/sponsorship");
 const buyouts = require("./helpers/buyouts");
 const cityRegistry = require("./helpers/city_registry");
 const fanout = require("./helpers/fanout");
+const sponsorCatalog = require("./helpers/sponsor_catalog");
 const { getPackSiteConfig } = require("./lib/pack_site_config");
 
 const REPO_ROOT = path.join(__dirname, "..");
@@ -125,9 +126,9 @@ function buildAdminStatusCardsHtml(admin) {
 
 function buildAdminProductSummaryHtml() {
   return '<div class="admin-grid" data-admin-product-summary="true">'
-    + '<div class="admin-card"><h3>City &amp; State Placement</h3><p>Baseline inventory on city and state pages only.</p><p class="admin-mini">No homepage. No guides.</p></div>'
-    + '<div class="admin-card"><h3>Statewide Buyout</h3><p>One state page + up to 10 base cities in that state.</p><p class="admin-mini">Additional cities are unlimited but must be explicitly declared as extras.</p></div>'
-    + '<div class="admin-card"><h3>Vertical Buyout</h3><p>Homepage + guides + CTA conversion dominance.</p><p class="admin-mini">Uses the same public <code>/next-steps/</code> and <code>/request-assistance/</code> routes.</p></div>'
+    + '<div class="admin-card"><h3>City Buyout</h3><p>One city page. Sponsor owns the CTA layer and lead routing for that city.</p><p class="admin-mini">Use data/buyouts.json to make it live.</p></div>'
+    + '<div class="admin-card"><h3>State Buyout</h3><p>One state page. Sponsor owns the CTA layer and lead routing for that state.</p><p class="admin-mini">CTA above the directory becomes the sponsor feature surface when enabled.</p></div>'
+    + '<div class="admin-card"><h3>Vertical Buyout</h3><p>Homepage + guides + up to 10 cities + corresponding states.</p><p class="admin-mini">Additional cities can be added as extras. PI excludes city pages.</p></div>'
     + '</div>';
 }
 
@@ -153,20 +154,19 @@ function buildAdminCtaStatusHtml(admin) {
   const state = admin.activeVerticalRuntime ? 'Live vertical buyout runtime record found.' : 'No live vertical buyout runtime record.';
   const lead = verticalLead ? ('Lead target configured: ' + verticalLead) : 'Lead target missing or not configured.';
   return '<div class="admin-grid" data-admin-cta-status="true">'
-    + '<div class="admin-card"><h3>Hero CTA rule</h3><p>When bought out, hero can use a Next Steps button, but it must still route to <code>/next-steps/</code>.</p></div>'
+    + '<div class="admin-card"><h3>CTA ownership rule</h3><p>When bought out, the CTA layer routes to the active sponsor while public paths stay stable.</p></div>'
     + '<div class="admin-card"><h3>Runtime status</h3><p>'+escapeHtml(state)+'</p><p class="admin-mini">'+escapeHtml(lead)+'</p></div>'
-    + '<div class="admin-card"><h3>Request-assistance routing</h3><p>Vertical buyout can control sponsor-facing lead routing through the existing <code>/request-assistance/</code> flow.</p></div>'
+    + '<div class="admin-card"><h3>Directory CTA rule</h3><p>If a page has a directory, the CTA block directly above it becomes the sponsor feature surface when directory takeover is enabled.</p></div>'
     + '</div>';
 }
 
 function buildAdminActivationChecklistHtml() {
   const items = [
     'Check /admin to confirm what is free vs taken.',
-    'Choose product: City & State Placement, Statewide Buyout, or Vertical Buyout.',
-    'For statewide, classify up to 10 base cities and declare any additional cities as extras.',
-    'For vertical, confirm homepage + guides + CTA conversion dominance.',
-    'Update data/sponsorships.json ownership fields.',
-    'Update data/buyouts.json only when the campaign should be live at runtime.',
+    'Choose product: City Buyout, State Buyout, or Vertical Buyout.',
+    'Create or update the sponsor record under data/sponsor_intake/sponsors/<slug>/.',
+    'Drop logo, hero image, and directory CTA image into the sponsor assets folder.',
+    'Update data/buyouts.json only when the sponsor should be live at runtime.',
     'Rebuild and run validation.',
     'Click-audit /for-providers/, /next-steps/, /request-assistance/, and all affected pages.'
   ];
@@ -176,10 +176,10 @@ function buildAdminActivationChecklistHtml() {
 function buildAdminRedFlagsHtml(admin) {
   const items = [
     'Do not treat this page as secure authentication.',
-    'Do not sell homepage or guide inventory under anything except a Vertical Buyout.',
-    'Do not exceed the statewide base limit of ' + String(admin.cityLimit) + ' cities without explicit extras.',
-    'Do not override an already reserved city silently.',
-    'Do not activate CTA buyout behavior without a sponsor lead target.'
+    'Do not sell homepage or guide coverage under anything except a Vertical Buyout.',
+    'Do not exceed the vertical included-city limit of ' + String(admin.cityLimit) + ' cities without explicit extras.',
+    'Do not override an already reserved market silently.',
+    'Do not activate CTA takeover without a sponsor record and lead email.'
   ];
   return '<ul data-admin-red-flags="true">' + items.map((i)=>'<li>'+escapeHtml(i)+'</li>').join('') + '</ul>';
 }
@@ -188,7 +188,7 @@ function buildAdminCityRequestGuideHtml(admin) {
   return '<div data-admin-city-request-guide="true">'
     + '<p><strong>Missing cities?</strong> Use <code>data/templates/city_request.template.json</code> and run <code>node scripts/scaffold_city_from_request.js data/templates/city_request.template.json --apply</code>.</p>'
     + '<p class="admin-note">The scaffold script adds the city to the pack city file, creates placeholder city content, and leaves a clear marker for follow-up edits before production use.</p>'
-    + '<p class="admin-note">Then update <code>data/sponsorships.json</code> so each city is classified as either a base city or an extra city.</p>'
+    + '<p class="admin-note">Then update <code>data/buyouts.json</code> if the new city belongs to a live city, state, or vertical buyout.</p>'
     + '<p class="admin-note">Head VA can also use GitHub → Actions → <strong>Add City Request</strong> to generate a PR from structured inputs instead of using the local terminal path.</p>'
     + '</div>';
 }
@@ -346,8 +346,8 @@ function renderTrainingBannerHtml(message) {
 
 function loadTrainingSponsorshipState() {
   const p = path.join(DATA_DIR, 'training', 'sponsorships.json');
-  if (!fs.existsSync(p)) return { training_state_buyouts: {}, training_city_sponsors: {} };
-  return readJson(p) || { training_state_buyouts: {}, training_city_sponsors: {} };
+  if (!fs.existsSync(p)) return { training_state_buyouts: {}, training_city_sponsors: {}, training_city_buyouts: {}, training_vertical_buyouts: {} };
+  return readJson(p) || { training_state_buyouts: {}, training_city_sponsors: {}, training_city_buyouts: {}, training_vertical_buyouts: {} };
 }
 
 function renderTrainingSponsorSpotlight(city) {
@@ -357,7 +357,7 @@ function renderTrainingSponsorSpotlight(city) {
   if (!rec) return '';
   const label = String(rec.cta_label || 'Continue to demo next steps');
   const url = normalizeUrl(rec.official_site_url || 'https://example.com/');
-  return '<section class="section" data-training-sponsor="true"><div class="card"><p class="kicker">Fake sponsor for training</p><h2>' + escapeHtml(String(rec.sponsor_name || 'Demo sponsor')) + '</h2><p class="muted">This sponsor exists only in the training pack so a VA can practice sponsor flows safely.</p><p><a class="button button-primary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(label) + '</a></p></div></section>';
+  return '<section class="section" data-training-sponsor="true"><div class="card"><p class="kicker">Fake sponsor for training</p><h2>' + escapeHtml(String(rec.sponsor_name || 'Demo sponsor')) + '</h2><p class="muted">This fake sponsor uses the training pack so a VA can practice sponsor-owned CTA and lead-flow checks safely.</p><p><a class="button button-primary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(label) + '</a></p></div></section>';
 }
 
 // Licensing/resource lookup maps (authoritative-only).
@@ -574,7 +574,10 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
     page_slug: pageSlug,
     market: marketSlug
   });
-  const nextStepsBasePath = (pageKind === 'state') ? '/next-steps/' : (marketSlug ? ('/' + marketSlug + '/next-steps/') : '/next-steps/');
+  const isTrainingBuild = String(process.env.LKG_ENV || '').toLowerCase() === 'training';
+  const nextStepsBasePath = isTrainingBuild
+    ? '/next-steps/'
+    : ((pageKind === 'state') ? '/next-steps/' : (marketSlug ? ('/' + marketSlug + '/next-steps/') : '/next-steps/'));
   const nextStepsHref = buildTrackedHref(nextStepsBasePath, {
     src,
     intent: 'decision_hub',
@@ -1656,119 +1659,132 @@ function marketNavHtml(city, pageSet) {
 
 // Ads
 function renderAdPlacement(key, opts) {
-  // Fixed, invariant ad block HTML; real sponsors injected elsewhere.
-  // Add deterministic placement markers for golden-contract validation.
-  const k = String(key || "");
-  let placement = "";
-  if (k.endsWith("_top")) placement = "top";
-  else if (k.endsWith("_mid")) placement = "mid";
-  else if (k.endsWith("_bottom")) placement = "bottom";
-
-  const placementAttr = placement ? ` data-sponsored-placement="${placement}"` : "";
-  const hero = opts && opts.hero === true;
-  const allowForProvidersLink = !(opts && opts.allowForProvidersLink === false);
-  const cls = hero ? 'sponsor-stack is-buyout-hero' : 'sponsor-stack';
-
-  // Under LIVE buyouts, conversion surfaces like /for-providers/ are contract-forbidden.
-  // Keep the placement marker (for layout + audit) but remove the link.
-  const labelText = allowForProvidersLink ? 'Advertising' : 'Sponsored';
-  const headline = allowForProvidersLink
-    ? '<p class="sponsor-name"><a href="/for-providers/">Advertise here</a></p>'
-    : '<p class="sponsor-name">Sponsored placement</p>';
-
-  // Guide pages: treat sponsor blocks as complementary content with dedicated styling.
-  // We keep the same internal structure for validator stability; only wrapper element + class differs.
-  const isGuidePlacement = /(^|_)guide(_|$)/.test(k);
-  const wrapperTag = isGuidePlacement ? 'aside' : 'section';
-  const wrapperAttrs = isGuidePlacement
-    ? ` role="complementary" class="${cls} guide-sponsor"`
-    : ` class="${cls}"`;
-
-  return `
-<!-- PRESERVED ZONE: AD BLOCK START (${escapeHtml(key)}) -->
-<${wrapperTag}${wrapperAttrs} data-sponsor-stack="${escapeHtml(key)}"${placementAttr} aria-label="Advertising block: ${escapeHtml(key)}">
-  <div class="sponsor-stack__inner">
-    <div class="sponsor-stack__header">
-      <div class="sponsor-label"><strong>${labelText}</strong></div>
-      <div class="sponsor-stack__meta">Sponsored placement • fixed inventory • disclosed</div>
-    </div>
-
-    <div class="sponsor-items">
-      <div class="sponsor-card sponsor-card--empty" data-sponsored-empty="true">
-        <div class="badges"><span class="badge badge-sponsored">ADVERTISING</span></div>
-        <div class="sponsor-meta">${allowForProvidersLink ? 'Disclosed advertising inventory. See <a href="/for-providers/">Advertising &amp; Provider Info</a> for surfaces, pricing, and rules.' : 'Disclosed advertising inventory. Contracted buyout surface is live for this page.'}</div>
-      </div>
-    </div>
-  </div>
-</${wrapperTag}>
-<!-- PRESERVED ZONE: AD BLOCK END (${escapeHtml(key)}) -->`.trim();
+  return '';
 }
 
 function loadBuyoutsSafe(repoRoot) {
-  const fp = path.join(repoRoot || process.cwd(), "data", "buyouts.json");
   try {
-    const raw = fs.readFileSync(fp, "utf8");
-    const data = JSON.parse(raw);
-    return Array.isArray(data) ? data : [];
+    return buyouts.loadBuyouts(repoRoot || process.cwd());
   } catch (e) {
     return [];
   }
 }
 
 
-function resolveRuntimeBuyoutCtaMode(ctx, now = new Date()) {
+function getSponsorRoutingForContext(ctx, now = new Date()) {
   const verticalKey = ctx && ctx.verticalKey ? String(ctx.verticalKey) : '';
   if (!verticalKey) return null;
   try {
     const all = loadBuyoutsSafe(REPO_ROOT);
-    const route = ctx && typeof ctx.route === 'string' ? ctx.route : '';
     const pageKind = ctx && ctx.pageKind ? String(ctx.pageKind) : '';
-    if (pageKind === 'vertical_hub') {
-      const winner = buyouts.resolveWinner(all, { verticalKey }, now);
-      return winner && winner.scope === 'vertical' ? { trigger: 'vertical_buyout', mode: 'hero' } : null;
-    }
-    if (pageKind === 'guide') {
-      const winner = buyouts.resolveWinner(all, { verticalKey, guideRoute: route }, now);
-      return winner && winner.scope === 'vertical' ? { trigger: 'vertical_buyout', mode: 'inline' } : null;
-    }
-    if (pageKind === 'city') {
-      const citySlug = ctx && ctx.citySlug ? String(ctx.citySlug) : '';
-      const stateAbbr = ctx && ctx.stateAbbr ? String(ctx.stateAbbr) : '';
-      const winner = buyouts.resolveWinner(all, { verticalKey, city: citySlug, state: stateAbbr }, now);
-      return winner && winner.scope === 'vertical' ? { trigger: 'vertical_buyout', mode: 'inline' } : null;
-    }
-    if (pageKind === 'state') {
-      const stateAbbr = ctx && ctx.stateAbbr ? String(ctx.stateAbbr) : '';
-      const winner = buyouts.resolveWinner(all, { verticalKey, state: stateAbbr }, now);
-      if (winner && winner.scope === 'vertical') return { trigger: 'vertical_buyout', mode: 'inline' };
-      if (winner && winner.scope === 'state' && verticalKey === 'pi') return { trigger: 'pi_state_buyout', mode: 'inline' };
-    }
-    return null;
+    const route = ctx && typeof ctx.route === 'string' ? ctx.route : '';
+    const citySlug = ctx && ctx.citySlug ? String(ctx.citySlug) : '';
+    const stateAbbr = ctx && ctx.stateAbbr ? String(ctx.stateAbbr) : '';
+    const winner = buyouts.resolveWinner(all, {
+      verticalKey,
+      city: citySlug || null,
+      state: stateAbbr || null,
+      guideRoute: route || null
+    }, now);
+    if (!winner || winner.cta_takeover === false) return null;
+    const sponsor = winner.sponsor_slug ? sponsorCatalog.getSponsorBySlug(REPO_ROOT, winner.sponsor_slug) : null;
+    return {
+      winner,
+      sponsor,
+      sponsor_slug: String((winner && winner.sponsor_slug) || ''),
+      sponsor_name: String((sponsor && sponsor.display_name) || (winner && winner.sponsor_slug) || 'Featured sponsor'),
+      sponsor_phone: String((sponsor && sponsor.phone) || ''),
+      sponsor_website: String((sponsor && sponsor.website_url) || '/next-steps/'),
+      lead_target: String((winner && winner.lead_target) || (sponsor && sponsor.lead_email) || ''),
+      sponsor_scope: String((winner && winner.scope) || ''),
+      campaign_slug: String((winner && (winner.campaign_slug || winner.id)) || ''),
+      assets: (sponsor && sponsor.assets) || {},
+      pageKind,
+      route,
+      citySlug,
+      stateAbbr,
+      verticalKey
+    };
   } catch (e) {
     return null;
   }
 }
 
+function getSurfaceAsset(sponsorRouting, surfaceKey) {
+  const assets = (sponsorRouting && sponsorRouting.assets) || {};
+  if (surfaceKey === 'directory') return assets.directory_cta_image || assets.top_cta_image || '';
+  if (surfaceKey === 'mid') return assets.mid_cta_image || assets.top_cta_image || '';
+  if (surfaceKey === 'bottom') return assets.bottom_cta_image || assets.mid_cta_image || assets.top_cta_image || '';
+  return assets.top_cta_image || '';
+}
+
+function buildSponsorDisclosureLine() {
+  return 'Sponsored placement • fixed inventory • disclosed';
+}
+
+function renderCtaSpacerBlock() {
+  return '<section class="section cta-spacer-block" data-cta-spacer="true"><p class="muted">Before choosing, review the context below so the next step is grounded in the right page and provider fit.</p></section>';
+}
+
+function normalizeSponsorSurfaceLayout(html) {
+  let out = String(html || '');
+  const heroRe = /\s*<section class="hero runtime-next-steps-hero sponsored-cta-surface"[\s\S]*?<\/section>\s*/i;
+  const heroMatch = out.match(heroRe);
+  if (heroMatch) {
+    const hero = heroMatch[0].trim();
+    out = out.replace(heroRe, '\n');
+    const answerRe = /(<section[^>]*data-(?:citation-summary|home-answer|guides-answer|state-short-answer|short-answer)="true"[^>]*>[\s\S]*?<\/section>)/i;
+    if (answerRe.test(out)) out = out.replace(answerRe, '$1\n\n' + hero + '\n');
+    else if (/(<section class="hero"[\s\S]*?<\/section>)/i.test(out)) out = out.replace(/(<section class="hero"[\s\S]*?<\/section>)/i, '$1\n\n' + hero + '\n');
+    else out = hero + '\n' + out;
+  }
+  out = out.replace(/(<\/section>)\s*(<section class="section conversion-cta[^"]*sponsored-cta-surface[\s\S]*?<\/section>)/i, '$1\n\n' + renderCtaSpacerBlock() + '\n\n$2');
+  out = out.replace(/(<section class="section conversion-cta[^"]*sponsored-cta-surface[\s\S]*?<\/section>)\s*(<section class="connection-bubble[^"]*sponsored-cta-surface[\s\S]*?<\/section>)/i, '$1\n\n' + renderCtaSpacerBlock() + '\n\n$2');
+  return out;
+}
+
+function resolveRuntimeBuyoutCtaMode(ctx, now = new Date()) {
+  const sponsorRouting = getSponsorRoutingForContext(ctx, now);
+  if (!sponsorRouting) return null;
+  return {
+    trigger: sponsorRouting.sponsor_scope + '_buyout',
+    mode: 'hero',
+    sponsorRouting
+  };
+}
+
 function renderRuntimeNextStepsCtaHtml(opts) {
   const mode = opts && opts.mode === 'hero' ? 'hero' : 'inline';
   const trigger = opts && opts.trigger ? String(opts.trigger) : 'vertical_buyout';
+  const sponsorRouting = opts && opts.sponsorRouting ? opts.sponsorRouting : null;
+  const sponsorName = sponsorRouting && sponsorRouting.sponsor_name ? String(sponsorRouting.sponsor_name) : 'Featured sponsor';
+  const sponsorPhone = sponsorRouting && sponsorRouting.sponsor_phone ? String(sponsorRouting.sponsor_phone) : '';
+  const sponsorWebsite = sponsorRouting && sponsorRouting.sponsor_website ? String(sponsorRouting.sponsor_website) : '/next-steps/';
+  const disclosure = buildSponsorDisclosureLine();
+  const topImage = getSurfaceAsset(sponsorRouting, 'top');
+  const imgHtml = topImage ? '<p class="runtime-next-steps-media"><img src="/' + escapeHtml(String(topImage).replace(/^data\//,'')) + '" alt="' + escapeHtml(sponsorName) + ' sponsor creative" loading="lazy" decoding="async" /></p>' : '';
+  const phoneHtml = sponsorPhone ? '<p class="muted runtime-next-steps-phone">Call ' + escapeHtml(sponsorPhone) + '</p>' : '';
+  const buttonLabel = 'Contact ' + sponsorName;
   if (mode === 'hero') {
     return (
-      '<section class="hero runtime-next-steps-hero" data-runtime-next-steps-cta="true" data-runtime-next-steps-mode="hero" data-runtime-next-steps-trigger="' + escapeHtml(trigger) + '" data-vertical-buyout-hero="true">' +
-      '<p class="kicker">Next Steps</p>' +
-      '<h2>Review the local next-step guide before choosing a provider.</h2>' +
-      '<p class="muted">Vertical buyout active. This locked CTA is reserved for contracted runtime coverage.</p>' +
-      '<p class="actions"><a class="button button-primary" data-runtime-next-steps-button="true" href="/next-steps/">View next steps</a></p>' +
+      '<section class="hero runtime-next-steps-hero sponsored-cta-surface" data-primary-conversion-cta="true" data-runtime-next-steps-cta="true" data-runtime-next-steps-mode="hero" data-runtime-next-steps-trigger="' + escapeHtml(trigger) + '" data-vertical-buyout-hero="true" data-sponsored-surface="top-cta">' +
+      '<p class="kicker">' + escapeHtml(disclosure) + '</p>' +
+      '<h2>' + escapeHtml(sponsorName) + '</h2>' +
+      '<p class="muted">This top CTA surface is currently contracted to the active sponsor for this page.</p>' +
+      imgHtml + phoneHtml +
+      '<p class="actions"><a class="button button-primary" data-runtime-next-steps-button="true" data-sponsored-cta="true" href="' + escapeHtml(sponsorWebsite) + '">' + escapeHtml(buttonLabel) + '</a></p>' +
       '</section>'
     );
   }
+  const midImage = getSurfaceAsset(sponsorRouting, 'mid');
+  const inlineImg = midImage ? '<p class="conversion-cta__media"><img src="/' + escapeHtml(String(midImage).replace(/^data\//,'')) + '" alt="' + escapeHtml(sponsorName) + ' sponsor creative" loading="lazy" decoding="async" /></p>' : '';
   return (
-    '<section class="section conversion-cta conversion-cta--primary conversion-cta--buyout" data-primary-conversion-cta="true" data-runtime-next-steps-cta="true" data-runtime-next-steps-mode="inline" data-runtime-next-steps-trigger="' + escapeHtml(trigger) + '">' +
+    '<section class="section conversion-cta conversion-cta--primary conversion-cta--buyout sponsored-cta-surface" data-primary-conversion-cta="true" data-runtime-next-steps-cta="true" data-runtime-next-steps-mode="inline" data-runtime-next-steps-trigger="' + escapeHtml(trigger) + '" data-sponsored-surface="mid-cta">' +
     '<div class="conversion-cta__panel conversion-cta__panel--primary">' +
-    '<p class="conversion-cta__eyebrow">Next Steps</p>' +
-    '<h2 class="conversion-cta__heading">Review the local next-step guide before choosing a provider.</h2>' +
-    '<p class="conversion-cta__body">This locked CTA appears only when the contracted buyout surface is live for this page.</p>' +
-    '<p class="conversion-cta__actions"><a class="button button-primary conversion-cta__button" data-runtime-next-steps-button="true" href="/next-steps/">View next steps</a></p>' +
+    '<p class="conversion-cta__eyebrow">' + escapeHtml(disclosure) + '</p>' +
+    '<h2 class="conversion-cta__heading">' + escapeHtml(sponsorName) + '</h2>' +
+    '<p class="conversion-cta__body">This sponsor-owned CTA is active for the contracted page coverage.</p>' + inlineImg + phoneHtml +
+    '<p class="conversion-cta__actions"><a class="button button-primary conversion-cta__button" data-runtime-next-steps-button="true" data-sponsored-cta="true" href="' + escapeHtml(sponsorWebsite) + '">' + escapeHtml(buttonLabel) + '</a></p>' +
     '</div>' +
     '</section>'
   );
@@ -1779,7 +1795,10 @@ function applyRuntimeBuyoutCtaContract(html, ctx) {
   if (!mode) return html;
   const ctaHtml = renderRuntimeNextStepsCtaHtml(mode);
   if (mode.mode === 'hero') {
-    if (/data-vertical-buyout-hero="true"/.test(html)) return html;
+    if (/data-vertical-buyout-hero="true"/.test(html) || /data-sponsored-surface="top-cta"/.test(html)) return html;
+    if (/<section class="section conversion-cta conversion-cta--primary"[\s\S]*?<\/section>/i.test(html)) {
+      return html.replace(/<section class="section conversion-cta conversion-cta--primary"[\s\S]*?<\/section>/i, ctaHtml);
+    }
     if (/(<section class="hero"[\s\S]*?<\/section>)/i.test(html)) {
       return html.replace(/(<section class="hero"[\s\S]*?<\/section>)/i, '$1\n\n' + ctaHtml);
     }
@@ -1794,6 +1813,65 @@ function applyRuntimeBuyoutCtaContract(html, ctx) {
   }
   return ctaHtml + '\n' + html;
 }
+
+
+function renderSponsorInlineSurface(sponsorRouting, surfaceKey, sectionType) {
+  const sponsorName = sponsorRouting && sponsorRouting.sponsor_name ? String(sponsorRouting.sponsor_name) : 'Featured sponsor';
+  const sponsorPhone = sponsorRouting && sponsorRouting.sponsor_phone ? String(sponsorRouting.sponsor_phone) : '';
+  const sponsorWebsite = sponsorRouting && sponsorRouting.sponsor_website ? String(sponsorRouting.sponsor_website) : '/next-steps/';
+  const disclosure = buildSponsorDisclosureLine();
+  const img = getSurfaceAsset(sponsorRouting, surfaceKey);
+  const imgHtml = img ? '<p class="conversion-cta__media"><img src="/' + escapeHtml(String(img).replace(/^data\//,'').replace(/^\/+/, '')) + '" alt="' + escapeHtml(sponsorName) + ' sponsor creative" loading="lazy" decoding="async" /></p>' : '';
+  const phoneHtml = sponsorPhone ? '<p class="muted runtime-next-steps-phone">Call ' + escapeHtml(sponsorPhone) + '</p>' : '';
+  return '<section class="section conversion-cta conversion-cta--' + escapeHtml(sectionType || 'inline') + ' conversion-cta--buyout sponsored-cta-surface" ' +
+    (sectionType === 'primary' ? 'data-primary-conversion-cta="true" ' : 'data-inline-conversion-cta="true" ') +
+    'data-sponsored-surface="' + escapeHtml(surfaceKey + '-cta') + '">' +
+    '<div class="conversion-cta__panel conversion-cta__panel--' + escapeHtml(sectionType || 'inline') + '">' +
+    '<p class="conversion-cta__eyebrow">' + escapeHtml(disclosure) + '</p>' +
+    '<h2 class="conversion-cta__heading">' + escapeHtml(sponsorName) + '</h2>' +
+    '<p class="conversion-cta__body">This sponsor-owned CTA is active for the contracted page coverage.</p>' + imgHtml + phoneHtml +
+    '<p class="conversion-cta__actions"><a class="button button-primary conversion-cta__button" data-sponsored-cta="true" href="' + escapeHtml(sponsorWebsite) + '">Contact ' + escapeHtml(sponsorName) + '</a></p>' +
+    '</div></section>';
+}
+
+function renderSponsorConnectionBubble(sponsorRouting) {
+  const sponsorName = sponsorRouting && sponsorRouting.sponsor_name ? String(sponsorRouting.sponsor_name) : 'Featured sponsor';
+  const sponsorPhone = sponsorRouting && sponsorRouting.sponsor_phone ? String(sponsorRouting.sponsor_phone) : '';
+  const sponsorWebsite = sponsorRouting && sponsorRouting.sponsor_website ? String(sponsorRouting.sponsor_website) : '/request-assistance/';
+  const disclosure = buildSponsorDisclosureLine();
+  const img = getSurfaceAsset(sponsorRouting, 'bottom');
+  const imgHtml = img ? '<p class="connection-bubble__media"><img src="/' + escapeHtml(String(img).replace(/^data\//,'').replace(/^\/+/, '')) + '" alt="' + escapeHtml(sponsorName) + ' sponsor creative" loading="lazy" decoding="async" /></p>' : '';
+  const phoneHtml = sponsorPhone ? '<p class="connection-bubble__subtext">Call ' + escapeHtml(sponsorPhone) + '</p>' : '';
+  return '<section class="connection-bubble sponsored-cta-surface" data-connection-bubble="true" data-sponsored-surface="bottom-cta">' +
+    '<div class="connection-bubble__inner">' +
+    '<div class="connection-bubble__copy">' +
+    '<p class="connection-bubble__eyebrow">' + escapeHtml(disclosure) + '</p>' +
+    '<h2 class="connection-bubble__title">' + escapeHtml(sponsorName) + '</h2>' +
+    '<p class="connection-bubble__subtext">This CTA surface is currently contracted to the active sponsor for this page.</p>' + imgHtml + phoneHtml +
+    '</div>' +
+    '<div class="connection-bubble__actions">' +
+    '<a class="button button-primary connection-bubble__button" data-sponsored-cta="true" href="' + escapeHtml(sponsorWebsite) + '">Contact ' + escapeHtml(sponsorName) + '</a>' +
+    '</div></div></section>';
+}
+
+function applyExplicitSponsorSurfaceOverrides(html, ctx) {
+  const sponsorRouting = getSponsorRoutingForContext(ctx);
+  if (!sponsorRouting) return html;
+  let out = String(html || '');
+  out = applyRuntimeBuyoutCtaContract(out, ctx);
+  if (/<section class="section conversion-cta conversion-cta--inline"[\s\S]*?<\/section>/i.test(out)) {
+    out = out.replace(/<section class="section conversion-cta conversion-cta--inline"[\s\S]*?<\/section>/i, renderSponsorInlineSurface(sponsorRouting, 'mid', 'inline'));
+  }
+  if (/<section class="connection-bubble"[\s\S]*?<\/section>/i.test(out)) {
+    out = out.replace(/<section class="connection-bubble"[\s\S]*?<\/section>/i, renderSponsorConnectionBubble(sponsorRouting));
+  }
+  if (ctx && ctx.route === 'request-assistance') {
+    out = applyVerticalLeadRoutingToRequestAssistanceHtml(out, sponsorRouting);
+  }
+  out = normalizeSponsorSurfaceLayout(out);
+  return out;
+}
+
 
 
 function injectAdPlacements(html, ads, ctx) {
@@ -2098,7 +2176,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
           '<h3>Get matched with a provider</h3>' +
           '<p>The full callback form lives directly on this page below. Use it when you want a provider call back without leaving the decision hub.</p>' +
           '<p class="actions"><a class="button button-primary" data-next-steps-primary="true" href="#request-assistance-form">Jump to the full form</a></p>' +
-        (sponsorRouting && sponsorRouting.sponsor_slug ? '<p class="muted" data-next-steps-sponsor-routing="true">This live conversion flow is currently routed to the active vertical sponsor.</p>' : '') +
+        (sponsorRouting && sponsorRouting.sponsor_slug ? ('<p class="muted" data-next-steps-sponsor-routing="true">' + escapeHtml(buildSponsorDisclosureLine()) + ' • Routed to ' + escapeHtml(String(sponsorRouting.sponsor_name || sponsorRouting.sponsor_slug || 'the active sponsor')) + '.</p>' + (getSurfaceAsset(sponsorRouting, 'mid') ? '<p class="next-steps-sponsor-media"><img src="/' + escapeHtml(String(getSurfaceAsset(sponsorRouting, 'mid')).replace(/^data\//,'')) + '" alt="' + escapeHtml(String(sponsorRouting.sponsor_name || sponsorRouting.sponsor_slug || 'Sponsor')) + ' sponsor creative" loading="lazy" decoding="async" /></p>' : '')) : '') +
         '</div>' +
         '<div class="card" data-next-steps-card="compare">' +
           '<h3>Compare your options</h3>' +
@@ -2126,9 +2204,15 @@ function renderDedicatedNextStepsHubHtml(opts) {
 function applyVerticalLeadRoutingToRequestAssistanceHtml(requestAssistanceHtml, sponsorRouting) {
   let html = String(requestAssistanceHtml || '');
   if (!sponsorRouting || !sponsorRouting.sponsor_slug) return html;
-  const note = '<div class="card" data-sponsored-routing-note="true"><p><strong>Sponsored routing active.</strong> This conversion flow is currently operating under a vertical buyout. The public route stays the same, but callback routing may go directly to the active sponsor.</p></div>';
-  if (!html.includes('data-sponsored-routing-note="true"')) {
-    html = html.replace(/(<section class="section" data-request-assistance-form-primary="true">)/, '$1\n' + note);
+  const disclosure = buildSponsorDisclosureLine();
+  const sponsorName = sponsorRouting.sponsor_name || 'Featured sponsor';
+  const sponsorPhone = sponsorRouting.sponsor_phone ? '<p class="muted">Call ' + escapeHtml(String(sponsorRouting.sponsor_phone)) + '</p>' : '';
+  const sponsorWebsite = sponsorRouting.sponsor_website || '#request-assistance-form';
+  const sponsorImage = getSurfaceAsset(sponsorRouting, 'top');
+  const imageHtml = sponsorImage ? '<p class="ra-sponsored-media"><img src="/' + escapeHtml(String(sponsorImage).replace(/^data\//,'')) + '" alt="' + escapeHtml(String(sponsorName)) + ' sponsor creative" loading="lazy" decoding="async" /></p>' : '';
+  const note = '<section class="section sponsored-cta-surface" data-request-assistance-sponsor="true" data-sponsored-surface="top-cta"><div class="card"><p class="kicker">' + escapeHtml(disclosure) + '</p><h2>' + escapeHtml(String(sponsorName)) + '</h2><p class="muted">This request-assistance form is currently routed to the active sponsor.</p>' + imageHtml + sponsorPhone + '<p class="actions"><a class="button button-primary" data-sponsored-cta="true" href="' + escapeHtml(String(sponsorWebsite)) + '">Contact ' + escapeHtml(String(sponsorName)) + '</a></p></div></section>';
+  if (!html.includes('data-request-assistance-sponsor="true"')) {
+    html = html.replace(/(<section class="section" data-request-assistance-form-primary="true">)/, note + '\n$1');
   }
   html = html.replace('id="sponsor_slug" name="sponsor_slug" value=""', 'id="sponsor_slug" name="sponsor_slug" value="' + escapeHtml(String(sponsorRouting.sponsor_slug || '')) + '"');
   html = html.replace('id="sponsor_scope" name="sponsor_scope" value=""', 'id="sponsor_scope" name="sponsor_scope" value="' + escapeHtml(String(sponsorRouting.sponsor_scope || 'vertical_buyout')) + '"');
@@ -2138,6 +2222,7 @@ function applyVerticalLeadRoutingToRequestAssistanceHtml(requestAssistanceHtml, 
   }
   return html;
 }
+
 function renderInlineScripts(inlineScripts, city) {
   if (!inlineScripts || inlineScripts.length === 0) return "";
   return inlineScripts.map((code) => `<script>\n${applyCityTokens(code, city)}\n</script>`).join("\n\n");
@@ -2238,33 +2323,10 @@ function renderLLMBaitQuestionHtml(verticalKey, city) {
 }
 
 function ensureCityHubRequiredBlocks(html, verticalKey, city) {
-  let out = String(html || "");
-
-  // Ensure top/mid/bottom ad placement markers exist for city hub pages even if page-set tokens are missing.
-  // This is a contract-enforcement fallback: it does not change sponsor logic, only ensures invariant placement blocks render.
-  const hasTop = out.includes('data-sponsored-placement="top"');
-  const hasMid = out.includes('data-sponsored-placement="mid"');
-  const hasBottom = out.includes('data-sponsored-placement="bottom"');
-
-  // Top: immediately after first <h1> if possible.
-  if (!hasTop) {
-    const topHtml = renderAdPlacement("city_hub_top");
-    out = out.replace(/(<h1[^>]*>[\s\S]*?<\/h1>)/i, `$1\n${topHtml}`);
-    if (!out.includes('data-sponsored-placement="top"')) {
-      out = topHtml + "\n" + out;
-    }
-  }
-
-
-  // LLM bait: required block (marker) – must sit immediately above the directory/listings block.
-  // If present elsewhere, remove + re-insert deterministically.
+  let out = String(html || '');
   const baitRe = /<section[^>]*data-llm-bait="question"[\s\S]*?<\/section>/m;
-  if (baitRe.test(out)) {
-    out = out.replace(baitRe, '');
-  }
-
+  if (baitRe.test(out)) out = out.replace(baitRe, '');
   const q = renderLLMBaitQuestionHtml(verticalKey, city);
-  // Prefer inserting immediately above the first listings/directory block.
   if (out.includes('data-example-providers="true"')) {
     out = out.replace(/(<section[^>]*data-example-providers="true"[\s\S]*?<\/section>)/m, `${q}
 $1`);
@@ -2275,49 +2337,13 @@ $1`);
     out = out.replace(/(<section[^>]*data-listings-block="true"[\s\S]*?<\/section>)/m, `${q}
 $1`);
   } else if (out.includes('data-eval-framework="true"')) {
-    // Fallback: keep it above eval framework.
     out = out.replace(/(<section[^>]*data-eval-framework="true"[\s\S]*?<\/section>)/m, `${q}
 $1`);
   } else {
-    // Last resort: place after hero.
     out = injectAfterSection(out, 'data-city-hero', q);
   }
-
-  // Mid: before example providers section if present; else after eval framework; else append.
-  if (!hasMid) {
-    const midHtml = renderAdPlacement("city_hub_mid");
-    if (out.includes('data-example-providers="true"')) {
-      out = out.replace(/(<section[^>]*data-example-providers="true"[\s\S]*?)/i, `${midHtml}\n$1`);
-    } else if (out.includes('data-eval-framework="true"')) {
-      out = out.replace(/(<section[^>]*data-eval-framework="true"[\s\S]*?<\/section>)/i, `$1\n${midHtml}`);
-    } else {
-      out = out + "\n" + midHtml;
-    }
-  }
-
-  // Bottom: before guides micro section if present; else append.
-  if (!hasBottom) {
-    const bottomHtml = renderAdPlacement("city_hub_bottom");
-    if (out.includes('data-guides-micro="true"')) {
-      out = out.replace(/(<section[^>]*data-guides-micro="true"[\s\S]*?)/i, `${bottomHtml}\n$1`);
-    } else {
-      out = out + "\n" + bottomHtml;
-    }
-  }
-
-  // Dedupe: if template already contained sponsor slots, keep first occurrence per placement.
-  for (const plc of ["top", "mid", "bottom"]) {
-    let seen = 0;
-    const re = new RegExp("(<section[^>]*data-sponsored-placement=\"" + plc + "\"[^>]*>[\\s\\S]*?<\/section>)", "gi");
-    out = out.replace(re, (m) => {
-      seen += 1;
-      return seen === 1 ? m : "";
-    });
-  }
-
   return out;
 }
-
 
 function renderEvalFrameworkHtml(verticalKey, city) {
   // Canonical, AI-safe evaluation framework section (non-promotional).
@@ -2835,7 +2861,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
   const verifyLookup = loadLicensingLookup(verticalKey) || {};
   const verifyRow = verifyLookup[String(city.state || '').toUpperCase()] || {};
   const verifyUrl = verifyRow.license || verifyRow.url || city.licenseLookupUrl || '';
-  const heading = (opts && opts.heading) ? String(opts.heading) : ('Examples of providers in ' + marketRaw);
+  const heading = (opts && opts.heading) ? String(opts.heading) : ('Directory Listings (Examples of providers in ' + marketRaw + ')');
   const lead = (opts && opts.lead) ? String(opts.lead) : 'These are non-ranked, non-sponsored examples of providers that help show what exists locally. Use the guide layer and official verification resources before you contact anyone.';
   const cards = providers.map((provider) => normalizeProviderCard(verticalKey, opts && opts.subKey || '', provider, city, verifyUrl));
   return renderStructuredProviderCardsSectionHtml({ heading, lead, cards, verifyUrl });
@@ -2872,54 +2898,52 @@ function reorderMainSections(html, mode) {
   let ordered = [];
   if (mode === 'home') {
     ordered = [
-      take(b => /<section class="hero"/.test(b)),
-      take(b => /data-primary-conversion-cta="true"/.test(b)),
+      take(b => /<section class="hero"/.test(b) && !/runtime-next-steps-hero sponsored-cta-surface/.test(b)),
       take(b => /data-home-answer="true"/.test(b) || /data-short-answer="true"/.test(b)),
+      take(b => /data-sponsored-surface="top-cta"/.test(b) || /data-primary-conversion-cta="true"/.test(b)),
       take(b => /data-home-about-block="true"/.test(b)),
       take(b => /data-home-provider-preview="true"/.test(b)),
       take(b => /data-home-faq-entry="true"/.test(b)),
       take(b => /data-home-state-grid-shell="true"/.test(b)),
-      take(b => /data-inline-conversion-cta="true"/.test(b)),
-      ...takeAll(b => /data-sponsored-placement="mid"/.test(b) || /data-sponsor-stack="global_home_mid"/.test(b)),
-      ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b) || /data-sponsored-placement="tertiary"/.test(b)),
+      take(b => /data-sponsored-surface="mid-cta"/.test(b) || /data-inline-conversion-cta="true"/.test(b)),
+      take(b => /data-sponsored-surface="bottom-cta"/.test(b) || /data-connection-bubble="true"/.test(b)),
+      ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b)),
       ...rest()
     ].filter(Boolean);
   } else if (mode === 'state') {
     ordered = [
-      take(b => /<section class="hero"/.test(b)),
-      ...takeAll(b => /data-sponsored-placement="top"/.test(b)),
+      take(b => /<section class="hero"/.test(b) && !/runtime-next-steps-hero sponsored-cta-surface/.test(b)),
       take(b => /data-short-answer="true"/.test(b) || /data-citation-summary-type="state-home"/.test(b)),
-      take(b => /data-primary-conversion-cta="true"/.test(b)),
+      take(b => /data-sponsored-surface="top-cta"/.test(b) || /data-primary-conversion-cta="true"/.test(b)),
+      take(b => /data-covered-cities="true"/.test(b)),
       take(b => /data-state-authority-block="true"/.test(b)),
       take(b => /data-pi-best-lawyer-answer="true"/.test(b)),
       take(b => /data-pi-how-to-choose="true"/.test(b)),
       ...takeAll(b => /data-guides-micro="true"/.test(b) || /data-start-here="true"/.test(b)),
-      ...takeAll(b => /data-sponsored-placement="mid"/.test(b)),
       take(b => /state-guides-support/.test(b)),
-      take(b => /data-pi-state-directory="true"/.test(b)),
       take(b => /data-disciplinary-lookup="true"/.test(b)),
-      ...takeAll(b => /data-pi-state-faq="true"/.test(b)),
       ...takeAll(b => /tertiary-support/.test(b) || /fanout-query-cluster/.test(b)),
-      take(b => /data-inline-conversion-cta="true"/.test(b)),
+      take(b => /data-sponsored-surface="mid-cta"/.test(b) || /data-inline-conversion-cta="true"/.test(b)),
+      take(b => /data-pi-state-directory="true"/.test(b)),
+      ...takeAll(b => /data-pi-state-faq="true"/.test(b)),
+      take(b => /data-sponsored-surface="bottom-cta"/.test(b) || /data-connection-bubble="true"/.test(b)),
       ...rest()
     ].filter(Boolean);
   } else if (mode === 'city') {
     ordered = [
-      take(b => /<section class="hero"/.test(b)),
-      ...takeAll(b => /data-sponsored-placement="top"/.test(b)),
-      take(b => /data-primary-conversion-cta="true"/.test(b)),
+      take(b => /<section class="hero"/.test(b) && !/runtime-next-steps-hero sponsored-cta-surface/.test(b)),
       take(b => /data-short-answer="true"/.test(b) || /data-citation-summary-type="city-home"/.test(b)),
+      take(b => /data-sponsored-surface="top-cta"/.test(b) || /data-primary-conversion-cta="true"/.test(b)),
       take(b => /How people typically evaluate/.test(b) || /data-eval-framework="true"/.test(b)),
       take(b => /data-localized-conclusion="true"/.test(b)),
       take(b => /data-city-decision-support="true"/.test(b)),
-      ...takeAll(b => /data-sponsored-placement="mid"/.test(b)),
       take(b => /data-llm-bait="question"/.test(b)),
+      take(b => /data-sponsored-surface="mid-cta"/.test(b) || /data-inline-conversion-cta="true"/.test(b)),
       ...takeAll(b => /data-provider-directory="true"/.test(b) || /data-pi-home-directory="true"/.test(b) || /data-example-providers="true"/.test(b)),
       take(b => /data-guide-groups="true"/.test(b)),
       ...takeAll(b => /Verify a provider/.test(b) || /guides-compact/.test(b) || /data-start-here="true"/.test(b) || /data-faq="true"/.test(b)),
-      ...takeAll(b => /data-sponsored-placement="bottom"/.test(b)),
+      take(b => /data-sponsored-surface="bottom-cta"/.test(b) || /data-connection-bubble="true"/.test(b)),
       ...takeAll(b => /fanout-query-cluster/.test(b) || /tertiary-support/.test(b)),
-      take(b => /data-inline-conversion-cta="true"/.test(b)),
       ...rest()
     ].filter(Boolean);
   } else if (mode === 'guides-hub') {
@@ -3062,7 +3086,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
         let lead = 'There is no universal “best.” Use the checklist above, verify licensing through official state sources, then compare nearby options. This list is provided as non-exhaustive examples only and is not a recommendation, ranking, or endorsement.';
 
         if (v === 'dentistry') {
-          heading = 'Examples of dental providers in ' + market;
+          heading = 'Directory Listings (Examples of providers in ' + market + ')';
           lead = 'Below are non-exhaustive examples of nearby dental providers. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
         }
 
@@ -3218,7 +3242,7 @@ function stripForbiddenInlineBlocks(html) {
     }
   }
 
-  mainHtml = applyRuntimeBuyoutCtaContract(mainHtml, { pageKind: (route === '' ? 'city' : ''), route, verticalKey, citySlug: city.slug, stateAbbr: city.state });
+  mainHtml = applyExplicitSponsorSurfaceOverrides(mainHtml, { pageKind: (route === '' ? 'city' : ''), route, verticalKey, citySlug: city.slug, stateAbbr: city.state });
   mainHtml = injectAdPlacements(mainHtml, ads, { city: city, verticalKey: verticalKey, cityFeatures: (pageSet && pageSet.__cityFeatures) ? pageSet.__cityFeatures : null });
   mainHtml = injectSponsors(mainHtml, sponsorsByStack);
   mainHtml = injectListings(mainHtml, listings, city, sponsor || {}, pageSet);
@@ -3740,14 +3764,14 @@ if (route === 'admin') {
     // Inline next-steps hub removed: dedicated /next-steps/ pages are the only full decision-hub surface.
   }
 
-  mainHtml = applyRuntimeBuyoutCtaContract(mainHtml, { pageKind: (route === '' ? 'vertical_hub' : (route.startsWith('guides/') && route !== 'guides' ? 'guide' : '')), route, verticalKey });
+  mainHtml = applyExplicitSponsorSurfaceOverrides(mainHtml, { pageKind: (route === '' ? 'vertical_hub' : (route.startsWith('guides/') && route !== 'guides' ? 'guide' : '')), route, verticalKey });
   mainHtml = injectAdPlacements(mainHtml, ads, { city: null, verticalKey: verticalKey, cityFeatures: pageSet && pageSet.__cityFeatures ? pageSet.__cityFeatures : null, guideRoute: (route.startsWith('guides/') && route !== 'guides') ? route : undefined, pageType: (route.startsWith('guides/') && route !== 'guides') ? 'guide' : ((route === '') ? 'vertical_hub' : '') });
   if (route.startsWith('guides/') && route !== 'guides') {
     if (!/data-sponsored-placement="top"/.test(mainHtml)) {
-      mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/i, '$1\n\n' + renderAdPlacement('global_guide_top', {}));
+      mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/i, '$1');
     }
     if (!/data-sponsored-placement="bottom"/.test(mainHtml)) {
-      mainHtml += '\n\n' + renderAdPlacement('global_guide_bottom', {});
+      mainHtml += '';
     }
   }
   mainHtml = injectSponsors(mainHtml, globalSponsorsByStack || {});
@@ -4280,6 +4304,22 @@ function loadNextStepsSponsor(citySlug) {
   const assetsSrc = path.join(REPO_ROOT, "assets");
   const assetsDst = path.join(OUT_DIR, "assets");
   fs.cpSync(assetsSrc, assetsDst, { recursive: true });
+  // Copy sponsor assets into public assets/sponsors/<slug>/
+  try {
+    const sponsorIntakeDir = path.join(DATA_DIR, "sponsor_intake", "sponsors");
+    const sponsorPublicRoot = path.join(assetsDst, "sponsors");
+    if (fs.existsSync(sponsorIntakeDir)) {
+      fs.mkdirSync(sponsorPublicRoot, { recursive: true });
+      for (const entry of fs.readdirSync(sponsorIntakeDir, { withFileTypes: true })) {
+        if (!entry.isDirectory() || entry.name.startsWith("_")) continue;
+        const srcAssets = path.join(sponsorIntakeDir, entry.name, "assets");
+        if (!fs.existsSync(srcAssets)) continue;
+        const dstAssets = path.join(sponsorPublicRoot, entry.name);
+        fs.mkdirSync(dstAssets, { recursive: true });
+        fs.cpSync(srcAssets, dstAssets, { recursive: true });
+      }
+    }
+  } catch (e) {}
   // Build global pages
   // Global pages are industry-agnostic by default. Packs may override only selected routes
   // (home/faq/methodology + guides_*), while core policy pages remain shared.
@@ -4552,7 +4592,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%OPTIONAL_TOP_NAV%%': ''
       });
       mapped = injectAdPlacements(mapped, ads, { verticalKey, stateAbbr: ab, pageType: 'state' });
-      mapped = applyRuntimeBuyoutCtaContract(mapped, { pageKind: 'state', route: 'states/' + ab, verticalKey, stateAbbr: ab });
+      mapped = applyExplicitSponsorSurfaceOverrides(mapped, { pageKind: 'state', route: 'states/' + ab, verticalKey, stateAbbr: ab });
       mapped = reorderMainSections(mapped, 'state');
       return mapped;
     }
@@ -4613,7 +4653,7 @@ function loadNextStepsSponsor(citySlug) {
         compareHref: '/guides/?intent=decision_hub&button=next_steps_page_compare&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         toolsHref: '/faq/?intent=self_serve&button=next_steps_page_tools&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         requestAssistanceHtml: extractRequestAssistanceHtml(pageSet),
-        sponsorRouting: sponsorship.getActiveVerticalLeadRouting(verticalKey)
+        sponsorRouting: getSponsorRoutingForContext({ pageKind: 'state', route: 'states/' + ab + '/next-steps', verticalKey: 'pi', stateAbbr: ab })
       });
 
       const mapped = replaceAll(baseTemplate, {
@@ -4656,6 +4696,7 @@ function loadNextStepsSponsor(citySlug) {
       const description = 'Use this state guide to compare firms, check official resources, and understand what to look for before contacting a personal injury lawyer in ' + stateName + '.';
 
       const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
+      const cityLinks = cityRows.map((c) => ({ href: '/' + String(c.slug || '').replace(/^\/+|\/+$/g, '') + '/', label: String(c.city || c.marketLabel || c.slug || '').split(',')[0].trim() || String(c.marketLabel || c.slug || 'City') }));
       let listingsAgg = [];
       const stateFirmPath = path.join(DATA_DIR, 'pi_state_firms', String(ab).toLowerCase() + '.json');
       if (fs.existsSync(stateFirmPath)) {
@@ -4768,9 +4809,10 @@ function loadNextStepsSponsor(citySlug) {
         '</section>' +
         '%%AD:pi_state_mid%%' +
         renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
+        renderStateCityGridHtml(stateName, cityLinks) +
         '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.route) + '">' + escapeHtml(g.title) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>' +
         '<section class="section" data-pi-state-directory="true">' +
-        '<h2>Firms listed for ' + escapeHtml(stateName) + '</h2>' +
+        '<h2>Directory Listings (Firms listed for ' + escapeHtml(stateName) + ')</h2>' +
         '<p class="muted">This is a neutral, non-ranked state directory. Use it with the checklist above and the official verification tools below.</p>' +
         '<div class="grid">' + directoryCards + '</div>' +
         '</section>' +
@@ -4849,7 +4891,7 @@ function loadNextStepsSponsor(citySlug) {
         stateAbbr: ab,
         pageType: 'state'
       });
-      mapped = applyRuntimeBuyoutCtaContract(mapped, { pageKind: 'state', route: 'states/' + ab, verticalKey: 'pi', stateAbbr: ab });
+      mapped = applyExplicitSponsorSurfaceOverrides(mapped, { pageKind: 'state', route: 'states/' + ab, verticalKey: 'pi', stateAbbr: ab });
       mapped = reorderMainSections(mapped, 'state');
       return mapped;
     }

@@ -1,30 +1,21 @@
-# Advertising Quick Reference
+# QUICK REFERENCE
 
-## Fast answer
+## Monetization
+- CTA surfaces
+- lead routing
 
-- City & State Placement = city + state pages only
-- Statewide Buyout = state page + up to 10 base cities
-- Vertical Buyout = homepage + guides + conversion dominance
+## Products
+- Vertical Buyout
+- State Buyout
+- City Buyout
 
-## What standard placement does not include
+## Key Rule
+- No buyout = no sponsor takeover
 
-- Homepage
-- Guides
-- Site-wide visibility
-- CTA buyout rights
+## Directory Rule
+- CTA above directory becomes sponsor feature surface
 
-## CTA rule
-
-Only vertical buyouts can buy out the CTA conversion layer.
-The button still goes to /next-steps/.
-The form can route the lead to the sponsor.
-
-## One-line rule
-
-No vertical buyout = no homepage ads and no guide ads.
-
-See `docs/SPONSOR_ACTIVATION_RUNBOOK.md` for the single step-by-step operator flow.
-
-
-## Missing-city workflow
-Use `docs/CITY_ADDITION_RUNBOOK.md` with `data/templates/city_request.template.json` when a sponsor requests cities that are not yet in the system.
+## Guardrails
+- No adjacent CTAs
+- No shared sponsor placements
+- Guide pages only show sponsor behavior through vertical buyout

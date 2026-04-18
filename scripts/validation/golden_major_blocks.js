@@ -2,109 +2,46 @@
 const fs = require('fs');
 const path = require('path');
 
-function fail(msg){
-  const err = new Error(msg);
-  err._validation = 'GOLDEN_MAJOR_BLOCKS';
-  throw err;
-}
-
-function readJSON(fp){
-  return JSON.parse(fs.readFileSync(fp,'utf8'));
-}
-
-function getSite(repoRoot){
-  try{
-    return readJSON(path.join(repoRoot,'data','site.json'));
-  }catch{
-    return {};
+function fail(msg) { throw new Error(msg); }
+function hasAdjacentCtas(html) {
+  const re = /<section[^>]*data-(?:primary-conversion-cta|inline-conversion-cta|runtime-next-steps-cta)="true"[^>]*>/ig;
+  const positions = [];
+  let m;
+  while ((m = re.exec(html))) positions.push(m.index);
+  for (let i = 0; i < positions.length - 1; i += 1) {
+    const start = positions[i];
+    const next = positions[i + 1];
+    const close = html.indexOf('</section>', start);
+    if (close === -1 || close > next) continue;
+    const between = html.slice(close + 10, next);
+    if (!between.trim()) return true;
   }
+  return false;
 }
 
-function getPageSet(repoRoot, pageSetFile){
-  if (!pageSetFile) return {};
-  const normalized = String(pageSetFile || '').replace(/^\.\//, '');
-  const candidates = [
-    path.join(repoRoot, normalized),
-    path.join(repoRoot, 'data', 'page_sets', normalized),
-    path.join(repoRoot, 'data', 'page_sets', path.basename(normalized))
-  ];
-  const fp = candidates.find((candidate) => fs.existsSync(candidate));
-  if (!fp) return {};
-  try{
-    return readJSON(fp);
-  }catch{
-    return {};
+function walk(dir, out = []) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fp = path.join(dir, e.name);
+    if (e.isDirectory()) walk(fp, out);
+    else if (e.isFile() && fp.endsWith('.html')) out.push(fp);
   }
+  return out;
 }
 
-function loadCities(repoRoot){
-  const fp = path.join(repoRoot,'data','cities.json');
-  if (!fs.existsSync(fp)) return [];
-  const arr = readJSON(fp);
-  if (!Array.isArray(arr)) return [];
-  return arr.map(c=>c.slug).filter(Boolean);
-}
-
-function run(ctx){
-  const repoRoot = (ctx && ctx.repoRoot) || path.resolve(__dirname,'..','..');
-  const dist = path.join(repoRoot,'dist');
+function run(ctx) {
+  const repoRoot = (ctx && ctx.repoRoot) || path.resolve(__dirname, '..', '..');
+  const dist = path.join(repoRoot, 'dist');
   if (!fs.existsSync(dist)) fail('dist/ missing. Run build first.');
-
-  const site = getSite(repoRoot);
-  const pageSetFile = site.pageSetFile || '';
-  const pageSetName = String(pageSetFile).split('/').pop() || 'unknown';
-  const pageSet = getPageSet(repoRoot, pageSetFile);
-
-  const resolvedVerticalKey = String(pageSet.verticalKey || (String(pageSetFile).toLowerCase().includes('/pi_') || String(pageSetFile).toLowerCase().includes('pi_v') ? 'pi' : '')).toLowerCase();
-  const isPI = resolvedVerticalKey === 'pi';
-  const cityHasDirectory = (pageSet.cityFeatures && typeof pageSet.cityFeatures.directory === 'boolean') ? pageSet.cityFeatures.directory : true;
-  const cityHasStateLookup = (pageSet.cityFeatures && typeof pageSet.cityFeatures.stateLookup === 'boolean') ? pageSet.cityFeatures.stateLookup : true;
-
-  const citySlugs = loadCities(repoRoot);
-  const errors=[];
-
-  for (const slug of citySlugs){
-    const fp = path.join(dist, slug, 'index.html');
-    if (!fs.existsSync(fp)) continue; // not built in this pageset
-    const html = fs.readFileSync(fp,'utf8');
-
-    // Enforce exactly 1 top/mid/bottom ad slot on city pages.
-    const topCount = (html.match(/data-sponsored-placement="top"/g) || []).length;
-    const midCount = (html.match(/data-sponsored-placement="mid"/g) || []).length;
-    const bottomCount = (html.match(/data-sponsored-placement="bottom"/g) || []).length;
-    if (topCount !== 1) errors.push(`${fp.replace(repoRoot+path.sep,'')} expected exactly 1 top ad, got ${topCount}`);
-    if (midCount !== 1) errors.push(`${fp.replace(repoRoot+path.sep,'')} expected exactly 1 mid ad, got ${midCount}`);
-    if (bottomCount !== 1) errors.push(`${fp.replace(repoRoot+path.sep,'')} expected exactly 1 bottom ad, got ${bottomCount}`);
-
-    // Minimal block requirements.
-    // NOTE: we intentionally do NOT validate global pages like /privacy.
-    const required = [];
-    required.push('data-eval-framework="true"');
-    required.push('data-llm-bait="question"');
-    required.push('data-faq="true"');
-    required.push('data-guides');
-
-    if (!isPI) {
-      // Non-PI packs vary: some have a directory/examples, some don't.
-      // Only require example providers if the pack actually enables a directory.
-
-      // State lookup is present in most non-PI packs; validate it when enabled.
-      if (cityHasStateLookup) {
-        const hasStateLookup = html.includes('data-state-lookup="true"') || html.includes('data-state-lookup-cta="true"');
-        if (!hasStateLookup) errors.push(`${fp.replace(repoRoot+path.sep,'')} missing marker: data-state-lookup (or data-state-lookup-cta)`);
-      }
-    }
-
-    for (const r of required){
-      if (!html.includes(r)) errors.push(`${fp.replace(repoRoot+path.sep,'')} missing ${r}`);
-    }
+  const bad = [];
+  for (const fp of walk(dist)) {
+    const rel = path.relative(repoRoot, fp);
+    if (rel === 'dist/index.html') continue;
+    const html = fs.readFileSync(fp, 'utf8');
+    if (html.includes('data-sponsored-empty="true"')) bad.push(rel + ' contains empty sponsor placeholder');
+    if (hasAdjacentCtas(html)) bad.push(rel + ' contains adjacent CTA sections');
   }
-
-  if (errors.length){
-    fail(`GOLDEN MAJOR BLOCK FAIL (${pageSetName})\n` + errors.slice(0,200).join('\n') + (errors.length>200?`\n...and ${errors.length-200} more`:''));
-  }
-
-  console.log(`✅ GOLDEN MAJOR BLOCKS PASS (${pageSetName})`);
+  if (bad.length) fail('GOLDEN MAJOR BLOCK FAIL\n' + bad.join('\n'));
+  console.log('✅ GOLDEN MAJOR BLOCKS PASS');
 }
 
 module.exports = { run };

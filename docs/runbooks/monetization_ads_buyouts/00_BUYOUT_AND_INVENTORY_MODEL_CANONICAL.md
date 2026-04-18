@@ -1,25 +1,17 @@
-# BUYOUT AND INVENTORY MODEL (CANONICAL)
+# Buyout and Sponsor Operations Model — Canonical
 
-## Products
+## Canonical products
+- City Buyout
+- State Buyout
+- Vertical Buyout
 
-### City & State Placement
-- city pages
-- state pages
-- no homepage
-- no guides
+## Canonical live model
+- Sponsor identity + assets live in `data/sponsor_intake/sponsors/<slug>/`
+- Live activation lives in `data/buyouts.json`
+- CTA takeover and lead routing are controlled by the live buyout entry
 
-### Statewide Buyout
-- state page
-- up to 10 selected cities
-- extra cities are paid add-ons
-- no homepage
-- no guides
+## Directory rule
+If a page has a directory and `directory_cta_takeover` is enabled, the CTA above the directory becomes the sponsor feature surface.
 
-### Vertical Buyout
-- homepage hero
-- guides
-- broader eligible city/state coverage
-- CTA conversion dominance
-
-## CTA rule
-Vertical buyout may buy out the CTA conversion layer, but all public buttons still flow through the same /next-steps/ path.
+## Guide rule
+Guide pages are covered only under vertical buyout.

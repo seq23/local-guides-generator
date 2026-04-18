@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const sponsorCatalog = require('./sponsor_catalog');
 
 const CTA_COPY = {
   text: 'Use the decision hub to get matched now, compare options, or use lookup tools before you submit anything.',
@@ -46,23 +47,32 @@ function loadSponsorshipsSafe(repoRoot) {
 }
 
 function getActiveVerticalBuyoutConfig(verticalKey, now = new Date()) {
-  const registry = loadSponsorshipsSafe(process.cwd());
-  const recs = registry && registry.vertical_buyouts ? registry.vertical_buyouts : {};
-  const rec = recs[String(verticalKey || '')] || null;
-  if (!rec) return null;
-  if (rec.live === false) return null;
+  const buyouts = loadBuyoutsSafe(process.cwd());
+  const rec = (buyouts || []).find((b) => {
+    if (!b || b.live === false) return false;
+    if (String(b.scope || '') !== 'vertical') return false;
+    const key = String(verticalKey || '').trim();
+    const recKey = String(b.verticalKey || b.vertical || '').trim();
+    if (key && recKey && key !== recKey) return false;
+    return isInDateWindow({ starts_on: b.starts_on || b.start_at, ends_on: b.ends_on || b.end_at }, now);
+  }) || null;
   return rec;
 }
 
 function getActiveVerticalLeadRouting(verticalKey, now = new Date()) {
   const rec = getActiveVerticalBuyoutConfig(verticalKey, now);
   if (!rec || !rec.sponsor_slug) return null;
+  const sponsor = sponsorCatalog.getSponsorBySlug(process.cwd(), rec.sponsor_slug);
   return {
     sponsor_slug: String(rec.sponsor_slug),
     sponsor_scope: 'vertical_buyout',
-    campaign_slug: String(rec.campaign_slug || ''),
-    lead_target: String(rec.lead_target || ''),
-    sponsor_name: String(rec.sponsor_name || rec.sponsor_slug || '')
+    campaign_slug: String(rec.campaign_slug || rec.id || ''),
+    lead_target: String(rec.lead_target || (sponsor && sponsor.lead_email) || ''),
+    sponsor_name: String((sponsor && sponsor.display_name) || rec.sponsor_slug || ''),
+    sponsor_phone: String((sponsor && sponsor.phone) || ''),
+    sponsor_website: String((sponsor && sponsor.website_url) || ''),
+    sponsor_logo: String((sponsor && sponsor.assets && sponsor.assets.logo) || ''),
+    assets: (sponsor && sponsor.assets) || {}
   };
 }
 
@@ -101,15 +111,19 @@ function coreShouldRenderNextSteps({
   const winner = resolveWinner(buyouts || [], ctx, now);
   if (!winner) return false;
 
-  // Vertical buyout enables Next Steps CTA across eligible surfaces.
+  // Vertical buyout enables sponsor-owned CTA routing across covered surfaces, including guides.
   if (winner.scope === 'vertical') return true;
 
-    // State buyout may enable a locked next-steps CTA on the state page only.
+  // State buyout enables sponsor-owned CTA routing on the state page.
   if (winner.scope === 'state') {
     return pageType === 'state';
   }
 
-  // City/guide buyouts do not enable the Next Steps CTA surface.
+  // City buyout enables sponsor-owned CTA routing on the city page.
+  if (winner.scope === 'city') {
+    return pageType === 'city';
+  }
+
   return false;
 }
 

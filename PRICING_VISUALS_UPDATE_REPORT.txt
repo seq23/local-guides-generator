@@ -1,0 +1,32 @@
+Pricing + Visuals update report
+
+Base repo used:
+local-guides-generator-main_BASELINE_04-18-26_140b73c2.zip
+
+Intentional source changes for this pass:
+- data/global_pages/for-providers.json
+- assets/styles.css
+- assets/for-providers/clean-vs-owned-page.png
+- assets/for-providers/composite-buyout-coverage.png
+- assets/for-providers/directory-cta-feature.png
+- assets/for-providers/sponsor-lead-flow.png
+
+What changed on /for-providers/:
+1. Added pricing anchors:
+   - City Buyout: Starting at $2,500/month
+   - State Buyout: Starting at $7,500/month
+   - Vertical Buyout: Starting at $25,000/month
+2. Added real image-based visuals in place of placeholder visual blocks.
+3. Added 'Check availability' mailto CTA buttons with required inquiry fields.
+4. Added figure/image styling for the new visual assets.
+
+Verification completed:
+- Full all-pack build: PASS
+- validate:all via build_all_packs pipeline: PASS
+- Built /for-providers/ contains all three pricing anchors: PASS
+- Built /for-providers/ no longer contains 'Placeholder visual:': PASS
+- Built asset files exist in dist/assets/for-providers/: PASS
+
+Dist drift note:
+- dist/* and related generated artifacts changed because the repo was rebuilt after the source update.
+- No additional source files beyond the intentional list above were edited for this pass.

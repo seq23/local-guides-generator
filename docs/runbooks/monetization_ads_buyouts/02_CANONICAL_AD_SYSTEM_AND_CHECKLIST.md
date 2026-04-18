@@ -1,21 +1,20 @@
-# CANONICAL AD SYSTEM + CHECKLIST (AUTHORITATIVE)
+# CANONICAL AD SYSTEM AND CHECKLIST
 
-This document is the source-of-truth contract for runtime, sales page, and validation.
+This document is the authoritative source for the sponsorship model. The active model is buyout-only and CTA-driven.
 
 ```json
 {
   "version": "CANONICAL_AD_INVENTORY_V1",
+  "model": "buyout_only_cta_and_lead_flow",
   "surfaces": {
     "guide": {
       "placements": [
         "top",
         "bottom"
       ],
-      "shared_model": "stacked",
-      "buyout": {
-        "exclusive": true,
-        "top_upgrades_to": "hero"
-      }
+      "availability": "vertical_buyout_only",
+      "cta_source_of_truth": "runtime",
+      "lead_flow": "sponsor_when_buyout_active"
     },
     "city": {
       "placements": [
@@ -23,116 +22,85 @@ This document is the source-of-truth contract for runtime, sales page, and valid
         "mid",
         "bottom"
       ],
-      "shared_model": "stacked",
-      "buyout": {
-        "exclusive": true,
-        "top_upgrades_to": "hero",
-        "note": "mid and bottom separated by content"
-      }
+      "availability": "city_buyout_or_vertical_buyout_when_covered",
+      "cta_source_of_truth": "runtime",
+      "lead_flow": "sponsor_when_buyout_active"
     },
     "state": {
       "placements": [
         "top",
         "mid"
       ],
-      "shared_model": "stacked",
-      "buyout": {
-        "exclusive": true,
-        "top_upgrades_to": "hero"
-      },
-      "availability": "buyout_or_runtime_only"
+      "availability": "state_buyout_or_vertical_buyout_when_covered",
+      "cta_source_of_truth": "runtime",
+      "lead_flow": "sponsor_when_buyout_active"
     },
     "state_pi": {
       "placements": [
         "top",
         "mid"
       ],
-      "shared_model": "exclusive_only",
-      "buyout": {
-        "exclusive": true,
-        "top_upgrades_to": "hero"
-      },
-      "availability": "state_buyout_only"
+      "availability": "state_buyout_or_vertical_buyout_when_covered",
+      "cta_source_of_truth": "runtime",
+      "lead_flow": "sponsor_when_buyout_active"
     },
     "vertical_hub": {
       "placements": [
         "hero"
       ],
-      "buyout_only": true
+      "availability": "vertical_buyout_only",
+      "cta_source_of_truth": "runtime",
+      "lead_flow": "sponsor_when_buyout_active"
     }
   },
   "products": {
-    "city_shared_placement": {
-      "includes": [
-        "city"
-      ],
-      "excludes": [
-        "state",
-        "guide_tier",
-        "vertical_hub",
-        "cta_buyout"
-      ],
-      "model": "stacked"
-    },
     "city_buyout": {
       "includes": [
-        "city"
-      ],
-      "exclusive": true,
-      "top_upgrades_to": "hero",
-      "excludes": [
-        "state",
-        "guide_tier",
-        "vertical_hub",
-        "cta_buyout"
+        "city_cta_layer",
+        "city_lead_flow",
+        "directory_entry_cta_when_present"
       ]
     },
-    "state_buyout_pi": {
+    "state_buyout": {
       "includes": [
-        "state_pi",
-        "covered_city_pages_in_state"
-      ],
-      "exclusive": true,
-      "top_upgrades_to": "hero",
-      "expansion_right": "additional_cities_within_same_state_upon_request",
-      "excludes": [
-        "guide_tier",
-        "vertical_hub"
+        "state_cta_layer",
+        "state_lead_flow",
+        "directory_entry_cta_when_present"
       ]
     },
     "vertical_buyout": {
       "includes": [
         "vertical_hub",
         "guide",
-        "city",
-        "state",
-        "hero_buyout_behavior",
-        "sponsor_form_routing"
-      ]
+        "cta_layer",
+        "lead_flow",
+        "up_to_10_cities",
+        "corresponding_states"
+      ],
+      "pi_city_pages_rendered": false,
+      "additional_city_pricing": "contract_required"
     }
   },
   "runtime_conversion_flow": {
-    "cta_model": "three_cta_buttons_remain_live",
-    "buyout_behavior": "hero_ad_on_top_placement_with_sponsor_form_routing",
-    "eligible_surfaces": [
-      "vertical_hub",
-      "city",
-      "guide",
-      "state",
-      "state_pi"
-    ],
-    "lead_destination": "all_leads_go_to_sponsor_when_sponsor_flow_is_active"
+    "surface_renderer": "shared_sponsor_surface_renderer",
+    "cta_model": "runtime_ctas_are_source_of_truth",
+    "directory_feature_rule": "cta_above_directory_becomes_sponsor_feature_surface",
+    "lead_destination": "all_leads_go_to_sponsor_when_buyout_is_active",
+    "training_behavior": "starter_v1_may_replay_the_same_surface_modes_using_fake_sponsor_data"
+  },
+  "guardrails": {
+    "cta_adjacency": "forbidden",
+    "guide_shared_inventory": "forbidden",
+    "directory_reordering": "forbidden"
   }
 }
 ```
 
-## Public-facing inventory checklist
-- City Shared Placement + City Buyout + State Buyout (PI only) + Vertical Buyout are the only public-facing sponsorship products
-- Guide pages remain eligible runtime surfaces
-- Vertical hub / homepage visibility is a real runtime surface and must be named on the sales page
-- Shared placement visuals should be shown for city and state examples
-- Buyout hero visuals should be shown for city, state, guide, and vertical hub / homepage examples
-- Sponsor lead-form flow should be shown with a note that leads go to sponsor
-- Guide buyout does not exist as a standalone public-facing product
-- State shared placement does not exist as a standalone public-facing product
-- The /for-providers/ page must not use internal validator / contract-enforcement copy as sponsor-facing messaging
+## Required Checks
+
+- CTA ownership switches under buyout
+- Lead form routes correctly under buyout
+- CTA above directory exists where a directory exists
+- No adjacent CTAs
+- Guide pages only show sponsor behavior under vertical buyout
+- Runtime CTAs remain the source of truth
