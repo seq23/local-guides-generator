@@ -1,0 +1,14 @@
+{
+  "repo_name": "local-guides-generator",
+  "repo_class": "generator",
+  "canonical_updater": "~/update_lkg_from_zip.sh",
+  "allowed_modes": ["snapshot"],
+  "patch_mode_allowed": false,
+  "snapshot_zip_pattern": "local-guides-generator-main_BASELINE_MM-DD-YY_<sha>.zip",
+  "forbidden_updaters": [
+    "~/update_repo_from_zip_generic_v3.sh"
+  ],
+  "validation_required": true,
+  "requires_dist": true,
+  "requires_snapshot_validation": true
+}
