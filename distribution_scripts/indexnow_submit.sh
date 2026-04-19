@@ -91,7 +91,7 @@ else:
     forced_host = sorted(by_host)[0]
 
 def submit(host, host_urls):
-    payload = {"host": host, "key": key, "urlList": host_urls}
+    payload = {"host": host, "key": key, "keyLocation": f"https://{host}/{key}.txt", "urlList": host_urls}
     body = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         "https://api.indexnow.org/indexnow",
