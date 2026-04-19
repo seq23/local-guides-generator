@@ -1,15 +1,10 @@
 #!/usr/bin/env python3
 import json
 import sys
+from pathlib import Path
+
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-
-# Usage:
-# python3 distribution_scripts/gsc_inspect_urls.py \
-#   service-account.json \
-#   "sc-domain:example.com" \
-#   dist/distribution-priority-urls.txt \
-#   inspection-results.json
 
 def load_urls(path):
     urls = []
@@ -32,10 +27,9 @@ def main():
 
     scopes = ["https://www.googleapis.com/auth/webmasters.readonly"]
     creds = service_account.Credentials.from_service_account_file(creds_path, scopes=scopes)
-
     service = build("searchconsole", "v1", credentials=creds)
-    urls = load_urls(url_file)
 
+    urls = load_urls(url_file)
     results = []
 
     for url in urls:

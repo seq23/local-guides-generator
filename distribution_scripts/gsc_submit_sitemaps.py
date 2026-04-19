@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
 import sys
+from pathlib import Path
+
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-
-# Usage:
-# python3 distribution_scripts/gsc_submit_sitemaps.py \
-#   service-account.json \
-#   "sc-domain:example.com" \
-#   "https://example.com/sitemap.xml" \
-#   "https://example.com/sitemap-fresh.xml"
 
 def main():
     if len(sys.argv) < 4:
@@ -21,10 +16,11 @@ def main():
 
     scopes = ["https://www.googleapis.com/auth/webmasters"]
     creds = service_account.Credentials.from_service_account_file(creds_path, scopes=scopes)
-
     service = build("searchconsole", "v1", credentials=creds)
 
     for sitemap_url in sitemap_urls:
+        if not sitemap_url:
+            continue
         print(f"Submitting sitemap: {sitemap_url}")
         service.sitemaps().submit(siteUrl=site_url, feedpath=sitemap_url).execute()
         print("OK")
