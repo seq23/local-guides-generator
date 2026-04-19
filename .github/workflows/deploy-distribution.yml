@@ -43,6 +43,8 @@ jobs:
           chmod +x distribution_scripts/gsc_inspect_urls.py
 
       - name: Build site and distribution artifacts
+        env:
+          PAGE_SET_FILE: data/page_sets/examples/uscis_medical_v1.json
         run: |
           npm run build
           ls -l dist/citation-manifest.json dist/indexnow-priority.txt dist/indexnow-batch.txt
