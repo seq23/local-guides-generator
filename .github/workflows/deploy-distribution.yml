@@ -42,10 +42,11 @@ jobs:
           chmod +x distribution_scripts/gsc_submit_sitemaps.py
           chmod +x distribution_scripts/gsc_inspect_urls.py
 
-      - name: Generate IndexNow artifacts
+      - name: Generate citation manifest and IndexNow artifacts
         run: |
+          node scripts/citation_manifest_emit.js
           node scripts/indexnow_emit.js
-          ls -l dist/indexnow-priority.txt dist/indexnow-batch.txt
+          ls -l dist/citation-manifest.json dist/indexnow-priority.txt dist/indexnow-batch.txt
 
       - name: Run distribution deploy
         env:
