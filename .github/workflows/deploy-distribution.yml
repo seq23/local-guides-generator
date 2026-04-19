@@ -13,10 +13,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Install Node dependencies
+        run: npm ci
 
       - name: Install Python dependencies
         run: |
@@ -33,6 +41,11 @@ jobs:
           chmod +x distribution_scripts/deploy_distribution.sh
           chmod +x distribution_scripts/gsc_submit_sitemaps.py
           chmod +x distribution_scripts/gsc_inspect_urls.py
+
+      - name: Generate IndexNow artifacts
+        run: |
+          node scripts/indexnow_emit.js
+          ls -l dist/indexnow-priority.txt dist/indexnow-batch.txt
 
       - name: Run distribution deploy
         env:
