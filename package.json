@@ -9,7 +9,7 @@
     "validate:all": "node scripts/validate_coverage_parity.js && node scripts/validate_llm_surface.js && node scripts/validate_core.js && node scripts/validate_indexnow.js && node scripts/validate_snapshot_package.js",
     "validate:citation-routing": "LKG_VALIDATE_DIST=1 node scripts/validate_citation_routing.js",
     "snapshot:lkg": "node scripts/snapshot_lkg.js",
-    "postbuild": "node scripts/sitemap_emit.js && node scripts/llms_emit.js && node scripts/citation_manifest_emit.js && node scripts/indexnow_emit.js && node scripts/distribution_manifest_emit.js && node scripts/redirects_emit.js && cp 6f1a4f27d8c9b2e3a4f518709c2d6b3e1f0a9d8c7b6e5f4a3c2b1d0e9f8a7b6c.txt dist/ && node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
+    "postbuild": "node scripts/sitemap_emit.js && node scripts/llms_emit.js && node scripts/citation_manifest_emit.js && node scripts/indexnow_emit.js && node scripts/distribution_manifest_emit.js && node scripts/redirects_emit.js && cp 4d1ce19168524fcd3f96ccc22f58f434423507acff62295e6a5ed28cba8f0080.txt dist/ && node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
     "validate": "node scripts/validate_tbs.js",
     "sync:guides": "node scripts/sync_guides.js",
     "validate:dist:compliance": "node scripts/validate_dist_compliance_scan.js",
