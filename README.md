@@ -206,5 +206,3 @@ Contact: `info@spryvc.com`
 
 ## Advertising System
 See `docs/ADVERTISING_SYSTEM.md` and `docs/advertising_quick_reference.md` for the current advertising rules, homepage rule, and sponsor language.
-
-LKG canonical Pages setup currently uses one shared IndexNow key across all 5 canonicals, and this has been explicitly verified by direct IndexNow acceptance tests on April 20, 2026.
