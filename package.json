@@ -34,7 +34,9 @@
     "validate:coverage-parity": "node scripts/validate_coverage_parity.js",
     "validate:llm-surface": "node scripts/validate_llm_surface.js",
     "full:dry-run": "node scripts/reference/pull_velocity_candidates.js && node scripts/reference/generate_from_candidates.js && node scripts/reference/guard_visible_surfaces.js && node scripts/build_all_packs.js && LKG_VALIDATE_DIST=1 npm run validate:all && npm run distribution:prepare && node scripts/validate_indexnow.js && node scripts/validate_snapshot_package.js",
-    "validate:snapshot-package": "node scripts/validate_snapshot_package.js"
+    "validate:snapshot-package": "node scripts/validate_snapshot_package.js",
+    "snapshot:baseline": "bash scripts/make_baseline_snapshot.sh",
+    "snapshot:baseline:with-git": "bash scripts/make_baseline_snapshot.sh --include-git"
   },
   "dependencies": {},
   "engines": {

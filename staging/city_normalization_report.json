@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-04-27",
+  "city_files_normalized": 64,
+  "canonical_template": "data/templates/city/canonical_city_listing_template.json",
+  "enforced_top_level_keys": [
+    "city_slug",
+    "sponsor",
+    "listings"
+  ],
+  "enforced_listing_keys": [
+    "city_slug",
+    "name",
+    "practice_areas"
+  ],
+  "removed_drift": "Any city-specific extra JSON fields outside the canonical listing shape were removed."
+}

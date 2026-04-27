@@ -1,0 +1,17 @@
+
+> local-guides-generator-base@1.0.0 prebuild
+> node scripts/validation/entrypoint_exports_contract.js && node scripts/validation/pagesetfile_contract.js
+
+✅ ENTRYPOINT EXPORTS CONTRACT PASS
+✅ PAGESET CONTRACT PASS — data/page_sets/examples/uscis_medical_v1.json
+
+> local-guides-generator-base@1.0.0 build
+> npm run prepare:site && node scripts/build_city_sites.js
+
+
+> local-guides-generator-base@1.0.0 prepare:site
+> node scripts/prepare_site.js
+
+ERROR: PAGE_SET_FILE is required. Refusing to default to starter_v1.
+Set PAGE_SET_FILE to a real page set (e.g. data/page_sets/examples/trt_v1.json).
+For training builds only, set LKG_ENV=training and PAGE_SET_FILE=data/page_sets/starter_v1.json.
