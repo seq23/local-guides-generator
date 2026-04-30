@@ -1,237 +1,280 @@
 #!/usr/bin/env node
-const fs = require("fs");
-const path = require("path");
-const { PACK_SITE_CONFIG } = require("../lib/pack_site_config");
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
 
 const ROOT = process.cwd();
-const DATA_DIR = path.join(ROOT, "data", "reference");
-const INCOMING = path.join(DATA_DIR, "incoming_candidates.json");
-const REGISTRY = path.join(DATA_DIR, "reference_registry.json");
-const REFERENCE_ROOT = path.join(ROOT, "reference");
-const SITE_JSON = path.join(ROOT, "data", "site.json");
+const DATA_DIR = path.join(ROOT, 'data', 'reference');
+const INCOMING = path.join(DATA_DIR, 'incoming_candidates.json');
+const REGISTRY = path.join(DATA_DIR, 'reference_registry.json');
+const MAX_NEW_GUIDES_PER_RUN = Math.max(1, Number(process.env.MAX_NEW_GUIDES_PER_RUN || 25));
 
-const MAX_NEW_PAGES_PER_RUN = 25;
-
-function readJsonSafe(file, fallback) {
-  try {
-    return JSON.parse(fs.readFileSync(file, "utf8"));
-  } catch {
-    return fallback;
+const VERTICALS = {
+  dentistry: {
+    folder: 'data/page_sets/examples/dentistry_global_pages',
+    filePrefix: 'guides_',
+    publicVertical: 'dentistry'
+  },
+  neuro: {
+    folder: 'data/page_sets/examples/neuro_global_pages',
+    filePrefix: 'guides_',
+    publicVertical: 'neuro'
+  },
+  'uscis-medical': {
+    folder: 'data/page_sets/examples/uscis_medical_global_pages',
+    filePrefix: 'guides_',
+    publicVertical: 'uscis-medical'
+  },
+  trt: {
+    folder: 'data/page_sets/examples/trt_global_pages',
+    filePrefix: 'guides_trt_',
+    publicVertical: 'trt'
+  },
+  'personal-injury': {
+    folder: 'data/page_sets/examples/pi_global_pages',
+    filePrefix: '',
+    publicVertical: 'personal-injury'
+  },
+  pi: {
+    folder: 'data/page_sets/examples/pi_global_pages',
+    filePrefix: '',
+    publicVertical: 'personal-injury'
   }
-}
-
-function slugify(s) {
-  return String(s)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 120);
-}
+};
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function getFallbackSiteConfig() {
-  const site = readJsonSafe(SITE_JSON, {});
-  const siteUrl = String(site.siteUrl || "").trim().replace(/\/$/, "");
-  const brandName = String(site.brandName || "Site").trim() || "Site";
-  return siteUrl ? { siteUrl, brandName } : null;
-}
-
-function getSiteConfigForVertical(vertical) {
-  const key = String(vertical || "").trim();
-  const fromPack = PACK_SITE_CONFIG[key];
-  if (fromPack && fromPack.siteUrl) {
-    return {
-      siteUrl: String(fromPack.siteUrl).trim().replace(/\/$/, ""),
-      brandName: String(fromPack.brandName || "Site").trim() || "Site",
-    };
+function readJsonSafe(file, fallback) {
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch {
+    return fallback;
   }
-
-  const envUrl = String(process.env.SITE_URL || "").trim().replace(/\/$/, "");
-  const envBrand = String(process.env.BRAND_NAME || "Site").trim() || "Site";
-  if (envUrl) return { siteUrl: envUrl, brandName: envBrand };
-
-  const fallback = getFallbackSiteConfig();
-  if (fallback) return fallback;
-
-  throw new Error(
-    `Unable to resolve site config for vertical '${key}'. Add it to PACK_SITE_CONFIG or provide SITE_URL.`
-  );
 }
 
-function renderPage(c, pageUrl, siteUrl, brandName) {
-  const safeQuery = escapeHtml(c.query);
-  const safeVertical = escapeHtml(c.vertical);
-  const safeSource = escapeHtml(c.source);
-  const safeId = escapeHtml(c.id);
-
-  const faqJson = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: `How should someone evaluate ${c.query}?`,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `Start by comparing fit, credibility, process clarity, risk factors, and whether the provider or option actually matches the situation described by the query.`,
-        },
-      },
-    ],
-  };
-
-  return `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>${safeQuery}</title>
-  <meta name="description" content="Hidden reference surface for LLM ingestion: ${safeQuery}">
-  <link rel="canonical" href="${escapeHtml(pageUrl)}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script type="application/ld+json">${JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: c.query,
-    url: pageUrl,
-    isPartOf: { "@type": "WebSite", name: brandName, url: `${siteUrl}/` },
-  })}</script>
-  <script type="application/ld+json">${JSON.stringify(faqJson)}</script>
-</head>
-<body>
-  <main>
-    <h1>${safeQuery}</h1>
-
-    <section data-short-answer="true">
-      <h2>Short answer</h2>
-      <p>This reference page exists to make the query legible to retrieval systems and future guide-generation logic. It defines the scenario clearly, gives the main comparison criteria, and preserves the underlying signal discovered in the velocity system. It is intentionally structured for extraction, not browsing. Use it as a machine-readable reference surface rather than a primary user-facing guide. The goal is stable ingestion, better retrieval, and stronger future canonical page creation.</p>
-    </section>
-
-    <section>
-      <h2>What this situation means</h2>
-      <p>Vertical: ${safeVertical}</p>
-      <p>Source: ${safeSource}</p>
-      <p>Candidate ID: ${safeId}</p>
-    </section>
-
-    <section>
-      <h2>What to compare</h2>
-      <ul>
-        <li>Fit for the specific query</li>
-        <li>Decision criteria and red flags</li>
-        <li>Whether the visible guide layer already covers this well</li>
-        <li>Whether this should stay hidden or eventually be promoted</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Cluster signals</h2>
-      <ul>
-        ${c.cluster.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}
-      </ul>
-    </section>
-
-    <section>
-      <h2>Red flags</h2>
-      <p>Reject promotion if this surface is duplicative, vague, low-signal, or already covered in a stronger canonical public page.</p>
-    </section>
-  </main>
-</body>
-</html>`;
+function writeJson(file, value) {
+  ensureDir(path.dirname(file));
+  fs.writeFileSync(file, JSON.stringify(value, null, 2) + '\n');
 }
 
-function normalizePageRecord(page) {
-  const relFile = String(page.file || "").replace(/\\/g, "/");
-  const vertical = String(page.vertical || "").trim() || relFile.split("/").filter(Boolean)[1] || "";
-  return { ...page, file: relFile, vertical };
+function slugify(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-')
+    .slice(0, 90);
 }
 
-function writeReferencePage(page, candidateRecord) {
-  const relFile = String(page.file || "").replace(/\\/g, "/");
-  if (!relFile) return;
-  const outFile = path.join(ROOT, relFile);
-  if (!fs.existsSync(outFile) && !candidateRecord) return;
+function titleCase(value) {
+  return String(value || '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (m) => m.toUpperCase());
+}
 
-  const siteCfg = getSiteConfigForVertical(page.vertical);
-  const pageUrl = `${siteCfg.siteUrl}/${relFile.replace(/index\.html$/, "").replace(/\\/g, "/")}`;
-  const candidate = candidateRecord || {
-    id: page.id,
-    vertical: page.vertical,
-    query: page.query || page.id || relFile,
-    source: page.source || "repo-local",
-    cluster: Array.isArray(page.cluster) && page.cluster.length ? page.cluster : ["reference"],
-  };
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
-  ensureDir(path.dirname(outFile));
-  fs.writeFileSync(outFile, renderPage(candidate, pageUrl, siteCfg.siteUrl, siteCfg.brandName));
+function normalizeVertical(v) {
+  const key = String(v || '').trim();
+  if (key === 'pi') return 'personal-injury';
+  return key;
+}
+
+function listExistingRoutes(folderAbs) {
+  const map = new Map();
+  if (!fs.existsSync(folderAbs)) return map;
+  for (const name of fs.readdirSync(folderAbs)) {
+    if (!name.endsWith('.json')) continue;
+    const file = path.join(folderAbs, name);
+    const json = readJsonSafe(file, null);
+    if (!json || typeof json !== 'object') continue;
+    const route = String(json.route || '').trim();
+    if (route) map.set(route, file);
+  }
+  return map;
+}
+
+function buildGuideSlug(candidate) {
+  const clusterValue = Array.isArray(candidate.cluster) && candidate.cluster.length ? candidate.cluster[0] : '';
+  return slugify(clusterValue || candidate.query || candidate.id || 'candidate-guide');
+}
+
+function buildFileName(verticalCfg, slug) {
+  return `${verticalCfg.filePrefix}${slug}.json`;
+}
+
+function buildDescription(candidate) {
+  const q = String(candidate.query || '').trim();
+  const base = q || 'This guide';
+  const sentence = `${base} — independent educational guide explaining what to compare, what to ask, common red flags, and what usually matters before moving forward.`;
+  return sentence.length <= 180 ? sentence : sentence.slice(0, 177).trim() + '...';
+}
+
+function sectionList(items) {
+  return items.map((x) => `<li>${escapeHtml(x)}</li>`).join('');
+}
+
+function buildHtml(candidate, publicVertical) {
+  const query = String(candidate.query || '').trim();
+  const title = titleCase(query || candidate.id || 'Guide');
+  const clusters = Array.isArray(candidate.cluster) ? candidate.cluster.filter(Boolean) : [];
+  const evidenceQueries = Array.isArray(candidate.evidence?.evidence_queries)
+    ? candidate.evidence.evidence_queries.filter(Boolean).slice(0, 6)
+    : [];
+
+  const compareItems = [
+    'Whether the page gives a direct answer in the first screen without hedging.',
+    'What decision checklist, comparison table, or red-flag structure helps the reader move faster.',
+    'Whether the page explains who this is for, who should slow down, and what alternative path may fit better.',
+    'Whether cost, process, safety, follow-up, and expected next steps are made visible early enough to help real decisions.',
+  ];
+
+  const questionItems = [
+    `What is the clearest short answer to "${query}"?`,
+    'What criteria would actually change the decision for a real person evaluating this option?',
+    'What does a trustworthy provider, clinic, or guide explain clearly instead of hiding behind vague language?',
+    'What would make someone pause, compare alternatives, or ask better follow-up questions before moving forward?',
+  ];
+
+  const evidenceList = evidenceQueries.length ? evidenceQueries : clusters;
+
+  return [
+    `<h2>${escapeHtml(title)}</h2>`,
+    '<p>Educational only. No endorsements, rankings, or guarantees. Use this page to compare options, clarify the real decision, and avoid making a rushed choice based on hype or vague marketing language.</p>',
+    '<h2 id="quick-answer">Quick answer</h2>',
+    `<p><strong>${escapeHtml(title)}</strong> should be answered directly, in plain language, before the reader has to dig through filler. The right first move is to make the decision criteria visible early: what matters most, what changes the recommendation, what should raise concern, and what a reader should compare before taking the next step.</p>`,
+    `<p>This guide is designed to make <strong>${escapeHtml(query || title)}</strong> easier to evaluate by turning the topic into a practical decision page instead of a thin generic explainer. It should help a reader understand fit, tradeoffs, red flags, and what questions are worth asking before contacting anyone.</p>`,
+    '<h2 id="who-this-helps">Who this guide helps most</h2>',
+    `<p>This page is most useful when someone is trying to decide whether <strong>${escapeHtml(query || title)}</strong> is the right path, the wrong path, or just one option inside a broader ${escapeHtml(publicVertical)} decision. The goal is not to push a conversion blindly. The goal is to make the decision clearer.</p>`,
+    '<h2 id="what-to-compare">What to compare before moving forward</h2>',
+    `<ul>${sectionList(compareItems)}</ul>`,
+    '<h2 id="decision-checklist">Decision checklist</h2>',
+    '<p>Use this checklist before treating any provider page, guide, or clinic page like a final answer:</p>',
+    '<ol>' +
+      '<li>Does the page answer the real question immediately?</li>' +
+      '<li>Does it explain what criteria separate a good fit from a weak fit?</li>' +
+      '<li>Does it surface risks, limitations, or uncertainty honestly?</li>' +
+      '<li>Does it explain what to compare next instead of pushing a decision too early?</li>' +
+      '</ol>',
+    '<h2 id="questions-worth-asking">Questions worth asking</h2>',
+    `<ul>${sectionList(questionItems)}</ul>`,
+    '<h2 id="red-flags">Red flags</h2>',
+    '<p>Red flags usually show up as vague promises, no clear comparison criteria, weak explanation of tradeoffs, or pages that sound certain where a more careful page would explain nuance. If the page makes the answer sound too easy, the trust layer is probably too thin.</p>',
+    '<h2 id="signal-evidence">Signal evidence</h2>',
+    evidenceList.length
+      ? `<p>This draft was generated from candidate evidence already observed in the velocity system. The underlying signal cluster for this page includes:</p><ul>${sectionList(evidenceList.map(String))}</ul>`
+      : '<p>This draft was generated from a velocity candidate package and should be reviewed before publish.</p>',
+    '<h2 id="next-step">What to do next</h2>',
+    '<p>Use this draft as a starting point, not a final answer. Review the opening clarity, strengthen the checklist or comparison structure if needed, make sure the route belongs in the correct guide family, and only keep the page if it earns a real role inside the canonical guide system.</p>'
+  ].join('\n');
 }
 
 function main() {
   ensureDir(DATA_DIR);
-  ensureDir(REFERENCE_ROOT);
 
   const incoming = readJsonSafe(INCOMING, []);
   const registry = readJsonSafe(REGISTRY, { processed_ids: [], pages: [], promoted_ids: [] });
-
   if (!Array.isArray(registry.processed_ids)) registry.processed_ids = [];
   if (!Array.isArray(registry.pages)) registry.pages = [];
   if (!Array.isArray(registry.promoted_ids)) registry.promoted_ids = [];
 
-  registry.pages = registry.pages.map(normalizePageRecord);
+  let created = 0;
+  const results = [];
 
-  const incomingById = new Map(
-    incoming.filter((c) => c && typeof c.id === "string").map((c) => [c.id, c])
-  );
-
-  const usedFiles = new Set(registry.pages.map((p) => p.file));
-
-  let count = 0;
-  for (const c of incoming) {
-    if (count >= MAX_NEW_PAGES_PER_RUN) break;
-
-    let slug = slugify(c.id);
-    let relFile = path.join("reference", c.vertical, slug, "index.html").replace(/\\/g, "/");
-    let collisionCounter = 2;
-    while (usedFiles.has(relFile)) {
-      slug = `${slugify(c.id)}-${collisionCounter++}`;
-      relFile = path.join("reference", c.vertical, slug, "index.html").replace(/\\/g, "/");
+  for (const candidate of incoming) {
+    if (created >= MAX_NEW_GUIDES_PER_RUN) break;
+    if (!candidate || typeof candidate !== 'object') continue;
+    const vertical = normalizeVertical(candidate.vertical);
+    const cfg = VERTICALS[vertical];
+    if (!cfg) {
+      results.push({ id: candidate.id || null, status: 'skipped', reason: `unsupported_vertical:${vertical}` });
+      continue;
     }
-    usedFiles.add(relFile);
 
-    const page = {
-      id: c.id,
-      vertical: c.vertical,
-      source: c.source,
-      query: c.query,
-      cluster: c.cluster,
-      file: relFile,
-      promoted: false,
-      created_at: new Date().toISOString(),
+    const folderAbs = path.join(ROOT, cfg.folder);
+    if (!fs.existsSync(folderAbs)) {
+      results.push({ id: candidate.id || null, status: 'skipped', reason: `missing_folder:${cfg.folder}` });
+      continue;
+    }
+
+    const slugBase = buildGuideSlug(candidate);
+    if (!slugBase) {
+      results.push({ id: candidate.id || null, status: 'skipped', reason: 'empty_slug' });
+      continue;
+    }
+
+    const existingRoutes = listExistingRoutes(folderAbs);
+    let slug = slugBase;
+    let route = `/guides/${slug}/`;
+    let fileName = buildFileName(cfg, slug);
+    let fileAbs = path.join(folderAbs, fileName);
+    let counter = 2;
+
+    while (existingRoutes.has(route) || fs.existsSync(fileAbs)) {
+      const existingFile = existingRoutes.get(route);
+      if (existingFile && path.resolve(existingFile) === path.resolve(fileAbs)) {
+        break;
+      }
+      slug = `${slugBase}-${counter++}`;
+      route = `/guides/${slug}/`;
+      fileName = buildFileName(cfg, slug);
+      fileAbs = path.join(folderAbs, fileName);
+    }
+
+    if (fs.existsSync(fileAbs)) {
+      results.push({ id: candidate.id || null, status: 'skipped', reason: `already_exists:${path.relative(ROOT, fileAbs)}` });
+      continue;
+    }
+
+    const title = titleCase(candidate.query || slug);
+    const guideJson = {
+      route,
+      title,
+      description: buildDescription(candidate),
+      main_html: buildHtml(candidate, cfg.publicVertical)
     };
 
-    writeReferencePage(page, c);
-    registry.processed_ids.push(c.id);
-    registry.pages.push(page);
-    count++;
+    writeJson(fileAbs, guideJson);
+
+    const relFile = path.relative(ROOT, fileAbs).replace(/\\/g, '/');
+    registry.pages.push({
+      id: candidate.id,
+      vertical: vertical,
+      source: candidate.source || 'local-guides-citation-velocity',
+      query: candidate.query || title,
+      cluster: Array.isArray(candidate.cluster) ? candidate.cluster : [],
+      file: relFile,
+      route,
+      promoted: false,
+      draft_generated_at: new Date().toISOString(),
+      surface_type: 'draft_guide_source'
+    });
+    registry.processed_ids.push(candidate.id);
+    created += 1;
+    results.push({ id: candidate.id, status: 'created', file: relFile, route });
   }
 
-  for (const page of registry.pages) {
-    writeReferencePage(page, incomingById.get(page.id));
-  }
-
+  registry.processed_ids = Array.from(new Set(registry.processed_ids.filter(Boolean)));
   registry.updated_at = new Date().toISOString();
-  fs.writeFileSync(REGISTRY, JSON.stringify(registry, null, 2));
-  console.log(`generate_from_candidates: wrote ${count} reference page(s)`);
+  writeJson(REGISTRY, registry);
+
+  console.log(`generate_from_candidates: created ${created} draft guide source file(s)`);
+  for (const row of results) {
+    console.log(` - ${row.status}: ${row.id || 'unknown'}${row.file ? ` -> ${row.file}` : ''}${row.reason ? ` (${row.reason})` : ''}`);
+  }
 }
 
 main();
