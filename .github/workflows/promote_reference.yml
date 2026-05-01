@@ -36,8 +36,11 @@ jobs:
       - name: Sync guide hubs and canonical guide docs
         run: npm run sync:guides
 
+      - name: Build all packs before validation
+        run: node scripts/build_all_packs.js
+
       - name: Validate canonical repo after draft generation
-        run: npm run validate:all
+        run: LKG_VALIDATE_DIST=1 npm run validate:all
 
       - name: Commit generated draft guides back to PR branch
         run: |
