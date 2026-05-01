@@ -576,9 +576,21 @@ function renderOptionalCityContentHtml(content) {
     ? `<ul class="neutral-list">${content.bullets.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join("")}</ul>`
     : "";
   const intro = content.city_intro_override ? `<p>${escapeOptionalHtml(content.city_intro_override)}</p>` : "";
-  const decisionBlock = content.primary_city_decision_block && Array.isArray(content.primary_city_decision_block.items) && content.primary_city_decision_block.items.length
-    ? `<section class="city-supplement city-supplement-structured" data-city-decision-block="${escapeOptionalHtml(content.primary_city_decision_block.type || 'decision_checklist')}"><h3>${escapeOptionalHtml(content.primary_city_decision_block.title || 'Local decision checklist')}</h3><ul class="neutral-list">${content.primary_city_decision_block.items.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
+  const decisionItems = content.primary_city_decision_block && Array.isArray(content.primary_city_decision_block.items)
+    ? content.primary_city_decision_block.items
+    : [];
+  const decisionBlock = decisionItems.length
+    ? `<section class="city-supplement city-supplement-structured" data-city-decision-block="${escapeOptionalHtml(content.primary_city_decision_block.type || 'decision_checklist')}"><h3>${escapeOptionalHtml(content.primary_city_decision_block.title || 'Local decision checklist')}</h3><ul class="neutral-list">${decisionItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
     : "";
+  const leadChecklistItems = [
+    ...decisionItems.slice(0, 4),
+    ...(Array.isArray(content.local_vetting_points) ? content.local_vetting_points.slice(0, 2) : []),
+    ...(Array.isArray(content.wait_time_notes) ? content.wait_time_notes.slice(0, 1) : []),
+    ...(Array.isArray(content.typical_cost_ranges) ? content.typical_cost_ranges.slice(0, 1) : [])
+  ].filter(Boolean);
+  const leadChecklist = leadChecklistItems.length
+    ? `<section class="city-supplement city-supplement-lead" data-city-local-checklist="true"><h2>${escapeOptionalHtml(content.primary_city_decision_block?.title || content.heading || 'How to compare providers in this city')}</h2>${intro}<ul class="neutral-list">${leadChecklistItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
+    : '';
   const structured = [
     renderOptionalCityStructuredSection('Local vetting points', content.local_vetting_points, 'ul', 'local_vetting_points'),
     renderOptionalCityStructuredSection('Typical cost ranges', content.typical_cost_ranges, 'ul', 'typical_cost_ranges'),
@@ -589,11 +601,11 @@ function renderOptionalCityContentHtml(content) {
     renderOptionalCityStructuredSection('Market-specific notes', content.market_specific_notes, 'ul', 'market_specific_notes'),
     ...cityVerticalSectionConfig(verticalKey).map(([key, title]) => renderOptionalCityStructuredSection(title, content[key], 'ul', key))
   ].join('');
-  if (!(content.heading || intro || body || bullets || decisionBlock || structured)) return '';
+  if (!(content.heading || intro || body || bullets || decisionBlock || structured || leadChecklist)) return '';
   return [
+    leadChecklist,
     '<section class="city-supplement city-supplement-optional" data-city-intelligence="true">',
     content.heading ? `<h2>${escapeOptionalHtml(content.heading)}</h2>` : '',
-    intro,
     body,
     bullets,
     decisionBlock,
@@ -3154,6 +3166,7 @@ function reorderMainSections(html, mode) {
     ordered = [
       take(b => /<section class="hero"/.test(b) && !/runtime-next-steps-hero sponsored-cta-surface/.test(b)),
       take(b => /data-short-answer="true"/.test(b) || /data-citation-summary-type="city-home"/.test(b)),
+      take(b => /data-city-local-checklist="true"/.test(b)),
       take(b => /data-sponsored-surface="top-cta"/.test(b) || /data-primary-conversion-cta="true"/.test(b)),
       take(b => /How people typically evaluate/.test(b) || /data-eval-framework="true"/.test(b)),
       take(b => /data-localized-conclusion="true"/.test(b)),

@@ -57,7 +57,12 @@
     "validate:tier:hard-fail": "node scripts/validation/run_validator_tier.js hard_fail",
     "validate:tier:warning": "node scripts/validation/run_validator_tier.js warning",
     "validate:tier:developer": "node scripts/validation/run_validator_tier.js developer",
-    "qa:final": "npm run phase8:build-validator-inventory && npm run validate:phase8:tiers && npm run validate:tier:hard-fail && npm run validate:tier:warning && npm run validate:tier:developer"
+    "qa:final": "npm run phase8:build-validator-inventory && npm run validate:phase8:tiers && npm run validate:tier:hard-fail && npm run validate:tier:warning && npm run validate:tier:developer",
+    "validate:phase9:guide-lock": "node scripts/validation/phase9_guide_lock.js",
+    "validate:promote-reference:intake": "node scripts/reference/guard_visible_surfaces.js && node scripts/validation/promote_reference_intake_contract.js",
+    "build:completion-queue": "node scripts/reference/build_completion_queue.js",
+    "complete:promoted-guides": "node scripts/reference/complete_promoted_guides.js",
+    "validate:promoted-guide-completion": "node scripts/validation/promoted_guide_completion_contract.js"
   },
   "dependencies": {},
   "engines": {

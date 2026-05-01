@@ -392,3 +392,5 @@ Phase-2 PI Distribution Governance requires a sponsored placement block (one fir
 - Enforced stronger state-authority routing blocks.
 - Enforced guide-opening intros and comparison routing.
 - Enforced decision-routing link quality and metadata/schema strengthening.
+
+- Phase 9 / Phase 4: locked Neuro and USCIS guide retrofits into the canonical guide contract, enhancement registry, and hard-fail validator tier.

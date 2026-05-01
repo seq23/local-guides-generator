@@ -16,12 +16,12 @@ jobs:
       PAGE_SET_FILE: data/page_sets/examples/pi_v1.json
     steps:
       - name: Checkout PR branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '24'
           cache: 'npm'
@@ -44,18 +44,17 @@ jobs:
       - name: Sync guide hubs and canonical guide docs
         run: npm run sync:guides
 
-      - name: Build all packs before validation
-        run: node scripts/build_all_packs.js
+      - name: Validate intake-only promotion lane
+        run: npm run validate:promote-reference:intake
 
-      - name: Validate canonical repo after draft generation
-        run: LKG_VALIDATE_DIST=1 npm run validate:all
+      - name: Restore transient site state
+        run: git restore data/site.json
 
       - name: Commit generated draft guides back to PR branch
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add \
-            data/site.json \
             data/reference/incoming_candidates.json \
             data/reference/reference_registry.json \
             data/page_sets/examples \
