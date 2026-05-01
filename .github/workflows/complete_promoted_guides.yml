@@ -2,13 +2,8 @@ name: Complete Promoted Guides
 
 on:
   push:
-    branches: [main]
-    paths:
-      - data/reference/promotion_candidates.source.json
-      - data/reference/incoming_candidates.json
-      - data/reference/reference_registry.json
-      - data/page_sets/examples/**
-  workflow_dispatch:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -19,13 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PAGE_SET_FILE: data/page_sets/examples/pi_v1.json
-      BEFORE_SHA: ${{ github.event.before }}
-      HEAD_SHA: ${{ github.sha }}
+
     steps:
-      - name: Checkout main
+      - name: Checkout main with full history
         uses: actions/checkout@v6
         with:
-          ref: main
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -45,61 +39,77 @@ jobs:
       - name: Build completion queue
         run: node scripts/reference/build_completion_queue.js
 
-      - name: Check whether promoted drafts need completion
-        id: queue_check
+      - name: Read completion queue size
+        id: queue
         run: |
-          node -e "const q=require('./.tmp/promoted_guide_completion_queue.json'); console.log('has_queue=' + ((q.items||[]).length ? 'true' : 'false'))" >> "$GITHUB_OUTPUT"
+          COUNT=$(node -e "const fs=require('fs'); const p='reports/promoted_guide_completion_queue.json'; if(!fs.existsSync(p)){process.stdout.write('0'); process.exit(0);} const data=JSON.parse(fs.readFileSync(p,'utf8')); process.stdout.write(String((data.items||[]).length));")
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "Completion queue size: $COUNT"
+
+      - name: Exit cleanly when there is nothing to complete
+        if: steps.queue.outputs.count == '0'
+        run: |
+          echo "No skeletal promoted guides detected. Nothing to do."
+          exit 0
 
       - name: Complete promoted guides
-        if: steps.queue_check.outputs.has_queue == 'true'
+        if: steps.queue.outputs.count != '0'
         run: node scripts/reference/complete_promoted_guides.js
 
       - name: Sync guides
-        if: steps.queue_check.outputs.has_queue == 'true'
+        if: steps.queue.outputs.count != '0'
         run: npm run sync:guides
 
-      - name: Validate completion lane
-        if: steps.queue_check.outputs.has_queue == 'true'
-        run: npm run validate:promoted-guide-completion
+      - name: Validate promoted guide completion lane
+        if: steps.queue.outputs.count != '0'
+        run: node scripts/validation/promoted_guide_completion_contract.js
 
       - name: Build all packs
-        if: steps.queue_check.outputs.has_queue == 'true'
+        if: steps.queue.outputs.count != '0'
         run: node scripts/build_all_packs.js
 
-      - name: Validate canonical repo after guide completion
-        if: steps.queue_check.outputs.has_queue == 'true'
+      - name: Run full validation
+        if: steps.queue.outputs.count != '0'
         run: LKG_VALIDATE_DIST=1 npm run validate:all
 
-      - name: Restore transient site state and temp artifacts
-        if: always()
+      - name: Restore transient build state
+        if: steps.queue.outputs.count != '0'
         run: |
           git restore data/site.json || true
-          git restore releases/fanout_query_clusters.*.json || true
-          rm -f .tmp/promoted_guide_completion_queue.json
+          git restore dist || true
+          git restore releases/fanout_query_clusters.positive.json || true
+          git restore releases/fanout_query_clusters.negative.json || true
           git restore reports/phase8_hard_fail_run.json || true
+          rm -f reports/promoted_guide_completion_queue.json
 
-      - name: Create follow-up PR for completed promoted guides
-        if: steps.queue_check.outputs.has_queue == 'true'
+      - name: Create follow-up PR for completed guides
+        if: steps.queue.outputs.count != '0'
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "Complete promoted guides from merged intake"
-          title: "Complete promoted guides after intake merge"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: auto/complete-promoted-guides-${{ github.run_id }}
+          title: Complete promoted guides — ${{ github.run_id }}
+          commit-message: Complete promoted skeletal guides after intake merge
           body: |
             Automated post-merge completion PR.
 
-            This PR was created after a merged intake branch introduced skeletal promoted guide source files.
+            This PR was created after a merged intake change on `main`.
+            It:
+            - detected newly merged skeletal promoted guide source files
+            - completed them into canonical production-shaped guide source
+            - synced guide surfaces
+            - passed the promoted-guide completion contract
+            - passed full build + validation
 
-            Included lane:
-            - build completion queue
-            - complete promoted guides into canonical sectioned shape
-            - sync guides
-            - validate completion lane
-            - build all packs
-            - validate all
-
-            Review focus:
-            - changed guide source files
-            - rendered guide quality
-            - any unexpected broad diffs
-          branch: auto/complete-promoted-guides-${{ github.run_id }}
+            Review and merge if the completed guide source changes look correct.
+          labels: |
+            automated
+            guide-completion
           delete-branch: true
+          add-paths: |
+            data/page_sets/examples/dentistry_global_pages/*.json
+            data/page_sets/examples/neuro_global_pages/*.json
+            data/page_sets/examples/pi_global_pages/*.json
+            data/page_sets/examples/trt_global_pages/*.json
+            data/page_sets/examples/uscis_medical_global_pages/*.json
+            docs/_generated_guides/**
