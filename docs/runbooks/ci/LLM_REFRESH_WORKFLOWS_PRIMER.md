@@ -100,7 +100,7 @@ Meaning:
 Fix:
 - `data/site.json` must store a normalized path:
   - ✅ `data/page_sets/examples/pi_v1.json`
-  - ❌ `data/page_sets/examples/pi_v1.json`
+  - ❌ `examples/pi_v1.json`
   - ❌ `data/page_sets/data/page_sets/examples/pi_v1.json`
 
 ### “Cannot read properties of null (reading 'brandName')” inside snapshot

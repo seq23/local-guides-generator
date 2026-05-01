@@ -1,3 +1,7 @@
+
+## 2026-05-01 — Canonical pageSetFile normalization pass
+- normalized all live pageSetFile handling to canonical `data/page_sets/examples/...` paths only
+
 # Changelog
 
 # 2026-04-12

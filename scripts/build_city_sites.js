@@ -23,6 +23,42 @@
 const fs = require("fs");
 const path = require("path");
 
+
+function loadGuideAnswerShapeContract() {
+  const fp = path.join(__dirname, "..", "data", "contracts", "guide_answer_shape_contract.json");
+  try {
+    if (fs.existsSync(fp)) {
+      const raw = JSON.parse(fs.readFileSync(fp, "utf8"));
+      if (raw && Array.isArray(raw.entries)) return raw.entries;
+    }
+  } catch (err) {
+    console.warn("[guide-answer-shape-contract] failed to load contract:", err.message);
+  }
+  return [];
+}
+
+function buildGuideAnswerShapeMap() {
+  const out = {};
+  for (const entry of loadGuideAnswerShapeContract()) {
+    if (!entry || !entry.route) continue;
+    out[String(entry.route).replace(/^\/+|\/+$/g, '').toLowerCase()] = entry;
+  }
+  return out;
+}
+
+function loadGuideEnhancementRegistry() {
+  const fp = path.join(__dirname, "..", "data", "contracts", "guide_enhancement_registry.json");
+  try {
+    if (fs.existsSync(fp)) {
+      const raw = JSON.parse(fs.readFileSync(fp, "utf8"));
+      if (raw && typeof raw === "object" && !Array.isArray(raw)) return raw;
+    }
+  } catch (err) {
+    console.warn("[guide-enhancement-registry] failed to load external registry:", err.message);
+  }
+  return {};
+}
+
 const sponsorship = require("./helpers/sponsorship");
 const buyouts = require("./helpers/buyouts");
 const cityRegistry = require("./helpers/city_registry");
@@ -422,50 +458,172 @@ function nonPiAboutServiceName(verticalKey) {
 }
 
 
+
+function escapeOptionalHtml(value) {
+  return escapeHtml(String(value || ''));
+}
+
+function normalizeLegacyCityContent(verticalKey, citySlug, raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const vk = String(verticalKey || '').trim();
+  const slug = String(citySlug || '').trim();
+  const cityPart = slug.split('-').slice(0, -1).join(' ') || slug;
+  const statePart = slug.split('-').slice(-1)[0] || '';
+  const titleCity = cityPart.replace(/\b\w/g, (m) => m.toUpperCase());
+  const legacyFaqs = Array.isArray(raw?.citation_velocity_insert?.faq_expansion)
+    ? raw.citation_velocity_insert.faq_expansion.map((row) => `${row.q}: ${row.a}`)
+    : [];
+  const namedResources = [];
+  if (raw?.citation_velocity_insert?.local_bar_reference) {
+    namedResources.push(String(raw.citation_velocity_insert.local_bar_reference));
+  }
+  return {
+    city_slug: String(raw.city_slug || slug),
+    city: String(raw.city || titleCity),
+    state: String(raw.state || statePart.toUpperCase()),
+    state_abbr: String(raw.state_abbr || statePart.toUpperCase()),
+    vertical: String(raw.vertical || vk),
+    market_specific_notes: Array.isArray(raw.market_specific_notes) ? raw.market_specific_notes : [],
+    local_vetting_points: Array.isArray(raw.local_vetting_points) ? raw.local_vetting_points : legacyFaqs,
+    typical_cost_ranges: Array.isArray(raw.typical_cost_ranges) ? raw.typical_cost_ranges : [],
+    payment_options: Array.isArray(raw.payment_options) ? raw.payment_options : [],
+    wait_time_notes: Array.isArray(raw.wait_time_notes) ? raw.wait_time_notes : [],
+    availability_notes: Array.isArray(raw.availability_notes) ? raw.availability_notes : [],
+    named_resources_or_providers: Array.isArray(raw.named_resources_or_providers) ? raw.named_resources_or_providers : namedResources,
+    city_intro_override: String(raw.city_intro_override || raw.heading || ''),
+    primary_city_decision_block: raw.primary_city_decision_block || {
+      type: 'decision_checklist',
+      title: String(raw.heading || 'Local decision checklist'),
+      items: Array.isArray(raw.bullets) ? raw.bullets : []
+    },
+    heading: raw.heading,
+    body: Array.isArray(raw.body) ? raw.body : [],
+    bullets: Array.isArray(raw.bullets) ? raw.bullets : []
+  };
+}
+
+function renderOptionalCityStructuredSection(title, items, listType = 'ul', dataKey = '') {
+  if (!Array.isArray(items) || !items.length) return '';
+  const attr = dataKey ? ` data-city-intelligence-section="${escapeOptionalHtml(dataKey)}"` : '';
+  const inner = items.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('');
+  return `<section class="city-supplement city-supplement-structured"${attr}><h3>${escapeOptionalHtml(title)}</h3><${listType} class="neutral-list">${inner}</${listType}></section>`;
+}
+
+function cityVerticalSectionConfig(verticalKey) {
+  switch (String(verticalKey || '')) {
+    case 'dentistry':
+      return [
+        ['insurance_acceptance_notes', 'Insurance and payment reality'],
+        ['sedation_options', 'Sedation and treatment options'],
+        ['emergency_triage_notes', 'Emergency triage notes'],
+        ['family_pediatric_fit', 'Family and pediatric fit']
+      ];
+    case 'neuro':
+      return [
+        ['testing_scope_notes', 'Testing scope notes'],
+        ['insurance_reimbursement_notes', 'Insurance and reimbursement notes'],
+        ['adult_vs_child_fit', 'Adult vs child fit'],
+        ['report_turnaround_notes', 'Report turnaround notes']
+      ];
+    case 'trt':
+      return [
+        ['lab_work_notes', 'Lab work notes'],
+        ['therapy_types_available', 'Therapy types available'],
+        ['monitoring_frequency_notes', 'Monitoring and follow-up notes'],
+        ['fertility_or_hair_considerations', 'Fertility or hair considerations']
+      ];
+    case 'uscis_medical':
+      return [
+        ['i693_document_requirements', 'I-693 document requirements'],
+        ['vaccination_handling_notes', 'Vaccination handling notes'],
+        ['bilingual_support', 'Bilingual support notes'],
+        ['appointment_booking_notes', 'Appointment booking notes']
+      ];
+    case 'pi':
+      return [
+        ['case_screening_notes', 'Case screening notes'],
+        ['fee_structure_notes', 'Fee structure notes'],
+        ['trial_readiness_notes', 'Trial-readiness notes'],
+        ['local_statute_notes', 'Timing and local caution notes']
+      ];
+    default:
+      return [];
+  }
+}
+
 function loadOptionalCityContent(verticalKey, citySlug) {
   const vk = String(verticalKey || "").trim();
   const slug = String(citySlug || "").trim();
   if (!vk || !slug) return null;
-  const p = path.join(CITY_CONTENT_DIR, vk, `${slug}.json`);
-  if (!fs.existsSync(p)) return null;
+  const candidate = path.join(CITY_CONTENT_DIR, vk, `${slug}.json`);
+  const found = fs.existsSync(candidate) ? candidate : null;
+  if (!found) return null;
   try {
-    return readJson(p);
+    const raw = readJson(found);
+    return normalizeLegacyCityContent(vk, slug, raw);
   } catch (e) {
     return null;
   }
 }
 
 function renderOptionalCityContentHtml(content) {
-  if (!content || !content.heading) return "";
+  if (!content) return "";
+  const verticalKey = String(content.vertical || '').trim();
   const body = Array.isArray(content.body)
-    ? content.body.map((p) => `<p>${p}</p>`).join("")
+    ? content.body.map((p) => `<p>${escapeOptionalHtml(p)}</p>`).join("")
     : "";
   const bullets = Array.isArray(content.bullets) && content.bullets.length
-    ? `<ul class="neutral-list">${content.bullets.map((item) => `<li>${item}</li>`).join("")}</ul>`
+    ? `<ul class="neutral-list">${content.bullets.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join("")}</ul>`
     : "";
+  const intro = content.city_intro_override ? `<p>${escapeOptionalHtml(content.city_intro_override)}</p>` : "";
+  const decisionBlock = content.primary_city_decision_block && Array.isArray(content.primary_city_decision_block.items) && content.primary_city_decision_block.items.length
+    ? `<section class="city-supplement city-supplement-structured" data-city-decision-block="${escapeOptionalHtml(content.primary_city_decision_block.type || 'decision_checklist')}"><h3>${escapeOptionalHtml(content.primary_city_decision_block.title || 'Local decision checklist')}</h3><ul class="neutral-list">${content.primary_city_decision_block.items.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
+    : "";
+  const structured = [
+    renderOptionalCityStructuredSection('Local vetting points', content.local_vetting_points, 'ul', 'local_vetting_points'),
+    renderOptionalCityStructuredSection('Typical cost ranges', content.typical_cost_ranges, 'ul', 'typical_cost_ranges'),
+    renderOptionalCityStructuredSection('Payment options', content.payment_options, 'ul', 'payment_options'),
+    renderOptionalCityStructuredSection('Wait-time notes', content.wait_time_notes, 'ul', 'wait_time_notes'),
+    renderOptionalCityStructuredSection('Availability notes', content.availability_notes, 'ul', 'availability_notes'),
+    renderOptionalCityStructuredSection('Named resources or providers', content.named_resources_or_providers, 'ul', 'named_resources_or_providers'),
+    renderOptionalCityStructuredSection('Market-specific notes', content.market_specific_notes, 'ul', 'market_specific_notes'),
+    ...cityVerticalSectionConfig(verticalKey).map(([key, title]) => renderOptionalCityStructuredSection(title, content[key], 'ul', key))
+  ].join('');
+  if (!(content.heading || intro || body || bullets || decisionBlock || structured)) return '';
   return [
-    '<section class="city-supplement city-supplement-optional">',
-    `<h2>${content.heading}</h2>`,
+    '<section class="city-supplement city-supplement-optional" data-city-intelligence="true">',
+    content.heading ? `<h2>${escapeOptionalHtml(content.heading)}</h2>` : '',
+    intro,
     body,
     bullets,
+    decisionBlock,
+    structured,
     '</section>'
   ].join("");
 }
 
 function loadPageSet(pageSetFile) {
-  // NORMALIZE_PAGE_SET_FILE: allow PAGE_SET_FILE to be either
-  //  - examples/pi_v1.json (preferred)
-  //  - data/page_sets/examples/pi_v1.json (legacy)
-  if (typeof pageSetFile === 'string') {
-    pageSetFile = pageSetFile.replace(/^\.\/?/, '');
-    pageSetFile = pageSetFile.replace(/^data\/page_sets\//, '');
+  // Canonical pageSetFile must be a repo-relative path under data/page_sets/.
+  // Valid example: data/page_sets/examples/pi_v1.json
+  // Legacy bare paths like examples/pi_v1.json are not accepted here.
+  if (typeof pageSetFile !== 'string' || !pageSetFile.trim()) {
+    throw new Error('pageSetFile is required');
   }
 
-  const p1 = path.join(DATA_DIR, "page_sets", pageSetFile);
-  const p2 = path.join(DATA_DIR, "page_sets", "examples", pageSetFile);
-  if (fs.existsSync(p1)) return readJson(p1);
-  if (fs.existsSync(p2)) return readJson(p2);
-  throw new Error(`pageSetFile not found: ${pageSetFile} (tried ${p1} and ${p2})`);
+  const normalized = pageSetFile.replace(/^\.\/?/, '').trim();
+
+  if (!normalized.startsWith('data/page_sets/')) {
+    throw new Error(
+      `Invalid pageSetFile: ${pageSetFile}. Expected canonical repo-relative path like data/page_sets/examples/pi_v1.json`
+    );
+  }
+
+  const abs = path.join(REPO_ROOT, normalized);
+  if (!fs.existsSync(abs)) {
+    throw new Error(`pageSetFile not found: ${normalized}`);
+  }
+
+  return readJson(abs);
 }
 
 // Vertical flag derived from the configured pageSetFile (stable, non-fragile).
@@ -2491,6 +2649,69 @@ function renderStateAuthorityBlockHtml(stateName, cityCount) {
   );
 }
 
+
+function renderGuideTopModule(route, contractEntry, enhancement) {
+  if (!contractEntry || !contractEntry.top_module_type) return "";
+  const topType = contractEntry.top_module_type;
+  const heading = escapeHtml((enhancement && enhancement.heading) || 'Quick decision support');
+  const best = escapeHtml((enhancement && enhancement.best) || 'Use this page to get the direct answer first, then decide what to ask or compare next.');
+  const key = escapeHtml((enhancement && enhancement.key) || 'The goal is to surface the answer shape that LLMs and real users both look for first.');
+  const mistake = escapeHtml((enhancement && enhancement.mistake) || 'Do not rely on a vague summary when the real decision turns on a few practical checks.');
+  const good = escapeHtml((enhancement && enhancement.good) || 'A strong page should make the decision path, the tradeoffs, and the next questions easy to see.');
+  const ask = escapeHtml((enhancement && enhancement.ask) || 'What is the best next question, comparison, or document check before I commit?');
+  const intent = escapeHtml(contractEntry.exact_opening_intent || '');
+  let inner = '';
+  if (topType === 'top_checklist') {
+    inner = '<ul class="top-module-checklist">' +
+      '<li><strong>Use this page when:</strong> ' + best + '</li>' +
+      '<li><strong>Check first:</strong> ' + key + '</li>' +
+      '<li><strong>Slow down if:</strong> ' + mistake + '</li>' +
+      '<li><strong>What to confirm next:</strong> ' + ask + '</li>' +
+      '</ul>';
+  } else if (topType === 'top_comparison_table') {
+    inner = '<table class="top-module-table"><thead><tr><th>Decision factor</th><th>What to compare</th></tr></thead><tbody>' +
+      '<tr><td>Best use case</td><td>' + best + '</td></tr>' +
+      '<tr><td>Main tradeoff</td><td>' + key + '</td></tr>' +
+      '<tr><td>Common mistake</td><td>' + mistake + '</td></tr>' +
+      '<tr><td>Question to ask</td><td>' + ask + '</td></tr>' +
+      '</tbody></table>';
+  } else if (topType === 'top_timeline') {
+    inner = '<ol class="top-module-timeline">' +
+      '<li><strong>Start:</strong> ' + best + '</li>' +
+      '<li><strong>Then compare:</strong> ' + key + '</li>' +
+      '<li><strong>Watch for:</strong> ' + mistake + '</li>' +
+      '<li><strong>Before you book:</strong> ' + ask + '</li>' +
+      '</ol>';
+  } else if (topType === 'top_cost_table') {
+    inner = '<table class="top-module-table"><thead><tr><th>Cost question</th><th>What matters</th></tr></thead><tbody>' +
+      '<tr><td>What are you really comparing?</td><td>' + best + '</td></tr>' +
+      '<tr><td>What changes total cost?</td><td>' + key + '</td></tr>' +
+      '<tr><td>Where people get burned</td><td>' + mistake + '</td></tr>' +
+      '<tr><td>What to ask before paying</td><td>' + ask + '</td></tr>' +
+      '</tbody></table>';
+  } else if (topType === 'top_decision_tree') {
+    inner = '<ul class="top-module-decision-tree">' +
+      '<li><strong>If the page still feels too broad:</strong> use the next question path: ' + ask + '</li>' +
+      '<li><strong>If the fit sounds strong:</strong> ' + good + '</li>' +
+      '<li><strong>If the page raises concern:</strong> ' + mistake + '</li>' +
+      '</ul>';
+  } else if (topType === 'top_question_script') {
+    inner = '<div class="top-module-script"><p><strong>Use these questions:</strong></p><ol>' +
+      '<li>' + ask + '</li>' +
+      '<li>What would make you say this is <em>not</em> the right next step?</li>' +
+      '<li>What changes the price, timing, or required documents?</li>' +
+      '<li>What do people usually misunderstand here?</li>' +
+      '</ol></div>';
+  } else {
+    inner = '<div class="top-module-verdict"><p><strong>Direct answer:</strong> ' + best + '</p><p><strong>Why:</strong> ' + key + '</p><p><strong>Best next move:</strong> ' + ask + '</p></div>';
+  }
+  return '<section class="section guide-section guide-top-module" data-guide-section="true" data-guide-top-module="true" data-guide-top-module-type="' + escapeHtml(topType) + '">' +
+    '<h2>' + heading + '</h2>' +
+    (intent ? '<p class="answer-when"><strong>Opening intent:</strong> ' + intent + '</p>' : '') +
+    inner +
+    '</section>';
+}
+
 function renderGuideGroupsHtml(groups) {
   const rendered = (Array.isArray(groups) ? groups : []).map((group) => {
     const items = (Array.isArray(group.items) ? group.items : []).map((item) => '<li><a href="' + escapeHtml(String(item.href || '#')) + '" data-decision-anchor="true">' + escapeHtml(String(item.label || 'Guide')) + '</a></li>').join('');
@@ -3290,7 +3511,7 @@ function stripForbiddenInlineBlocks(html) {
   return out;
 }
 
-const GUIDE_ENHANCEMENTS = {
+const LEGACY_GUIDE_ENHANCEMENTS = {
   '/guides/testosterone-replacement-therapy-overview/': { heading: 'TRT overview', best: 'Use this guide when you are trying to tell the difference between low-testosterone marketing and a real TRT workup.', key: 'TRT works best when the clinic explains why treatment is being considered, what will be tracked, and what would make them slow down.', mistake: 'Treating TRT like a quick energy product instead of a monitored medical decision.', good: 'A good clinic should explain baseline labs, follow-up timing, fertility questions, and what symptoms should trigger a review.', ask: 'Ask which labs are included, how often they repeat them, and what could make the clinic pause or change treatment.' },
   '/guides/trt-red-flags/': { heading: 'TRT red flags', best: 'Use this guide when a clinic sounds fast, easy, or too certain.', key: 'Weak TRT clinics often skip a full workup, rush you into a subscription, or treat side effects like an afterthought.', mistake: 'Mistaking confidence or heavy marketing for careful clinical judgment.', good: 'A good clinic should explain who is not a fit, what they need to rule out first, and how they handle follow-up.', ask: 'Ask what would make them delay treatment, what monitoring schedule they use, and how they handle fertility concerns.' },
   '/guides/trt-pricing-and-labs/': { heading: 'TRT pricing and labs', best: 'Use this guide when cost is the real question behind the TRT decision.', key: 'The total price is not just the medication. The workup, repeat labs, dose changes, and follow-up also matter.', mistake: 'Comparing monthly sticker prices without comparing what the clinic actually monitors.', good: 'A good clinic should break startup costs, refill costs, lab timing, and urgent check-in costs into simple pieces.', ask: 'Ask what is included up front, which labs repeat on schedule, and what services cost extra later.' },
@@ -3334,6 +3555,9 @@ const GUIDE_ENHANCEMENTS = {
   '/guides/uscis-what-to-bring/': { heading: 'What to bring', best: 'Use this guide when you want the visit to go smoothly the first time.', key: 'Bringing the right ID, forms, records, and contact details can prevent avoidable delays.', mistake: 'Showing up with only a booking confirmation and expecting the office to fill every gap.', good: 'A good office should give a simple checklist before the appointment.', ask: 'Ask what identification, forms, vaccine records, and prior medical details they want you to bring.' },
   '/guides/uscis-medical-red-flags/': { heading: 'USCIS medical red flags', best: 'Use this guide when the office sounds vague, rushed, or too certain.', key: 'Red flags often show up as weak process explanations, unclear pricing, sloppy paperwork talk, or promises nobody should make.', mistake: 'Trusting speed claims over process clarity.', good: 'A good office should be clear about documents, timing, fees, and limits.', ask: 'Ask what the process looks like, what delays are common, and what they will and will not promise.' }
 };
+const GUIDE_ENHANCEMENTS = Object.assign({}, LEGACY_GUIDE_ENHANCEMENTS, loadGuideEnhancementRegistry());
+const GUIDE_ANSWER_SHAPE_MAP = buildGuideAnswerShapeMap();
+
 
 function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryConversionTemplate, inlineConversionTemplate, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
   const route = (globalPage.route || "").replace(/^\/+|\/+$/g, "");
@@ -3539,6 +3763,8 @@ if (route === 'admin') {
       }
     }
     const enhancement = GUIDE_ENHANCEMENTS['/' + String(route || '').replace(/^\/+|\/+$/g, '') + '/'] || null;
+    const normalizedGuideRoute = String(route || '').replace(/^\/+|\/+$/g, '').toLowerCase();
+    const guideShapeContract = GUIDE_ANSWER_SHAPE_MAP[normalizedGuideRoute] || null;
     if (!out.includes('data-guide-opening="true"')) {
       const guideOpeningBlock =
         '<section class="section guide-section guide-opening-block answer-block" data-guide-section="true" data-guide-opening="true">' +
@@ -3548,6 +3774,15 @@ if (route === 'admin') {
         '</section>';
       if (out.includes('<article class="guide-article"')) out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + guideOpeningBlock + '\n');
       else out = out.replace(/\s*%%AD:global_guide_top%%\s*/i, '\n%%AD:global_guide_top%%\n' + guideOpeningBlock + '\n');
+    }
+
+    if (guideShapeContract && !out.includes('data-guide-top-module="true"')) {
+      const topModule = renderGuideTopModule(route, guideShapeContract, enhancement);
+      if (topModule) {
+        if (out.includes('data-guide-opening="true"')) out = out.replace(/(<section class="section guide-section guide-opening-block[\s\S]*?<\/section>)/i, '$1\n' + topModule + '\n');
+        else if (out.includes('<article class="guide-article"')) out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + topModule + '\n');
+        else out = out.replace(/\s*%%AD:global_guide_top%%\s*/i, '\n%%AD:global_guide_top%%\n' + topModule + '\n');
+      }
     }
 
     if (enhancement && !out.includes('data-guide-custom-core="true"')) {

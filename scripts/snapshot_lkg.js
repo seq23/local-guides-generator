@@ -53,54 +53,26 @@ function rel(p) {
 }
 
 function normalizeToCanonicalPageSetPath(rawPageSetFile) {
-  const raw = String(rawPageSetFile || '').trim();
+  const raw = String(rawPageSetFile || '').trim().replace(/^\.\/?/, '');
   if (!raw) return '';
-
-  let s = raw.replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
-  const needle = 'data/page_sets/';
-  const idx = s.indexOf(needle);
-  if (idx === -1) return '';
-  const rel = s.slice(idx + needle.length).replace(/^\/+/, '');
-  if (!rel) return '';
-  return `${needle}${rel}`;
+  if (!raw.startsWith('data/page_sets/')) return '';
+  return raw;
 }
 
 function resolvePageSetPath(pageSetFile) {
-  const raw = String(pageSetFile || '').trim();
+  const raw = String(pageSetFile || '').trim().replace(/^\.\/?/, '');
   if (!raw) fail('data/site.json is missing pageSetFile');
 
-  // Normalize:
-  // - allow Windows separators
-  // - allow "./"
-  // - allow passing "data/page_sets/..." (as written in site.json)
-  // - always resolve under data/page_sets (never absolute)
-  const normalized0 = raw.replace(/\\/g, '/').replace(/^\.\//, '');
-  let rel = normalized0.replace(/^data\/page_sets\//, '').replace(/^\/+/, '');
-
-  const candidates = [];
-
-  // 1) direct relative under data/page_sets/
-  candidates.push(path.join(dataDir, 'page_sets', rel));
-
-  // 2) if they provided a bare filename, also try examples/
-  if (!rel.includes('/')) {
-    candidates.push(path.join(dataDir, 'page_sets', 'examples', rel));
+  if (!raw.startsWith('data/page_sets/')) {
+    fail(`Invalid pageSetFile: ${pageSetFile}. Expected canonical repo-relative path under data/page_sets/`);
   }
 
-  // 3) handle odd inputs like "page_sets/examples/foo.json"
-  rel = rel.replace(/^page_sets\//, '');
-  candidates.push(path.join(dataDir, 'page_sets', rel));
-
-  for (const c of candidates) {
-    if (fs.existsSync(c)) return c;
+  const abs = path.join(repoRoot, raw);
+  if (!fs.existsSync(abs)) {
+    fail(`pageSetFile missing or unreadable: ${raw}`);
   }
 
-  fail(
-    `Could not resolve pageSetFile "${pageSetFile}" under data/page_sets/ (tried: ${candidates.join(
-      ', '
-    )})`
-  );
-  return null;
+  return abs;
 }
 
 function main() {

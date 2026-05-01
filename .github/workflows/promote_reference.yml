@@ -12,6 +12,8 @@ permissions:
 jobs:
   promote-reference:
     runs-on: ubuntu-latest
+    env:
+      PAGE_SET_FILE: data/page_sets/examples/pi_v1.json
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
@@ -26,6 +28,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Validate canonical PAGE_SET_FILE contract
+        run: node scripts/validation/pagesetfile_contract.js
+
+      - name: Materialize canonical active pack into data/site.json
+        run: npm run prepare:site
 
       - name: Pull candidate payload into incoming queue
         run: node scripts/reference/pull_velocity_candidates.js
@@ -46,10 +54,12 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add data/reference/incoming_candidates.json \
-                  data/reference/reference_registry.json \
-                  data/page_sets/examples \
-                  docs/_generated_guides
+          git add \
+            data/site.json \
+            data/reference/incoming_candidates.json \
+            data/reference/reference_registry.json \
+            data/page_sets/examples \
+            docs/_generated_guides
           git diff --cached --quiet && exit 0
           git commit -m "Generate draft guide sources from velocity candidates"
           git push

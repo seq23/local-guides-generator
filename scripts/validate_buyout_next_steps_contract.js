@@ -5,17 +5,23 @@ const path = require("path");
 const { loadBuyouts, filterLiveForVertical } = require("./helpers/buyouts");
 
 // Resolve pageSetFile configured in data/site.json to an actual JSON file path.
-// Packs live under data/page_sets/ (or data/page_sets/examples/ for starter/example packs).
+// pageSetFile must be a canonical repo-relative path under data/page_sets/.
+// Example packs still use the same canonical form, e.g. data/page_sets/examples/pi_v1.json
 function resolvePageSetPath(repoRoot, pageSetFile) {
   if (!pageSetFile || typeof pageSetFile !== "string") return null;
-  const normalized = pageSetFile.replace(/^\.\//, "");
-  const directAbs = path.join(repoRoot, normalized);
-  if (fs.existsSync(directAbs)) return directAbs;
-  const p1 = path.join(repoRoot, "data", "page_sets", normalized);
-  if (fs.existsSync(p1)) return p1;
-  const p2 = path.join(repoRoot, "data", "page_sets", "examples", normalized);
-  if (fs.existsSync(p2)) return p2;
-  return null;
+
+  const normalized = pageSetFile.replace(/^\.\//, "").trim();
+
+  if (!normalized.startsWith("data/page_sets/")) {
+    return null;
+  }
+
+  const abs = path.join(repoRoot, normalized);
+  if (!fs.existsSync(abs)) {
+    return null;
+  }
+
+  return abs;
 }
 
 function fail(msg){
@@ -31,7 +37,7 @@ const site = JSON.parse(fs.readFileSync(path.join(repoRoot, "data", "site.json")
 const pageSetFile = site.pageSetFile;
 const pageSetPath = resolvePageSetPath(repoRoot, pageSetFile);
 if (!pageSetPath){
-  fail(`Could not resolve pageSetFile "${pageSetFile}". Expected under data/page_sets/ or data/page_sets/examples/.`);
+  fail(`Could not resolve pageSetFile "${pageSetFile}". Expected canonical repo-relative path under data/page_sets/.`);
 }
 const pageSet = JSON.parse(fs.readFileSync(pageSetPath, "utf8"));
 const verticalKey = pageSet.verticalKey || pageSet.vertical || path.basename(pageSetFile).replace(/\.json$/,"");

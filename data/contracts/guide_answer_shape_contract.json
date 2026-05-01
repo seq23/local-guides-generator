@@ -1,0 +1,716 @@
+{
+  "$schema": "lkg-guide-answer-shape-contract-v1",
+  "required_fields": [
+    "route",
+    "primary_query_family",
+    "primary_answer_shape",
+    "top_module_type",
+    "exact_opening_intent",
+    "required_above_fold_elements",
+    "required_supporting_sections"
+  ],
+  "allowed_answer_shapes": [
+    "checklist",
+    "comparison",
+    "timeline",
+    "cost_breakdown",
+    "decision_tree",
+    "verdict",
+    "script"
+  ],
+  "allowed_top_module_types": [
+    "top_checklist",
+    "top_comparison_table",
+    "top_timeline",
+    "top_cost_table",
+    "top_decision_tree",
+    "top_question_script",
+    "top_verdict_block"
+  ],
+  "entries": [
+    {
+      "route": "/guides/adhd-evaluations-what-to-expect/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows what this page is for",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/autism-evaluation-adults/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/civil-surgeon-near-me/",
+      "primary_query_family": "how_to_choose",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "help the user narrow choices using a short decision checklist instead of generic advice",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/clear-aligners/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/cosmetic-dentistry/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/cost-financing/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "compare total treatment scope before comparing payment paths",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/costs-and-timeframes/",
+      "primary_query_family": "costs_timeline",
+      "primary_answer_shape": "timeline",
+      "top_module_type": "top_timeline",
+      "exact_opening_intent": "show exam cost range, extra-cost triggers, and packet timing sequence",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "timeline_or_cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/dental-bridge-vs-implant/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "compare support method, cost, timeline, and long-term maintenance",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/dental-implants/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/dental-red-flags/",
+      "primary_query_family": "red_flags",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "surface the biggest warning signs before the user books, signs, or commits",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/emergency-dentist-vs-waiting/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "compare the tradeoffs before deciding based on one factor",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/how-to-choose-a-personal-injury-lawyer/",
+      "primary_query_family": "how_to_choose",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "help the user narrow choices using a short decision checklist instead of generic advice",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/how-to-choose/",
+      "primary_query_family": "how_to_choose",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "help the user narrow choices using a short decision checklist instead of generic advice",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/how-to-find-a-peptide-provider/",
+      "primary_query_family": "how_to_choose",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "help the user narrow choices using a short decision checklist instead of generic advice",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/i-693-medical-exam-requirements/",
+      "primary_query_family": "requirements_checklist",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "clarify what the user must bring and verify before the appointment",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/iv-hydration-red-flags/",
+      "primary_query_family": "red_flags",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "surface the biggest warning signs before the user books, signs, or commits",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/neuro-evaluation-pricing/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "break down price drivers before the user compares offers or payment paths",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/neuro-insurance-and-out-of-network/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/neuro-provider-red-flags/",
+      "primary_query_family": "red_flags",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "surface the biggest warning signs before the user books, signs, or commits",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/neuropsych-testing-children-vs-adults/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "compare the tradeoffs before deciding based on one factor",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/neuropsychological-testing-overview/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows what this page is for",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/peptide-program-costs/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "break down price drivers before the user compares offers or payment paths",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/personal-injury-fees-explained/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "break down price drivers before the user compares offers or payment paths",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/personal-injury-lawyer-red-flags/",
+      "primary_query_family": "red_flags",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "surface the biggest warning signs before the user books, signs, or commits",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
+      "primary_query_family": "questions_to_ask",
+      "primary_answer_shape": "script",
+      "top_module_type": "top_question_script",
+      "exact_opening_intent": "give the user a short question set they can use on the consult or callback",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "question_script"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/questions-to-ask-before-neuro-testing/",
+      "primary_query_family": "questions_to_ask",
+      "primary_answer_shape": "script",
+      "top_module_type": "top_question_script",
+      "exact_opening_intent": "give the user a short question set they can use on the consult or callback",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "question_script"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/questions-to-ask/",
+      "primary_query_family": "questions_to_ask",
+      "primary_answer_shape": "script",
+      "top_module_type": "top_question_script",
+      "exact_opening_intent": "give the user a short question set they can use on the consult or callback",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "question_script"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/root-canal-treatment/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/slip-and-fall-lawyer-guide/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/testosterone-replacement-therapy-overview/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows what this page is for",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/trt-injections-vs-gels/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "compare the tradeoffs before deciding based on one factor",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/trt-pricing-and-labs/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "break down price drivers before the user compares offers or payment paths",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/trt-red-flags/",
+      "primary_query_family": "red_flags",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "surface the biggest warning signs before the user books, signs, or commits",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/trt-side-effects-and-safety/",
+      "primary_query_family": "decision_split",
+      "primary_answer_shape": "decision_tree",
+      "top_module_type": "top_decision_tree",
+      "exact_opening_intent": "split the decision into when to slow down, ask more questions, or get care now",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "decision_tree"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/trt-telehealth-vs-local-clinic/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "compare the tradeoffs before deciding based on one factor",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/truck-accident-lawyer-guide/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/uscis-medical-exam-costs/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "break down price drivers before the user compares offers or payment paths",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/uscis-medical-exam-overview/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows what this page is for",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/uscis-medical-red-flags/",
+      "primary_query_family": "red_flags",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "surface the biggest warning signs before the user books, signs, or commits",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/uscis-vaccination-records/",
+      "primary_query_family": "requirements_checklist",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "show exactly what the user needs to bring, verify, or gather before the appointment",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/uscis-what-to-bring/",
+      "primary_query_family": "requirements_checklist",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "show exactly what the user needs to bring, verify, or gather before the appointment",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/what-to-do-after-an-accident/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/who-is-a-good-candidate-for-trt/",
+      "primary_query_family": "eligibility",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "clarify when the user is likely a fit, not a fit, or needs more review first",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/wrongful-death-lawyer-guide/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "give a direct orienting answer first so the user knows the safest next move",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    }
+  ]
+}

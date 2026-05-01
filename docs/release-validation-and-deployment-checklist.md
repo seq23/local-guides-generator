@@ -6,9 +6,10 @@
 2. run `npm run validate:all`
 3. run `npm run qa:release` for release candidates
 4. inspect `dist/`
-5. verify canonical domains and conversion surfaces
-6. package the baseline snapshot from the true repo root
-7. reopen the ZIP and confirm required root files exist
+5. confirm `data/site.json.pageSetFile` uses canonical `data/page_sets/examples/...` form
+6. verify canonical domains and conversion surfaces
+7. package the baseline snapshot from the true repo root
+8. reopen the ZIP and confirm required root files exist
 
 ## Required root files
 

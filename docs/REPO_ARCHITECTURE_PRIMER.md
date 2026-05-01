@@ -30,6 +30,9 @@ Each Cloudflare Pages project selects its pack using build-time configuration su
 
 Those values tell the build which pack to render.
 
+### Canonical pack selection
+The active vertical pack is selected by `data/site.json.pageSetFile` and must use a canonical repo-relative path under `data/page_sets/`.
+
 ## Example setup
 
 Examples of how this works in practice:

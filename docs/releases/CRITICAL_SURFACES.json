@@ -1,65 +1,21 @@
 {
-  "version": 1,
   "critical_surfaces": {
-    "root_release": [
-      ".gitignore",
+    "release_watchlist": [
       "package.json",
-      "package-lock.json",
-      ".github/workflows",
-      "scripts/validate_snapshot_package.js"
-    ],
-    "generator_core": [
+      "data/site.json",
+      "data/contracts/guide_answer_shape_contract.json",
+      "data/contracts/guide_enhancement_registry.json",
+      "data/contracts/layer_source_of_truth_map.json",
+      "reports/phase6_pdf_recommendations.summary.json",
+      "reports/phase6_recommendation_batches.json",
       "scripts/build_city_sites.js",
-      "scripts/build_all_packs.js",
       "scripts/prepare_site.js",
-      "templates/base.html",
-      "templates/partials"
-    ],
-    "pack_entrypoints": [
-      "data/page_sets/examples/pi_v1.json",
-      "data/page_sets/examples/dentistry_v1.json",
-      "data/page_sets/examples/neuro_v1.json",
-      "data/page_sets/examples/trt_v1.json",
-      "data/page_sets/examples/uscis_medical_v1.json"
-    ],
-    "shared_registries": [
-      "data/global_pages",
-      "data/community/query_compiler",
-      "data/research/coverage",
-      "data/ad_placements.json",
-      "data/page_contracts.json"
-    ],
-    "monetization_routing": [
-      "functions/api/request-assistance.js",
-      "functions/api/track-connection-click.js",
-      "scripts/helpers/sponsorship.js",
-      "data/sponsor_intake"
-    ],
-    "vertical_critical": [
-      "data/pi_state_firms",
-      "data/pi_state_disciplinary_links.json",
-      "data/pi_directory_master_all_cities_50_states.csv",
-      "data/licensing_lookup",
-      "data/example_providers"
-    ],
-    "must_watch_validators": [
       "scripts/validate_core.js",
-      "scripts/validate_coverage_parity.js",
       "scripts/validate_llm_surface.js",
-      "scripts/validate_indexnow.js",
-      "scripts/validation/pi_state_firms_contract.js",
-      "scripts/validation/pi_redirect_completeness_contract.js",
-      "scripts/validation/pi_click_audit_contract.js",
-      "scripts/validation/state_hub_contract.js",
-      "scripts/validation/homepage_surface_contract.js",
-      "scripts/validation/for_providers_sales_parity.js"
-    ],
-    "operational_runbooks": [
-      "docs/runbooks/releases/01_lkg_update_runbook.md",
-      "docs/runbooks/releases/02_EXECUTABLE_BIT_RESTORE_AND_VERIFICATION.md",
-      "docs/runbooks/releases/SNAPSHOT_ONE_SHOT_APPLY.md",
-      "docs/training_v1/SOP_GUIDES_AUTHOR_REGEN.md",
-      "docs/training_v1/VA_GUIDE_UPDATES.md"
+      "scripts/validate_coverage_parity.js",
+      "scripts/reference/generate_from_candidates.js",
+      "scripts/release/build_phase7_review_bundle.js",
+      "scripts/release/build_phase7_release_notes.js"
     ]
   }
 }
