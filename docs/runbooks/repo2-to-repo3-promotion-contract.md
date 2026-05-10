@@ -57,7 +57,7 @@ Repo 3 accepts two wire formats:
 - discard already-processed IDs
 - dedupe by `vertical + query`
 - write accepted records to `data/reference/incoming_candidates.json`
-- write receipt metadata to `data/reference/last_pull_manifest.json`
+- optionally write receipt metadata to `data/reference/last_pull_manifest.json` when `REFERENCE_WRITE_PULL_MANIFEST=1`
 
 ## Notes
 

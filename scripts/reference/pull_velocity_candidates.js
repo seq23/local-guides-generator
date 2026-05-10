@@ -32,6 +32,7 @@ const DATA_DIR = path.join(ROOT, "data", "reference");
 const INCOMING = path.join(DATA_DIR, "incoming_candidates.json");
 const REGISTRY = path.join(DATA_DIR, "reference_registry.json");
 const LAST_PULL = path.join(DATA_DIR, "last_pull_manifest.json");
+const SHOULD_WRITE_PULL_MANIFEST = process.env.REFERENCE_WRITE_PULL_MANIFEST === "1";
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
@@ -208,22 +209,24 @@ function validCandidate(c) {
 
   fs.writeFileSync(REGISTRY, JSON.stringify(registry, null, 2));
   fs.writeFileSync(INCOMING, JSON.stringify(filtered, null, 2));
-  fs.writeFileSync(
-    LAST_PULL,
-    JSON.stringify(
-      {
-        source_repo: payload.source_repo || null,
-        contract_version: payload.contract_version || null,
-        generated_at: payload.generated_at || null,
-        accepted_count: filtered.length,
-        pulled_at: new Date().toISOString(),
-        source_url: source.kind === "url" ? source.value : null,
-        source_file: source.kind === "file" ? source.value : null,
-      },
-      null,
-      2
-    )
-  );
+  if (SHOULD_WRITE_PULL_MANIFEST) {
+    fs.writeFileSync(
+      LAST_PULL,
+      JSON.stringify(
+        {
+          source_repo: payload.source_repo || null,
+          contract_version: payload.contract_version || null,
+          generated_at: payload.generated_at || null,
+          accepted_count: filtered.length,
+          pulled_at: new Date().toISOString(),
+          source_url: source.kind === "url" ? source.value : null,
+          source_file: source.kind === "file" ? source.value : null,
+        },
+        null,
+        2
+      )
+    );
+  }
   console.log(`pull_velocity_candidates: wrote ${filtered.length} incoming candidate(s)`);
 })().catch((err) => {
   console.error(err);
