@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.build/
+.DS_Store
+*.log
+
+# updater artifacts
+rsync_dry_run.txt
+rsync_apply.txt
+git_diff_stat_before.txt
+git_diff_stat_after.txt
+validate.txt
+npm_ci.txt
+delete_preview.txt
+preflight_validate.txt
+preflight_npm_ci.txt
+preflight_build.txt

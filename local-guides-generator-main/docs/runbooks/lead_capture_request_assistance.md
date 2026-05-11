@@ -1,0 +1,185 @@
+# Lead Capture — Request Assistance (Authority-Safe)
+
+Last updated: 2026-03-21
+
+This repo includes an **authority-safe connection layer** designed to support advertiser sales **without** turning the site into an intake portal.
+
+**Core idea:** Educational content stays pure; only core hub pages show a subtle “Request Assistance” module. Requests are stored for later routing **only when** a provider is active.
+
+---
+
+## 1) What ships (runtime surfaces)
+
+### A) Primary conversion hierarchy (required runtime contract)
+Core conversion pages no longer rely on the footer module alone.
+
+Required hierarchy on enforced surfaces:
+1. **Primary conversion CTA** (hero-adjacent / above the fold)
+2. **Inline conversion CTA** (mid-page contextual routing block)
+3. **Connection Bubble** (bottom recapture above the footer)
+
+Required pages (enforced by core validation):
+- Global home: `/`
+- Guides hub: `/guides/`
+- City hubs: `/<city>/`
+- PI state hubs: `/states/<ST>/`
+
+Guide detail pages under `/guides/<topic>/` must render the first two layers:
+- Primary conversion CTA
+- Inline conversion CTA
+
+The bottom Connection Bubble remains required on the main hub surfaces above and stays optional on guide detail pages.
+
+### B) Request page
+- `/request-assistance/`
+
+This page is not just a form. It is a **routing tool page** that helps users find local options before reaching out and explains:
+- what the tool does
+- who it is for
+- what happens after submission
+- what information is and is not collected
+
+The form now appears immediately below the intro as the **primary action** on the page in a larger consumer-first panel that visually stands above the supporting copy. The explanatory utility blocks stay below or beside it with lighter visual weight so the page remains answer-first without burying the action.
+
+Form fields:
+- Provider type (required)
+- Email (required)
+- Consent (required)
+- Phone (optional)
+- ZIP (optional)
+
+**No case details. No free-text message.**
+
+---
+
+## 2) Page contract (request-assistance tool page)
+
+The `/request-assistance/` page must remain an **answer-first tool page**.
+
+Required structure:
+1. Utility intro
+2. Primary form section (largest visual surface on the page)
+3. Who this is for / what this tool is not
+4. What happens after submission
+5. AI-readable routing sentence in normal editorial language
+
+Purpose:
+- make the page understandable to users before they submit
+- make the page summarizable by search/AI systems as a routing tool
+- avoid a thin form-only dead end
+
+This page must **not** become:
+- a ranking page
+- an intake portal
+- a case-detail form
+- a promise of provider availability or response time
+
+---
+
+## 3) Provider type enum (locked)
+
+The request flow uses a strict, locked enum:
+
+- `Personal Injury Attorney`
+- `Dentist (Cosmetic, Implant, or General Care)`
+- `Neuro Evaluation Provider`
+- `Hormone / Wellness Clinic`
+- `USCIS Medical Exam Provider`
+
+If you change these strings, you must update:
+- the request page dropdown
+- the API allowlist
+- any template/provider mapping
+
+---
+
+## 4) Endpoints
+
+### A) Lead submission
+`POST /api/request-assistance`
+
+Required:
+- `provider_type`
+- `email`
+- `consent`
+
+Optional:
+- `phone`
+- `zip`
+- `src` (page path)
+
+Anti-spam:
+- honeypot field: `website` (must be empty)
+
+### B) Click tracking (non-blocking)
+`POST /api/track-connection-click`
+
+This is **best-effort** telemetry. Missing telemetry must never break the site.
+
+---
+
+## 5) Airtable storage (free tier)
+
+This repo is configured to store requests in Airtable.
+
+### Environment variables (Cloudflare Pages)
+
+Required for storing leads:
+- `AIRTABLE_API_TOKEN`
+- `AIRTABLE_BASE_ID`
+- `AIRTABLE_TABLE_NAME`
+
+Optional for click tracking:
+- `AIRTABLE_CLICKS_TABLE_NAME`
+
+If the required env vars are missing:
+- lead submission returns a friendly `storage_unavailable` error
+- build is unaffected
+
+---
+
+## 6) Validation contract
+
+Core validators:
+- `scripts/validation/connection_bubble_contract.js`
+- `scripts/validation/conversion_contract.js`
+- `scripts/validation/request_assistance_tool_contract.js`
+- `scripts/validation/request_assistance_layout_contract.js`
+
+Hard fail:
+- primary conversion CTA missing on any required conversion page
+- inline conversion CTA missing on any required conversion page
+- connection bubble missing on any required hub page
+- primary / inline / bubble order broken on enforced surfaces
+- bubble duplicated on any required page
+- `/request-assistance/` missing required utility blocks
+- `/request-assistance/` missing the form
+- `/request-assistance/` primary form section missing or placed below explanatory sections
+
+Warning-only:
+- bubble appears on non-required pages
+
+---
+
+## 7) Manual verification (fast)
+
+After deploy:
+1) `/` → bubble appears once
+2) `/guides/` → bubble appears once
+3) `/<any city>/` → bubble appears once
+4) `/states/<ST>/` (PI) → bubble appears once
+5) `/request-assistance/` → utility intro appears above the form
+6) `/request-assistance/` → form loads and submits
+
+Then:
+- submit a test request → Airtable row appears
+- click bubble → click row appears (if clicks table configured)
+
+
+## Schema hardening
+
+Request Assistance must render both `WebPage` and `Service` JSON-LD on the built page.
+The service schema exists to clarify that this surface functions as a local provider routing tool, not just a generic form.
+
+Validation file:
+- `scripts/validation/schema_citation_routing_contract.js`

@@ -1,0 +1,68 @@
+{
+  "active_vertical": "pi",
+  "active_site_url": "https://theaccidentguides.com",
+  "active_page_set_file": "data/page_sets/examples/pi_v1.json",
+  "layer_buckets": [
+    {
+      "vertical": "trt",
+      "layer_bucket": "guide_enhancement_registry_change",
+      "count": 57
+    },
+    {
+      "vertical": "dentistry",
+      "layer_bucket": "guide_enhancement_registry_change",
+      "count": 18
+    },
+    {
+      "vertical": "uscis_medical",
+      "layer_bucket": "guide_enhancement_registry_change",
+      "count": 17
+    },
+    {
+      "vertical": "neuro",
+      "layer_bucket": "guide_enhancement_registry_change",
+      "count": 12
+    },
+    {
+      "vertical": "neuro",
+      "layer_bucket": "city_enrichment_change",
+      "count": 3
+    },
+    {
+      "vertical": "uscis_medical",
+      "layer_bucket": "city_enrichment_change",
+      "count": 2
+    }
+  ],
+  "active_vertical_batches": [],
+  "guide_registry_route_count": 44,
+  "city_content_counts": {
+    "dentistry": 6,
+    "neuro": 6,
+    "pi": 6,
+    "trt": 6,
+    "uscis_medical": 6
+  },
+  "pdf_recommendation_summary": {
+    "pdf_count": 25,
+    "recommendation_count": 109,
+    "by_vertical": {
+      "dentistry": 18,
+      "neuro": 15,
+      "trt": 57,
+      "uscis_medical": 19
+    },
+    "by_layer_bucket": {
+      "guide_enhancement_registry_change": 104,
+      "city_enrichment_change": 5
+    },
+    "by_fix_type": {
+      "unknown": 73,
+      "authority": 3,
+      "completeness": 12,
+      "clarity": 1,
+      "structure": 10,
+      "distribution": 10
+    }
+  }
+}

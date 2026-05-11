@@ -1,0 +1,43 @@
+<section class="connection-bubble" data-connection-bubble="true">
+  <div class="connection-bubble__inner">
+    <div class="connection-bubble__copy">
+      <p class="connection-bubble__eyebrow">Next Step</p>
+      <h2 class="connection-bubble__title">Ready to hear from a %%PROVIDER_TYPE_LABEL_LOWER%%?</h2>
+      <p class="connection-bubble__subtext">Use the direct callback path when you want to hear from a relevant provider without digging through multiple pages first.</p>
+    </div>
+    <div class="connection-bubble__actions">
+      <a class="button button-primary connection-bubble__button" href="%%REQUEST_ASSISTANCE_HREF%%">Get Matched With a Provider</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Non-blocking intent tracking (warning-only if endpoint missing)
+  (function(){
+    try {
+      var btn = document.querySelector('[data-connection-bubble="true"] .connection-bubble__button');
+      if (!btn) return;
+      btn.addEventListener('click', function(){
+        try {
+          var payload = {
+            provider_type: (btn.getAttribute('data-provider-type') || ''),
+            page_slug: (btn.getAttribute('data-page-slug') || ''),
+            source_domain: (window.location && window.location.host) ? window.location.host : '',
+            intent_type: (btn.getAttribute('data-intent-type') || ''),
+            button_source: (btn.getAttribute('data-button-source') || ''),
+            market_slug: (btn.getAttribute('data-market-slug') || ''),
+            page_kind: (btn.getAttribute('data-page-kind') || ''),
+            vertical_key: (btn.getAttribute('data-vertical-key') || '')
+          };
+          // Fire and forget. Do not block navigation.
+          fetch('/api/track-connection-click', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+          }).catch(function(){});
+        } catch (e) {}
+      });
+    } catch (e) {}
+  })();
+</script>

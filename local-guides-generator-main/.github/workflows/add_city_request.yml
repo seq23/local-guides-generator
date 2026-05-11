@@ -1,0 +1,111 @@
+name: Add City Request
+
+on:
+  workflow_dispatch:
+    inputs:
+      vertical:
+        description: Vertical key (e.g. uscis_medical, neuro, dentistry, trt, pi)
+        required: true
+        type: string
+      state_code:
+        description: Two-letter state code
+        required: true
+        type: string
+      city_name:
+        description: City name
+        required: true
+        type: string
+      city_slug:
+        description: Optional city slug (leave blank to auto-generate)
+        required: false
+        type: string
+      market_label:
+        description: Optional market label (leave blank for City, ST)
+        required: false
+        type: string
+      sponsor_key:
+        description: Optional sponsor key
+        required: false
+        type: string
+      intended_package:
+        description: city_only or statewide
+        required: true
+        default: statewide
+        type: choice
+        options:
+          - city_only
+          - statewide
+      city_classification:
+        description: Base included or extra city
+        required: true
+        default: base
+        type: choice
+        options:
+          - base
+          - extra
+      requested_by_sponsor:
+        description: Sponsor requested this city
+        required: true
+        default: true
+        type: boolean
+      notes:
+        description: Optional notes
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  add-city-request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Create request file from workflow inputs
+        run: |
+          node scripts/create_city_request_from_args.js             --output=.tmp/city_request.generated.json             --vertical="${{ inputs.vertical }}"             --state_code="${{ inputs.state_code }}"             --city_name="${{ inputs.city_name }}"             --city_slug="${{ inputs.city_slug }}"             --market_label="${{ inputs.market_label }}"             --sponsor_key="${{ inputs.sponsor_key }}"             --intended_package="${{ inputs.intended_package }}"             --is_base_included=${{ inputs.city_classification == 'base' }}             --is_extra_city=${{ inputs.city_classification == 'extra' }}             --requested_by_sponsor=${{ inputs.requested_by_sponsor }}             --notes="${{ inputs.notes }}"
+
+      - name: Scaffold city from request
+        run: node scripts/scaffold_city_from_request.js .tmp/city_request.generated.json --apply
+
+      - name: Build all packs
+        run: node scripts/build_all_packs.js
+
+      - name: Validate
+        run: LKG_VALIDATE_DIST=1 npm run validate:all
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "feat: add city request ${{ inputs.city_name }}, ${{ inputs.state_code }}"
+          title: "Add city request: ${{ inputs.city_name }}, ${{ inputs.state_code }}"
+          body: |
+            Generated from the **Add City Request** workflow.
+
+            ### Inputs
+            - Vertical: `${{ inputs.vertical }}`
+            - State: `${{ inputs.state_code }}`
+            - City: `${{ inputs.city_name }}`
+            - City slug: `${{ inputs.city_slug }}`
+            - Market label: `${{ inputs.market_label }}`
+            - Sponsor key: `${{ inputs.sponsor_key }}`
+            - Intended package: `${{ inputs.intended_package }}`
+            - Classification: `${{ inputs.city_classification }}`
+            - Requested by sponsor: `${{ inputs.requested_by_sponsor }}`
+
+            ### Checklist
+            - [ ] Review scaffolded city files
+            - [ ] Review sponsorship allocation / classification
+            - [ ] Review validation output
+            - [ ] Click-audit affected pages after merge
+          branch: city-request/${{ inputs.vertical }}-${{ inputs.state_code }}-${{ github.run_id }}
+          delete-branch: true

@@ -1,0 +1,199 @@
+
+#!/usr/bin/env node
+
+function _findFirstExisting(paths) {
+  for (const x of (paths || [])) {
+    if (!x) continue;
+    try {
+      if (fs.existsSync(x)) return x;
+    } catch (e) {}
+  }
+  return null;
+}
+
+/**
+ * Global guide canonical parity audit (WARN-only).
+ * Writes: dist/_guide_canonical_parity_global.csv
+ *
+ * This does NOT fail builds. It is a diagnostic signal.
+ */
+const fs = require("fs");
+const path = require("path");
+
+const repoRoot = path.resolve(__dirname, "..");
+const distDir = path.join(repoRoot, "dist");
+const outPath = path.join(distDir, "_guide_canonical_parity_global.csv");
+
+function readJson(p) {
+  return JSON.parse(fs.readFileSync(p, "utf8"));
+}
+
+function findFirstExisting(paths) {
+  for (const p of paths) if (p && fs.existsSync(p)) return p;
+  return null;
+}
+
+function stripHtmlToText(html) {
+  return String(html || "")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<\/?[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function stripMarkdownToText(md) {
+  return String(md || "")
+    .replace(/---[\s\S]*?---/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/!\[[^\]]*]\([^)]*\)/g, " ")
+    .replace(/\[[^\]]*]\([^)]*\)/g, " ")
+    .replace(/[#>*_\-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// IMPORTANT: mirrors existing validator behavior.
+// Expects guide sections in masters as "## <slug>".
+function parseGuideBodiesFromMaster(mdText) {
+  const out = {};
+  const lines = String(mdText || "").split("\n");
+  let curSlug = null;
+  let buf = [];
+  const flush = () => {
+    if (curSlug) out[curSlug] = buf.join("\n").trim() + "\n";
+    buf = [];
+  };
+  for (const line of lines) {
+    const m = line.match(/^##\s+(.+?)\s*$/);
+    if (m) {
+      flush();
+      curSlug = m[1]
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      continue;
+    }
+    if (curSlug) buf.push(line);
+  }
+  flush();
+  return out;
+}
+
+function norm(s) {
+  return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+function main() {
+  if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true });
+
+  const mappings = [
+    {
+      name: "dentistry",
+      master: _findFirstExisting([
+        path.join(repoRoot, "docs", "dentistry_guides", "dentistry_master_document_canonical_cfvp_v_1.md"),
+        path.join(repoRoot, "docs", "dentistry_guides", "dentistry_master_document_canonical_cfvpv_1.md"),
+      ]),
+      folder: _findFirstExisting([
+        path.join(repoRoot, "data", "page_sets", "examples", "dentistry_global_pages"),
+      ]),
+      filename: (slug) => `guides_${slug}.json`,
+    },
+    {
+      name: "neuro",
+      master: _findFirstExisting([
+        path.join(repoRoot, "docs", "neuro_guides", "neuro_master_document_canonical_cfvpv_1.md"),
+        path.join(repoRoot, "docs", "neuro_guides", "neuro_master_document_canonical_cfvp_v_1.md"),
+      ]),
+      folder: _findFirstExisting([
+        path.join(repoRoot, "data", "page_sets", "examples", "neuro_global_pages"),
+      ]),
+      filename: (slug) => `guides_${slug}.json`,
+    },
+    {
+      name: "uscis",
+      master: _findFirstExisting([
+        path.join(repoRoot, "docs", "uscis_guides", "uscis_master_document_canonical_GENERATED.md"),
+        path.join(repoRoot, "docs", "uscis_guides", "uscis_master_document_canonical_generated.md"),
+      ]),
+      // IMPORTANT: the folder is uscis_medical_global_pages in this repo
+      folder: _findFirstExisting([
+        path.join(repoRoot, "data", "page_sets", "examples", "uscis_medical_global_pages"),
+        path.join(repoRoot, "data", "page_sets", "examples", "uscis_medical_global_pages"),
+      ]),
+      filename: (slug) => `guides_${slug}.json`,
+    },
+    {
+      name: "trt",
+      master: _findFirstExisting([
+        path.join(repoRoot, "docs", "trt_guides", "trt_master_document_canonical_cfvpv_1.md"),
+        path.join(repoRoot, "docs", "trt_guides", "trt_master_document_canonical_cfvp_v_1.md"),
+      ]),
+      folder: _findFirstExisting([
+        path.join(repoRoot, "data", "page_sets", "examples", "trt_global_pages"),
+      ]),
+      filename: (slug) => `guides_trt_${slug}.json`,
+    },
+    {
+      name: "pi",
+      master: _findFirstExisting([
+        path.join(repoRoot, "docs", "pi_guides", "Personal_Injury_Master_Document_Canonical_CFVP_v1_FINAL.md"),
+      ]),
+      folder: _findFirstExisting([
+        path.join(repoRoot, "data", "page_sets", "examples", "pi_global_pages"),
+      ]),
+      filename: (slug) => `${slug}.json`,
+    },
+  ];
+
+  const mismatches = [];
+
+  for (const m of mappings) {
+    if (!m.folder || !fs.existsSync(m.folder)) continue;
+    if (!m.folder || !fs.existsSync(m.folder)) continue;
+    if (!m.master || !fs.existsSync(m.master)) continue;
+    const mdText = fs.readFileSync(m.master, "utf8");
+    const guides = parseGuideBodiesFromMaster(mdText);
+
+    for (const [slug, body] of Object.entries(guides)) {
+      const p = path.join(m.folder, m.filename(slug));
+      if (!fs.existsSync(p)) {
+        mismatches.push({ vertical: m.name, slug, reason: "missing_json", file: p });
+        continue;
+      }
+
+      const j = readJson(p);
+      const htmlText = stripHtmlToText(j.main_html || "");
+      const mdBody = body.replace(/^#\s+.*\n+/, "").trim();
+      const mdTextNorm = stripMarkdownToText(mdBody);
+
+      if (!norm(htmlText).includes(norm(mdTextNorm))) {
+        mismatches.push({ vertical: m.name, slug, reason: "content_mismatch", file: p });
+      }
+    }
+  }
+
+  const header = "vertical,slug,reason,file\n";
+  const rows = mismatches
+    .map((x) => `${x.vertical},${x.slug},${x.reason},${path.relative(repoRoot, x.file)}`)
+    .join("\n");
+
+  fs.writeFileSync(outPath, header + rows + (rows ? "\n" : ""), "utf8");
+
+  if (mismatches.length) {
+    console.warn(
+      `GUIDE CANONICAL PARITY (GLOBAL AUDIT): WARN (${mismatches.length} mismatches) -> dist/_guide_canonical_parity_global.csv`
+    );
+  } else {
+    console.log("GUIDE CANONICAL PARITY (GLOBAL AUDIT): PASS (0 mismatches)");
+  }
+
+  process.exit(0); // WARN-only, never fail builds
+}
+
+main();

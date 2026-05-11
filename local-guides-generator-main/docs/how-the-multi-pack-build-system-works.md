@@ -1,0 +1,31 @@
+# How the Multi-Pack Build System Works
+
+## Core idea
+
+This repo supports multiple vertical packs from one shared generator. A pack is selected through `PAGE_SET_FILE`, resolved into active site state by `scripts/prepare_site.js`, and then rendered by `scripts/build_city_sites.js`.
+
+## Canonical pageSetFile rule
+
+`PAGE_SET_FILE` must always be a repo-relative canonical path under `data/page_sets/`.
+
+Valid example:
+`data/page_sets/examples/pi_v1.json`
+
+Invalid examples:
+`examples/pi_v1.json`
+`./examples/pi_v1.json`
+`data/page_sets/data/page_sets/examples/pi_v1.json`
+
+The active pack source of truth is `data/site.json.pageSetFile`, and it must remain in canonical repo-relative form under `data/page_sets/`.
+
+## Build sequence
+
+1. select a page set
+2. write active site state to `data/site.json`
+3. build the active site into `dist/`
+4. emit sitemap, llms.txt, redirects, and IndexNow artifacts
+5. validate page contracts, routing, and release rules
+
+## Cross-pack build
+
+`npm run build:all` builds the supported packs in a deterministic sequence. `dist/` is intentionally overwritten during each pass so pack-specific breakage is surfaced instead of hidden.
