@@ -33,8 +33,8 @@ function readJSON(p) {
 }
 
 function normalizeInputPath(raw) {
-  const s = String(raw || '').trim();
-  // normalize slashes + strip leading "./"
+  const s = String(raw || '').trim().replace(/^PAGE_SET_FILE\s*=\s*/, '');
+  // normalize accidental KEY=value assignment, slashes + strip leading "./"
   return s.replace(/\\/g, '/').replace(/^\.\//, '');
 }
 
@@ -103,8 +103,12 @@ function run() {
   }
 
   // snapshot (optional)
+  // Hosted/prebuild training builds may intentionally set PAGE_SET_FILE to a different pack
+  // than the committed dist snapshot. prepare_site/build will regenerate dist after this
+  // prebuild contract runs, so do not fail on stale snapshot mismatch when PAGE_SET_FILE
+  // is explicitly supplied.
   const snapPath = path.join(root, 'dist', '_lkg_snapshot.json');
-  if (exists(snapPath)) {
+  if (exists(snapPath) && !envRaw) {
     const snap = readJSON(snapPath);
     const snapPS = snap?.site?.pageSetFile;
     if (!snapPS) fail('dist/_lkg_snapshot.json missing site.pageSetFile');

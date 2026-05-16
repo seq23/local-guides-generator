@@ -129,6 +129,7 @@ const LKG_ENV = (process.env.LKG_ENV || "baseline").toLowerCase();
 function normalizeInputPath(raw) {
   return String(raw || "")
     .trim()
+    .replace(/^PAGE_SET_FILE\s*=\s*/, "")
     .replace(/\\/g, "/")
     .replace(/^\.\//, "")
     .replace(/^\/+/, "");
