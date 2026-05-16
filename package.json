@@ -62,7 +62,9 @@
     "validate:promote-reference:intake": "node scripts/reference/guard_visible_surfaces.js && node scripts/validation/promote_reference_intake_contract.js",
     "build:completion-queue": "node scripts/reference/build_completion_queue.js",
     "complete:promoted-guides": "node scripts/reference/complete_promoted_guides.js",
-    "validate:promoted-guide-completion": "node scripts/validation/promoted_guide_completion_contract.js"
+    "validate:promoted-guide-completion": "node scripts/validation/promoted_guide_completion_contract.js",
+    "validate:distribution-workflow": "node scripts/validation/distribution_workflow_contract.js",
+    "validate:lkg-citation-agent-fixes": "node scripts/validation/lkg_citation_agent_fixes_2026_05.js"
   },
   "dependencies": {},
   "engines": {

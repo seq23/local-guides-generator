@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+/* eslint-disable no-console */
+const fs = require('fs');
+const path = require('path');
+const repoRoot = path.resolve(__dirname, '..');
+const distRoot = path.join(repoRoot, 'dist');
+function fail(msg){ console.error('❌ GOLDEN CONTRACT FAIL:', msg); process.exit(1); }
+function read(p){ return fs.readFileSync(p,'utf8'); }
+function exists(p){ return fs.existsSync(p); }
+function hasAdjacentCtas(html){ const re=/<section[^>]*data-(?:primary-conversion-cta|inline-conversion-cta|runtime-next-steps-cta)=\"true\"[^>]*>/ig; const pos=[]; let m; while((m=re.exec(html))) pos.push(m.index); for(let i=0;i<pos.length-1;i++){ const close=html.indexOf('</section>', pos[i]); const next=pos[i+1]; if(close!==-1 && close<next){ const between=html.slice(close+10,next); if(!between.trim()) return true; } } return false; }
+function checkCity(rel,label){ const fp=path.join(distRoot,rel); if(!exists(fp)) fail(`missing ${rel}`); const html=read(fp); ['data-eval-framework="true"','data-faq="true"','No guarantees or endorsements.'].forEach(n=>{ if(!html.includes(n)) fail(`${label} missing ${n}`);}); if(html.includes('data-sponsored-empty=\"true\"')) fail(`${label} still renders empty ad placeholders`); if(hasAdjacentCtas(html)) fail(`${label} contains adjacent CTA sections`); return html; }
+function checkState(rel,label){ const fp=path.join(distRoot,rel); if(!exists(fp)) fail(`missing ${rel}`); const html=read(fp); ['data-citation-summary-type="state-home"','data-pi-state-directory="true"','No guarantees or endorsements.'].forEach(n=>{ if(!html.includes(n)) fail(`${label} missing ${n}`);}); if(html.includes('data-sponsored-empty=\"true\"')) fail(`${label} still renders empty ad placeholders`); if(hasAdjacentCtas(html)) fail(`${label} contains adjacent CTA sections`); return html; }
+function main(){ if(!exists(distRoot)) fail('dist missing'); const site=JSON.parse(read(path.join(repoRoot,'data','site.json'))); const ps=String(site.pageSetFile||'').toLowerCase(); if(ps.includes('pi_v1.json')){ const html=checkState('states/TN/index.html','state TN'); if(!html.includes('Directory Listings (Firms listed for')) fail('state TN missing directory listings heading'); if(!html.includes('Cities we cover in')) fail('state TN missing cities-we-cover block'); } else { const html=checkCity('dallas-tx/index.html','city dallas-tx'); if(html.includes('Examples of dental providers in')) fail('city dallas-tx still contains old provider heading'); } const guidesDir=path.join(distRoot,'guides'); if(exists(guidesDir)){ const entries=fs.readdirSync(guidesDir).filter(n=>exists(path.join(guidesDir,n,'index.html'))); if(entries.length){ const g=read(path.join(guidesDir,entries[0],'index.html')); if(g.includes('data-sponsored-empty="true"')) fail('guide still renders empty ad placeholders'); } } console.log('✅ GOLDEN CONTRACT PASS'); }
+main();

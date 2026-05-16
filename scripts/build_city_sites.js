@@ -551,18 +551,154 @@ function cityVerticalSectionConfig(verticalKey) {
   }
 }
 
+function defaultArtifactCityContent(verticalKey, citySlug) {
+  const vk = String(verticalKey || '').trim();
+  const slug = String(citySlug || '').trim();
+  if (!vk || !slug) return null;
+  const cityPart = slug.split('-').slice(0, -1).join(' ') || slug;
+  const statePart = slug.split('-').slice(-1)[0] || '';
+  const cityName = cityPart.replace(/\b\w/g, (m) => m.toUpperCase());
+  const stateAbbr = statePart.toUpperCase();
+  const base = {
+    city_slug: slug,
+    city: cityName,
+    state: stateAbbr,
+    state_abbr: stateAbbr,
+    vertical: vk,
+    market_specific_notes: [],
+    local_vetting_points: [],
+    typical_cost_ranges: [],
+    payment_options: [],
+    wait_time_notes: [],
+    availability_notes: [],
+    named_resources_or_providers: [],
+    city_intro_override: '',
+    body: [],
+    bullets: []
+  };
+  const byVertical = {
+    uscis_medical: {
+      heading: `${cityName} USCIS medical exam comparison checklist`,
+      city_intro_override: `${cityName} USCIS medical exam shoppers should compare civil-surgeon authorization, total I-693 cost, paperwork handling, vaccine workflow, and sealed-packet timing in the same order before booking.`,
+      primary_city_decision_block: {
+        type: 'decision_checklist',
+        title: 'Local civil surgeon comparison checklist',
+        items: [
+          'Verify the office appears in the USCIS civil surgeon locator under the same legal/provider name.',
+          'Ask for the total I-693 cost path: exam, labs, vaccines, paperwork, sealed packet, and corrections.',
+          'Ask whether same-day or same-week service means exam only or sealed packet completion.',
+          'Ask how vaccine records, missing vaccines, lab work, and bilingual document support are handled.',
+          'Ask what usually creates a second visit, RFE risk, correction delay, or repeat-exam cost.',
+          'Confirm the expected sealed-packet release timing before payment, especially if the filing deadline is close.'
+        ]
+      },
+      local_vetting_points: [
+        'Use the USCIS civil surgeon locator as the authorization check before comparing reviews or convenience.',
+        'Ask whether corrections, missing signatures, or sealed-packet errors are handled without starting over.'
+      ],
+      typical_cost_ranges: ['Compare exam-only quotes against full-process quotes that include forms review, labs, vaccines, and follow-up.'],
+      wait_time_notes: ['Packet timing can change when vaccine records are incomplete, labs are sent out, or the civil surgeon requires a follow-up.'],
+      i693_document_requirements: ['Bring identity documents, vaccine records, prior medical records if relevant, and the current I-693 workflow instructions requested by the office.'],
+      vaccination_handling_notes: ['Ask whether missing vaccines can be handled onsite or will require a separate appointment.'],
+      bilingual_support: ['Ask whether the office can explain paperwork requirements clearly if translation or bilingual support matters.'],
+      appointment_booking_notes: ['Confirm whether the booked slot is for intake only, the civil-surgeon exam, or full packet completion.']
+    },
+    neuro: {
+      heading: `${cityName} neuro evaluation provider comparison checklist`,
+      city_intro_override: `${cityName} neuro evaluation shoppers should compare testing scope, report quality, insurance path, adult/child fit, and timeline before choosing a provider.`,
+      primary_city_decision_block: {
+        type: 'decision_checklist',
+        title: 'City-specific neuro evaluation decision checklist',
+        items: [
+          'Confirm whether the evaluation path fits the question: ADHD, autism, learning differences, memory, concussion, or broader neuropsych testing.',
+          'Ask what the final report includes and whether it supports school, work, medical, or accommodation decisions.',
+          'Compare insurance, cash-pay, prior authorization, and reimbursement expectations before booking.',
+          'Ask whether the provider regularly evaluates adults, children, or the specific age group involved.',
+          'Confirm testing-day length, report turnaround, feedback session timing, and what records to bring.',
+          'Ask how the provider explains next steps after the evaluation, including therapy, school/work documentation, or medical follow-up.'
+        ]
+      },
+      local_vetting_points: [
+        'Prioritize providers who can explain the testing path and report deliverables before payment.',
+        'Compare report usefulness, not only appointment availability.'
+      ],
+      typical_cost_ranges: ['Ask for a written estimate that separates intake, testing, scoring, report writing, and feedback session costs.'],
+      wait_time_notes: ['Wait time often depends on age group, testing scope, and whether insurance authorization is needed.'],
+      testing_scope_notes: ['Match the evaluation to the decision you need to make, not just the diagnosis named in the referral.'],
+      insurance_reimbursement_notes: ['Ask what documentation is needed for prior authorization, superbills, or reimbursement.'],
+      adult_vs_child_fit: ['Confirm whether the provider regularly evaluates the relevant age group and setting.'],
+      report_turnaround_notes: ['Ask when the written report and feedback session will be delivered.']
+    },
+    trt: {
+      heading: `${cityName} TRT and hormone clinic comparison checklist`,
+      city_intro_override: `${cityName} TRT and hormone shoppers should compare labs, monitoring, clinician oversight, treatment fit, fertility/hair considerations, and total cost before starting care.`,
+      primary_city_decision_block: {
+        type: 'decision_checklist',
+        title: 'Local TRT and hormone clinic authority checklist',
+        items: [
+          'Confirm which labs are required before treatment and how often monitoring repeats after starting.',
+          'Ask who reviews the lab results and whether a licensed clinician manages dosing decisions.',
+          'Compare treatment options by fit: injections, gels, pellets, hair-loss care, peptides, IV therapy, or other add-ons.',
+          'Ask how fertility goals, hair-loss risk, sleep apnea, blood pressure, hematocrit, and side effects are monitored.',
+          'Compare monthly program cost against labs, medication, supplies, follow-up visits, and cancellation terms.',
+          'Watch for red flags like treatment without labs, guaranteed results, pressure add-ons, or vague monitoring.'
+        ]
+      },
+      local_vetting_points: [
+        'Use lab policy and follow-up cadence as the first trust screen, not ads or before/after claims.',
+        'Ask whether the clinic can explain risks and alternatives before recommending treatment.'
+      ],
+      typical_cost_ranges: ['Compare headline monthly fees against labs, medications, supplies, consults, and follow-up monitoring.'],
+      wait_time_notes: ['Fast starts are not automatically better if the clinic skips baseline labs or risk screening.'],
+      lab_work_notes: ['Baseline and follow-up labs should be clearly explained before treatment begins.'],
+      therapy_types_available: ['Ask why a specific treatment path is being recommended instead of assuming all options fit.'],
+      monitoring_frequency_notes: ['A credible clinic should explain monitoring frequency and what would trigger a dose change.'],
+      fertility_or_hair_considerations: ['Ask about fertility preservation, hair-loss risk, and side-effect management before starting.']
+    },
+    dentistry: {
+      heading: `${cityName} dentist selection and payment comparison checklist`,
+      city_intro_override: `${cityName} dental shoppers should compare payment clarity, insurance fit, specialty needs, new-patient access, treatment-plan transparency, and trust signals before booking.`,
+      primary_city_decision_block: {
+        type: 'decision_checklist',
+        title: 'Local dentist selection and payment checklist',
+        items: [
+          'Ask whether the office accepts your insurance, offers payment plans, or provides written self-pay estimates before treatment.',
+          'Match the office to the need: preventive care, emergency care, pediatric dentistry, implants, root canals, orthodontics, or cosmetic work.',
+          'Confirm new-patient availability, emergency access, and whether the office can handle the likely treatment onsite.',
+          'Ask for an itemized treatment plan before agreeing to major work or financing.',
+          'Compare reviews for communication, pricing clarity, pressure tactics, and follow-up support rather than star rating alone.',
+          'Use a second opinion when the recommendation is expensive, rushed, unclear, or different from what you expected.'
+        ]
+      },
+      local_vetting_points: [
+        'Compare treatment-plan clarity and payment transparency before convenience.',
+        'Ask which procedures are handled by the office and which are referred to a specialist.'
+      ],
+      typical_cost_ranges: ['Ask for itemized pricing that separates exam, imaging, procedure, sedation, lab, and follow-up costs.'],
+      payment_options: ['Ask about insurance, payment plans, CareCredit-style financing, membership plans, and low-cost clinic options where relevant.'],
+      wait_time_notes: ['New-patient availability can differ sharply from emergency availability. Confirm both before choosing.'],
+      insurance_acceptance_notes: ['Verify in-network status directly with the office and insurer before treatment.'],
+      sedation_options: ['If anxiety or complex treatment matters, ask what sedation options exist and who monitors them.'],
+      emergency_triage_notes: ['Ask whether symptoms require same-day dental care, ER care, or a scheduled evaluation.'],
+      family_pediatric_fit: ['For children or families, ask about pediatric experience, sibling scheduling, and anxiety support.']
+    }
+  };
+  const config = byVertical[vk];
+  return config ? { ...base, ...config } : null;
+}
+
 function loadOptionalCityContent(verticalKey, citySlug) {
   const vk = String(verticalKey || "").trim();
   const slug = String(citySlug || "").trim();
   if (!vk || !slug) return null;
   const candidate = path.join(CITY_CONTENT_DIR, vk, `${slug}.json`);
   const found = fs.existsSync(candidate) ? candidate : null;
-  if (!found) return null;
+  if (!found) return defaultArtifactCityContent(vk, slug);
   try {
     const raw = readJson(found);
     return normalizeLegacyCityContent(vk, slug, raw);
   } catch (e) {
-    return null;
+    return defaultArtifactCityContent(vk, slug);
   }
 }
 

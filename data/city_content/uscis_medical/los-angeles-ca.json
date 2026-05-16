@@ -11,11 +11,14 @@
   "local_vetting_points": [
     "Ask whether the office explains packet timing before taking payment.",
     "Ask whether vaccines are onsite or referred out.",
-    "Ask what the clinic considers the normal turnaround when records are complete."
+    "Ask what the clinic considers the normal turnaround when records are complete.",
+    "Use the official USCIS locator as the final designation check before booking.",
+    "Ask the office to explain how corrections, RFEs, or sealed-packet issues are handled."
   ],
   "typical_cost_ranges": [
     "Use total-process comparison, not teaser pricing.",
-    "Ask what extra testing or vaccine gaps do to the final number."
+    "Ask what extra testing or vaccine gaps do to the final number.",
+    "Compare total exam-through-packet cost, not only the appointment price."
   ],
   "payment_options": [
     "Confirm whether same-day or next-day booking changes the amount due upfront.",
@@ -25,19 +28,25 @@
     "Packet timing can vary sharply when vaccine gaps or outside testing add another step."
   ],
   "availability_notes": [
-    "Availability should be judged together with packet timing and office clarity."
+    "Availability should be judged together with packet timing and office clarity.",
+    "Confirm whether quick appointment language includes lab turnaround and sealed packet timing."
   ],
   "named_resources_or_providers": [
-    "Civil surgeon locator confirmation and clinic review screening for turnaround clarity."
+    "Civil surgeon locator confirmation and clinic review screening for turnaround clarity.",
+    "USCIS Find a Civil Surgeon tool",
+    "Local civil surgeon offices should be re-verified before booking."
   ],
-  "city_intro_override": "Los Angeles comparisons get clearer when you compare workflow, not branding: appointment speed, vaccine handling, add-on costs, and sealed-packet timing.",
+  "city_intro_override": "Los Angeles USCIS medical exam shoppers should compare civil-surgeon authorization, total I-693 cost, paperwork handling, vaccine workflow, and sealed-packet timing in the same order before booking.",
   "primary_city_decision_block": {
     "type": "decision_checklist",
-    "title": "Los Angeles workflow checklist",
+    "title": "Local civil surgeon comparison checklist",
     "items": [
-      "Compare full-process clarity, not just appointment speed.",
-      "Ask whether vaccine handling is onsite.",
-      "Ask when the sealed packet is usually ready in a straightforward case."
+      "Verify the office appears in the USCIS civil surgeon locator under the same legal/provider name.",
+      "Ask for the total I-693 cost path: exam, labs, vaccines, paperwork, sealed packet, and corrections.",
+      "Ask whether same-day or same-week service means exam only or sealed packet completion.",
+      "Ask how vaccine records, missing vaccines, lab work, and bilingual document support are handled.",
+      "Ask what usually creates a second visit, RFE risk, correction delay, or repeat-exam cost.",
+      "Confirm the expected sealed-packet release timing before payment, especially if the filing deadline is close."
     ]
   },
   "heading": "Los Angeles USCIS medical exam choice: speed claims versus full-process clarity",

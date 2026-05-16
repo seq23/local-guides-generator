@@ -11,11 +11,14 @@
   "local_vetting_points": [
     "Ask whether quoted pricing is exam-only or intended to cover the full process.",
     "Ask whether labs are sent out or handled through a tightly managed workflow.",
-    "Ask what the office does when vaccine history is incomplete."
+    "Ask what the office does when vaccine history is incomplete.",
+    "Use the official USCIS locator as the final designation check before booking.",
+    "Ask the office to explain how corrections, RFEs, or sealed-packet issues are handled."
   ],
   "typical_cost_ranges": [
     "Ask what moves the total higher: vaccines, extra testing, or a second visit.",
-    "Use the quote only after you know what is excluded."
+    "Use the quote only after you know what is excluded.",
+    "Compare total exam-through-packet cost, not only the appointment price."
   ],
   "payment_options": [
     "Ask whether the clinic requires upfront payment and whether follow-up costs are quoted separately.",
@@ -25,19 +28,25 @@
     "Dallas timing often depends on outside lab turnaround and whether records are complete on day one."
   ],
   "availability_notes": [
-    "Same-week appointment language is only meaningful when paired with realistic packet timing."
+    "Same-week appointment language is only meaningful when paired with realistic packet timing.",
+    "Confirm whether quick appointment language includes lab turnaround and sealed packet timing."
   ],
   "named_resources_or_providers": [
-    "Civil surgeon locator check plus clinic review scan for packet-timing complaints or praise."
+    "Civil surgeon locator check plus clinic review scan for packet-timing complaints or praise.",
+    "USCIS Find a Civil Surgeon tool",
+    "Local civil surgeon offices should be re-verified before booking."
   ],
-  "city_intro_override": "In Dallas, the useful comparison is not just which clinic can get you in fastest. It is which one explains exam scope, vaccines, lab work, and packet timing clearly before you pay.",
+  "city_intro_override": "Dallas USCIS medical exam shoppers should compare civil-surgeon authorization, total I-693 cost, paperwork handling, vaccine workflow, and sealed-packet timing in the same order before booking.",
   "primary_city_decision_block": {
     "type": "decision_checklist",
-    "title": "Dallas booking and cost checklist",
+    "title": "Local civil surgeon comparison checklist",
     "items": [
-      "Separate exam-only cost from full-process cost.",
-      "Ask about onsite versus outside vaccine handling.",
-      "Ask when the sealed packet is ready in the uncomplicated case."
+      "Verify the office appears in the USCIS civil surgeon locator under the same legal/provider name.",
+      "Ask for the total I-693 cost path: exam, labs, vaccines, paperwork, sealed packet, and corrections.",
+      "Ask whether same-day or same-week service means exam only or sealed packet completion.",
+      "Ask how vaccine records, missing vaccines, lab work, and bilingual document support are handled.",
+      "Ask what usually creates a second visit, RFE risk, correction delay, or repeat-exam cost.",
+      "Confirm the expected sealed-packet release timing before payment, especially if the filing deadline is close."
     ]
   },
   "heading": "Dallas USCIS medical exam booking: what changes speed and total cost",

@@ -1,0 +1,14 @@
+PROOF OF APPROVED PLAN CHANGES
+
+docs/ADVERTISING_SYSTEM.md: All monetization occurs through: => True
+docs/SPONSORSHIP_ALLOCATION_RULES.md: There is no standalone guide-buyout product. => True
+docs/advertising_quick_reference.md: No buyout = no sponsor => True
+docs/runbooks/monetization_ads_buyouts/02_CANONICAL_AD_SYSTEM_AND_CHECKLIST.md: "availability": "vertical_buyout_only" => True
+scripts/helpers/sponsorship.js: winner.scope === 'city' => True
+scripts/build_city_sites.js: isTrainingBuild => True
+data/training/sponsorships.json: "training_city_buyouts" => True
+data/page_sets/starter_v1.json: Confirm fake sponsor CTA ownership can be rehearsed safely => True
+data/global_pages/for-providers.json: CTA above a directory becomes the sponsor feature surface => True
+scripts/validation/for_providers_sales_parity.js: Clean page vs owned page => True
+scripts/validation/buyout_runtime_cta_contract.js: contains adjacent CTA sections without content separation => True
+scripts/validate_golden_pages.js: Buyout-only guide model => True

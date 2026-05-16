@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-04-30T19:01:58.592Z",
+  "active_vertical": "pi",
+  "site": {
+    "brandName": "The Accident Guides",
+    "siteUrl": "https://theaccidentguides.com",
+    "pageSetFile": "data/page_sets/examples/pi_v1.json",
+    "buildIso": "2026-04-30T17:10:59.504Z"
+  },
+  "phases_verified_by_file_presence": {
+    "phase0a": true,
+    "phase0b": true,
+    "phase1": true,
+    "phase2": true,
+    "phase3": true,
+    "phase4": true,
+    "phase45": true,
+    "phase5": true,
+    "phase6": true,
+    "phase7": true
+  },
+  "counts": {
+    "guide_registry_routes": 44,
+    "city_content_total": 30,
+    "city_content_by_vertical": {
+      "dentistry": 6,
+      "neuro": 6,
+      "pi": 6,
+      "trt": 6,
+      "uscis_medical": 6
+    },
+    "recommendation_records": 109,
+    "recommendation_pdfs": 25,
+    "active_vertical_batch_count": 0,
+    "dist_top_level_entries": 108
+  },
+  "top_review_buckets": [
+    {
+      "vertical": "trt",
+      "layer_bucket": "guide_enhancement_registry_change",
+      "count": 57
+    },
+    {
+      "vertical": "dentistry",
+      "layer_bucket": "guide_enhancement_registry_change",
+      "count": 18
+    },
+    {
+      "vertical": "uscis_medical",
+      "layer_bucket": "guide_enhancement_registry_change",
+      "count": 17
+    },
+    {
+      "vertical": "neuro",
+      "layer_bucket": "guide_enhancement_registry_change",
+      "count": 12
+    },
+    {
+      "vertical": "neuro",
+      "layer_bucket": "city_enrichment_change",
+      "count": 3
+    }
+  ],
+  "active_vertical_review_batches": [],
+  "release_watchlist_paths": [
+    "package.json",
+    "data/site.json",
+    "data/contracts/guide_answer_shape_contract.json",
+    "data/contracts/guide_enhancement_registry.json",
+    "data/contracts/layer_source_of_truth_map.json",
+    "reports/phase6_pdf_recommendations.summary.json",
+    "reports/phase6_recommendation_batches.json",
+    "scripts/build_city_sites.js",
+    "scripts/prepare_site.js",
+    "scripts/validate_core.js",
+    "scripts/validate_llm_surface.js",
+    "scripts/validate_coverage_parity.js",
+    "scripts/reference/generate_from_candidates.js",
+    "scripts/release/build_phase7_review_bundle.js",
+    "scripts/release/build_phase7_release_notes.js"
+  ],
+  "click_audit_targets_file": "reports/phase7_click_audit_targets.json",
+  "changed_surface_summary_file": "reports/phase7_changed_surfaces_summary.json"
+}

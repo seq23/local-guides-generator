@@ -1,0 +1,23 @@
+name: Ingestion Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 13 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  ingestion-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: node scripts/reference/pull_velocity_candidates.js
+      - run: node scripts/reference/generate_from_candidates.js
+      - run: node scripts/reference/guard_visible_surfaces.js
