@@ -61,16 +61,29 @@ jobs:
         if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.page_set_file != '' && inputs.page_set_file != matrix.pack.page_set_file) }}
         run: npm ci
 
+      - name: Detect optional GSC secret
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.page_set_file != '' && inputs.page_set_file != matrix.pack.page_set_file) }}
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -n "$GSC_SERVICE_ACCOUNT_JSON" ]; then
+            echo "GSC_SERVICE_ACCOUNT_JSON_PRESENT=1" >> "$GITHUB_ENV"
+          else
+            echo "GSC_SERVICE_ACCOUNT_JSON_PRESENT=0" >> "$GITHUB_ENV"
+          fi
+
       - name: Install optional GSC Python dependencies
-        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.page_set_file != '' && inputs.page_set_file != matrix.pack.page_set_file) && secrets.GSC_SERVICE_ACCOUNT_JSON != '' }}
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.page_set_file != '' && inputs.page_set_file != matrix.pack.page_set_file) && env.GSC_SERVICE_ACCOUNT_JSON_PRESENT == '1' }}
         run: |
           python -m pip install --upgrade pip
           python -m pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
 
       - name: Recreate optional GSC service account file
-        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.page_set_file != '' && inputs.page_set_file != matrix.pack.page_set_file) && secrets.GSC_SERVICE_ACCOUNT_JSON != '' }}
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.page_set_file != '' && inputs.page_set_file != matrix.pack.page_set_file) && env.GSC_SERVICE_ACCOUNT_JSON_PRESENT == '1' }}
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
         run: |
-          printf '%s' '${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}' > gsc-service-account.json
+          printf '%s' "$GSC_SERVICE_ACCOUNT_JSON" > gsc-service-account.json
 
       - name: Ensure scripts are executable
         if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.page_set_file != '' && inputs.page_set_file != matrix.pack.page_set_file) }}
