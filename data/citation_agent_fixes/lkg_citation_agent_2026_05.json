@@ -3,13 +3,15 @@
   "generated_at": "2026-05-16T00:00:00Z",
   "source_artifacts": [
     "USCIS.csv",
-    "Gmail - Citation Velocity_ USCIS Medical (uscis-medical) — 2026-05-15.pdf",
+    "Gmail - Citation Velocity_ USCIS Medical (uscis-medical) \u2014 2026-05-15.pdf",
     "Neuro.csv",
-    "Gmail - Citation Velocity_ Neuro (neuroevalguides.com) — 2026-05-14.pdf",
+    "Gmail - Citation Velocity_ Neuro (neuroevalguides.com) \u2014 2026-05-14.pdf",
     "TRT.csv",
-    "Gmail - Citation Velocity_ TRT_Hair Loss (hormonesivhair.com) — 2026-05-13.pdf",
+    "Gmail - Citation Velocity_ TRT_Hair Loss (hormonesivhair.com) \u2014 2026-05-13.pdf",
     "Dentistry.csv",
-    "Gmail - Citation Velocity_ Dentistry — 2026-05-12.pdf"
+    "Gmail - Citation Velocity_ Dentistry \u2014 2026-05-12.pdf",
+    "Gmail - Citation Velocity_ Personal Injury (theaccidentguides.com) \u2014 2026-05-25.pdf",
+    "PI.csv"
   ],
   "scope": "canonical_lkg_only",
   "guide_source_files": [
@@ -43,7 +45,15 @@
     "data/page_sets/examples/uscis_medical_global_pages/guides_costs-and-timeframes.json",
     "data/page_sets/examples/uscis_medical_global_pages/guides_i-693-medical-exam-requirements.json",
     "data/page_sets/examples/uscis_medical_global_pages/guides_questions-to-ask-a-civil-surgeon.json",
-    "data/page_sets/examples/uscis_medical_global_pages/guides_uscis-fees-timelines-and-what-to-ask.json"
+    "data/page_sets/examples/uscis_medical_global_pages/guides_uscis-fees-timelines-and-what-to-ask.json",
+    "data/page_sets/examples/pi_global_pages/evidence-checklist-after-an-accident.json",
+    "data/page_sets/examples/pi_global_pages/personal-injury-fees-explained.json",
+    "data/page_sets/examples/pi_global_pages/personal-injury-lawyer-red-flags.json",
+    "data/page_sets/examples/pi_global_pages/questions-to-ask-a-personal-injury-lawyer.json",
+    "data/page_sets/examples/pi_global_pages/recorded-statements-and-insurance-calls.json",
+    "data/page_sets/examples/pi_global_pages/what-to-do-after-an-accident.json",
+    "data/page_sets/examples/pi_global_pages/when-to-call-a-personal-injury-lawyer.json",
+    "data/page_sets/examples/pi_global_pages/wrongful-death.json"
   ],
   "city_source_files": [
     "data/city_content/uscis_medical/atlanta-ga.json",
@@ -102,7 +112,17 @@
     "dentistry-second-opinion-2026-05",
     "dentistry-bridge-implant-2026-05",
     "dentistry-red-flags-2026-05",
-    "dentistry-cost-financing-2026-05"
+    "dentistry-cost-financing-2026-05",
+    "PI_ATTORNEY_SELECTION_FRAMEWORK_V1",
+    "data-pi-attorney-selection-framework",
+    "evidence-checklist-citations",
+    "cited-fee-data",
+    "direct-red-flags",
+    "grouped-decision-stages",
+    "recorded-statement-decision-framework",
+    "decision-critical-opening-checklist",
+    "specific-call-thresholds",
+    "wrongful-death-authority-framework"
   ],
   "deferred_to_velocity_or_already_done": [
     "theindustryguides.com velocity-side fixes were already handled in Batch 4."
@@ -124,5 +144,32 @@
     "neuro": "all Neuro city pages use City-specific neuro evaluation decision checklist",
     "trt": "all TRT city pages use Local TRT and hormone clinic authority checklist",
     "dentistry": "all Dentistry city pages use Local dentist selection and payment checklist"
+  },
+  "pi_city_framework_rollout": {
+    "source_artifacts": [
+      "Gmail - Citation Velocity_ Personal Injury (theaccidentguides.com) \u2014 2026-05-25.pdf",
+      "PI.csv"
+    ],
+    "architecture": "state-level defaults plus city-level overrides",
+    "source_files": [
+      "data/pi_state_attorney_selection_defaults.json",
+      "data/pi_city_attorney_selection_overrides.json",
+      "data/city_content/pi/*.json",
+      "scripts/build_city_sites.js",
+      "scripts/enrichment/enrich_pi_city_decision_blocks.js"
+    ],
+    "pdf_items_satisfied": [
+      "Houston/all-city structured attorney selection guide with case type specialization, contingency terms, trial record, and reviews",
+      "Atlanta structured local-guide citation/directory anchoring",
+      "Chicago Illinois-specific contingency-fee review field"
+    ],
+    "required_rendered_markers": [
+      "data-pi-attorney-selection-framework",
+      "Case type specialization",
+      "Contingency terms",
+      "Trial record and trial readiness",
+      "Reviews and reputation signals",
+      "The directory is a neutral starting list"
+    ]
   }
 }

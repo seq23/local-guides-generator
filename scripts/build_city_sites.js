@@ -76,6 +76,37 @@ const STATES_PATH = path.join(DATA_DIR, "states.json");
 const BASE_CITIES_PATH = path.join(DATA_DIR, "cities.json");
 const ADS_PATH = path.join(DATA_DIR, "ad_placements.json");
 const CITY_CONTENT_DIR = path.join(DATA_DIR, "city_content");
+const PI_STATE_ATTORNEY_SELECTION_DEFAULTS_PATH = path.join(DATA_DIR, "pi_state_attorney_selection_defaults.json");
+const PI_CITY_ATTORNEY_SELECTION_OVERRIDES_PATH = path.join(DATA_DIR, "pi_city_attorney_selection_overrides.json");
+const US_STATES_PATH = path.join(DATA_DIR, "us_states.json");
+
+function readJsonIfExists(absPath, fallback) {
+  try {
+    if (fs.existsSync(absPath)) return JSON.parse(fs.readFileSync(absPath, "utf8"));
+  } catch (err) {
+    console.warn("[json-load] failed to load " + absPath + ":", err.message);
+  }
+  return fallback;
+}
+
+const PI_STATE_ATTORNEY_SELECTION_DEFAULTS = readJsonIfExists(PI_STATE_ATTORNEY_SELECTION_DEFAULTS_PATH, { states: {} });
+const PI_CITY_ATTORNEY_SELECTION_OVERRIDES = readJsonIfExists(PI_CITY_ATTORNEY_SELECTION_OVERRIDES_PATH, { cities: {} });
+const US_STATES_LOOKUP = readJsonIfExists(US_STATES_PATH, {});
+
+function stateNameFromAbbr(abbr) {
+  const key = String(abbr || '').toUpperCase();
+  return US_STATES_LOOKUP[key] || key;
+}
+
+function getPiStateAttorneyDefault(abbr) {
+  const key = String(abbr || '').toUpperCase();
+  return (PI_STATE_ATTORNEY_SELECTION_DEFAULTS.states || {})[key] || null;
+}
+
+function getPiCityAttorneyOverride(slug) {
+  return (PI_CITY_ATTORNEY_SELECTION_OVERRIDES.cities || {})[String(slug || '')] || null;
+}
+
 
 const BUILD_ISO = new Date().toISOString();
 
@@ -562,7 +593,7 @@ function defaultArtifactCityContent(verticalKey, citySlug) {
   const base = {
     city_slug: slug,
     city: cityName,
-    state: stateAbbr,
+    state: stateNameFromAbbr(stateAbbr),
     state_abbr: stateAbbr,
     vertical: vk,
     market_specific_notes: [],
@@ -577,6 +608,45 @@ function defaultArtifactCityContent(verticalKey, citySlug) {
     bullets: []
   };
   const byVertical = {
+    pi: {
+      heading: `${cityName} personal injury attorney selection framework`,
+      city_intro_override: `${cityName} personal injury comparisons work better when the page acts like a decision guide first and a directory second. Start by comparing case fit, fee clarity, trial readiness, reviews, and official ${stateNameFromAbbr(stateAbbr)} verification before you decide which firms deserve a call.`,
+      attorney_selection_framework: {
+        version: 'PI_ATTORNEY_SELECTION_FRAMEWORK_V1',
+        title: `How to evaluate a personal injury lawyer in ${cityName}, ${stateNameFromAbbr(stateAbbr)}`,
+        case_type_specialization: `In ${cityName}, start by matching the lawyer to the injury and liability pattern: car accident, truck accident, slip and fall, pedestrian or bicycle injury, catastrophic injury, wrongful death, or an uninsured/underinsured motorist issue. Do not treat broad advertising as proof of case-type fit.`,
+        contingency_terms: (getPiStateAttorneyDefault(stateAbbr) || {}).contingency_fee_review_note || `Ask how contingency fees, case expenses, medical liens, litigation-stage changes, and no-recovery terms work in ${stateNameFromAbbr(stateAbbr)}.`,
+        trial_readiness: `Ask whether the firm files suit when negotiation stalls, who handles litigation, whether trial counsel is involved, and whether a case like yours might be referred out. Trial readiness matters when fault, injury severity, or insurer valuation is disputed in ${cityName}.`,
+        reviews_and_reputation: `Use reviews as process signals, not rankings. Look for patterns around communication, case updates, fee transparency, staff handoff, and whether people understood next steps. Then verify attorney status through the official ${stateNameFromAbbr(stateAbbr)} resource when available.`,
+        attorney_verification: (getPiStateAttorneyDefault(stateAbbr) || {}).attorney_verification_note || `Use official ${stateNameFromAbbr(stateAbbr)} attorney verification resources before relying on any directory listing.`,
+        deadline_caveat: (getPiStateAttorneyDefault(stateAbbr) || {}).deadline_caveat || `Deadlines and notice rules can vary in ${stateNameFromAbbr(stateAbbr)}; verify timing directly before waiting on records, insurer calls, or settlement discussions.`,
+        directory_use_note: `Use the ${cityName} directory as a neutral starting list, not as a ranking or endorsement.`,
+        educational_boundary: (getPiStateAttorneyDefault(stateAbbr) || {}).legal_advice_caveat || 'Educational only. Not legal advice. No attorney-client relationship, endorsement, ranking, or guarantee is created.',
+        source_status: (getPiStateAttorneyDefault(stateAbbr) || {}).source_status || 'generalized',
+        confidence: (getPiStateAttorneyDefault(stateAbbr) || {}).confidence || 'generalized',
+        sources: (getPiStateAttorneyDefault(stateAbbr) || {}).sources || []
+      },
+      primary_city_decision_block: {
+        type: 'decision_checklist',
+        title: `How to evaluate a personal injury lawyer in ${cityName}, ${stateNameFromAbbr(stateAbbr)}`,
+        items: [
+          'Case type specialization: compare whether each firm can explain experience with claims like yours, not just personal injury generally.',
+          'Contingency terms: ask for the percentage, litigation-stage changes, case expenses, medical-lien handling, and no-recovery terms in writing.',
+          'Trial readiness: ask who prepares the file if negotiations stall and whether the firm can explain filing, discovery, and trial posture without rushing you to sign.',
+          'Reviews and reputation: read reviews for communication, fee clarity, and case-update patterns, then verify attorney status through official state resources.',
+          'Directory use: treat listed firms as a neutral starting point, not a ranking, recommendation, or endorsement.'
+        ]
+      },
+      local_vetting_points: ['Compare case fit, fee terms, trial readiness, reviews, and official verification before firm names.', 'Treat directory listings as neutral examples, not endorsements.'],
+      typical_cost_ranges: [(getPiStateAttorneyDefault(stateAbbr) || {}).contingency_fee_review_note || 'Ask how contingency fees, case expenses, lien handling, and settlement deductions are explained before signing.'],
+      payment_options: ['Ask whether the fee is contingency-based, whether litigation expenses are advanced, and whether costs come out before or after the fee calculation.'],
+      wait_time_notes: ['Speed matters most at the beginning because evidence, treatment records, scene photos, and insurance notices can get harder to organize later.'],
+      named_resources_or_providers: [`${cityName} directory entries are neutral examples only; use them with the attorney-selection framework, not as rankings.`],
+      case_screening_notes: ['Ask what facts, injuries, treatment, photos, witnesses, or insurance information make the claim consultation-ready.', 'Do not confuse aggressive marketing with an honest case screen.'],
+      fee_structure_notes: [(getPiStateAttorneyDefault(stateAbbr) || {}).contingency_fee_review_note || 'Ask how contingency fees, case expenses, lien handling, and settlement deductions are explained before signing.'],
+      trial_readiness_notes: ['Ask whether the firm actually prepares cases for filing and trial if liability or damages are disputed.', 'Trial posture matters more when the facts are messy, not less.'],
+      local_statute_notes: [(getPiStateAttorneyDefault(stateAbbr) || {}).deadline_caveat || 'Timing still matters even when the claim seems obvious, so verify deadlines and notice rules before waiting on records or insurer calls.']
+    },
     uscis_medical: {
       heading: `${cityName} USCIS medical exam comparison checklist`,
       city_intro_override: `${cityName} USCIS medical exam shoppers should compare civil-surgeon authorization, total I-693 cost, paperwork handling, vaccine workflow, and sealed-packet timing in the same order before booking.`,
@@ -702,6 +772,42 @@ function loadOptionalCityContent(verticalKey, citySlug) {
   }
 }
 
+function renderPiAttorneySelectionFrameworkHtml(content) {
+  if (!content || String(content.vertical || '').trim() !== 'pi') return '';
+  const slug = String(content.city_slug || '').trim();
+  const city = String(content.city || '').trim() || (slug ? slug.split('-').slice(0, -1).join(' ') : 'this city');
+  const stateAbbr = String(content.state_abbr || '').trim().toUpperCase();
+  const stateData = getPiStateAttorneyDefault(stateAbbr) || {};
+  const override = getPiCityAttorneyOverride(slug) || {};
+  const state = String(stateData.state || content.state || stateNameFromAbbr(stateAbbr) || '').trim() || 'this state';
+  const framework = content.attorney_selection_framework || {};
+  const title = framework.title || override.framework_title || `How to evaluate a personal injury lawyer in ${city}, ${state}`;
+  const entries = [
+    ['Case type specialization', framework.case_type_specialization || `Match the lawyer to the claim type in ${city}: car accident, truck accident, slip and fall, pedestrian or bicycle injury, catastrophic injury, wrongful death, or uninsured/underinsured motorist issue.`],
+    ['Contingency terms', framework.contingency_terms || stateData.contingency_fee_review_note || `Ask how contingency fees, case expenses, medical liens, litigation-stage changes, and no-recovery terms work in ${state}.`],
+    ['Trial record and trial readiness', framework.trial_readiness || `Ask who prepares the case if negotiations stall, whether the firm files suit when needed, and how trial counsel gets involved for ${city} claims.`],
+    ['Reviews and reputation signals', framework.reviews_and_reputation || `Use reviews as process signals, not rankings. Look for communication, fee clarity, case updates, and staff handoff patterns, then verify official attorney status in ${state}.`],
+    ['Official attorney verification', framework.attorney_verification || stateData.attorney_verification_note || `Use official ${state} attorney verification resources before relying on any directory listing.`],
+    ['Timing and deadline caution', framework.deadline_caveat || stateData.deadline_caveat || `Deadlines and notice rules can vary in ${state}; verify timing before waiting on records or insurer calls.`],
+    ['Directory use note', framework.directory_use_note || override.directory_use_note || `Use the ${city} directory as a neutral starting list, not as a ranking or endorsement.`]
+  ];
+  const rows = entries.map(([h, body]) => '<li><strong>' + escapeOptionalHtml(h) + ':</strong> ' + escapeOptionalHtml(body) + '</li>').join('');
+  const sourceStatus = escapeOptionalHtml(framework.source_status || stateData.source_status || 'generalized');
+  const confidence = escapeOptionalHtml(framework.confidence || stateData.confidence || 'generalized');
+  const sources = Array.isArray(framework.sources) ? framework.sources : Array.isArray(stateData.sources) ? stateData.sources : [];
+  const sourceLinks = sources.length
+    ? '<ul class="neutral-list source-list">' + sources.slice(0, 3).map((src) => '<li><a href="' + escapeOptionalHtml(src.url || '#') + '" rel="nofollow noopener noreferrer">' + escapeOptionalHtml(src.label || src.url || 'Official source') + '</a> <span class="muted">(' + escapeOptionalHtml(src.supports || 'verification') + ')</span></li>').join('') + '</ul>'
+    : '<p class="muted">State-specific legal facts are intentionally caveated when no official source is encoded for this state.</p>';
+  return '<section class="city-supplement city-supplement-attorney-selection answer-block" data-pi-attorney-selection-framework="true" data-pi-city="' + escapeOptionalHtml(city) + '" data-pi-state="' + escapeOptionalHtml(state) + '">' +
+    '<h2>' + escapeOptionalHtml(title) + '</h2>' +
+    '<p><strong>Direct answer:</strong> Use the same attorney-selection framework for every firm in ' + escapeOptionalHtml(city) + ': case type specialization, contingency terms, trial readiness, reviews/reputation signals, official verification, and neutral directory use.</p>' +
+    '<ol class="neutral-list">' + rows + '</ol>' +
+    '<p class="muted" data-pi-directory-neutrality="true">The directory is a neutral starting list. It is not a ranking, recommendation, endorsement, or guarantee of fit.</p>' +
+    '<p class="muted" data-pi-framework-boundary="true">' + escapeOptionalHtml(framework.educational_boundary || stateData.legal_advice_caveat || 'Educational only. Not legal advice. No attorney-client relationship is created.') + '</p>' +
+    '<div data-pi-research-metadata="true"><p class="muted">Research status: ' + sourceStatus + ' · Confidence: ' + confidence + '</p>' + sourceLinks + '</div>' +
+    '</section>';
+}
+
 function renderOptionalCityContentHtml(content) {
   if (!content) return "";
   const verticalKey = String(content.vertical || '').trim();
@@ -740,6 +846,7 @@ function renderOptionalCityContentHtml(content) {
   if (!(content.heading || intro || body || bullets || decisionBlock || structured || leadChecklist)) return '';
   return [
     leadChecklist,
+    renderPiAttorneySelectionFrameworkHtml(content),
     '<section class="city-supplement city-supplement-optional" data-city-intelligence="true">',
     content.heading ? `<h2>${escapeOptionalHtml(content.heading)}</h2>` : '',
     body,

@@ -1,9 +1,9 @@
 # Phase 7 Release Notes
 
-- Generated: 2026-04-30T19:01:58.714Z
-- Active site: https://theaccidentguides.com
-- Active page set: data/page_sets/examples/pi_v1.json
-- Active vertical: pi
+- Generated: 2026-05-25T18:35:00.747Z
+- Active site: https://uscisexam.com
+- Active page set: data/page_sets/examples/uscis_medical_v1.json
+- Active vertical: uscis_medical
 
 ## What this phase adds
 
@@ -14,25 +14,26 @@
 
 ## Current structural counts
 
-- Guide registry routes: 44
-- City content records: 30
-- Recommendation records: 109
-- PDFs normalized: 25
+- Guide registry routes: 57
+- City content records: 88
+- Recommendation records: 36
+- PDFs normalized: 5
 
 ## Highest-priority review buckets
 
-- trt · guide_enhancement_registry_change · 57
-- dentistry · guide_enhancement_registry_change · 18
-- uscis_medical · guide_enhancement_registry_change · 17
-- neuro · guide_enhancement_registry_change · 12
-- neuro · city_enrichment_change · 3
+- pi · citation-repair-city-content · 12
+- dentistry · citation-repair-city-content · 6
+- neuro · citation-repair-city-content · 6
+- trt · citation-repair-city-content · 6
+- uscis_medical · citation-repair-city-content · 6
 
 ## Active-vertical batch focus
 
+- citation-repair-city-content: 6 recommended fixes
 
 ## Click-audit target count
 
-- 16 targets listed in reports/phase7_click_audit_targets.json
+- 22 targets listed in reports/phase7_click_audit_targets.json
 
 ## Release watchlist
 
