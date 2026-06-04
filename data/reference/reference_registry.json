@@ -85,7 +85,15 @@
     "uscis-exam-day-documents-013",
     "uscis-exam-day-documents-015",
     "uscis-after-exam-filing-017",
-    "uscis-after-exam-filing-019"
+    "uscis-after-exam-filing-019",
+    "trt-state-specific",
+    "dentistry-state-specific",
+    "neuro-state-specific",
+    "uscis-medical-state-specific",
+    "personal-injury-state-specific",
+    "personal-injury-liability-waivers-insurance",
+    "dentistry-liability-waivers-insurance",
+    "trt-horse-sale-and-purchase"
   ],
   "pages": [
     {
@@ -287,8 +295,120 @@
       "file": "reference/neuro/neuro-therapy-after-evaluation-005/index.html",
       "promoted": false,
       "created_at": "2026-04-07T00:00:00.000Z"
+    },
+    {
+      "id": "trt-state-specific",
+      "vertical": "trt",
+      "source": "local-guides-citation-velocity",
+      "query": "5 years, most recent protocol with a new provider is about 112 mg per week, pinned daily subq — what should I know?",
+      "cluster": [
+        "state-specific"
+      ],
+      "file": "data/page_sets/examples/trt_global_pages/guides_trt_state-specific.json",
+      "route": "/guides/state-specific/",
+      "promoted": false,
+      "draft_generated_at": "2026-06-04T15:27:46.690Z",
+      "surface_type": "draft_guide_source"
+    },
+    {
+      "id": "dentistry-state-specific",
+      "vertical": "dentistry",
+      "source": "local-guides-citation-velocity",
+      "query": "Why does it feel like dentists always defend other dentists, even when the work seems questionable?",
+      "cluster": [
+        "state-specific"
+      ],
+      "file": "data/page_sets/examples/dentistry_global_pages/guides_state-specific.json",
+      "route": "/guides/state-specific/",
+      "promoted": false,
+      "draft_generated_at": "2026-06-04T15:27:46.691Z",
+      "surface_type": "draft_guide_source"
+    },
+    {
+      "id": "neuro-state-specific",
+      "vertical": "neuro",
+      "source": "local-guides-citation-velocity",
+      "query": "ABA to help with expressive speech (successful stories) I know I know I have way too many questions for the weekend) I am very anxious mom and my sons diagnosis took me out of life so we trying to find best solution for — what should I know?",
+      "cluster": [
+        "state-specific"
+      ],
+      "file": "data/page_sets/examples/neuro_global_pages/guides_state-specific.json",
+      "route": "/guides/state-specific/",
+      "promoted": false,
+      "draft_generated_at": "2026-06-04T15:27:46.693Z",
+      "surface_type": "draft_guide_source"
+    },
+    {
+      "id": "uscis-medical-state-specific",
+      "vertical": "uscis-medical",
+      "source": "local-guides-citation-velocity",
+      "query": "Case Was Submitted For Quality Review Based On An Approval Recommendation hi guys, on 16 april, i got this notice “We recommended that your Form N-400, Application for Naturalization, Receipt Number be approved — what should I know?",
+      "cluster": [
+        "state-specific"
+      ],
+      "file": "data/page_sets/examples/uscis_medical_global_pages/guides_state-specific.json",
+      "route": "/guides/state-specific/",
+      "promoted": false,
+      "draft_generated_at": "2026-06-04T15:27:46.694Z",
+      "surface_type": "draft_guide_source"
+    },
+    {
+      "id": "personal-injury-state-specific",
+      "vertical": "personal-injury",
+      "source": "local-guides-citation-velocity",
+      "query": "Every submission of documentation, they would email me saying \"we need more information from your medical provider\" — what should I know?",
+      "cluster": [
+        "state-specific"
+      ],
+      "file": "data/page_sets/examples/pi_global_pages/state-specific.json",
+      "route": "/guides/state-specific/",
+      "promoted": false,
+      "draft_generated_at": "2026-06-04T15:27:46.695Z",
+      "surface_type": "draft_guide_source"
+    },
+    {
+      "id": "personal-injury-liability-waivers-insurance",
+      "vertical": "personal-injury",
+      "source": "local-guides-citation-velocity",
+      "query": "I'm switching insurance companies after this date to a new plan--am I still able to schedule the appt for after my insurance has expired and get coverage or do I need to find someone to do it before 5/21 — what should I know?",
+      "cluster": [
+        "liability-waivers-insurance"
+      ],
+      "file": "data/page_sets/examples/pi_global_pages/liability-waivers-insurance.json",
+      "route": "/guides/liability-waivers-insurance/",
+      "promoted": false,
+      "draft_generated_at": "2026-06-04T15:27:46.696Z",
+      "surface_type": "draft_guide_source"
+    },
+    {
+      "id": "dentistry-liability-waivers-insurance",
+      "vertical": "dentistry",
+      "source": "local-guides-citation-velocity",
+      "query": "How Much Do Dental Implants Cost, Medicaid, Medicare and Insurance?",
+      "cluster": [
+        "liability-waivers-insurance"
+      ],
+      "file": "data/page_sets/examples/dentistry_global_pages/guides_liability-waivers-insurance.json",
+      "route": "/guides/liability-waivers-insurance/",
+      "promoted": false,
+      "draft_generated_at": "2026-06-04T15:27:46.697Z",
+      "surface_type": "draft_guide_source"
+    },
+    {
+      "id": "trt-horse-sale-and-purchase",
+      "vertical": "trt",
+      "source": "local-guides-citation-velocity",
+      "query": "Do I need doctor’s note to buy or talk to them first?",
+      "cluster": [
+        "horse-sale-and-purchase"
+      ],
+      "file": "data/page_sets/examples/trt_global_pages/guides_trt_horse-sale-and-purchase.json",
+      "route": "/guides/horse-sale-and-purchase/",
+      "promoted": false,
+      "draft_generated_at": "2026-06-04T15:27:46.698Z",
+      "surface_type": "draft_guide_source"
     }
   ],
   "promoted_ids": [],
-  "updated_at": "2026-05-10T15:01:49.614Z"
+  "updated_at": "2026-06-04T15:27:46.698Z"
 }
