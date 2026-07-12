@@ -105,6 +105,54 @@
       ]
     },
     {
+      "route": "/guides/beauty-peptide-costs-and-bundles/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "show the total-cost components and broad price bands before discussing bundles",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/beauty-peptides-after-35/",
+      "primary_query_family": "decision_split",
+      "primary_answer_shape": "decision_tree",
+      "top_module_type": "top_decision_tree",
+      "exact_opening_intent": "route adults over 35 by the visible concern before discussing peptide options",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "decision_tree"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/beauty-peptides-for-skin-hair-and-appearance/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "define peptides in plain English and compare current beauty peptide categories before deeper guidance",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
       "route": "/guides/can-one-provider-handle-adhd-evaluation-and-therapy/",
       "primary_query_family": "yes_no_verdict",
       "primary_answer_shape": "verdict",
@@ -276,6 +324,22 @@
       ]
     },
     {
+      "route": "/guides/ghk-cu-for-skin-and-hair/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "compare topical and injectable GHK-Cu before explaining timelines, evidence, safety, and cost",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
       "route": "/guides/how-to-choose-a-neuro-evaluation-provider/",
       "primary_query_family": "how_to_choose",
       "primary_answer_shape": "checklist",
@@ -363,6 +427,22 @@
       "required_above_fold_elements": [
         "quick_answer",
         "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/nad-plus-for-appearance-and-anti-aging/",
+      "primary_query_family": "yes_no_verdict",
+      "primary_answer_shape": "verdict",
+      "top_module_type": "top_verdict_block",
+      "exact_opening_intent": "state immediately that NAD+ is not a peptide and separate biological importance from proven cosmetic benefit",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "verdict_block"
       ],
       "required_supporting_sections": [
         "questions",
