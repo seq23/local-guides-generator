@@ -1,11 +1,18 @@
 {
   "repo": "local-guides-generator",
-  "source_commit": "unknown",
-  "artifact_sha256": "unknown",
-  "active_pack": "pi",
-  "timestamp": "2026-04-13T21:16:07.736Z",
-  "validate_all": "PASS",
-  "qa_release": "PASS",
-  "release_guard": "PASS",
-  "watchlist_version": "1"
+  "source_commit": "37fce99df3c06345bfaa25ef85f0836693ec3232",
+  "artifact_sha256": "LOCAL_UPDATER_COMPUTES",
+  "active_pack": "data/page_sets/examples/uscis_medical_v1.json",
+  "timestamp": "2026-07-15T14:50:21.171048Z",
+  "validate_all": "LOCAL_VALIDATION_REQUIRED",
+  "qa_release": "LOCAL_VALIDATION_REQUIRED",
+  "release_guard": "LOCAL_VALIDATION_REQUIRED",
+  "watchlist_version": "1",
+  "assistant_checks": {
+    "uscis_targeted_build": "PASS",
+    "homepage_sponsorship_parity": "PASS",
+    "production_fixture_contract": "PASS",
+    "sponsor_media_layout_contract": "PASS",
+    "full_local_validation": "NOT_RUN"
+  }
 }

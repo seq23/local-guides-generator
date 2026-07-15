@@ -63,6 +63,9 @@ const fanoutDistributionContract = require('./validation/fanout_distribution_con
 const queryCompilerOverridesContract = require('./validation/query_compiler_overrides_contract');
 const verticalGuideDepthContract = require('./validation/vertical_guide_depth_contract');
 const sponsorPlaceholderContract = require('./validation/sponsor_placeholder_contract');
+const productionSponsorFixtureContract = require('./validation/production_sponsor_fixture_contract');
+const homepageSponsorshipParityContract = require('./validation/homepage_sponsorship_parity_contract');
+const sponsorMediaLayoutContract = require('./validation/sponsor_media_layout_contract');
 const conversionIntentContract = require('./validation/conversion_intent_contract');
 const siteUrlContract = require('./validation/site_url_contract');
 const workflowIntegrityContract = require('./validation/workflow_integrity_contract');
@@ -135,6 +138,8 @@ function main() {
   verticalGuideDepthContract.run();
   siteUrlContract.run();
   workflowIntegrityContract.run();
+  productionSponsorFixtureContract.run({ site });
+  sponsorMediaLayoutContract.run({ site });
 
   pageSetFileContract.run();
   requestAssistanceProductionGuardrail.run();
@@ -215,6 +220,7 @@ function main() {
     sitemapParityContract.run({ site });
     homepageSchemaContract.run({ site });
     sponsorPlaceholderContract.run({ site });
+    homepageSponsorshipParityContract.run({ site });
     conversionIntentContract.run({ site });
     cityDecisionSupportContract.run({ site });
     piTrustToneContract.run({ site });

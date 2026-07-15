@@ -2408,3 +2408,51 @@ main { max-width: 1240px; }
   font-size: 1.08rem;
   color: #10233f;
 }
+
+/* Sponsor media containment contract */
+.runtime-next-steps-media,
+.conversion-cta__media {
+  margin: 1rem 0;
+  width: 100%;
+  max-width: 960px;
+}
+
+.runtime-next-steps-media img,
+.conversion-cta__media img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 360px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 16px;
+}
+
+.sponsored-cta-surface {
+  overflow: hidden;
+}
+
+@media (max-width: 840px) {
+  .runtime-next-steps-media img,
+  .conversion-cta__media img {
+    max-height: 260px;
+    border-radius: 12px;
+  }
+}
+
+@media print {
+  .sponsored-cta-surface,
+  .runtime-next-steps-media,
+  .conversion-cta__media {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .runtime-next-steps-media img,
+  .conversion-cta__media img {
+    max-height: 240px;
+  }
+}
+

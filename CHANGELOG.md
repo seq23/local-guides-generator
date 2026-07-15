@@ -1,3 +1,8 @@
+## 2026-07-15 — USCIS sponsor fixture isolation and homepage parity repair
+- Removed ACME training fixtures from production buyout activation.
+- Declared ACME as training-only sponsor data.
+- Added production fixture, homepage sponsorship parity, and sponsor media layout hard-fail contracts.
+- Constrained sponsor creative height for desktop, mobile, print, and PDF rendering.
 
 ## 2026-05-01 — Canonical pageSetFile normalization pass
 - normalized all live pageSetFile handling to canonical `data/page_sets/examples/...` paths only
