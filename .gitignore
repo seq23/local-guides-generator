@@ -15,3 +15,10 @@ delete_preview.txt
 preflight_validate.txt
 preflight_npm_ci.txt
 preflight_build.txt
+
+# Written at runtime by .github/workflows/deploy-distribution.yml from the
+# GSC_SERVICE_ACCOUNT_JSON secret. It was previously committed containing the
+# literal text "${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}" - an unexpanded
+# workflow expression sitting in a file named like a credential, which reads as
+# a real key to anyone scanning the repo and would shadow the runtime file.
+gsc-service-account.json
