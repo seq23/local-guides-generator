@@ -19,3 +19,24 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: node scripts/automation/rotate_vertical_refresh.js
+      - name: Observe whether answer engines cite us
+        # The probe shipped here and no workflow invoked it, so no citation
+        # observation was ever taken. Grounded mode reads the pages the answer
+        # was actually built from; knowledge mode would only show whether a
+        # model memorised the brand, which is not a citation.
+        continue-on-error: true
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CITATION_PROBE_MODE: grounded
+        run: node scripts/llm_citation_probe.mjs --limit 25
+      - name: Record the observation
+        run: |
+          if git diff --quiet -- data/signals/; then
+            echo "no observation to record"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/signals/
+          git commit -m "Record citation probe observations $(date -u +%Y-%m-%d)"
+          git push
