@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prebuild": "node scripts/validation/entrypoint_exports_contract.js && node scripts/validation/pagesetfile_contract.js",
-    "build": "npm run prepare:site && node scripts/build_city_sites.js",
+    "build": "npm run prepare:site && node scripts/build_city_sites.js && PAGES_OUT_DIR=dist node scripts/build_404.js",
     "build:all": "node scripts/build_all_packs.js",
     "validate:all": "npm run validate:phase8:tiers && npm run validate:tier:hard-fail && npm run validate:pi-citation-repair && npm run validate:multi-vertical-citation-repair",
     "validate:citation-routing": "LKG_VALIDATE_DIST=1 node scripts/validate_citation_routing.js",
@@ -71,7 +71,8 @@
     "validate:pi-guide-recommendations": "node scripts/validation/pi_guide_recommendation_contract.js",
     "validate:pi-citation-repair": "npm run validate:pi-city-attorney-selection && npm run validate:pi-city-research-integrity && npm run validate:pi-city-mutation && npm run validate:pi-guide-recommendations",
     "validate:multi-vertical-citation-repair": "node scripts/validation/multi_vertical_citation_repair_contract.js",
-    "validate:operator-doc-currency": "node scripts/validation/validate_operator_doc_currency.mjs docs/runbooks"
+    "validate:operator-doc-currency": "node scripts/validation/validate_operator_doc_currency.mjs docs/runbooks",
+    "build:404": "PAGES_OUT_DIR=dist node scripts/build_404.js"
   },
   "dependencies": {},
   "engines": {
