@@ -99,6 +99,30 @@ async function writeToAirtable({ env, record }) {
   return { ok: true };
 }
 
+async function relayLeadByEmail({ env, record, reason }) {
+  const key = String(env.RESEND_API_KEY || '').trim();
+  const to = String(env.LEAD_TO || env.EMAIL_REPLY_TO || '').trim();
+  const from = String(env.EMAIL_FROM || '').trim();
+  if (!key || !to || !from) return { ok: false, reason: 'missing_email_env' };
+
+  const lines = Object.entries(record).map(([k, v]) => `${k}: ${v}`).join('\n');
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      subject: `Lead (Airtable down: ${reason}) - ${record.provider_type || 'request'} - ${record.market_slug || ''}`,
+      text: `Airtable write failed (${reason}), so this lead is being relayed by email.\nIt is NOT in Airtable and needs to be entered manually.\n\n${lines}\n`
+    })
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    return { ok: false, reason: `resend_${res.status}`, details: text.slice(0, 300) };
+  }
+  return { ok: true };
+}
+
 export async function onRequestPost(context) {
   try {
     const req = context.request;
@@ -180,7 +204,19 @@ export async function onRequestPost(context) {
 
     const at = await writeToAirtable({ env, record });
     if (!at.ok) {
-      // Hard failure is acceptable here: user sees friendly error, build stays clean.
+      // Airtable is the system of record, but losing a lead because a third
+      // party is unavailable is the worst outcome this endpoint can produce.
+      // Verified 2026-08-26: a fully valid submission returned 503
+      // storage_unavailable in production, which means every lead these 58
+      // pages collected was being discarded after passing validation. Email is
+      // the fallback because it does not depend on the same vendor and lands
+      // somewhere a person actually reads.
+      console.error('request-assistance airtable failure', at.reason || 'unknown', at.details || '');
+      const relayed = await relayLeadByEmail({ env, record, reason: at.reason || 'unknown' });
+      if (relayed.ok) {
+        return json({ ok: true, storage: 'email_fallback' });
+      }
+      console.error('request-assistance email fallback failed', relayed.reason || 'unknown');
       return json({ ok: false, error: 'storage_unavailable' }, { status: 503 });
     }
 
