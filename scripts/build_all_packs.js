@@ -83,6 +83,32 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 
+  // Install the Microsoft Clarity tag before anything snapshots dist, so the
+  // snapshot matches what actually ships. `npm run build` installs it too; this
+  // path bypasses that script, and a pack built without the tag is a pack whose
+  // Clarity project silently records nothing.
+  //
+  // It has to run here rather than after the emitters: lastmod_apply.js hashes
+  // the rendered page to decide whether its content changed, and `npm run build`
+  // installs the tag as part of `build`, before `postbuild` hashes anything. If
+  // the two pipelines hashed the page at different points, every page would look
+  // changed whenever the other pipeline had produced the previous ledger entry.
+  run('node', ['scripts/install_clarity.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    PAGES_OUT_DIR: 'dist',
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+
+  // Freshness dates next. build_city_sites.js stamps the build timestamp into
+  // every page's citation_modified_date, and sitemap_emit.js reads that field
+  // for <lastmod> - so without this step every URL in every sitemap claims to
+  // have been refreshed on the build day. This replaces those stamps with the
+  // date each page's content actually last changed, before anything reads them.
+  run('node', ['scripts/lastmod_apply.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+
   // Postbuild artifacts required by dist-dependent validators.
   run('node', ['scripts/sitemap_emit.js'], {
     PAGE_SET_FILE: pageSetFile,
@@ -106,16 +132,6 @@ for (const pageSetFile of PACKS) {
   });
   run('node', ['scripts/redirects_emit.js'], {
     PAGE_SET_FILE: pageSetFile,
-    LKG_ENV: process.env.LKG_ENV || 'baseline',
-  });
-
-  // Install the Microsoft Clarity tag before anything snapshots dist, so the
-  // snapshot matches what actually ships. `npm run build` installs it too; this
-  // path bypasses that script, and a pack built without the tag is a pack whose
-  // Clarity project silently records nothing.
-  run('node', ['scripts/install_clarity.js'], {
-    PAGE_SET_FILE: pageSetFile,
-    PAGES_OUT_DIR: 'dist',
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 

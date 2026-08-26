@@ -9,7 +9,7 @@
     "validate:all": "npm run validate:phase8:tiers && npm run validate:tier:hard-fail && npm run validate:pi-citation-repair && npm run validate:multi-vertical-citation-repair",
     "validate:citation-routing": "LKG_VALIDATE_DIST=1 node scripts/validate_citation_routing.js",
     "snapshot:lkg": "node scripts/snapshot_lkg.js",
-    "postbuild": "node scripts/sitemap_emit.js && node scripts/llms_emit.js && node scripts/citation_manifest_emit.js && node scripts/indexnow_emit.js && node scripts/distribution_manifest_emit.js && node scripts/redirects_emit.js && node scripts/copy_indexnow_key_to_dist.js && node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
+    "postbuild": "node scripts/lastmod_apply.js && node scripts/sitemap_emit.js && node scripts/llms_emit.js && node scripts/citation_manifest_emit.js && node scripts/indexnow_emit.js && node scripts/distribution_manifest_emit.js && node scripts/redirects_emit.js && node scripts/copy_indexnow_key_to_dist.js && node scripts/snapshot_lkg.js && node scripts/validate_tbs.js",
     "validate": "node scripts/validate_tbs.js",
     "sync:guides": "node scripts/sync_guides.js",
     "validate:dist:compliance": "node scripts/validate_dist_compliance_scan.js",
@@ -19,7 +19,7 @@
     "audit:buyouts": "node scripts/export_buyout_click_audit_urls.js",
     "smoke:buyouts": "node scripts/smoke_buyouts.js",
     "qa:release": "node scripts/qa_release.js",
-    "refresh:verification": "bash scripts/automation/refresh_verification_page.sh && node scripts/sitemap_emit.js && node scripts/llms_emit.js && node scripts/citation_manifest_emit.js && node scripts/distribution_manifest_emit.js && node scripts/redirects_emit.js && node scripts/snapshot_lkg.js",
+    "refresh:verification": "bash scripts/automation/refresh_verification_page.sh && node scripts/lastmod_apply.js && node scripts/sitemap_emit.js && node scripts/llms_emit.js && node scripts/citation_manifest_emit.js && node scripts/distribution_manifest_emit.js && node scripts/redirects_emit.js && node scripts/snapshot_lkg.js",
     "prepare:site": "node scripts/prepare_site.js",
     "build:dist": "rm -rf dist && node scripts/build_all_packs.js",
     "validate:dist": "rm -rf dist && node scripts/build_all_packs.js && LKG_VALIDATE_DIST=1 npm run validate:all",
@@ -75,7 +75,8 @@
     "build:404": "PAGES_OUT_DIR=dist node scripts/build_404.js",
     "install:clarity": "PAGES_OUT_DIR=dist node scripts/install_clarity.js",
     "cadence:gate": "node scripts/cadence_gate.js",
-    "sitemap:lastmod": "node scripts/sitemap_lastmod.js"
+    "sitemap:lastmod": "node scripts/sitemap_lastmod.js",
+    "lastmod:apply": "node scripts/lastmod_apply.js"
   },
   "dependencies": {},
   "engines": {
