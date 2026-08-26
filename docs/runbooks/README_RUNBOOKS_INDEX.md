@@ -42,6 +42,7 @@ LKG_DEPLOY_ENV=production AIRTABLE_API_TOKEN=test AIRTABLE_BASE_ID=test AIRTABLE
 - [05 — IndexNow and LLM Surface](llm_visibility/05_INDEXNOW_AND_LLM_SURFACE.md)
 - [06 — Request Assistance Production Guardrail](llm_visibility/06_REQUEST_ASSISTANCE_PRODUCTION_GUARDRAIL.md)
 - [07 — Phase 1 System Hardening Summary](llm_visibility/07_PHASE1_SYSTEM_HARDENING_SUMMARY.md)
+- [08 — Citation Probe and Answer Shape](llm_visibility/08_CITATION_PROBE_AND_ANSWER_SHAPE.md)
 
 
 ## Coverage expansion

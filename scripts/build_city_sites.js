@@ -1783,6 +1783,22 @@ function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, p
 
   if (cleanRoute === '' && city) {
     ld.push(buildCollectionPageSchemaCity(siteUrl, brandName, city, route, title, description, verticalKey));
+    // A city market page is an article as well as a collection. It runs 1,700
+    // to 2,100 words of written editorial - the local comparison checklist, the
+    // evaluation framework, the tradeoffs, the localized conclusion - published
+    // by a named publisher with a modified date. CollectionPage describes the
+    // links on it; Article describes the body, which is the part an answer
+    // engine quotes. Both are true of the page, so both are declared.
+    //
+    // It is deliberately NOT declared on the state hubs (435 words, a routing
+    // layer), the next-steps hubs (a conversion form), the guides index (a
+    // collection), or the legal and contact pages. Article there would be a
+    // claim about what the page is that the page does not support.
+    ld.push(buildArticleSchemaGlobal(siteUrl, brandName, `${city.slug}`, title, description, {
+      articleSection: 'Local market guide',
+      aboutName: String(city.marketLabel || city.slug || title),
+      keywords: buildKeywords(title, description, [String(city.marketLabel || ''), String(verticalKey || ''), 'local comparison'])
+    }));
   }
 
   // PI: Add a non-promotional directory ItemList schema to help LLM and search engines
@@ -2571,6 +2587,10 @@ function renderDedicatedNextStepsHubHtml(opts) {
   var requestAssistanceHtml = stripRequestAssistanceHero(String(opts && opts.requestAssistanceHtml ? opts.requestAssistanceHtml : ''));
   requestAssistanceHtml = applyVerticalLeadRoutingToRequestAssistanceHtml(requestAssistanceHtml, sponsorRouting);
   var marketLabel = String(opts && opts.marketLabel ? opts.marketLabel : 'this market');
+  // The global /next-steps/ page is not scoped to a market - it passes the brand
+  // name as a stand-in - and "In USCIS Exam Guides, three paths lead out" is not
+  // a sentence anyone would write. Callers that really are market-scoped say so.
+  var marketScoped = !(opts && opts.marketScoped === false);
   var pageTitle = String(opts && opts.pageTitle ? opts.pageTitle : 'Next steps');
   return (
     trainingBanner +
@@ -2581,8 +2601,16 @@ function renderDedicatedNextStepsHubHtml(opts) {
     '</section>' +
     '<section class="section next-steps-page-shell" data-next-steps-page-shell="true">' +
       '<div class="card" data-next-steps-page-intro="true">' +
-        '<h2>Choose how to move forward in ' + escapeHtml(marketLabel) + '</h2>' +
-        '<p data-next-steps-answer="true">This page is the only place where the full next-steps decision hub should appear. Use the full provider callback form below if you already want to hear from a provider, compare the education-first options before you decide, or use the lookup tools path when you want the fastest self-serve route.</p>' +
+        // The heading was a label and the paragraph beneath it was byte-for-byte
+        // identical on all 57 of these pages, which is the worst possible shape
+        // for the one paragraph an extractor is most likely to lift. Both now
+        // name the market, which is the only thing that actually differs between
+        // them, and the answer is sized to be quotable whole.
+        '<h2>' + (marketScoped ? 'What should you do next in ' + escapeHtml(marketLabel) + '?' : 'What should you do next?') + '</h2>' +
+        '<p data-next-steps-answer="true" data-citation-summary-answer="true">' + composeAnswerSpan([
+          (marketScoped ? 'In ' + escapeHtml(marketLabel) + ', three' : 'Three') + ' paths lead out of this page: send the callback form below if you already want a provider to contact you, open the education-first guides if cost, timing, or questions to ask are still unsettled, or use the lookup tools if you would rather verify things yourself first.',
+          'This page is the only place the full decision hub appears.'
+        ]) + '</p>' +
       '</div>' +
       '<div class="grid" data-next-steps-cards="true">' +
         '<div class="card" data-next-steps-card="direct-match">' +
@@ -3611,14 +3639,6 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
   }
 
   if (route === '' && !mainHtml.includes('data-citation-summary="true"')) {
-    const verticalLabelMap = {
-      dentistry: 'dentistry and dental-provider',
-      neuro: 'neuropsychology and evaluation-provider',
-      trt: 'TRT, peptide, IV therapy, and clinic',
-      uscis: 'USCIS medical-exam and civil-surgeon',
-      uscis_medical: 'USCIS medical-exam and civil-surgeon',
-      pi: 'personal-injury lawyer'
-    };
     const officialResources = getNonPiResourcesForState(verticalKey, city.state, pageSet);
     const officialPrimary = officialResources && officialResources.length ? officialResources[0] : null;
     const citationSummaryHtml = renderCitationSummaryZoneHtml({
@@ -3626,7 +3646,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
       title,
       description,
       marketLabel: city.marketLabel,
-      verticalLabel: verticalLabelMap[String(verticalKey || '').toLowerCase()] || 'local service',
+      verticalLabel: verticalLabelFor(verticalKey),
       officialResourceName: officialPrimary && officialPrimary.name ? officialPrimary.name : 'official state verification source',
       officialResourceUrl: officialPrimary && officialPrimary.url ? normalizeUrl(officialPrimary.url) : '',
       hrefs: {
@@ -4244,6 +4264,7 @@ if (route === 'admin') {
   if (route === 'next-steps') {
     mainHtml = renderDedicatedNextStepsHubHtml({
       marketLabel: brandName,
+      marketScoped: false,
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
@@ -4430,7 +4451,13 @@ function selectPriorityGuideSummaries(globalPagesDir, limit) {
   const chosen = [];
   const seen = new Set();
   for (const rx of wanted) {
-    const hit = guides.find((g) => !seen.has(g.route) && (rx.test(g.route) || rx.test(g.title) || rx.test(g.description)));
+    // Route and title only. Matching the description too made the internal link
+    // set depend on prose: rewriting one guide's description to a real sentence
+    // ("...the important questions are whether anything else is needed...") let
+    // that guide win the /questions/ slot from the guide actually about
+    // questions, and silently dropped a link from 50 state pages. The slots are
+    // topical route buckets; they should be decided by the route.
+    const hit = guides.find((g) => !seen.has(g.route) && (rx.test(g.route) || rx.test(g.title)));
     if (hit) {
       seen.add(hit.route);
       chosen.push(hit);
@@ -4569,6 +4596,104 @@ function renderGuideOpeningHtml(title) {
   );
 }
 
+// --- Answer shape -----------------------------------------------------------
+//
+// Every one of these pages opened with the heading "Short answer" and a lede
+// that ran 30-odd words. Neither is what an answer engine looks for. It looks
+// for the searcher's own question as a heading, and directly beneath it a span
+// it can lift whole: long enough to stand on its own, short enough to quote, and
+// free of pronouns that point at something outside the span.
+//
+// 40-60 words is the window that satisfies both ends of that. Below 40 the span
+// is a fragment that needs the surrounding page to make sense; above 60 an
+// extractor truncates it mid-clause, which reads as broken wherever it is
+// quoted. The counter below is what keeps the templates inside that window as
+// their market and vertical labels change length, and
+// scripts/validation/answer_shape_contract.js fails the build if one drifts out.
+// How a searcher names the thing this pack is about. Hoisted out of the city
+// branch it used to live in so state hubs can put the same words in their
+// heading; a state page asking "How do you compare local service options across
+// Georgia?" would be asking a question nobody types.
+const VERTICAL_LABELS = {
+  dentistry: 'dentistry and dental-provider',
+  neuro: 'neuropsychology and evaluation-provider',
+  trt: 'TRT, peptide, IV therapy, and clinic',
+  uscis: 'USCIS medical-exam and civil-surgeon',
+  uscis_medical: 'USCIS medical-exam and civil-surgeon',
+  pi: 'personal-injury lawyer'
+};
+function verticalLabelFor(verticalKey) {
+  return VERTICAL_LABELS[String(verticalKey || '').toLowerCase()] || 'local service';
+}
+
+function countWords(text) {
+  return String(text || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+}
+
+/**
+ * Build the extractable answer span from sentences the page already carries.
+ *
+ * Sentences are taken in the order given - most specific first - and stop being
+ * added as soon as the span reaches `min`, or before any sentence that would
+ * push it past `max`. Nothing is generated to pad a short span: a page whose own
+ * sentences cannot reach 40 words returns what it has and the contract reports
+ * it, rather than being handed filler.
+ */
+function composeAnswerSpan(sentences, min = 40, max = 60) {
+  const parts = [];
+  let total = 0;
+  for (const raw of sentences) {
+    const s = String(raw || '').trim();
+    if (!s) continue;
+    const n = countWords(s);
+    if (total && total + n > max) continue;
+    parts.push(s);
+    total += n;
+    if (total >= min) break;
+  }
+  return parts.join(' ');
+}
+
+// Topic-fronted questions, deliberately. Dropping a curated topic into the
+// middle of a sentence needs an article the topic does not carry - "What does
+// USCIS medical document checklist require?" - and guessing one produces broken
+// English on some guide in some pack. A bare noun phrase in front of a colon is
+// grammatical whatever the topic is, and the clause after the colon is still the
+// question a searcher types.
+const GUIDE_QUESTION_SHAPES = {
+  'pricing and comparison': (topic) => `${topic}: what does it cost, and what changes the price?`,
+  'requirements and checklist planning': (topic) => `${topic}: what is actually required?`,
+  'provider interview prep': (topic) => `${topic}: what should you ask before you book?`,
+  'next-step planning': (topic) => `${topic}: what happens next?`,
+  'high-level orientation': (topic) => `${topic}: what is it, and when does it matter?`,
+  'red-flag screening': (topic) => `${topic}: what are the warning signs?`,
+  'insurance and coverage': (topic) => `${topic}: what does insurance cover?`,
+  'care-format comparison': (topic) => `${topic}: which format fits?`,
+  'report and records expectations': (topic) => `${topic}: what should you expect to receive?`,
+};
+
+/**
+ * The question a guide page answers, in the phrasing a searcher would use.
+ *
+ * The topic comes from the curated per-guide `heading` in
+ * data/contracts/guide_enhancement_registry.json where one exists - a human
+ * wrote those - and falls back to the page title. The question shape comes from
+ * the guide's own route classification, which the renderer already derives.
+ */
+function guideQuestionHeading(route, title) {
+  const entry = loadGuideEnhancementRegistry()[String(route || '')] || null;
+  const topicRaw = String((entry && entry.heading) || title || '').trim();
+  if (!topicRaw) return 'What should you know before you decide?';
+  // A curated heading is a noun phrase ("Costs and timeframes"); a page title is
+  // often a full sentence with a colon ("USCIS Medical Exam Costs and
+  // Timeframes: General Information"). Take the part before the colon so the
+  // question does not swallow the subtitle.
+  const topic = topicRaw.split(/\s*[:—]\s*/)[0].replace(/\s*\|.*$/, '').trim();
+  const label = inferGuideLabelFromRoute(route);
+  const shape = GUIDE_QUESTION_SHAPES[label];
+  return shape ? shape(topic) : `${topic}: what should you know before you decide?`;
+}
+
 function renderCitationSummaryZoneHtml(opts) {
   const kind = String((opts && opts.kind) || '').trim();
   if (!kind) return '';
@@ -4588,9 +4713,13 @@ function renderCitationSummaryZoneHtml(opts) {
     const marketLabel = escapeHtml(String((opts && opts.marketLabel) || 'this market'));
     const verticalLabel = escapeHtml(String((opts && opts.verticalLabel) || 'local services'));
     return (
-      '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="city-home">' +
-      '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true">People using <strong>' + marketLabel + '</strong> to research ' + verticalLabel + ' usually start by figuring out what to verify first, which questions narrow the field fastest, and what differences matter before they contact anyone.</p>' +
+      '<section class="section citation-summary answer-block" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="city-home">' +
+      '<h2 id="citation-summary">How do you compare ' + verticalLabel + ' options in ' + marketLabel + '?</h2>' +
+      '<p data-citation-summary-lede="true" data-citation-summary-answer="true">' + composeAnswerSpan([
+        'When people compare ' + verticalLabel + ' options in <strong>' + marketLabel + '</strong>, four things narrow the field fastest: fit for the specific situation, verification that the provider is authorized to do the work, how clearly the process and paperwork are explained, and what follow-up is included.',
+        'Convenience and price alone rarely settle the choice.',
+        'Costs, timelines, and verification steps vary by market.'
+      ]) + '</p>' +
       '<p class="answer-when">Most people compare fit, process clarity, follow-up expectations, and whether the provider or program explains the next step in plain language, but convenience alone is rarely the full answer.</p>' +
       '<p class="answer-tradeoff">Costs, timelines, and verification steps can vary by market, so this page works best as a local orientation layer before a person decides which guide, official lookup, or callback path to use.</p>' +
       '<p class="answer-boundary">This page is educational and is designed to help you understand the local decision before you choose what to do next.</p>' +
@@ -4606,10 +4735,21 @@ function renderCitationSummaryZoneHtml(opts) {
 
 
   if (kind === 'state-home') {
+    // The state name is what a searcher types, not the page's full title
+    // ("USCIS Exam Guides in Georgia — state hub"). Take it from the caller
+    // where it is passed, and recover it from the title otherwise so the
+    // heading is still a question rather than a label.
+    const stateName = escapeHtml(String((opts && opts.stateName) || '').trim())
+      || (title.split(/\s+in\s+/i)[1] || title).split(/\s*(?:&mdash;|—|-)\s*/)[0].trim();
+    const stateVerticalLabel = escapeHtml(String((opts && opts.verticalLabel) || 'local service').trim());
     return (
-      '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="state-home">' +
-      '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> works best when you need to compare firms, review official resources, and understand statewide verification steps before deciding what to do next.</p>' +
+      '<section class="section citation-summary answer-block" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="state-home">' +
+      '<h2 id="citation-summary">How do you compare ' + stateVerticalLabel + ' options across ' + stateName + '?</h2>' +
+      '<p data-citation-summary-lede="true" data-citation-summary-answer="true">' + composeAnswerSpan([
+        'Across <strong>' + stateName + '</strong> the same comparison holds in every market: confirm the provider is licensed and authorized to do the work, check the official state or agency lookup rather than a directory listing, compare what a quoted price actually covers, and ask how long each step takes.',
+        'Statewide rules set the floor; the local market sets the rest.',
+        'Licensing and disciplinary history are worth reviewing before any of that.'
+      ]) + '</p>' +
       '<p class="answer-when">Use the state layer to compare firms, review official resources, and evaluate licensing or disciplinary history; however, the right choice depends on your case and priorities.</p>' +
       '<p class="answer-boundary">This page is educational and is designed to help you evaluate statewide options before you decide what to do next.</p>' +
       '</section>'
@@ -4618,10 +4758,25 @@ function renderCitationSummaryZoneHtml(opts) {
 
   if (kind === 'guide-detail') {
     const guideLabel = escapeHtml(inferGuideLabelFromRoute(route));
+    const guideEntry = loadGuideEnhancementRegistry()[String(route || '')] || null;
     return (
-      '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="guide-detail">' +
-      '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is a guide for ' + guideLabel + '. ' + description + '</p>' +
+      '<section class="section citation-summary answer-block" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="guide-detail">' +
+      '<h2 id="citation-summary">' + escapeHtml(guideQuestionHeading(route, String((opts && opts.title) || ''))) + '</h2>' +
+      // The curated per-guide sentences in the enhancement registry are the
+      // page's own answer, written by a human for this exact guide. Preferring
+      // them over the generic template is what makes eight guide answers eight
+      // different answers rather than one sentence with the title swapped in.
+      '<p data-citation-summary-lede="true" data-citation-summary-answer="true">' + composeAnswerSpan([
+        guideEntry && guideEntry.best ? escapeHtml(guideEntry.best) : '',
+        guideEntry && guideEntry.key ? escapeHtml(guideEntry.key) : '',
+        guideEntry && guideEntry.mistake ? 'The common mistake: ' + escapeHtml(guideEntry.mistake) : '',
+        // A guide with no curated registry entry falls back to its own
+        // description, which says something, before the sentence that only
+        // restates the title, which does not.
+        description,
+        '<strong>' + title + '</strong> is a guide for ' + guideLabel + '.',
+        'Use it when the question is narrow enough that a city or state hub is too broad.'
+      ]) + '</p>' +
       '<p class="answer-when">Use this guide when the question is narrow enough that you need one cleaner comparison, caution, or next step.</p>' +
       '<p class="answer-tradeoff">The goal is not reassurance alone; it is to make the next move clearer without pretending the decision is already settled.</p>' +
       '<p class="answer-boundary">This guide is educational and is designed to help you understand one decision more clearly before you choose what to do next.</p>' +
@@ -4637,9 +4792,14 @@ function renderCitationSummaryZoneHtml(opts) {
 
   if (kind === 'guides-hub') {
     return (
-      '<section class="section citation-summary answer-block" data-citation-summary="true" data-citation-summary-type="guides-hub">' +
-      '<h2 id="citation-summary">Short answer</h2>' +
-      '<p data-citation-summary-lede="true"><strong>' + title + '</strong> is the owned guide index for this pack. It helps when the question is still broad and you need to choose the best guide before opening a single leaf page.</p>' +
+      '<section class="section citation-summary answer-block" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="guides-hub">' +
+      '<h2 id="citation-summary">Which guide should you open first?</h2>' +
+      '<p data-citation-summary-lede="true" data-citation-summary-answer="true">' + composeAnswerSpan([
+        'Open the guide that matches whatever is still unsettled: cost, requirements, what documents to bring, what to ask a provider, or what happens after.',
+        // The page title carries a " | Brand" suffix; a sentence should not.
+        '<strong>' + title.replace(/\s*\|.*$/, '') + '</strong> is the index for those guides, and it is the right page only while the question is still broad.',
+        'The leaf guide carries the actual comparison, caution, and next step.'
+      ]) + '</p>' +
       '<p class="answer-when">Most people use this page to narrow a broad topic into cost, red flags, questions to ask, requirements, or next steps, but the best next click depends on what still feels unclear.</p>' +
       '<p class="answer-tradeoff">The hub is not the final answer; the goal is to route you into the one guide that makes the decision cleaner fastest.</p>' +
       '<p class="answer-boundary">This page is educational and is designed to help you understand which decision path to open next.</p>' +
@@ -5039,7 +5199,7 @@ function loadNextStepsSponsor(citySlug) {
       const description = 'Use this state hub to narrow into covered cities, provider examples, official verification resources, and next steps in ' + stateName + '.';
       const guideLinks = selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }));
       const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }));
-      const stateLead = renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } });
+      const stateLead = renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, stateName, verticalLabel: verticalLabelFor(verticalKey), hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } });
       const groupedGuides = '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + guideLinks.map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.href) + '">' + escapeHtml(g.label) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>';
       let mainHtml = (
         (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and city coverage checks.') : '') +
@@ -5299,7 +5459,7 @@ function loadNextStepsSponsor(citySlug) {
         '<span class="muted">(educational)</span></p>' +
         '</section>' +
         '%%AD:pi_state_mid%%' +
-        renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
+        renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, stateName, verticalLabel: verticalLabelFor(verticalKey), hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
         renderStateCityGridHtml(stateName, cityLinks) +
         '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.route) + '">' + escapeHtml(g.title) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>' +
         '<section class="section" data-pi-state-directory="true">' +

@@ -1,0 +1,12 @@
+{
+  "_why": "The probe has to know which domains are ours, otherwise it cannot tell a citation of ours from anyone else's. Listed explicitly rather than inferred, so a new domain is a deliberate addition.",
+  "_source": "The five production hosts this generator publishes to, taken from scripts/lib/pack_site_config.js and cross-checked against distribution.config.json (indexnow hosts) and .github/workflows/deploy-distribution.yml (the GSC properties each pack deploys to). local-guides-generator.pages.dev is deliberately absent: it is the starter pack's training sandbox, not a published content property, and counting a citation of it would inflate the number.",
+  "owned_domains": [
+    "uscisexam.com",
+    "theaccidentguides.com",
+    "dentistryguides.com",
+    "hormonesivhair.com",
+    "neuroevalguides.com"
+  ],
+  "queries_file": "data/signals/citation_probe_queries.json"
+}

@@ -153,6 +153,19 @@ function ensureRobotsSitemap(distDir, host) {
   ];
   const existing = new Set(String(robots || '').split(/\r?\n/).map((line) => line.trim()).filter(Boolean));
   let changed = false;
+  // Nothing else in the build writes robots.txt, so on a clean dist this
+  // function produced a file containing two Sitemap lines and no group at all.
+  // That is what uscisexam.com has been serving. A group-less robots.txt is
+  // not a block — under RFC 9309 a crawler that matches no group is
+  // unrestricted — but it states no policy, and it makes this the one property
+  // in the programme that never says yes to a crawler. Emit an explicit
+  // allow-all group ahead of the Sitemap lines so the file declares intent.
+  if (!/^\s*User-agent\s*:/im.test(robots)) {
+    robots = 'User-agent: *\nAllow: /\n\n' + (robots ? robots.trimStart() : '');
+    existing.add('User-agent: *');
+    existing.add('Allow: /');
+    changed = true;
+  }
   for (const line of requiredLines) {
     if (!existing.has(line)) {
       robots = robots ? robots.trimEnd() + '\n' : '';

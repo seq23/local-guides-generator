@@ -83,6 +83,18 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 
+  // Seat the recommendation_summary block on the rendered pages. It has to run
+  // here - after the renderer, before install_clarity.js - for the same reason
+  // install_clarity.js has to run before lastmod_apply.js: every step that
+  // mutates a rendered page must run before anything hashes it, and both
+  // pipelines must hash at the same point. `npm run build` runs this in the same
+  // position within its `build` script.
+  run('node', ['scripts/retrofit_recommendation_summary.js', '--apply'], {
+    PAGE_SET_FILE: pageSetFile,
+    PAGES_OUT_DIR: 'dist',
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+
   // Install the Microsoft Clarity tag before anything snapshots dist, so the
   // snapshot matches what actually ships. `npm run build` installs it too; this
   // path bypasses that script, and a pack built without the tag is a pack whose

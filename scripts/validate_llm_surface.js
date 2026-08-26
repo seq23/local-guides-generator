@@ -99,6 +99,13 @@ function getShortAnswerSectionHtml(html) {
   const explicit = html.match(/<section[^>]*data-short-answer=["']true["'][^>]*>[\s\S]*?<\/section>/i);
   if (explicit) return explicit[0];
 
+  // The build's own marker for the same block. Matching on it - rather than only
+  // on the literal words "Short answer" - is what lets the heading be the
+  // searcher's question instead of a label. The heading patterns below stay as a
+  // fallback for hand-authored pages that predate the marker.
+  const marked = html.match(/<section[^>]*data-citation-summary=["']true["'][^>]*>[\s\S]*?<\/section>/i);
+  if (marked) return marked[0];
+
   const headingPatterns = [
     /<section[^>]*>[\s\S]*?<h2[^>]*>\s*Short answer\s*<\/h2>[\s\S]*?<\/section>/i,
     /<section[^>]*>[\s\S]*?<h2[^>]*>\s*Quick answer\s*<\/h2>[\s\S]*?<\/section>/i

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prebuild": "node scripts/validation/entrypoint_exports_contract.js && node scripts/validation/pagesetfile_contract.js",
-    "build": "npm run prepare:site && node scripts/build_city_sites.js && PAGES_OUT_DIR=dist node scripts/build_404.js && PAGES_OUT_DIR=dist node scripts/install_clarity.js",
+    "build": "npm run prepare:site && node scripts/build_city_sites.js && PAGES_OUT_DIR=dist node scripts/build_404.js && PAGES_OUT_DIR=dist node scripts/retrofit_recommendation_summary.js --apply && PAGES_OUT_DIR=dist node scripts/install_clarity.js",
     "build:all": "node scripts/build_all_packs.js",
     "validate:all": "npm run validate:phase8:tiers && npm run validate:tier:hard-fail && npm run validate:pi-citation-repair && npm run validate:multi-vertical-citation-repair",
     "validate:citation-routing": "LKG_VALIDATE_DIST=1 node scripts/validate_citation_routing.js",
@@ -76,7 +76,12 @@
     "install:clarity": "PAGES_OUT_DIR=dist node scripts/install_clarity.js",
     "cadence:gate": "node scripts/cadence_gate.js",
     "sitemap:lastmod": "node scripts/sitemap_lastmod.js",
-    "lastmod:apply": "node scripts/lastmod_apply.js"
+    "lastmod:apply": "node scripts/lastmod_apply.js",
+    "retrofit:recommendation-summary": "PAGES_OUT_DIR=dist node scripts/retrofit_recommendation_summary.js",
+    "reseed:lastmod": "node scripts/reseed_lastmod_from_git.js",
+    "validate:answer-shape": "node scripts/validation/answer_shape_contract.js",
+    "probe:queries": "node scripts/citation_probe_queries_emit.js",
+    "probe:citations": "CITATION_PROBE_MODE=grounded node scripts/llm_citation_probe.mjs --limit 30"
   },
   "dependencies": {},
   "engines": {
