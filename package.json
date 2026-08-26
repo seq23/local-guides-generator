@@ -70,7 +70,8 @@
     "validate:pi-city-mutation": "node scripts/validation/pi_city_mutation_contract.js",
     "validate:pi-guide-recommendations": "node scripts/validation/pi_guide_recommendation_contract.js",
     "validate:pi-citation-repair": "npm run validate:pi-city-attorney-selection && npm run validate:pi-city-research-integrity && npm run validate:pi-city-mutation && npm run validate:pi-guide-recommendations",
-    "validate:multi-vertical-citation-repair": "node scripts/validation/multi_vertical_citation_repair_contract.js"
+    "validate:multi-vertical-citation-repair": "node scripts/validation/multi_vertical_citation_repair_contract.js",
+    "validate:operator-doc-currency": "node scripts/validation/validate_operator_doc_currency.mjs docs/runbooks"
   },
   "dependencies": {},
   "engines": {
