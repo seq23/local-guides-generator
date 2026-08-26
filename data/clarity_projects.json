@@ -1,0 +1,12 @@
+{
+  "_note": "Microsoft Clarity project ids, one per live domain built from this repo. Ids come from the portfolio registry at ~/GitHub/.clarity/clarity-project-ids.json. Each pack in scripts/build_all_packs.js renders one of these domains into dist/, so the loader resolves its id from location.hostname rather than from the active pack.",
+  "public_root": "dist",
+  "projects": {
+    "theaccidentguides.com": "y7l0ezo9ll",
+    "dentistryguides.com": "y7la6o60w8",
+    "hormonesivhair.com": "y7lbnfl7e4",
+    "neuroevalguides.com": "y7leg12n54",
+    "uscisexam.com": "y7l12fhi6v"
+  },
+  "skip_files": ["admin/index.html"]
+}

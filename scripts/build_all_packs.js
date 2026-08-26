@@ -109,6 +109,16 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 
+  // Install the Microsoft Clarity tag before anything snapshots dist, so the
+  // snapshot matches what actually ships. `npm run build` installs it too; this
+  // path bypasses that script, and a pack built without the tag is a pack whose
+  // Clarity project silently records nothing.
+  run('node', ['scripts/install_clarity.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    PAGES_OUT_DIR: 'dist',
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+
   // Ensure release snapshots/audits are produced.
   run('node', ['scripts/snapshot_lkg.js'], {
     PAGE_SET_FILE: pageSetFile,
