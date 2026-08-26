@@ -146,11 +146,19 @@ function run() {
 
   const resolved = ledgerLib.resolve(hashes, ledger, today);
 
+  // Count what actually moved, not what happens to carry today's date. On the
+  // day the ledger is seeded those are the same number, and reporting the second
+  // as the first would overstate how much changed on any build run on a date
+  // that already appears in the ledger.
+  const priorEntries = (ledger && ledger.entries) || {};
+  const advanced = Object.keys(hashes).filter((url) => {
+    const prev = priorEntries[url];
+    return !prev || prev.hash !== hashes[url];
+  }).length;
+
   let rewritten = 0;
-  let advanced = 0;
   for (const [file, url] of routeUrl) {
     const { lastmod, first_seen: firstSeen } = resolved[url];
-    if (lastmod === today) advanced += 1;
     const before = fs.readFileSync(file, 'utf8');
     const after = stampDates(before, asIso(lastmod), asIso(firstSeen));
     if (after !== before) {
