@@ -121,6 +121,32 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 
+  // Robots policy BEFORE sitemap_emit, so a noindexed page is never advertised.
+  //
+  // The gap this closes: build_all_packs.js -- the path behind build:dist,
+  // distribution:prepare and CI, the one that ships -- had zero references to
+  // apply_robots_policy.js. The noindex policy was enforced only by `npm run
+  // build`, which nothing deploys from. So template-fallback pages shipped
+  // index,follow while build_city_sites.js:858 commented they were "no longer
+  // indexable".
+  //
+  // A first attempt at this was reverted (e431a33): with 42 promoted
+  // uscis_medical cities still template-fallback, "every promoted city in the
+  // sitemap" and "no noindexed page in the sitemap" were mutually unsatisfiable,
+  // so the policy broke the coverage contract one way and sitemap parity the
+  // other. Those 42 are now researched (5c9d3cb) and the conflict is vacuous:
+  // 0 unresearched uscis_medical city pages remain.
+  //
+  // Still true and worth knowing: dentistry has 52 unresearched pages this
+  // policy will noindex. Harmless today only because dentistry has no promoted
+  // cities, so its coverage contract SKIPs. Promote a dentistry city later and
+  // the same conflict reappears there.
+  run('node', ['scripts/apply_robots_policy.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    PAGES_OUT_DIR: 'dist',
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+
   // Postbuild artifacts required by dist-dependent validators.
   run('node', ['scripts/sitemap_emit.js'], {
     PAGE_SET_FILE: pageSetFile,
