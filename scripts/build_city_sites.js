@@ -517,6 +517,10 @@ function normalizeLegacyCityContent(verticalKey, citySlug, raw) {
     market_specific_notes: Array.isArray(raw.market_specific_notes) ? raw.market_specific_notes : [],
     local_vetting_points: Array.isArray(raw.local_vetting_points) ? raw.local_vetting_points : legacyFaqs,
     typical_cost_ranges: Array.isArray(raw.typical_cost_ranges) ? raw.typical_cost_ranges : [],
+    // Optional. Only a research file that has real published figures supplies
+    // this; every other vertical simply omits it and renders no table, which is
+    // the correct outcome for a subject with nothing published to compare.
+    cost_comparison_table: (raw.cost_comparison_table && typeof raw.cost_comparison_table === 'object') ? raw.cost_comparison_table : null,
     payment_options: Array.isArray(raw.payment_options) ? raw.payment_options : [],
     wait_time_notes: Array.isArray(raw.wait_time_notes) ? raw.wait_time_notes : [],
     availability_notes: Array.isArray(raw.availability_notes) ? raw.availability_notes : [],
@@ -538,6 +542,45 @@ function renderOptionalCityStructuredSection(title, items, listType = 'ul', data
   const attr = dataKey ? ` data-city-intelligence-section="${escapeOptionalHtml(dataKey)}"` : '';
   const inner = items.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('');
   return `<section class="city-supplement city-supplement-structured"${attr}><h3>${escapeOptionalHtml(title)}</h3><${listType} class="neutral-list">${inner}</${listType}></section>`;
+}
+
+// A real comparison table, rendered only when a research file supplies real
+// values for it. Every cell is a published figure or an explicit statement that
+// no figure is published - never blank, never estimated, and never a row of
+// prose pretending to be data.
+//
+// This exists because the city pages carried a checklist, a direct answer and
+// sourced cost prose, but no <table> at all, and a comparison table is the
+// single most requested artifact across the external agent runs. Prose saying
+// "clinicians billed an average of $304.26 here against $317.32 nationally" is
+// harder to scan than three cells side by side, and the figures were already
+// verified - this only changes their form.
+//
+// Shape: { columns: [..], rows: [{ label, cells: [..] }], caption, source }
+function renderCityCostComparisonTable(table) {
+  if (!table || !Array.isArray(table.columns) || !Array.isArray(table.rows) || !table.rows.length) return '';
+  const cols = table.columns.filter(Boolean);
+  if (!cols.length) return '';
+  const head = cols.map((c) => `<th scope="col">${escapeOptionalHtml(c)}</th>`).join('');
+  const bodyRows = table.rows.map((row) => {
+    if (!row || !Array.isArray(row.cells)) return '';
+    // Pad short rows with an explicit note rather than an empty <td>; an empty
+    // cell is both a validator failure here and a worse page.
+    const cells = cols.slice(1).map((_, i) => {
+      const v = row.cells[i];
+      const text = (v === null || v === undefined || String(v).trim() === '') ? 'Not published' : String(v);
+      return `<td>${escapeOptionalHtml(text)}</td>`;
+    }).join('');
+    return `<tr><th scope="row">${escapeOptionalHtml(row.label || 'Not published')}</th>${cells}</tr>`;
+  }).join('');
+  if (!bodyRows) return '';
+  const caption = table.caption ? `<caption>${escapeOptionalHtml(table.caption)}</caption>` : '';
+  const source = table.source ? `<p class="muted">${escapeOptionalHtml(table.source)}</p>` : '';
+  return `<section class="city-supplement city-supplement-structured" data-city-cost-comparison="true">`
+    + `<h3>${escapeOptionalHtml(table.heading || 'Published cost comparison')}</h3>`
+    + `<table class="comparison-table" data-city-comparison-table="true">${caption}`
+    + `<thead><tr>${head}</tr></thead>`
+    + `<tbody>${bodyRows}</tbody></table>${source}</section>`;
 }
 
 function cityVerticalSectionConfig(verticalKey) {
@@ -843,6 +886,7 @@ function renderOptionalCityContentHtml(content) {
     ? `<section class="city-supplement city-supplement-lead" data-city-local-checklist="true"><h2>${escapeOptionalHtml(content.primary_city_decision_block?.title || content.heading || 'How to compare providers in this city')}</h2>${intro}<ul class="neutral-list">${leadChecklistItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
     : '';
   const structured = [
+    renderCityCostComparisonTable(content.cost_comparison_table),
     renderOptionalCityStructuredSection('Local vetting points', content.local_vetting_points, 'ul', 'local_vetting_points'),
     renderOptionalCityStructuredSection('Typical cost ranges', content.typical_cost_ranges, 'ul', 'typical_cost_ranges'),
     renderOptionalCityStructuredSection('Payment options', content.payment_options, 'ul', 'payment_options'),
@@ -1018,9 +1062,24 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
     market: marketSlug
   });
   const isTrainingBuild = String(process.env.LKG_ENV || '').toLowerCase() === 'training';
+  // A state page used to send its conversion CTA to the global /next-steps/,
+  // even though a per-state next-steps page is built and sitemapped for all 50
+  // states. Nothing linked to those 50 pages: measured on the pi pack, they were
+  // 50 of the 52 orphans, and they held the pack to 81.0% of pages within three
+  // clicks while every other pack sat near 99%. They are conversion pages, so an
+  // unreachable one is a dead conversion path, not just a dead URL.
+  //
+  // City pages already do the right thing (/<city>/next-steps/), and
+  // scripts/export_buyout_click_audit_urls.js already declares the state route
+  // as /states/<ST>/next-steps/. This makes the state branch agree with both.
+  const stateAbbrForNextSteps = (pageKind === 'state')
+    ? ((String(src).match(/^\/states\/([A-Za-z]{2})\//) || [])[1] || '')
+    : '';
   const nextStepsBasePath = isTrainingBuild
     ? '/next-steps/'
-    : ((pageKind === 'state') ? '/next-steps/' : (marketSlug ? ('/' + marketSlug + '/next-steps/') : '/next-steps/'));
+    : (stateAbbrForNextSteps
+      ? ('/states/' + stateAbbrForNextSteps.toUpperCase() + '/next-steps/')
+      : (marketSlug ? ('/' + marketSlug + '/next-steps/') : '/next-steps/'));
   const nextStepsHref = buildTrackedHref(nextStepsBasePath, {
     src,
     intent: 'decision_hub',

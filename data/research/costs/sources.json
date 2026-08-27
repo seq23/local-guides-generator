@@ -98,6 +98,25 @@
         "Administrative fee for filing a civil action, suit, or proceeding in a district court, $55. This fee does not apply to applications for a writ of habeas corpus or to persons granted in forma pauperis status under 28 U.S.C. § 1915."
       ],
       "companion_statute": "28 U.S.C. § 1914(a) sets the statutory filing fee for instituting a civil action at $350, so a federal civil filing costs $405 in total."
+    },
+    {
+      "id": "cms_provider_service_2024",
+      "publisher": "Centers for Medicare & Medicaid Services",
+      "title": "Medicare Physician & Other Practitioners - by Provider and Service",
+      "vintage": "Calendar year 2024 claims; file released 2026-05-21 (PHY_R26_P05_V10_D24_Prov)",
+      "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service",
+      "pinned_distribution": "92396110-2aed-4d63-a6a2-5d6207d46a29",
+      "local_snapshot": "data/research/costs/cms_provider_city_neuro_2024.json",
+      "pulled_by": "scripts/research/pull_cms_provider_city_neuro.js",
+      "used_by": "scripts/research/build_neuro_city_research.js, for the city column of the neuro city cost comparison table",
+      "what_it_gives": "One row per rendering provider per HCPCS code, carrying the provider's practice city and state. Aggregated here to a per-city clinician count, beneficiary count and service-weighted average submitted charge for neuropsychological evaluation codes 96132, 96133 and 96136. Same release as cms_geo_service_2024, so the two are internally consistent.",
+      "limits": [
+        "Practice address is not catchment: a clinician serving a metro from a suburban office counts as the suburb. City counts UNDERSTATE metros and must never be presented as the number of providers available in a city. New Jersey has 64 practice cities in this file and none of them is Newark.",
+        "CMS suppresses provider-service rows covering fewer than 11 beneficiaries, so low-volume clinicians are absent entirely and a city with a real clinic can show zero.",
+        "Medicare fee-for-service only. Private-pay and paediatric neuropsychology practices, which are much of this market, do not appear.",
+        "These are counts of clinicians who billed, not a directory, not a recommendation, and not evidence about quality.",
+        "The city figure is a service-weighted mean of provider averages, not a population mean."
+      ]
     }
   ],
   "not_available": [
