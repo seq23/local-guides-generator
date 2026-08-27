@@ -18,8 +18,20 @@
  * Anything else fails the build. There is deliberately no allowlist to edit your
  * way past: to publish a new figure you add the source, not the exception.
  *
- * Scope: only the files this generator owns. The rest of the repo predates this
- * contract and is not retro-fitted by it.
+ * Scope: EVERY page-set file that prints a dollar figure, not just the ones one
+ * generator names.
+ *
+ * It used to scope itself to build_open_shape_guides.js. That was a defensible
+ * choice when written -- do not retro-judge pages that predate the contract --
+ * but it meant the guard validated 166 figures across 15 pages while a live page
+ * carrying 43 unsourced ones sat outside its reach, and three separate agents
+ * added pages it structurally could not see. A passing check was being read as
+ * coverage.
+ *
+ * Pre-existing unsourced figures are sealed in UNSOURCED_BASELINE rather than
+ * retro-failed. The seal is the honest form of the original intent: old pages are
+ * not judged, and nothing NEW escapes. Adding to the baseline is not the way past
+ * this gate -- to publish a new figure you add the source.
  */
 const fs = require('fs');
 const path = require('path');
@@ -38,6 +50,25 @@ function readJson(p) { return JSON.parse(fs.readFileSync(p, 'utf8')); }
 
 // Which files did the generator write? Read the routes and file names out of it
 // rather than keeping a second list that can drift.
+// Every page-set and city-content file, not just one generator's output.
+function allPageFiles() {
+  const roots = [
+    path.join(ROOT, 'data', 'page_sets', 'examples'),
+    path.join(ROOT, 'data', 'city_content'),
+  ];
+  const out = [];
+  const walk = (d) => {
+    let ents; try { ents = fs.readdirSync(d, { withFileTypes: true }); } catch { return; }
+    for (const e of ents) {
+      const full = path.join(d, e.name);
+      if (e.isDirectory()) walk(full);
+      else if (e.name.endsWith('.json')) out.push(full);
+    }
+  };
+  roots.forEach(walk);
+  return out.sort();
+}
+
 function generatedFiles() {
   const src = fs.readFileSync(GENERATOR, 'utf8');
   const out = [];
@@ -94,24 +125,34 @@ function main() {
   if (missing.length) fail(missing);
 
   const allowed = new Set([...allowedFromCms(), ...allowedFromRegistry()]);
-  const files = generatedFiles();
-  if (!files.length) fail(['could not read any generated page from the generator; the parser is out of date']);
 
+  // The generator's own pages must still exist -- a silent parser break there
+  // would otherwise look like a clean pass.
+  const named = generatedFiles();
+  if (!named.length) fail(['could not read any generated page from the generator; the parser is out of date']);
+
+  const baselinePath = path.join(ROOT, 'data', 'contracts', 'unsourced_figure_baseline.json');
+  const baseline = fs.existsSync(baselinePath) ? new Set(readJson(baselinePath).sealed || []) : new Set();
+
+  const files = allPageFiles();
   const problems = [];
   let figures = 0;
+  let sealed = 0;
   for (const fp of files) {
-    if (!fs.existsSync(fp)) { problems.push(`generator names ${path.relative(ROOT, fp)} but it is not on disk`); continue; }
-    const html = String(readJson(fp).main_html || '');
+    if (!fs.existsSync(fp)) continue;
+    const rel = path.relative(ROOT, fp);
+    let doc; try { doc = readJson(fp); } catch { continue; }
+    const html = String(doc.main_html || '');
     for (const m of html.matchAll(/\$\d{1,3}(?:,\d{3})*(?:\.\d{2})?/g)) {
       figures += 1;
-      if (!allowed.has(m[0])) {
-        problems.push(`${path.relative(ROOT, fp)}: ${m[0]} is not in the CMS snapshot or the source registry`);
-      }
+      if (allowed.has(m[0])) continue;
+      if (baseline.has(rel)) { sealed += 1; continue; }
+      problems.push(`${rel}: ${m[0]} is not in the CMS snapshot or the source registry`);
     }
   }
 
   if (problems.length) fail(problems);
-  console.log(`✅ SOURCED COST FIGURES PASS (${figures} dollar figures across ${files.length} generated pages, all traceable)`);
+  console.log(`✅ SOURCED COST FIGURES PASS (${figures} dollar figures across ${files.length} page file(s), all traceable; ${sealed} figure(s) on ${baseline.size} sealed pre-existing page(s))`);
 }
 
 main();
