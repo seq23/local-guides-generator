@@ -763,12 +763,21 @@ function loadOptionalCityContent(verticalKey, citySlug) {
   if (!vk || !slug) return null;
   const candidate = path.join(CITY_CONTENT_DIR, vk, `${slug}.json`);
   const found = fs.existsSync(candidate) ? candidate : null;
-  if (!found) return defaultArtifactCityContent(vk, slug);
+  // A missing research file used to fall silently through to
+  // defaultArtifactCityContent(), which derives a city name and a state name
+  // from the slug and interpolates them into a fixed prose template. 197 of the
+  // 221 non-PI city pages render that way - the page names the city, says
+  // nothing about it, and the sitemap admits it on the strength of not being
+  // noindex. The fallback is kept, because removing it would delete pages, but
+  // it is no longer silent and no longer indexable: a page nobody researched
+  // should not compete for the query it names.
+  if (!found) return { ...defaultArtifactCityContent(vk, slug), is_template_fallback: true, noindex_reason: `no research file at data/city_content/${vk}/${slug}.json` };
   try {
     const raw = readJson(found);
     return normalizeLegacyCityContent(vk, slug, raw);
   } catch (e) {
-    return defaultArtifactCityContent(vk, slug);
+    console.warn(`[build] ${vk}/${slug}: research file present but unreadable (${e.message}); falling back to the template`);
+    return { ...defaultArtifactCityContent(vk, slug), is_template_fallback: true, noindex_reason: `unreadable research file: ${e.message}` };
   }
 }
 
