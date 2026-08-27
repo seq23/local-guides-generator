@@ -1,0 +1,86 @@
+{
+  "$schema": "lkg-vertical-status-decision-v1",
+  "vertical": "dentistry",
+  "status": "latent_deliberately_unresearched",
+  "decided_on": "2026-08-27",
+  "review_by": "2027-02-27",
+
+  "one_line": "52 of the dentistry pack's 56 city pages render from the slug template, carry noindex,nofollow, and are deliberately left that way. This is a decision, not a backlog item, and this file is the record of it so that it cannot rot into an accident.",
+
+  "what_is_actually_true_today": {
+    "city_pages_built": 56,
+    "how_that_number_arises": "loadCities() in scripts/build_city_sites.js unions three sources: the 53 slugs in data/page_sets/examples/cities_dentistry_v1.json, the promoted-and-runtime-ready rows for the vertical (zero for dentistry), and the base top-10 in data/cities.json - which contributes three slugs the pack file does not list: los-angeles-ca, new-york-city-ny, orlando-fl.",
+    "cities_rendering_the_template": 52,
+    "cities_with_a_research_file": 6,
+    "research_files_present": ["atlanta-ga", "chicago-il", "dallas-tx", "houston-tx", "los-angeles-ca", "miami-fl"],
+    "but_only_four_of_those_have_a_page": "atlanta-ga, chicago-il, dallas-tx and los-angeles-ca are built. houston-tx and miami-fl have research files and no page is ever built for them - they exist to satisfy the phase4.5 multi-vertical priority-set contract. 56 built minus 4 backed = the 52 templated pages.",
+    "cities_promoted": 0,
+    "dollar_figures_in_dentistry_city_content": 0,
+    "robots": "All 52 are set noindex,nofollow by scripts/apply_robots_policy.js. The switch is narrow and worth knowing: the policy reads no data files at all. build_city_sites.js stamps data-template-fallback=\"true\" onto a city page when the research file for that slug is absent or unparseable, and the policy rewrites the robots meta on any page carrying that marker. sitemap_emit.js then drops any page whose robots meta says noindex, so one marker governs both surfaces.",
+    "why_this_is_safe_right_now": "Because zero dentistry cities are promoted, the coverage contract SKIPs for this vertical, so nothing requires those pages to be in the sitemap while the robots policy is keeping them out of the index. Both contracts are satisfied by the vertical being empty.",
+    "why_it_stops_being_safe": "Promote a single dentistry city without first writing its research file and the two contracts become unsatisfiable at the same time: the robots policy noindexes the templated page while the coverage contract requires it in the sitemap. Ordering the policy before sitemap_emit fails coverage; ordering it after fails sitemap parity. That is the exact state that broke main (reverted in e431a33, re-landed in ee8bf51).",
+    "what_now_prevents_it": "scripts/validation/promoted_city_research_contract.js, wired into scripts/build_all_packs.js ahead of the robots policy. It fails the build, naming the city, if any promoted city lacks a research file. Negative-tested on 2026-08-27 by promoting dentistry/phoenix-az with no research file: the build exited 1 and named it. See negative_test below."
+  },
+
+  "the_decision": "Do not research the dentistry city pages on the cost axis, and do not promote any dentistry city, until an axis exists that can be researched from primary sources without inventing a figure. Leave the pages published-but-noindexed rather than retiring them: they cost nothing while noindexed, and the vertical holds at least one measured open axis that a future build could use.",
+
+  "evidence": {
+    "cost_axis_is_closed": {
+      "verdict": "CLOSED. Confirmed, and not disturbed by the 2026-08-27 round.",
+      "why": [
+        "The ADA discontinued its Survey of Dental Fees in 2023 and is barred by federal law from quoting or recommending fees, so no authoritative US dental price list exists. See data/research/costs/sources.json -> ada_hpi_dental_care_market and its not_available entry.",
+        "Medicare largely excludes routine and restorative dentistry, so the CDT codes for crowns, bridges and standard implants are absent from the CMS files that make neuro and trt researchable per city. State coverage on the dental codes runs from 13 states down to none.",
+        "scripts/validation/demand_backed_pages.js records the same conclusion independently: dentistry is 'not a gap, it is an absence'.",
+        "Consequence: any per-city dental price on these pages would be invented. sourced_cost_figures_contract.js requires every dollar figure to be traceable, and the correct number of new dollar figures here is zero."
+      ]
+    },
+    "provider_directory_axis_is_closed": {
+      "verdict": "CLOSED. Measured 2026-08-27.",
+      "measurement": "data/signals/dentistry_query_class_openness_2026-08-27.json -> probes['dentist that accepts medicaid near me']",
+      "result": "0.00 unbranded share, 0.50 national brand share. Yelp holds two slots; Delta Dental, UnitedHealthcare and Zocdoc hold one each. This is the axis the current pack is written against, and it is genuinely defended."
+    },
+    "safety_net_access_axis_is_OPEN": {
+      "verdict": "OPEN. Measured 2026-08-27. This is a change from the previous standing conclusion that dentistry is closed as a vertical.",
+      "measurement": "data/signals/dentistry_query_class_openness_2026-08-27.json -> probes['free dental clinic near me'] and probes['dental school clinic near me']",
+      "result": "0.80 and 0.40 unbranded share respectively, with ZERO national brand slots in either. No Mayo, no Cleveland Clinic, no Zocdoc, no Delta Dental. The non-microsite slots are universities and one state dental association publishing their own pages, plus hhs.gov - institutional hosts that rank for themselves rather than competing for the class.",
+      "why_it_matters": "This is the same structural shape as 'civil surgeon near me', the class that earns this portfolio its only AI citations: a public-interest access question whose answer is a LIST, where authoritative bodies publish the eligibility rules but nobody authoritative publishes the list.",
+      "and_yet_nothing_was_promoted": "Deliberately. Two clean probes are a reason to keep the door open, not a mandate to build. More importantly, the open axis is an ACCESS axis and the six existing dentistry city files carry no access facts at all - they are generic prose about quotes, financing and scope. Promoting them would satisfy the letter of promoted_city_research_contract.js, which only checks that a file exists, while shipping boilerplate. That is precisely the failure the contract was written to prevent, arrived at through the front door."
+    }
+  },
+
+  "what_a_future_dentistry_build_would_have_to_look_like": {
+    "axis": "Safety-net dental access, per city: which clinics actually see patients who cannot pay a private-practice fee, and what it takes to be seen there.",
+    "why_it_is_researchable_when_the_cost_axis_is_not": "Its answer is a published list, not a price. Nothing has to be estimated.",
+    "candidate_primary_sources": [
+      "CODA-accredited dental school and dental hygiene programme patient clinics - each school publishes its own patient-clinic page with eligibility, scope and intake process.",
+      "HRSA-funded health centers with a dental service line - federally published, per-location, and already structured."
+    ],
+    "hard_rule_carried_forward": "Still no dollar figures. The access axis answers 'who can be seen and how', not 'what it costs'. A build that reintroduces prices through this door is the refused cost axis wearing a different hat.",
+    "and_the_page_shape_changes": "This is a different build from the one the 53 templated city pages were written for. Those pages are shaped around choosing a private dentist. Repointing them at the access axis is a content decision, not a research backfill."
+  },
+
+  "negative_test": {
+    "performed_on": "2026-08-27",
+    "method": "Appended 'dentistry,phoenix-az,AZ,true' to data/research/coverage/coverage_promoted.csv - a promoted dentistry city with no research file under data/city_content/dentistry/ - then ran the full build.",
+    "result": "npm run build:dist exited 1. scripts/validation/promoted_city_research_contract.js reported 'PROMOTED CITY RESEARCH FAIL: 1 promoted city/cities have no research file' and named dentistry/phoenix-az together with the research file it expected. The build stopped before apply_robots_policy could produce the unsatisfiable state.",
+    "restored": "The CSV was restored and the contract returns to PROMOTED CITY RESEARCH PASS at 168/168 (trt=56 neuro=56 uscis_medical=56).",
+    "conclusion": "The unsafe promotion is genuinely unreachable through the build, not merely documented as unwise."
+  },
+
+  "two_things_a_later_reader_should_know_before_acting": {
+    "promoting_dentistry_is_not_a_csv_edit": "It cannot be done by adding rows. scripts/validation/coverage_plan_contract.js hard-codes VALID_VERTICALS to neuro, trt and uscis-medical, and report_coverage_status.js carries the same list. A dentistry row fails immediately. Promotion would therefore require editing a validator - which is exactly the kind of change that should never be made to get a coverage number to move. Beyond that it needs a runtime-support row per city with a listings file (38 of the 53 pack cities have none) and every provider name from the example-provider dataset rendered on the page. Promotion is a project, not a flag.",
+    "the_cost_guard_does_not_cover_these_files": "scripts/validation/sourced_cost_figures_contract.js extracts dollar figures from doc.main_html only, and no file under data/city_content/ has a main_html key - so it passes over them vacuously. 120 city_content files across neuro, trt and uscis_medical do contain dollar figures that this gate never sees. Dentistry contains none, and that is held by the research decision recorded here rather than by the validator. Anyone writing dentistry city content must not assume a green build means a price was checked. Widening that contract is worth doing, but it is a cross-vertical change with a 120-file blast radius and does not belong to a dentistry decision."
+  },
+
+  "standing_constraints": [
+    "Do not retire the dentistry pack or any page in it. The owner's standing rule is that nothing in this portfolio gets killed; noindexed-and-latent is the intended resting state, not a step toward deletion.",
+    "Do not promote a dentistry city to make a coverage number move. The contract will stop it, and the contract is right.",
+    "Do not fill the templated city pages with figures to make them look researched. There are no dental price figures to fill them with."
+  ],
+
+  "revisit_this_decision_if": [
+    "A per-city dental cost dataset with a citable publisher appears - the ADA restarting its fee survey, or a state mandating dental price transparency.",
+    "The safety-net access axis is measured again and holds open across more markets and a larger sample than the two probes recorded here.",
+    "Someone is prepared to do the access-axis build properly: primary sources fetched per city, re-verified, and no dollar figures."
+  ]
+}

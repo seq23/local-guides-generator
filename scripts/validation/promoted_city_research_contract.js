@@ -23,6 +23,13 @@
  * are correctly noindexed. Promote one without a research file and the same
  * unsatisfiable conflict reappears. This contract makes that state unreachable
  * instead of waiting for someone to hit it.
+ *
+ * The dentistry decision itself is recorded in data/research/dentistry/vertical_status.json,
+ * next to the data rather than only in this comment. Read it before promoting a
+ * dentistry city: it records which query classes were measured open and which
+ * closed, and it notes that promotion here is not a CSV edit - coverage_plan_contract.js
+ * hard-codes the three valid verticals, so promoting dentistry would mean editing a
+ * validator, which is not a thing to do to make a coverage number move.
  */
 const fs = require('fs');
 const path = require('path');
