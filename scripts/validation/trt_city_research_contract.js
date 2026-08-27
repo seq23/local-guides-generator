@@ -95,8 +95,15 @@ for (const city of CITIES) {
 }
 
 if (failures.length) {
+  // A generator regression breaks all 56 at once, so print enough to identify
+  // the pattern and then say how many more there are rather than filling the
+  // CI log with the same three lines fifty-six times.
+  const shown = process.argv.includes('--all') ? failures.length : 15;
   console.error('TRT city research contract FAIL');
-  failures.forEach((f) => console.error('- ' + f));
+  failures.slice(0, shown).forEach((f) => console.error('- ' + f));
+  if (failures.length > shown) {
+    console.error(`- ...and ${failures.length - shown} more. Full list: node scripts/validation/trt_city_research_contract.js --all`);
+  }
   process.exit(1);
 }
 console.log(
