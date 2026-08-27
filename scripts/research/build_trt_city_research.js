@@ -146,6 +146,11 @@ function build(city) {
       'Ask whether the medication is an FDA-approved product or a compounded preparation. The FDA states that compounded drugs are not FDA-approved and that it does not verify their safety, effectiveness or quality before marketing.',
       'Ask which compounding pharmacy supplies anything compounded, and whether it is registered.',
       'Ask for the monitoring schedule in writing before any payment is taken.',
+      // Every vertical closes local_vetting_points with a named comparison
+      // framework, and multi_vertical_citation_repair_contract.js pins the
+      // phrase. Each dimension below is one of the questions already asked on
+      // this page; nothing new is claimed here.
+      `${c} TRT clinic authority framework: compare licensed oversight, baseline labs and monitoring cadence, FDA-approved versus compounded product, what the quoted fee covers, and what stopping costs.`,
     ],
 
     typical_cost_ranges: costLines(stateName),
@@ -199,6 +204,11 @@ function build(city) {
     },
 
     lab_work_notes: [
+      // The "Baseline labs" opener is pinned by
+      // multi_vertical_citation_repair_contract.js. It stays a question about
+      // what the clinic does and what it charges, not a statement of what any
+      // patient needs.
+      'Baseline labs are the first thing to ask about: which panels are drawn before anything is prescribed, and whether they sit inside the quoted fee or arrive as a separate bill.',
       `Ask which specific panels are drawn and how often. ${stateName} billing figures for testosterone and estradiol testing appear above; use them to sanity-check any claim about what a bundled lab package is worth.`,
       'Ask whether you can use your own lab or insurer-covered draw rather than the clinic\'s.',
       'Ask who interprets results and how quickly you receive them.',
@@ -228,13 +238,26 @@ function build(city) {
   };
 }
 
-let written = 0;
-let withState = 0;
-fs.mkdirSync(OUT_DIR, { recursive: true });
-for (const city of CITIES) {
-  const data = build(city);
-  fs.writeFileSync(path.join(OUT_DIR, `${city.slug}.json`), JSON.stringify(data, null, 2) + '\n');
-  written += 1;
-  if (row('84403', STATE_NAME[city.state])) withState += 1;
+// The exact bytes this generator is responsible for, for one city. The
+// drift guard (scripts/validation/trt_city_research_contract.js) compares
+// this against the committed file, so the serialisation lives in one place.
+function serialize(city) {
+  return JSON.stringify(build(city), null, 2) + '\n';
 }
-console.log(`wrote ${written} trt city research files; ${withState} carry a published state testosterone-testing figure, ${written - withState} state so explicitly.`);
+
+function main() {
+  let written = 0;
+  let withState = 0;
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  for (const city of CITIES) {
+    fs.writeFileSync(path.join(OUT_DIR, `${city.slug}.json`), serialize(city));
+    written += 1;
+    if (row('84403', STATE_NAME[city.state])) withState += 1;
+  }
+  console.log(`wrote ${written} trt city research files; ${withState} carry a published state testosterone-testing figure, ${written - withState} state so explicitly.`);
+}
+
+// Importable so a validator can rebuild in memory without writing anything.
+if (require.main === module) main();
+
+module.exports = { CITIES, OUT_DIR, build, serialize };
