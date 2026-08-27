@@ -13,6 +13,25 @@ function json(body, init = {}) {
   });
 }
 
+// Same failure this endpoint's sibling had: Airtable rejects the whole record
+// over a single column the table lacks, naming one column per response.
+// Verified 2026-08-26 that "Lead Clicks" has none of intent_type,
+// button_source, market_slug, page_kind, vertical_key, sponsor_slug or
+// sponsor_scope, so every click this endpoint ever recorded was thrown away.
+// Strip whatever Airtable names and retry, so telemetry survives schema drift.
+const MAX_FIELD_PRUNE_ATTEMPTS = 16;
+
+function parseUnknownFieldName(text) {
+  try {
+    const err = (JSON.parse(text) || {}).error;
+    if (!err || err.type !== 'UNKNOWN_FIELD_NAME') return '';
+    const m = String(err.message || '').match(/Unknown field name:\s*"([^"]+)"/i);
+    return m ? m[1] : '';
+  } catch (_) {
+    return '';
+  }
+}
+
 async function writeToAirtable({ env, record }) {
   const baseId = String(env.AIRTABLE_BASE_ID || '').trim();
   const tableName = String(env.AIRTABLE_CLICKS_TABLE_NAME || '').trim();
@@ -20,16 +39,31 @@ async function writeToAirtable({ env, record }) {
   if (!baseId || !tableName || !token) return { ok: false };
 
   const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${token}`,
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({ records: [{ fields: record }] })
-  });
-  if (!res.ok) return { ok: false };
-  return { ok: true };
+  const fields = { ...record };
+
+  for (let attempt = 0; attempt < MAX_FIELD_PRUNE_ATTEMPTS; attempt += 1) {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${token}`,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ records: [{ fields }] })
+    });
+    if (res.ok) return { ok: true };
+
+    const text = (await res.text().catch(() => '')).slice(0, 400);
+    const unknown = parseUnknownFieldName(text);
+    if (!unknown || !Object.prototype.hasOwnProperty.call(fields, unknown)) {
+      // Telemetry must never break the site, so this stays silent about the
+      // record and logs only why the vendor refused it.
+      console.warn('track-connection-click airtable rejected', `status=${res.status}`, text);
+      return { ok: false };
+    }
+    delete fields[unknown];
+  }
+
+  return { ok: false };
 }
 
 export async function onRequestPost(context) {

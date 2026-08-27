@@ -17,6 +17,14 @@
  *
  * Output:
  * - JSON success or validation-failure response.
+ * - `storage` reports where the lead actually went: "airtable" (system of
+ *   record) or "email_fallback" (Airtable refused it; a person must re-enter
+ *   it by hand). A 200 alone does not mean Airtable accepted the lead.
+ *
+ * Storage order:
+ * - Airtable write, retrying past any column the table does not have.
+ * - Email relay, which fires on every accepted lead so a vendor outage can
+ *   never make a lead disappear silently.
  *
  * Failure modes:
  * - Unsupported content type
@@ -24,7 +32,7 @@
  * - Missing email and phone
  * - Missing consent
  * - Missing Airtable environment variables
- * - Airtable write failure
+ * - Airtable write failure (falls back to email; only a failure of both is 503)
  */
 
 const ALLOWED_PROVIDER_TYPES = new Set([
@@ -66,7 +74,37 @@ function normalizePhone(s) {
   return t.replace(/[^0-9()+\- .]/g, '').slice(0, 32);
 }
 
-async function writeToAirtable({ env, record }) {
+// Airtable rejects an entire record if it mentions a single column the table
+// does not have, and it names only ONE offending column per response. Verified
+// 2026-08-26 against base appDgpv4F5ORCtUU3: the payload below carried seven
+// attribution columns that "Lead Requests" never had, so every lead this
+// endpoint ever collected was rejected with
+//   422 {"error":{"type":"UNKNOWN_FIELD_NAME","message":"Unknown field name: \"intent_type\""}}
+// A hardcoded column list would break again the next time the table is edited
+// in the Airtable UI, so instead we strip whatever Airtable names and retry,
+// preserving the stripped values in the long-text Notes column. That means the
+// table's schema can drift in either direction without dropping a lead.
+const MAX_FIELD_PRUNE_ATTEMPTS = 16;
+
+function parseUnknownFieldName(text) {
+  try {
+    const err = (JSON.parse(text) || {}).error;
+    if (!err || err.type !== 'UNKNOWN_FIELD_NAME') return '';
+    const m = String(err.message || '').match(/Unknown field name:\s*"([^"]+)"/i);
+    return m ? m[1] : '';
+  } catch (_) {
+    return '';
+  }
+}
+
+function formatDroppedFields(dropped) {
+  return Object.entries(dropped)
+    .filter(([, v]) => String(v == null ? '' : v).trim() !== '')
+    .map(([k, v]) => `${k}: ${v}`)
+    .join('\n');
+}
+
+async function writeToAirtable({ env, record, notesField = '' }) {
   const baseId = String(env.AIRTABLE_BASE_ID || '').trim();
   const tableName = String(env.AIRTABLE_TABLE_NAME || '').trim();
   const token = String(env.AIRTABLE_API_TOKEN || '').trim();
@@ -76,44 +114,84 @@ async function writeToAirtable({ env, record }) {
   }
 
   const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${token}`,
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      records: [
-        {
-          fields: record
-        }
-      ]
-    })
-  });
+  const fields = { ...record };
+  const dropped = {};
+  let notesSupported = Boolean(notesField);
+  let lastStatus = 0;
+  let lastDetails = '';
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => '');
-    return { ok: false, reason: 'airtable_error', details: text.slice(0, 400) };
+  for (let attempt = 0; attempt < MAX_FIELD_PRUNE_ATTEMPTS; attempt += 1) {
+    const payload = { ...fields };
+    if (notesSupported) {
+      const carried = formatDroppedFields(dropped);
+      if (carried) {
+        payload[notesField] = `Columns missing from this table:\n${carried}`;
+      }
+    }
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${token}`,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ records: [{ fields: payload }] })
+    });
+
+    if (res.ok) {
+      const data = await res.json().catch(() => null);
+      const id = (((data || {}).records || [])[0] || {}).id || '';
+      return { ok: true, id, droppedFields: Object.keys(dropped) };
+    }
+
+    lastStatus = res.status;
+    lastDetails = (await res.text().catch(() => '')).slice(0, 400);
+
+    const unknown = parseUnknownFieldName(lastDetails);
+    if (!unknown) break;
+    if (notesSupported && unknown === notesField) {
+      // The table has no Notes column either; keep going without it.
+      notesSupported = false;
+      continue;
+    }
+    // Airtable named a column we are not sending, so retrying cannot help.
+    if (!Object.prototype.hasOwnProperty.call(fields, unknown)) break;
+    dropped[unknown] = fields[unknown];
+    delete fields[unknown];
   }
 
-  return { ok: true };
+  return {
+    ok: false,
+    reason: 'airtable_error',
+    status: lastStatus,
+    details: lastDetails,
+    droppedFields: Object.keys(dropped)
+  };
 }
 
-async function relayLeadByEmail({ env, record, reason }) {
+async function relayLeadByEmail({ env, record, stored, reason }) {
   const key = String(env.RESEND_API_KEY || '').trim();
   const to = String(env.LEAD_TO || env.EMAIL_REPLY_TO || '').trim();
   const from = String(env.EMAIL_FROM || '').trim();
   if (!key || !to || !from) return { ok: false, reason: 'missing_email_env' };
 
   const lines = Object.entries(record).map(([k, v]) => `${k}: ${v}`).join('\n');
+  const where = record.market_slug || record.source_domain || '';
+  const subject = stored
+    ? `Lead - ${record.provider_type || 'request'}${where ? ` - ${where}` : ''}`
+    : `Lead (Airtable down: ${reason}) - ${record.provider_type || 'request'}${where ? ` - ${where}` : ''}`;
+  const preamble = stored
+    ? 'This lead is stored in Airtable. This email is a notification copy.\n'
+    : `Airtable write failed (${reason}), so this lead is being relayed by email.\nIt is NOT in Airtable and needs to be entered manually.\n`;
+
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
     body: JSON.stringify({
       from,
       to: [to],
-      subject: `Lead (Airtable down: ${reason}) - ${record.provider_type || 'request'} - ${record.market_slug || ''}`,
-      text: `Airtable write failed (${reason}), so this lead is being relayed by email.\nIt is NOT in Airtable and needs to be entered manually.\n\n${lines}\n`
+      subject,
+      text: `${preamble}\n${lines}\n`
     })
   });
   if (!res.ok) {
@@ -202,25 +280,44 @@ export async function onRequestPost(context) {
       created_at: nowIso
     };
 
-    const at = await writeToAirtable({ env, record });
+    const at = await writeToAirtable({ env, record, notesField: 'Notes' });
+
     if (!at.ok) {
-      // Airtable is the system of record, but losing a lead because a third
-      // party is unavailable is the worst outcome this endpoint can produce.
-      // Verified 2026-08-26: a fully valid submission returned 503
-      // storage_unavailable in production, which means every lead these 58
-      // pages collected was being discarded after passing validation. Email is
-      // the fallback because it does not depend on the same vendor and lands
-      // somewhere a person actually reads.
-      console.error('request-assistance airtable failure', at.reason || 'unknown', at.details || '');
-      const relayed = await relayLeadByEmail({ env, record, reason: at.reason || 'unknown' });
-      if (relayed.ok) {
-        return json({ ok: true, storage: 'email_fallback' });
-      }
-      console.error('request-assistance email fallback failed', relayed.reason || 'unknown');
-      return json({ ok: false, error: 'storage_unavailable' }, { status: 503 });
+      // Log the status and Airtable's own message: the difference between a
+      // bad token (401/403), a wrong base or table (404), and a column the
+      // table does not have (422) is the entire diagnosis, and without it this
+      // endpoint reports "airtable_error" for all three. The record itself is
+      // never logged, so no lead's personal data reaches the log.
+      console.error(
+        'request-assistance airtable failure',
+        at.reason || 'unknown',
+        `status=${at.status || 0}`,
+        at.details || ''
+      );
+    } else if (at.droppedFields && at.droppedFields.length) {
+      // The write landed, but the table is missing columns we tried to fill.
+      // Their values are preserved in Notes; only the column names are logged.
+      console.warn('request-assistance airtable missing columns', at.droppedFields.join(','));
     }
 
-    return json({ ok: true });
+    // Airtable is the system of record, but losing a lead because a third
+    // party is unavailable is the worst outcome this endpoint can produce, so
+    // the email relay fires on every accepted lead rather than only on
+    // failure. On success it is a notification copy; on failure it is the only
+    // surviving copy and says so.
+    const relayed = await relayLeadByEmail({
+      env,
+      record,
+      stored: at.ok,
+      reason: at.reason || 'unknown'
+    });
+    if (!relayed.ok) {
+      console.error('request-assistance email relay failed', relayed.reason || 'unknown');
+    }
+
+    if (at.ok) return json({ ok: true, storage: 'airtable' });
+    if (relayed.ok) return json({ ok: true, storage: 'email_fallback' });
+    return json({ ok: false, error: 'storage_unavailable' }, { status: 503 });
   } catch (e) {
     return json({ ok: false, error: 'server_error' }, { status: 500 });
   }
