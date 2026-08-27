@@ -163,26 +163,6 @@ for (const pageSetFile of PACKS) {
     PAGE_SET_FILE: pageSetFile,
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
-
-  // Apply the robots policy LAST, matching `npm run build`, which ends with it.
-  //
-  // It was missing here entirely. `npm run build` runs apply_robots_policy.js;
-  // this file -- the path used by build:dist, distribution:prepare and CI, i.e.
-  // the one that actually deploys -- never did. So ~200 template-fallback city
-  // pages shipped `index,follow` while build_city_sites.js:858 commented they
-  // were "no longer indexable", and the 52 dentistry hubs noindexed on
-  // 2026-08-27 would have deployed indexable. A policy only the unused build
-  // path enforces is not a policy.
-  //
-  // Ordering note: running it before sitemap_emit is the intuitive order but
-  // breaks the coverage contract, which requires every promoted city in the
-  // sitemap -- and some promoted cities are still template-fallback. That
-  // conflict is real and pre-existing; it is recorded, not resolved here.
-  run('node', ['scripts/apply_robots_policy.js'], {
-    PAGE_SET_FILE: pageSetFile,
-    PAGES_OUT_DIR: 'dist',
-    LKG_ENV: process.env.LKG_ENV || 'baseline',
-  });
 }
 
 info('\nALL PACKS: BUILD + VALIDATION PASS');
