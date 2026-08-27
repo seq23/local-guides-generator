@@ -1,0 +1,698 @@
+{
+  "$schema": "lkg-uscis-field-office-assignment-v1",
+  "purpose": "Which USCIS field office serves each promoted uscis_medical city, derived only from the USCIS ZIP-to-field-office assignment file. Nothing here is recalled; every row is a group-by over the downloaded CSV.",
+  "source": {
+    "publisher": "U.S. Citizenship and Immigration Services",
+    "title": "Field Office Locator ZIP code assignment data",
+    "page": "https://www.uscis.gov/about-us/find-a-uscis-office/field-offices",
+    "file": "https://www.uscis.gov/sites/default/files/document/data/field_office_zip_08-25-26.csv",
+    "file_vintage": "08-25-26",
+    "retrieved_on": "2026-08-27",
+    "rows_in_file": 43301,
+    "method": "Rows with IsRetired=TRUE excluded. Grouped by the CSV's own City and State columns, then counted by field office."
+  },
+  "why_it_matters": "The office name is not the office location and the state line is not the boundary. Charleston, West Virginia is served from Pittsburgh; Richmond, Virginia from Norfolk; Fargo from an office USCIS calls Saint Paul that sits at a Minneapolis address; Wilmington, Delaware from Philadelphia. A page that assumes the nearest same-name office is wrong for a quarter of these cities.",
+  "cities": {
+    "albuquerque-nm": {
+      "csv_city": "Albuquerque",
+      "csv_state": "NM",
+      "zip_codes_in_city": 42,
+      "field_offices": [
+        {
+          "designation": "ABQ",
+          "office_name": "Albuquerque",
+          "street": "1551 Mercantile Avenue NE, Suite B",
+          "office_city": "Albuquerque",
+          "office_state": "NM",
+          "office_zip": "87107",
+          "zip_codes_assigned": 42
+        }
+      ]
+    },
+    "anchorage-ak": {
+      "csv_city": "Anchorage",
+      "csv_state": "AK",
+      "zip_codes_in_city": 25,
+      "field_offices": [
+        {
+          "designation": "ANC",
+          "office_name": "Anchorage",
+          "street": "222 West 7th Avenue, Suite 128",
+          "office_city": "Anchorage",
+          "office_state": "AK",
+          "office_zip": "99513",
+          "zip_codes_assigned": 25
+        }
+      ]
+    },
+    "baltimore-md": {
+      "csv_city": "Baltimore",
+      "csv_state": "MD",
+      "zip_codes_in_city": 40,
+      "field_offices": [
+        {
+          "designation": "BAL",
+          "office_name": "Baltimore",
+          "street": "3701 Koppers Street",
+          "office_city": "Halethorpe",
+          "office_state": "MD",
+          "office_zip": "21227",
+          "zip_codes_assigned": 40
+        }
+      ]
+    },
+    "billings-mt": {
+      "csv_city": "Billings",
+      "csv_state": "MT",
+      "zip_codes_in_city": 14,
+      "field_offices": [
+        {
+          "designation": "HEL",
+          "office_name": "Helena",
+          "street": "754 River Rock Drive, Suite #101",
+          "office_city": "Helena",
+          "office_state": "MT",
+          "office_zip": "59602",
+          "zip_codes_assigned": 14
+        }
+      ]
+    },
+    "birmingham-al": {
+      "csv_city": "Birmingham",
+      "csv_state": "AL",
+      "zip_codes_in_city": 61,
+      "field_offices": [
+        {
+          "designation": "MGA",
+          "office_name": "Montgomery",
+          "street": "3381 Atlanta Highway",
+          "office_city": "Montgomery",
+          "office_state": "AL",
+          "office_zip": "36109",
+          "zip_codes_assigned": 61
+        }
+      ]
+    },
+    "boise-id": {
+      "csv_city": "Boise",
+      "csv_state": "ID",
+      "zip_codes_in_city": 27,
+      "field_offices": [
+        {
+          "designation": "BOI",
+          "office_name": "Boise",
+          "street": "7180 West Potomac Drive",
+          "office_city": "Boise",
+          "office_state": "ID",
+          "office_zip": "83704",
+          "zip_codes_assigned": 27
+        }
+      ]
+    },
+    "burlington-vt": {
+      "csv_city": "Burlington",
+      "csv_state": "VT",
+      "zip_codes_in_city": 5,
+      "field_offices": [
+        {
+          "designation": "STA",
+          "office_name": "Burlington",
+          "street": "463 Mountain View Drive, Suite 200",
+          "office_city": "Colchester",
+          "office_state": "VT",
+          "office_zip": "05446",
+          "zip_codes_assigned": 5
+        }
+      ]
+    },
+    "charleston-wv": {
+      "csv_city": "Charleston",
+      "csv_state": "WV",
+      "zip_codes_in_city": 45,
+      "field_offices": [
+        {
+          "designation": "PIT",
+          "office_name": "Pittsburgh",
+          "street": "Penn Center East, Building 7, 777 Penn Center Boulevard, Suite 600",
+          "office_city": "Pittsburgh",
+          "office_state": "PA",
+          "office_zip": "15235",
+          "zip_codes_assigned": 45
+        }
+      ]
+    },
+    "charlotte-nc": {
+      "csv_city": "Charlotte",
+      "csv_state": "NC",
+      "zip_codes_in_city": 73,
+      "field_offices": [
+        {
+          "designation": "CLT",
+          "office_name": "Charlotte",
+          "street": "201 Regency Executive Park Drive",
+          "office_city": "Charlotte",
+          "office_state": "NC",
+          "office_zip": "28217",
+          "zip_codes_assigned": 73
+        }
+      ]
+    },
+    "cheyenne-wy": {
+      "csv_city": "Cheyenne",
+      "csv_state": "WY",
+      "zip_codes_in_city": 7,
+      "field_offices": [
+        {
+          "designation": "DEN",
+          "office_name": "Denver",
+          "street": "12484 East Weaver Place",
+          "office_city": "Centennial",
+          "office_state": "CO",
+          "office_zip": "80111",
+          "zip_codes_assigned": 7
+        }
+      ]
+    },
+    "columbia-sc": {
+      "csv_city": "Columbia",
+      "csv_state": "SC",
+      "zip_codes_in_city": 34,
+      "field_offices": [
+        {
+          "designation": "CHL",
+          "office_name": "Charleston",
+          "street": "1821 Sam Rittenberg Boulevard",
+          "office_city": "Charleston",
+          "office_state": "SC",
+          "office_zip": "29407",
+          "zip_codes_assigned": 33
+        },
+        {
+          "designation": "GRR",
+          "office_name": "Greer",
+          "street": "501 Pennsylvania Avenue",
+          "office_city": "Greer",
+          "office_state": "SC",
+          "office_zip": "29650",
+          "zip_codes_assigned": 1
+        }
+      ]
+    },
+    "columbus-oh": {
+      "csv_city": "Columbus",
+      "csv_state": "OH",
+      "zip_codes_in_city": 45,
+      "field_offices": [
+        {
+          "designation": "CLM",
+          "office_name": "Columbus",
+          "street": "395 E. Broad Street, Suite 100",
+          "office_city": "Columbus",
+          "office_state": "OH",
+          "office_zip": "43215",
+          "zip_codes_assigned": 45
+        }
+      ]
+    },
+    "denver-co": {
+      "csv_city": "Denver",
+      "csv_state": "CO",
+      "zip_codes_in_city": 62,
+      "field_offices": [
+        {
+          "designation": "DEN",
+          "office_name": "Denver",
+          "street": "12484 East Weaver Place",
+          "office_city": "Centennial",
+          "office_state": "CO",
+          "office_zip": "80111",
+          "zip_codes_assigned": 62
+        }
+      ]
+    },
+    "des-moines-ia": {
+      "csv_city": "Des Moines",
+      "csv_state": "IA",
+      "zip_codes_in_city": 55,
+      "field_offices": [
+        {
+          "designation": "DSM",
+          "office_name": "Des Moines",
+          "street": "Neal Smith Federal Building, 210 Walnut Street, Room 215",
+          "office_city": "Des Moines",
+          "office_state": "IA",
+          "office_zip": "50309",
+          "zip_codes_assigned": 55
+        }
+      ]
+    },
+    "detroit-mi": {
+      "csv_city": "Detroit",
+      "csv_state": "MI",
+      "zip_codes_in_city": 46,
+      "field_offices": [
+        {
+          "designation": "DET",
+          "office_name": "Detroit",
+          "street": "750 Stephenson Highway, 3rd Floor",
+          "office_city": "Troy",
+          "office_state": "MI",
+          "office_zip": "48083",
+          "zip_codes_assigned": 46
+        }
+      ]
+    },
+    "fargo-nd": {
+      "csv_city": "Fargo",
+      "csv_state": "ND",
+      "zip_codes_in_city": 13,
+      "field_offices": [
+        {
+          "designation": "SPM",
+          "office_name": "Saint Paul",
+          "street": "250 Marquette Avenue, Suite 710",
+          "office_city": "Minneapolis",
+          "office_state": "MN",
+          "office_zip": "55401",
+          "zip_codes_assigned": 13
+        }
+      ]
+    },
+    "hartford-ct": {
+      "csv_city": "Hartford",
+      "csv_state": "CT",
+      "zip_codes_in_city": 36,
+      "field_offices": [
+        {
+          "designation": "HAR",
+          "office_name": "Hartford",
+          "street": "450 Main Street",
+          "office_city": "Hartford",
+          "office_state": "CT",
+          "office_zip": "06103",
+          "zip_codes_assigned": 36
+        }
+      ]
+    },
+    "honolulu-hi": {
+      "csv_city": "Honolulu",
+      "csv_state": "HI",
+      "zip_codes_in_city": 41,
+      "field_offices": [
+        {
+          "designation": "HHW",
+          "office_name": "Honolulu",
+          "street": "500 Ala Moana Boulevard, Suite 2-403",
+          "office_city": "Honolulu",
+          "office_state": "HI",
+          "office_zip": "96813",
+          "zip_codes_assigned": 41
+        }
+      ]
+    },
+    "indianapolis-in": {
+      "csv_city": "Indianapolis",
+      "csv_state": "IN",
+      "zip_codes_in_city": 57,
+      "field_offices": [
+        {
+          "designation": "INP",
+          "office_name": "Indianapolis",
+          "street": "1099 North Meridian Street, 10th Floor",
+          "office_city": "Indianapolis",
+          "office_state": "IN",
+          "office_zip": "46204",
+          "zip_codes_assigned": 57
+        }
+      ]
+    },
+    "jackson-ms": {
+      "csv_city": "Jackson",
+      "csv_state": "MS",
+      "zip_codes_in_city": 25,
+      "field_offices": [
+        {
+          "designation": "NOL",
+          "office_name": "New Orleans",
+          "street": "1250 Poydras Street, Suite 1800",
+          "office_city": "New Orleans",
+          "office_state": "LA",
+          "office_zip": "70113",
+          "zip_codes_assigned": 25
+        }
+      ]
+    },
+    "kansas-city-ks": {
+      "csv_city": "Kansas City",
+      "csv_state": "KS",
+      "zip_codes_in_city": 15,
+      "field_offices": [
+        {
+          "designation": "KAN",
+          "office_name": "Kansas City",
+          "street": "10320 NW Prairie View Road",
+          "office_city": "Kansas City",
+          "office_state": "MO",
+          "office_zip": "64153",
+          "zip_codes_assigned": 15
+        }
+      ]
+    },
+    "las-vegas-nv": {
+      "csv_city": "Las Vegas",
+      "csv_state": "NV",
+      "zip_codes_in_city": 74,
+      "field_offices": [
+        {
+          "designation": "LVG",
+          "office_name": "Las Vegas",
+          "street": "5650 West Badura Avenue, Suite 100",
+          "office_city": "Las Vegas",
+          "office_state": "NV",
+          "office_zip": "89118",
+          "zip_codes_assigned": 74
+        }
+      ]
+    },
+    "little-rock-ar": {
+      "csv_city": "Little Rock",
+      "csv_state": "AR",
+      "zip_codes_in_city": 25,
+      "field_offices": [
+        {
+          "designation": "MEM",
+          "office_name": "Memphis",
+          "street": "80 Monroe Ave., 7th Floor",
+          "office_city": "Memphis",
+          "office_state": "TN",
+          "office_zip": "38103",
+          "zip_codes_assigned": 25
+        }
+      ]
+    },
+    "louisville-ky": {
+      "csv_city": "Louisville",
+      "csv_state": "KY",
+      "zip_codes_in_city": 66,
+      "field_offices": [
+        {
+          "designation": "LOU",
+          "office_name": "Louisville",
+          "street": "411 South 4th Street, Suite 200",
+          "office_city": "Louisville",
+          "office_state": "KY",
+          "office_zip": "40202",
+          "zip_codes_assigned": 66
+        }
+      ]
+    },
+    "manchester-nh": {
+      "csv_city": "Manchester",
+      "csv_state": "NH",
+      "zip_codes_in_city": 8,
+      "field_offices": [
+        {
+          "designation": "MAN",
+          "office_name": "Manchester",
+          "street": "9 Ridgewood Road",
+          "office_city": "Bedford",
+          "office_state": "NH",
+          "office_zip": "03110",
+          "zip_codes_assigned": 8
+        }
+      ]
+    },
+    "memphis-tn": {
+      "csv_city": "Memphis",
+      "csv_state": "TN",
+      "zip_codes_in_city": 61,
+      "field_offices": [
+        {
+          "designation": "MEM",
+          "office_name": "Memphis",
+          "street": "80 Monroe Ave., 7th Floor",
+          "office_city": "Memphis",
+          "office_state": "TN",
+          "office_zip": "38103",
+          "zip_codes_assigned": 61
+        }
+      ]
+    },
+    "milwaukee-wi": {
+      "csv_city": "Milwaukee",
+      "csv_state": "WI",
+      "zip_codes_in_city": 39,
+      "field_offices": [
+        {
+          "designation": "MIL",
+          "office_name": "Milwaukee",
+          "street": "310 W Wisconsin Ave, Suite 850W",
+          "office_city": "Milwaukee",
+          "office_state": "WI",
+          "office_zip": "53203",
+          "zip_codes_assigned": 39
+        }
+      ]
+    },
+    "minneapolis-mn": {
+      "csv_city": "Minneapolis",
+      "csv_state": "MN",
+      "zip_codes_in_city": 65,
+      "field_offices": [
+        {
+          "designation": "SPM",
+          "office_name": "Saint Paul",
+          "street": "250 Marquette Avenue, Suite 710",
+          "office_city": "Minneapolis",
+          "office_state": "MN",
+          "office_zip": "55401",
+          "zip_codes_assigned": 65
+        }
+      ]
+    },
+    "new-orleans-la": {
+      "csv_city": "New Orleans",
+      "csv_state": "LA",
+      "zip_codes_in_city": 61,
+      "field_offices": [
+        {
+          "designation": "NOL",
+          "office_name": "New Orleans",
+          "street": "1250 Poydras Street, Suite 1800",
+          "office_city": "New Orleans",
+          "office_state": "LA",
+          "office_zip": "70113",
+          "zip_codes_assigned": 61
+        }
+      ]
+    },
+    "oklahoma-city-ok": {
+      "csv_city": "Oklahoma City",
+      "csv_state": "OK",
+      "zip_codes_in_city": 75,
+      "field_offices": [
+        {
+          "designation": "OKC",
+          "office_name": "Oklahoma City",
+          "street": "3101 Technology Drive",
+          "office_city": "Edmond",
+          "office_state": "OK",
+          "office_zip": "73013",
+          "zip_codes_assigned": 75
+        }
+      ]
+    },
+    "omaha-ne": {
+      "csv_city": "Omaha",
+      "csv_state": "NE",
+      "zip_codes_in_city": 46,
+      "field_offices": [
+        {
+          "designation": "OMA",
+          "office_name": "Omaha",
+          "street": "1717 Avenue H E",
+          "office_city": "Omaha",
+          "office_state": "NE",
+          "office_zip": "68110",
+          "zip_codes_assigned": 46
+        }
+      ]
+    },
+    "orlando-fl": {
+      "csv_city": "Orlando",
+      "csv_state": "FL",
+      "zip_codes_in_city": 59,
+      "field_offices": [
+        {
+          "designation": "ORL",
+          "office_name": "Orlando",
+          "street": "6680 Corporate Centre Boulevard",
+          "office_city": "Orlando",
+          "office_state": "FL",
+          "office_zip": "32822",
+          "zip_codes_assigned": 59
+        }
+      ]
+    },
+    "portland-me": {
+      "csv_city": "Portland",
+      "csv_state": "ME",
+      "zip_codes_in_city": 9,
+      "field_offices": [
+        {
+          "designation": "POM",
+          "office_name": "Portland",
+          "street": "207 Gannett Drive",
+          "office_city": "South Portland",
+          "office_state": "ME",
+          "office_zip": "04106",
+          "zip_codes_assigned": 9
+        }
+      ]
+    },
+    "portland-or": {
+      "csv_city": "Portland",
+      "csv_state": "OR",
+      "zip_codes_in_city": 59,
+      "field_offices": [
+        {
+          "designation": "POO",
+          "office_name": "Portland",
+          "street": "1455 NW Overton Street, Suite 1",
+          "office_city": "Portland",
+          "office_state": "OR",
+          "office_zip": "97209",
+          "zip_codes_assigned": 59
+        }
+      ]
+    },
+    "providence-ri": {
+      "csv_city": "Providence",
+      "csv_state": "RI",
+      "zip_codes_in_city": 12,
+      "field_offices": [
+        {
+          "designation": "PRO",
+          "office_name": "Providence",
+          "street": "1543 Atwood Avenue",
+          "office_city": "Johnston",
+          "office_state": "RI",
+          "office_zip": "02919",
+          "zip_codes_assigned": 12
+        }
+      ]
+    },
+    "richmond-va": {
+      "csv_city": "Richmond",
+      "csv_state": "VA",
+      "zip_codes_in_city": 39,
+      "field_offices": [
+        {
+          "designation": "NOR",
+          "office_name": "Norfolk",
+          "street": "5678 East Virginia Beach Boulevard",
+          "office_city": "Norfolk",
+          "office_state": "VA",
+          "office_zip": "23502",
+          "zip_codes_assigned": 39
+        }
+      ]
+    },
+    "sacramento-ca": {
+      "csv_city": "Sacramento",
+      "csv_state": "CA",
+      "zip_codes_in_city": 92,
+      "field_offices": [
+        {
+          "designation": "SAC",
+          "office_name": "Sacramento",
+          "street": "650 Capitol Mall",
+          "office_city": "Sacramento",
+          "office_state": "CA",
+          "office_zip": "95814",
+          "zip_codes_assigned": 92
+        }
+      ]
+    },
+    "salt-lake-city-ut": {
+      "csv_city": "Salt Lake City",
+      "csv_state": "UT",
+      "zip_codes_in_city": 49,
+      "field_offices": [
+        {
+          "designation": "SLC",
+          "office_name": "Salt Lake City",
+          "street": "660 South 200 East, Suite 400",
+          "office_city": "Salt Lake City",
+          "office_state": "UT",
+          "office_zip": "84111",
+          "zip_codes_assigned": 49
+        }
+      ]
+    },
+    "sioux-falls-sd": {
+      "csv_city": "Sioux Falls",
+      "csv_state": "SD",
+      "zip_codes_in_city": 15,
+      "field_offices": [
+        {
+          "designation": "OMA",
+          "office_name": "Omaha",
+          "street": "1717 Avenue H E",
+          "office_city": "Omaha",
+          "office_state": "NE",
+          "office_zip": "68110",
+          "zip_codes_assigned": 15
+        }
+      ]
+    },
+    "st-louis-mo": {
+      "csv_city": "Saint Louis",
+      "csv_state": "MO",
+      "zip_codes_in_city": 67,
+      "field_offices": [
+        {
+          "designation": "STL",
+          "office_name": "Saint Louis",
+          "street": "Robert A. Young Federal Bldg, 1222 Spruce Street, Room 2.205",
+          "office_city": "Saint Louis",
+          "office_state": "MO",
+          "office_zip": "63103",
+          "zip_codes_assigned": 67
+        }
+      ]
+    },
+    "tampa-fl": {
+      "csv_city": "Tampa",
+      "csv_state": "FL",
+      "zip_codes_in_city": 55,
+      "field_offices": [
+        {
+          "designation": "TAM",
+          "office_name": "Tampa",
+          "street": "5629 Hoover Boulevard",
+          "office_city": "Tampa",
+          "office_state": "FL",
+          "office_zip": "33634",
+          "zip_codes_assigned": 55
+        }
+      ]
+    },
+    "wilmington-de": {
+      "csv_city": "Wilmington",
+      "csv_state": "DE",
+      "zip_codes_in_city": 25,
+      "field_offices": [
+        {
+          "designation": "PHI",
+          "office_name": "Philadelphia",
+          "street": "30 North 41st Street",
+          "office_city": "Philadelphia",
+          "office_state": "PA",
+          "office_zip": "19104",
+          "zip_codes_assigned": 25
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "lkg-uscis-federal-facts-v1",
+  "purpose": "The federal facts every uscis_medical city page reuses. Each quote below was taken from the live page on the retrieval date, not recalled. Nothing may be paraphrased onto a page as if it were a rule unless it appears here.",
+  "retrieved_on": "2026-08-27",
+  "sources": [
+    {
+      "id": "uscis_find_a_civil_surgeon",
+      "publisher": "U.S. Citizenship and Immigration Services",
+      "title": "Find a Civil Surgeon",
+      "url": "https://www.uscis.gov/tools/find-a-civil-surgeon",
+      "note": "WebFetch receives HTTP 403 from uscis.gov. Retrieved with curl and a browser user agent.",
+      "locator_size_on_retrieval": "6795 total rows",
+      "filters_offered": ["Languages Spoken", "Doctor Sex"],
+      "quotes": [
+        "Enter your address, city, state, or ZIP code to find a designated civil surgeon near you.",
+        "We consider all military physicians designated civil surgeons to perform immigration medical examinations at military treatment facilities in the United States for U.S. veterans, members of the U.S. military, and designated dependents.",
+        "Refugees may visit their state or local health department to complete the vaccination requirements. We recognize all state and local health departments as civil surgeons, and they are authorized to complete the vaccination assessments for refugees seeking adjustment of status. This is called a blanket designation, and you can read more about it in the USCIS Policy Manual Part C - Civil Surgeon Designation and Revocation.",
+        "Your health insurance card. You should ask if the civil surgeon accepts your medical plan for immigration medical examinations. Many health insurance plans do not cover all portions of this examination",
+        "Payment. Check with the civil surgeon's office about acceptable forms of payment. It may be helpful to call a few civil surgeons to find out how much they charge for the immigration medical examination. The cost of an immigration medical examination can vary significantly.",
+        "A record of your vaccinations or immunizations (such as DT, DTP, DTaP, Td, Tdap, OPV, IPV, MMR, Hib, Hepatitis A, Hepatitis B, Varicella, Pneumococcal, Influenza, Rotavirus and Meningococcal disease)",
+        "Government-issued photo identification, such as a valid passport or driver's license. If you are 14 years old or younger, bring identification that shows your name, date and place of birth, and parent's full name. Possible forms of identification include your birth certificate (with an English translation) or an affidavit",
+        "The civil surgeon will also test for communicable diseases such as tuberculosis, syphilis, and gonorrhea, depending on age, as required by the Centers for Disease Control and Prevention (CDC).",
+        "After the immigration medical examination, the civil surgeon will complete Form I-693 and seal the form in an envelope for you to submit to USCIS. Make sure you get a copy of the completed Form I-693 for your personal records before the civil surgeon seals the envelope. We will not accept your Form I-693 if the envelope has been opened or altered."
+      ]
+    },
+    {
+      "id": "uscis_i693_page",
+      "publisher": "U.S. Citizenship and Immigration Services",
+      "title": "Form I-693, Report of Immigration Medical Examination and Vaccination Record",
+      "url": "https://www.uscis.gov/i-693",
+      "edition_date": "01/20/25",
+      "page_last_reviewed": "07/24/2026",
+      "quotes": [
+        "Fees for immigration medical examinations are established by the civil surgeon. Fees may vary by civil surgeon.",
+        "If the civil surgeon signs your form on or before  July 2, 2025, you must use the 03/09/23 or the 01/20/25 edition. If the civil surgeon signs your form July 3, 2025 or later, USCIS will accept only the 01/20/25 edition.",
+        "If you file your Form I-485 online, you must open the sealed envelope from the civil surgeon and upload the completed Form I-693 with your Form I-485 application package. You must keep the original Form I-693 and the envelope from the civil surgeon until we make a final decision on your Form I-485.",
+        "If you are applying for adjustment of status to lawful permanent resident (a Green Card) by mail, you must submit Form I-693 by mail with your Form I-485, to the location specified for your Form I-485",
+        "Effective Dec. 2, 2024, you must submit Form I-693, or a partial Form I-693 (such as the Vaccination Record), and you must submit it with your Form I-485. Otherwise, we may reject your Form I-485.",
+        "After completing your immigration medical examination, the civil surgeon must give you the completed and signed Form I-693 in a sealed envelope. Do not accept the Form I-693 if it is not in a sealed envelope. You (not the civil surgeon) must submit your Form I-693 to USCIS."
+      ]
+    },
+    {
+      "id": "uscis_field_offices",
+      "publisher": "U.S. Citizenship and Immigration Services",
+      "title": "Field Offices",
+      "url": "https://www.uscis.gov/about-us/find-a-uscis-office/field-offices",
+      "page_last_reviewed": "04/17/2026",
+      "quotes": [
+        "Field offices in the U.S. and its territories provide: Interviews for all non-asylum cases (for example, getting a Green Card); Naturalization ceremonies; and Appointments for information and applicant services that supplement what we provide through our website and by phone",
+        "USCIS field offices do not allow walk-ins. You must have an appointment to visit an office.",
+        "To process applications faster, we may move some of our application work to other field offices. Therefore, you might receive a notice (for example, for an interview or a Request for Evidence) that comes from another field office that has not handled your case before."
+      ]
+    }
+  ],
+  "not_published": [
+    {
+      "claim": "A price, a price range, or a typical price for the immigration medical examination, nationally or in any named metro.",
+      "status": "USCIS states the fee is set by the individual civil surgeon and advises calling several offices because the cost can vary significantly. No authority publishes an amount. No page in this vertical may print one."
+    },
+    {
+      "claim": "A typical wait time, turnaround time, or appointment availability for a civil surgeon, nationally or in any named metro.",
+      "status": "Not published by USCIS or by any other authority. Pages must tell the reader which question to ask the office rather than state an expected number of days."
+    },
+    {
+      "claim": "Any quality, ranking, volume or reliability comparison between named civil surgeons.",
+      "status": "USCIS publishes designation, address, languages declared and doctor sex. It publishes nothing about quality. Designation is a fact; everything beyond it would be invention."
+    }
+  ]
+}
