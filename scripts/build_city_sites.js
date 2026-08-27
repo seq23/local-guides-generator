@@ -853,10 +853,31 @@ function renderOptionalCityContentHtml(content) {
     ...cityVerticalSectionConfig(verticalKey).map(([key, title]) => renderOptionalCityStructuredSection(title, content[key], 'ul', key))
   ].join('');
   if (!(content.heading || intro || body || bullets || decisionBlock || structured || leadChecklist)) return '';
+  // The marker that makes the fallback visible to the rest of the build.
+  //
+  // loadOptionalCityContent() has set is_template_fallback since the fallback was
+  // written, and until now nothing read it: a repo-wide grep found the flag at its
+  // two write sites and nowhere else. So the comment above it claimed these pages
+  // were "no longer indexable" while all 200 of them shipped with
+  // `index,follow` and sat in the public sitemap.
+  //
+  // Emitting it into the page is what closes that. scripts/apply_robots_policy.js
+  // runs after render and flips any page carrying this attribute to
+  // noindex,nofollow, and scripts/sitemap_emit.js already drops noindex pages, so
+  // one marker reaches both. Putting it in the HTML rather than in a side manifest
+  // means the page and the fact about the page cannot drift apart.
+  //
+  // The attribute goes on a real element, not a <meta> in the body. A body-level
+  // <meta> is invalid HTML and this build drops it before write, which is a quiet
+  // way to reintroduce exactly the bug being fixed: the flag would be set, the page
+  // would look marked, and nothing downstream would ever see it.
+  const fallbackAttrs = content.is_template_fallback
+    ? ` data-template-fallback="true" data-template-fallback-reason="${escapeOptionalHtml(String(content.noindex_reason || 'no research file'))}"`
+    : '';
   return [
     leadChecklist,
     renderPiAttorneySelectionFrameworkHtml(content),
-    '<section class="city-supplement city-supplement-optional" data-city-intelligence="true">',
+    `<section class="city-supplement city-supplement-optional" data-city-intelligence="true"${fallbackAttrs}>`,
     content.heading ? `<h2>${escapeOptionalHtml(content.heading)}</h2>` : '',
     body,
     bullets,
