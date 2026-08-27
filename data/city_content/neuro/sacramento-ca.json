@@ -2,6 +2,8 @@
   "_generated_by": "scripts/research/build_neuro_city_research.js",
   "_source_city": "data/research/costs/cms_provider_city_neuro_2024.json (CMS CY2024 by Provider and Service, version-pinned).",
   "_source_state": "data/research/costs/cms_geography_service_2024.json (CMS CY2024 by Geography and Service, version-pinned).",
+  "_source_school_route": "data/research/education/idea_part_b_child_count_2024_25.json (ED OSEP EDPass IDEA Part B child count, 2024-25, version-pinned). Regulatory text quoted from 34 CFR 300.39, 300.301 and 303.310 via sites.ed.gov, and SSA POMS DI 22510.001.",
+  "_routes_covered": "Private evaluation, public school district evaluation under IDEA, and an SSA-purchased consultative examination. No page here treats the private clinic as the only route.",
   "_no_clinical_claims": "No diagnosis, test battery, cut score, outcome or clinical timeline appears in this file.",
   "_population_caveat": "All figures are Medicare fee-for-service. Every generated page states this on its face.",
   "_address_caveat": "City figures are by practice address on the claim, not catchment. Every page that prints one says so.",
@@ -14,7 +16,8 @@
     "15 clinicians billing from a Sacramento practice address charged Medicare for a neuropsychological evaluation in 2024, across 598 beneficiaries. That count is by practice address on the claim, not by catchment, so clinicians serving the metro from a suburban office are not in it. Treat it as a floor, never as the number of providers available to you. Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.",
     "The largest single group among them by headcount was \"Psychologist, Clinical\" (9 of 15). That is a fact about who bills this code in Sacramento, not a judgement about any of them — but it is worth knowing before you assume every Sacramento listing for this service is a neuropsychologist. Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.",
     "Statewide, 740 California clinicians billed the code across 26,879 beneficiaries — the highest of the 53 states and territories CMS published a figure for. Where the binding constraint is the waitlist rather than the price, that is the most useful published capacity number. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, CY2024.",
-    "Private-pay neuropsychologists near Sacramento, school district evaluators and hospital developmental clinics billing only commercial plans are absent from every count on this page, and for child evaluation they are much of the market."
+    "Private-pay neuropsychologists near Sacramento, school district evaluators and hospital developmental clinics billing only commercial plans are absent from every count on this page, and for child evaluation they are much of the market.",
+    "15 clinicians billed Medicare for this service from Sacramento addresses in 2024; California public schools served 770,697 children aged 6 to 21 under IDEA Part B in the 2024-25 federal count, plus 56,410 aged 3 to 5. Those are two systems with two front doors, and a count of children served is not a count of evaluations — but it is the reason the school route is worth asking about before you price the private one. Source: U.S. Department of Education, Office of Special Education Programs, EDPass IDEA Part B Child Count and Educational Environments, 2024-25."
   ],
   "cost_comparison_table": {
     "heading": "What Sacramento and California clinicians actually billed",
@@ -94,6 +97,9 @@
     "Ask which parts can be done remotely: some instruments have no validated remote administration, so a California telehealth intake does not imply telehealth testing."
   ],
   "named_resources_or_providers": [
+    "The public school district your child attends is the agency that runs an IDEA evaluation. Under 34 CFR 300.301(b) \"either a parent of a child or a public agency may initiate a request for an initial evaluation\", and under 34 CFR 300.39(b)(1) the special education that follows is provided \"at no cost to the parents\". Put the request in writing. Of the 770,697 school-age children California served, 145,665 were counted under autism and 127,882 under other health impairment — the two categories most parents arriving at this page are asking about. Source: U.S. Department of Education, Office of Special Education Programs, EDPass IDEA Part B Child Count and Educational Environments, 2024-25.",
+    "Do not assume a fixed clock. 34 CFR 300.301(c)(1) gives 60 days from parental consent \"or if the State establishes a timeframe within which the evaluation must be conducted, within that timeframe\", so ask the California district which applies there; for a child under three, 34 CFR 303.310 runs the Part C timeline at 45 days from referral.",
+    "If the evaluation is evidence for a Social Security disability claim, SSA can purchase one. SSA POMS DI 22510.001: \"SSA pays for any CE ordered for the claimant; and SSA does not pay for any medical examination arranged by the claimant or the claimant's appointed representative unless it is approved in advance.\" An examination you book yourself near Sacramento is not that examination.",
     "The California psychology licensing board is authoritative for whether an evaluator is licensed and in good standing in California.",
     "ASPPB (asppb.net) maintains the directory of state psychology boards.",
     "CMS publishes the Sacramento and California figures quoted here at data.cms.gov, under Medicare Physician & Other Practitioners.",
@@ -105,6 +111,7 @@
     "type": "decision_checklist",
     "title": "City-specific neuro evaluation decision checklist",
     "items": [
+      "Settle the route before the price. A district evaluation under IDEA is requested from the school and carries no charge to parents; a consultative examination for a Social Security claim is ordered and paid for by SSA; only a private evaluation produces a Sacramento quote. They answer different questions, and one family often needs two of them.",
       "Name the question first — ADHD, autism, learning, memory, concussion or broader differential — and confirm the Sacramento clinic routinely handles it.",
       "Confirm the evaluator with the California psychology board, and confirm who signs the report.",
       "Ask for hours, not a total: 96132 is the first hour and 96133 each hour after, so an hours estimate is the price.",
