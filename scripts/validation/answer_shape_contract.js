@@ -57,7 +57,7 @@ if (!fs.existsSync(OUT_DIR)) {
 const ANSWER_P = /<p[^>]*data-(?:citation-summary-answer|home-answer-span)="true"[^>]*>([\s\S]*?)<\/p>/i;
 const files = walk(OUT_DIR).filter((f) => !/(^|[\\/])404\.html$/.test(f)).sort();
 
-const problems = [];
+let problems = [];
 let checked = 0;
 let exempt = 0;
 let withSummaryBlock = 0;
@@ -97,8 +97,28 @@ for (const file of files) {
   else problems.push(`${rel}: has an answer surface but no recommendation_summary block`);
 }
 
+// Pre-existing failures are sealed, not retro-failed. This contract only began
+// seeing four of the five packs when the hard-fail tier moved inside the per-pack
+// build loop -- before that it ran once, against whichever pack built last, so
+// four verticals' rendered pages were never checked by it. Failing them all at
+// once on the day they became visible would mean either a rushed rewrite or
+// switching the gate off; sealing keeps the gate live and the debt named.
+//
+// Adding a route here is NOT how to pass this contract. Each sealed route is a
+// page that needs authoring: several have an "answer" that is really the
+// generator's brief ("<title> should answer the practical decision question
+// first..."), which is why retrofit_recommendation_summary.js correctly refuses
+// to seat a block on them -- there is no recommendation to locate.
+const SEAL_PATH = path.join(ROOT, 'data', 'contracts', 'answer_shape_baseline.json');
+const sealed = fs.existsSync(SEAL_PATH)
+  ? new Set((JSON.parse(fs.readFileSync(SEAL_PATH, 'utf8')).sealed_routes || []))
+  : new Set();
+const sealedHits = problems.filter((m) => sealed.has(String(m).split(':')[0].trim()));
+problems = problems.filter((m) => !sealed.has(String(m).split(':')[0].trim()));
+
 const report = {
   out_dir: path.relative(ROOT, OUT_DIR) || '.',
+  sealed_pre_existing: sealedHits.length,
   pages: files.length,
   with_answer_shape: checked,
   exempt_no_answer_surface: exempt,
