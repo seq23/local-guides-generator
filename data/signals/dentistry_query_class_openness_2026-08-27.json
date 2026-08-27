@@ -1,0 +1,130 @@
+{
+  "$schema": "lkg-query-class-openness-probe-v1",
+  "vertical": "dentistry",
+  "measured_on": "2026-08-27",
+  "purpose": "Test the standing assumption that dentistry is a closed vertical. The portfolio's one citation-earning property (uscisexam) wins because 'civil surgeon near me' hands most of its result slots to unbranded microsites rather than to a national brand. That is a property of the QUERY CLASS, not of the vertical: the same vertical can hold an open class and a closed one. Before dentistry is recorded as permanently latent, at least one dentistry class has to be measured rather than assumed.",
+
+  "method": {
+    "channel": "Bing web results, fetched server-side as HTML and read back as an ordered host list. One fetch per query, top 10 organic slots.",
+    "why_bing": "The prior dentistry refusal in data/research/dentistry/ was framed against Bing SERP shape, so this uses the same surface and stays comparable to it.",
+    "measure": "unbranded_share = (result slots held by an unbranded, independently operated microsite or directory) / (total organic slots read). A microsite here means a site with no national consumer brand behind it - the kind of property this generator publishes. Government, university, insurer, marketplace and national media hosts are all counted AGAINST openness.",
+    "second_measure": "national_brand_share = slots held by a national consumer brand or marketplace (Yelp, Zocdoc, Delta Dental, UnitedHealthcare, Mayo, Cleveland Clinic and equivalents). A class where this is 0 is enterable even when the unbranded share is only moderate, because nothing with distribution is defending the slot.",
+    "controls": "The two uscis_medical queries are run first and unchanged, so the dentistry numbers are read against a class whose real-world outcome is already known (13 citations).",
+    "honesty_note": "Only probes that returned a distinct, on-topic result set are recorded as measurements. Probes where the channel degraded are listed under discarded_probes with the reason, and are NOT counted in any ratio. They are kept in this file rather than deleted so that a later reader can see the sample was small and why."
+  },
+
+  "geolocation_caveat": "The fetch egress IP is not pinned, and the three probes carrying 'near me' resolved against three different regions (Georgia, Kentucky, Massachusetts). For a 'near me' class this is acceptable and arguably desirable - it samples the class in more than one market - but it means no single city's result set is characterised here, and none of these probes should be read as evidence about a specific city.",
+
+  "probes": [
+    {
+      "query": "civil surgeon near me",
+      "role": "control_known_open",
+      "vertical": "uscis_medical",
+      "slots_read": 10,
+      "hosts_in_order": [
+        "uscis.gov", "uscis.gov", "civilsurgeonfinder.com", "immigrationmedical.com",
+        "immigrationmedical.com", "rimhco.org", "i693medical.com", "civilsurgeonfinder.com",
+        "easyime.com", "usmedicalexams.com"
+      ],
+      "classification": { "government": 2, "nonprofit": 1, "unbranded_microsite": 7, "national_brand": 0 },
+      "unbranded_share": 0.70,
+      "national_brand_share": 0.0,
+      "reads_as": "Open, and reproduces the class shape this portfolio already monetises. The repo's standing figure for this query is 0.78; 0.70 measured here is the same finding within the noise of a single 10-slot sample."
+    },
+    {
+      "query": "uscis civil surgeon",
+      "role": "control_claimed_closed",
+      "vertical": "uscis_medical",
+      "slots_read": 10,
+      "hosts_in_order": [
+        "uscis.gov", "uscis.gov", "civilsurgeonfinder.com", "cdc.gov",
+        "civilsurgeonfinder.com", "easyime.com", "simplecitizen.com", "immigrationmedical.com",
+        "usmedicalexams.com", "uscis.gov"
+      ],
+      "classification": { "government": 4, "nonprofit": 0, "unbranded_microsite": 6, "national_brand": 0 },
+      "unbranded_share": 0.60,
+      "national_brand_share": 0.0,
+      "reads_as": "DID NOT REPRODUCE. The repo's standing figure for this query is 0.00 open. Measured here it is 0.60 - the branded form of the query pushes uscis.gov and cdc.gov up the page, but it does not clear the microsites out of it. Recorded as a divergence rather than silently averaged away. The likely explanation is that the 0.00 figure was measured against AI answer-slot attribution and this is measured against organic SERP composition; those are related but not the same surface. Anyone relying on the 0.00 figure should re-derive it before building on it."
+    },
+    {
+      "query": "dental school clinic near me",
+      "role": "dentistry_candidate",
+      "vertical": "dentistry",
+      "slots_read": 10,
+      "hosts_in_order": [
+        "needhelppayingbills.com", "gadental.org", "augusta.edu", "augusta.edu",
+        "newmouth.com", "med.emory.edu", "freedentalcare.us", "hitechdental.info",
+        "sites.highlands.edu", "hhs.gov"
+      ],
+      "classification": { "government": 1, "university": 4, "state_dental_association": 1, "unbranded_microsite": 4, "national_brand": 0 },
+      "unbranded_share": 0.40,
+      "national_brand_share": 0.0,
+      "reads_as": "OPEN. No Mayo, no Cleveland Clinic, no Zocdoc, no Delta Dental, no Healthline. The non-microsite slots are universities publishing their own clinic pages and one state dental association - institutional hosts that rank for themselves and do not compete for the class as a whole. Four of ten slots are already held by exactly the kind of property this generator publishes."
+    },
+    {
+      "query": "free dental clinic near me",
+      "role": "dentistry_candidate",
+      "vertical": "dentistry",
+      "slots_read": 10,
+      "hosts_in_order": [
+        "freedentalcare.us", "freecliniccdirectory.org", "freedental.org", "freeclinics.com",
+        "medcenterhealth.org", "dentalclinics.org", "budgetseniors.com", "freecliniccdirectory.org",
+        "freedental.org", "hhs.gov"
+      ],
+      "classification": { "government": 1, "local_health_system": 1, "unbranded_microsite": 8, "national_brand": 0 },
+      "distinct_unbranded_hosts": ["freedentalcare.us", "freecliniccdirectory.org", "freedental.org", "freeclinics.com", "dentalclinics.org", "budgetseniors.com"],
+      "unbranded_share": 0.80,
+      "national_brand_share": 0.0,
+      "reads_as": "OPEN, and the most open class measured in this round - more open than the uscis control. Eight of ten slots are unbranded directory microsites across six distinct hosts, none of which carries a national brand. This is the same structural shape as 'civil surgeon near me': a public-interest access question whose answer is a LIST, where the authoritative bodies publish eligibility rules but nobody authoritative publishes the list itself."
+    },
+    {
+      "query": "dentist that accepts medicaid near me",
+      "role": "dentistry_candidate",
+      "vertical": "dentistry",
+      "slots_read": 10,
+      "hosts_in_order": [
+        "yelp.com", "yelp.com", "deltadental.com", "rcdso.org", "vadentist.com",
+        "mckinneydentist.com", "uhc.com", "beaumontfamilydentistry.com", "zocdoc.com",
+        "spokanedental.com"
+      ],
+      "classification": { "national_brand_or_marketplace": 5, "individual_practice_site": 4, "foreign_regulator": 1, "unbranded_microsite": 0 },
+      "unbranded_share": 0.0,
+      "national_brand_share": 0.50,
+      "reads_as": "CLOSED, and it is the class the dentistry pack is currently written against. Yelp holds two slots, and Delta Dental, UnitedHealthcare and Zocdoc hold one each. The remaining slots are individual dental practices ranking for their own names, which a directory page does not displace. This corroborates the existing refusal: the provider-directory axis of dentistry is genuinely defended."
+    }
+  ],
+
+  "discarded_probes": [
+    {
+      "queries": [
+        "dental implant cost des moines",
+        "dental hygiene school cleaning near me",
+        "sliding scale dental clinic chicago",
+        "dental clinic sliding scale fees chicago",
+        "dental school patient clinic chicago",
+        "dental care for adults without insurance"
+      ],
+      "reason": "The channel degraded partway through the round and returned one identical, unrelated block of Lunenburg, Massachusetts dental practices for every subsequent query regardless of its terms. These are artefacts of the fetch path, not results. NOT counted in any ratio above.",
+      "consequence_worth_naming": "'dental implant cost des moines' is one of the discarded probes. That is the exact query the existing dentistry refusal rests on, and this round therefore neither reproduced nor contradicted the '10 of 10 SERP results were price databases' finding. The cost-axis refusal is left standing on its original evidence, not re-confirmed here."
+    },
+    {
+      "queries": ["dental implants recovery timeline", "how to choose a dentist", "low income dental care near me"],
+      "reason": "The channel returned a Bing MSN news carousel (or, for the third, results for the word 'low') instead of organic results. Not measurements."
+    }
+  ],
+
+  "findings": [
+    "Dentistry is not uniformly closed. Openness is a property of the query class, and dentistry holds at least two classes with opposite shapes.",
+    "CLOSED - the provider-directory axis ('dentist that accepts medicaid near me'): 0.00 unbranded, 0.50 national brand. Yelp, Zocdoc, Delta Dental and UnitedHealthcare hold it. Consistent with the existing refusal.",
+    "OPEN - the safety-net access axis ('free dental clinic near me' 0.80 unbranded; 'dental school clinic near me' 0.40 unbranded): zero national brand slots in either. Structurally the same as the uscis_medical class this portfolio already earns citations from.",
+    "The cost axis is untouched by this round. Its refusal stands on its prior evidence and was not re-tested here."
+  ],
+
+  "what_this_does_and_does_not_license": {
+    "does": "It licenses removing 'dentistry is a closed vertical' as a standing conclusion, and recording instead that one measured axis is open and unbuilt.",
+    "does_not": "Two clean probes are not a research programme. This does not license promoting any city page today. The open axis is an ACCESS axis - which clinics exist, who qualifies, how to get seen - and no city file in data/city_content/dentistry/ currently carries a single access fact. Promoting those six files on the strength of this measurement would ship boilerplate against a contract that only checks that a file exists.",
+    "next_step_if_pursued": "The open axis is researchable without inventing anything, because its answer is a published list rather than a price: CODA-accredited dental school clinics are enumerable from the schools' own patient-clinic pages, and HRSA publishes federally funded health centers with dental service lines. Both are primary, per-city, and carry no dollar figures. That is the shape a dentistry build would have to take, and it is a different build from the one the 53 templated city pages were written for."
+  },
+
+  "reproduce": "Re-run each query in probes[] against Bing, read the top 10 organic hosts in order, and classify with the rules in method above. Discard any probe whose result set is off-topic or repeats a previous probe's block."
+}

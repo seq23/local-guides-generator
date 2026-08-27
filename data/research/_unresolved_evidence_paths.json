@@ -1,0 +1,17 @@
+{
+  "$schema": "lkg-unresolved-evidence-ledger-v1",
+  "purpose": "Citations inside data/research/ that point at files not present in this repository. Enforced by scripts/validation/research_evidence_paths_contract.js, which prints this list on every run and fails the build on any unresolved citation NOT listed here. An entry is an admission that a claim's evidence is currently unavailable - it is not an exemption from fixing it.",
+  "rules": [
+    "Every entry needs a reason and a first_seen date.",
+    "An entry whose file has since been restored must be deleted; the contract fails on stale entries so this list cannot quietly accumulate.",
+    "Do not add an entry to make a build green. If a research claim's evidence is gone, the honest fix is usually to correct the claim, not to shelve the citation."
+  ],
+  "allowed": [
+    {
+      "path": "data/field_office_zip_08-25-26.csv",
+      "cited_in": "data/research/uscis_medical/field_office_assignments.json",
+      "reason": "Found dangling on 2026-08-27 while auditing dentistry. Left in place deliberately: data/research/uscis_medical/ and the uscis_medical city work belong to another workstream, and editing that file from a dentistry change would collide with it. Logged here so the gap is visible and attributable rather than silent. The owning workstream should either restore the CSV or reword the citation.",
+      "first_seen": "2026-08-27"
+    }
+  ]
+}

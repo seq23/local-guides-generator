@@ -22,3 +22,7 @@ preflight_build.txt
 # workflow expression sitting in a file named like a credential, which reads as
 # a real key to anyone scanning the repo and would shadow the runtime file.
 gsc-service-account.json
+
+# Validation evidence written by scripts/validation/ on every build.
+# Generated, not authored: keep it out of the tree so a build never dirties it.
+artifacts/
