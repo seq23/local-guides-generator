@@ -1018,9 +1018,24 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
     market: marketSlug
   });
   const isTrainingBuild = String(process.env.LKG_ENV || '').toLowerCase() === 'training';
+  // A state page used to send its conversion CTA to the global /next-steps/,
+  // even though a per-state next-steps page is built and sitemapped for all 50
+  // states. Nothing linked to those 50 pages: measured on the pi pack, they were
+  // 50 of the 52 orphans, and they held the pack to 81.0% of pages within three
+  // clicks while every other pack sat near 99%. They are conversion pages, so an
+  // unreachable one is a dead conversion path, not just a dead URL.
+  //
+  // City pages already do the right thing (/<city>/next-steps/), and
+  // scripts/export_buyout_click_audit_urls.js already declares the state route
+  // as /states/<ST>/next-steps/. This makes the state branch agree with both.
+  const stateAbbrForNextSteps = (pageKind === 'state')
+    ? ((String(src).match(/^\/states\/([A-Za-z]{2})\//) || [])[1] || '')
+    : '';
   const nextStepsBasePath = isTrainingBuild
     ? '/next-steps/'
-    : ((pageKind === 'state') ? '/next-steps/' : (marketSlug ? ('/' + marketSlug + '/next-steps/') : '/next-steps/'));
+    : (stateAbbrForNextSteps
+      ? ('/states/' + stateAbbrForNextSteps.toUpperCase() + '/next-steps/')
+      : (marketSlug ? ('/' + marketSlug + '/next-steps/') : '/next-steps/'));
   const nextStepsHref = buildTrackedHref(nextStepsBasePath, {
     src,
     intent: 'decision_hub',
