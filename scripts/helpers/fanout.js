@@ -241,9 +241,32 @@ function defaultClusterItems(ctx) {
     insurance: '/guides/document-checklist/',
     report: '/guides/document-checklist/',
     telehealth: '/guides/uscis-vaccination-requirements/',
-    nextSteps: '/next-steps/'
+    nextSteps: '/next-steps/',
+    // Naturalization routes. Only the two that genuinely vary by place are
+    // fanned out under a geo-templated query: the N-400 interview is held at a
+    // USCIS field office, and which office serves a given metro is the one
+    // per-place fact this vertical has. The civics test, the age-based
+    // exemptions and Form N-648 are federal and identical in every state, so
+    // they are linked from the state and city guide cards rather than dressed
+    // up as location-specific queries here.
+    interview: '/guides/uscis-interview-checklist/',
+    n400: '/guides/n-400-checklist/'
   };
   const routeSet = isNeuro ? neuroRoutes : (isUscis ? uscisRoutes : null);
+
+  // Naturalization fan-out, uscis_medical only. Empty for every other vertical.
+  //
+  // Live on state pages. On city pages this is a fallback that currently does
+  // not fire: uscis_medical city records are served by the configured cluster
+  // in data/community/query_compiler/uscis_medical.json, which overrides these
+  // defaults. That file is also the source for the citation probe's query set,
+  // so widening it widens what gets measured - a separate decision from this
+  // one. City pages reach the naturalization guides through the decision
+  // support groups in build_city_sites.js instead.
+  const naturalizationItems = isUscis ? [
+    { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `naturalization interview checklist in ${market}`, href: uscisRoutes.interview, label: 'Interview checklist' },
+    { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `N-400 filing checklist in ${market}`, href: uscisRoutes.n400, label: 'N-400 checklist' }
+  ] : [];
 
   if (ctx.pageKind === 'city') {
     return [
@@ -253,7 +276,8 @@ function defaultClusterItems(ctx) {
       { groupId: 'faq', groupLabel: 'FAQ and red flags', query: `red flags when choosing a ${noun} in ${market}`, href: routeSet ? routeSet.redFlags : '/guides/#red-flags', label: 'Red flags guide' },
       { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `${noun} cost in ${market}`, href: routeSet ? routeSet.costs : '/guides/#costs', label: 'Costs path' },
       { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `questions to ask a ${noun} in ${market}`, href: routeSet ? routeSet.questions : '/guides/#questions', label: 'Questions path' },
-      { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `find a ${noun} in ${market}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
+      { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `find a ${noun} in ${market}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' },
+      ...naturalizationItems
     ];
   }
 
@@ -263,7 +287,8 @@ function defaultClusterItems(ctx) {
       { groupId: 'compare', groupLabel: 'State-level lookup paths', query: `how to find a ${noun} in ${market}`, href: route, label: 'State hub' },
       { groupId: 'faq', groupLabel: 'State-level lookup paths', query: `${noun} questions in ${market}`, href: route, label: 'State FAQ' },
       { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `${noun} checklist in ${market}`, href: routeSet ? routeSet.after : '/guides/', label: routeSet ? 'After-evaluation guide' : 'Guides hub' },
-      { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `request help finding a ${noun} in ${market}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
+      { groupId: 'next', groupLabel: 'Costs, timing, next steps', query: `request help finding a ${noun} in ${market}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' },
+      ...naturalizationItems
     ];
   }
 

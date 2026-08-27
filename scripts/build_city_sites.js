@@ -3220,15 +3220,30 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
         { heading: 'Start here first', items: [
           { href: '/guides/uscis-medical-exam-overview/', label: 'Exam overview' },
           { href: '/guides/i-693-medical-exam-requirements/', label: 'I-693 requirements' },
+          { href: '/guides/i-693-form-instructions/', label: 'Filling in and filing Form I-693' },
           { href: '/guides/document-checklist/', label: 'Document checklist' },
           { href: '/guides/questions-to-ask-a-civil-surgeon/', label: 'Questions to ask' }
         ]},
         { heading: 'By situation', items: [
           { href: '/guides/uscis-vaccination-requirements/', label: 'Vaccination requirements' },
-          { href: '/guides/costs-and-timeframes/', label: 'Costs and timeframes' }
+          { href: '/guides/costs-and-timeframes/', label: 'Costs and timeframes' },
+          { href: '/guides/uscis-medical-exam-cost/', label: 'What the exam itself costs' }
+        ]},
+        // Form I-693 is filed with Form I-485, the green-card application, not
+        // with Form N-400. A visitor who lands on a civil surgeon city page
+        // while actually on the naturalization path needs a different set of
+        // pages, and until this group existed the site had no route to them
+        // from any city or state page - only from inside /guides/ itself.
+        { heading: 'If your case is naturalization (Form N-400), not a green card', items: [
+          { href: '/guides/n-400-checklist/', label: 'N-400 checklist' },
+          { href: '/guides/citizenship-test/', label: 'The citizenship test' },
+          { href: '/guides/naturalization-test-exemptions/', label: 'Test exemptions on age or medical grounds' },
+          { href: '/guides/n-648-medical-waiver/', label: 'Form N-648, the medical disability exception' },
+          { href: '/guides/uscis-interview-checklist/', label: 'Interview checklist' }
         ]},
         { heading: 'After you know your direction', items: [
-          { href: '/guides/after-your-exam-next-steps/', label: 'After-exam next steps' }
+          { href: '/guides/after-your-exam-next-steps/', label: 'After-exam next steps' },
+          { href: '/guides/uscis-fees-timelines-and-what-to-ask/', label: 'Fees and timelines across forms' }
         ]}
       ]
     }
@@ -4561,6 +4576,44 @@ function selectPriorityGuideSummaries(globalPagesDir, limit) {
   return chosen.slice(0, limit || 6);
 }
 
+// The naturalization routes on uscisexam.com. Form I-693 is filed with Form
+// I-485, the green-card application - USCIS is explicit that "When you file
+// Form I-485, you must also submit Form I-693" (uscis.gov/i-693). A visitor on
+// the Form N-400 path does not need a civil surgeon at all, and for Form N-648
+// USCIS names a different set of clinicians: "Only a medical doctor, doctor of
+// osteopathy, or clinical psychologist licensed to practice in the United
+// States may certify Form N-648" (uscis.gov/n-648). These pages exist and are
+// good; the state pages simply had no route to them.
+const USCIS_NATURALIZATION_ROUTES = [
+  '/guides/n-400-checklist/',
+  '/guides/citizenship-test/',
+  '/guides/naturalization-test-exemptions/',
+  '/guides/n-648-medical-waiver/',
+  '/guides/uscis-interview-checklist/'
+];
+
+function renderStateNaturalizationGuidesHtml(verticalKey, globalPagesDir) {
+  if (String(verticalKey || '').trim().toLowerCase() !== 'uscis_medical') return '';
+  const byRoute = new Map(
+    loadGlobalPageSummaries(globalPagesDir).map((p) => [String(p.route || ''), p])
+  );
+  // Render only routes that actually built. If a guide is renamed or removed,
+  // this section shrinks rather than emitting a link to a 404.
+  const cards = USCIS_NATURALIZATION_ROUTES
+    .map((route) => byRoute.get(route))
+    .filter(Boolean)
+    .map((g) => '<div class="card"><h3><a href="' + escapeHtml(String(g.route)) + '">' + escapeHtml(String(g.title || 'Guide')) + '</a></h3><p>' + escapeHtml(String(g.description || 'Guide')) + '</p></div>')
+    .join('');
+  if (!cards) return '';
+  return (
+    '<section class="section state-naturalization-guides" data-state-naturalization-guides="true">' +
+      '<h2>If your case is naturalization (Form N-400), not a green card</h2>' +
+      '<p class="muted">Form I-693 and the civil surgeon belong to the green-card path: USCIS requires Form I-693 with Form I-485. If you are applying to naturalize on Form N-400, these are the pages that apply instead. Educational only. Not legal or medical advice.</p>' +
+      '<div class="grid">' + cards + '</div>' +
+    '</section>'
+  );
+}
+
 function renderInternalDistributionZoneHtml(opts) {
   const kind = String((opts && opts.kind) || '').trim();
   const title = escapeHtml(String((opts && opts.title) || 'Priority surfaces'));
@@ -5290,6 +5343,15 @@ function loadNextStepsSponsor(citySlug) {
       const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }));
       const stateLead = renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, stateName, verticalLabel: verticalLabelFor(verticalKey), hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } });
       const groupedGuides = '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + guideLinks.map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.href) + '">' + escapeHtml(g.label) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>';
+      // selectPriorityGuideSummaries fills four fixed topical buckets - cost,
+      // questions, red-flags, after - so a state page can only ever surface the
+      // four medical-exam guides that match them. The naturalization cluster
+      // (N-400, the civics test, the exemptions, N-648, the interview) matches
+      // none of those buckets, and was reachable only from inside /guides/.
+      // The 56-city x 50-state geo fan-out is the one mechanism on this domain
+      // with a measured citation return; a cluster the fan-out does not link is
+      // outside it. This routes into it without changing the shared selector.
+      const naturalizationStateGuides = renderStateNaturalizationGuidesHtml(verticalKey, globalPagesDir);
       let mainHtml = (
         (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and city coverage checks.') : '') +
         '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(brandName) + ' in ' + escapeHtml(stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
@@ -5301,6 +5363,7 @@ function loadNextStepsSponsor(citySlug) {
         renderStateCityGridHtml(stateName, cityLinks) +
         renderRequestCitySectionHtml(brandName, stateName) +
         groupedGuides +
+        naturalizationStateGuides +
         '%%MID_NEXT_STEPS%%' +
         '<section class="section tertiary-support" data-tertiary-support="true"><h2>Need a lighter support path?</h2><p class="muted"><a href="/faq/">FAQ</a> · <a href="/methodology/">Methodology</a> · <a href="/guides/">Guides hub</a></p></section>'
       );
