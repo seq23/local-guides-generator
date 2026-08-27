@@ -1214,6 +1214,36 @@
         "questions",
         "next_steps"
       ]
+    },
+    {
+      "route": "/guides/school-district-vs-private-vs-ssa-evaluation/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "name the three agencies that run an evaluation and say which one bills the family before any advice about choosing a provider",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/neuropsych-evaluation-cost-estimator/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "show the published per-hour figures and the hours variable that decides the bill, instead of quoting a total nobody can quote",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
     }
   ]
 }

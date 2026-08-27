@@ -61,6 +61,44 @@
  *     external organisation named.
  *   - fill a city or state in where CMS published nothing. It says so instead.
  *
+ * ---------------------------------------------------------------------------
+ * 2026-08-27 addition: the routes that are not a clinic.
+ *
+ * Everything above prices the private route, because CMS is a claims file and
+ * claims come from clinics. Measured against grounded answers in this vertical,
+ * that is not the whole market: of the five routes an assistant actually
+ * surfaced, two were not clinics - a school district evaluation under IDEA, and
+ * a consultative examination purchased by SSA for a disability claim. A page
+ * that prices only the third one is wrong for the parent whose real answer is
+ * free, and wrong for the claimant whose real answer is paid for by SSA.
+ *
+ * So each page now carries the school route and the SSA route alongside the
+ * private one, and the decision checklist asks which route applies before it
+ * asks anything about price. The regulatory sentences are quoted from the text,
+ * not paraphrased from memory:
+ *
+ *   34 CFR 300.39(b)(1)   special education is provided "at no cost to the
+ *                         parents" (sites.ed.gov/idea/regs/b/a/300.39)
+ *   34 CFR 300.301(b)     "either a parent of a child or a public agency may
+ *                         initiate a request for an initial evaluation"
+ *   34 CFR 300.301(c)(1)  60 days from parental consent, "or if the State
+ *                         establishes a timeframe within which the evaluation
+ *                         must be conducted, within that timeframe" - which is
+ *                         why no page here prints one number for all states
+ *   34 CFR 303.310        Part C, under age three, runs on 45 days from
+ *                         referral (sites.ed.gov/idea/regs/c/d/303.310)
+ *   SSA POMS DI 22510.001 "SSA pays for any CE ordered for the claimant; and
+ *                         SSA does not pay for any medical examination arranged
+ *                         by the claimant or the claimant's appointed
+ *                         representative unless it is approved in advance."
+ *   All five read live on 2026-08-27.
+ *
+ * The scale figure for the school route is a real per-state headcount, not an
+ * estimate: data/research/education/idea_part_b_child_count_2024_25.json, via
+ * scripts/research/pull_idea_part_b_child_count.js. It is a count of children
+ * SERVED, which is not a count of evaluations and is never described as one.
+ * ---------------------------------------------------------------------------
+ *
  * Usage: node scripts/research/build_neuro_city_research.js
  */
 const fs = require('fs');
@@ -70,6 +108,7 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const GEO = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'research', 'costs', 'cms_geography_service_2024.json'), 'utf8'));
 const CITY = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'research', 'costs', 'cms_provider_city_neuro_2024.json'), 'utf8'));
 const CITIES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'page_sets', 'examples', 'cities_neuro_v1.json'), 'utf8'));
+const IDEA = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'research', 'education', 'idea_part_b_child_count_2024_25.json'), 'utf8'));
 const OUT_DIR = path.join(ROOT, 'data', 'city_content', 'neuro');
 
 const STATE_NAME = {
@@ -146,6 +185,66 @@ const POP =
   'For a child evaluation they describe a different population than yours, and they remain the only per-city figures ' +
   'published for these codes. None of them is a quote.';
 
+const SRC_IDEA =
+  'Source: U.S. Department of Education, Office of Special Education Programs, EDPass IDEA Part B Child Count and ' +
+  'Educational Environments, 2024-25.';
+
+function ideaRow(stateName) {
+  const row = IDEA.states[stateName];
+  if (!row) return null;
+  const served = row.school_age_6_to_21['All Disabilities'];
+  const early = row.early_childhood_3_to_5['All Disabilities'];
+  if (served == null && early == null) return null;
+  return { served, early, autism: row.school_age_6_to_21.Autism, ohi: row.school_age_6_to_21['Other health impairment'] };
+}
+
+// The school route is the one the private-pay figures on this page cannot see.
+// It is stated as a headcount of children served, which is what ED publishes -
+// not as a count of evaluations, and not as a claim about any child's chances.
+function schoolRouteLine(city, stateName, cityRow96132) {
+  const idea = ideaRow(stateName);
+  if (!idea || idea.served == null) {
+    return (
+      `A private evaluation is not the only route near ${city}. A public school district evaluation is requested under ` +
+      `IDEA, and a consultative examination for a Social Security claim is ordered and paid for by SSA. Neither ` +
+      `appears anywhere in the Medicare figures on this page.`
+    );
+  }
+  const scale = cityRow96132
+    ? `${num(cityRow96132.rendering_providers)} clinicians billed Medicare for this service from ${city} addresses in 2024; ` +
+      `${stateName} public schools served ${num(idea.served)} children aged 6 to 21 under IDEA Part B in the 2024-25 federal count` +
+      (idea.early != null ? `, plus ${num(idea.early)} aged 3 to 5` : '') + '. '
+    : `${stateName} public schools served ${num(idea.served)} children aged 6 to 21 under IDEA Part B in the 2024-25 federal count` +
+      (idea.early != null ? `, plus ${num(idea.early)} aged 3 to 5` : '') + `, none of it visible in the Medicare figures on this page. `;
+  return (
+    scale +
+    `Those are two systems with two front doors, and a count of children served is not a count of evaluations — but it ` +
+    `is the reason the school route is worth asking about before you price the private one. ${SRC_IDEA}`
+  );
+}
+
+function routeResources(city, stateName) {
+  const idea = ideaRow(stateName);
+  const cat =
+    idea && idea.autism != null && idea.ohi != null
+      ? ` Of the ${num(idea.served)} school-age children ${stateName} served, ${num(idea.autism)} were counted under autism and ` +
+        `${num(idea.ohi)} under other health impairment — the two categories most parents arriving at this page are asking about. ${SRC_IDEA}`
+      : '';
+  return [
+    `The public school district your child attends is the agency that runs an IDEA evaluation. Under 34 CFR 300.301(b) ` +
+      `"either a parent of a child or a public agency may initiate a request for an initial evaluation", and under ` +
+      `34 CFR 300.39(b)(1) the special education that follows is provided "at no cost to the parents". Put the request in writing.` +
+      cat,
+    `Do not assume a fixed clock. 34 CFR 300.301(c)(1) gives 60 days from parental consent "or if the State establishes a ` +
+      `timeframe within which the evaluation must be conducted, within that timeframe", so ask the ${stateName} district which ` +
+      `applies there; for a child under three, 34 CFR 303.310 runs the Part C timeline at 45 days from referral.`,
+    `If the evaluation is evidence for a Social Security disability claim, SSA can purchase one. SSA POMS DI 22510.001: ` +
+      `"SSA pays for any CE ordered for the claimant; and SSA does not pay for any medical examination arranged by the ` +
+      `claimant or the claimant's appointed representative unless it is approved in advance." An examination you book ` +
+      `yourself near ${city} is not that examination.`,
+  ];
+}
+
 function supplyLines(city, stateAbbr, stateName) {
   const lines = [];
   const c = cityRow(city, stateAbbr, '96132');
@@ -191,6 +290,7 @@ function supplyLines(city, stateAbbr, stateName) {
     `billing only commercial plans are absent from every count on this page, and for child evaluation they are much ` +
     `of the market.`
   );
+  lines.push(schoolRouteLine(city, stateName, c));
   return lines;
 }
 
@@ -343,6 +443,8 @@ function build(city) {
     _generated_by: 'scripts/research/build_neuro_city_research.js',
     _source_city: 'data/research/costs/cms_provider_city_neuro_2024.json (CMS CY2024 by Provider and Service, version-pinned).',
     _source_state: 'data/research/costs/cms_geography_service_2024.json (CMS CY2024 by Geography and Service, version-pinned).',
+    _source_school_route: 'data/research/education/idea_part_b_child_count_2024_25.json (ED OSEP EDPass IDEA Part B child count, 2024-25, version-pinned). Regulatory text quoted from 34 CFR 300.39, 300.301 and 303.310 via sites.ed.gov, and SSA POMS DI 22510.001.',
+    _routes_covered: 'Private evaluation, public school district evaluation under IDEA, and an SSA-purchased consultative examination. No page here treats the private clinic as the only route.',
     _no_clinical_claims: 'No diagnosis, test battery, cut score, outcome or clinical timeline appears in this file.',
     _population_caveat: 'All figures are Medicare fee-for-service. Every generated page states this on its face.',
     _address_caveat: 'City figures are by practice address on the claim, not catchment. Every page that prints one says so.',
@@ -384,6 +486,7 @@ function build(city) {
     ],
 
     named_resources_or_providers: [
+      ...routeResources(c, stateName),
       `The ${stateName} psychology licensing board is authoritative for whether an evaluator is licensed and in good standing in ${stateName}.`,
       `ASPPB (asppb.net) maintains the directory of state psychology boards.`,
       `CMS publishes the ${c} and ${stateName} figures quoted here at data.cms.gov, under Medicare Physician & Other Practitioners.`,
@@ -405,6 +508,7 @@ function build(city) {
       // Pinned by city_decision_support_contract.js for every neuro city page.
       title: 'City-specific neuro evaluation decision checklist',
       items: [
+        `Settle the route before the price. A district evaluation under IDEA is requested from the school and carries no charge to parents; a consultative examination for a Social Security claim is ordered and paid for by SSA; only a private evaluation produces a ${c} quote. They answer different questions, and one family often needs two of them.`,
         `Name the question first — ADHD, autism, learning, memory, concussion or broader differential — and confirm the ${c} clinic routinely handles it.`,
         `Confirm the evaluator with the ${stateName} psychology board, and confirm who signs the report.`,
         `Ask for hours, not a total: 96132 is the first hour and 96133 each hour after, so an hours estimate is the price.`,
