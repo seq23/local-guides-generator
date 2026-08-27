@@ -1,0 +1,14 @@
+{
+  "_what": "Routes failing answer_shape_contract at the moment the hard-fail tier moved inside the per-pack build loop, 2026-08-27.",
+  "_why": "27 of the 30 hard-fail validators previously ran once, after the loop, against whichever pack built last -- so four of five verticals' rendered pages were never checked by them. These five became visible the day the tier started running per pack. Failing them all at once would have meant a rushed rewrite or switching the gate off.",
+  "_not_an_escape_hatch": "Adding a route here is NOT how to pass this contract. Each entry is a page that needs authoring.",
+  "_the_real_defect": "Three of these have an answer surface whose text is the generator's own brief -- '<title> should answer the practical decision question first: what this service is for, who usually needs it...' -- published as the answer. That is why retrofit_recommendation_summary.js refuses to seat a block on them: there is no recommendation to locate because the page never made one. Same defect class as the 148 pages in local-guides-citation-velocity and the 28 trt guides repaired earlier today.",
+  "sealed_at": "2026-08-27",
+  "sealed_routes": [
+    "guides/adhd-therapy-after-an-evaluation/index.html",
+    "guides/adult-adhd-evaluation-process/index.html",
+    "guides/prp-hair-vs-microneedling/index.html",
+    "guides/questions-to-ask-an-autism-therapy-provider/index.html",
+    "st-louis-mo/index.html"
+  ]
+}
