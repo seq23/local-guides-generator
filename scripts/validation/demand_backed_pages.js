@@ -97,6 +97,40 @@ if (!fs.existsSync(BASELINE)) {
     `research coverage: ${JSON.stringify(coverage)}. ${known.size} pre-gate cities render from the template - ` +
     `not a build failure, but each is a page competing for a city query on boilerplate. Retirement or research candidates.`
   );
+  // Which of them can actually BE researched, measured rather than assumed, so
+  // the next person does not burn a day rediscovering it or - worse - fill the
+  // pages with invented figures to make the number move.
+  //
+  // Of the nine sources in data/research/costs/sources.json, exactly two carry
+  // per-state or per-city grain, and both are Medicare files. USCIS G-1055, the
+  // USCIS form pages, ADA HPI, FDA compounding, IRS Pub 4345 and the federal
+  // court fee schedule are all national-only: they can make a page more
+  // truthful, but they cannot make one city's page differ from the next.
+  //
+  //   neuro, trt   researchable, and now researched - Medicare covers those
+  //                services, so CMS publishes state figures for them.
+  //   pi           researched from state statute and fee data.
+  //   dentistry    NOT researchable from CMS. State coverage on the dental
+  //                codes is D7140 9, D7210 9, 41899 13, 21248 5, D7220 and
+  //                D7230 none, because Medicare largely excludes routine
+  //                dental. The repo's own Bing research already refused the
+  //                city-cost axis on this evidence. It is not a gap, it is an
+  //                absence.
+  //   uscis_medical  NOT researchable from any registered source. No per-city
+  //                grain exists, the civil surgeon exam fee is set by the
+  //                individual surgeon and is not published, and USCIS filing
+  //                fees are national.
+  //
+  // So those remaining cities need an architecture decision about whether
+  // per-city pages should exist for a subject with no per-city facts. They do
+  // not need more research, and they must not be filled in.
+  notes.push(
+    'RESEARCHABLE: neuro and trt via CMS state data, pi via state statute data. '
+    + 'NOT RESEARCHABLE from any registered source: the remaining dentistry cities '
+    + '(CMS covers at most 9 states on the dental codes; Medicare excludes routine dental) '
+    + 'and the remaining uscis_medical cities (no per-city grain exists anywhere; the civil '
+    + 'surgeon exam fee is unpublished). Those need an architecture decision, not more research.'
+  );
 }
 
 // --- 3. demand --------------------------------------------------------------
