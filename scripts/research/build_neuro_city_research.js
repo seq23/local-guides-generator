@@ -250,6 +250,79 @@ function costLines(city, stateAbbr, stateName) {
   return lines;
 }
 
+/**
+ * The same published figures the prose already carries, as three columns you can
+ * read across instead of four sentences you have to hold in your head.
+ *
+ * Nothing here is new evidence and nothing is estimated. Every cell is either a
+ * CMS CY2024 figure or the words "Not published by CMS" - which is a real
+ * finding about a state, not a gap to fill in. The city column comes from the
+ * by-Provider-and-Service file (practice address), the state and national
+ * columns from the by-Geography-and-Service file.
+ */
+function costTable(city, stateAbbr, stateName) {
+  const cc = cityRow(city, stateAbbr, '96132');
+  const st = geoRow('96132', stateName);
+  const nat = geoNat('96132');
+  const stAddl = geoRow('96133', stateName);
+  const natAddl = geoNat('96133');
+  const NP = 'Not published by CMS';
+
+  const rows = [
+    {
+      label: 'First hour of a neuropsychological evaluation (96132) — average submitted charge',
+      cells: [
+        cc && cc.avg_submitted_charge_service_weighted ? usd(cc.avg_submitted_charge_service_weighted) : NP,
+        st ? usd(st.avg_submitted_charge) : NP,
+        nat ? usd(nat.avg_submitted_charge) : NP,
+      ],
+    },
+    {
+      label: 'First hour (96132) — average Medicare-allowed amount',
+      cells: [
+        'Not published at city level',
+        st ? usd(st.avg_medicare_allowed) : NP,
+        nat ? usd(nat.avg_medicare_allowed) : NP,
+      ],
+    },
+    {
+      label: 'Each additional hour (96133) — average submitted charge',
+      cells: [
+        'Not published at city level',
+        stAddl ? usd(stAddl.avg_submitted_charge) : NP,
+        natAddl ? usd(natAddl.avg_submitted_charge) : NP,
+      ],
+    },
+    {
+      label: 'Clinicians who billed 96132 in 2024',
+      cells: [
+        cc ? num(cc.rendering_providers) : '0 from this practice address',
+        st ? num(st.rendering_providers) : NP,
+        nat ? num(nat.rendering_providers) : NP,
+      ],
+    },
+    {
+      label: 'Beneficiaries behind those 96132 claims',
+      cells: [
+        cc ? num(cc.beneficiaries) : NP,
+        st ? num(st.beneficiaries) : NP,
+        nat ? num(nat.beneficiaries) : NP,
+      ],
+    },
+  ];
+
+  return {
+    heading: `What ${city} and ${stateName} clinicians actually billed`,
+    caption: `Medicare CY2024 figures for a neuropsychological evaluation, ${city} against ${stateName} and the national average.`,
+    columns: ['Measure', city, stateName, 'National'],
+    rows,
+    source:
+      'Source: CMS, Medicare Physician & Other Practitioners — by Provider and Service (city column) and by Geography and Service '
+      + '(state and national columns), calendar year 2024. City figures are by practice address on the claim, not catchment. '
+      + 'Medicare fee-for-service only, so for a child evaluation these describe a different patient population. Not a quote.',
+  };
+}
+
 function build(city) {
   const stateName = STATE_NAME[city.state];
   if (!stateName) throw new Error(`no state name for ${city.state}`);
@@ -280,6 +353,8 @@ function build(city) {
     vertical: 'neuro',
 
     market_specific_notes: supplyLines(c, ab, stateName),
+
+    cost_comparison_table: costTable(c, ab, stateName),
 
     local_vetting_points: [
       `Verify the evaluator with the ${stateName} psychology board, not the clinic's own page. ASPPB (asppb.net) lists every state board if you cannot find it.`,
