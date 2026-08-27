@@ -1,0 +1,87 @@
+{
+  "$schema": "lkg-vertical-source-registry-v1",
+  "vertical": "dentistry",
+  "purpose": "Sources behind the dentistry coverage and plan-mechanics explainers. These pages deliberately carry no dollar figures, because no authoritative US dental price list exists (see data/research/costs/sources.json -> not_available). What they carry instead is the structure of dental pricing and dental benefit contracts, and every structural claim on those pages traces to an entry here.",
+  "retrieved_on": "2026-08-27",
+  "retrieval_method": "Direct fetch of the publisher's own page on 2026-08-27. Quotes below are verbatim from that fetch, not paraphrase and not recalled from training data.",
+  "why_no_dollar_figures": "data/signals/bing_keyword_research_dentistry_2026-08-26.json refused the per-city dental cost axis on measurement: 'dental implant cost des moines' returned insufficient_data, and 10 of 10 SERP results were per-city verified price databases backed by a collected dataset this repository does not have. The ADA discontinued its Survey of Dental Fees in 2023 and is barred by federal law from quoting fees. Medicare does not cover restorative dentistry, so the CDT codes for crowns, bridges and standard implants are absent from the CMS file. A dental price on these pages would therefore be invented. None is printed.",
+  "sources": [
+    {
+      "id": "ada_glossary_administrative_terms",
+      "publisher": "American Dental Association",
+      "title": "Glossary of Dental Administrative Terms",
+      "url": "https://www.ada.org/publications/cdt/glossary-of-dental-administrative-terms",
+      "retrieved_on": "2026-08-27",
+      "what_it_gives": "The ADA's own definitions of the dental benefit contract terms that decide what a plan pays. This is the authority for the mechanics of dental coverage, which is a different question from the price of a procedure and one that can be answered without any price data at all.",
+      "quotes": {
+        "allowable_charge": "The maximum dollar amount on which benefit payment is based for each dental procedure as calculated by the third-party payer.",
+        "alternate_benefit": "A provision in a dental plan contract that allows the third-party payer to determine the benefit based on an alternative procedure that is generally less expensive than the one provided or proposed.",
+        "least_expensive_alternative_treatment": "Contractual language that allows a plan only to pay for the least expensive treatment if there is more than one way to treat a condition.",
+        "limitations": "Restrictive conditions stated in a dental benefit contract, such as age, length of time covered, and waiting periods, which affect an individual's or group's coverage. The contract may also exclude certain benefits or services, or it may limit the extent or conditions under which certain services are provided.",
+        "exclusions": "Dental services not covered under a dental benefit program.",
+        "deductible": "The amount of dental expense for which the beneficiary is responsible before a third party will assume any liability for payment of benefits. Deductible may be an annual or one-time charge, and may vary in amount from program to program.",
+        "coinsurance": "A provision of a dental benefit program by which the beneficiary shares in the cost of covered services, generally on a percentage basis. The percentage of a covered dental expense that a beneficiary must pay (after the deductible is paid).",
+        "balance_billing": "Billing a patient for the difference between the dentist's actual charge and the amount reimbursed under the patient's dental benefit plan.",
+        "nonparticipating_dentist": "Any dentist who does not have a contractual agreement with a dental benefit organization to render dental care to members of a dental benefit program.",
+        "preauthorization": "Statement by a third-party payer indicating that proposed treatment will be covered under the terms of the benefit contract.",
+        "precertification": "Confirmation by a third-party payer of a patient's eligibility for coverage under a dental benefit program.",
+        "predetermination": "A process where a dentist submits a treatment plan to the payer before treatment begins.",
+        "table_of_allowances": "A listing of dental services and the maximum benefit amounts an insurer will pay for a given service. Specificity will vary by benefit plan.",
+        "birthday_rule": "When a dependent child's parents both have dental coverage, this rule states that the primary program (the one which pays first) is the one covering the parent whose month and day of birth falls first in the calendar year. The birthday rule is the most common rule for determining primary v. secondary coverage, but it may be superseded by a court order.",
+        "ucr_caution": "These are three separate terms that are often incorrectly used interchangeably, synonymously or as a single term abbreviated as \"UCR\" when describing dental benefit plans describe fees. The ADA recommends not using this term.",
+        "hipaa_cdt": "The HIPAA standard electronic dental claim also requires use of the ADA's Code on Dental Procedures and Nomenclature code set.",
+        "epsdt": "A federal program that provides comprehensive health care for children through periodic screenings, diagnostic and treatment services."
+      }
+    },
+    {
+      "id": "ada_cdt_code",
+      "publisher": "American Dental Association",
+      "title": "The Code on Dental Procedures and Nomenclature (CDT Code)",
+      "url": "https://www.ada.org/publications/cdt",
+      "retrieved_on": "2026-08-27",
+      "what_it_gives": "Confirms the CDT Code is the ADA-maintained code set for documenting dental treatment, and that changes are agreed annually by the Code Maintenance Committee.",
+      "quotes": {
+        "purpose": "The Code on Dental Procedures and Nomenclature (the CDT Code) assures consistency in documenting dental treatment.",
+        "maintenance": "The Code Maintenance Committee (CMC) convened its Annual Meeting on March 13, 2026, to agree upon CDT Code changes to be incorporated into CDT 2027."
+      },
+      "why_it_matters": "The CDT code is the only stable identifier a patient can use to make two quotes comparable. It is what turns 'how much is a crown' into a question two offices must answer the same way."
+    },
+    {
+      "id": "medicare_dental_services",
+      "publisher": "Centers for Medicare & Medicaid Services (Medicare.gov)",
+      "title": "Dental services",
+      "url": "https://www.medicare.gov/coverage/dental-services",
+      "retrieved_on": "2026-08-27",
+      "what_it_gives": "The authoritative statement of what Original Medicare does and does not cover in dentistry, and the specific medically-linked exceptions.",
+      "quotes": {
+        "exclusion": "In most cases, Medicare doesn't cover dental services like routine cleanings, fillings, tooth extractions (removals), or items like dentures and implants.",
+        "inpatient_exception": "Some dental services you get when you're admitted as a hospital inpatient for your dental procedure, either because of your underlying medical condition or the severity of the procedure.",
+        "linked_treatment_exception": "Specific inpatient or outpatient dental services directly related to certain covered medical treatments. In these cases, you must get the dental service because it's linked to the success of the medical treatment you need.",
+        "examples": [
+          "An oral exam and dental treatment before you get a heart valve replacement or a bone marrow, organ, or kidney transplant.",
+          "A procedure (like a tooth extraction) to treat a mouth infection before you get cancer treatment services like chemotherapy.",
+          "Treatment for a complication you experience while getting head and neck cancer treatment services.",
+          "Dental or oral exams before and while getting Medicare-covered dialysis services (if you have End-Stage Renal Disease (ESRD)).",
+          "Medically necessary tests and treatments to remove an oral or dental infection before and while getting Medicare-covered dialysis services (if you have ESRD)."
+        ],
+        "cost_share": "For Part B-covered dental services, you pay 20% of the Medicare-approved amount after you meet the Part B deductible.",
+        "non_covered": "You pay all costs for non-covered services, including most dental services."
+      },
+      "demand_basis": "data/signals/bing_keyword_research_dentistry_2026-08-26.json measured 'does medicare cover dental implants' at 304 Bing impressions over 25 May - 22 Aug 2026, one of only two dentistry seeds that cleared Bing's reporting floor. Its recorded SERP shape is editorial and authority prose with no price data and no downloadable artifact required to compete."
+    }
+  ],
+  "deliberately_not_built": [
+    {
+      "claim": "A per-state Medicaid adult dental benefit table.",
+      "status": "Not built. 'does medicaid cover dental implants' returned insufficient_data in the 2026-08-26 Bing round and was REFUSED. That file notes the 50-state axis would be legitimate here because Medicaid dental benefits genuinely do differ by state, but only after the existing state pages carry per-state substance. Writing 50 state rows now would mean inventing 50 rows. The Medicare page therefore states that Medicaid dental benefits for adults are set state by state and sends the reader to their own state programme, and prints no state-level detail."
+    },
+    {
+      "claim": "Any dollar figure for a dental procedure, nationally or per city.",
+      "status": "Not printed on either page. See why_no_dollar_figures above."
+    },
+    {
+      "claim": "Named-insurer coverage comparison tables (Delta Dental, MetLife, Guardian, Cigna adult ortho benefit details).",
+      "status": "Not built, although several external agent records recommend it. Those benefit details are per-contract and per-employer-group, change without notice, and are not published in any single citable schedule. A table of them would be a fabrication with a brand name on it. The insurance page explains the contract terms that produce those differences instead, which is the part that is stable and sourceable."
+    }
+  ]
+}
