@@ -127,6 +127,12 @@ function buildRecord(distDir, filePath) {
   const route = toRoute(distDir, filePath);
   if (!route) return null;
   const html = fs.readFileSync(filePath, 'utf8');
+  // A sitemap is a request to index. Listing a page that tells the crawler not
+  // to index it is a contradiction: Search Console reports it as "Submitted URL
+  // marked noindex", and the crawl budget is spent to be told no. This walked
+  // every index.html in dist/ with no robots check, which is how the /admin/
+  // operator panel ended up in the public sitemap of all five vertical domains.
+  if (/\bnoindex\b/i.test(parseMeta(html, 'robots'))) return null;
   const st = fs.statSync(filePath);
   const pageFamily = parseMeta(html, 'page-family');
   const modified = parseMeta(html, 'citation_modified_date') || parseMeta(html, 'article:modified_time') || parseMeta(html, 'citation_publication_date');
