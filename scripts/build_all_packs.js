@@ -163,6 +163,23 @@ for (const pageSetFile of PACKS) {
     PAGE_SET_FILE: pageSetFile,
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
+
+  // Run the hard-fail tier HERE, against this pack's dist, not once after the loop.
+  //
+  // Each pass intentionally overwrites ./dist so pack-specific breakage is
+  // exposed -- but `validate:all` runs after the loop, so 27 of the 30 hard-fail
+  // validators only ever saw whichever pack built last. Four of five verticals'
+  // rendered pages were never checked by them. That is how a PI answer_shape
+  // hard-fail sat invisible, and why the multi-vertical citation contract failed
+  // in CI while passing locally: a different pack was left standing.
+  //
+  // validate_core already covers 72 checks per pack; this closes the other 27.
+  run('node', ['scripts/validation/run_validator_tier.js', 'hard_fail'], {
+    PAGE_SET_FILE: pageSetFile,
+    LKG_VALIDATE_DIST: '1',
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+
 }
 
 info('\nALL PACKS: BUILD + VALIDATION PASS');
