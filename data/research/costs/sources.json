@@ -1,0 +1,117 @@
+{
+  "$schema": "lkg-cost-source-registry-v1",
+  "purpose": "Every dollar figure and every factual claim about pricing on a generated cost page must trace to an entry here. A page may state that a number is unpublished; it may not state a number that is not in this file or derived from a dataset named here.",
+  "retrieved_on": "2026-08-27",
+  "sources": [
+    {
+      "id": "cms_geo_service_2024",
+      "publisher": "Centers for Medicare & Medicaid Services",
+      "title": "Medicare Physician & Other Practitioners - by Geography and Service",
+      "vintage": "Calendar year 2024 claims; file released 2026-05-21",
+      "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-geography-and-service",
+      "pinned_distribution": "0c75b0b3-b40f-4007-a5ac-f9f2fed95862",
+      "local_snapshot": "data/research/costs/cms_geography_service_2024.json",
+      "what_it_gives": "Average submitted charge, average Medicare allowed amount and average Medicare payment, per HCPCS code, per state and nationally, split by facility and office place of service.",
+      "limits": [
+        "Medicare fee-for-service claims only; the population skews 65+ and disabled beneficiaries.",
+        "The allowed amount is a negotiated Medicare price, not what a cash-pay or commercially insured patient is charged.",
+        "The submitted charge is the provider's list price, not a quote.",
+        "Services Medicare does not cover are absent from the file entirely.",
+        "CMS suppresses cells with fewer than 11 beneficiaries, so low-volume codes are missing for many states.",
+        "For hospital-based care this file carries the professional claim only. The hospital's own facility charge is billed separately and is not in this dataset."
+      ]
+    },
+    {
+      "id": "uscis_g1055",
+      "publisher": "U.S. Citizenship and Immigration Services",
+      "title": "Form G-1055, Fee Schedule",
+      "vintage": "Edition 05/29/26",
+      "url": "https://www.uscis.gov/g-1055",
+      "pdf": "https://www.uscis.gov/sites/default/files/document/forms/g-1055.pdf",
+      "figures": {
+        "I-693": "General filing: $0",
+        "N-648": "General filing: $0",
+        "N-400": "General filing: paper $760, online $710. Reduced fee (documented annual household income not more than 400 percent of the Federal Poverty Guidelines, with supporting documentation): paper $380. INA 328/329 military: $0. Approved fee waiver: $0.",
+        "I-485": "Applicant over 14: paper $1,440, online $1,390. Under 14 filing concurrently with a parent's I-485: paper $950, online $900.",
+        "I-910": "Application for Civil Surgeon Designation: $990"
+      },
+      "quotes": [
+        "There is often a $50 discount when filing a form online."
+      ]
+    },
+    {
+      "id": "uscis_i693_page",
+      "publisher": "U.S. Citizenship and Immigration Services",
+      "title": "Form I-693, Report of Immigration Medical Examination and Vaccination Record",
+      "url": "https://www.uscis.gov/i-693",
+      "quotes": [
+        "Fees for immigration medical examinations are established by the civil surgeon. Fees may vary by civil surgeon."
+      ]
+    },
+    {
+      "id": "uscis_n648_page",
+      "publisher": "U.S. Citizenship and Immigration Services",
+      "title": "Form N-648, Medical Certification for Disability Exceptions",
+      "url": "https://www.uscis.gov/n-648",
+      "quotes": [
+        "There is no filing fee for Form N-648. However, a medical professional may charge a fee for a medical examination and for filling out forms."
+      ]
+    },
+    {
+      "id": "ada_hpi_dental_care_market",
+      "publisher": "American Dental Association, Health Policy Institute",
+      "title": "Dental Care Market",
+      "url": "https://www.ada.org/resources/research/health-policy-institute/dental-care-market",
+      "quotes": [
+        "The ADA cannot quote fees for dental procedures and is forbidden by federal law to set or recommend fees. The Council on Dental Practice elected to discontinue the Survey of Dental Fees in 2023 and it has been removed for download, due to a change in law eliminating safe harbor disclosure.",
+        "In 2024, national dental care expenditures amounted to $189 billion, up 3.6% from 2023 (adjusted for inflation). Out-of-pocket spending accounted for most of the expenditures in 2024, followed by private insurance spending."
+      ],
+      "why_it_matters": "This is the reason no authoritative US dental price list exists. A dental cost page that does not say so is guessing and hoping the reader does not notice."
+    },
+    {
+      "id": "fda_compounding_qa",
+      "publisher": "U.S. Food and Drug Administration",
+      "title": "Compounding and the FDA: Questions and Answers",
+      "url": "https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers",
+      "quotes": [
+        "Compounded drugs are not FDA-approved. This means that FDA does not verify the safety, effectiveness or quality of compounded drugs before they are marketed."
+      ]
+    },
+    {
+      "id": "irs_pub_4345",
+      "publisher": "Internal Revenue Service",
+      "title": "Publication 4345, Settlements - Taxability",
+      "vintage": "Rev. 9-2023",
+      "url": "https://www.irs.gov/pub/irs-pdf/p4345.pdf",
+      "quotes": [
+        "If you receive a settlement for personal physical injuries or physical sickness and did not take an itemized deduction for medical expenses related to the injury or sickness in prior years, the full amount is non-taxable.",
+        "If you receive a settlement for personal physical injuries or physical sickness, you must include in income that portion of the settlement that is for medical expenses you deducted in any prior year(s) to the extent the deduction(s) provided a tax benefit."
+      ]
+    },
+    {
+      "id": "uscourts_fee_schedule",
+      "publisher": "Administrative Office of the U.S. Courts",
+      "title": "District Court Miscellaneous Fee Schedule",
+      "vintage": "Effective December 1, 2023",
+      "url": "https://www.uscourts.gov/services-forms/fees/district-court-miscellaneous-fee-schedule",
+      "quotes": [
+        "Administrative fee for filing a civil action, suit, or proceeding in a district court, $55. This fee does not apply to applications for a writ of habeas corpus or to persons granted in forma pauperis status under 28 U.S.C. § 1915."
+      ],
+      "companion_statute": "28 U.S.C. § 1914(a) sets the statutory filing fee for instituting a civil action at $350, so a federal civil filing costs $405 in total."
+    }
+  ],
+  "not_available": [
+    {
+      "claim": "A published, authoritative price for a single-tooth dental implant, crown, bridge or denture, nationally or in any named metro.",
+      "status": "Does not exist in any source found. The ADA discontinued its Survey of Dental Fees in 2023 and is barred by federal law from quoting fees. Medicare does not cover restorative dentistry, so those CDT codes are absent from the CMS file. Pages must say this rather than reprint a figure from a lead-generation site."
+    },
+    {
+      "claim": "Search volume, keyword difficulty, CPC or annual-value figures for any query this repo targets.",
+      "status": "No volume, keyword_difficulty or impressions figure exists anywhere under data/. validate:demand-backed-pages reports this rather than blocking on it. No page may print such a number."
+    },
+    {
+      "claim": "A cash-pay price for a neuropsychological evaluation, a hormone-therapy programme or an immigration medical exam.",
+      "status": "Not published by any authority. USCIS says explicitly that the exam fee is set by the individual civil surgeon. Pages state the published Medicare figures and say plainly that the self-pay price is not published anywhere."
+    }
+  ]
+}
