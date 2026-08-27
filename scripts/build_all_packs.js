@@ -121,6 +121,12 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 
+  // The invariant that makes the robots policy and the coverage contract compatible:
+  // a promoted city must have research behind it. Checked before either runs, so the
+  // failure names the cause (a city promoted without research) rather than the
+  // symptom (a sitemap that cannot satisfy both rules). This is what broke main.
+  run('node', ['scripts/validation/promoted_city_research_contract.js'], {});
+
   // Robots policy BEFORE sitemap_emit, so a noindexed page is never advertised.
   //
   // The gap this closes: build_all_packs.js -- the path behind build:dist,
