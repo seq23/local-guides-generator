@@ -142,11 +142,58 @@ function emitDistributionArtifacts(distDir, cfg) {
   fs.writeFileSync(path.join(distDir, 'search-console-notes.json'), JSON.stringify(searchConsolePayload, null, 2));
 }
 
+// Ordered crawl-policy agent list, shared verbatim with the rest of the
+// portfolio (local-guides-citation-velocity/robots.txt). Keep the order and
+// the membership identical across repos — portfolio consistency is the point.
+const CITATION_POLICY_AGENTS = [
+  'Googlebot',
+  'Bingbot',
+  'DuckDuckBot',
+  'OAI-SearchBot',
+  'GPTBot',
+  'ChatGPT-User',
+  'ClaudeBot',
+  'Claude-User',
+  'Claude-SearchBot',
+  'anthropic-ai',
+  'PerplexityBot',
+  'Perplexity-User',
+  'Google-Extended',
+  'Applebot',
+  'Applebot-Extended',
+  'DuckAssistBot',
+  'Amazonbot',
+  'CCBot',
+  'meta-externalagent',
+  'Bytespider',
+  'cohere-ai',
+  'CloudflareBrowserRenderingCrawler',
+];
+
+const CITATION_POLICY_HEADER = [
+  '# Citation-first crawl policy.',
+  '# Search engines and AI answer engines are explicitly welcome on this site.',
+  '# The per-agent Allow groups below are deliberate: they override any',
+  '# prepended blanket Disallow (e.g. Cloudflare managed robots.txt) for the',
+  '# same agent, because merged same-name groups resolve equal-length',
+  '# Allow/Disallow conflicts in favour of Allow.',
+].join('\n');
+
+function buildCrawlPolicyBlock() {
+  const groups = [...CITATION_POLICY_AGENTS, '*']
+    .map((agent) => `User-agent: ${agent}\nAllow: /`)
+    .join('\n\n');
+  return `${CITATION_POLICY_HEADER}\n\n${groups}\n`;
+}
+
 function ensureRobotsSitemap(distDir, host) {
   const robotsPath = path.join(distDir, 'robots.txt');
   let robots = '';
   if (fs.existsSync(robotsPath)) robots = fs.readFileSync(robotsPath, 'utf8');
   if (!host) return;
+  // The Sitemap lines stay derived from the resolved per-vertical host. This
+  // one emitter serves five Pages projects; a hardcoded host would point four
+  // of them at the wrong sitemap.
   const requiredLines = [
     `Sitemap: https://${host}/sitemap.xml`,
     `Sitemap: https://${host}/sitemap-fresh.xml`
@@ -158,21 +205,29 @@ function ensureRobotsSitemap(distDir, host) {
   // That is what uscisexam.com has been serving. A group-less robots.txt is
   // not a block — under RFC 9309 a crawler that matches no group is
   // unrestricted — but it states no policy, and it makes this the one property
-  // in the programme that never says yes to a crawler. Emit an explicit
-  // allow-all group ahead of the Sitemap lines so the file declares intent.
+  // in the programme that never says yes to a crawler.
+  //
+  // Emit an explicit Allow group per named agent, then the `User-agent: *`
+  // catch-all, ahead of the Sitemap lines. The named groups matter because
+  // Cloudflare's zone-level managed robots.txt prepends a blanket
+  // `Disallow: /` for exactly these AI agents; RFC 9309 merges same-named
+  // groups and resolves an equal-length Allow/Disallow conflict in favour of
+  // Allow, so the explicit Allow wins.
+  //
+  // The `User-agent:` probe is the idempotency guard: re-running against a
+  // robots.txt that already declares any group is a no-op, so the block is
+  // never duplicated.
   if (!/^\s*User-agent\s*:/im.test(robots)) {
-    robots = 'User-agent: *\nAllow: /\n\n' + (robots ? robots.trimStart() : '');
-    existing.add('User-agent: *');
+    robots = buildCrawlPolicyBlock() + (robots ? '\n' + robots.trimStart() : '');
+    for (const agent of [...CITATION_POLICY_AGENTS, '*']) existing.add(`User-agent: ${agent}`);
     existing.add('Allow: /');
     changed = true;
   }
-  for (const line of requiredLines) {
-    if (!existing.has(line)) {
-      robots = robots ? robots.trimEnd() + '\n' : '';
-      robots += line + '\n';
-      existing.add(line);
-      changed = true;
-    }
+  const missingSitemaps = requiredLines.filter((line) => !existing.has(line));
+  if (missingSitemaps.length) {
+    robots = (robots ? robots.trimEnd() + '\n\n' : '') + missingSitemaps.join('\n') + '\n';
+    for (const line of missingSitemaps) existing.add(line);
+    changed = true;
   }
   if (changed) fs.writeFileSync(robotsPath, robots, 'utf8');
 }
