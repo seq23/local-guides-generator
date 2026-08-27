@@ -262,6 +262,21 @@
       ]
     },
     {
+      "route": "/guides/dental-implant-and-oral-surgery-cost/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "say up front that no authoritative dental price list exists, then show the prices that are published",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
       "route": "/guides/dental-implants/",
       "primary_query_family": "yes_no_verdict",
       "primary_answer_shape": "verdict",
@@ -270,6 +285,21 @@
       "required_above_fold_elements": [
         "quick_answer",
         "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/dental-procedure-cost-comparison/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "compare treatment paths by cost driver before comparing them by headline price",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
       ],
       "required_supporting_sections": [
         "questions",
@@ -336,6 +366,51 @@
       "required_supporting_sections": [
         "questions",
         "red_flags",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/hormone-replacement-therapy-near-me/",
+      "primary_query_family": "how_to_choose",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "give the local search a verification checklist rather than a list of clinics",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/hormone-therapy-cost-what-is-published/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "price the components of a hormone programme so a monthly membership fee can be judged against them",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/hospital-vs-private-neuropsych-testing/",
+      "primary_query_family": "x_vs_y_comparison",
+      "primary_answer_shape": "comparison",
+      "top_module_type": "top_comparison_table",
+      "exact_opening_intent": "answer the hospital-or-private question with the published figures for both settings",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "comparison_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
         "next_steps"
       ]
     },
@@ -435,6 +510,51 @@
       ]
     },
     {
+      "route": "/guides/medical-bills-behind-a-settlement/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "show what the treatment in a claim is billed at against what it is normally allowed at",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/n-400-checklist/",
+      "primary_query_family": "requirements_checklist",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "reproduce what USCIS itself asks for, and flag the rules people miss",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/n-648-medical-waiver/",
+      "primary_query_family": "eligibility",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "explain what the form does, who completes it, and which of the two costs is published",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
       "route": "/guides/nad-plus-for-appearance-and-anti-aging/",
       "primary_query_family": "yes_no_verdict",
       "primary_answer_shape": "verdict",
@@ -514,6 +634,21 @@
       ]
     },
     {
+      "route": "/guides/neuropsych-testing-cost-by-state/",
+      "primary_query_family": "costs_timeline",
+      "primary_answer_shape": "timeline",
+      "top_module_type": "top_timeline",
+      "exact_opening_intent": "give the state-level published figure first, because that is what a geo query is asking for",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
       "route": "/guides/neuropsych-testing-overview/",
       "primary_query_family": "x_vs_y_comparison",
       "primary_answer_shape": "comparison",
@@ -529,6 +664,21 @@
       ]
     },
     {
+      "route": "/guides/neuropsychological-evaluation-cost/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "break the evaluation into the billing codes it is actually made of, then price each one",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
       "route": "/guides/neuropsychological-testing-overview/",
       "primary_query_family": "yes_no_verdict",
       "primary_answer_shape": "verdict",
@@ -537,6 +687,21 @@
       "required_above_fold_elements": [
         "quick_answer",
         "verdict_block"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/peptide-and-compounded-therapy-claims/",
+      "primary_query_family": "red_flags",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "separate the claims that have a regulatory basis from the ones that do not",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
       ],
       "required_supporting_sections": [
         "questions",
@@ -823,6 +988,21 @@
       ]
     },
     {
+      "route": "/guides/upfront-dental-pricing-checklist/",
+      "primary_query_family": "requirements_checklist",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "hand over the exact checklist that makes two dental quotes comparable",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
       "route": "/guides/uscis-fees-timelines-and-what-to-ask/",
       "primary_query_family": "costs_timeline",
       "primary_answer_shape": "timeline",
@@ -831,6 +1011,36 @@
       "required_above_fold_elements": [
         "quick_answer",
         "timeline_or_cost_table"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/uscis-interview-checklist/",
+      "primary_query_family": "requirements_checklist",
+      "primary_answer_shape": "checklist",
+      "top_module_type": "top_checklist",
+      "exact_opening_intent": "give a document checklist and the two or three things that actually derail interviews",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "checklist"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/uscis-medical-exam-cost/",
+      "primary_query_family": "cost_financing",
+      "primary_answer_shape": "cost_breakdown",
+      "top_module_type": "top_cost_table",
+      "exact_opening_intent": "separate the government fee, which is published and is zero, from the exam fee, which is not published at all",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
       ],
       "required_supporting_sections": [
         "questions",
@@ -938,6 +1148,21 @@
       "required_above_fold_elements": [
         "quick_answer",
         "decision_tree"
+      ],
+      "required_supporting_sections": [
+        "questions",
+        "next_steps"
+      ]
+    },
+    {
+      "route": "/guides/what-a-personal-injury-case-costs-you/",
+      "primary_query_family": "costs_timeline",
+      "primary_answer_shape": "timeline",
+      "top_module_type": "top_timeline",
+      "exact_opening_intent": "walk the money from gross settlement down to what reaches the client",
+      "required_above_fold_elements": [
+        "quick_answer",
+        "cost_table"
       ],
       "required_supporting_sections": [
         "questions",

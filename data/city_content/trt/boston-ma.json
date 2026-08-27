@@ -1,0 +1,92 @@
+{
+  "_generated_by": "scripts/research/build_trt_city_research.js",
+  "_source": "data/research/costs/cms_geography_service_2024.json (CMS CY2024, version-pinned). See data/research/costs/sources.json.",
+  "_no_clinical_claims": "This file contains no dose, protocol, outcome or clinical timeline. Every line is cost, supply, or a question to ask.",
+  "city_slug": "boston-ma",
+  "city": "Boston",
+  "state": "Massachusetts",
+  "state_abbr": "MA",
+  "vertical": "trt",
+  "market_specific_notes": [
+    "281 clinicians in Massachusetts billed Medicare for total testosterone testing in 2024, about 2.3% of the 11,998 nationally. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "35 clinicians in Massachusetts billed Medicare for hormone pellet placement in 2024, against 2,039 nationally. If pellets are what you are looking for near Boston, that number is a better guide to availability than a directory listing. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "These counts cover clinicians who bill Medicare. Cash-pay and membership clinics near Boston do not appear in this data at all, and in some metros they are a large share of the market."
+  ],
+  "local_vetting_points": [
+    "Verify the prescribing clinician's licence with the Massachusetts medical board directly, not through the clinic's own page.",
+    "FSMB runs a national physician lookup at docinfo.org that covers licence status and disciplinary history across states.",
+    "Ask who actually writes the prescription for a Boston patient, and whether that clinician is licensed in Massachusetts.",
+    "Ask whether the medication is an FDA-approved product or a compounded preparation. The FDA states that compounded drugs are not FDA-approved and that it does not verify their safety, effectiveness or quality before marketing.",
+    "Ask which compounding pharmacy supplies anything compounded, and whether it is registered.",
+    "Ask for the monitoring schedule in writing before any payment is taken."
+  ],
+  "typical_cost_ranges": [
+    "In Massachusetts, clinicians billed an average of $146.91 for a total testosterone lab test (code 84403) and Medicare allowed an average of $25.26. The national average submitted charge for the same code was $148.21. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "In Massachusetts, clinicians billed an average of $115.25 for a total estradiol lab test (code 82670) and Medicare allowed an average of $27.36. The national average submitted charge for the same code was $160.59. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "In Massachusetts, clinicians billed an average of $71.65 for an injection under the skin or into muscle (code 96372) and Medicare allowed an average of $14.53. The national average submitted charge for the same code was $55.33. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "In Massachusetts, clinicians billed an average of $305.95 for hormone pellet placement under the skin (code 11980) and Medicare allowed an average of $96.33. The national average submitted charge for the same code was $274.77. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "None of these is a quote. The allowed amount is what one payer permits; the submitted charge is a list price. If you are paying cash, treat the gap between them as the range a conversation happens inside."
+  ],
+  "payment_options": [
+    "Ask whether the monthly figure is a membership fee, a treatment price, or both, and what happens if you stop after one month.",
+    "Ask whether lab work is inside the fee, billed to your insurer, or billed to you separately.",
+    "Ask whether the medication is inside the fee or a separate pharmacy charge.",
+    "Ask whether the clinic bills insurance at all. Many hormone clinics near Boston are cash-pay only, which is why they do not appear in the Medicare figures above.",
+    "Ask what a prepaid package costs to exit, in writing, before you buy one."
+  ],
+  "wait_time_notes": [
+    "Separate the wait for a first consultation from the wait to actually start treatment near Boston. They are often very different.",
+    "Lab turnaround sits between the two. Ask how long results take and who reviews them.",
+    "Ask whether the first appointment includes a physical examination or is a phone or video intake only."
+  ],
+  "availability_notes": [
+    "Ask whether the clinic sees Boston patients in person, by telehealth, or both, and whether that changes what can be prescribed.",
+    "Telehealth prescribing is governed by Massachusetts rules and by federal controlled-substance rules, which have changed more than once. Ask what applies to you now rather than relying on an older article.",
+    "Ask where blood draws happen and whether you can use a lab near you.",
+    "Ask what happens to your care if you move out of state."
+  ],
+  "named_resources_or_providers": [
+    "The Massachusetts medical board is the authoritative source for whether a prescriber is licensed and in good standing in Massachusetts.",
+    "The Federation of State Medical Boards operates docinfo.org for cross-state licence and disciplinary lookups.",
+    "The FDA publishes plain-language guidance on drug compounding, including the fact that compounded drugs are not FDA-approved.",
+    "CMS publishes the billing figures quoted on this page at data.cms.gov, under Medicare Physician & Other Practitioners by Geography and Service.",
+    "We do not rank, recommend or endorse clinics, and no clinic on this site has paid for editorial placement."
+  ],
+  "city_intro_override": "Choosing hormone therapy near Boston comes down to four checks: who prescribes and where they are licensed, whether the product is FDA-approved or compounded, what the monitoring schedule is, and what the fee actually includes. This page carries the published Massachusetts billing figures so you have something real to hold a quote against.",
+  "primary_city_decision_block": {
+    "type": "decision_checklist",
+    "title": "Local TRT and hormone clinic authority checklist",
+    "items": [
+      "Licence: confirm the prescriber with the Massachusetts medical board, and cross-check at docinfo.org.",
+      "Product: FDA-approved or compounded? Ask which, and which pharmacy compounds it.",
+      "Monitoring: which labs, at what intervals, reviewed by whom, in writing.",
+      "Fee contents: what is inside the monthly figure and what arrives as a separate bill.",
+      "Published comparison: hold the quote against the Massachusetts figures above rather than against a national average from a marketing page.",
+      "Exit: what stopping costs, and what the taper or handover plan is."
+    ]
+  },
+  "lab_work_notes": [
+    "Ask which specific panels are drawn and how often. Massachusetts billing figures for testosterone and estradiol testing appear above; use them to sanity-check any claim about what a bundled lab package is worth.",
+    "Ask whether you can use your own lab or insurer-covered draw rather than the clinic's.",
+    "Ask who interprets results and how quickly you receive them.",
+    "Ask what result would change the plan. A programme that never changes is not monitoring anything."
+  ],
+  "therapy_types_available": [
+    "Ask which delivery routes the clinic near Boston actually offers, and which it refers out for.",
+    "Ask whether the recommendation would differ if you chose a different route, and why.",
+    "Ask whether the clinic offers anything other than the route it leads with.",
+    "We do not describe doses, protocols or expected effects on this site. Those are decisions for a clinician who has examined you."
+  ],
+  "monitoring_frequency_notes": [
+    "Ask for the first-year monitoring schedule in writing before paying anything.",
+    "Ask who reviews each result and how you are told about it.",
+    "Ask what the escalation path is if something on a panel looks wrong.",
+    "Ask how monitoring changes if you switch to telehealth or move."
+  ],
+  "fertility_or_hair_considerations": [
+    "If you may want children, ask how the plan addresses that, and ask before starting rather than after.",
+    "Ask whether the clinic discusses this routinely at intake or only when raised.",
+    "Ask what the plan is if you decide to stop, and who manages that.",
+    "We do not publish outcome claims about fertility or hair on this site. Ask a clinician who can review your history."
+  ]
+}

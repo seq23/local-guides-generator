@@ -1,82 +1,92 @@
 {
+  "_generated_by": "scripts/research/build_trt_city_research.js",
+  "_source": "data/research/costs/cms_geography_service_2024.json (CMS CY2024, version-pinned). See data/research/costs/sources.json.",
+  "_no_clinical_claims": "This file contains no dose, protocol, outcome or clinical timeline. Every line is cost, supply, or a question to ask.",
   "city_slug": "houston-tx",
   "city": "Houston",
   "state": "Texas",
   "state_abbr": "TX",
   "vertical": "trt",
   "market_specific_notes": [
-    "Houston TRT shoppers usually need a better comparison of candidacy screening, lab cadence, and follow-up process instead of general hormone-optimization branding.",
-    "In Houston, the most useful first-screen comparison is how clinics explain monitoring, refill logic, and escalation rules.",
-    "For Houston, compare TRT and hair-loss clinics using neutral medical-oversight questions instead of best-provider claims."
+    "1,430 clinicians in Texas billed Medicare for total testosterone testing in 2024, about 11.9% of the 11,998 nationally. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "203 clinicians in Texas billed Medicare for hormone pellet placement in 2024, against 2,039 nationally. If pellets are what you are looking for near Houston, that number is a better guide to availability than a directory listing. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "These counts cover clinicians who bill Medicare. Cash-pay and membership clinics near Houston do not appear in this data at all, and in some metros they are a large share of the market."
   ],
   "local_vetting_points": [
-    "Ask what labs are required before treatment starts.",
-    "Ask how follow-up, dose changes, and refill timing are handled.",
-    "Ask what symptoms or lab changes trigger review between visits.",
-    "Compare clinics on medical monitoring and escalation rules, not only \u201clow T near me\u201d marketing.",
-    "Ask whether care is handled by a qualified clinician and whether treatment goals are documented.",
-    "Houston TRT clinic authority framework: compare baseline labs, licensed oversight, monitoring cadence, side-effect planning, fertility/hair considerations, and total cost.",
-    "Use a Houston TRT and hair-loss clinic evaluation checklist: licensed oversight, baseline labs, monitoring cadence, fertility and hair discussion, total cost, and follow-up/refill process."
+    "Verify the prescribing clinician's licence with the Texas medical board directly, not through the clinic's own page.",
+    "FSMB runs a national physician lookup at docinfo.org that covers licence status and disciplinary history across states.",
+    "Ask who actually writes the prescription for a Houston patient, and whether that clinician is licensed in Texas.",
+    "Ask whether the medication is an FDA-approved product or a compounded preparation. The FDA states that compounded drugs are not FDA-approved and that it does not verify their safety, effectiveness or quality before marketing.",
+    "Ask which compounding pharmacy supplies anything compounded, and whether it is registered.",
+    "Ask for the monitoring schedule in writing before any payment is taken."
   ],
   "typical_cost_ranges": [
-    "Clinic pricing in Houston can shift based on lab frequency, visit cadence, medication form, and whether ancillaries are bundled.",
-    "A low monthly number is not meaningful without the monitoring schedule.",
-    "Authority comes from clearly separating labs, medication, consults, follow-up, and ancillary services."
+    "In Texas, clinicians billed an average of $148.18 for a total testosterone lab test (code 84403) and Medicare allowed an average of $25.22. The national average submitted charge for the same code was $148.21. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "In Texas, clinicians billed an average of $165.81 for a total estradiol lab test (code 82670) and Medicare allowed an average of $27.31. The national average submitted charge for the same code was $160.59. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "In Texas, clinicians billed an average of $52.54 for an injection under the skin or into muscle (code 96372) and Medicare allowed an average of $12.96. The national average submitted charge for the same code was $55.33. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "In Texas, clinicians billed an average of $263.45 for hormone pellet placement under the skin (code 11980) and Medicare allowed an average of $87.96. The national average submitted charge for the same code was $274.77. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.",
+    "None of these is a quote. The allowed amount is what one payer permits; the submitted charge is a list price. If you are paying cash, treat the gap between them as the range a conversation happens inside."
   ],
   "payment_options": [
-    "Ask whether labs, follow-up visits, medications, and telehealth check-ins are bundled or billed separately.",
-    "Ask whether membership pricing changes after the initial onboarding period.",
-    "Ask Houston clinics to separate visit fees, labs, medication, memberships, hair-loss add-ons, refill process, and follow-up costs."
+    "Ask whether the monthly figure is a membership fee, a treatment price, or both, and what happens if you stop after one month.",
+    "Ask whether lab work is inside the fee, billed to your insurer, or billed to you separately.",
+    "Ask whether the medication is inside the fee or a separate pharmacy charge.",
+    "Ask whether the clinic bills insurance at all. Many hormone clinics near Houston are cash-pay only, which is why they do not appear in the Medicare figures above.",
+    "Ask what a prepaid package costs to exit, in writing, before you buy one."
   ],
   "wait_time_notes": [
-    "Wait time should be judged by consult speed, lab turnaround, prescription timing, and first follow-up timing together.",
-    "Fast onboarding is not the same thing as a good monitoring plan."
+    "Separate the wait for a first consultation from the wait to actually start treatment near Houston. They are often very different.",
+    "Lab turnaround sits between the two. Ask how long results take and who reviews them.",
+    "Ask whether the first appointment includes a physical examination or is a phone or video intake only."
   ],
   "availability_notes": [
-    "Availability should include whether the clinic supports telehealth, weekend labs, refill responsiveness, and mid-cycle questions.",
-    "Ask who handles issues between scheduled visits."
+    "Ask whether the clinic sees Houston patients in person, by telehealth, or both, and whether that changes what can be prescribed.",
+    "Telehealth prescribing is governed by Texas rules and by federal controlled-substance rules, which have changed more than once. Ask what applies to you now rather than relying on an older article.",
+    "Ask where blood draws happen and whether you can use a lab near you.",
+    "Ask what happens to your care if you move out of state."
   ],
   "named_resources_or_providers": [
-    "Houston-area independent lab locations, primary-care alternatives, and insurer/lab cash-pay comparison tools are often more useful than branded clinic lists.",
-    "Use lab-access and follow-up reality as part of the local comparison.",
-    "Local labs, primary care/endocrinology referrals, and clinic credential checks should be part of the comparison."
+    "The Texas medical board is the authoritative source for whether a prescriber is licensed and in good standing in Texas.",
+    "The Federation of State Medical Boards operates docinfo.org for cross-state licence and disciplinary lookups.",
+    "The FDA publishes plain-language guidance on drug compounding, including the fact that compounded drugs are not FDA-approved.",
+    "CMS publishes the billing figures quoted on this page at data.cms.gov, under Medicare Physician & Other Practitioners by Geography and Service.",
+    "We do not rank, recommend or endorse clinics, and no clinic on this site has paid for editorial placement."
   ],
-  "city_intro_override": "Houston TRT and hair-loss shoppers should compare baseline labs, monitoring cadence, clinician credentials, treatment scope, fertility/hair-risk counseling, and total cost before choosing a clinic.",
+  "city_intro_override": "Choosing hormone therapy near Houston comes down to four checks: who prescribes and where they are licensed, whether the product is FDA-approved or compounded, what the monitoring schedule is, and what the fee actually includes. This page carries the published Texas billing figures so you have something real to hold a quote against.",
   "primary_city_decision_block": {
     "type": "decision_checklist",
     "title": "Local TRT and hormone clinic authority checklist",
     "items": [
-      "Verify baseline labs, repeat-lab cadence, and who reviews abnormal results.",
-      "Ask whether the clinic explains fertility, hair-loss, blood pressure, sleep apnea, and hematocrit considerations before treatment.",
-      "Compare clinician credentials, escalation rules, and follow-up access rather than relying on low-T marketing claims.",
-      "Separate consult fees, labs, medications, refills, follow-up visits, and ancillary services in the quote.",
-      "Ask how dose changes, side effects, refill timing, and mid-cycle questions are handled.",
-      "Confirm whether hair-loss, peptide, IV, or aesthetic services are optional add-ons or part of a medically monitored plan."
+      "Licence: confirm the prescriber with the Texas medical board, and cross-check at docinfo.org.",
+      "Product: FDA-approved or compounded? Ask which, and which pharmacy compounds it.",
+      "Monitoring: which labs, at what intervals, reviewed by whom, in writing.",
+      "Fee contents: what is inside the monthly figure and what arrives as a separate bill.",
+      "Published comparison: hold the quote against the Texas figures above rather than against a national average from a marketing page.",
+      "Exit: what stopping costs, and what the taper or handover plan is."
     ]
   },
   "lab_work_notes": [
-    "Ask what baseline labs are required before treatment starts and how often follow-up labs are expected.",
-    "Do not treat same-week onboarding as proof that monitoring is thorough.",
-    "Baseline labs and follow-up labs are trust signals; avoid clinics that start treatment without explaining monitoring."
+    "Ask which specific panels are drawn and how often. Texas billing figures for testosterone and estradiol testing appear above; use them to sanity-check any claim about what a bundled lab package is worth.",
+    "Ask whether you can use your own lab or insurer-covered draw rather than the clinic's.",
+    "Ask who interprets results and how quickly you receive them.",
+    "Ask what result would change the plan. A programme that never changes is not monitoring anything."
   ],
   "therapy_types_available": [
-    "Ask whether the clinic handles injections, creams, pellets, or other options and how they decide fit.",
-    "The real comparison is screening quality and monitoring, not branding."
+    "Ask which delivery routes the clinic near Houston actually offers, and which it refers out for.",
+    "Ask whether the recommendation would differ if you chose a different route, and why.",
+    "Ask whether the clinic offers anything other than the route it leads with.",
+    "We do not describe doses, protocols or expected effects on this site. Those are decisions for a clinician who has examined you."
   ],
   "monitoring_frequency_notes": [
-    "Ask when the first follow-up happens, how dose changes are handled, and when symptoms versus labs trigger changes.",
-    "Ask whether follow-up cadence changes after stabilization."
+    "Ask for the first-year monitoring schedule in writing before paying anything.",
+    "Ask who reviews each result and how you are told about it.",
+    "Ask what the escalation path is if something on a panel looks wrong.",
+    "Ask how monitoring changes if you switch to telehealth or move."
   ],
   "fertility_or_hair_considerations": [
-    "If fertility, hair, or body-composition goals matter, ask how those considerations change the plan before you pay.",
-    "Ask about fertility goals, hair-loss risk, sleep apnea, blood pressure, hematocrit, and side-effect management before starting."
-  ],
-  "clinic_evaluation_framework": [
-    "licensed oversight",
-    "baseline and follow-up labs",
-    "fertility/hair-loss discussion",
-    "side-effect monitoring",
-    "total cost clarity",
-    "telehealth/local workflow"
+    "If you may want children, ask how the plan addresses that, and ask before starting rather than after.",
+    "Ask whether the clinic discusses this routinely at intake or only when raised.",
+    "Ask what the plan is if you decide to stop, and who manages that.",
+    "We do not publish outcome claims about fertility or hair on this site. Ask a clinician who can review your history."
   ]
 }
