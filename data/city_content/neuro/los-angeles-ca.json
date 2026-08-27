@@ -1,80 +1,86 @@
 {
+  "_generated_by": "scripts/research/build_neuro_city_research.js",
+  "_source_city": "data/research/costs/cms_provider_city_neuro_2024.json (CMS CY2024 by Provider and Service, version-pinned).",
+  "_source_state": "data/research/costs/cms_geography_service_2024.json (CMS CY2024 by Geography and Service, version-pinned).",
+  "_no_clinical_claims": "No diagnosis, test battery, cut score, outcome or clinical timeline appears in this file.",
+  "_population_caveat": "All figures are Medicare fee-for-service. Every generated page states this on its face.",
+  "_address_caveat": "City figures are by practice address on the claim, not catchment. Every page that prints one says so.",
   "city_slug": "los-angeles-ca",
   "city": "Los Angeles",
   "state": "California",
   "state_abbr": "CA",
   "vertical": "neuro",
   "market_specific_notes": [
-    "Los Angeles neuro-evaluation shoppers usually need a cleaner comparison of testing depth, report usefulness, and adult-versus-child fit instead of generic diagnosis language.",
-    "The best local comparison in Los Angeles is whether a clinic explains scope, turnaround, and what the written report is actually for.",
-    "For Los Angeles, ask whether the provider handles ADHD, autism, learning, adult evaluation, child evaluation, therapy handoff, or broader neuropsychological testing before scheduling."
+    "51 clinicians billing from a Los Angeles practice address charged Medicare for a neuropsychological evaluation in 2024, across 4,437 beneficiaries. That count is by practice address on the claim, not by catchment, so clinicians serving the metro from a suburban office are not in it. Treat it as a floor, never as the number of providers available to you. Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.",
+    "The largest single group among them by headcount was \"Psychologist, Clinical\" (38 of 51). That is a fact about who bills this code in Los Angeles, not a judgement about any of them — but it is worth knowing before you assume every Los Angeles listing for this service is a neuropsychologist. Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.",
+    "Statewide, 740 California clinicians billed the code across 26,879 beneficiaries — the highest of the 53 states and territories CMS published a figure for. Where the binding constraint is the waitlist rather than the price, that is the most useful published capacity number. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, CY2024.",
+    "Private-pay neuropsychologists near Los Angeles, school district evaluators and hospital developmental clinics billing only commercial plans are absent from every count on this page, and for child evaluation they are much of the market."
   ],
   "local_vetting_points": [
-    "Ask whether the evaluation is screening-only or a full diagnostic workup.",
-    "Ask whether the report is built for school, workplace, accommodations, treatment planning, or just confirmation.",
-    "Ask which age groups the clinician routinely evaluates.",
-    "Ask whether the evaluator explains ADHD vs autism vs broader neuropsych routing before testing.",
-    "Ask what local records or collateral input make the report stronger.",
-    "Los Angeles neuro provider authority framework: compare evaluation path, report usefulness, insurance/prior authorization, telehealth vs in-person fit, specialization, and turnaround.",
-    "Compare Los Angeles neuro providers by provider type, evaluation scope, report usefulness, turnaround, insurance clarity, and telehealth versus in-person fit."
+    "Verify the evaluator with the California psychology board, not the clinic's own page. ASPPB (asppb.net) lists every state board if you cannot find it.",
+    "Ask whether the clinician who signs the report is the one who administers the tests. Frequently it is not, and both are billed.",
+    "Los Angeles neuro provider authority framework: compare evaluation scope, who is licensed to sign the report, hours billed for testing versus interpretation, report purpose and turnaround, and the reimbursement path.",
+    "Work a symptom-to-evaluation-path decision tree before booking: name whether the question is ADHD, autism, a learning disability, memory change, concussion or a broader differential, then confirm the Los Angeles clinic routinely evaluates that question."
   ],
   "typical_cost_ranges": [
-    "Pricing in Los Angeles often shifts based on testing depth, interview time, collateral review, and report complexity.",
-    "A low quote is not meaningful if it excludes report quality or follow-up explanation."
+    "Los Angeles practices billed a service-weighted average of $434.04 for the first hour of a neuropsychological evaluation (code 96132) in 2024 — 37% above the national $317.32, against $277.75 across California. Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.",
+    "Medicare allowed an average of $127.08 for that first hour in California. The submitted charge is a list price and the allowed amount is what one payer permits; a private-pay quote will match neither, but the gap between them is the range the conversation happens inside. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, CY2024.",
+    "Each additional hour (code 96133) averaged $377.50 submitted in California, Medicare allowing $99.02 against $278.83 nationally. An evaluation has no single price because it is billed by the hour — so the number to ask a Los Angeles clinic for is hours, not a total. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, CY2024.",
+    "These are Medicare fee-for-service figures, so the patients behind them are 65-plus and disabled beneficiaries. For a child evaluation they describe a different population than yours, and they remain the only per-city figures published for these codes. None of them is a quote."
   ],
   "payment_options": [
-    "Ask whether the clinic is private pay only, offers superbills, or helps with reimbursement paperwork.",
-    "Ask whether intake, testing, scoring, feedback, and report delivery are billed together or separately."
+    "Ask which of intake, administration (96136) and interpretation (96132/96133) a Los Angeles quote covers. They are separate codes and can be separate charges.",
+    "Ask what happens to the fee if testing runs past the estimate, since additional hours bill under their own code."
   ],
   "wait_time_notes": [
-    "Wait time should be judged by intake delay, testing date, and final report delivery together.",
-    "A fast intake call does not guarantee fast testing or fast reporting.",
-    "In Los Angeles, compare wait time together with report timeline, feedback visit timing, and whether the report will support school, work, or care-planning needs."
+    "Measure the Los Angeles wait as three intervals — call to intake, intake to testing, testing to written report. Clinics usually quote only the first.",
+    "51 clinicians billing from Los Angeles addresses and 740 across California is the closest published proxy for capacity, and capacity is what sets the waitlist."
   ],
   "availability_notes": [
-    "Availability should include adult-versus-child fit, tele-intake options, and realistic report turnaround after testing.",
-    "Los Angeles shoppers should explicitly compare telehealth intake convenience against in-person testing requirements before assuming the process is faster.",
-    "Ask whether cancellations meaningfully change timing or only move the first call earlier."
+    "Confirm the person you would see evaluates your age group. Adult and paediatric neuropsychology are different practices, and age-group fit is the usual reason a Los Angeles referral is redirected after intake.",
+    "Ask which parts can be done remotely: some instruments have no validated remote administration, so a California telehealth intake does not imply telehealth testing."
   ],
   "named_resources_or_providers": [
-    "Los Angeles academic medical centers, psychology groups, and accommodations-oriented provider directories are usually more useful than generic testing-near-me lists.",
-    "Use modality fit, report purpose, and reimbursement handling as part of the comparison instead of brand familiarity alone.",
-    "Local academic medical centers, children\u2019s hospitals, psychology clinics, and accommodations-oriented provider directories should be compared by report purpose, not only name recognition."
+    "The California psychology licensing board is authoritative for whether an evaluator is licensed and in good standing in California.",
+    "ASPPB (asppb.net) maintains the directory of state psychology boards.",
+    "CMS publishes the Los Angeles and California figures quoted here at data.cms.gov, under Medicare Physician & Other Practitioners.",
+    "Academic medical centres and university training clinics near Los Angeles differ from private practice systematically on waitlist, fee and report purpose, so they are worth pricing separately rather than lumping in.",
+    "We do not rank, recommend or endorse providers, and no provider on this site has paid for editorial placement."
   ],
-  "city_intro_override": "Los Angeles neuro-evaluation shoppers should compare testing scope, report purpose, adult-versus-child fit, insurance/reimbursement path, and report turnaround before choosing a provider.",
+  "city_intro_override": "Choosing a neuropsychological evaluation near Los Angeles turns on four things: what the evaluation covers, who is licensed to sign the report, how many hours will be billed, and what the report is designed to support. This page carries the published Los Angeles figures — 51 clinicians billing Medicare for the service from Los Angeles addresses, inside a California total of 740 ranked 1 of 53 nationally — so a quote and a waitlist have something real to sit against.",
   "primary_city_decision_block": {
     "type": "decision_checklist",
     "title": "City-specific neuro evaluation decision checklist",
     "items": [
-      "Decide whether the question is ADHD, autism, learning, memory, concussion/TBI, or a broader differential evaluation.",
-      "Ask what the written report can support: school, work, therapy planning, medication discussion, or legal/medical documentation.",
-      "Compare intake-to-testing-to-report timeline, not only first appointment availability.",
-      "Ask whether the provider routinely works with the age group and evaluation purpose you need.",
-      "Ask whether pricing reflects screening only, full testing, collateral review, feedback, and written recommendations.",
-      "Confirm insurance, superbill, reimbursement, prior-authorization, and records requirements before scheduling."
+      "Name the question first — ADHD, autism, learning, memory, concussion or broader differential — and confirm the Los Angeles clinic routinely handles it.",
+      "Confirm the evaluator with the California psychology board, and confirm who signs the report.",
+      "Ask for hours, not a total: 96132 is the first hour and 96133 each hour after, so an hours estimate is the price.",
+      "Say which report purpose you need — 504/IEP, workplace accommodations, treatment planning or medical documentation — before booking.",
+      "Get intake-to-testing and testing-to-report as two separate numbers in writing.",
+      "Hold a quote against the $434.04 service-weighted average Los Angeles practices billed for the first hour, not against a figure from a marketing page."
     ]
   },
   "testing_scope_notes": [
-    "Ask whether the clinic offers screening, diagnostic clarification, ADHD-focused testing, autism-focused testing, or a broader differential workup.",
-    "Testing depth should match the real decision you need to make.",
-    "Use a symptom-to-evaluation-path decision tree: ADHD, autism, learning disability, TBI, mood, memory, or broader neuropsych testing."
+    "Ask whether a Los Angeles clinic is offering a screening, a diagnostic clarification of one question, or a full battery. Those are different services at different prices, described with the same words.",
+    "Ask what happens if testing suggests the original question was wrong, and whether re-scoping bills as new hours."
   ],
   "insurance_reimbursement_notes": [
-    "Ask whether the clinic accepts insurance, provides superbills, or expects full private-pay reimbursement follow-through from the patient.",
-    "Do not assume testing is covered just because intake is covered.",
-    "Ask for CPT/superbill/prior authorization expectations before booking; coverage and reimbursement are plan-specific."
+    "Ask which CPT codes a Los Angeles clinic expects to bill. Asking about 96130, 96132, 96133 and 96136 by number gets a more precise answer than asking whether \"testing\" is covered.",
+    "Do not assume testing is covered because intake was: intake, administration and interpretation bill separately and plans treat them differently.",
+    "The $127.08 Medicare-allowed figure above is what one payer permits in California. Your plan will allow a different amount; it is a reference point, not your cost share."
   ],
   "adult_vs_child_fit": [
-    "Confirm whether the clinician routinely evaluates adults, children, or both, and whether the testing approach changes by age group."
+    "Confirm the Los Angeles evaluator routinely assesses your age group, and that the quoted timeline applies to that age group rather than to the clinic's faster stream.",
+    "The Los Angeles and California figures on this page come from a 65-plus and disabled population. For a child evaluation treat them as evidence about clinician supply, not about what you will be charged."
   ],
   "report_turnaround_notes": [
-    "Ask when the written report is delivered, whether feedback is separate, and whether accommodations-ready language is included when relevant.",
-    "Ask when the written report and feedback session are delivered and whether the report supports school, work, medical, or accommodation decisions."
+    "Ask when the written report arrives, whether the feedback session is before or after it, and whether both sit inside the quoted Los Angeles fee.",
+    "Ask whether the report carries accommodation-ready language if a school or employer needs it, and whether answering their follow-up questions is billed."
   ],
   "provider_type_comparison": [
-    "psychologist or neuropsychologist evaluation fit",
-    "clinic testing workflow",
-    "therapy-provider handoff",
-    "school/work documentation needs"
+    "board-certified neuropsychologist versus licensed psychologist doing testing",
+    "academic medical centre or university training clinic versus private practice",
+    "who administers the tests versus who interprets and signs the report",
+    "report written for school or accommodations versus for treatment planning"
   ]
 }

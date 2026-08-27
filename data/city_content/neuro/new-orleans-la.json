@@ -1,0 +1,86 @@
+{
+  "_generated_by": "scripts/research/build_neuro_city_research.js",
+  "_source_city": "data/research/costs/cms_provider_city_neuro_2024.json (CMS CY2024 by Provider and Service, version-pinned).",
+  "_source_state": "data/research/costs/cms_geography_service_2024.json (CMS CY2024 by Geography and Service, version-pinned).",
+  "_no_clinical_claims": "No diagnosis, test battery, cut score, outcome or clinical timeline appears in this file.",
+  "_population_caveat": "All figures are Medicare fee-for-service. Every generated page states this on its face.",
+  "_address_caveat": "City figures are by practice address on the claim, not catchment. Every page that prints one says so.",
+  "city_slug": "new-orleans-la",
+  "city": "New Orleans",
+  "state": "Louisiana",
+  "state_abbr": "LA",
+  "vertical": "neuro",
+  "market_specific_notes": [
+    "5 clinicians billing from a New Orleans practice address charged Medicare for a neuropsychological evaluation in 2024, across 230 beneficiaries. That count is by practice address on the claim, not by catchment, so clinicians serving the metro from a suburban office are not in it. Treat it as a floor, never as the number of providers available to you. Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.",
+    "The largest single group among them by headcount was \"Psychologist, Clinical\" (5 of 5). That is a fact about who bills this code in New Orleans, not a judgement about any of them — but it is worth knowing before you assume every New Orleans listing for this service is a neuropsychologist. Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.",
+    "Statewide, 41 Louisiana clinicians billed the code across 1,127 beneficiaries — 32th highest of the 53 states and territories CMS published a figure for. Where the binding constraint is the waitlist rather than the price, that is the most useful published capacity number. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, CY2024.",
+    "Private-pay neuropsychologists near New Orleans, school district evaluators and hospital developmental clinics billing only commercial plans are absent from every count on this page, and for child evaluation they are much of the market."
+  ],
+  "local_vetting_points": [
+    "Verify the evaluator with the Louisiana psychology board, not the clinic's own page. ASPPB (asppb.net) lists every state board if you cannot find it.",
+    "Ask whether the clinician who signs the report is the one who administers the tests. Frequently it is not, and both are billed.",
+    "New Orleans neuro provider authority framework: compare evaluation scope, who is licensed to sign the report, hours billed for testing versus interpretation, report purpose and turnaround, and the reimbursement path.",
+    "Work a symptom-to-evaluation-path decision tree before booking: name whether the question is ADHD, autism, a learning disability, memory change, concussion or a broader differential, then confirm the New Orleans clinic routinely evaluates that question."
+  ],
+  "typical_cost_ranges": [
+    "New Orleans practices billed a service-weighted average of $367.44 for the first hour of a neuropsychological evaluation (code 96132) in 2024 — 16% above the national $317.32, against $290.67 across Louisiana. Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.",
+    "Medicare allowed an average of $115.13 for that first hour in Louisiana. The submitted charge is a list price and the allowed amount is what one payer permits; a private-pay quote will match neither, but the gap between them is the range the conversation happens inside. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, CY2024.",
+    "Each additional hour (code 96133) averaged $259.39 submitted in Louisiana, Medicare allowing $85.59 against $278.83 nationally. An evaluation has no single price because it is billed by the hour — so the number to ask a New Orleans clinic for is hours, not a total. Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, CY2024.",
+    "These are Medicare fee-for-service figures, so the patients behind them are 65-plus and disabled beneficiaries. For a child evaluation they describe a different population than yours, and they remain the only per-city figures published for these codes. None of them is a quote."
+  ],
+  "payment_options": [
+    "Ask which of intake, administration (96136) and interpretation (96132/96133) a New Orleans quote covers. They are separate codes and can be separate charges.",
+    "Ask what happens to the fee if testing runs past the estimate, since additional hours bill under their own code."
+  ],
+  "wait_time_notes": [
+    "Measure the New Orleans wait as three intervals — call to intake, intake to testing, testing to written report. Clinics usually quote only the first.",
+    "5 clinicians billing from New Orleans addresses and 41 across Louisiana is the closest published proxy for capacity, and capacity is what sets the waitlist."
+  ],
+  "availability_notes": [
+    "Confirm the person you would see evaluates your age group. Adult and paediatric neuropsychology are different practices, and age-group fit is the usual reason a New Orleans referral is redirected after intake.",
+    "Ask which parts can be done remotely: some instruments have no validated remote administration, so a Louisiana telehealth intake does not imply telehealth testing."
+  ],
+  "named_resources_or_providers": [
+    "The Louisiana psychology licensing board is authoritative for whether an evaluator is licensed and in good standing in Louisiana.",
+    "ASPPB (asppb.net) maintains the directory of state psychology boards.",
+    "CMS publishes the New Orleans and Louisiana figures quoted here at data.cms.gov, under Medicare Physician & Other Practitioners.",
+    "Academic medical centres and university training clinics near New Orleans differ from private practice systematically on waitlist, fee and report purpose, so they are worth pricing separately rather than lumping in.",
+    "We do not rank, recommend or endorse providers, and no provider on this site has paid for editorial placement."
+  ],
+  "city_intro_override": "Choosing a neuropsychological evaluation near New Orleans turns on four things: what the evaluation covers, who is licensed to sign the report, how many hours will be billed, and what the report is designed to support. This page carries the published New Orleans figures — 5 clinicians billing Medicare for the service from New Orleans addresses, inside a Louisiana total of 41 ranked 32 of 53 nationally — so a quote and a waitlist have something real to sit against.",
+  "primary_city_decision_block": {
+    "type": "decision_checklist",
+    "title": "City-specific neuro evaluation decision checklist",
+    "items": [
+      "Name the question first — ADHD, autism, learning, memory, concussion or broader differential — and confirm the New Orleans clinic routinely handles it.",
+      "Confirm the evaluator with the Louisiana psychology board, and confirm who signs the report.",
+      "Ask for hours, not a total: 96132 is the first hour and 96133 each hour after, so an hours estimate is the price.",
+      "Say which report purpose you need — 504/IEP, workplace accommodations, treatment planning or medical documentation — before booking.",
+      "Get intake-to-testing and testing-to-report as two separate numbers in writing.",
+      "Hold a quote against the $367.44 service-weighted average New Orleans practices billed for the first hour, not against a figure from a marketing page."
+    ]
+  },
+  "testing_scope_notes": [
+    "Ask whether a New Orleans clinic is offering a screening, a diagnostic clarification of one question, or a full battery. Those are different services at different prices, described with the same words.",
+    "Ask what happens if testing suggests the original question was wrong, and whether re-scoping bills as new hours."
+  ],
+  "insurance_reimbursement_notes": [
+    "Ask which CPT codes a New Orleans clinic expects to bill. Asking about 96130, 96132, 96133 and 96136 by number gets a more precise answer than asking whether \"testing\" is covered.",
+    "Do not assume testing is covered because intake was: intake, administration and interpretation bill separately and plans treat them differently.",
+    "The $115.13 Medicare-allowed figure above is what one payer permits in Louisiana. Your plan will allow a different amount; it is a reference point, not your cost share."
+  ],
+  "adult_vs_child_fit": [
+    "Confirm the New Orleans evaluator routinely assesses your age group, and that the quoted timeline applies to that age group rather than to the clinic's faster stream.",
+    "The New Orleans and Louisiana figures on this page come from a 65-plus and disabled population. For a child evaluation treat them as evidence about clinician supply, not about what you will be charged."
+  ],
+  "report_turnaround_notes": [
+    "Ask when the written report arrives, whether the feedback session is before or after it, and whether both sit inside the quoted New Orleans fee.",
+    "Ask whether the report carries accommodation-ready language if a school or employer needs it, and whether answering their follow-up questions is billed."
+  ],
+  "provider_type_comparison": [
+    "board-certified neuropsychologist versus licensed psychologist doing testing",
+    "academic medical centre or university training clinic versus private practice",
+    "who administers the tests versus who interprets and signs the report",
+    "report written for school or accommodations versus for treatment planning"
+  ]
+}
