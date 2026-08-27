@@ -150,10 +150,19 @@ function run() {
   // day the ledger is seeded those are the same number, and reporting the second
   // as the first would overstate how much changed on any build run on a date
   // that already appears in the ledger.
+  //
+  // Ask the ledger what it actually resolved rather than re-deriving it from a
+  // raw hash comparison. Those two disagree whenever the hash basis is being
+  // migrated: every stored hash mismatches, so the naive comparison reports
+  // "all N advanced, 0 held" while resolve() correctly held every date. A run
+  // that changed nothing must not print that it refreshed the whole library -
+  // that is the same false freshness claim in the console that <lastmod> used
+  // to make in the sitemap.
   const priorEntries = (ledger && ledger.entries) || {};
   const advanced = Object.keys(hashes).filter((url) => {
     const prev = priorEntries[url];
-    return !prev || prev.hash !== hashes[url];
+    if (!prev || !prev.lastmod) return true;
+    return resolved[url].lastmod !== prev.lastmod;
   }).length;
 
   let rewritten = 0;

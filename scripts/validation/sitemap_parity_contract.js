@@ -21,6 +21,14 @@ function walk(dir) {
   return out;
 }
 
+function isNoindex(filePath) {
+  if (!filePath.endsWith('index.html')) return false;
+  let html;
+  try { html = fs.readFileSync(filePath, 'utf8'); } catch (_) { return false; }
+  const m = html.match(/<meta[^>]+name=["']robots["'][^>]+content=["']([^"']*)["']/i);
+  return Boolean(m && /\bnoindex\b/i.test(m[1]));
+}
+
 function toUrlPath(distDir, filePath) {
   const rel = path.relative(distDir, filePath).replace(/\\/g, '/');
   if (rel === 'index.html') return '/';
@@ -79,8 +87,15 @@ function run(ctx = {}) {
     throw new Error('SITEMAP PARITY FAIL: dist/sitemap.xml missing. Run postbuild first.');
   }
 
+  // "Crawlable" has to mean the same thing here as it does in
+  // scripts/sitemap_emit.js, or the two disagree by construction. A page marked
+  // noindex is deliberately not in the sitemap - submitting it would ask a
+  // crawler to index a page that tells it not to, which Search Console reports
+  // as "Submitted URL marked noindex". Excluding it on one side only is what
+  // turned the /admin/ noindex into a parity failure.
   const expectedPaths = new Set(
     walk(distDir)
+      .filter((fp) => !isNoindex(fp))
       .map((fp) => toUrlPath(distDir, fp))
       .filter(Boolean)
   );

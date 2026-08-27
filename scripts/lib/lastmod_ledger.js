@@ -41,7 +41,10 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const SCHEMA = 'lastmod-ledger-v1';
+const SCHEMA = 'lastmod-ledger-v2';
+// What the hash is taken over. Bump this when the basis changes so a re-basing
+// can be told apart from a content change.
+const HASH_BASIS = 'main-content';
 const DEFAULT_PATH = path.join(process.cwd(), 'data', 'cadence', 'lastmod_ledger.json');
 
 const NOTE =
@@ -61,8 +64,26 @@ function buildDate() {
   return new Date().toISOString().slice(0, 10);
 }
 
+// Global chrome is not content either. A page's <main> is what a reader and a
+// retrieval system are actually there for; the header nav, the footer and the
+// policy links are the same on every page by construction. Hashing the whole
+// document meant one link added to the footer partial advanced <lastmod> on all
+// 183 URLs at once - the exact uniform_lastmod signal this ledger exists to
+// remove, re-created by a cosmetic edit. Hash the main region instead, so a
+// template tweak is silent and a rewritten page is not.
+const MAIN_REGION = /<main\b[^>]*>([\s\S]*?)<\/main>/i;
+
+function hashableBody(html) {
+  const doc = String(html);
+  const m = doc.match(MAIN_REGION);
+  // No <main> is a real possibility (redirect stubs, 404). Falling back to the
+  // whole document is correct there - it is the only content those pages have -
+  // and it is conservative: at worst such a page keeps the old behaviour.
+  return m ? m[1] : doc;
+}
+
 function contentHash(html) {
-  return crypto.createHash('sha256').update(String(html).replace(BUILD_STAMP, '<<BUILD_TIMESTAMP>>')).digest('hex');
+  return crypto.createHash('sha256').update(hashableBody(html).replace(BUILD_STAMP, '<<BUILD_TIMESTAMP>>')).digest('hex');
 }
 
 function load(ledgerPath = DEFAULT_PATH) {
@@ -82,10 +103,15 @@ function load(ledgerPath = DEFAULT_PATH) {
 function resolve(hashes, ledger, today) {
   const day = today || buildDate();
   const entries = (ledger && ledger.entries) || {};
+  // Changing what we hash is not the same as the content changing. On the run
+  // that migrates the basis every stored hash mismatches, and advancing every
+  // date on that basis would publish a library-wide freshness claim that is
+  // false for every page. Keep the recorded dates and only re-key the hashes.
+  const rebasing = Boolean(ledger && ledger.schema && ledger.schema !== SCHEMA);
   const out = {};
   for (const [url, hash] of Object.entries(hashes)) {
     const prev = entries[url];
-    const unchanged = prev && prev.hash === hash && prev.lastmod;
+    const unchanged = prev && prev.lastmod && (rebasing || prev.hash === hash);
     out[url] = {
       lastmod: unchanged ? prev.lastmod : day,
       first_seen: (prev && prev.first_seen) || (unchanged ? prev.lastmod : day)
@@ -106,6 +132,7 @@ function merged(hashes, ledger, today) {
   for (const url of Object.keys(entries).sort()) sorted[url] = entries[url];
   return {
     schema: SCHEMA,
+    hash_basis: HASH_BASIS,
     note: NOTE,
     seeded_on: (ledger && ledger.seeded_on) || day,
     entries: sorted
@@ -119,4 +146,4 @@ function save(ledger, ledgerPath = DEFAULT_PATH) {
   fs.renameSync(tmp, ledgerPath);
 }
 
-module.exports = { SCHEMA, DEFAULT_PATH, BUILD_STAMP, buildDate, contentHash, load, resolve, merged, save };
+module.exports = { SCHEMA, HASH_BASIS, DEFAULT_PATH, BUILD_STAMP, buildDate, contentHash, hashableBody, load, resolve, merged, save };
