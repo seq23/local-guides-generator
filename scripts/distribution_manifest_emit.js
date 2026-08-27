@@ -57,10 +57,26 @@ function run() {
   const idxPriority = new Set(lines(readText(path.join(dist, 'indexnow-priority.txt'))).filter(l => /^https?:\/\//i.test(l)));
   const priorityReview = readText(path.join(dist, 'distribution-priority-urls.txt'));
 
+  // Whether the rendered page is actually indexable.
+  //
+  // Without this, distribution_dominance_contract.js asks every city-home page to
+  // be in the sitemap, while sitemap_emit.js deliberately drops noindex pages - so
+  // a page that is correctly held back from search reads as a distribution failure.
+  // The two rules cannot both be satisfied, and the one that has to give is the
+  // one asking a noindex page to be advertised.
+  const isNoindex = (route) => {
+    const rel = String(route || '/').replace(/^\/+|\/+$/g, '');
+    const file = path.join(dist, rel, 'index.html');
+    if (!fs.existsSync(file)) return false;
+    const m = /<meta\s+name=["']robots["']\s+content=["']([^"']*)["']/i.exec(fs.readFileSync(file, 'utf8'));
+    return m ? /\bnoindex\b/i.test(m[1]) : false;
+  };
+
   const records = pages.map((p) => {
     const url = String(p.url || '');
     const pageFamily = String(p.pageFamily || 'unknown');
     const sitemaps = sitemapMembership.get(url) || [];
+    const noindex = isNoindex(p.route);
     return {
       route: p.route || '/',
       url,
@@ -70,6 +86,8 @@ function run() {
       updatedAt: p.updatedAt || '',
       freshnessClass: freshnessClass(p.updatedAt),
       priorityTier: ['home','guides-hub'].includes(pageFamily) ? 'tier-1' : ['guide-detail','city-home'].includes(pageFamily) ? 'tier-2' : ['state','state-next-steps'].includes(pageFamily) ? 'tier-3' : 'tier-4',
+      noindex,
+      indexable: !noindex,
       sitemapFiles: sitemaps,
       inSitemap: sitemaps.length > 0,
       inFreshSitemap: sitemaps.includes('sitemap-fresh.xml'),
