@@ -87,7 +87,19 @@ fi
 echo
  echo "== 4) Optional GSC priority URL inspection =="
 if [[ -n "$GSC_CREDS" && -n "$GSC_SITE_URL" && -f "$GSC_CREDS" ]]; then
-  python3 distribution_scripts/gsc_inspect_urls.py "$GSC_CREDS" "$GSC_SITE_URL" "$PRIORITY_FILE" "reports/gsc-inspection-results.json" || echo "WARNING: GSC inspection failed; non-blocking."
+  # No `|| echo WARNING` here any more. That masked a real defect: the inspector
+  # crashed on the first HTTP 429 and this line turned the crash into a warning,
+  # so URL inspection failed silently on every run while the job reported success.
+  #
+  # The inspector now exits 0 when it stops on quota (an expected operating
+  # condition -- 2,000/day per property) and non-zero only for a genuine fault,
+  # so a non-zero exit here is worth failing on.
+  if python3 distribution_scripts/gsc_inspect_urls.py "$GSC_CREDS" "$GSC_SITE_URL" "$PRIORITY_FILE" "reports/gsc-inspection-results.json"; then
+    :
+  else
+    echo "ERROR: GSC URL inspection failed for a reason other than quota. See reports/gsc-inspection-results.json for stopped_reason."
+    exit 1
+  fi
 else
   echo "SKIP: GSC credentials/site not supplied."
 fi
