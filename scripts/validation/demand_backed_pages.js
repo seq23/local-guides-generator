@@ -135,7 +135,7 @@ if (!fs.existsSync(BASELINE)) {
 
 // --- 3. demand --------------------------------------------------------------
 notes.push(
-  'NOT MEASURED: no volume, keyword_difficulty, or impression figure exists anywhere under data/. ' +
+  'MEASURED as of 2026-08-27 for uscisexam only: data/signals/gsc_uscisexam_2026-08-27.json holds Google Search Console impressions (38 impressions, 0 clicks, avg position 61.4, 3 months to 2026-08-25). No volume or keyword_difficulty figure exists for city selection, which remains a hand-typed slug list. ' +
   'City selection is a hand-typed slug list and the page count is cities x per-city templates. ' +
   'The cross-repo pull from citation-velocity is dormant (promoted_ids: 0).'
 );
