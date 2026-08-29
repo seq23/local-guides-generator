@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   ingestion-sync:
@@ -18,6 +19,104 @@ jobs:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
-      - run: node scripts/reference/pull_velocity_candidates.js
-      - run: node scripts/reference/generate_from_candidates.js
-      - run: node scripts/reference/guard_visible_surfaces.js
+
+      - name: Pull promotion candidates from the velocity seam
+        id: pull
+        # NAMED STOP, not red.
+        #
+        # The candidates live in local-guides-citation-velocity, a different
+        # private repo. A run here has only GITHUB_TOKEN, which cannot read it,
+        # so until REPO2_PROMOTION_CANDIDATES_URL or a cross-repo PAT is wired
+        # this lane genuinely cannot do its work. Failing daily for a missing
+        # credential would train everyone to ignore this repo's red, and a lane
+        # nobody looks at is no better than the silent no-op it replaced.
+        #
+        # So the lane stops, names the missing credential, writes that block
+        # into the run summary where it is visible without opening logs, and
+        # exits 0. Rule 0 is satisfied by the stop being NAMED and seen, not by
+        # the run being red. INGESTION_SYNC_ALLOW_NAMED_STOP is scoped to this
+        # step only: a human running `npm run ingestion:pull` by hand still gets
+        # a non-zero exit, because for them an unreachable source is a mistake.
+        env:
+          INGESTION_SYNC_ALLOW_NAMED_STOP: '1'
+          REPO2_PROMOTION_CANDIDATES_URL: ${{ secrets.REPO2_PROMOTION_CANDIDATES_URL }}
+        run: node scripts/reference/pull_velocity_candidates.js
+
+      - name: Generate draft guide sources from candidates
+        if: steps.pull.outputs.named_stop != 'true'
+        run: node scripts/reference/generate_from_candidates.js
+
+      - name: Guard visible surfaces
+        if: steps.pull.outputs.named_stop != 'true'
+        run: node scripts/reference/guard_visible_surfaces.js
+
+      - name: Validate the generated guides before recording them
+        # A GITHUB_TOKEN push does not trigger workflows, so anything committed
+        # below reaches main without Validate or Integrity Build ever seeing it
+        # and would surface as a red run on some later, unrelated human push.
+        # Build and validate here instead, so this lane never commits guides it
+        # has not proved are buildable.
+        if: steps.pull.outputs.named_stop != 'true'
+        run: |
+          node scripts/build_all_packs.js
+          LKG_VALIDATE_DIST=1 npm run validate:all
+          git restore data/site.json || true
+
+      - name: Discard transient build state before opening the PR
+        if: steps.pull.outputs.named_stop != 'true'
+        run: |
+          git restore data/site.json || true
+          git restore releases || true
+          git restore staging || true
+          git restore reports/phase8_hard_fail_run.json || true
+
+      - name: Open a PR with the ingested candidates
+        # The job used to end after `guard`. pull wrote incoming_candidates.json,
+        # generate wrote guide source files -- and then the runner was destroyed
+        # and every byte of it was thrown away. The workflow has declared
+        # `contents: write` since it was created and never once used it, so even
+        # a perfectly wired seam would have ingested into the void.
+        #
+        # A PR rather than a push to main, for two reasons. It is this repo's
+        # established idiom for machine-generated CONTENT (promote_reference.yml
+        # and complete_promoted_guides.yml both do it; only the observation
+        # receipt lane commits straight to main). And a push made with
+        # GITHUB_TOKEN does not trigger workflows, so guides pushed directly
+        # would never be seen by Validate, and the Complete Promoted Guides lane
+        # -- which keys on the push diff -- would step straight over them and
+        # leave them skeletal forever. Merging a PR is a real push, so both lanes
+        # fire.
+        if: steps.pull.outputs.named_stop != 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: auto/ingest-velocity-candidates-${{ github.run_id }}
+          title: Ingest velocity promotion candidates — ${{ github.run_id }}
+          commit-message: Ingest velocity promotion candidates
+          body: |
+            Automated cross-repo candidate ingestion.
+
+            Draft guide sources generated from promotion candidates produced by
+            `local-guides-citation-velocity`. This lane pulled a real upstream,
+            generated guides from it, and passed a full build + validation before
+            opening this PR.
+
+            The per-run guide count is capped by `new_pages_per_week` in
+            `data/cadence/policy.json`; anything above the cap stays pending and
+            is picked up by the next run.
+
+            Review the generated guide sources and merge. Merging triggers the
+            Complete Promoted Guides lane, which fills them out.
+          labels: |
+            automated
+            velocity-ingestion
+          delete-branch: true
+          add-paths: |
+            data/reference/incoming_candidates.json
+            data/reference/reference_registry.json
+            data/reference/ingestion_sync_status.json
+            data/page_sets/examples/dentistry_global_pages/*.json
+            data/page_sets/examples/neuro_global_pages/*.json
+            data/page_sets/examples/pi_global_pages/*.json
+            data/page_sets/examples/trt_global_pages/*.json
+            data/page_sets/examples/uscis_medical_global_pages/*.json

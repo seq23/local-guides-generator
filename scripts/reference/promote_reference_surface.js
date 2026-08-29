@@ -98,6 +98,34 @@ function main() {
   writeJson(QUEUE, queue);
 
   console.log(`promote_reference_surface: queued ${candidateId} -> ${publicSlug}`);
+
+  // NAMED DEAD END. Nothing invokes this script -- not a workflow, not a
+  // package.json script, not another script -- and nothing reads the queue it
+  // writes: data/reference/promotion_queue.json has no consumer anywhere in the
+  // repo and has never existed on disk. registry.promoted_ids is written only
+  // here and read only by a comment. This is a superseded design that was never
+  // removed.
+  //
+  // A guide does not need "promoting" to go live: it is live once its source
+  // file exists in data/page_sets/examples/*_global_pages/, which puts it in
+  // sitemap-guides.xml at build time. The lane that fills such guides out is
+  // Complete Promoted Guides, and it keys on the git diff of changed guide
+  // files, not on any flag this script sets.
+  //
+  // Say so, rather than letting an operator believe a queue entry will be acted
+  // on by something.
+  console.warn(
+    [
+      '',
+      'NOTICE: promote_reference_surface writes data/reference/promotion_queue.json,',
+      'and NOTHING in this repo reads that file. Setting promoted=true here has no',
+      'downstream effect either. A generated guide is already live once its source',
+      'file exists under data/page_sets/examples/*_global_pages/; the Complete',
+      'Promoted Guides workflow fills it out from the push diff, not from this queue.',
+      'Treat this script as a bookkeeping note, not as a step that publishes anything.',
+      '',
+    ].join('\n')
+  );
 }
 
 main();

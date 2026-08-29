@@ -109,7 +109,55 @@ function run() {
     fail('refresh-verification workflow does not regenerate dependent artifacts');
   }
 
-  console.log('✅ WORKFLOW INTEGRITY CONTRACT PASS');
+  // Every workflow must run the same Node major.
+  //
+  // build_starter_pack.yml pinned '20' while the other ten pinned '24'. Nothing
+  // failed, which is exactly why it survived: one lane quietly ran `npm ci` and
+  // the build scripts on a different major from every other lane, so a script
+  // using anything newer than Node 20 would break there and nowhere else. Two
+  // components each keeping their own version, with nothing linking them.
+  const wfDir = path.join(root, '.github/workflows');
+  const versions = new Map();
+  let wfWithNode = 0;
+  for (const name of fs.readdirSync(wfDir)) {
+    if (!/\.ya?ml$/.test(name)) continue;
+    const body = fs.readFileSync(path.join(wfDir, name), 'utf8');
+    for (const m of body.matchAll(/node-version:\s*['"]?([\w.]+)['"]?/g)) {
+      wfWithNode += 1;
+      if (!versions.has(m[1])) versions.set(m[1], []);
+      versions.get(m[1]).push(name);
+    }
+  }
+  if (wfWithNode === 0) {
+    fail('no workflow pins a node-version; the node consistency check examined nothing');
+  }
+  if (versions.size > 1) {
+    const detail = [...versions.entries()]
+      .map(([v, files]) => `${v}: ${files.join(', ')}`)
+      .join(' | ');
+    fail(
+      'workflows disagree on the Node major they run. A lane on a different major ' +
+      `runs npm ci and the build scripts differently from every other lane. ${detail}`
+    );
+  }
+
+  // ...and .nvmrc must name that same major, or local development runs a
+  // different Node from every CI lane. It said 20.20.0 while CI ran 24.
+  const ciMajor = [...versions.keys()][0].split('.')[0];
+  const nvmrcPath = path.join(root, '.nvmrc');
+  if (fs.existsSync(nvmrcPath)) {
+    const nvmrcMajor = fs.readFileSync(nvmrcPath, 'utf8').trim().replace(/^v/, '').split('.')[0];
+    if (nvmrcMajor && nvmrcMajor !== ciMajor) {
+      fail(
+        `.nvmrc pins Node ${nvmrcMajor} but every workflow runs Node ${ciMajor}. Local development ` +
+        'would run a different major from CI, so a break can only ever show up on one side.'
+      );
+    }
+  }
+
+  console.log(
+    `✅ WORKFLOW INTEGRITY CONTRACT PASS (${wfWithNode} node-version pins + .nvmrc, all node ${ciMajor})`
+  );
 }
 
 module.exports = { run };

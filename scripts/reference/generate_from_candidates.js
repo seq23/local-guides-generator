@@ -8,7 +8,59 @@ const ROOT = process.cwd();
 const DATA_DIR = path.join(ROOT, 'data', 'reference');
 const INCOMING = path.join(DATA_DIR, 'incoming_candidates.json');
 const REGISTRY = path.join(DATA_DIR, 'reference_registry.json');
-const MAX_NEW_GUIDES_PER_RUN = Math.max(1, Number(process.env.MAX_NEW_GUIDES_PER_RUN || 25));
+const ALIASES_FILE = path.join(ROOT, 'data', 'contracts', 'velocity_vertical_aliases.json');
+const CADENCE_POLICY = path.join(ROOT, 'data', 'cadence', 'policy.json');
+
+// The per-run cap is not a free parameter: every draft guide generated here
+// becomes a /guides/ route and therefore a sitemap URL (proved: all 17 uscis
+// global-page routes appear in dist/sitemap-guides.xml). So this is a
+// PUBLISHING RATE, and the publishing rate is already declared once, in
+// data/cadence/policy.json as new_pages_per_week -- which scripts/cadence_gate.js
+// enforces by blocking a run that adds more new URLs than that.
+//
+// It was hardcoded to 25, on a lane the cron runs DAILY: 175 new pages a week
+// against a declared cap of 5. The two numbers never contradicted each other in
+// practice only because the seam had been delivering zero since April. The
+// moment the seam was repaired, this literal would have driven straight into the
+// cadence gate and blocked main.
+//
+// Derive it from the policy instead of restating it, so changing the declared
+// rate moves this with it.
+function readJsonSafeTop(file, fallback) {
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return fallback; }
+}
+const CADENCE = readJsonSafeTop(CADENCE_POLICY, {});
+const POLICY_NEW_PAGES_PER_WEEK = Number(CADENCE.new_pages_per_week);
+if (!Number.isFinite(POLICY_NEW_PAGES_PER_WEEK) || POLICY_NEW_PAGES_PER_WEEK < 1) {
+  console.error(
+    'generate_from_candidates: data/cadence/policy.json does not declare a usable ' +
+    'new_pages_per_week. The per-run cap is derived from it and cannot be guessed.'
+  );
+  process.exit(1);
+}
+const MAX_NEW_GUIDES_PER_RUN = Math.max(
+  1,
+  Number(process.env.MAX_NEW_GUIDES_PER_RUN || POLICY_NEW_PAGES_PER_WEEK)
+);
+
+// Velocity names its verticals one way; this repo's page-set folders are named
+// another. Each side kept its own list and nothing linked them, so every
+// candidate whose upstream name was unrecognised was skipped and (before the
+// puller stopped consuming ids at pull time) permanently swallowed. All 9
+// candidates this repo had never ingested were `personal_injury`, a name this
+// map did not contain. The link now lives in one file both this script and
+// scripts/validation/velocity_candidate_seam_contract.js read.
+const ALIAS_CONTRACT = readJsonSafeTop(ALIASES_FILE, null);
+if (!ALIAS_CONTRACT || !ALIAS_CONTRACT.aliases) {
+  console.error(
+    'generate_from_candidates: data/contracts/velocity_vertical_aliases.json is ' +
+    'missing or unreadable. It is the only link between velocity vertical names ' +
+    'and this repo\'s page-set folders; without it every candidate would be ' +
+    'silently skipped as an unsupported vertical.'
+  );
+  process.exit(1);
+}
+const VERTICAL_ALIASES = ALIAS_CONTRACT.aliases;
 
 const VERTICALS = {
   dentistry: {
@@ -89,8 +141,7 @@ function escapeHtml(value) {
 
 function normalizeVertical(v) {
   const key = String(v || '').trim();
-  if (key === 'pi') return 'personal-injury';
-  return key;
+  return VERTICAL_ALIASES[key] || key;
 }
 
 function listExistingRoutes(folderAbs) {
@@ -235,7 +286,16 @@ function main() {
     }
 
     if (fs.existsSync(fileAbs)) {
-      results.push({ id: candidate.id || null, status: 'skipped', reason: `already_exists:${path.relative(ROOT, fileAbs)}` });
+      // A guide for this candidate's cluster already exists. That is the
+      // candidate SATISFIED, not skipped: two candidates in one cluster (e.g.
+      // personal_injury-settlement-offers-015 and -016) resolve to the same
+      // slug by design, and minting `settlement-offers-2` would only add a
+      // near-identical thin page. Record it as processed so it stops being
+      // re-pulled on every run forever -- now that the puller no longer marks
+      // ids consumed at pull time, anything left unrecorded here would loop
+      // indefinitely.
+      registry.processed_ids.push(candidate.id);
+      results.push({ id: candidate.id || null, status: 'satisfied', reason: `existing_guide_covers_cluster:${path.relative(ROOT, fileAbs)}` });
       continue;
     }
 
@@ -271,9 +331,59 @@ function main() {
   registry.updated_at = new Date().toISOString();
   writeJson(REGISTRY, registry);
 
-  console.log(`generate_from_candidates: created ${created} draft guide source file(s)`);
+  console.log(
+    `generate_from_candidates: created ${created} draft guide source file(s) ` +
+    `(per-run cap ${MAX_NEW_GUIDES_PER_RUN}, derived from cadence policy ` +
+    `new_pages_per_week=${POLICY_NEW_PAGES_PER_WEEK})`
+  );
   for (const row of results) {
     console.log(` - ${row.status}: ${row.id || 'unknown'}${row.file ? ` -> ${row.file}` : ''}${row.reason ? ` (${row.reason})` : ''}`);
+  }
+
+  // Rule 0: this stage must not exit 0 having produced nothing from candidates
+  // it was actually handed.
+  //
+  // An empty incoming queue is a legitimate no-op -- there was nothing to do.
+  // Candidates present and zero guides created is NOT: it means every one of
+  // them hit a skip reason, and for months that reason was
+  // `unsupported_vertical:personal_injury` printed into a log nobody read while
+  // the step reported success. Reaching the per-run cap is the one benign way to
+  // create fewer than were offered, and it cannot produce zero.
+  const skipped = results.filter((r) => r.status === 'skipped');
+  const satisfied = results.filter((r) => r.status === 'satisfied');
+  if (incoming.length > 0 && created === 0 && satisfied.length === 0) {
+    const reasons = [...new Set(skipped.map((r) => r.reason))];
+    console.error([
+      '',
+      '='.repeat(72),
+      'generate_from_candidates: FAILED — candidates were available and none was used.',
+      '='.repeat(72),
+      '',
+      `${incoming.length} candidate(s) were pending in data/reference/incoming_candidates.json`,
+      'and every one of them was skipped. Reasons seen:',
+      ...reasons.map((r) => `  - ${r}`),
+      '',
+      'An `unsupported_vertical:` reason means velocity emits a vertical name that',
+      'data/contracts/velocity_vertical_aliases.json does not map to a page-set',
+      'folder. Add the alias there — that file is the single link between the two',
+      'naming schemes, and it is guarded by',
+      'scripts/validation/velocity_candidate_seam_contract.js.',
+      '='.repeat(72),
+      '',
+    ].join('\n'));
+    process.exitCode = 1;
+    return;
+  }
+
+  if (skipped.length) {
+    const unsupported = skipped.filter((r) => /^unsupported_vertical:/.test(r.reason || ''));
+    if (unsupported.length) {
+      console.error(
+        `generate_from_candidates: ${unsupported.length} candidate(s) skipped for an ` +
+        'unmapped vertical. Add them to data/contracts/velocity_vertical_aliases.json.'
+      );
+      process.exitCode = 1;
+    }
   }
 }
 

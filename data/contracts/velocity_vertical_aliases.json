@@ -1,0 +1,33 @@
+{
+  "contract_version": "1.0",
+  "_why": [
+    "local-guides-citation-velocity names its verticals one way and this repo's",
+    "generator names its page-set folders another way. Each side kept its own list",
+    "and nothing linked them, so generate_from_candidates.js silently skipped every",
+    "candidate whose upstream name it did not recognise:",
+    "'personal_injury' and 'uscis' were emitted by velocity and known to nobody here.",
+    "All 9 candidates this repo had never ingested were personal_injury, so the",
+    "seam produced 0 guides even once source resolution was repaired.",
+    "This file is the single link between the two lists. Both the generator and the",
+    "seam validator read it, so adding a vertical upstream fails loudly here instead",
+    "of being dropped on the floor."
+  ],
+  "upstream_verticals": [
+    "dentistry",
+    "neuro",
+    "personal_injury",
+    "trt",
+    "uscis"
+  ],
+  "aliases": {
+    "dentistry": "dentistry",
+    "neuro": "neuro",
+    "personal_injury": "personal-injury",
+    "personal-injury": "personal-injury",
+    "pi": "personal-injury",
+    "trt": "trt",
+    "uscis": "uscis-medical",
+    "uscis_medical": "uscis-medical",
+    "uscis-medical": "uscis-medical"
+  }
+}
