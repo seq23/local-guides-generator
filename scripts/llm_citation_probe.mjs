@@ -34,6 +34,35 @@ const MODE = arg('--mode', process.env.CITATION_PROBE_MODE || 'knowledge');
 const GROUNDED = MODE === 'grounded';
 const LIMIT = Number(arg('--limit', '25'));
 const OUT = 'data/signals/llm_citation_observations.json';
+// Every run writes this receipt, including a run that stops for want of a
+// credential. Without it a lane that has never once produced an observation is
+// indistinguishable from one that ran fine and had nothing to report, and that
+// is precisely how this lane spent four paid grounded runs unnoticed.
+const STATUS = 'data/signals/citation_probe_status.json';
+
+function readStatus() {
+  const fp = path.join(ROOT, STATUS);
+  if (!fs.existsSync(fp)) return null;
+  try { return JSON.parse(fs.readFileSync(fp, 'utf8')); } catch { return null; }
+}
+
+function writeStatus(patch) {
+  const prev = readStatus() || {};
+  const next = {
+    schema_version: '1.0',
+    bootstrapped: false,
+    runs_total: (Number(prev.runs_total) || 0) + 1,
+    successes_total: Number(prev.successes_total) || 0,
+    stops_total: Number(prev.stops_total) || 0,
+    last_success_at: prev.last_success_at || null,
+    last_success_observations: prev.last_success_observations ?? null,
+    last_success_run_at: prev.last_success_run_at || null,
+    ...patch,
+  };
+  fs.mkdirSync(path.join(ROOT, path.dirname(STATUS)), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, STATUS), JSON.stringify(next, null, 2) + '\n');
+  return next;
+}
 
 const CONFIG_PATH = 'data/signals/citation_probe_config.json';
 const config = fs.existsSync(path.join(ROOT, CONFIG_PATH))
@@ -174,7 +203,17 @@ const now = new Date().toISOString();
 const haveKey = PROVIDER === 'openrouter' ? Boolean(orKey) : Boolean(key);
 if (!haveKey || DRY) {
   const reason = DRY ? 'dry_run' : 'no_api_key';
+  const prev = readStatus();
+  const st = writeStatus({
+    last_run_at: now,
+    last_outcome: 'stopped',
+    last_stop_reason: reason,
+    last_mode: MODE,
+    queries_ready: queries.length,
+    stops_total: (Number(prev?.stops_total) || 0) + 1,
+  });
   console.log(`citation probe: skipped (${reason}); mode=${MODE}; ${queries.length} queries ready, owned domains: ${OWNED.join(', ')}`);
+  console.log(`citation probe: NAMED STOP recorded in ${STATUS} (${st.runs_total} run(s) so far, ${st.successes_total} of them produced an observation; last success ${st.last_success_at || 'NEVER'})`);
   process.exit(0);
 }
 
@@ -239,4 +278,16 @@ prior.latest_summary = {
 
 fs.mkdirSync(path.join(ROOT, path.dirname(OUT)), { recursive: true });
 fs.writeFileSync(path.join(ROOT, OUT), JSON.stringify(prior, null, 2) + '\n');
+const prevStatus = readStatus();
+writeStatus({
+  last_run_at: now,
+  last_outcome: 'observed',
+  last_stop_reason: null,
+  last_mode: MODE,
+  queries_ready: queries.length,
+  successes_total: (Number(prevStatus?.successes_total) || 0) + 1,
+  last_success_at: now,
+  last_success_run_at: now,
+  last_success_observations: observations.length,
+});
 console.log(`citation probe [${PROVIDER}/${MODE}]: ${cited}/${observations.length} observations named one of our domains (${prior.latest_summary.self_cited_rate_pct}%); ${errored} provider error(s). Recorded in ${OUT}`);

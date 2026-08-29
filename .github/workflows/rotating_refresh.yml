@@ -30,13 +30,23 @@ jobs:
           CITATION_PROBE_MODE: grounded
         run: node scripts/llm_citation_probe.mjs --limit 25
       - name: Record the observation
+        # Stage FIRST, then ask the index whether anything changed. The old
+        # guard asked `git diff --quiet -- data/signals/` before staging, and
+        # `git diff` is blind to untracked files: the brand-new observations
+        # file always read as "no change", so the lane could never take its
+        # first commit and four paid grounded runs were thrown away. The probe
+        # also writes citation_probe_status.json on every path, including a
+        # credential-less named stop, so an empty-handed lane leaves a receipt.
+        # CHANGELOG.md carries the rotation entry from the step above and was
+        # likewise never staged. data/site.json is deliberately NOT committed:
+        # it is transient materialized pack state.
         run: |
-          if git diff --quiet -- data/signals/; then
-            echo "no observation to record"
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/signals/
+          git add data/signals/ CHANGELOG.md
+          if git diff --cached --quiet; then
+            echo "no observation or rotation entry to record"
+            exit 0
+          fi
           git commit -m "Record citation probe observations $(date -u +%Y-%m-%d)"
           git push
