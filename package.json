@@ -84,7 +84,8 @@
     "probe:queries": "node scripts/citation_probe_queries_emit.js",
     "probe:citations": "CITATION_PROBE_MODE=grounded node scripts/llm_citation_probe.mjs --limit 30",
     "validate:demand-backed-pages": "node scripts/validation/demand_backed_pages.js",
-    "validate:sourced-cost-figures": "node scripts/validation/sourced_cost_figures_contract.js"
+    "validate:sourced-cost-figures": "node scripts/validation/sourced_cost_figures_contract.js",
+    "validate:velocity-candidate-seam": "node scripts/validation/velocity_candidate_seam_contract.js"
   },
   "dependencies": {},
   "engines": {
