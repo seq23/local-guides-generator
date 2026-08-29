@@ -141,6 +141,32 @@ function run() {
     );
   }
 
+  // The warning tier must be invoked by a workflow. It is defined in
+  // data/contracts/validator_tiering_policy.json and has a runner, but nothing
+  // in .github/workflows ran it: its 8 validators were reachable only through
+  // `npm run qa:final`, which no workflow runs either. A warning tier nothing
+  // runs emits no warnings, which is the only thing it is for.
+  //
+  // Comment lines are stripped before matching. The first version of this check
+  // did not strip them, and its own explanatory comment in validate.yml
+  // contained the string it searched for -- so it passed by reading its own
+  // description of the problem instead of an actual invocation. A guard
+  // satisfied by a comment about the thing it guards.
+  const allWorkflows = fs.readdirSync(wfDir)
+    .filter((n) => /\.ya?ml$/.test(n))
+    .map((n) => fs.readFileSync(path.join(wfDir, n), 'utf8'))
+    .join('\n')
+    .split('\n')
+    .filter((line) => !/^\s*#/.test(line))
+    .join('\n');
+  if (!/validate:tier:warning|run_validator_tier\.js warning|qa:final/.test(allWorkflows)) {
+    fail(
+      'no workflow invokes the warning validator tier. It is declared in ' +
+      'data/contracts/validator_tiering_policy.json with a runner behind it, so leaving it ' +
+      'uninvoked means those validators never report anything.'
+    );
+  }
+
   // ...and .nvmrc must name that same major, or local development runs a
   // different Node from every CI lane. It said 20.20.0 while CI ran 24.
   const ciMajor = [...versions.keys()][0].split('.')[0];
