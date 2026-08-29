@@ -64,16 +64,43 @@ function run(ctx) {
   }
 
   const fixtureText = [/\bACME Law\b/i, /\+?1?-?555-555-5555/i];
-  for (const fp of walkHtml(path.join(repoRoot, 'dist'))) {
+  const pages = walkHtml(path.join(repoRoot, 'dist'));
+  let sponsoredSurfaces = 0;
+  for (const fp of pages) {
     const html = fs.readFileSync(fp, 'utf8');
     if (!/data-sponsored-surface=/i.test(html)) continue;
+    sponsoredSurfaces += 1;
     for (const pattern of fixtureText) {
       if (pattern.test(html)) bad.push(`${path.relative(repoRoot, fp)} renders fixture sponsor content in a production build`);
     }
   }
 
+  // Rule 0. Zero LIVE BUYOUTS is a legitimate empty set -- none are sold, and
+  // the first loop honestly has nothing to walk. Zero RENDERED PAGES is not:
+  // the second loop is the half that actually guards production output, and
+  // with no dist it scanned nothing and still printed PASS. Worse, the PASS
+  // line only ever reported the buyout count, so a scan of zero pages was
+  // indistinguishable from a clean scan of the whole site.
+  //
+  // Every lane that runs this validator builds first (build_all_packs.js runs
+  // the tier per pack; validate.yml, integrity_build.yml, add_city_request.yml,
+  // complete_promoted_guides.yml and ingestion_sync.yml all build before
+  // validating), so an absent dist here means the gate is being asked to vouch
+  // for output that does not exist.
+  if (!pages.length) {
+    fail([
+      'examined 0 rendered pages: dist/ is absent or contains no HTML, so this contract',
+      'cannot vouch for the production build. It previously passed in this state while',
+      'reporting only the buyout count, which hid the fact that nothing was scanned.',
+      'Run a build (node scripts/build_all_packs.js) before this validator.',
+    ]);
+  }
+
   if (bad.length) fail([...new Set(bad)]);
-  console.log(`✅ PRODUCTION SPONSOR FIXTURE CONTRACT PASS (${active.length} active production buyouts checked)`);
+  console.log(
+    `✅ PRODUCTION SPONSOR FIXTURE CONTRACT PASS (${active.length} active production buyouts, ` +
+      `${sponsoredSurfaces} sponsored surface(s) across ${pages.length} rendered page(s) scanned)`
+  );
 }
 
 if (require.main === module) {
