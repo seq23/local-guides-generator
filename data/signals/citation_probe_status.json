@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "bootstrapped": true,
+  "_bootstrap_note": "Seeded by hand, not by a run. Between 2026-08-26 and 2026-08-29 the grounded probe executed successfully at least four times in Rotating Refresh (runs 33011778080, 33097737540, 33195262233, 33255471638), each writing 25 observations, and every one of them was thrown away: the workflow guarded the commit with `git diff --quiet -- data/signals/`, which reports clean for an untracked file, so the brand-new observations file could never be staged and the lane could never take its first commit. The guard is fixed and the probe now writes this receipt on every path. The first real run overwrites this file and sets bootstrapped to false.",
+  "runs_total": 0,
+  "successes_total": 0,
+  "stops_total": 0,
+  "last_run_at": null,
+  "last_outcome": null,
+  "last_stop_reason": null,
+  "last_mode": null,
+  "queries_ready": null,
+  "last_success_at": null,
+  "last_success_run_at": null,
+  "last_success_observations": null
+}
