@@ -36,7 +36,106 @@ const DATA_DIR = path.join(ROOT, "data", "reference");
 const INCOMING = path.join(DATA_DIR, "incoming_candidates.json");
 const REGISTRY = path.join(DATA_DIR, "reference_registry.json");
 const LAST_PULL = path.join(DATA_DIR, "last_pull_manifest.json");
+const STATUS = path.join(DATA_DIR, "ingestion_sync_status.json");
 const SHOULD_WRITE_PULL_MANIFEST = process.env.REFERENCE_WRITE_PULL_MANIFEST === "1";
+
+// A NAMED STOP is a legitimate Rule 0 outcome: the lane did no work, and said
+// exactly why, naming the credential that would let it do work. It is only
+// legitimate where an unreachable upstream is a KNOWN, accepted condition --
+// that is, in the scheduled CI lane, which cannot read another private repo
+// with only GITHUB_TOKEN. A human running `npm run ingestion:pull` by hand has
+// no such excuse: for them an unreachable source is an error and still exits 1.
+const ALLOW_NAMED_STOP = process.env.INGESTION_SYNC_ALLOW_NAMED_STOP === "1";
+
+const CREDENTIAL_INSTRUCTIONS = [
+  "The cross-repo source is UNREACHABLE and no substitute was configured.",
+  "",
+  "local-guides-citation-velocity holds the promotion candidates for the five",
+  "properties this repo generates, at content/_shared/promotion_candidates.json.",
+  "CI checks out only this repository and only GITHUB_TOKEN is available, which",
+  "cannot read another private repo, so that file is not reachable from a run.",
+  "",
+  "The committed stub data/reference/promotion_candidates.source.json carries 0",
+  "candidates and is therefore not treated as a source: preferring it on mere",
+  "existence is what made this lane a silent no-op from April onward.",
+  "",
+  "MISSING CREDENTIAL -- wire exactly one of:",
+  "  1. secret REPO2_PROMOTION_CANDIDATES_URL",
+  "     an https URL serving that JSON; set it as an env var on the pull step.",
+  "  2. a cross-repo PAT with read access to local-guides-citation-velocity",
+  "     used by an actions/checkout of that repo in ingestion_sync.yml, with",
+  "     REPO2_PROMOTION_CANDIDATES_FILE pointed at the checked-out path.",
+  "  3. the manual lane: commit real candidates into",
+  "     data/reference/promotion_candidates.source.json and let",
+  "     promote_reference.yml run on the PR.",
+];
+
+function writeStatus(state, detail, extra) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.writeFileSync(
+    STATUS,
+    JSON.stringify(
+      {
+        stage: "pull_velocity_candidates",
+        state,
+        detail,
+        ...extra,
+        recorded_at: new Date().toISOString(),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+}
+
+function namedStop(reason) {
+  const block = [
+    "",
+    "=".repeat(72),
+    "NAMED STOP: pull_velocity_candidates did no work, on purpose.",
+    "=".repeat(72),
+    "",
+    reason,
+    "",
+    ...CREDENTIAL_INSTRUCTIONS,
+    "",
+    "Until one of those is wired this lane will keep reporting this stop. It is",
+    "NOT a silent success: data/reference/ingestion_sync_status.json records",
+    "state=named_stop on every run, and the workflow surfaces this block in the",
+    "run summary.",
+    "=".repeat(72),
+    "",
+  ].join("\n");
+
+  writeStatus("named_stop", "no candidate source reachable", {
+    missing_credential: [
+      "REPO2_PROMOTION_CANDIDATES_URL",
+      "REPO2_PROMOTION_CANDIDATES_FILE (needs a cross-repo PAT checkout)",
+    ],
+    accepted_count: 0,
+  });
+
+  if (ALLOW_NAMED_STOP) {
+    console.log(block);
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      fs.appendFileSync(
+        process.env.GITHUB_STEP_SUMMARY,
+        "## Ingestion Sync: NAMED STOP\n\n```\n" + block + "\n```\n"
+      );
+    }
+    if (process.env.GITHUB_OUTPUT) {
+      fs.appendFileSync(process.env.GITHUB_OUTPUT, "named_stop=true\n");
+    }
+    process.exit(0);
+  }
+  console.error(block);
+  console.error(
+    "Exiting non-zero: this was a manual run. Set INGESTION_SYNC_ALLOW_NAMED_STOP=1\n" +
+      "only in the scheduled lane, where an unreachable cross-repo source is a known\n" +
+      "and accepted condition rather than a mistake."
+  );
+  process.exit(1);
+}
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
@@ -112,27 +211,9 @@ function resolveSource() {
   if (RAW_URL) {
     return { kind: "url", value: RAW_URL };
   }
-  throw new Error(
-    [
-      "No promotion candidates source reachable.",
-      "",
-      "The committed stub data/reference/promotion_candidates.source.json carries 0",
-      "candidates, so it is not treated as a source. The real candidates live in",
-      "local-guides-citation-velocity at content/_shared/promotion_candidates.json,",
-      "which is not checked out in this environment.",
-      "",
-      "Previously this condition resolved to the empty stub and logged",
-      "'wrote 0 incoming candidate(s)', which is indistinguishable from a genuinely",
-      "empty upstream -- the scheduled Ingestion Sync cron therefore ingested nothing",
-      "for months without anyone being told. It now stops with this message instead.",
-      "",
-      "Fix by one of:",
-      "  - set REPO2_PROMOTION_CANDIDATES_URL to a reachable copy of that file",
-      "  - check out the velocity repo in .github/workflows/ingestion_sync.yml and set",
-      "    REPO2_PROMOTION_CANDIDATES_FILE to its path",
-      "  - commit real candidates into the stub for the manual promote_reference lane",
-    ].join("\n")
-  );
+  // No source at all. Not an exception: a NAMED STOP, handled by main() so the
+  // lane leaves a receipt and names the missing credential either way.
+  return null;
 }
 
 async function readPayload(source) {
@@ -214,6 +295,12 @@ function validCandidate(c) {
 
 (async function main() {
   const source = resolveSource();
+  if (!source) {
+    namedStop(
+      "resolveSource() found no reachable promotion candidates source."
+    );
+    return;
+  }
   const payload = normalizePayload(await readPayload(source));
 
   const registry = readJsonSafe(REGISTRY, {
@@ -245,9 +332,21 @@ function validCandidate(c) {
       return true;
     });
 
-  filtered.forEach((c) => processed.add(c.id));
-
-  registry.processed_ids = Array.from(processed);
+  // DO NOT mark these processed here.
+  //
+  // This step used to do `filtered.forEach((c) => processed.add(c.id))`, so a
+  // candidate was recorded as consumed the instant it was PULLED, before
+  // anything had been generated from it. Every candidate the next stage then
+  // skipped -- unsupported vertical, missing folder, per-run cap -- was
+  // permanently swallowed: the id was in processed_ids, so no later run would
+  // ever pull it again. The committed registry is the evidence: 86 processed
+  // ids against only 25 generated pages. Sixty-one candidates were consumed by
+  // a stage that produced nothing from them.
+  //
+  // processed_ids now means "a draft guide was generated from this", and only
+  // generate_from_candidates.js writes it. A candidate that is pulled but not
+  // generated stays pending and is pulled again next run, where the next stage
+  // reports it as skipped rather than silently dropping it.
   registry.updated_at = new Date().toISOString();
 
   fs.writeFileSync(REGISTRY, JSON.stringify(registry, null, 2));
@@ -274,45 +373,30 @@ function validCandidate(c) {
     `pull_velocity_candidates: wrote ${filtered.length} incoming candidate(s) from ${source.kind}:${source.value}`
   );
 
-  // Rule 0: no stage may exit 0 having done nothing.
-  //
-  // This lane is the cross-repo seam: local-guides-citation-velocity produces
-  // promotion candidates for the five guide properties this repo generates. The
-  // scheduled Ingestion Sync cron resolved to the committed EMPTY stub on every
-  // run (CI checks out only this repo, so no other source is reachable) and
-  // logged "wrote 0 incoming candidate(s)" -- indistinguishable from a genuinely
-  // empty upstream. It has ingested nothing since April while real candidates
-  // accumulated across the seam.
-  //
-  // An empty PULL is legitimate when a source was explicitly configured and had
-  // nothing new. It is NOT legitimate when no real source was reachable at all:
-  // that is the lane silently declining work nobody is told about.
-  const explicitlyConfigured = Boolean(LOCAL_FILE || RAW_URL);
-  const resolvedToEmptyStub =
-    source.kind === "file" &&
-    path.resolve(source.value) === path.resolve(DEFAULT_REPO_LOCAL_FILE) &&
-    payload.candidates.length === 0;
+  // The previous Rule 0 guard here tested for `resolvedToEmptyStub` -- source
+  // resolution having landed on the committed stub with zero candidates. That
+  // condition became UNREACHABLE in the same change that introduced it:
+  // resolveSource() gained stubHasCandidates(), so the stub can only ever win
+  // resolution when it is non-empty, and the guard's own precondition
+  // (candidates.length === 0) can then never hold. It was a guard that could
+  // not reach what it governs. The named stop above replaces it and fires at
+  // the point resolution actually fails.
 
-  if (resolvedToEmptyStub && !explicitlyConfigured) {
-    console.error(
-      [
-        "pull_velocity_candidates: NO CANDIDATE SOURCE REACHABLE.",
-        "",
-        "Resolved to the committed stub data/reference/promotion_candidates.source.json,",
-        "which carries 0 candidates, and no REPO2_PROMOTION_CANDIDATES_FILE or",
-        "REPO2_PROMOTION_CANDIDATES_URL was configured. Nothing was ingested and no",
-        "upstream was actually consulted, so this is a silent no-op rather than an",
-        "empty upstream.",
-        "",
-        "local-guides-citation-velocity holds the real candidates at",
-        "content/_shared/promotion_candidates.json. To make this lane real, either:",
-        "  - set REPO2_PROMOTION_CANDIDATES_URL to a reachable copy of that file, or",
-        "  - check the velocity repo out in the Ingestion Sync workflow and set",
-        "    REPO2_PROMOTION_CANDIDATES_FILE to its path, or",
-        "  - commit real candidates into the stub for the manual promote_reference lane.",
-      ].join("\n")
+  writeStatus("pulled", `resolved ${source.kind}:${source.value}`, {
+    accepted_count: filtered.length,
+    source_kind: source.kind,
+    source_value: source.value,
+    upstream_candidate_count: payload.candidates.length,
+  });
+
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    fs.appendFileSync(
+      process.env.GITHUB_STEP_SUMMARY,
+      `## Ingestion Sync: pulled ${filtered.length} candidate(s)\n\n` +
+        `Source: \`${source.kind}:${source.value}\` — ` +
+        `${payload.candidates.length} upstream, ${filtered.length} pending after ` +
+        `filtering against already-generated ids.\n`
     );
-    process.exit(1);
   }
 })().catch((err) => {
   console.error(err);

@@ -22,6 +22,17 @@ jobs:
       - run: npm ci
       - run: node scripts/build_all_packs.js
       - run: LKG_VALIDATE_DIST=1 npm run validate:all
+
+      - name: Warning tier
+        # The tiering policy defines three tiers and the repo ships a runner for
+        # each, but only hard_fail was ever invoked: the 8 warning-tier
+        # validators were reachable only through `npm run qa:final`, which no
+        # workflow runs either. A warning tier that never runs emits no
+        # warnings, which is the whole point of it. Reported, never blocking --
+        # that is what the tier means, and it is why this is safe to add.
+        continue-on-error: true
+        run: LKG_VALIDATE_DIST=1 npm run validate:tier:warning
+
       - name: Cadence gate
         # Blocks publishing faster than the library can be kept inside the
         # 91-day window where pages stay citable. Warnings are reported
