@@ -1,3 +1,9 @@
+# Changelog
+
+# 2026-08-30
+
+- Revalidated core contracts and inventories (rotating focus: PI).
+- Updated Verification & Updates page and machine-readable snapshot.
 ## 2026-07-15 — USCIS sponsor fixture isolation and homepage parity repair
 - Removed ACME training fixtures from production buyout activation.
 - Declared ACME as training-only sponsor data.
