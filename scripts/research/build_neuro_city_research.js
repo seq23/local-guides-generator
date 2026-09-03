@@ -551,20 +551,44 @@ function build(city) {
 }
 
 const cities = CITIES.map((c) => (typeof c === 'string' ? { slug: c } : c));
-fs.mkdirSync(OUT_DIR, { recursive: true });
-let written = 0;
-const noCity = [];
-const missingState = [];
-for (const city of cities) {
-  if (!STATE_NAME[city.state]) { missingState.push(city.slug); continue; }
-  if (!cityRow(city.city, city.state, '96132')) noCity.push(city.slug);
-  fs.writeFileSync(path.join(OUT_DIR, `${city.slug}.json`), JSON.stringify(build(city), null, 2) + '\n');
-  written += 1;
+
+// The exact bytes this generator is responsible for, for one city. Kept in one
+// place so scripts/validation/neuro_city_research_contract.js can rebuild in
+// memory and compare against what is committed.
+function serialize(city) {
+  return JSON.stringify(build(city), null, 2) + '\n';
 }
 
-const states = [...new Set(cities.map((c) => STATE_NAME[c.state]).filter(Boolean))];
-console.log(`build_neuro_city_research: wrote ${written} of ${cities.length} city files to data/city_content/neuro/`);
-console.log(`  cities with a published CMS practice-address figure: ${written - noCity.length}`);
-if (noCity.length) console.log(`  cities with none, where the page says so and points at the metro: ${noCity.join(', ')}`);
-console.log(`  distinct states: ${states.length}; states with a published CMS 96132 office figure: ${states.filter((s) => geoRow('96132', s)).length}`);
-if (missingState.length) console.log(`  skipped (no state mapping): ${missingState.join(', ')}`);
+// Which cities this generator actually writes a file for. A city with no state
+// mapping is skipped, so the drift guard must skip it too.
+function writableCities() {
+  return cities.filter((c) => Boolean(STATE_NAME[c.state]));
+}
+
+function main() {
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  let written = 0;
+  const noCity = [];
+  const missingState = [];
+  for (const city of cities) {
+    if (!STATE_NAME[city.state]) { missingState.push(city.slug); continue; }
+    if (!cityRow(city.city, city.state, '96132')) noCity.push(city.slug);
+    fs.writeFileSync(path.join(OUT_DIR, `${city.slug}.json`), serialize(city));
+    written += 1;
+  }
+
+  const states = [...new Set(cities.map((c) => STATE_NAME[c.state]).filter(Boolean))];
+  console.log(`build_neuro_city_research: wrote ${written} of ${cities.length} city files to data/city_content/neuro/`);
+  console.log(`  cities with a published CMS practice-address figure: ${written - noCity.length}`);
+  if (noCity.length) console.log(`  cities with none, where the page says so and points at the metro: ${noCity.join(', ')}`);
+  console.log(`  distinct states: ${states.length}; states with a published CMS 96132 office figure: ${states.filter((s) => geoRow('96132', s)).length}`);
+  if (missingState.length) console.log(`  skipped (no state mapping): ${missingState.join(', ')}`);
+}
+
+// Only write when actually run. Before this guard the loop ran at module load,
+// so `require()`-ing this file rewrote all 56 canonical city files as a side
+// effect - which is exactly what a drift guard must be able to do without
+// touching the working tree. build_trt_city_research.js has always had it.
+if (require.main === module) main();
+
+module.exports = { CITIES, OUT_DIR, build, serialize, writableCities };
