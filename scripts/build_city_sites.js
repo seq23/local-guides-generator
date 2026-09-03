@@ -367,9 +367,37 @@ function shouldRenderDeterministicNextSteps(pageSet, opts) {
 function readJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
+// Cloudflare's Scrape Shield "Email Address Obfuscation" rewrites every
+// <a href="mailto:..."> it finds at the edge into
+// /cdn-cgi/l/email-protection#<hex>, and that path answers 404. Confirmed on
+// all five live domains 2026-09-03. Because the contact address sits in the
+// shared footer, that put one link to a 404 on EVERY page of every pack --
+// which is precisely Ahrefs' "Page has links to broken page" count:
+// theaccidentguides 275 of 276 crawlable pages, uscisexam 189 of 190,
+// hormonesivhair 225, neuroevalguides 206.
+//
+// Cloudflare skips any markup fenced by <!--email_off--> ... <!--/email_off-->.
+// Applying it at the single write choke point rather than at ~600 call sites
+// (footer partial, for-providers CTAs, next-steps hubs, JSON page content)
+// means no rendered mailto can be added later that misses the fence.
+const EMAIL_OFF_OPEN = '<!--email_off-->';
+const EMAIL_OFF_CLOSE = '<!--/email_off-->';
+const MAILTO_ANCHOR_RE = /<a\b[^>]*\bhref=["']mailto:[^"']*["'][^>]*>[\s\S]*?<\/a>/gi;
+
+function fenceMailtoAnchors(html) {
+  const s = String(html || '');
+  if (!s.includes('mailto:')) return s;
+  // Split on existing fences so an already-fenced anchor is never double-wrapped.
+  const parts = s.split(/(<!--email_off-->[\s\S]*?<!--\/email_off-->)/i);
+  return parts
+    .map((part, i) => (i % 2 === 1 ? part : part.replace(MAILTO_ANCHOR_RE, (m) => EMAIL_OFF_OPEN + m + EMAIL_OFF_CLOSE)))
+    .join('');
+}
+
 function writeFileEnsured(p, content) {
+  const out = String(p).toLowerCase().endsWith('.html') ? fenceMailtoAnchors(content) : content;
   fs.mkdirSync(path.dirname(p), { recursive: true });
-  fs.writeFileSync(p, content, "utf8");
+  fs.writeFileSync(p, out, "utf8");
 }
 function listJsonFiles(dir) {
   if (!fs.existsSync(dir)) return [];
@@ -971,6 +999,24 @@ function isPersonalInjury(verticalKey) {
   return String(verticalKey || "").toLowerCase() === "pi";
 }
 
+// Does this pack actually WRITE /states/<ST>/next-steps/index.html?
+//
+// Only the PI branch does (search: outPathForPiStateNextSteps). Every pack
+// builds generic /states/<ST>/ hubs, but only PI builds the per-state
+// next-steps page underneath them.
+//
+// This predicate exists so the link and the page are decided by the SAME
+// condition. b3c79e3 pointed every state page's primary conversion CTA at
+// /states/<ST>/next-steps/ to de-orphan the 50 PI pages, but the href branch
+// keyed off pageKind alone. That shipped a CTA to a page four of five packs
+// never build: 50 dead conversion links each on hormonesivhair.com,
+// neuroevalguides.com and uscisexam.com, and 17 on dentistryguides.com.
+// The href must never be assembled from a route pattern that the build is not
+// also asked to produce.
+function packBuildsStateNextStepsPages(verticalKey) {
+  return isPersonalInjury(verticalKey);
+}
+
 // --- Authority-safe Connection Bubble (conversion layer) ---
 // Provider type labels are contract-locked (must match request page enum exactly).
 function providerTypeLabelForVertical(verticalKey) {
@@ -1072,14 +1118,38 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
   // City pages already do the right thing (/<city>/next-steps/), and
   // scripts/export_buyout_click_audit_urls.js already declares the state route
   // as /states/<ST>/next-steps/. This makes the state branch agree with both.
-  const stateAbbrForNextSteps = (pageKind === 'state')
+  //
+  // Rewritten 2026-09-03. Two pattern assumptions in the previous form each
+  // shipped a CTA to a page no pack builds:
+  //
+  //  1. `pageKind === 'state'` alone chose /states/<ST>/next-steps/. Only the PI
+  //     branch writes those pages, so trt, neuro and uscis_medical each shipped
+  //     50 dead conversion CTAs and dentistry 17 -- one on every state hub.
+  //  2. The fallback `marketSlug ? '/<marketSlug>/next-steps/'` is only true for
+  //     city pages. On a state page marketSlug is the literal 'states', so that
+  //     branch produces /states/next-steps/, which is not a page either.
+  //
+  // The base path is now chosen by page kind against what the build actually
+  // writes, and scripts/validation/link_audit.js hard-fails the build if any of
+  // these resolve to a file the same build did not produce.
+  const stateAbbrForNextSteps = (pageKind === 'state' && packBuildsStateNextStepsPages(verticalKey))
     ? ((String(src).match(/^\/states\/([A-Za-z]{2})\//) || [])[1] || '')
     : '';
-  const nextStepsBasePath = isTrainingBuild
-    ? '/next-steps/'
-    : (stateAbbrForNextSteps
-      ? ('/states/' + stateAbbrForNextSteps.toUpperCase() + '/next-steps/')
-      : (marketSlug ? ('/' + marketSlug + '/next-steps/') : '/next-steps/'));
+  let nextStepsBasePath;
+  if (isTrainingBuild) {
+    // Sandbox packs render a single shared next-steps surface.
+    nextStepsBasePath = '/next-steps/';
+  } else if (stateAbbrForNextSteps) {
+    // PI only: /states/<ST>/next-steps/ is written by outPathForPiStateNextSteps.
+    nextStepsBasePath = '/states/' + stateAbbrForNextSteps.toUpperCase() + '/next-steps/';
+  } else if (pageKind === 'city' && marketSlug) {
+    // Every pack writes /<city-slug>/next-steps/ for each of its cities.
+    nextStepsBasePath = '/' + marketSlug + '/next-steps/';
+  } else {
+    // State hubs without a per-state page, guides, and global pages all route to
+    // the one next-steps hub every pack builds.
+    nextStepsBasePath = '/next-steps/';
+  }
   const nextStepsHref = buildTrackedHref(nextStepsBasePath, {
     src,
     intent: 'decision_hub',
@@ -5416,6 +5486,12 @@ function loadNextStepsSponsor(citySlug) {
     }
 
     function outPathForPiStateNextSteps(abbr) {
+      // Same predicate the CTA href is gated on. If this branch ever stops
+      // writing these pages, packBuildsStateNextStepsPages must stop returning
+      // true for the pack, or the state CTA becomes a 404 again.
+      if (!packBuildsStateNextStepsPages(verticalKey)) {
+        throw new Error('build_city_sites: state next-steps pages written for a pack packBuildsStateNextStepsPages() says does not build them: ' + verticalKey);
+      }
       return path.join(OUT_DIR, 'states', String(abbr).toUpperCase(), 'next-steps', 'index.html');
     }
 
