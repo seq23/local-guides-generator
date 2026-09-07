@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-09-07
+
+- Revalidated core contracts and inventories (rotating focus: USCIS Medical).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-09-06
 
 - Revalidated core contracts and inventories (rotating focus: PI).
