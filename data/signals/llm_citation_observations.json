@@ -5010,10 +5010,448 @@
           "answer_mentions_brand": false
         }
       ]
+    },
+    {
+      "run_at": "2026-09-10T13:37:30.879Z",
+      "provider": "openrouter",
+      "engines": [
+        "ibm-granite/granite-4.0-h-micro"
+      ],
+      "mode": "grounded",
+      "queries": 25,
+      "observations": [
+        {
+          "query": "personal injury lawyers near me",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "linden.law",
+            "kalraylaw.com",
+            "dlarsonlaw.com",
+            "mckenziescott.com",
+            "rosenbergfirm.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "what to do after an accident",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "progressive.com",
+            "forbes.com",
+            "aarp.org",
+            "aviva.co.uk",
+            "setcalc.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "evidence checklist after an accident",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "hurtadvice.com",
+            "personalinjurycaseconsultants.com",
+            "stubbornattorney.com",
+            "justicefinder.net",
+            "unitedcarinsurance.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "when to call a personal injury lawyer",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "lawsuitprocess.com",
+            "bigchadlaw.com",
+            "mayfieldlawfirm.com",
+            "benhalllaw.com",
+            "jminjurylawyer.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "personal injury lawyer red flags",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "leiva-law.com",
+            "samandashlaw.com",
+            "kashlegal.com",
+            "howardinjurylaw.com",
+            "biren.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "personal injury fees explained",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "dearlegal.com",
+            "nareslawgroup.com",
+            "costoflaw.com",
+            "legalgiant.co",
+            "allaboutlawyer.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "dentist near me",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "dentistincentennial.com",
+            "auroracodental.com",
+            "brilliantfamilydentistry.com",
+            "kevinbarrydds.com",
+            "gauravsharmadds.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "how to choose a dentist",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "provider_error",
+          "error": "{\"requestId\":\"0d482ee274bae95291a207d045fa5d41\",\"error\":\"Our system is experiencing high traffic. Please try again soon.\",\"tag\":\"GLOBAL_RESOURCE_RATE_LIMITED\"}"
+        },
+        {
+          "query": "dental implants cost and recovery",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "carecredit.com",
+            "weisbarddental.com",
+            "realdentalcosts.com",
+            "toothcheck.io",
+            "drvaksman.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "veneers vs crowns cost and fit",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "dentistinvietnam.com",
+            "drgosmile.com",
+            "drwonderclinic.com",
+            "trkycares.com",
+            "smilejet.app"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "dental treatment red flags",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "toothcheck.io",
+            "totalhealthdentalcare.com",
+            "newmouth.com",
+            "dentalimplantsboyntonbeach.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "questions to ask before major dental work",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "deltadentalia.com",
+            "dentalplans.com",
+            "acibademhealthpoint.com",
+            "carrolltondentalgroup.com",
+            "dentistdecoded.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "trt clinics near me",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "themensclinic.com",
+            "testosteroneclinicnyc.com",
+            "menswellnesscenters.com",
+            "lowtcenter.com",
+            "advancedtrtclinic.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "am i a good candidate for trt",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "my.clevelandclinic.org",
+            "aafp.org",
+            "cedars-sinai.org",
+            "scientificamerican.com",
+            "trt.foundation"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "trt pricing and lab work",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "bestmedshub.com",
+            "trt.med",
+            "formblends.com",
+            "healthrx.com",
+            "trt.foundation"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "trt clinic red flags",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "trt.med",
+            "trtcatalog.com",
+            "vyta.co",
+            "trtfaq.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "telehealth vs local trt clinic",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "trtcatalog.com",
+            "trtindex.com",
+            "healthrx.com",
+            "revivelongevity.com",
+            "trtlocator.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "are peptides safe",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "health.harvard.edu",
+            "pbs.org",
+            "healthline.com",
+            "med.stanford.edu",
+            "nature.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "neuro evaluation providers near me",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "cns-center.com",
+            "jaxneuropsych.com",
+            "305brains.com",
+            "diablovalleyneuropsychology.com",
+            "chicagolandcognitive.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "neuro evaluation cost and report timeline",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "youngneuro.com",
+            "gryzbektherapy.com",
+            "getorena.com",
+            "sachscenter.com",
+            "newtonneuro.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "neuro evaluation provider red flags",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "pmc.ncbi.nlm.nih.gov",
+            "ncbi.nlm.nih.gov",
+            "mededuhub.com",
+            "enlitens.com",
+            "blogpartners.org"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "questions to ask before neuro testing",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "acibademinternational.com",
+            "ninds.nih.gov",
+            "acibademhealthpoint.com",
+            "neurologymobile.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "what to expect after a neuro evaluation",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "provider_error",
+          "error": "{\"requestId\":\"8df7ee0afb6b2918762e76012cd56143\",\"error\":\"Our system is experiencing high traffic. Please try again soon.\",\"tag\":\"GLOBAL_RESOURCE_RATE_LIMITED\"}"
+        },
+        {
+          "query": "neuro evaluation insurance and out of network questions",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "levincenter.org",
+            "claryclinic.com",
+            "drgchambers.com",
+            "v.static.cigna.com",
+            "shunins.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        },
+        {
+          "query": "uscis medical exam near me",
+          "engine": "openrouter:ibm-granite/granite-4.0-h-micro",
+          "mode": "grounded",
+          "observed_at": "2026-09-10T13:37:30.879Z",
+          "status": "observed",
+          "cited_domains": [
+            "uscis.gov",
+            "concentra.com",
+            "eastwaymedicalclinic.com",
+            "losangelesprimarycare.com",
+            "unitedmedicalexams.com"
+          ],
+          "cited_ours": [],
+          "self_cited": false,
+          "named_in_answer": [],
+          "answer_mentions_brand": false
+        }
+      ]
     }
   ],
   "latest_summary": {
-    "run_at": "2026-09-09T13:39:10.779Z",
+    "run_at": "2026-09-10T13:37:30.879Z",
     "provider": "openrouter",
     "engines": [
       "ibm-granite/granite-4.0-h-micro"
@@ -5022,7 +5460,7 @@
     "queries": 25,
     "observations": 25,
     "self_cited": 0,
-    "errored": 0,
+    "errored": 2,
     "_mode_note": "grounded: counted when the answer was built from one of our pages",
     "self_cited_rate_pct": 0
   }
