@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-09-11
+
+- Revalidated core contracts and inventories (rotating focus: PI).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-09-10
 
 - Revalidated core contracts and inventories (rotating focus: Neuro).
