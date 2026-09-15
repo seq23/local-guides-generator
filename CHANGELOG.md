@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-09-15
+
+- Revalidated core contracts and inventories (rotating focus: TRT).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-09-14
 
 - Revalidated core contracts and inventories (rotating focus: USCIS Medical).
