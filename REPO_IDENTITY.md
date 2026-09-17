@@ -59,7 +59,15 @@ and must not be hand-edited, per FORBIDDEN above.
 ### NOT `local-guides-citation-velocity`
 
 That is a different repository with an adjacent name, it is **off limits to the automatic fixer**,
-and it is a different property: its own canonical is `theindustryguides.com`. It mentions the five
-hosts above thousands of times because it CITES them — that is what a citation-velocity site does —
-and a file count is not ownership. Anyone reading a large grep result here should stop and check the
-canonical before concluding the two repositories overlap.
+and it publishes a different property under its own canonical — read that repository's own
+`index.html` for it. It mentions the five hosts above thousands of times because it CITES them,
+which is what a citation-velocity site does, and a file count is not ownership. Anyone reading a
+large grep result here should check the canonical before concluding the two repositories overlap.
+
+**Its domain is deliberately NOT written down in this file.** The repair duty maps a finding to a
+repository by grepping `REPO_IDENTITY.md` files for a domain, so naming that host here would map
+the off-limits property onto THIS repository — which the fixer is allowed to change — and a
+finding against a repo nobody may touch would come back as a pull request against the wrong one.
+The rule lives in one place, `src/shared/boss/siteAudit/repoPolicy.mjs` in Boss OS, and the
+documented way it fails is not deletion but duplication. This paragraph is the duplication not
+happening.
