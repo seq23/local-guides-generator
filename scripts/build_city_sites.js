@@ -3645,6 +3645,11 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
   const route = applyCityTokens(page.route || "", city).replace(/^\/+|\/+$/g, "");
   const title = applyCityTokens(page.title, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
   const description = applyCityTokens(page.description, city).split("%%MARKET_LABEL%%").join(city.marketLabel);
+  // <title> and <meta name="description"> may carry their own search-facing copy (meta_title /
+  // meta_description) so the visible heading can stay short. Length and uniqueness are enforced by
+  // scripts/validation/meta_length_uniqueness_contract.js (Bing rules 114/118, 25 Sep 2026).
+  const headTitle = page.meta_title ? applyCityTokens(page.meta_title, city).split("%%BRAND_NAME%%").join(brandName) : title;
+  const headDescription = page.meta_description ? applyCityTokens(page.meta_description, city).split("%%BRAND_NAME%%").join(brandName) : description;
   const globalPagesDir = loadGlobalPagesDir(pageSet);
 
   let mainHtml = applyCityTokens(page.main_html, city);
@@ -3931,8 +3936,8 @@ function stripForbiddenInlineBlocks(html) {
     : '';
 
   const mapped = replaceAll(baseTemplate, {
-    "%%TITLE%%": title,
-    "%%DESCRIPTION%%": description,
+    "%%TITLE%%": headTitle,
+    "%%DESCRIPTION%%": headDescription,
     "%%DATA_CITY%%": city.slug,
     "%%SLUG%%": city.slug,
     "%%MARKET_LABEL%%": city.marketLabel,
@@ -3940,8 +3945,8 @@ function stripForbiddenInlineBlocks(html) {
     "%%MAIN_HTML%%": mainHtml,
     "%%INLINE_SCRIPTS%%": inline,
     "%%CANONICAL%%": buildCanonical(siteUrl, city, route),
-    "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "city-home" : "city-detail", title, description, canonical: buildCanonical(siteUrl, city, route), brandName, section: route === "" ? "City home" : "City detail", keywords: [city.city, city.state, verticalKey] }),
-    "%%HEAD_JSON_LD%%": renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings),
+    "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "city-home" : "city-detail", title: headTitle, description: headDescription, canonical: buildCanonical(siteUrl, city, route), brandName, section: route === "" ? "City home" : "City detail", keywords: [city.city, city.state, verticalKey] }),
+    "%%HEAD_JSON_LD%%": renderHeadJsonLd(siteUrl, brandName, city, route, headTitle, headDescription, pageSet, verticalKey, listings),
     "%%FOOTER%%": footerHtml,
     "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
@@ -4012,7 +4017,16 @@ const GUIDE_ANSWER_SHAPE_MAP = buildGuideAnswerShapeMap();
 function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryConversionTemplate, inlineConversionTemplate, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
   const route = (globalPage.route || "").replace(/^\/+|\/+$/g, "");
   const title = String(globalPage.title || "").split("%%BRAND_NAME%%").join(brandName);
-  const description = String(globalPage.description || "");
+  const description = String(globalPage.description || "").split("%%BRAND_NAME%%").join(brandName);
+  // Search-facing <title>/<meta description> (see renderPage). %%TOPIC%% is the pack's seoTopic so
+  // the shared pages (FAQ, contact, methodology...) describe the site they are on.
+  const seoTopic = String((pageSet && pageSet.seoTopic) || '').trim();
+  const applyMetaTokens = (s) => String(s || '').split('%%BRAND_NAME%%').join(brandName).split('%%TOPIC%%').join(seoTopic);
+  if (!seoTopic && [globalPage.meta_title, globalPage.meta_description].some((s) => String(s || '').includes('%%TOPIC%%'))) {
+    throw new Error('Global page ' + (globalPage.route || '/') + ' uses %%TOPIC%% but the page set has no seoTopic');
+  }
+  const headTitle = globalPage.meta_title ? applyMetaTokens(globalPage.meta_title) : title;
+  const headDescription = globalPage.meta_description ? applyMetaTokens(globalPage.meta_description) : description;
   const globalPagesDir = loadGlobalPagesDir(pageSet);
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
 
@@ -4487,8 +4501,8 @@ if (route === 'admin') {
     : '';
 
   const mapped = replaceAll(baseTemplate, {
-    "%%TITLE%%": title,
-    "%%DESCRIPTION%%": description,
+    "%%TITLE%%": headTitle,
+    "%%DESCRIPTION%%": headDescription,
     "%%DATA_CITY%%": "",
     "%%SLUG%%": "",
     "%%MARKET_LABEL%%": "",
@@ -4496,8 +4510,8 @@ if (route === 'admin') {
     "%%MAIN_HTML%%": mainHtml,
     "%%INLINE_SCRIPTS%%": "",
     "%%CANONICAL%%": buildCanonicalGlobal(siteUrl, route),
-    "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "home" : (route === "guides" ? "guides-hub" : (route.startsWith("guides/") ? "guide-detail" : "global")), title, description, canonical: buildCanonicalGlobal(siteUrl, route), brandName, section: route.startsWith("guides/") ? "Guide" : (route === "guides" ? "Guides hub" : "Global"), keywords: [verticalKey, route.replace(/\//g, " "), title] }),
-    "%%HEAD_JSON_LD%%": renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet),
+    "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "home" : (route === "guides" ? "guides-hub" : (route.startsWith("guides/") ? "guide-detail" : "global")), title: headTitle, description: headDescription, canonical: buildCanonicalGlobal(siteUrl, route), brandName, section: route.startsWith("guides/") ? "Guide" : (route === "guides" ? "Guides hub" : "Global"), keywords: [verticalKey, route.replace(/\//g, " "), title] }),
+    "%%HEAD_JSON_LD%%": renderHeadJsonLdGlobal(siteUrl, brandName, route, headTitle, headDescription, pageSet),
     "%%FOOTER%%": footerHtml,
     "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
@@ -5524,7 +5538,7 @@ function loadNextStepsSponsor(citySlug) {
       const st = states[ab] || {};
       const stateName = String(st.stateName || ALL_US_STATES[ab] || ab);
       const title = 'Next steps — ' + stateName + ' personal injury';
-      const description = 'Sponsor contact and preparation checklist for personal injury in ' + stateName + '. Educational only.';
+      const description = 'Next steps for a personal injury claim in ' + stateName + ': a preparation checklist, the questions to ask a lawyer first, and a sponsor contact route.';
 
       const mainHtml = (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.') : '') + renderDedicatedNextStepsHubHtml({
         marketLabel: stateName,
@@ -5571,7 +5585,7 @@ function loadNextStepsSponsor(citySlug) {
         st.stateName ||
         ab
       );
-      const title = stateName + ' personal injury guide';
+      const title = 'Personal Injury Lawyers in ' + stateName + ': State Guide';
       const description = 'Use this state guide to compare firms, check official resources, and understand what to look for before contacting a personal injury lawyer in ' + stateName + '.';
 
       const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
@@ -5793,6 +5807,7 @@ function loadNextStepsSponsor(citySlug) {
     }
 
     // Optional PI hub route (/personal-injury/)
+    const PI_HUB_DESCRIPTION = 'Browse personal injury guides by U.S. state: each state page links its covered cities, official bar and court resources, and a lawyer comparison checklist.';
     const piHubFanoutCluster = fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury — browse by state' }, pageSet);
     const piHubFanoutHtml = fanout.renderFanoutClusterHtml(piHubFanoutCluster);
     const piHubRoutingHtml = renderInternalDistributionZoneHtml({
@@ -5816,7 +5831,7 @@ function loadNextStepsSponsor(citySlug) {
     );
     const piHubHtml = replaceAll(baseTemplate, {
       '%%TITLE%%': 'Personal injury — browse by state',
-      '%%DESCRIPTION%%': 'Browse personal injury guides and directories by U.S. state. Educational only. No rankings.',
+      '%%DESCRIPTION%%': PI_HUB_DESCRIPTION,
       '%%DATA_CITY%%': '',
       '%%SLUG%%': 'personal-injury',
       '%%MARKET_LABEL%%': '',
@@ -5824,7 +5839,7 @@ function loadNextStepsSponsor(citySlug) {
       '%%MAIN_HTML%%': piHubMainHtml,
       '%%INLINE_SCRIPTS%%': '',
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
-      '%%HEAD_META%%': renderHeadMeta({ pageType: 'pi-hub', title: 'Personal injury — browse by state', description: 'Browse personal injury by state.', canonical: buildCanonicalGlobal(siteUrl, 'personal-injury'), brandName, section: 'Personal injury hub', keywords: ['personal injury', 'states', 'browse by state'] }),
+      '%%HEAD_META%%': renderHeadMeta({ pageType: 'pi-hub', title: 'Personal injury — browse by state', description: PI_HUB_DESCRIPTION, canonical: buildCanonicalGlobal(siteUrl, 'personal-injury'), brandName, section: 'Personal injury hub', keywords: ['personal injury', 'states', 'browse by state'] }),
       '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury — browse by state', 'Browse personal injury by state.', pageSet),
       '%%FOOTER%%': footerHtml,
       '%%CONNECTION_BUBBLE%%': '',
