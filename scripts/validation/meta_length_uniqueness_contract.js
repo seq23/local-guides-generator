@@ -67,7 +67,40 @@ function routeFor(file) {
   return '/' + rel.replace(/\.html$/, '');
 }
 
+// The shared global pages (data/global_pages) fill %%TOPIC%% from the page set's seoTopic, and
+// build_city_sites.js refuses to render one without it. Every page set any Pages project builds
+// must therefore declare it - including data/page_sets/starter_v1.json, which only the base
+// local-guides-generator project builds and build_all_packs.js never does. Missing it there
+// turned main red on 25 Sep 2026 (cecdbb9) while all five packs passed.
+function checkSeoTopicCoverage() {
+  const globalDir = path.join(repoRoot, 'data', 'global_pages');
+  const usesTopic = fs.readdirSync(globalDir).filter((f) => f.endsWith('.json'))
+    .some((f) => fs.readFileSync(path.join(globalDir, f), 'utf8').includes('%%TOPIC%%'));
+  if (!usesTopic) return [];
+  const problems = [];
+  let scanned = 0;
+  (function walk(dir) {
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, ent.name);
+      if (ent.isDirectory()) { if (!ent.name.endsWith('_global_pages')) walk(p); continue; }
+      if (!ent.name.endsWith('.json') || ent.name.startsWith('cities_')) continue;
+      const ps = JSON.parse(fs.readFileSync(p, 'utf8'));
+      if (!Array.isArray(ps.pages)) continue;
+      scanned += 1;
+      if (!String(ps.seoTopic || '').trim()) problems.push(`${path.relative(repoRoot, p)}: no seoTopic, but shared global pages use %%TOPIC%%`);
+    }
+  })(path.join(repoRoot, 'data', 'page_sets'));
+  if (scanned === 0) problems.push('scanned 0 page sets under data/page_sets');
+  return problems;
+}
+
 function main() {
+  const topicProblems = checkSeoTopicCoverage();
+  if (topicProblems.length) {
+    console.error('FAIL: meta length/uniqueness contract - page set seoTopic coverage');
+    for (const t of topicProblems) console.error('  ' + t);
+    process.exit(1);
+  }
   if (!fs.existsSync(distRoot)) {
     console.error(`FAIL: ${distRoot} does not exist; build a pack first.`);
     process.exit(1);
