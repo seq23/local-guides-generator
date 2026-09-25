@@ -4,7 +4,8 @@
 //
 // What it guards
 // --------------
-// 1. Every rendered, served HTML page has a <title> of at least 30 characters.
+// 1. Every rendered, served HTML page has a <title> of 30-70 characters (Bing
+//    Site Scan flags "Title too long" above 70).
 // 2. Every rendered, served HTML page has a <meta name="description"> of
 //    110-160 characters.
 // 3. No two self-canonical pages share a title, and no two share a description.
@@ -26,6 +27,7 @@ const fs = require('fs');
 const path = require('path');
 
 const TITLE_MIN = 30;
+const TITLE_MAX = 70;
 const DESC_MIN = 110;
 const DESC_MAX = 160;
 
@@ -89,7 +91,9 @@ function main() {
     const dm = html.match(/<meta\s+name=["']description["']\s+content=(["'])([\s\S]*?)\1/i);
     const desc = dm ? decodeEntities(dm[2]).replace(/\s+/g, ' ').trim() : '';
 
-    if (title.length < TITLE_MIN) failures.push(`${route}: title ${title.length} chars (< ${TITLE_MIN}): "${title}"`);
+    if (title.length < TITLE_MIN || title.length > TITLE_MAX) {
+      failures.push(`${route}: title ${title.length} chars (want ${TITLE_MIN}-${TITLE_MAX}): "${title}"`);
+    }
     if (desc.length < DESC_MIN || desc.length > DESC_MAX) {
       failures.push(`${route}: description ${desc.length} chars (want ${DESC_MIN}-${DESC_MAX}): "${desc}"`);
     }
@@ -119,7 +123,7 @@ function main() {
     for (const f of failures.slice(0, 400)) console.error('  ' + f);
     process.exit(1);
   }
-  console.log(`OK: meta length/uniqueness contract (${examined} pages; titles >= ${TITLE_MIN}, descriptions ${DESC_MIN}-${DESC_MAX}, all unique).`);
+  console.log(`OK: meta length/uniqueness contract (${examined} pages; titles ${TITLE_MIN}-${TITLE_MAX}, descriptions ${DESC_MIN}-${DESC_MAX}, all unique).`);
 }
 
 main();
