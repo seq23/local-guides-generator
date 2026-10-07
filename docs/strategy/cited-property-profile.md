@@ -1,8 +1,14 @@
 # What the most-cited property in the portfolio actually looks like
 
 **Measured 2026-08-26.** `uscisexam.com` carries **13 Bing AI citations in three
-months — more than any other property in the estate**, including libraries twenty
-times its size. This records what it does differently, so the shape can be copied
+months (13 of the portfolio's 33, 39.4%) — more than any other property in the
+estate**, including libraries twenty times its size. The figure is derived, not
+quoted: `node scripts/measurement/derive_bing_ai_citation_counts.mjs` in
+local-guides-citation-velocity re-computes it from
+`data/signals/bing_webmaster_baseline.json` (Bing Webmaster Tools AI Performance,
+"Microsoft Copilots and Partners", 3-month window to 2026-08-26), cross-checked
+against the second transcription in that file; output in
+`data/measurement/bing_ai_citation_derivation.json`. This records what it does differently, so the shape can be copied
 deliberately rather than admired.
 
 ## The comparison that matters
