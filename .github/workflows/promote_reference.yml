@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   promote-reference:
+    timeout-minutes: 5  # ~3x median 0.2m over 8 green runs; fault detector, not a budget
     runs-on: ubuntu-latest
     env:
       PAGE_SET_FILE: data/page_sets/examples/pi_v1.json

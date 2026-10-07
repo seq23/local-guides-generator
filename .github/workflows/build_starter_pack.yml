@@ -11,6 +11,7 @@ on:
       - 'scripts/build_starter_pack.js'
 jobs:
   build-starter:
+    timeout-minutes: 5  # ~3x median 0.1m over 8 green runs; fault detector, not a budget
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
