@@ -51,7 +51,7 @@
       "Ask for insurance status, payment-plan details, and written treatment-plan pricing before major work.",
       "Separate same-day evaluation from same-day definitive treatment, especially for pain, infection, or broken teeth.",
       "Ask which clinician or specialist performs the work and whether referrals are likely.",
-      "Compare review patterns for communication, pressure, billing clarity, and follow-up\u2014not just star ratings.",
+      "Compare review patterns for communication, pressure, billing clarity, and follow-up—not just star ratings.",
       "Confirm new-patient availability, financing options, CareCredit or payment-plan terms, and what changes after imaging."
     ]
   },
@@ -71,5 +71,131 @@
   ],
   "family_pediatric_fit": [
     "If the patient is a child or teen, confirm age fit and whether the office routinely handles pediatric cases or refers them out."
-  ]
+  ],
+  "safety_net_access": {
+    "researched_on": "2026-10-09",
+    "axis": "safety-net dental access (who can be seen, and how) - see data/research/dentistry/vertical_status.json",
+    "method": "Each entry was read from the clinic's own official page (or the state's official directory: Texas DSHS for Texas dental hygiene clinics) on the fetched_on date. No clinic, hour or price is inferred. Dollar figures are deliberately left out: where a source publishes a fee, the entry points to that source page instead of copying the figure.",
+    "free_low_cost": [
+      {
+        "name": "Houston Health Department dental services",
+        "kind": "public_health_dental",
+        "address": "Dental clinics at four city sites: Magnolia Multi-Service Center, Northside Health Center, Sharpstown Health Services and Sunnyside Health and Multi-Service Center",
+        "phone": "832-393-5427 (appointments, all locations)",
+        "url": "https://www.houstonhealth.org/services/clinical/dental",
+        "eligibility": "Medicaid card holders aged 6 months through 21; CHIP card holders aged 1 through 18; under Title V, people aged 6 months through 21 who do not have dental insurance, and pregnant women during pregnancy and through 90 days after delivery.",
+        "services": "Comprehensive preventive and restorative dental care for adults and children starting at six months, with bilingual staff. Welcoming new patients.",
+        "how_to_get_seen": "Call 832-393-5427 to book at any of the four locations.",
+        "cost_language": "The department describes its dental services as income-friendly; covered patients use Medicaid, CHIP or Title V.",
+        "source_url": "https://www.houstonhealth.org/services/clinical/dental",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Harris Health Dental Center",
+        "kind": "public_health_system_dental",
+        "address": "5230 Griggs Road (at the Palm Center), Houston, TX 77021; dental also at the Aldine, Acres Home, El Franco Lee, Martin Luther King Jr. and Strawberry health centers",
+        "phone": "713-757-0572 (Dental Center); 713-526-4243 (appointments)",
+        "url": "https://www.harrishealth.org/locations-hh/Pages/dental-program.aspx",
+        "eligibility": "Dental treatment is for established Harris Health adult patients with a valid financial assistance plan, referred by their primary care physician. The financial assistance program requires Harris County residency.",
+        "services": "Examinations, cleanings, fillings, extractions and emergency care, provided with the UTHealth Houston School of Dentistry.",
+        "how_to_get_seen": "Get a referral from your Harris Health primary care physician, then call 713-526-4243. Arrive 30 minutes early with your medications and identification.",
+        "cost_language": "Harris Health's financial assistance program sets a small co-payment per visit, and states that services will still be provided if you cannot pay the co-payment.",
+        "source_url": "https://www.harrishealth.org/locations-hh/Pages/dental-program.aspx",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://www.harrishealth.org/access-care-hh/Pages/financial-assistance-program.aspx",
+            "fetched_on": "2026-10-09",
+            "supports": "residency requirement and co-payment policy"
+          }
+        ]
+      },
+      {
+        "name": "Legacy Community Health dental care",
+        "kind": "fqhc_dental",
+        "address": "Dental at Legacy clinics across the Houston region (Alief, Baytown, Deer Park, East End, Fifth Ward, Fort Bend, Montrose, Northline, Southwest, Third Ward and others); the location finder filters by Dental",
+        "phone": "(832) 548-5000",
+        "url": "https://www.legacycommunityhealth.org/services/dental-care/",
+        "eligibility": "Children from their first dental visit (recommended at 6 months) and adults. Uninsured patients are helped by Legacy eligibility specialists to find grants and government assistance.",
+        "services": "Children's dentistry, cleanings, dental screenings (including for oral cancer), and urgent care for emergencies from extreme toothaches to cracked molars.",
+        "how_to_get_seen": "Call (832) 548-5000 for appointments.",
+        "cost_language": "Patients who do not qualify for assistance programs can be seen at a lower rate on a sliding fee scale based on income and family size, set in a meeting with a Legacy eligibility specialist.",
+        "source_url": "https://www.legacycommunityhealth.org/services/dental-care/",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://www.legacycommunityhealth.org/patient-center/eligibility/",
+            "fetched_on": "2026-10-09",
+            "supports": "sliding fee scale and eligibility specialists"
+          }
+        ]
+      },
+      {
+        "name": "San José Clinic",
+        "kind": "charitable_clinic",
+        "address": "Midtown Clinic, 2615 Fannin St, Houston, TX 77002 (also a Fort Bend clinic in Rosenberg)",
+        "phone": "(713) 228-9411; eligibility questions 713-490-2610",
+        "url": "https://www.sanjoseclinic.org/copy-of-patient-center",
+        "eligibility": "Low-income, uninsured individuals and families, who must first complete an eligibility interview; Medicaid, Medicare and ACA plans count as insurance. Bring the eligibility application, ID, Medicaid or CHIP cards if any, and proof of household income.",
+        "services": "Comprehensive dental care: preventive care, fillings, root canals, crowns, extractions, dentures and partials, alongside medical, vision and pharmacy services.",
+        "how_to_get_seen": "Complete the eligibility interview first (Midtown hours Monday to Friday 8 a.m. to 5 p.m.); qualifying patients receive a patient account that gives access to services.",
+        "cost_language": "A charitable clinic for the uninsured and uninsurable since 1922, funded by donors and volunteers; ask about any patient charge at the eligibility interview.",
+        "source_url": "https://www.sanjoseclinic.org/copy-of-patient-center",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://www.sanjoseclinic.org/eligibility",
+            "fetched_on": "2026-10-09",
+            "supports": "eligibility interview and documents"
+          },
+          {
+            "url": "https://www.sanjoseclinic.org/locationsandhours",
+            "fetched_on": "2026-10-09",
+            "supports": "address, phone, hours"
+          }
+        ]
+      }
+    ],
+    "dental_school": [
+      {
+        "name": "UTHealth Houston School of Dentistry student clinics",
+        "kind": "dental_school",
+        "address": "7500 Cambridge Street, Houston, TX 77054",
+        "phone": "713-486-4000",
+        "url": "https://dentistry.uth.edu/patients/student-clinics/",
+        "eligibility": "The student clinics are accepting new patients. Comprehensive care starts with an assessment appointment where the attending dentist decides whether you are a candidate; the Urgent Care Clinic is for patients in severe pain or with signs of a dental infection.",
+        "services": "Comprehensive care by dental students under faculty supervision, an urgent care clinic, and a dental hygiene clinic (screening appointment required).",
+        "how_to_get_seen": "Call 713-486-4000 (8 a.m. to 5 p.m., Monday to Friday) or schedule online. For urgent care call 713-486-4000, option 1, and leave a message; appointments are made in the order messages are received and are limited by the students' schedules.",
+        "cost_language": "An initial exam fee is collected at check-in for urgent visits, and payment for treatment is due before it begins; the school publishes the current fee on the same page.",
+        "source_url": "https://dentistry.uth.edu/patients/student-clinics/",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "HCC Coleman College for Health Sciences dental hygiene clinic",
+        "kind": "dental_hygiene_school",
+        "address": "HCC Coleman College Building, 1900 Pressler St., Houston, TX 77030",
+        "phone": "713-718-7292",
+        "url": "https://www.dshs.texas.gov/dental/dental-clinics.aspx",
+        "eligibility": "Teaching clinic open to the public; the primary purpose is student learning, so wait times and time in the chair vary.",
+        "services": "Dental hygiene care by students under supervision; check the program for the services and fees it currently offers.",
+        "how_to_get_seen": "Call 713-718-7292 to set up an appointment.",
+        "cost_language": "Fees are set by the program; Texas DSHS directs patients to the program for services and fees.",
+        "source_url": "https://www.dshs.texas.gov/dental/dental-clinics.aspx",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Lone Star College Dental Clinic, Kingwood",
+        "kind": "dental_hygiene_school",
+        "address": "Health Professions Center, 20000 Kingwood Dr., Kingwood, TX 77339",
+        "phone": "281-312-1721",
+        "url": "https://www.dshs.texas.gov/dental/dental-clinics.aspx",
+        "eligibility": "Teaching clinic open to the public; the primary purpose is student learning, so wait times and time in the chair vary.",
+        "services": "Dental hygiene care by students under supervision; check the program for the services and fees it currently offers.",
+        "how_to_get_seen": "Call 281-312-1721 to set up an appointment.",
+        "cost_language": "Fees are set by the program; Texas DSHS directs patients to the program for services and fees.",
+        "source_url": "https://www.dshs.texas.gov/dental/dental-clinics.aspx",
+        "fetched_on": "2026-10-09"
+      }
+    ]
+  }
 }

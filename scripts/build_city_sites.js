@@ -550,6 +550,16 @@ function normalizeLegacyCityContent(verticalKey, citySlug, raw) {
     // the correct outcome for a subject with nothing published to compare.
     cost_comparison_table: (raw.cost_comparison_table && typeof raw.cost_comparison_table === 'object') ? raw.cost_comparison_table : null,
     civil_surgeon_locator: (raw.civil_surgeon_locator && typeof raw.civil_surgeon_locator === 'object') ? raw.civil_surgeon_locator : null,
+    // Dentistry's safety-net access axis: free/low-cost clinics and dental-school
+    // clinics, each entry sourced from the clinic's own page. Rendered by
+    // renderSafetyNetDentalAccessHtml() and pinned by
+    // scripts/validation/dentistry_safety_net_research_contract.js.
+    safety_net_access: (vk === 'dentistry' && raw.safety_net_access && typeof raw.safety_net_access === 'object') ? raw.safety_net_access : null,
+    // The per-vertical sections (cityVerticalSectionConfig) used to be dropped
+    // here: this object listed only the shared keys, so a research file's
+    // insurance_acceptance_notes, i693_document_requirements, lab_work_notes and
+    // the rest were read from disk and never reached the page. Carry them through.
+    ...Object.fromEntries(cityVerticalSectionConfig(vk).map(([key]) => [key, Array.isArray(raw[key]) ? raw[key] : []])),
     payment_options: Array.isArray(raw.payment_options) ? raw.payment_options : [],
     wait_time_notes: Array.isArray(raw.wait_time_notes) ? raw.wait_time_notes : [],
     availability_notes: Array.isArray(raw.availability_notes) ? raw.availability_notes : [],
@@ -601,6 +611,84 @@ function renderCivilSurgeonLocatorTable(loc) {
     + `<thead><tr><th scope="col">Practice</th><th scope="col">Address</th><th scope="col">Phone</th><th scope="col">Languages</th></tr></thead>`
     + `<tbody>${rows}</tbody></table>`
     + `<p class="muted">Source: <a href="${escapeOptionalHtml(src)}" rel="noopener">USCIS Find a Civil Surgeon</a>.</p></section>`;
+}
+
+// Safety-net dental access: two answer sections per researched metro, shaped to
+// the two open query classes measured in
+// data/signals/dentistry_query_class_openness_2026-08-27.json ("free dental
+// clinic near me", "dental school clinic near me"). Every entry carries the URL
+// it was read from and the date it was read; nothing here is estimated.
+const SAFETY_NET_SECTIONS = [
+  {
+    key: 'free_low_cost',
+    id: 'free-low-cost-dental-clinics',
+    heading: (city) => `Free & low-cost dental clinics in ${city}`,
+    answer: (city, n) => `${n} places in and around ${city} see patients who cannot pay a private-practice fee: community health centers that charge on a sliding scale by income, public health department dental clinics and charity clinics. Each entry links to the clinic's own page, which is where every detail below was read. Eligibility rules change, so confirm when you call.`,
+  },
+  {
+    key: 'dental_school',
+    id: 'dental-school-clinics',
+    heading: (city) => `Dental school clinics in ${city}`,
+    answer: (city, n) => `${n} teaching clinics in or near ${city} treat the public at reduced fees: dental schools, where supervised dental students and residents provide care, and dental hygiene programmes, where students provide cleanings, X-rays and preventive care. Expect a screening visit first, longer appointments and several visits.`,
+  },
+];
+
+const SAFETY_NET_KIND_LABELS = {
+  fqhc_dental: 'Community health center (sliding fee)',
+  public_health_dental: 'Public health department dental clinic',
+  public_health_system_dental: 'Public health system dental program',
+  charitable_clinic: 'Charitable clinic',
+  dental_school: 'Dental school clinic',
+  dental_hygiene_school: 'Dental hygiene program clinic',
+};
+
+function safetyNetHost(url) {
+  try { return new URL(String(url)).hostname.replace(/^www\./, ''); } catch (_) { return String(url || ''); }
+}
+
+function renderSafetyNetEntry(entry) {
+  if (!entry || !entry.name || !entry.source_url) return '';
+  const row = (label, value) => (String(value || '').trim()
+    ? `<dt>${escapeOptionalHtml(label)}</dt><dd>${escapeOptionalHtml(value)}</dd>`
+    : '');
+  const sources = [{ url: entry.source_url, fetched_on: entry.fetched_on }]
+    .concat(Array.isArray(entry.additional_sources) ? entry.additional_sources : [])
+    .filter((src) => src && src.url);
+  const sourceLinks = sources.map((src) => `<a href="${escapeOptionalHtml(src.url)}" rel="nofollow noopener">${escapeOptionalHtml(safetyNetHost(src.url))}</a> (checked ${escapeOptionalHtml(src.fetched_on || '')})`).join('; ');
+  const official = entry.url ? `<p><a href="${escapeOptionalHtml(entry.url)}" rel="nofollow noopener">${escapeOptionalHtml(entry.name)} official page</a></p>` : '';
+  return `<li data-safety-net-entry="true" data-safety-net-kind="${escapeOptionalHtml(entry.kind || '')}">`
+    + `<h3>${escapeOptionalHtml(entry.name)}</h3>`
+    + `<p class="muted">${escapeOptionalHtml(SAFETY_NET_KIND_LABELS[entry.kind] || 'Clinic')}</p>`
+    + `<dl class="safety-net-facts">`
+    + row('Address', entry.address)
+    + row('Phone', entry.phone)
+    + row('Who can be seen', entry.eligibility)
+    + row('Services', entry.services)
+    + row('How to get an appointment', entry.how_to_get_seen)
+    + row('Cost', entry.cost_language)
+    + `</dl>${official}`
+    + `<p class="muted" data-safety-net-source="true">Source: ${sourceLinks}.</p>`
+    + `</li>`;
+}
+
+function renderSafetyNetDentalAccessHtml(content) {
+  if (!content || String(content.vertical || '').trim() !== 'dentistry') return '';
+  const sna = content.safety_net_access;
+  if (!sna || typeof sna !== 'object') return '';
+  const city = String(content.city || '').trim() || 'this city';
+  const present = SAFETY_NET_SECTIONS.filter((cfg) => Array.isArray(sna[cfg.key]) && sna[cfg.key].length);
+  if (!present.length) return '';
+  const jump = present.map((cfg) => `<a href="#${cfg.id}">${escapeOptionalHtml(cfg.heading(city))}</a>`).join(' · ');
+  return present.map((cfg, i) => {
+    const entries = sna[cfg.key].map(renderSafetyNetEntry).filter(Boolean);
+    return `<section class="city-supplement safety-net-access answer-block" id="${cfg.id}" data-safety-net-section="${cfg.key}" data-safety-net-entries="${entries.length}">`
+      + (i === 0 && present.length > 1 ? `<p class="muted">On this page: ${jump}</p>` : '')
+      + `<h2>${escapeOptionalHtml(cfg.heading(city))}</h2>`
+      + `<p><strong>Direct answer:</strong> ${escapeOptionalHtml(cfg.answer(city, entries.length))}</p>`
+      + `<ol class="neutral-list safety-net-list">${entries.join('')}</ol>`
+      + `<p class="muted">A neutral list in no ranked order, not an endorsement. Researched ${escapeOptionalHtml(sna.researched_on || '')} from each clinic's official page or the state's official directory.</p>`
+      + `</section>`;
+  }).join('');
 }
 
 function renderCityCostComparisonTable(table) {
@@ -966,6 +1054,7 @@ function renderOptionalCityContentHtml(content) {
     ? ` data-template-fallback="true" data-template-fallback-reason="${escapeOptionalHtml(String(content.noindex_reason || 'no research file'))}"`
     : '';
   return [
+    renderSafetyNetDentalAccessHtml(content),
     leadChecklist,
     renderPiAttorneySelectionFrameworkHtml(content),
     `<section class="city-supplement city-supplement-optional" data-city-intelligence="true"${fallbackAttrs}>`,

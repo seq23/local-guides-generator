@@ -54,7 +54,7 @@
       "Ask for insurance status, payment-plan details, and written treatment-plan pricing before major work.",
       "Separate same-day evaluation from same-day definitive treatment, especially for pain, infection, or broken teeth.",
       "Ask which clinician or specialist performs the work and whether referrals are likely.",
-      "Compare review patterns for communication, pressure, billing clarity, and follow-up\u2014not just star ratings.",
+      "Compare review patterns for communication, pressure, billing clarity, and follow-up—not just star ratings.",
       "Confirm new-patient availability, financing options, CareCredit or payment-plan terms, and what changes after imaging."
     ]
   },
@@ -74,5 +74,99 @@
   ],
   "family_pediatric_fit": [
     "If the patient is a child or teen, confirm age fit and whether the office routinely handles pediatric cases or refers them out."
-  ]
+  ],
+  "safety_net_access": {
+    "researched_on": "2026-10-09",
+    "axis": "safety-net dental access (who can be seen, and how) - see data/research/dentistry/vertical_status.json",
+    "method": "Each entry was read from the clinic's own official page (or the state's official directory: Texas DSHS for Texas dental hygiene clinics) on the fetched_on date. No clinic, hour or price is inferred. Dollar figures are deliberately left out: where a source publishes a fee, the entry points to that source page instead of copying the figure.",
+    "free_low_cost": [
+      {
+        "name": "Ben Massell Dental Clinic",
+        "kind": "charitable_clinic",
+        "address": "700 Fourteenth St. NW, Atlanta, GA 30318",
+        "phone": "404-881-1858",
+        "url": "https://benmasselldentalclinic.org/about/patients",
+        "eligibility": "Adults aged 18 and older with no dental insurance, living in metro Atlanta (Butts, Cherokee, Clayton, Cobb, Coweta, DeKalb, Douglas, Fayette, Fulton, Gwinnett, Henry, Paulding or Rockdale county), with household income at or below 125% of the Federal Poverty Level. People with Medicaid or Medicare are directed to their dental plan.",
+        "services": "Comprehensive oral health services provided by more than 150 volunteer dentists and hygienists.",
+        "how_to_get_seen": "Submit the eligibility documents (proof of residence such as official mail from the past 30 days, ID, and proof of income or a Department of Labor wage inquiry for every adult in the household) by email to renew@jfcsatl.org; the clinic cannot schedule an appointment until it has them.",
+        "cost_language": "Care is at no cost to eligible patients.",
+        "source_url": "https://benmasselldentalclinic.org/about/patients",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://jfcsatl.org/services/ben-massell-dental-clinic",
+            "fetched_on": "2026-10-09",
+            "supports": "operated by Jewish Family & Career Services; no-cost comprehensive care"
+          }
+        ]
+      },
+      {
+        "name": "Good Samaritan Health Center (Good Sam) dental",
+        "kind": "charitable_clinic",
+        "address": "1015 Donald Lee Hollowell Pkwy. NW, Atlanta, GA 30318",
+        "phone": "404-523-6571",
+        "url": "https://goodsamatlanta.org/patients/become-a-patient/",
+        "eligibility": "Good Sam states no one will be denied services due to inability to pay. Residents of priority ZIP codes 30318 and 30314 can register for FastTrack Dental at any time; others register online on published new-patient intake dates, first come first served. Bring proof of income, proof of address, ID and any insurance card.",
+        "services": "Dental care for new patients after intake, plus walk-in emergency extractions (Monday to Thursday, check in by 7:45 a.m., first come first served).",
+        "how_to_get_seen": "FastTrack ZIP codes: call 404-523-6571, ext. 4974. Everyone else: online registration opens at 8 a.m. on the listed intake dates and closes when slots are full; some intake dates are cancelled for provider coverage.",
+        "cost_language": "Discounted sliding fee schedule based on family size and income; a deposit at registration goes toward the new-patient exam and X-rays.",
+        "source_url": "https://goodsamatlanta.org/patients/become-a-patient/",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Fulton County Board of Health dental services",
+        "kind": "public_health_dental",
+        "address": "Fulton County Board of Health dental clinics (call for the nearest site)",
+        "phone": "770-520-7500",
+        "url": "https://fultoncountyboh.com/services/adult-health/adult-dental/",
+        "eligibility": "County public health dental program; complete examinations from age 3 up. The page does not publish income rules, so confirm eligibility when you call.",
+        "services": "Cleanings (once every 6 months), complete examinations, X-rays, fillings, extractions, limited stainless steel crowns, space maintainers and emergency dental care.",
+        "how_to_get_seen": "Call 770-520-7500.",
+        "cost_language": "Public health department program; ask about fees and accepted insurance when booking.",
+        "source_url": "https://fultoncountyboh.com/services/adult-health/adult-dental/",
+        "fetched_on": "2026-10-09"
+      }
+    ],
+    "dental_school": [
+      {
+        "name": "Perimeter College Dental Hygiene Clinic (Georgia State University)",
+        "kind": "dental_hygiene_school",
+        "address": "Dunwoody Campus, 2101 Womack Road, Dunwoody, GA 30338",
+        "phone": "770-274-5140",
+        "url": "https://perimeter.gsu.edu/perimeter-dental-hygiene-clinic/",
+        "eligibility": "Open to the community. New patients 18 and older complete a New Patient Assessment screening before their first treatment appointment.",
+        "services": "Preventive and periodontal dental hygiene care by supervised students: exams, cancer screenings, cleanings, X-rays and sealants.",
+        "how_to_get_seen": "Call 770-274-5140. Screenings run hourly 8 to 10 a.m. and 1 to 3 p.m.; patient services start at 8 a.m. and 1 p.m.",
+        "cost_language": "Professional dental hygiene care at reduced fees in an educational setting; the clinic publishes its fee list on the same page.",
+        "source_url": "https://perimeter.gsu.edu/perimeter-dental-hygiene-clinic/",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Clayton State University Dental Hygiene Clinic",
+        "kind": "dental_hygiene_school",
+        "address": "Edgewater Hall, Clayton State University, 2000 Clayton State Boulevard, Morrow, GA 30260",
+        "phone": "(678) 466-4920 ext. 4",
+        "url": "https://clayton.edu/health/departments/dental-hygiene/dental-hygiene-clinic",
+        "eligibility": "Open to the public, adults and children (children must be supervised under university policy). Treatment can take up to 4 hours and may need several appointments.",
+        "services": "Oral health screenings, X-rays, cleanings, fluoride, sealants and whitening by students under faculty supervision.",
+        "how_to_get_seen": "Call (678) 466-4920 ext. 4 and leave your name and number, or use the appointment request survey; student clinicians call back to schedule. Hours vary with student availability.",
+        "cost_language": "The clinic publishes a per-service fee list on the same page.",
+        "source_url": "https://clayton.edu/health/departments/dental-hygiene/dental-hygiene-clinic",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Dental College of Georgia at Augusta University student clinic",
+        "kind": "dental_school",
+        "address": "1120 15th Street, Augusta, GA 30912 (Georgia's dental school; about 150 miles from Atlanta, there is none in the metro)",
+        "phone": "706-721-2371 (screening)",
+        "url": "https://www.augusta.edu/dentalmedicine/patientservices/studentcare.php",
+        "eligibility": "Patients are screened and accepted when their needs fit the teaching program. Children 14 and younger and special-needs patients under 21 go to the Pediatric Dentistry clinic (706-721-2716).",
+        "services": "Comprehensive care by supervised dental students, with resident and faculty clinics for more complex needs.",
+        "how_to_get_seen": "Call 706-721-2371 to schedule a screening. Once accepted and assigned, your student provider builds the treatment plan and schedules visits.",
+        "cost_language": "On average, student clinic fees are about one-third of usual and customary private-practice fees.",
+        "source_url": "https://www.augusta.edu/dentalmedicine/patientservices/studentcare.php",
+        "fetched_on": "2026-10-09"
+      }
+    ]
+  }
 }

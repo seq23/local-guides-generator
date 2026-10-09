@@ -54,7 +54,7 @@
       "Ask for insurance status, payment-plan details, and written treatment-plan pricing before major work.",
       "Separate same-day evaluation from same-day definitive treatment, especially for pain, infection, or broken teeth.",
       "Ask which clinician or specialist performs the work and whether referrals are likely.",
-      "Compare review patterns for communication, pressure, billing clarity, and follow-up\u2014not just star ratings.",
+      "Compare review patterns for communication, pressure, billing clarity, and follow-up—not just star ratings.",
       "Confirm new-patient availability, financing options, CareCredit or payment-plan terms, and what changes after imaging."
     ]
   },
@@ -74,5 +74,156 @@
   ],
   "family_pediatric_fit": [
     "If the patient is a child or teen, confirm age fit and whether the office routinely handles pediatric cases or refers them out."
-  ]
+  ],
+  "safety_net_access": {
+    "researched_on": "2026-10-09",
+    "axis": "safety-net dental access (who can be seen, and how) - see data/research/dentistry/vertical_status.json",
+    "method": "Each entry was read from the clinic's own official page (or the state's official directory: Texas DSHS for Texas dental hygiene clinics) on the fetched_on date. No clinic, hour or price is inferred. Dollar figures are deliberately left out: where a source publishes a fee, the entry points to that source page instead of copying the figure.",
+    "free_low_cost": [
+      {
+        "name": "Cook County Health dental services",
+        "kind": "public_health_system_dental",
+        "address": "Dental care is scheduled centrally across Cook County Health community health centers, including Belmont Cragin Health Center, 5501 W. Fullerton Ave., Chicago, IL 60639, and Dr. Jorge Prieto Health Center, 2424 S. Pulaski Ave., Chicago, IL 60623",
+        "phone": "(312) 864-0200",
+        "url": "https://cookcountyhealth.org/services/dental/",
+        "eligibility": "Cook County's public health system. Its CareLink program discounts care at Cook County Health facilities for Cook County residents aged 19-64 without insurance; immigration status does not stop anyone qualifying, eligibility is based on gross income, family size and proof of Cook County residency. Children 18 and under apply for All Kids instead, and anyone with or eligible for Medicaid does not qualify for CareLink.",
+        "services": "Basic, diagnostic and preventive dental services: oral exams, X-rays, cleanings and scalings, fillings, extractions, crowns and bridges, dentures and partials, oral and maxillofacial surgery and some root canals.",
+        "how_to_get_seen": "Call (312) 864-0200 to schedule. Financial counselors enroll patients in CareLink.",
+        "cost_language": "CareLink is free to join and discounts the cost of care on an income scale, up to a 100% discount for the lowest income band.",
+        "source_url": "https://cookcountyhealth.org/services/dental/",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://cookcountyhealth.org/carelink/",
+            "fetched_on": "2026-10-09",
+            "supports": "CareLink eligibility and discount bands"
+          }
+        ]
+      },
+      {
+        "name": "Erie Family Health Centers dental care",
+        "kind": "fqhc_dental",
+        "address": "Erie Humboldt Park, 2750 W. North Ave, Chicago, IL 60647; Erie Foster Avenue, 5215 N. California Ave, Floor 7, Chicago, IL 60625; also Evanston/Skokie and Waukegan",
+        "phone": "(312) 666-3494",
+        "url": "https://www.eriefamilyhealth.org/patient-services/dental-care/",
+        "eligibility": "Erie provides oral health services to children, pregnant women and diabetic adults. Erie states that no one is ever turned away because of ability to pay and that it accepts patients with and without insurance, including Medicaid plans.",
+        "services": "Exams, cleanings, X-rays, sealants, fluoride, fillings, extractions, dentures, crowns, root canals, oral surgery, pediatric care and orthodontics, plus emergency dental services for patients with pain, swelling or trauma.",
+        "how_to_get_seen": "Call (312) 666-3494 to schedule (suburban locations (847) 666-3494).",
+        "cost_language": "Patients without insurance, or with high deductibles, are charged on a sliding fee scale based on family size and household income; a further discount applies when paying on the day of the appointment.",
+        "source_url": "https://www.eriefamilyhealth.org/patient-services/dental-care/",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://www.eriefamilyhealth.org/paying-for-your-visit/",
+            "fetched_on": "2026-10-09",
+            "supports": "no one turned away, sliding fee scale"
+          }
+        ]
+      },
+      {
+        "name": "PCC Community Wellness Center dental",
+        "kind": "fqhc_dental",
+        "address": "PCC Dental & Specialty Care Center, 5425 West Lake Street, Chicago, IL 60644 (Austin); second dental site at PCC South Clinic, Berwyn",
+        "phone": "(773) 413-1920 (Austin dental); (708) 406-3047 (South dental)",
+        "url": "https://www.pccwellness.org/our-services/dental/",
+        "eligibility": "Patients 6 months to 20 years old, plus adult and prenatal patients who get their medical care at PCC; limited services for all other patients. PCC is a Federally Qualified Health Center and accepts Medicaid and most private insurance.",
+        "services": "Affordable general oral health services with a focus on education at two dental facilities (Austin and Berwyn).",
+        "how_to_get_seen": "Call the dental line for the site: Austin (773) 413-1920, South (708) 406-3047.",
+        "cost_language": "PCC runs a sliding fees discount program for people facing financial hardship or loss of coverage; applicants show proof of identification, annual income and family size every 12 months.",
+        "source_url": "https://www.pccwellness.org/our-services/dental/",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://www.pccwellness.org/locations/pcc-dental-services/",
+            "fetched_on": "2026-10-09",
+            "supports": "Austin dental address"
+          },
+          {
+            "url": "https://www.pccwellness.org/payment-and-health-insurance/",
+            "fetched_on": "2026-10-09",
+            "supports": "FQHC status, Medicaid, sliding fee program"
+          }
+        ]
+      },
+      {
+        "name": "Alivio Medical Center dentistry",
+        "kind": "fqhc_dental",
+        "address": "Alivio Morgan, 966 West 21st St., Chicago, IL 60608 (dental also at the Westlawn and Berwyn sites)",
+        "phone": "(773) 254-1400",
+        "url": "https://alivio.org/services/dentistry/",
+        "eligibility": "Accepts Illinois Medicaid, Medicaid managed care plans, Medicare, private and Marketplace plans; uninsured patients who do not qualify for those programs can use the sliding scale. Alivio states no one will be denied services due to inability to pay.",
+        "services": "Preventive (exams, cleanings, X-rays, fluoride, sealants, space maintainers), restorative (fillings, crowns), pulpotomies, deep cleanings and extractions; dental emergencies.",
+        "how_to_get_seen": "Call (773) 254-1400, choose language, press 1 for appointments then 2 for Dental, then pick Morgan, Westlawn or Berwyn. Same-day appointments are available Monday through Friday.",
+        "cost_language": "Sliding fee scale based on the federal poverty guidelines, by income and family size, for patients without insurance who do not qualify for Medicaid or Marketplace plans; eligible patients pay a nominal fee per visit.",
+        "source_url": "https://alivio.org/services/dentistry/",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://alivio.org/payment/",
+            "fetched_on": "2026-10-09",
+            "supports": "insurance accepted, sliding fee scale"
+          },
+          {
+            "url": "https://alivio.org/locations/morgan/",
+            "fetched_on": "2026-10-09",
+            "supports": "Morgan address"
+          }
+        ]
+      }
+    ],
+    "dental_school": [
+      {
+        "name": "UIC College of Dentistry patient clinics",
+        "kind": "dental_school",
+        "address": "801 S. Paulina St., Chicago, IL 60612",
+        "phone": "(312) 996-7555 (new appointments)",
+        "url": "https://dentistry.uic.edu/patients/",
+        "eligibility": "Open to new patients; a screening appointment decides whether a student dentist or a specialist fits the case. The Inclusive Care Clinic treats patients with disabilities or special healthcare needs. Student clinics accept Medicaid and Delta Dental.",
+        "services": "General family dentistry including dentures, implants, crowns and bridges; specialty care in endodontics, oral surgery, oral medicine and facial pain, orthodontics, pediatric dentistry, periodontics and prosthodontics.",
+        "how_to_get_seen": "Call (312) 996-7555 for a screening appointment. Student care usually takes 2 to 3 visits for evaluation and planning before treatment begins. No referral needed for student or faculty care.",
+        "cost_language": "Student care is offered at a discounted price; the college describes discounted rates compared to area dentists. Specialty and faculty practice cost more than student clinics.",
+        "source_url": "https://dentistry.uic.edu/patients/",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Midwestern University Dental Institute",
+        "kind": "dental_school",
+        "address": "3450 Lacey Road, Downers Grove, IL 60515",
+        "phone": "630-743-4500",
+        "url": "https://clinics.midwestern.edu/illinois/services/dental",
+        "eligibility": "Open to the public, but as an academic clinic not everyone is selected as a patient: a brief screening exam decides whether your dental needs suit the teaching program. Urgent needs are seen during business hours.",
+        "services": "Comprehensive care by supervised dental students, orthodontics for current patients, and urgent visits for swelling, broken teeth and similar problems during business hours.",
+        "how_to_get_seen": "Call 630-743-4500 to book the screening. If accepted as a teaching case, the comprehensive exam and X-rays can follow the same day. Cancellations need 48 hours' notice.",
+        "cost_language": "Care is provided at significantly reduced fees. Accepts cash, checks, major cards and CareCredit; bring your dental insurance card if you have one.",
+        "source_url": "https://clinics.midwestern.edu/illinois/services/dental",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Malcolm X College Dental Hygiene Clinic",
+        "kind": "dental_hygiene_school",
+        "address": "1900 West Jackson Blvd, Chicago, IL 60612, 1st floor (Jackson entrance)",
+        "phone": "(312) 850-7060",
+        "url": "https://www.ccc.edu/malcolm-x/departments/dental-clinic-services/",
+        "eligibility": "Open to the public, children and adults; patients must be able to commit to a 2.5-hour appointment and children must be accompanied by a legal guardian.",
+        "services": "X-rays, exams and cleanings by dental hygiene students supervised by licensed hygienists and dentists.",
+        "how_to_get_seen": "Runs during the spring, summer and fall semesters, closed weekends; call (312) 850-7060 for the current schedule. Free parking with validation.",
+        "cost_language": "Teaching clinic fees set by the college; ask when you call.",
+        "source_url": "https://www.ccc.edu/malcolm-x/departments/dental-clinic-services/",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Prairie State College Dental Hygiene Clinic",
+        "kind": "dental_hygiene_school",
+        "address": "910 Vollmer Rd., Chicago Heights, IL 60411",
+        "phone": "(708) 709-3707",
+        "url": "https://prairiestate.edu/academics/allied-health-and-emergency-services/dental-hygiene-clinic.aspx",
+        "eligibility": "Open to the public by appointment; minors not receiving services may not accompany patients into the clinic.",
+        "services": "Comprehensive dental exam, oral cancer screening, cleaning, nonsurgical periodontal therapy (scaling and root planing), sealants, fluoride, X-rays and school exams.",
+        "how_to_get_seen": "Appointments are required: call (708) 709-3707. Plan for 1.5 to 3 hours per visit; the average student needs about four appointments to complete care.",
+        "cost_language": "The college publishes a clinic fee schedule on the same page; ask for the current fees when booking.",
+        "source_url": "https://prairiestate.edu/academics/allied-health-and-emergency-services/dental-hygiene-clinic.aspx",
+        "fetched_on": "2026-10-09"
+      }
+    ]
+  }
 }
