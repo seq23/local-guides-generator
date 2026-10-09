@@ -549,6 +549,7 @@ function normalizeLegacyCityContent(verticalKey, citySlug, raw) {
     // this; every other vertical simply omits it and renders no table, which is
     // the correct outcome for a subject with nothing published to compare.
     cost_comparison_table: (raw.cost_comparison_table && typeof raw.cost_comparison_table === 'object') ? raw.cost_comparison_table : null,
+    civil_surgeon_locator: (raw.civil_surgeon_locator && typeof raw.civil_surgeon_locator === 'object') ? raw.civil_surgeon_locator : null,
     payment_options: Array.isArray(raw.payment_options) ? raw.payment_options : [],
     wait_time_notes: Array.isArray(raw.wait_time_notes) ? raw.wait_time_notes : [],
     availability_notes: Array.isArray(raw.availability_notes) ? raw.availability_notes : [],
@@ -585,6 +586,23 @@ function renderOptionalCityStructuredSection(title, items, listType = 'ul', data
 // verified - this only changes their form.
 //
 // Shape: { columns: [..], rows: [{ label, cells: [..] }], caption, source }
+// Civil surgeons from the official USCIS "Find a Civil Surgeon" locator,
+// pulled by scripts/research/pull_uscis_metro_depth.js. Rendered as a neutral
+// table in the locator's own distance order: no ranking, no endorsement.
+function renderCivilSurgeonLocatorTable(loc) {
+  if (!loc || !Array.isArray(loc.listings) || !loc.listings.length) return '';
+  const cell = (v) => `<td>${escapeOptionalHtml(String(v || '').trim() || 'Not listed')}</td>`;
+  const rows = loc.listings.map((r) => `<tr><th scope="row">${escapeOptionalHtml(r.practice)}${r.doctor ? `<br><span class="muted">${escapeOptionalHtml(r.doctor)}</span>` : ''}</th>${cell(r.address)}${cell(r.phone)}${cell(r.languages)}</tr>`).join('');
+  const src = String(loc.source || 'https://www.uscis.gov/tools/find-a-civil-surgeon');
+  return `<section class="city-supplement city-supplement-structured" data-city-civil-surgeons="true">`
+    + `<h3>${escapeOptionalHtml(loc.heading || 'Civil surgeons listed in the USCIS locator')}</h3>`
+    + `<p>${escapeOptionalHtml(loc.note || '')}</p>`
+    + `<table class="comparison-table" data-city-civil-surgeon-table="true"><caption>${escapeOptionalHtml(`USCIS Find a Civil Surgeon, retrieved ${loc.retrieved || ''}`)}</caption>`
+    + `<thead><tr><th scope="col">Practice</th><th scope="col">Address</th><th scope="col">Phone</th><th scope="col">Languages</th></tr></thead>`
+    + `<tbody>${rows}</tbody></table>`
+    + `<p class="muted">Source: <a href="${escapeOptionalHtml(src)}" rel="noopener">USCIS Find a Civil Surgeon</a>.</p></section>`;
+}
+
 function renderCityCostComparisonTable(table) {
   if (!table || !Array.isArray(table.columns) || !Array.isArray(table.rows) || !table.rows.length) return '';
   const cols = table.columns.filter(Boolean);
@@ -914,6 +932,7 @@ function renderOptionalCityContentHtml(content) {
     ? `<section class="city-supplement city-supplement-lead" data-city-local-checklist="true"><h2>${escapeOptionalHtml(content.primary_city_decision_block?.title || content.heading || 'How to compare providers in this city')}</h2>${intro}<ul class="neutral-list">${leadChecklistItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
     : '';
   const structured = [
+    renderCivilSurgeonLocatorTable(content.civil_surgeon_locator),
     renderCityCostComparisonTable(content.cost_comparison_table),
     renderOptionalCityStructuredSection('Local vetting points', content.local_vetting_points, 'ul', 'local_vetting_points'),
     renderOptionalCityStructuredSection('Typical cost ranges', content.typical_cost_ranges, 'ul', 'typical_cost_ranges'),
