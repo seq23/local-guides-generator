@@ -51,7 +51,7 @@
       "Ask for insurance status, payment-plan details, and written treatment-plan pricing before major work.",
       "Separate same-day evaluation from same-day definitive treatment, especially for pain, infection, or broken teeth.",
       "Ask which clinician or specialist performs the work and whether referrals are likely.",
-      "Compare review patterns for communication, pressure, billing clarity, and follow-up\u2014not just star ratings.",
+      "Compare review patterns for communication, pressure, billing clarity, and follow-up—not just star ratings.",
       "Confirm new-patient availability, financing options, CareCredit or payment-plan terms, and what changes after imaging."
     ]
   },
@@ -71,5 +71,104 @@
   ],
   "family_pediatric_fit": [
     "If the patient is a child or teen, confirm age fit and whether the office routinely handles pediatric cases or refers them out."
-  ]
+  ],
+  "safety_net_access": {
+    "researched_on": "2026-10-09",
+    "axis": "safety-net dental access (who can be seen, and how) - see data/research/dentistry/vertical_status.json",
+    "method": "Each entry was read from the clinic's own official page (or the state's official directory: Texas DSHS for Texas dental hygiene clinics) on the fetched_on date. No clinic, hour or price is inferred. Dollar figures are deliberately left out: where a source publishes a fee, the entry points to that source page instead of copying the figure.",
+    "free_low_cost": [
+      {
+        "name": "Borinquen Medical Centers dental",
+        "kind": "fqhc_dental",
+        "address": "3601 Federal Highway, Miami, FL 33137",
+        "phone": "(305) 576-6611",
+        "url": "https://borinquenhealth.org/services/",
+        "eligibility": "Accepts new patients in all offices, with most insurance including Florida Medicaid plans. Uninsured, low-income patients may qualify for the sliding fee for medical, dental and pharmacy needs. HRSA-supported health center.",
+        "services": "Comprehensive exams (X-rays, diagnosis, treatment planning), cleaning and fluoride, sealants, tooth-colored fillings, extractions, crowns and bridges, dentures, root canals (or referral), whitening and emergency services.",
+        "how_to_get_seen": "Call (305) 576-6611 or use the online scheduling app. Same-day appointments and free transportation to appointments are offered.",
+        "cost_language": "Sliding Fee Discount Program for uninsured, low-income patients: you pay the discounted rate or minimum fee, and must show proof of household income to apply (Registration: 305-576-6611 ext. 1110).",
+        "source_url": "https://borinquenhealth.org/services/",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://borinquenhealth.org/about/payment-info/",
+            "fetched_on": "2026-10-09",
+            "supports": "sliding fee discount program and accepted insurance"
+          },
+          {
+            "url": "https://borinquenhealth.org/appointments/locations/",
+            "fetched_on": "2026-10-09",
+            "supports": "address and phone"
+          }
+        ]
+      },
+      {
+        "name": "Community Health of South Florida (CHI) dental services",
+        "kind": "fqhc_dental",
+        "address": "South Miami Health Center, 6350 Sunset Drive, South Miami, FL 33143; Doris Ison Health Center, 10300 SW 216th Street, Miami, FL 33190; also West Perrine, Naranja and Homestead",
+        "phone": "(305) 252-4820; South Miami (786) 293-5500; Doris Ison (305) 254-7166",
+        "url": "https://chisouthfl.org/services/dental-services/",
+        "eligibility": "Accepts most insurance plans and offers a sliding fee scale based on income for patients without insurance. A mobile dental unit also serves children at schools and childcare sites.",
+        "services": "Exams, cleanings, oral cancer and oral HIV screenings and emergency dental care.",
+        "how_to_get_seen": "Call (305) 252-4820 or the health center directly; online booking is available.",
+        "cost_language": "Sliding fee scale based on income for those without insurance.",
+        "source_url": "https://chisouthfl.org/services/dental-services/",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Florida Department of Health in Miami-Dade, Dr. Rafael A. Peñalver Clinic dental",
+        "kind": "public_health_dental",
+        "address": "971 NW Second St., Miami, FL 33128",
+        "phone": "305-585-2846",
+        "url": "https://miamidade.floridahealth.gov/programs-and-services/clinical-and-nutrition-services/preventive-services/preventative-and-restorative-dental-services/",
+        "eligibility": "Children and adults of Miami-Dade County; the clinic is staffed and managed by the county health department.",
+        "services": "Preventive and restorative dental care: oral hygiene, dental examinations, cleanings and fluoride treatment.",
+        "how_to_get_seen": "Call 305-585-2846 to schedule (Monday to Thursday 8 a.m. to 4:30 p.m., Friday 8 a.m. to 1:45 p.m.).",
+        "cost_language": "County health department clinic; ask about Medicaid and discounted rates when you call.",
+        "source_url": "https://miamidade.floridahealth.gov/programs-and-services/clinical-and-nutrition-services/preventive-services/preventative-and-restorative-dental-services/",
+        "fetched_on": "2026-10-09"
+      }
+    ],
+    "dental_school": [
+      {
+        "name": "Nova Southeastern University College of Dental Medicine student clinics",
+        "kind": "dental_school",
+        "address": "Davie Student Clinic, 3200 South University Drive, Davie, FL 33328 (other NSU dental clinics in Fort Lauderdale and Wilton Manors)",
+        "phone": "954-262-7319",
+        "url": "https://dental.nova.edu/clinics/student-clinic.html",
+        "eligibility": "Open to new patients; student-clinic patients bring a completed prescreening form. Medicaid is accepted at some off-site clinics.",
+        "services": "A full range of dental services from dentists-in-training and residents supervised by experienced dentists, plus an urgent care clinic and faculty practice.",
+        "how_to_get_seen": "Call to make your appointment, print and complete the new patient forms, and bring any records or X-rays to the first visit.",
+        "cost_language": "Care at reduced prices, discounted compared with nearby practices; payment is due at the visit and payment plans exist for some orthodontic and prosthodontic treatment.",
+        "source_url": "https://dental.nova.edu/clinics/student-clinic.html",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Miami Dade College Medical Campus Dental Hygiene Clinic",
+        "kind": "dental_hygiene_school",
+        "address": "950 NW 20th Street, Room 1119, Miami, FL 33127",
+        "phone": "305-237-4142",
+        "url": "https://www.mdc.edu/medical/campus-information/dental-clinic.aspx",
+        "eligibility": "Low-cost services for the community and for MDC students, faculty and staff; serves more than 2,000 patients a year.",
+        "services": "Cleanings, scaling, radiographs, desensitization and fluoride treatments and tobacco cessation education.",
+        "how_to_get_seen": "Call 305-237-4142 for an appointment; appointment slots run on set days each term (for example Tuesdays and Thursdays at 9:15 a.m. and 1 p.m. in fall).",
+        "cost_language": "The college describes these as low-cost services.",
+        "source_url": "https://www.mdc.edu/medical/campus-information/dental-clinic.aspx",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Broward College Dental Clinic",
+        "kind": "dental_hygiene_school",
+        "address": "A. Hugh Adams Central Campus, Building 8, Room 159, Davie, FL",
+        "phone": "954-201-6779",
+        "url": "https://www.broward.edu/about/community/dental.html",
+        "eligibility": "Open to the public by appointment; patients should have a private dentist of record, as the clinic is not meant to be a dental home.",
+        "services": "Full-service preventive dental hygiene care by students with clinic doctors: X-rays, exams, cleanings, non-surgical periodontal therapy, sealants and localized antibiotic delivery.",
+        "how_to_get_seen": "Call 954-201-6779; hours vary. Appointments last about two to three hours and sometimes several are needed.",
+        "cost_language": "Fees vary and are less than those of private dental practices.",
+        "source_url": "https://www.broward.edu/about/community/dental.html",
+        "fetched_on": "2026-10-09"
+      }
+    ]
+  }
 }

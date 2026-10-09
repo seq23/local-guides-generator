@@ -51,7 +51,7 @@
       "Ask for insurance status, payment-plan details, and written treatment-plan pricing before major work.",
       "Separate same-day evaluation from same-day definitive treatment, especially for pain, infection, or broken teeth.",
       "Ask which clinician or specialist performs the work and whether referrals are likely.",
-      "Compare review patterns for communication, pressure, billing clarity, and follow-up\u2014not just star ratings.",
+      "Compare review patterns for communication, pressure, billing clarity, and follow-up—not just star ratings.",
       "Confirm new-patient availability, financing options, CareCredit or payment-plan terms, and what changes after imaging."
     ]
   },
@@ -71,5 +71,106 @@
   ],
   "family_pediatric_fit": [
     "If the patient is a child or teen, confirm age fit and whether the office routinely handles pediatric cases or refers them out."
-  ]
+  ],
+  "safety_net_access": {
+    "researched_on": "2026-10-09",
+    "axis": "safety-net dental access (who can be seen, and how) - see data/research/dentistry/vertical_status.json",
+    "method": "Each entry was read from the clinic's own official page (or the state's official directory: Texas DSHS for Texas dental hygiene clinics) on the fetched_on date. No clinic, hour or price is inferred. Dollar figures are deliberately left out: where a source publishes a fee, the entry points to that source page instead of copying the figure.",
+    "free_low_cost": [
+      {
+        "name": "St. John's Community Health dental services",
+        "kind": "fqhc_dental",
+        "address": "St. John's Community Health, 808 W. 58th Street, Los Angeles, CA 90037 (dental at multiple St. John's health centers)",
+        "phone": "323-541-1411 (Los Angeles appointments)",
+        "url": "https://www.sjch.org/dental-services",
+        "eligibility": "Patients of all ages, toddlers to seniors. St. John's states that anyone is eligible to receive services no matter their ability to pay, and it accepts Medi-Cal, Medicare and many other plans, with benefits counselors at every health center. It is a federal Health Center Program grantee.",
+        "services": "Comprehensive dental exams, cleanings, periodontal therapy (deep cleaning), fillings for children and adults, extractions, children's dentistry, oral cancer screening and emergency dental care.",
+        "how_to_get_seen": "Call 323-541-1411 to book in Los Angeles.",
+        "cost_language": "Care regardless of ability to pay; benefits counselors help patients find coverage they qualify for.",
+        "source_url": "https://www.sjch.org/dental-services",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "Northeast Valley Health Corporation (NEVHC) dental",
+        "kind": "fqhc_dental",
+        "address": "Dental at NEVHC health centers in the San Fernando and Santa Clarita valleys (sites include San Fernando, Pacoima, Van Nuys, Sun Valley, North Hollywood and Santa Clarita)",
+        "phone": "(818) 270-9555 (dental appointment line)",
+        "url": "https://nevhc.org/dental/",
+        "eligibility": "Children and adults. NEVHC offers a sliding fee scale to individuals and families with limited income, based on family income and family size, and accepts Medi-Cal.",
+        "services": "Cleanings, fillings, root canals, crowns and bridges, extractions, partials and dentures, and dental emergencies.",
+        "how_to_get_seen": "Call the dental appointment line, (818) 270-9555. Certified Enrollment Counselors at the health centers help with the sliding fee application (bring income documents and ID).",
+        "cost_language": "Sliding Fee Discount Program, open for enrollment year round, with eligibility based on family income and family size.",
+        "source_url": "https://nevhc.org/dental/",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://nevhc.org/sliding-fee-discount/",
+            "fetched_on": "2026-10-09",
+            "supports": "sliding fee discount program and enrollment"
+          }
+        ]
+      },
+      {
+        "name": "Venice Family Clinic dental care",
+        "kind": "fqhc_dental",
+        "address": "4700 Inglewood Blvd., #102, Culver City, CA 90230; 2509 Pico Blvd., Santa Monica, CA 90405; 2114 Artesia Blvd., Redondo Beach, CA 90278",
+        "phone": "(310) 392-8636",
+        "url": "https://venicefamilyclinic.org/care/dental/",
+        "eligibility": "Dental care is offered to Venice Family Clinic patients and some partner-program participants; call to check whether you qualify.",
+        "services": "Exams, cleanings, fluoride, fillings and emergency dental care for all ages, including children.",
+        "how_to_get_seen": "Call the Call Center at (310) 392-8636 to check eligibility and book.",
+        "cost_language": "Venice Family Clinic is a community health center; ask the Call Center how fees apply to your coverage.",
+        "source_url": "https://venicefamilyclinic.org/care/dental/",
+        "fetched_on": "2026-10-09"
+      }
+    ],
+    "dental_school": [
+      {
+        "name": "UCLA School of Dentistry clinics",
+        "kind": "dental_school",
+        "address": "UCLA Dental Clinics, Westwood, 714 Tiverton Drive, Los Angeles, CA 90095; Wilson-Jennings-Bloomfield UCLA Venice Dental Center, 323 S. Lincoln Boulevard, Venice, CA 90291",
+        "phone": "(310) 206-3904 (Westwood); (310) 392-4103 (Venice)",
+        "url": "https://dentistry.ucla.edu/patient-care",
+        "eligibility": "Open to the public; you choose a student, resident or faculty provider. Accepts Delta Dental at the Westwood clinics and select clinics accept Denti-Cal; patients without insurance pay at the time of service. HMO plans are not accepted.",
+        "services": "General and specialty care, children's care and emergency care, delivered by supervised students and residents or by faculty.",
+        "how_to_get_seen": "Call the clinic to make an appointment. Student-dentist appointments can last up to three hours and treatment is slower than in private practice.",
+        "cost_language": "In the general (student) clinics, fees are significantly lower than the private sector; faculty fees are comparable to private practice.",
+        "source_url": "https://dentistry.ucla.edu/patient-care",
+        "fetched_on": "2026-10-09",
+        "additional_sources": [
+          {
+            "url": "https://dentistry.ucla.edu/patient-care/providers-and-cost-of-care",
+            "fetched_on": "2026-10-09",
+            "supports": "provider choice, fees relative to private practice, insurance"
+          }
+        ]
+      },
+      {
+        "name": "Herman Ostrow School of Dentistry of USC student clinic",
+        "kind": "dental_school",
+        "address": "925 West 34th Street, Los Angeles, CA 90089",
+        "phone": "(213) 740-2800",
+        "url": "https://dentistry.usc.edu/patient-care/new-student-clinic-patients/",
+        "eligibility": "Open to all eligible individuals. After an evaluation you are assigned to a student dentist supervised by faculty; some specialty clinics need a referral from your dentist.",
+        "services": "General care in the student clinic and specialty care by residents at reduced rates (endodontics, oral surgery, periodontics, prosthodontics, orthodontics, pediatrics and special needs, among others).",
+        "how_to_get_seen": "Call (213) 740-2800 for an initial appointment. Bring your original insurance card if you have one, a full medication list and your doctor's contact details.",
+        "cost_language": "The initial visit carries a published fee that includes a basic X-ray; specialty clinics charge reduced rates. See the school's page for the current figure.",
+        "source_url": "https://dentistry.usc.edu/patient-care/new-student-clinic-patients/",
+        "fetched_on": "2026-10-09"
+      },
+      {
+        "name": "WesternU Health Dental Center (Western University College of Dental Medicine)",
+        "kind": "dental_school",
+        "address": "795 E. Second Street, Pomona, CA 91766",
+        "phone": "(909) 706-3910 (new patients)",
+        "url": "https://www.westernuhealth.com/pomona/services/dental/",
+        "eligibility": "New patients may schedule comprehensive or emergency dental care; referrals are required for specialty dental services.",
+        "services": "Comprehensive and emergency dental care, oral cancer screenings and specialty services by referral, delivered in a teaching setting.",
+        "how_to_get_seen": "Call (909) 706-3910. Appointments are longer than at a private office.",
+        "cost_language": "Cost for service is usually about 40 to 50 percent less than a private dental office.",
+        "source_url": "https://www.westernuhealth.com/pomona/services/dental/",
+        "fetched_on": "2026-10-09"
+      }
+    ]
+  }
 }
