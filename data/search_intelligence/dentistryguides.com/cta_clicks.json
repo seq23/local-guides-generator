@@ -2,14 +2,16 @@
   "schema_version": "1.0",
   "host": "dentistryguides.com",
   "source": "GET /api/cta-clicks (Airtable clicks table, rolling 28 days)",
-  "collected_at": "2026-10-11T15:05:46.894Z",
+  "collected_at": "2026-10-11T15:19:17.588Z",
   "ctas": [
     {
       "ref": "dentistry-license-get-listed",
-      "state": "NAMED_STOP",
-      "clicks": null,
-      "reason": "Airtable read returned 403 (  error :  type : INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND , message : Invalid permissions, or the requested model was not found. Check that both your user and yo); the token needs data.records:read on the clicks table",
-      "collected_at": "2026-10-11T15:05:46.894Z",
+      "state": "OK",
+      "clicks": 0,
+      "window_days": 28,
+      "scanned": 0,
+      "truncated": false,
+      "collected_at": "2026-10-11T15:19:17.588Z",
       "cta_href": "/for-providers/?ref=dentistry-license-get-listed"
     }
   ],
@@ -19,8 +21,8 @@
       "rows": [
         {
           "ref": "dentistry-license-get-listed",
-          "state": "NAMED_STOP",
-          "clicks": null
+          "state": "OK",
+          "clicks": 0
         }
       ]
     }
