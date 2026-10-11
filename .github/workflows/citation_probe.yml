@@ -55,5 +55,5 @@ jobs:
           git add data/signals/
           if git diff --cached --quiet; then echo "no observation to record"; exit 0; fi
           git commit -m "Record citation probe observation $(date -u +%Y-%m-%d)"
-          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
