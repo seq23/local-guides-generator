@@ -8,23 +8,24 @@
  * observed whether these pages are cited. Every statement about AEO progress up
  * to now has been inference from proxies.
  *
- * Gemini's free tier answers with Google Search grounding, and the response
- * carries the sources it actually grounded on. That is a citation observation:
- * the query, the engine, the domains it cited, and whether any of them are ours.
- * It costs nothing.
+ * Every model call goes through scripts/lib/free_llm_router.mjs, which only
+ * reaches the $0 models in config/llm_routing.json and fails the run if a
+ * provider ever reports a non-zero cost. Owner policy 11 Oct 2026: nothing paid.
  *
  * What this does not claim: one engine is not all engines, grounding metadata is
  * not identical to what a user sees in an AI Overview, and absence on a given
  * day is weak evidence. Runs are recorded individually with timestamps so a
  * trend can be read later rather than a single run being treated as a verdict.
  *
- * Without an API key it exits 0 and records that it was skipped. A measurement
+ * Without CONFIRM_PAID=true, without a working key, or in grounded mode (billed)
+ * it exits 0 with a NAMED STOP receipt. A measurement
  * tool that fails the build when it cannot measure teaches people to remove it.
  *
  * Usage: node llm_citation_probe.mjs [--queries file] [--limit N] [--dry-run]
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { loadRouting, freeModelIds, chatOnce, assertFreeRequest, receipt, CostViolation, PaidCallRefused, KEY_REFUSED_STOP, NO_KEY_STOP } from './lib/free_llm_router.mjs';
 
 const ROOT = process.cwd();
 const argv = process.argv.slice(2);
@@ -88,121 +89,24 @@ const hostOf = (u) => { try { return new URL(u).hostname.toLowerCase().replace(/
 // Two modes, kept distinct because they measure different things and conflating
 // them would overstate what is known.
 //
-//   knowledge (default) - ask without tools and see whether the model names us
-//     unprompted. This measures whether we exist in the model's answer at all.
-//     It is free.
-//   grounded - ask with Google Search grounding and read the sources the answer
-//     was actually built from. This is a real citation observation, and it is
-//     the stronger signal, but grounding is not free-tier eligible: it returns
-//     quota errors on this key today.
+//   knowledge (default) - ask without tools and see whether a model names us
+//     unprompted. Weaker than a citation and never reported as one. Runs on the
+//     $0 models in config/llm_routing.json, through the free router.
+//   grounded - read the pages an answer was built from. Every grounded channel
+//     (OpenRouter's web plugin / :online, Gemini search grounding) bills per
+//     request whatever the model, so under the owner's zero-spend policy
+//     (11 Oct 2026: "nothing should be paid ... cut the probes and make them
+//     free") grounded mode is REFUSED by the router as a named stop.
 //
-// Default is knowledge, because a probe that cannot run costs more than a weaker
-// probe that does.
-async function ask(query, key, model, grounded) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
-  const body = {
-    contents: [{ role: 'user', parts: [{ text: query }] }],
-    ...(grounded ? { tools: [{ google_search: {} }] } : {}),
-    generationConfig: { temperature: 0 },
-  };
-  const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) return { ok: false, error: data?.error?.message || `HTTP ${res.status}` };
-  const cand = data?.candidates?.[0] || {};
-  const meta = cand.groundingMetadata || {};
-  // Grounding chunks carry the pages the answer was actually built from. The
-  // redirect wrapper Google returns is resolved where a real URI is present.
-  const uris = [];
-  for (const c of meta.groundingChunks || []) {
-    const w = c.web || {};
-    if (w.uri) uris.push(w.uri);
-    if (w.domain) uris.push(`https://${w.domain}`);
-  }
-  for (const q of meta.webSearchQueries || []) void q;
-  const answer = (cand.content?.parts || []).map((p) => p.text || '').join('\n');
-  return { ok: true, answer, uris };
-}
+// Before 11 Oct 2026 this ran daily in rotating_refresh.yml in grounded mode on
+// ibm-granite/granite-4.0-h-micro:online - paid every day. It is now dispatch-only
+// (.github/workflows/citation_probe.yml, confirm_paid) and cannot spend at all.
 
 const queries = loadQueries();
 if (!queries.length) { console.error('citation probe: no queries found'); process.exit(1); }
 
-// OpenRouter is preferred when a key is present: its :free models cost nothing
-// and asking several of them is a better sample than asking one. Gemini remains
-// supported because it is the only one of the two that can ground an answer in
-// live search, which is the stronger measurement when its quota allows.
-const orKey = process.env.OPENROUTER_API_KEY || '';
-const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || '';
-// Pick the provider that can actually do the job asked for. Gemini grounds via
-// Google Search; OpenRouter grounds via the ":online" suffix, which returns the
-// pages the answer was built from as url_citation annotations. Preferring a
-// provider we have no key for is how grounded mode silently skipped every run.
-const PROVIDER = arg('--provider', GROUNDED
-  ? (key ? 'gemini' : (orKey ? 'openrouter' : 'gemini'))
-  : (orKey ? 'openrouter' : 'gemini'));
-// Three small models rather than one, because a single model's idiosyncrasies
-// are not a measurement.
-//
-// These are the cheapest tier that actually answers, around two to three cents
-// per million tokens - a full portfolio run costs roughly a cent. The genuinely
-// free tier was tried first and is not usable for this: several :free models are
-// agentic-harness only, others return upstream provider errors or hang with no
-// response. A probe that silently reports zero because every model failed is
-// worse than one that costs a cent and runs, so reliability wins here. Set
-// OPENROUTER_MODELS to override, including back to :free variants.
-const OR_MODELS = (process.env.OPENROUTER_MODELS || (config.openrouter_models || []).join(',') ||
-  'ibm-granite/granite-4.0-h-micro,inclusionai/ling-3.0-flash,mistralai/mistral-nemo')
-  .split(',').map((m) => m.trim()).filter(Boolean);
-
-// Free models are heavily shared and some hang. Without a deadline one slow
-// model stalls the whole run, which is how a measurement quietly stops being
-// taken. A timed-out model is recorded as an error against that model, not as
-// an absence of citations.
-const REQUEST_TIMEOUT_MS = Number(process.env.PROBE_TIMEOUT_MS || 25000);
-async function withTimeout(fn) {
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), REQUEST_TIMEOUT_MS);
-  try { return await fn(ctrl.signal); }
-  finally { clearTimeout(t); }
-}
-
-// ":online" runs the model against live web results. The pages it actually used
-// come back as url_citation annotations, which is the retrieval observation the
-// knowledge-mode call cannot produce - that one only shows whether the model
-// memorised us during training, which is not a citation.
-const onlineModel = (model) => (model.endsWith(':online') ? model : `${model}:online`);
-
-function openRouterCitations(data) {
-  const message = data?.choices?.[0]?.message || {};
-  const urls = [];
-  for (const annotation of message.annotations || []) {
-    const url = annotation?.url_citation?.url;
-    if (url) urls.push(url);
-  }
-  return [...new Set(urls)];
-}
-
-async function askOpenRouter(query, model, grounded = false) {
-  const requestModel = grounded ? onlineModel(model) : model;
-  const res = await withTimeout((signal) => fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    signal,
-    headers: { 'content-type': 'application/json', authorization: `Bearer ${orKey}` },
-    body: JSON.stringify({
-      model: requestModel, temperature: 0, max_tokens: 400,
-      messages: [{ role: 'user', content: query }],
-    }),
-  }));
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) return { ok: false, error: data?.error?.message || `HTTP ${res.status}` };
-  const answer = data?.choices?.[0]?.message?.content || '';
-  return { ok: true, answer, uris: grounded ? openRouterCitations(data) : [] };
-}
-const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
 const now = new Date().toISOString();
-
-const haveKey = PROVIDER === 'openrouter' ? Boolean(orKey) : Boolean(key);
-if (!haveKey || DRY) {
-  const reason = DRY ? 'dry_run' : 'no_api_key';
+function namedStop(reason) {
   const prev = readStatus();
   const st = writeStatus({
     last_run_at: now,
@@ -212,28 +116,43 @@ if (!haveKey || DRY) {
     queries_ready: queries.length,
     stops_total: (Number(prev?.stops_total) || 0) + 1,
   });
-  console.log(`citation probe: skipped (${reason}); mode=${MODE}; ${queries.length} queries ready, owned domains: ${OWNED.join(', ')}`);
-  console.log(`citation probe: NAMED STOP recorded in ${STATUS} (${st.runs_total} run(s) so far, ${st.successes_total} of them produced an observation; last success ${st.last_success_at || 'NEVER'})`);
+  console.log(`citation probe: NAMED STOP - ${reason}; mode=${MODE}; ${queries.length} queries ready, owned domains: ${OWNED.join(', ')}`);
+  console.log(`citation probe: recorded in ${STATUS} (${st.runs_total} run(s) so far, ${st.successes_total} produced an observation; last success ${st.last_success_at || 'NEVER'}). Nothing generated, nothing spent.`);
+  console.log(`LLM ROUTER RECEIPT ${JSON.stringify(receipt(routing, { outcome: `NAMED STOP: ${reason}` }))}`);
   process.exit(0);
 }
 
+const routing = loadRouting(ROOT);
+if (process.env.CONFIRM_PAID !== 'true') namedStop(routing.policy.probes_disabled_reason + ' - dispatch .github/workflows/citation_probe.yml with confirm_paid: true to run it on $0 models');
+if (DRY) namedStop('dry_run');
+if (GROUNDED) {
+  try { assertFreeRequest(routing, { model: `${freeModelIds(routing)[0]}:online` }); } catch (e) { namedStop(`grounded mode refused: ${e.message}`); }
+}
+const orKey = process.env.OPENROUTER_API_KEY || '';
+if (!orKey) namedStop(NO_KEY_STOP);
+
+const PROVIDER = 'openrouter';
+const REQUEST_TIMEOUT_MS = Number(process.env.PROBE_TIMEOUT_MS || 25000);
+async function askFree(query, model) {
+  const r = await chatOnce(routing, { model, messages: [{ role: 'user', content: query }], max_tokens: 400, temperature: 0, key: orKey, timeoutMs: REQUEST_TIMEOUT_MS });
+  if (!r.ok) return r;
+  return { ok: true, answer: r.content, uris: [] };
+}
+
 const observations = [];
-// One model can be idiosyncratic. Asking several and reporting each separately
-// says more than averaging them into a single number would.
-// Knowledge mode asks several cheap models because one model's idiosyncrasies
-// are not a measurement. Grounded mode bills per search - around $0.007 a query
-// - and the thing being measured is which pages the retrieval layer returns,
-// which does not vary much by model. One model keeps a portfolio-wide run in
-// cents. Override with OPENROUTER_GROUNDED_MODELS.
-const GROUNDED_MODELS = (process.env.OPENROUTER_GROUNDED_MODELS || OR_MODELS[0] || 'mistralai/mistral-nemo')
-  .split(',').map((m) => m.trim()).filter(Boolean);
-const engines = PROVIDER === 'openrouter' ? (GROUNDED ? GROUNDED_MODELS : OR_MODELS) : [model];
+// Several $0 models, each reported separately: one model's idiosyncrasies are
+// not a measurement. The list is config/llm_routing.json, nothing else.
+const engines = freeModelIds(routing);
 for (const q of queries) {
  for (const engineModel of engines) {
   let r;
   try {
-    r = PROVIDER === 'openrouter' ? await askOpenRouter(q, engineModel, GROUNDED) : await ask(q, key, engineModel, GROUNDED);
-  } catch (e) { r = { ok: false, error: String(e.message || e) }; }
+    r = await askFree(q, engineModel);
+  } catch (e) {
+    if (e instanceof CostViolation || e instanceof PaidCallRefused) { console.error(`citation probe: ${e.message}`); process.exit(1); }
+    r = { ok: false, error: String(e.message || e) };
+  }
+  if (!r.ok && r.credential_refused) namedStop(r.error === NO_KEY_STOP ? NO_KEY_STOP : KEY_REFUSED_STOP);
   if (!r.ok) {
     observations.push({ query: q, engine: `${PROVIDER}:${engineModel}`, mode: MODE, observed_at: now, status: 'provider_error', error: r.error });
     console.log(`  ERROR  ${engineModel} :: ${q} :: ${String(r.error).slice(0, 70)}`);

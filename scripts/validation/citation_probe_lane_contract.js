@@ -91,7 +91,7 @@ if (status) {
   // --- threw the work away again.
   check('successful runs landed their output', () => {
     if (wins > 0 && !fs.existsSync(OBS)) {
-      failures.push(`the probe has succeeded ${wins} time(s) (last ${status.last_success_at}) but data/signals/llm_citation_observations.json is not in the repo. The run produced observations and the workflow discarded them - check the staging set in .github/workflows/rotating_refresh.yml.`);
+      failures.push(`the probe has succeeded ${wins} time(s) (last ${status.last_success_at}) but data/signals/llm_citation_observations.json is not in the repo. The run produced observations and the workflow discarded them - check the staging set in .github/workflows/citation_probe.yml.`);
       return;
     }
     if (wins > 0) {
@@ -114,6 +114,12 @@ if (status) {
   check('lane has produced an observation', () => {
     if (status.bootstrapped) {
       notices.push('the lane has NEVER produced a committed observation. This receipt is a hand-seeded bootstrap; no run has written it yet. Read _bootstrap_note.');
+      return;
+    }
+    // Owner policy 11 Oct 2026 took the probe off every schedule (dispatch-only,
+    // $0 models). A lane stopped by that policy is healthy, not a gap.
+    if (/owner policy/.test(String(status.last_stop_reason || ''))) {
+      notices.push('probe disabled by owner policy (11 Oct 2026, zero paid LLM): dispatch-only via citation_probe.yml with confirm_paid; no observation is expected on a schedule.');
       return;
     }
     if (runs > 0 && wins === 0) {

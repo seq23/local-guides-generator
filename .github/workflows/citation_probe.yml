@@ -1,0 +1,59 @@
+name: Citation Probe (dispatch only)
+
+# Owner policy 11 Oct 2026, verbatim: "nothing should be paid ... cut the probes
+# and make them free." This probe ran every day inside rotating_refresh.yml in
+# grounded mode (ibm-granite/granite-4.0-h-micro:online, web search billed per
+# request). It is now:
+#   - never scheduled (no schedule: trigger; scripts/lib/zero_paid_llm_check.js
+#     fails the build if one is added);
+#   - runnable only by hand, with confirm_paid: true (defaults false; anything
+#     else is a NAMED STOP and the probe never starts);
+#   - routed through scripts/lib/free_llm_router.mjs, so even a confirmed run can
+#     only reach the $0 models in config/llm_routing.json, in knowledge mode.
+#     Grounded mode is refused by the router (it bills per request).
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_paid:
+        description: "Confirm a deliberate probe run (it still only reaches $0 models; false = refuse)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Refuse unless confirmed
+        if: ${{ inputs.confirm_paid != true }}
+        run: |
+          echo "NAMED STOP: confirm_paid is not true - probe disabled by owner policy (11 Oct 2026). Nothing ran, nothing spent."
+      - uses: actions/checkout@v4
+        if: ${{ inputs.confirm_paid == true }}
+      - uses: actions/setup-node@v4
+        if: ${{ inputs.confirm_paid == true }}
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+        if: ${{ inputs.confirm_paid == true }}
+      - name: Observe whether $0 models name us (knowledge mode)
+        if: ${{ inputs.confirm_paid == true }}
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CONFIRM_PAID: ${{ inputs.confirm_paid }}
+          CITATION_PROBE_MODE: knowledge
+        run: node scripts/llm_citation_probe.mjs --limit 25
+      - name: Record the observation
+        if: ${{ inputs.confirm_paid == true }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/signals/
+          if git diff --cached --quiet; then echo "no observation to record"; exit 0; fi
+          git commit -m "Record citation probe observation $(date -u +%Y-%m-%d)"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

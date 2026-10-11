@@ -48,6 +48,7 @@
     "validate:all": "npm run validate:phase8:tiers && npm run validate:tier:hard-fail && npm run validate:pi-citation-repair && npm run validate:multi-vertical-citation-repair && npm run validate:citation-probe-lane",
     "validate:answer-shape": "node scripts/validation/answer_shape_contract.js",
     "validate:citation-probe-lane": "node scripts/validation/citation_probe_lane_contract.js",
+    "validate:zero-paid-llm": "node scripts/validation/zero_paid_llm_contract.js",
     "validate:citation-routing": "LKG_VALIDATE_DIST=1 node scripts/validate_citation_routing.js",
     "validate:coverage-parity": "node scripts/validate_coverage_parity.js",
     "validate:demand-backed-pages": "node scripts/validation/demand_backed_pages.js",

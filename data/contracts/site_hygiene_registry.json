@@ -17,7 +17,10 @@
     "scripts/brand/generate_brand_assets.py",
     "scripts/install_site_head_assets.js",
     "scripts/install_clarity.js",
-    "distribution.config.json"
+    "distribution.config.json",
+    "config/llm_routing.json",
+    "scripts/lib/free_llm_router.mjs",
+    "scripts/lib/zero_paid_llm_check.js"
   ],
   "validators": {
     "favicon_manifest": "scripts/validation/site_icons_contract.js",
@@ -26,7 +29,8 @@
     "definition_speakable": "scripts/validation/homepage_definition_contract.js",
     "clarity_hosts": "scripts/validation/clarity_hosts_contract.js",
     "indexnow_key": "scripts/validate_indexnow.js",
-    "demand_families": "scripts/validation/demand_families_contract.js"
+    "demand_families": "scripts/validation/demand_families_contract.js",
+    "zero_paid_llm": "scripts/validation/zero_paid_llm_contract.js"
   },
   "homepage_jsonld_types": [
     "Organization",
@@ -96,5 +100,18 @@
       "rule": "scripts/search_intelligence/demand_families.js",
       "validator": "scripts/validation/demand_families_contract.js"
     }
+  },
+  "zero_paid_llm": {
+    "registered_on": "2026-10-11",
+    "note": "Owner policy 11 Oct 2026: \"nothing should be paid ... cut the probes and make them free.\" scripts/validation/zero_paid_llm_contract.js reads this block through scripts/lib/zero_paid_llm_check.js. See docs/cost/zero-paid-llm.md.",
+    "router": "scripts/lib/free_llm_router.mjs",
+    "routing_config": "config/llm_routing.json",
+    "probe_scripts": [
+      "scripts/llm_citation_probe.mjs"
+    ],
+    "probe_workflows": [
+      "citation_probe.yml"
+    ],
+    "receipt_workflow": ".github/workflows/rotating_refresh.yml"
   }
 }
