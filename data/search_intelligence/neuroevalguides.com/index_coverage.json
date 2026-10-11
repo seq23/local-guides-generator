@@ -2,14 +2,14 @@
   "schema_version": "1.0",
   "truth_source": "google_search_console_url_inspection",
   "site_url": "sc-domain:neuroevalguides.com",
-  "collected_at": "2026-10-11T00:00:00+00:00",
+  "collected_at": "2026-10-11T14:12:02+00:00",
   "state": "OK",
   "named_stop": null,
-  "sitemap_url_count": 204,
-  "inspected_this_run": 111,
+  "sitemap_url_count": 205,
+  "inspected_this_run": 150,
   "errors_this_run": 0,
-  "inspected_total": 111,
-  "never_inspected": 93,
+  "inspected_total": 205,
+  "never_inspected": 0,
   "quota": {
     "daily_limit_per_property": 2000,
     "cap_per_site_per_day": 150,
@@ -18,24 +18,22 @@
   "rotation": "homepage, then never-inspected sitemap URLs in sitemap order, then oldest inspection first",
   "summary": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 58,
-      "Discovered - currently not indexed": 14,
+      "Crawled - currently not indexed": 73,
+      "Discovered - currently not indexed": 38,
       "Duplicate, Google chose different canonical than user": 2,
-      "Submitted and indexed": 16,
-      "URL is unknown to Google": 21
+      "Submitted and indexed": 33,
+      "URL is unknown to Google": 59
     },
     "buckets": {
-      "crawled_not_indexed": 58,
-      "discovered_not_indexed": 14,
-      "indexed": 16,
+      "crawled_not_indexed": 73,
+      "discovered_not_indexed": 38,
+      "indexed": 33,
       "other": 2,
-      "unknown": 21
+      "unknown": 59
     }
   },
   "truth_boundary": "URL Inspection reports Google's index state per URL at inspected_at; impressions come from gsc_search_analytics_export.json.",
-  "notes": [
-    "seeded from GSC Portfolio Report coverage run 38142685248 (velocity repo); the daily cycle continues the rotation from here"
-  ],
+  "notes": [],
   "urls": [
     {
       "url": "https://neuroevalguides.com/",
@@ -45,7 +43,7 @@
       "lastCrawlTime": "2026-10-11T00:01:26Z",
       "googleCanonical": "https://neuroevalguides.com/",
       "userCanonical": "https://neuroevalguides.com/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/faq/",
@@ -55,7 +53,7 @@
       "lastCrawlTime": "2026-09-30T05:20:14Z",
       "googleCanonical": "https://neuroevalguides.com/faq/",
       "userCanonical": "https://neuroevalguides.com/faq/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/request-assistance/",
@@ -65,7 +63,7 @@
       "lastCrawlTime": "2026-09-21T21:13:39Z",
       "googleCanonical": "https://neuroevalguides.com/request-assistance/",
       "userCanonical": "https://neuroevalguides.com/request-assistance/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/",
@@ -75,7 +73,7 @@
       "lastCrawlTime": "2026-10-05T07:22:26Z",
       "googleCanonical": "https://neuroevalguides.com/guides/",
       "userCanonical": "https://neuroevalguides.com/guides/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/adhd-evaluations-what-to-expect/",
@@ -85,7 +83,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/adhd-therapy-after-an-evaluation/",
@@ -95,7 +93,7 @@
       "lastCrawlTime": "2026-08-10T11:26:39Z",
       "googleCanonical": "https://neuroevalguides.com/guides/adhd-therapy-after-an-evaluation/",
       "userCanonical": "https://neuroevalguides.com/guides/adhd-therapy-after-an-evaluation/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/adhd-therapy-vs-medication-vs-coaching/",
@@ -105,7 +103,7 @@
       "lastCrawlTime": "2026-09-21T12:55:53Z",
       "googleCanonical": "https://neuroevalguides.com/guides/adhd-therapy-vs-medication-vs-coaching/",
       "userCanonical": "https://neuroevalguides.com/guides/adhd-therapy-vs-medication-vs-coaching/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/adult-adhd-evaluation-process/",
@@ -115,17 +113,17 @@
       "lastCrawlTime": "2026-05-12T16:07:15Z",
       "googleCanonical": "https://neuroevalguides.com/guides/adult-adhd-evaluation-process/",
       "userCanonical": "https://neuroevalguides.com/guides/adult-adhd-evaluation-process/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/autism-evaluation-adults/",
-      "bucket": "unknown",
-      "coverageState": "URL is unknown to Google",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
       "verdict": "NEUTRAL",
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/autism-evaluations-screening-vs-assessment/",
@@ -135,7 +133,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/autism-therapy-after-an-evaluation/",
@@ -145,7 +143,7 @@
       "lastCrawlTime": "2026-08-21T00:12:12Z",
       "googleCanonical": "https://neuroevalguides.com/guides/autism-therapy-after-an-evaluation/",
       "userCanonical": "https://neuroevalguides.com/guides/autism-therapy-after-an-evaluation/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/autism-therapy-red-flags-and-green-flags/",
@@ -155,17 +153,17 @@
       "lastCrawlTime": "2026-05-19T04:36:33Z",
       "googleCanonical": "https://neuroevalguides.com/guides/autism-therapy-red-flags-and-green-flags/",
       "userCanonical": "https://neuroevalguides.com/guides/autism-therapy-red-flags-and-green-flags/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/can-one-provider-handle-adhd-evaluation-and-therapy/",
-      "bucket": "discovered_not_indexed",
-      "coverageState": "Discovered - currently not indexed",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
       "verdict": "NEUTRAL",
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/hospital-vs-private-neuropsych-testing/",
@@ -175,7 +173,7 @@
       "lastCrawlTime": "2026-09-21T09:50:19Z",
       "googleCanonical": "https://neuroevalguides.com/guides/hospital-vs-private-neuropsych-testing/",
       "userCanonical": "https://neuroevalguides.com/guides/hospital-vs-private-neuropsych-testing/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/how-to-choose-a-neuro-evaluation-provider/",
@@ -185,7 +183,7 @@
       "lastCrawlTime": "2026-10-08T17:35:56Z",
       "googleCanonical": "https://neuroevalguides.com/guides/how-to-choose-a-neuro-evaluation-provider/",
       "userCanonical": "https://neuroevalguides.com/guides/how-to-choose-a-neuro-evaluation-provider/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/how-to-choose-between-home-based-center-based-and-school-based-autism-therapy/",
@@ -195,7 +193,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/how-to-find-an-adhd-therapist-who-fits/",
@@ -205,17 +203,17 @@
       "lastCrawlTime": "2026-06-20T13:48:43Z",
       "googleCanonical": "https://neuroevalguides.com/guides/how-to-find-an-adhd-therapist-who-fits/",
       "userCanonical": "https://neuroevalguides.com/guides/how-to-find-an-adhd-therapist-who-fits/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/neuro-evaluation-pricing/",
-      "bucket": "unknown",
-      "coverageState": "URL is unknown to Google",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
       "verdict": "NEUTRAL",
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/guides/neuro-insurance-and-out-of-network/",
@@ -225,7 +223,7 @@
       "lastCrawlTime": "2026-10-10T18:39:43Z",
       "googleCanonical": "https://neuroevalguides.com/guides/neuro-insurance-and-out-of-network/",
       "userCanonical": "https://neuroevalguides.com/guides/neuro-insurance-and-out-of-network/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/albuquerque-nm/",
@@ -235,7 +233,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/anchorage-ak/",
@@ -245,7 +243,7 @@
       "lastCrawlTime": "2026-08-18T21:42:36Z",
       "googleCanonical": "https://neuroevalguides.com/anchorage-ak/",
       "userCanonical": "https://neuroevalguides.com/anchorage-ak/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/atlanta-ga/",
@@ -255,7 +253,7 @@
       "lastCrawlTime": "2026-05-18T17:41:39Z",
       "googleCanonical": "https://neuroevalguides.com/atlanta-ga/",
       "userCanonical": "https://neuroevalguides.com/atlanta-ga/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/baltimore-md/",
@@ -265,7 +263,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/billings-mt/",
@@ -275,17 +273,17 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/birmingham-al/",
-      "bucket": "unknown",
-      "coverageState": "URL is unknown to Google",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
       "verdict": "NEUTRAL",
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/boise-id/",
@@ -295,17 +293,17 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/boston-ma/",
-      "bucket": "discovered_not_indexed",
-      "coverageState": "Discovered - currently not indexed",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
       "verdict": "NEUTRAL",
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/burlington-vt/",
@@ -315,17 +313,17 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/charleston-wv/",
-      "bucket": "unknown",
-      "coverageState": "URL is unknown to Google",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
       "verdict": "NEUTRAL",
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/charlotte-nc/",
@@ -335,7 +333,7 @@
       "lastCrawlTime": "2026-06-18T16:02:37Z",
       "googleCanonical": "https://neuroevalguides.com/charlotte-nc/",
       "userCanonical": "https://neuroevalguides.com/charlotte-nc/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/cheyenne-wy/",
@@ -345,7 +343,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/chicago-il/",
@@ -355,7 +353,7 @@
       "lastCrawlTime": "2026-05-16T11:38:16Z",
       "googleCanonical": "https://neuroevalguides.com/chicago-il/",
       "userCanonical": "https://neuroevalguides.com/chicago-il/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/columbia-sc/",
@@ -365,7 +363,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/columbus-oh/",
@@ -375,7 +373,7 @@
       "lastCrawlTime": "2026-06-20T08:48:42Z",
       "googleCanonical": "https://neuroevalguides.com/columbus-oh/",
       "userCanonical": "https://neuroevalguides.com/columbus-oh/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/dallas-tx/",
@@ -385,7 +383,7 @@
       "lastCrawlTime": "2026-09-01T16:31:46Z",
       "googleCanonical": "https://neuroevalguides.com/dallas-tx/",
       "userCanonical": "https://neuroevalguides.com/dallas-tx/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/denver-co/",
@@ -395,7 +393,7 @@
       "lastCrawlTime": "2026-08-01T02:07:29Z",
       "googleCanonical": "https://neuroevalguides.com/denver-co/",
       "userCanonical": "https://neuroevalguides.com/denver-co/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/des-moines-ia/",
@@ -405,7 +403,7 @@
       "lastCrawlTime": "2026-05-26T05:07:13Z",
       "googleCanonical": "https://neuroevalguides.com/des-moines-ia/",
       "userCanonical": "https://neuroevalguides.com/des-moines-ia/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/detroit-mi/",
@@ -415,7 +413,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/fargo-nd/",
@@ -425,7 +423,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/about/",
@@ -435,7 +433,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/albuquerque-nm/next-steps/",
@@ -445,7 +443,7 @@
       "lastCrawlTime": "2026-08-31T15:56:47Z",
       "googleCanonical": "https://neuroevalguides.com/albuquerque-nm/next-steps/",
       "userCanonical": "https://neuroevalguides.com/albuquerque-nm/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/anchorage-ak/next-steps/",
@@ -455,7 +453,7 @@
       "lastCrawlTime": "2026-09-21T16:38:39Z",
       "googleCanonical": "https://neuroevalguides.com/anchorage-ak/next-steps/",
       "userCanonical": "https://neuroevalguides.com/anchorage-ak/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/atlanta-ga/next-steps/",
@@ -465,7 +463,7 @@
       "lastCrawlTime": "2026-06-24T01:44:45Z",
       "googleCanonical": "https://neuroevalguides.com/atlanta-ga/next-steps/",
       "userCanonical": "https://neuroevalguides.com/atlanta-ga/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/baltimore-md/next-steps/",
@@ -475,7 +473,7 @@
       "lastCrawlTime": "2026-06-24T00:29:45Z",
       "googleCanonical": "https://neuroevalguides.com/baltimore-md/next-steps/",
       "userCanonical": "https://neuroevalguides.com/baltimore-md/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/billings-mt/next-steps/",
@@ -485,7 +483,7 @@
       "lastCrawlTime": "2026-07-27T11:10:48Z",
       "googleCanonical": "https://neuroevalguides.com/billings-mt/next-steps/",
       "userCanonical": "https://neuroevalguides.com/billings-mt/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/birmingham-al/next-steps/",
@@ -495,7 +493,7 @@
       "lastCrawlTime": "2026-08-31T12:30:24Z",
       "googleCanonical": "https://neuroevalguides.com/birmingham-al/next-steps/",
       "userCanonical": "https://neuroevalguides.com/birmingham-al/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/boise-id/next-steps/",
@@ -505,7 +503,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/boston-ma/next-steps/",
@@ -515,7 +513,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/burlington-vt/next-steps/",
@@ -525,7 +523,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/charleston-wv/next-steps/",
@@ -535,7 +533,7 @@
       "lastCrawlTime": "2026-05-25T13:56:44Z",
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/charlotte-nc/next-steps/",
@@ -545,7 +543,7 @@
       "lastCrawlTime": "2026-06-04T20:17:41Z",
       "googleCanonical": "https://neuroevalguides.com/charlotte-nc/next-steps/",
       "userCanonical": "https://neuroevalguides.com/charlotte-nc/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/cheyenne-wy/next-steps/",
@@ -555,7 +553,7 @@
       "lastCrawlTime": "2026-07-03T08:02:55Z",
       "googleCanonical": "https://neuroevalguides.com/cheyenne-wy/next-steps/",
       "userCanonical": "https://neuroevalguides.com/cheyenne-wy/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/chicago-il/next-steps/",
@@ -565,7 +563,7 @@
       "lastCrawlTime": "2026-05-10T06:53:52Z",
       "googleCanonical": "https://neuroevalguides.com/chicago-il/next-steps/",
       "userCanonical": "https://neuroevalguides.com/chicago-il/next-steps/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/columbia-sc/next-steps/",
@@ -575,7 +573,7 @@
       "lastCrawlTime": null,
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/columbus-oh/next-steps/",
@@ -585,7 +583,7 @@
       "lastCrawlTime": "2026-10-01T03:50:56Z",
       "googleCanonical": null,
       "userCanonical": null,
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/contact/",
@@ -595,7 +593,7 @@
       "lastCrawlTime": "2026-10-01T19:37:44Z",
       "googleCanonical": "https://neuroevalguides.com/contact/",
       "userCanonical": "https://neuroevalguides.com/contact/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://neuroevalguides.com/dallas-tx/next-steps/",
@@ -1146,6 +1144,946 @@
       "googleCanonical": "https://neuroevalguides.com/guides/questions-to-ask-an-adhd-therapist/",
       "userCanonical": "https://neuroevalguides.com/guides/questions-to-ask-an-adhd-therapist/",
       "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/guides/questions-to-ask-an-autism-therapy-provider/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-21T12:15:08Z",
+      "googleCanonical": "https://neuroevalguides.com/guides/questions-to-ask-an-autism-therapy-provider/",
+      "userCanonical": "https://neuroevalguides.com/guides/questions-to-ask-an-autism-therapy-provider/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/guides/questions-to-ask-before-neuro-testing/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-30T02:49:13Z",
+      "googleCanonical": "https://neuroevalguides.com/guides/questions-to-ask-before-neuro-testing/",
+      "userCanonical": "https://neuroevalguides.com/guides/questions-to-ask-before-neuro-testing/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/guides/school-district-vs-private-vs-ssa-evaluation/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-01T02:15:16Z",
+      "googleCanonical": "https://neuroevalguides.com/guides/school-district-vs-private-vs-ssa-evaluation/",
+      "userCanonical": "https://neuroevalguides.com/guides/school-district-vs-private-vs-ssa-evaluation/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/guides/telehealth-vs-in-person-neuro/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-01T07:53:53Z",
+      "googleCanonical": "https://neuroevalguides.com/guides/telehealth-vs-in-person-neuro/",
+      "userCanonical": "https://neuroevalguides.com/guides/telehealth-vs-in-person-neuro/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/guides/using-results-for-school-or-work/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-21T15:09:15Z",
+      "googleCanonical": "https://neuroevalguides.com/guides/using-results-for-school-or-work/",
+      "userCanonical": "https://neuroevalguides.com/guides/using-results-for-school-or-work/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/guides/what-a-neuro-report-includes/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/guides/what-progress-looks-like-in-adhd-therapy/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-07T22:16:32Z",
+      "googleCanonical": "https://neuroevalguides.com/guides/what-progress-looks-like-in-adhd-therapy/",
+      "userCanonical": "https://neuroevalguides.com/guides/what-progress-looks-like-in-adhd-therapy/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/guides/what-to-expect-after-a-neuro-evaluation/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T17:54:14Z",
+      "googleCanonical": "https://neuroevalguides.com/guides/what-to-expect-after-a-neuro-evaluation/",
+      "userCanonical": "https://neuroevalguides.com/guides/what-to-expect-after-a-neuro-evaluation/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/hartford-ct/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-09T13:46:39Z",
+      "googleCanonical": "https://neuroevalguides.com/hartford-ct/",
+      "userCanonical": "https://neuroevalguides.com/hartford-ct/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/honolulu-hi/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/houston-tx/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/indianapolis-in/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/jackson-ms/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/kansas-city-ks/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-09T00:06:41Z",
+      "googleCanonical": "https://neuroevalguides.com/kansas-city-ks/",
+      "userCanonical": "https://neuroevalguides.com/kansas-city-ks/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/las-vegas-nv/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/little-rock-ar/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/los-angeles-ca/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-08T09:51:01Z",
+      "googleCanonical": "https://neuroevalguides.com/los-angeles-ca/",
+      "userCanonical": "https://neuroevalguides.com/los-angeles-ca/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/louisville-ky/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/manchester-nh/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/memphis-tn/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/miami-fl/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/milwaukee-wi/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/minneapolis-mn/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-22T15:33:19Z",
+      "googleCanonical": "https://neuroevalguides.com/minneapolis-mn/",
+      "userCanonical": "https://neuroevalguides.com/minneapolis-mn/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/new-orleans-la/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/new-york-city-ny/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/newark-nj/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/oklahoma-city-ok/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/omaha-ne/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/orlando-fl/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/philadelphia-pa/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/phoenix-az/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-22T05:14:14Z",
+      "googleCanonical": "https://neuroevalguides.com/phoenix-az/",
+      "userCanonical": "https://neuroevalguides.com/phoenix-az/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/portland-me/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-05T23:59:43Z",
+      "googleCanonical": "https://neuroevalguides.com/portland-me/",
+      "userCanonical": "https://neuroevalguides.com/portland-me/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/portland-or/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/providence-ri/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-28T05:59:20Z",
+      "googleCanonical": "https://neuroevalguides.com/providence-ri/",
+      "userCanonical": "https://neuroevalguides.com/providence-ri/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/richmond-va/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-29T11:59:10Z",
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/sacramento-ca/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/salt-lake-city-ut/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/san-diego-ca/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-28T10:59:20Z",
+      "googleCanonical": "https://neuroevalguides.com/san-diego-ca/",
+      "userCanonical": "https://neuroevalguides.com/san-diego-ca/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/san-francisco-ca/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/seattle-wa/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/sioux-falls-sd/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-23T13:51:15Z",
+      "googleCanonical": "https://neuroevalguides.com/sioux-falls-sd/",
+      "userCanonical": "https://neuroevalguides.com/sioux-falls-sd/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/st-louis-mo/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/tampa-fl/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/wilmington-de/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-03T11:40:09Z",
+      "googleCanonical": "https://neuroevalguides.com/wilmington-de/",
+      "userCanonical": "https://neuroevalguides.com/wilmington-de/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/AK/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-06T18:06:26Z",
+      "googleCanonical": "https://neuroevalguides.com/states/AK/",
+      "userCanonical": "https://neuroevalguides.com/states/AK/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/AL/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/AR/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/AZ/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-22T22:49:31Z",
+      "googleCanonical": "https://neuroevalguides.com/states/AZ/",
+      "userCanonical": "https://neuroevalguides.com/states/AZ/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/CA/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/CO/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-30T04:05:14Z",
+      "googleCanonical": "https://neuroevalguides.com/states/CO/",
+      "userCanonical": "https://neuroevalguides.com/states/CO/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/CT/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-10T11:09:43Z",
+      "googleCanonical": "https://neuroevalguides.com/states/CT/",
+      "userCanonical": "https://neuroevalguides.com/states/CT/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/DE/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-25T13:49:16Z",
+      "googleCanonical": "https://neuroevalguides.com/states/DE/",
+      "userCanonical": "https://neuroevalguides.com/states/DE/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/FL/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/GA/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/HI/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/IA/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-30T04:10:20Z",
+      "googleCanonical": "https://neuroevalguides.com/states/IA/",
+      "userCanonical": "https://neuroevalguides.com/states/IA/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/ID/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/IL/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/IN/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/KS/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-15T14:47:50Z",
+      "googleCanonical": "https://neuroevalguides.com/states/KS/",
+      "userCanonical": "https://neuroevalguides.com/states/KS/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/KY/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/LA/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/MA/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-09T20:39:14Z",
+      "googleCanonical": "https://neuroevalguides.com/states/MA/",
+      "userCanonical": "https://neuroevalguides.com/states/MA/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/MD/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/ME/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/MI/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/MN/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/MO/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/MS/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/MT/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/NC/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/ND/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/NE/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/NH/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/NJ/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/NM/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/NV/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/NY/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-29T02:49:00Z",
+      "googleCanonical": "https://neuroevalguides.com/states/NY/",
+      "userCanonical": "https://neuroevalguides.com/states/NY/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/OH/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/OK/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/OR/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/PA/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/RI/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-05T09:52:27Z",
+      "googleCanonical": "https://neuroevalguides.com/states/RI/",
+      "userCanonical": "https://neuroevalguides.com/states/RI/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/SC/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/SD/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-01T03:46:53Z",
+      "googleCanonical": "https://neuroevalguides.com/states/SD/",
+      "userCanonical": "https://neuroevalguides.com/states/SD/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/TN/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/TX/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/UT/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/VA/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/VT/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/WA/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-08T01:57:13Z",
+      "googleCanonical": "https://neuroevalguides.com/states/WA/",
+      "userCanonical": "https://neuroevalguides.com/states/WA/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/WI/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-10T08:39:45Z",
+      "googleCanonical": "https://neuroevalguides.com/states/WI/",
+      "userCanonical": "https://neuroevalguides.com/states/WI/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/WV/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://neuroevalguides.com/states/WY/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-11T00:01:27Z",
+      "googleCanonical": "https://neuroevalguides.com/states/WY/",
+      "userCanonical": "https://neuroevalguides.com/states/WY/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     }
   ]
 }

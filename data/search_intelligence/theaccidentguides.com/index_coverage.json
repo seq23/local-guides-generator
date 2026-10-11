@@ -2,14 +2,14 @@
   "schema_version": "1.0",
   "truth_source": "google_search_console_url_inspection",
   "site_url": "sc-domain:theaccidentguides.com",
-  "collected_at": "2026-10-11T00:00:00+00:00",
+  "collected_at": "2026-10-11T14:12:02+00:00",
   "state": "OK",
   "named_stop": null,
-  "sitemap_url_count": 274,
-  "inspected_this_run": 110,
+  "sitemap_url_count": 275,
+  "inspected_this_run": 150,
   "errors_this_run": 0,
-  "inspected_total": 110,
-  "never_inspected": 164,
+  "inspected_total": 259,
+  "never_inspected": 16,
   "quota": {
     "daily_limit_per_property": 2000,
     "cap_per_site_per_day": 150,
@@ -18,24 +18,22 @@
   "rotation": "homepage, then never-inspected sitemap URLs in sitemap order, then oldest inspection first",
   "summary": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 75,
-      "Discovered - currently not indexed": 12,
+      "Crawled - currently not indexed": 158,
+      "Discovered - currently not indexed": 35,
       "Duplicate, Google chose different canonical than user": 1,
-      "Submitted and indexed": 20,
-      "URL is unknown to Google": 2
+      "Submitted and indexed": 59,
+      "URL is unknown to Google": 6
     },
     "buckets": {
-      "crawled_not_indexed": 75,
-      "discovered_not_indexed": 12,
-      "indexed": 20,
+      "crawled_not_indexed": 158,
+      "discovered_not_indexed": 35,
+      "indexed": 59,
       "other": 1,
-      "unknown": 2
+      "unknown": 6
     }
   },
   "truth_boundary": "URL Inspection reports Google's index state per URL at inspected_at; impressions come from gsc_search_analytics_export.json.",
-  "notes": [
-    "seeded from GSC Portfolio Report coverage run 38142685248 (velocity repo); the daily cycle continues the rotation from here"
-  ],
+  "notes": [],
   "urls": [
     {
       "url": "https://theaccidentguides.com/",
@@ -45,7 +43,7 @@
       "lastCrawlTime": "2026-10-09T14:45:57Z",
       "googleCanonical": "https://theaccidentguides.com/",
       "userCanonical": "https://theaccidentguides.com/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     },
     {
       "url": "https://theaccidentguides.com/faq/",
@@ -75,6 +73,16 @@
       "lastCrawlTime": "2026-09-30T11:27:13Z",
       "googleCanonical": "https://theaccidentguides.com/guides/",
       "userCanonical": "https://theaccidentguides.com/guides/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/medical-bills-behind-a-settlement/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-08-30T11:12:15Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/medical-bills-behind-a-settlement/",
+      "userCanonical": "https://theaccidentguides.com/guides/medical-bills-behind-a-settlement/",
       "inspected_at": "2026-10-11T00:00:00+00:00"
     },
     {
@@ -175,16 +183,6 @@
       "lastCrawlTime": "2026-10-04T21:14:45Z",
       "googleCanonical": "https://theaccidentguides.com/guides/injuries-during-immigration-enforcement/",
       "userCanonical": "https://theaccidentguides.com/guides/injuries-during-immigration-enforcement/",
-      "inspected_at": "2026-10-11T00:00:00+00:00"
-    },
-    {
-      "url": "https://theaccidentguides.com/guides/medical-bills-behind-a-settlement/",
-      "bucket": "indexed",
-      "coverageState": "Submitted and indexed",
-      "verdict": "PASS",
-      "lastCrawlTime": "2026-08-30T11:12:15Z",
-      "googleCanonical": "https://theaccidentguides.com/guides/medical-bills-behind-a-settlement/",
-      "userCanonical": "https://theaccidentguides.com/guides/medical-bills-behind-a-settlement/",
       "inspected_at": "2026-10-11T00:00:00+00:00"
     },
     {
@@ -1136,6 +1134,1496 @@
       "googleCanonical": "https://theaccidentguides.com/states/AK/next-steps/",
       "userCanonical": "https://theaccidentguides.com/states/AK/next-steps/",
       "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/AL/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-18T19:25:53Z",
+      "googleCanonical": "https://theaccidentguides.com/states/AL/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/AL/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/AR/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-08T18:12:11Z",
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/AZ/next-steps/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-05T03:29:46Z",
+      "googleCanonical": "https://theaccidentguides.com/states/AZ/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/AZ/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/CA/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T07:21:01Z",
+      "googleCanonical": "https://theaccidentguides.com/states/CA/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/CA/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/CO/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T16:52:39Z",
+      "googleCanonical": "https://theaccidentguides.com/states/CO/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/CO/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/CT/next-steps/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/DE/next-steps/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/FL/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T18:26:59Z",
+      "googleCanonical": "https://theaccidentguides.com/states/FL/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/FL/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/GA/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T19:29:19Z",
+      "googleCanonical": "https://theaccidentguides.com/states/GA/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/GA/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/HI/next-steps/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/IA/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T07:51:42Z",
+      "googleCanonical": "https://theaccidentguides.com/states/IA/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/IA/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/ID/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T17:04:54Z",
+      "googleCanonical": "https://theaccidentguides.com/states/ID/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/ID/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/IL/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T03:13:02Z",
+      "googleCanonical": "https://theaccidentguides.com/states/IL/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/IL/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/IN/next-steps/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/KS/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-02T05:47:17Z",
+      "googleCanonical": "https://theaccidentguides.com/states/KS/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/KS/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/KY/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-04T09:58:26Z",
+      "googleCanonical": "https://theaccidentguides.com/states/KY/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/KY/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/LA/next-steps/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-10T07:30:03Z",
+      "googleCanonical": "https://theaccidentguides.com/states/LA/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/LA/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MA/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-19T09:58:01Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MA/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/MA/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MD/next-steps/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/ME/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T18:14:26Z",
+      "googleCanonical": "https://theaccidentguides.com/states/ME/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/ME/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MI/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-23T01:57:31Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MI/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/MI/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MN/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-01T22:44:22Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MN/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/MN/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MO/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-19T22:11:13Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MO/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/MO/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MS/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T00:59:16Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MS/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/MS/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MT/next-steps/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T16:52:20Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MT/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/MT/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NC/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-10T07:33:49Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NC/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/NC/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/ND/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-04T10:31:03Z",
+      "googleCanonical": "https://theaccidentguides.com/states/ND/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/ND/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NE/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-18T01:41:34Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NE/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/NE/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NH/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-21T22:17:34Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NH/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/NH/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NJ/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-09T16:53:09Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NJ/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/NJ/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NM/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-23T03:12:30Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NM/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/NM/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NV/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T23:13:55Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NV/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/NV/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NY/next-steps/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/OH/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-04T23:34:28Z",
+      "googleCanonical": "https://theaccidentguides.com/states/OH/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/OH/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/OK/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T01:52:59Z",
+      "googleCanonical": "https://theaccidentguides.com/states/OK/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/OK/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/OR/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T06:27:25Z",
+      "googleCanonical": "https://theaccidentguides.com/states/OR/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/OR/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/PA/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-02T11:30:55Z",
+      "googleCanonical": "https://theaccidentguides.com/states/PA/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/PA/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/RI/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T05:45:55Z",
+      "googleCanonical": "https://theaccidentguides.com/states/RI/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/RI/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/SC/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-04T21:24:32Z",
+      "googleCanonical": "https://theaccidentguides.com/states/SC/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/SC/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/SD/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-27T12:50:50Z",
+      "googleCanonical": "https://theaccidentguides.com/states/SD/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/SD/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/TN/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-03T21:11:03Z",
+      "googleCanonical": "https://theaccidentguides.com/states/TN/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/TN/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/TX/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T16:58:46Z",
+      "googleCanonical": "https://theaccidentguides.com/states/TX/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/TX/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/UT/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T04:04:47Z",
+      "googleCanonical": "https://theaccidentguides.com/states/UT/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/UT/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/VA/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T18:19:02Z",
+      "googleCanonical": "https://theaccidentguides.com/states/VA/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/VA/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/VT/next-steps/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-16T05:05:27Z",
+      "googleCanonical": "https://theaccidentguides.com/states/VT/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/VT/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/WA/next-steps/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/WI/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-04T11:46:03Z",
+      "googleCanonical": "https://theaccidentguides.com/states/WI/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/WI/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/WV/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-27T08:45:43Z",
+      "googleCanonical": "https://theaccidentguides.com/states/WV/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/WV/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/WY/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-04T14:16:03Z",
+      "googleCanonical": "https://theaccidentguides.com/states/WY/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/states/WY/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/tampa-fl/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T03:01:39Z",
+      "googleCanonical": "https://theaccidentguides.com/tampa-fl/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/tampa-fl/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/wilmington-de/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T06:03:03Z",
+      "googleCanonical": "https://theaccidentguides.com/wilmington-de/next-steps/",
+      "userCanonical": "https://theaccidentguides.com/wilmington-de/next-steps/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/personal-injury-fees-explained/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-08T18:53:14Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/personal-injury-fees-explained/",
+      "userCanonical": "https://theaccidentguides.com/guides/personal-injury-fees-explained/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/personal-injury-lawyer-red-flags/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T15:09:32Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/personal-injury-lawyer-red-flags/",
+      "userCanonical": "https://theaccidentguides.com/guides/personal-injury-lawyer-red-flags/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/premises-liability/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-26T21:50:50Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/premises-liability/",
+      "userCanonical": "https://theaccidentguides.com/guides/premises-liability/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/product-liability/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/questions-to-ask-a-personal-injury-lawyer/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-08T17:39:53Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/questions-to-ask-a-personal-injury-lawyer/",
+      "userCanonical": "https://theaccidentguides.com/guides/questions-to-ask-a-personal-injury-lawyer/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/recorded-statements-and-insurance-calls/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-26T02:51:20Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/recorded-statements-and-insurance-calls/",
+      "userCanonical": "https://theaccidentguides.com/guides/recorded-statements-and-insurance-calls/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/rideshare-accidents/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/settlement-calculator-red-flags/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-27T22:48:55Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/settlement-calculator-red-flags/",
+      "userCanonical": "https://theaccidentguides.com/guides/settlement-calculator-red-flags/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/settlement-costs-before-and-after-filing-suit/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-18T03:46:12Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/settlement-costs-before-and-after-filing-suit/",
+      "userCanonical": "https://theaccidentguides.com/guides/settlement-costs-before-and-after-filing-suit/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/slip-and-fall/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-18T06:47:38Z",
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/spinal-cord-injury/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T01:46:32Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/spinal-cord-injury/",
+      "userCanonical": "https://theaccidentguides.com/guides/spinal-cord-injury/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/truck-accidents/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-22T21:59:32Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/truck-accidents/",
+      "userCanonical": "https://theaccidentguides.com/guides/truck-accidents/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/vehicle-collisions-near-law-enforcement-activity/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/what-a-fair-settlement-figure-is-made-of/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-18T05:54:56Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/what-a-fair-settlement-figure-is-made-of/",
+      "userCanonical": "https://theaccidentguides.com/guides/what-a-fair-settlement-figure-is-made-of/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/what-a-personal-injury-case-costs-you/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-18T02:45:22Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/what-a-personal-injury-case-costs-you/",
+      "userCanonical": "https://theaccidentguides.com/guides/what-a-personal-injury-case-costs-you/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/what-to-do-after-an-accident/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-05T03:39:34Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/what-to-do-after-an-accident/",
+      "userCanonical": "https://theaccidentguides.com/guides/what-to-do-after-an-accident/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/when-to-call-a-personal-injury-lawyer/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-03T03:54:57Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/when-to-call-a-personal-injury-lawyer/",
+      "userCanonical": "https://theaccidentguides.com/guides/when-to-call-a-personal-injury-lawyer/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/workplace-injuries/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T10:56:31Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/workplace-injuries/",
+      "userCanonical": "https://theaccidentguides.com/guides/workplace-injuries/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/guides/wrongful-death/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-01T00:28:24Z",
+      "googleCanonical": "https://theaccidentguides.com/guides/wrongful-death/",
+      "userCanonical": "https://theaccidentguides.com/guides/wrongful-death/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/dallas-tx/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-21T14:41:42Z",
+      "googleCanonical": "https://theaccidentguides.com/dallas-tx/",
+      "userCanonical": "https://theaccidentguides.com/dallas-tx/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/denver-co/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-29T16:46:42Z",
+      "googleCanonical": "https://theaccidentguides.com/denver-co/",
+      "userCanonical": "https://theaccidentguides.com/denver-co/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/des-moines-ia/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-06T12:06:51Z",
+      "googleCanonical": "https://theaccidentguides.com/des-moines-ia/",
+      "userCanonical": "https://theaccidentguides.com/des-moines-ia/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/detroit-mi/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T03:17:31Z",
+      "googleCanonical": "https://theaccidentguides.com/detroit-mi/",
+      "userCanonical": "https://theaccidentguides.com/detroit-mi/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/fargo-nd/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-21T23:23:39Z",
+      "googleCanonical": "https://theaccidentguides.com/fargo-nd/",
+      "userCanonical": "https://theaccidentguides.com/fargo-nd/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/hartford-ct/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-09T06:08:27Z",
+      "googleCanonical": "https://theaccidentguides.com/hartford-ct/",
+      "userCanonical": "https://theaccidentguides.com/hartford-ct/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/honolulu-hi/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-23T08:12:32Z",
+      "googleCanonical": "https://theaccidentguides.com/honolulu-hi/",
+      "userCanonical": "https://theaccidentguides.com/honolulu-hi/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/houston-tx/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-24T00:27:31Z",
+      "googleCanonical": "https://theaccidentguides.com/houston-tx/",
+      "userCanonical": "https://theaccidentguides.com/houston-tx/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/indianapolis-in/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-07T14:14:30Z",
+      "googleCanonical": "https://theaccidentguides.com/indianapolis-in/",
+      "userCanonical": "https://theaccidentguides.com/indianapolis-in/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/jackson-ms/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-21T23:23:48Z",
+      "googleCanonical": "https://theaccidentguides.com/jackson-ms/",
+      "userCanonical": "https://theaccidentguides.com/jackson-ms/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/kansas-city-ks/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-24T01:13:09Z",
+      "googleCanonical": "https://theaccidentguides.com/kansas-city-ks/",
+      "userCanonical": "https://theaccidentguides.com/kansas-city-ks/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/las-vegas-nv/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T08:32:00Z",
+      "googleCanonical": "https://theaccidentguides.com/las-vegas-nv/",
+      "userCanonical": "https://theaccidentguides.com/las-vegas-nv/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/little-rock-ar/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-26T18:29:44Z",
+      "googleCanonical": "https://theaccidentguides.com/little-rock-ar/",
+      "userCanonical": "https://theaccidentguides.com/little-rock-ar/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/los-angeles-ca/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-06T06:10:23Z",
+      "googleCanonical": "https://theaccidentguides.com/los-angeles-ca/",
+      "userCanonical": "https://theaccidentguides.com/los-angeles-ca/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/louisville-ky/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-12T21:06:05Z",
+      "googleCanonical": "https://theaccidentguides.com/louisville-ky/",
+      "userCanonical": "https://theaccidentguides.com/louisville-ky/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/manchester-nh/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-18T00:48:35Z",
+      "googleCanonical": "https://theaccidentguides.com/manchester-nh/",
+      "userCanonical": "https://theaccidentguides.com/manchester-nh/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/memphis-tn/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-21T23:34:20Z",
+      "googleCanonical": "https://theaccidentguides.com/memphis-tn/",
+      "userCanonical": "https://theaccidentguides.com/memphis-tn/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/miami-fl/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-06T10:59:21Z",
+      "googleCanonical": "https://theaccidentguides.com/miami-fl/",
+      "userCanonical": "https://theaccidentguides.com/miami-fl/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/milwaukee-wi/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-25T19:41:02Z",
+      "googleCanonical": "https://theaccidentguides.com/milwaukee-wi/",
+      "userCanonical": "https://theaccidentguides.com/milwaukee-wi/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/minneapolis-mn/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-12T17:13:15Z",
+      "googleCanonical": "https://theaccidentguides.com/minneapolis-mn/",
+      "userCanonical": "https://theaccidentguides.com/minneapolis-mn/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/montpelier-vt/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-23T02:33:50Z",
+      "googleCanonical": "https://theaccidentguides.com/montpelier-vt/",
+      "userCanonical": "https://theaccidentguides.com/montpelier-vt/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/nashville-tn/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/new-orleans-la/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-05T06:21:23Z",
+      "googleCanonical": "https://theaccidentguides.com/new-orleans-la/",
+      "userCanonical": "https://theaccidentguides.com/new-orleans-la/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/new-york-city-ny/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-04T08:01:03Z",
+      "googleCanonical": "https://theaccidentguides.com/new-york-city-ny/",
+      "userCanonical": "https://theaccidentguides.com/new-york-city-ny/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/new-york-ny/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-04T01:46:03Z",
+      "googleCanonical": "https://theaccidentguides.com/new-york-ny/",
+      "userCanonical": "https://theaccidentguides.com/new-york-ny/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/newark-nj/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-25T00:09:28Z",
+      "googleCanonical": "https://theaccidentguides.com/newark-nj/",
+      "userCanonical": "https://theaccidentguides.com/newark-nj/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/oklahoma-city-ok/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T02:37:03Z",
+      "googleCanonical": "https://theaccidentguides.com/oklahoma-city-ok/",
+      "userCanonical": "https://theaccidentguides.com/oklahoma-city-ok/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/omaha-ne/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-25T21:16:22Z",
+      "googleCanonical": "https://theaccidentguides.com/omaha-ne/",
+      "userCanonical": "https://theaccidentguides.com/omaha-ne/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/orlando-fl/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-29T11:43:24Z",
+      "googleCanonical": "https://theaccidentguides.com/orlando-fl/",
+      "userCanonical": "https://theaccidentguides.com/orlando-fl/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/personal-injury/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-26T03:48:24Z",
+      "googleCanonical": "https://theaccidentguides.com/personal-injury/",
+      "userCanonical": "https://theaccidentguides.com/personal-injury/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/philadelphia-pa/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/phoenix-az/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-15T13:28:59Z",
+      "googleCanonical": "https://theaccidentguides.com/phoenix-az/",
+      "userCanonical": "https://theaccidentguides.com/phoenix-az/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/portland-me/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T10:47:47Z",
+      "googleCanonical": "https://theaccidentguides.com/portland-me/",
+      "userCanonical": "https://theaccidentguides.com/portland-me/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/portland-or/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-28T01:20:55Z",
+      "googleCanonical": "https://theaccidentguides.com/portland-or/",
+      "userCanonical": "https://theaccidentguides.com/portland-or/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/providence-ri/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-29T03:43:12Z",
+      "googleCanonical": "https://theaccidentguides.com/providence-ri/",
+      "userCanonical": "https://theaccidentguides.com/providence-ri/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/richmond-va/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T04:27:52Z",
+      "googleCanonical": "https://theaccidentguides.com/richmond-va/",
+      "userCanonical": "https://theaccidentguides.com/richmond-va/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/sacramento-ca/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-01T14:57:42Z",
+      "googleCanonical": "https://theaccidentguides.com/sacramento-ca/",
+      "userCanonical": "https://theaccidentguides.com/sacramento-ca/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/salt-lake-city-ut/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-28T10:26:39Z",
+      "googleCanonical": "https://theaccidentguides.com/salt-lake-city-ut/",
+      "userCanonical": "https://theaccidentguides.com/salt-lake-city-ut/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/san-diego-ca/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-31T07:15:21Z",
+      "googleCanonical": "https://theaccidentguides.com/san-diego-ca/",
+      "userCanonical": "https://theaccidentguides.com/san-diego-ca/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/san-francisco-ca/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T18:54:46Z",
+      "googleCanonical": "https://theaccidentguides.com/san-francisco-ca/",
+      "userCanonical": "https://theaccidentguides.com/san-francisco-ca/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/seattle-wa/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-04T17:39:38Z",
+      "googleCanonical": "https://theaccidentguides.com/seattle-wa/",
+      "userCanonical": "https://theaccidentguides.com/seattle-wa/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/sioux-falls-sd/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-04T04:46:36Z",
+      "googleCanonical": "https://theaccidentguides.com/sioux-falls-sd/",
+      "userCanonical": "https://theaccidentguides.com/sioux-falls-sd/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/st-louis-mo/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T05:24:23Z",
+      "googleCanonical": "https://theaccidentguides.com/st-louis-mo/",
+      "userCanonical": "https://theaccidentguides.com/st-louis-mo/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/tampa-fl/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-22T04:32:56Z",
+      "googleCanonical": "https://theaccidentguides.com/tampa-fl/",
+      "userCanonical": "https://theaccidentguides.com/tampa-fl/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/wilmington-de/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-05T04:40:01Z",
+      "googleCanonical": "https://theaccidentguides.com/wilmington-de/",
+      "userCanonical": "https://theaccidentguides.com/wilmington-de/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/AK/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-07T15:30:13Z",
+      "googleCanonical": "https://theaccidentguides.com/states/AK/",
+      "userCanonical": "https://theaccidentguides.com/states/AK/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/AL/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T12:40:04Z",
+      "googleCanonical": "https://theaccidentguides.com/states/AL/",
+      "userCanonical": "https://theaccidentguides.com/states/AL/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/AR/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/AZ/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/CA/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/CO/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-03T17:00:29Z",
+      "googleCanonical": "https://theaccidentguides.com/states/CO/",
+      "userCanonical": "https://theaccidentguides.com/states/CO/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/CT/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/DE/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-03T19:30:29Z",
+      "googleCanonical": "https://theaccidentguides.com/states/DE/",
+      "userCanonical": "https://theaccidentguides.com/states/DE/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/FL/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/GA/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/HI/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-07T06:45:19Z",
+      "googleCanonical": "https://theaccidentguides.com/states/HI/",
+      "userCanonical": "https://theaccidentguides.com/states/HI/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/IA/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/ID/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/IL/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/IN/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-03T18:15:29Z",
+      "googleCanonical": "https://theaccidentguides.com/states/IN/",
+      "userCanonical": "https://theaccidentguides.com/states/IN/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/KS/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T19:59:45Z",
+      "googleCanonical": "https://theaccidentguides.com/states/KS/",
+      "userCanonical": "https://theaccidentguides.com/states/KS/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/KY/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T13:54:39Z",
+      "googleCanonical": "https://theaccidentguides.com/states/KY/",
+      "userCanonical": "https://theaccidentguides.com/states/KY/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/LA/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-10T11:01:20Z",
+      "googleCanonical": "https://theaccidentguides.com/states/LA/",
+      "userCanonical": "https://theaccidentguides.com/states/LA/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MA/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MD/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-07T18:10:33Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MD/",
+      "userCanonical": "https://theaccidentguides.com/states/MD/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/ME/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MI/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-01T02:59:27Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MI/",
+      "userCanonical": "https://theaccidentguides.com/states/MI/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MN/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-04T22:39:54Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MN/",
+      "userCanonical": "https://theaccidentguides.com/states/MN/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MO/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-30T06:54:03Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MO/",
+      "userCanonical": "https://theaccidentguides.com/states/MO/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MS/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/MT/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-29T04:50:46Z",
+      "googleCanonical": "https://theaccidentguides.com/states/MT/",
+      "userCanonical": "https://theaccidentguides.com/states/MT/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NC/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/ND/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-06T05:42:36Z",
+      "googleCanonical": "https://theaccidentguides.com/states/ND/",
+      "userCanonical": "https://theaccidentguides.com/states/ND/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NE/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-07T18:00:24Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NE/",
+      "userCanonical": "https://theaccidentguides.com/states/NE/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NH/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NJ/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-11T06:00:46Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NJ/",
+      "userCanonical": "https://theaccidentguides.com/states/NJ/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NM/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NV/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-29T13:26:29Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NV/",
+      "userCanonical": "https://theaccidentguides.com/states/NV/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
+    },
+    {
+      "url": "https://theaccidentguides.com/states/NY/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-26T02:50:17Z",
+      "googleCanonical": "https://theaccidentguides.com/states/NY/",
+      "userCanonical": "https://theaccidentguides.com/states/NY/",
+      "inspected_at": "2026-10-11T14:12:02+00:00"
     }
   ]
 }
