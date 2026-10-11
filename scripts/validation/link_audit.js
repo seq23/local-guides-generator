@@ -68,7 +68,9 @@ function resolvesInDist(distRoot, pageFile, href) {
     if (rel.startsWith('..')) return false; // escapes dist entirely
   }
   if (!rel) return true; // resolved to site root
-  const looksLikeFile = /\.[a-z0-9]{2,5}$/i.test(rel);
+  // Extensions up to 12 chars: .webmanifest is a real file, and a 2-5 char cap
+  // misread it as a page route and reported a link to an existing file as broken.
+  const looksLikeFile = /\.[a-z0-9]{2,12}$/i.test(rel);
   if (looksLikeFile) return fs.existsSync(path.join(distRoot, rel));
   return (
     fs.existsSync(path.join(distRoot, rel, 'index.html')) ||

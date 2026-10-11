@@ -111,6 +111,15 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 
+  // Favicon, web manifest and the 1200x630 social card for this pack's host,
+  // plus their head tags on every page. Head-only, so lastmod is unaffected;
+  // `npm run build` runs it in the same position.
+  run('node', ['scripts/install_site_head_assets.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    PAGES_OUT_DIR: 'dist',
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+
   // Freshness dates next. build_city_sites.js stamps the build timestamp into
   // every page's citation_modified_date, and sitemap_emit.js reads that field
   // for <lastmod> - so without this step every URL in every sitemap claims to
@@ -167,6 +176,12 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
   run('node', ['scripts/indexnow_emit.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
+  // Serve the IndexNow key file from this host, as `npm run build`'s postbuild
+  // does, so validate_indexnow.js checks the same output that ships.
+  run('node', ['scripts/copy_indexnow_key_to_dist.js'], {
     PAGE_SET_FILE: pageSetFile,
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });

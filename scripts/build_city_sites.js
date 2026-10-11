@@ -1705,9 +1705,17 @@ function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description)
     datePublished: BUILD_ISO,
     dateModified: BUILD_ISO,
     url: buildCanonicalGlobal(siteUrl, route),
-    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
+    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    // Homepage: the definition paragraph under the H1 and the short-answer FAQ
+    // are the read-aloud surface. validate:homepage-definition checks that every
+    // selector here resolves on the rendered page.
+    ...(String(route || "").replace(/^\/+|\/+$/g, "") === "" ? {
+      speakable: { "@type": "SpeakableSpecification", cssSelector: HOME_SPEAKABLE_SELECTORS }
+    } : {})
   };
 }
+
+const HOME_SPEAKABLE_SELECTORS = ['.site-definition', '[data-home-answer="true"]'];
 
 function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description) {
   return {

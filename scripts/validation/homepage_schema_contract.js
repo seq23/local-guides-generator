@@ -53,7 +53,8 @@ function run() {
   const blocks = extractJsonLd(html);
   if (blocks.length === 0) fail('no JSON-LD blocks found on dist/index.html');
   const types = flattenTypes(blocks);
-  const required = ['Organization', 'WebSite', 'WebPage'];
+  // Same standard on every domain (10 Oct 2026): breadcrumb + FAQ alongside the entity nodes.
+  const required = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'contracts', 'site_hygiene_registry.json'), 'utf8')).homepage_jsonld_types;
   for (const t of required) {
     if (!types.has(t)) fail(`missing required JSON-LD type ${t} on dist/index.html`);
   }
