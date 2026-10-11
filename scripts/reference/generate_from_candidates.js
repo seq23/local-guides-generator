@@ -95,6 +95,24 @@ const VERTICALS = {
   }
 };
 
+
+// Publishing freeze (data/search_intelligence/publishing_freeze.json, 11 Oct 2026):
+// while enabled, a candidate becomes a page only when its query is a measured
+// target of its site (data/search_intelligence/<host>/target_query_set.json:
+// Search Console impressions or a measured volume). A held candidate is NOT
+// marked processed, so the first run after its query gets a number publishes it.
+const SEARCH_DIR = path.join(ROOT, 'data', 'search_intelligence');
+const FREEZE = readJsonSafeTop(path.join(SEARCH_DIR, 'publishing_freeze.json'), { enabled: false });
+const SITE_BY_FOLDER = new Map((readJsonSafeTop(path.join(SEARCH_DIR, 'sites.json'), { sites: [] }).sites || []).map((s) => [s.global_pages_dir, s.host]));
+const normQuery = (q) => String(q || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+function measuredTargetFor(folder, query) {
+  const host = SITE_BY_FOLDER.get(folder);
+  if (!host) return null;
+  const set = readJsonSafeTop(path.join(SEARCH_DIR, host, 'target_query_set.json'), { targets: [] });
+  const hit = (set.targets || []).find((t) => t.normalized_query === normQuery(query) && Number(t.measurement && t.measurement.value) > 0);
+  return hit ? { host, target: hit } : null;
+}
+
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
@@ -255,6 +273,11 @@ function main() {
       continue;
     }
 
+    if (FREEZE.enabled === true && !measuredTargetFor(cfg.folder, candidate.query)) {
+      results.push({ id: candidate.id || null, status: 'frozen', reason: `publishing_freeze: "${candidate.query || ''}" has no measured number for ${SITE_BY_FOLDER.get(cfg.folder) || cfg.folder}` });
+      continue;
+    }
+
     const folderAbs = path.join(ROOT, cfg.folder);
     if (!fs.existsSync(folderAbs)) {
       results.push({ id: candidate.id || null, status: 'skipped', reason: `missing_folder:${cfg.folder}` });
@@ -351,7 +374,11 @@ function main() {
   // create fewer than were offered, and it cannot produce zero.
   const skipped = results.filter((r) => r.status === 'skipped');
   const satisfied = results.filter((r) => r.status === 'satisfied');
-  if (incoming.length > 0 && created === 0 && satisfied.length === 0) {
+  const frozen = results.filter((r) => r.status === 'frozen');
+  if (frozen.length) {
+    console.log(`NAMED STOP: publishing freeze held ${frozen.length} candidate(s) with no measured number; they publish automatically once their query is measured (data/search_intelligence/publishing_freeze.json).`);
+  }
+  if (incoming.length > 0 && created === 0 && satisfied.length === 0 && frozen.length === 0) {
     const reasons = [...new Set(skipped.map((r) => r.reason))];
     console.error([
       '',

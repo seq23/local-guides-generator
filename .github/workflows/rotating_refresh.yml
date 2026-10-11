@@ -2,6 +2,11 @@ name: Rotating Refresh
 
 on:
   workflow_dispatch:
+    inputs:
+      search_only:
+        description: "Run only the Search Console measurement steps (no rotation, no paid citation probe)"
+        type: boolean
+        default: false
   schedule:
     - cron: '30 13 * * *'
 
@@ -10,7 +15,7 @@ permissions:
 
 jobs:
   rotating-refresh:
-    timeout-minutes: 17  # ~3x median 5.5m over 8 green runs; fault detector, not a budget
+    timeout-minutes: 25  # ~3x median 5.5m over 8 green runs plus ~3m of Search Console reads; fault detector, not a budget
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,8 +24,31 @@ jobs:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
-      - run: node scripts/automation/rotate_vertical_refresh.js
+      # Search Console truth for the five sites (registered in
+      # data/contracts/site_hygiene_registry.json#search_intelligence): query+page
+      # analytics (rolling 28 days), sitemaps.list (submit only if none listed) and
+      # URL Inspection (150 URLs/site/day, 8 parallel, rotating through the
+      # sitemap). Then the CTA click readback and the measured target set,
+      # consolidation ledger and strengthening plan. A missing secret is a NAMED
+      # STOP line, never a red cycle.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Measure Search Console truth per site
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python -m pip install --disable-pip-version-check google-api-python-client google-auth >/dev/null
+          python3 scripts/search_intelligence/collect_gsc.py
+      - name: Record audience CTA clicks
+        run: node scripts/search_intelligence/collect_cta_clicks.mjs
+      - name: Rebuild measured targets, consolidation ledger and strengthening plan
+        run: node scripts/search_intelligence/build_search_plan.mjs
+      - name: Rotate one vertical
+        if: ${{ !inputs.search_only }}
+        run: node scripts/automation/rotate_vertical_refresh.js
       - name: Observe whether answer engines cite us
+        if: ${{ !inputs.search_only }}
         # The probe shipped here and no workflow invoked it, so no citation
         # observation was ever taken. Grounded mode reads the pages the answer
         # was actually built from; knowledge mode would only show whether a
@@ -44,10 +72,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/signals/ CHANGELOG.md
+          git add data/signals/ CHANGELOG.md data/search_intelligence/
           if git diff --cached --quiet; then
             echo "no observation or rotation entry to record"
             exit 0
           fi
-          git commit -m "Record citation probe observations $(date -u +%Y-%m-%d)"
-          git push
+          git commit -m "Record search truth and citation probe observations $(date -u +%Y-%m-%d)"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

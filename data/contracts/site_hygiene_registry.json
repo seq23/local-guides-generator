@@ -7,7 +7,10 @@
     "scripts/install_site_head_assets.js",
     "scripts/copy_indexnow_key_to_dist.js"
   ],
-  "build_paths": ["package.json#build+postbuild", "scripts/build_all_packs.js"],
+  "build_paths": [
+    "package.json#build+postbuild",
+    "scripts/build_all_packs.js"
+  ],
   "sources": [
     "data/site_brand_assets.json",
     "data/clarity_projects.json",
@@ -24,9 +27,18 @@
     "clarity_hosts": "scripts/validation/clarity_hosts_contract.js",
     "indexnow_key": "scripts/validate_indexnow.js"
   },
-  "homepage_jsonld_types": ["Organization", "WebSite", "WebPage", "BreadcrumbList", "FAQPage"],
+  "homepage_jsonld_types": [
+    "Organization",
+    "WebSite",
+    "WebPage",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
   "homepage_definition_marker": "data-site-definition=\"true\"",
-  "speakable_selectors": [".site-definition", "[data-home-answer=\"true\"]"],
+  "speakable_selectors": [
+    ".site-definition",
+    "[data-home-answer=\"true\"]"
+  ],
   "clarity_projects": {
     "theaccidentguides.com": "y7l0ezo9ll",
     "dentistryguides.com": "y7la6o60w8",
@@ -34,5 +46,45 @@
     "neuroevalguides.com": "y7leg12n54",
     "uscisexam.com": "y7l12fhi6v"
   },
-  "indexnow_key_file": "4d1ce19168524fcd3f96ccc22f58f434423507acff62295e6a5ed28cba8f0080.txt"
+  "indexnow_key_file": "4d1ce19168524fcd3f96ccc22f58f434423507acff62295e6a5ed28cba8f0080.txt",
+  "search_intelligence": {
+    "registered_on": "2026-10-11",
+    "note": "Search-demand repoint (owner approved 11 Oct 2026): Search Console truth per site in the daily cycle, measured-only targets, publishing freeze, strengthening of pages that rank, consolidation ledger, and the two audience CTAs. site_hygiene_registry_contract.js reads this block.",
+    "workflow": ".github/workflows/rotating_refresh.yml",
+    "workflow_steps": [
+      "scripts/search_intelligence/collect_gsc.py",
+      "scripts/search_intelligence/collect_cta_clicks.mjs",
+      "scripts/search_intelligence/build_search_plan.mjs"
+    ],
+    "workflow_commits": "data/search_intelligence/",
+    "sources": [
+      "data/search_intelligence/sites.json",
+      "data/search_intelligence/measured_demand.json",
+      "data/search_intelligence/strengthened_pages.json",
+      "data/search_intelligence/audience_ctas.json",
+      "data/search_intelligence/publishing_freeze.json",
+      "scripts/search_intelligence/render_blocks.js",
+      "functions/api/cta-clicks.js"
+    ],
+    "per_site_files": [
+      "gsc_search_analytics_export.json",
+      "index_coverage.json",
+      "target_query_set.json",
+      "consolidation_candidates.json",
+      "search_plan.json"
+    ],
+    "freshness_days": 8,
+    "inspect_cap_per_site": 150,
+    "freeze_flag": "data/search_intelligence/publishing_freeze.json",
+    "freeze_readers": [
+      "scripts/reference/generate_from_candidates.js"
+    ],
+    "builder": "scripts/build_city_sites.js",
+    "builder_calls": [
+      "searchBlocks.applyStrengthening(",
+      "searchBlocks.faqJsonLd(",
+      "searchBlocks.renderRankedLinksHtml(",
+      "searchBlocks.renderAudienceBlockHtml("
+    ]
+  }
 }

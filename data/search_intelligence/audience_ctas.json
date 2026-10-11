@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "note": "Blocks that turn a measured wrong-audience query family toward the buyer. Each has ONE ref, carried on its CTA link (?ref=) and sent to /api/track-connection-click as button_source; /api/cta-clicks reads the count back and collect_cta_clicks.mjs records it daily in data/search_intelligence/<host>/cta_clicks.json. Rendered on every state hub of the vertical by scripts/search_intelligence/render_blocks.js.",
+  "ctas": [
+    {
+      "ref": "dentistry-license-get-listed",
+      "host": "dentistryguides.com",
+      "vertical_key": "dentistry",
+      "placement": "state_hub",
+      "audience": "Dentists searching '<state> dental license' (lookup, verification, renewal, reciprocity) - the buyers of the $249/month featured listing.",
+      "query_pattern": "dental licen[cs]e",
+      "heading": "Are you a dentist in %%STATE%%? Verify your licence, then get listed",
+      "body": "Dentists reach this page looking up a %%STATE%% dental licence. Confirm your licence status with the official board first. Then put your practice in front of the patients who use this guide to choose a dentist: a featured listing on your metro's city page is $249 a month, and the first two months are free.",
+      "verify_label": "Verify your licence with the %%STATE%% dental board",
+      "verify_source": "data/licensing_lookup/dentistry.json",
+      "cta_label": "Get listed: $249/month per metro, first two months free",
+      "cta_href": "/for-providers/?ref=dentistry-license-get-listed"
+    },
+    {
+      "ref": "uscis-field-office-civil-surgeon",
+      "host": "uscisexam.com",
+      "vertical_key": "uscis_medical",
+      "placement": "state_hub",
+      "audience": "Immigrants searching for a USCIS field office in their state or city, who need an I-693 medical exam from a USCIS-designated civil surgeon.",
+      "query_pattern": "\\buscis\\b",
+      "heading": "Looking for the USCIS field office in %%STATE%%? Your medical exam is not done there",
+      "body": "USCIS field offices hold interviews and biometrics, but they do not do the immigration medical exam. Form I-693 must be completed by a USCIS-designated civil surgeon, a private doctor you book yourself, and the sealed form goes in with your application or to your interview. Find a civil surgeon near you in %%STATE%% before your interview date.",
+      "field_office_label": "Find your USCIS field office (official locator)",
+      "field_office_href": "https://www.uscis.gov/about-us/find-a-uscis-office/field-offices",
+      "finder_label": "Find a civil surgeon (official USCIS finder)",
+      "finder_href": "https://www.uscis.gov/tools/find-a-civil-surgeon",
+      "cta_label": "Get matched with a civil surgeon in %%STATE%%",
+      "cta_href": "/request-assistance/?pt=USCIS%20Medical%20Exam%20Provider&intent=field_office&button=uscis-field-office-civil-surgeon&ref=uscis-field-office-civil-surgeon&vertical=uscis_medical&page_kind=state"
+    }
+  ]
+}

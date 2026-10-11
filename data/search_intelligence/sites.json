@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "note": "The five properties this repo publishes, one row each. scripts/search_intelligence/collect_gsc.py, build_search_plan.mjs, collect_cta_clicks.mjs and generate_from_candidates.js (publishing freeze) all read this file, so there is one list. Per-site truth lives in data/search_intelligence/<host>/.",
+  "sites": [
+    { "pack": "pi", "vertical_key": "pi", "host": "theaccidentguides.com", "gsc_site": "sc-domain:theaccidentguides.com", "global_pages_dir": "data/page_sets/examples/pi_global_pages" },
+    { "pack": "dentistry", "vertical_key": "dentistry", "host": "dentistryguides.com", "gsc_site": "sc-domain:dentistryguides.com", "global_pages_dir": "data/page_sets/examples/dentistry_global_pages" },
+    { "pack": "neuro", "vertical_key": "neuro", "host": "neuroevalguides.com", "gsc_site": "sc-domain:neuroevalguides.com", "global_pages_dir": "data/page_sets/examples/neuro_global_pages" },
+    { "pack": "trt", "vertical_key": "trt", "host": "hormonesivhair.com", "gsc_site": "sc-domain:hormonesivhair.com", "global_pages_dir": "data/page_sets/examples/trt_global_pages" },
+    { "pack": "uscis_medical", "vertical_key": "uscis_medical", "host": "uscisexam.com", "gsc_site": "sc-domain:uscisexam.com", "global_pages_dir": "data/page_sets/examples/uscis_medical_global_pages" }
+  ]
+}

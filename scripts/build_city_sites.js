@@ -63,6 +63,7 @@ const sponsorship = require("./helpers/sponsorship");
 const buyouts = require("./helpers/buyouts");
 const cityRegistry = require("./helpers/city_registry");
 const fanout = require("./helpers/fanout");
+const searchBlocks = require("./search_intelligence/render_blocks");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
 const { getPackSiteConfig } = require("./lib/pack_site_config");
 
@@ -4147,6 +4148,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
 
   let mainHtml = String(globalPage.main_html || "").split("%%BRAND_NAME%%").join(brandName);
+  mainHtml = searchBlocks.applyStrengthening(mainHtml, globalPage);
   if (isStarterTrainingPack(pageSet) && !String(mainHtml).includes('data-training-page="true"')) {
     mainHtml = renderTrainingBannerHtml('Sandbox only. Not a production page.') + mainHtml;
   }
@@ -4600,6 +4602,11 @@ if (route === 'admin') {
     }
   }
 
+  {
+    const ranked = searchBlocks.renderRankedLinksHtml(siteUrl, route);
+    if (ranked && !mainHtml.includes('data-search-ranked-links="true"')) mainHtml += "\n" + ranked;
+  }
+
   const globalFanoutCluster = fanout.buildFanoutCluster({
     verticalKey,
     pageKind: fanout.classifyPageKind({ route: route ? ('/' + route + '/') : '/' }),
@@ -4627,7 +4634,7 @@ if (route === 'admin') {
     "%%INLINE_SCRIPTS%%": "",
     "%%CANONICAL%%": buildCanonicalGlobal(siteUrl, route),
     "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "home" : (route === "guides" ? "guides-hub" : (route.startsWith("guides/") ? "guide-detail" : "global")), title: headTitle, description: headDescription, canonical: buildCanonicalGlobal(siteUrl, route), brandName, section: route.startsWith("guides/") ? "Guide" : (route === "guides" ? "Guides hub" : "Global"), keywords: [verticalKey, route.replace(/\//g, " "), title] }),
-    "%%HEAD_JSON_LD%%": renderHeadJsonLdGlobal(siteUrl, brandName, route, headTitle, headDescription, pageSet),
+    "%%HEAD_JSON_LD%%": renderHeadJsonLdGlobal(siteUrl, brandName, route, headTitle, headDescription, pageSet) + searchBlocks.faqJsonLd(globalPage),
     "%%FOOTER%%": footerHtml,
     "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
@@ -5557,6 +5564,7 @@ function loadNextStepsSponsor(citySlug) {
         '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(brandName) + ' in ' + escapeHtml(stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
         '%%AD:state_hub_top%%' +
         stateLead +
+        searchBlocks.renderAudienceBlockHtml(siteUrl, verticalKey, ab, stateName) +
         '%%PRIMARY_CTA%%' +
         '%%AD:state_hub_mid%%' +
         renderStateAuthorityBlockHtml(stateName, cityLinks.length) +

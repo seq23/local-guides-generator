@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "selection_rule": "A guide page with at least 2 impressions at average position <= 15 in the 28-day Search Console window (gsc_search_analytics_export.json by_page). Home, hubs, state hubs and utility pages are excluded; state hubs get the audience blocks instead. build_search_plan.mjs lists every page that meets the rule in strengthening_candidates so the next pass is data, not a guess.",
+  "measured_window": "2026-09-11..2026-10-08",
+  "what_strengthening_means": "title + H1 aligned to the query Google shows for the page (or the page's topic phrase when Search Console anonymises it), a definition paragraph (data-search-definition), an FAQ from the real questions with FAQPage JSON-LD (data-search-faq), and links from the homepage and the guides hub (data-search-ranked-links). Source of each page: its page-set JSON field search_strengthening; rendered by scripts/search_intelligence/render_blocks.js.",
+  "pages": [
+    { "host": "neuroevalguides.com", "route": "/guides/neuropsych-testing-cost-by-state/", "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json", "impressions": 15, "clicks": 2, "position": 7.6, "query_shown": null },
+    { "host": "neuroevalguides.com", "route": "/guides/hospital-vs-private-neuropsych-testing/", "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json", "impressions": 6, "clicks": 0, "position": 15, "query_shown": "hospital vs private neuropsych testing" },
+    { "host": "neuroevalguides.com", "route": "/guides/adhd-therapy-after-an-evaluation/", "source": "data/page_sets/examples/neuro_global_pages/guides_adhd-therapy-after-an-evaluation.json", "impressions": 2, "clicks": 0, "position": 6, "query_shown": null },
+    { "host": "hormonesivhair.com", "route": "/guides/trt-red-flags/", "source": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json", "impressions": 8, "clicks": 0, "position": 2.5, "query_shown": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?" },
+    { "host": "dentistryguides.com", "route": "/guides/dental-implant-and-oral-surgery-cost/", "source": "data/page_sets/examples/dentistry_global_pages/guides_dental-implant-and-oral-surgery-cost.json", "impressions": 4, "clicks": 0, "position": 5.8, "query_shown": null },
+    { "host": "theaccidentguides.com", "route": "/guides/medical-bills-behind-a-settlement/", "source": "data/page_sets/examples/pi_global_pages/medical-bills-behind-a-settlement.json", "impressions": 3, "clicks": 0, "position": 9, "query_shown": null }
+  ]
+}
