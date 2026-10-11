@@ -49,15 +49,23 @@ function applyStrengthening(mainHtml, page) {
   return out;
 }
 
-function faqJsonLd(page) {
+// Folds the page's real questions into the FAQPage the head already carries
+// (renderHeadJsonLdGlobal emits a one-question FAQPage on every global page), so
+// the page keeps exactly ONE FAQPage: a second one is a Search Console
+// "Duplicate field FAQPage" error that voids the rich result.
+function mergeFaqIntoJsonLd(headJsonLd, page) {
   const s = page && page.search_strengthening;
-  if (!s || !Array.isArray(s.faq) || !s.faq.length) return '';
-  const ld = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: s.faq.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } }))
-  };
-  return '\n<script type="application/ld+json">\n' + JSON.stringify(ld, null, 2) + '\n</script>';
+  if (!s || !Array.isArray(s.faq) || !s.faq.length) return headJsonLd;
+  const qs = s.faq.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } }));
+  const m = String(headJsonLd).match(/(<script type="application\/ld\+json">\s*)([\s\S]*?)(\s*<\/script>)/);
+  if (!m) throw new Error('mergeFaqIntoJsonLd: head JSON-LD script not found');
+  const data = JSON.parse(m[2]);
+  const nodes = Array.isArray(data) ? data : [data];
+  const faq = nodes.find((n) => n && n['@type'] === 'FAQPage');
+  if (faq) faq.mainEntity = [...[].concat(faq.mainEntity || []), ...qs];
+  else nodes.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: qs });
+  const out = Array.isArray(data) ? nodes : (nodes.length === 1 ? nodes[0] : nodes);
+  return String(headJsonLd).replace(m[0], m[1] + JSON.stringify(out, null, 2) + m[3]);
 }
 
 function renderRankedLinksHtml(siteUrl, route) {
@@ -90,4 +98,4 @@ function renderAudienceBlockHtml(siteUrl, verticalKey, stateAbbr, stateName) {
   return '<section class="section audience-cta" data-audience-cta="' + esc(cta.ref) + '"><h2>' + fill(cta.heading) + '</h2><p>' + fill(cta.body) + '</p><p class="audience-cta__actions">' + links.join(' ') + '</p></section>' + TRACK_SCRIPT;
 }
 
-module.exports = { applyStrengthening, faqJsonLd, renderRankedLinksHtml, renderAudienceBlockHtml, STRENGTHENED, CTAS };
+module.exports = { applyStrengthening, mergeFaqIntoJsonLd, renderRankedLinksHtml, renderAudienceBlockHtml, STRENGTHENED, CTAS };

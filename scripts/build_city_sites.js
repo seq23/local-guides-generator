@@ -4634,7 +4634,7 @@ if (route === 'admin') {
     "%%INLINE_SCRIPTS%%": "",
     "%%CANONICAL%%": buildCanonicalGlobal(siteUrl, route),
     "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "home" : (route === "guides" ? "guides-hub" : (route.startsWith("guides/") ? "guide-detail" : "global")), title: headTitle, description: headDescription, canonical: buildCanonicalGlobal(siteUrl, route), brandName, section: route.startsWith("guides/") ? "Guide" : (route === "guides" ? "Guides hub" : "Global"), keywords: [verticalKey, route.replace(/\//g, " "), title] }),
-    "%%HEAD_JSON_LD%%": renderHeadJsonLdGlobal(siteUrl, brandName, route, headTitle, headDescription, pageSet) + searchBlocks.faqJsonLd(globalPage),
+    "%%HEAD_JSON_LD%%": searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdGlobal(siteUrl, brandName, route, headTitle, headDescription, pageSet), globalPage),
     "%%FOOTER%%": footerHtml,
     "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
