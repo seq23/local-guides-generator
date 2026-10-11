@@ -73,7 +73,9 @@ jobs:
         # credential-less named stop, so an empty-handed lane leaves a receipt.
         # CHANGELOG.md carries the rotation entry from the step above and was
         # likewise never staged. data/site.json is deliberately NOT committed:
-        # it is transient materialized pack state.
+        # it is transient materialized pack state, so the rebase autostashes it:
+        # without --autostash an unstaged site.json made "git pull --rebase"
+        # refuse whenever main had moved during the run (run of 11 Oct 2026).
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -83,5 +85,5 @@ jobs:
             exit 0
           fi
           git commit -m "Record search truth and citation probe observations $(date -u +%Y-%m-%d)"
-          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
