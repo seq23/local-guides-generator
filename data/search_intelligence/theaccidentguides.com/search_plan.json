@@ -8,14 +8,188 @@
     "ctr": 0,
     "position": 64.3
   },
-  "strengthening_rule": "guide page with >= 2 impressions at average position <= 15",
+  "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
     {
-      "route": "/guides/medical-bills-behind-a-settlement/",
-      "source": "data/page_sets/examples/pi_global_pages/medical-bills-behind-a-settlement.json",
-      "impressions": 3,
+      "route": "/states/LA/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 148,
       "clicks": 0,
-      "position": 9,
+      "position": 57.7,
+      "strengthened": true
+    },
+    {
+      "route": "/states/WV/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 105,
+      "clicks": 0,
+      "position": 57,
+      "strengthened": true
+    },
+    {
+      "route": "/states/SD/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 101,
+      "clicks": 0,
+      "position": 59,
+      "strengthened": true
+    },
+    {
+      "route": "/states/MO/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 64,
+      "clicks": 0,
+      "position": 61.5,
+      "strengthened": true
+    },
+    {
+      "route": "/states/DE/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 41,
+      "clicks": 0,
+      "position": 78.2,
+      "strengthened": true
+    },
+    {
+      "route": "/states/KS/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 29,
+      "clicks": 0,
+      "position": 52.6,
+      "strengthened": true
+    },
+    {
+      "route": "/states/IN/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 25,
+      "clicks": 0,
+      "position": 66.4,
+      "strengthened": true
+    },
+    {
+      "route": "/states/MN/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 20,
+      "clicks": 0,
+      "position": 83.3,
+      "strengthened": true
+    },
+    {
+      "route": "/states/AL/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 15,
+      "clicks": 0,
+      "position": 90.8,
+      "strengthened": true
+    },
+    {
+      "route": "/states/AK/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 11,
+      "clicks": 0,
+      "position": 46.1,
+      "strengthened": true
+    },
+    {
+      "route": "/states/ND/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 572,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 13,
+      "clicks": 0,
+      "position": 62.4,
+      "strengthened": true
+    },
+    {
+      "route": "/guides/when-to-call-a-personal-injury-lawyer/",
+      "family": "when to call @ /guides/when-to-call-a-personal-injury-lawyer/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 58,
+      "source": "data/page_sets/examples/pi_global_pages/when-to-call-a-personal-injury-lawyer.json",
+      "impressions": 60,
+      "clicks": 0,
+      "position": 59.7,
+      "strengthened": true
+    },
+    {
+      "route": "/guides/evidence-checklist-after-an-accident/",
+      "family": "evidence checklist @ /guides/evidence-checklist-after-an-accident/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 55,
+      "source": "data/page_sets/examples/pi_global_pages/evidence-checklist-after-an-accident.json",
+      "impressions": 62,
+      "clicks": 0,
+      "position": 68.8,
+      "strengthened": true
+    },
+    {
+      "route": "/guides/personal-injury-fees-explained/",
+      "family": "cost @ /guides/personal-injury-fees-explained/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 23,
+      "source": "data/page_sets/examples/pi_global_pages/personal-injury-fees-explained.json",
+      "impressions": 45,
+      "clicks": 0,
+      "position": 47.1,
       "strengthened": true
     }
   ],

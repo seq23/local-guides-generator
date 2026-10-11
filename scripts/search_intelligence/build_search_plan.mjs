@@ -8,14 +8,24 @@
 //   consolidation_candidates.json guide pages with 0 impressions and thin content
 //                                (< THIN_WORDS words of source text), each with the hub
 //                                it would fold into. Ledger only: no redirects.
-//   search_plan.json             strengthening candidates (guide pages with >= 2
-//                                impressions at position <= 15) and whether each is
-//                                already strengthened, plus the run's counts.
+//   demand_families.json         queries clustered into families (head term from
+//                                demand_intents.json + landing page; state hubs
+//                                collapse to one template) with impressions, best
+//                                and weighted position, intent, and the status of
+//                                each: strengthened, or the reason it is not. The
+//                                rule lives in demand_families.js (one copy, read
+//                                by the renderer and the validator too).
+//   search_plan.json             strengthening candidates = the pages of every
+//                                qualifying family (a page ranking at <= 15 with
+//                                >= 2 impressions, OR a top-5 family by impressions
+//                                at weighted position <= 95), state hubs included.
 //
 // A site whose analytics export is missing is a NAMED STOP line (its files are
 // left as they were). Zero targets across all five sites fails the step.
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
+const DF = createRequire(import.meta.url)('./demand_families.js');
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..', '..');
 const SI = path.join(ROOT, 'data', 'search_intelligence');
@@ -28,7 +38,6 @@ const tokens = (s) => new Set(norm(s).split(' ').filter((w) => w.length > 3));
 
 const { sites } = read(path.join(SI, 'sites.json'));
 const demand = read(path.join(SI, 'measured_demand.json'), { records: [] }).records || [];
-const strengthened = new Set((read(path.join(SI, 'strengthened_pages.json'), { pages: [] }).pages || []).map((p) => `${p.host}${p.route}`));
 let totalTargets = 0;
 
 for (const site of sites) {
@@ -101,16 +110,22 @@ for (const site of sites) {
     guide_count: guides.length, candidate_count: candidates.length, candidates
   });
 
-  // Strengthening candidates.
-  const strong = guides.map((g) => ({ ...g, m: byPage.get(g.route) })).filter((g) => g.m && g.m.impressions >= 2 && g.m.position <= 15)
-    .map((g) => ({ route: g.route, source: g.file, impressions: g.m.impressions, clicks: g.m.clicks, position: g.m.position, strengthened: strengthened.has(`${site.host}${g.route}`) }));
+  // Demand families and strengthening candidates (impressions-weighted rule).
+  const famDoc = DF.buildDocument(site, gsc);
+  write(path.join(dir, 'demand_families.json'), famDoc);
+  const guideFile = new Map(guides.map((g) => [g.route, g.file]));
+  const strong = famDoc.families.filter((f) => f.qualifies && f.strengthened_pages.length).flatMap((f) => f.strengthened_pages.map((route) => {
+    const m = byPage.get(route) || {};
+    return { route, family: f.family, basis: f.basis, family_impressions: f.impressions, source: f.page_kind === 'state_hub' ? DF.packPageSetFile(site) : guideFile.get(route),
+      impressions: m.impressions || 0, clicks: m.clicks || 0, position: m.position == null ? null : m.position, strengthened: f.status === 'strengthened' };
+  }));
   write(path.join(dir, 'search_plan.json'), {
     schema_version: '1.0', host: site.host, gsc_window: window, totals: gsc.totals,
-    strengthening_rule: 'guide page with >= 2 impressions at average position <= 15',
+    strengthening_rule: famDoc.rule,
     strengthening_candidates: strong,
     not_yet_strengthened: strong.filter((s) => !s.strengthened).map((s) => s.route),
     coverage: coverage.summary || null
   });
-  console.log(`${site.host}: targets=${list.length} ${JSON.stringify(bySource)} consolidation=${candidates.length}/${guides.length} strengthen=${strong.length}`);
+  console.log(`${site.host}: targets=${list.length} ${JSON.stringify(bySource)} consolidation=${candidates.length}/${guides.length} families=${famDoc.family_count} strengthen=${strong.length} not_yet=${strong.filter((s) => !s.strengthened).length}`);
 }
 if (totalTargets === 0) { console.error('build_search_plan: 0 measured targets across all sites'); process.exit(1); }

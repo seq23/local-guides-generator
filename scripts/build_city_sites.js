@@ -1918,6 +1918,26 @@ function buildFaqSchema(items) {
 }
 
 
+// A page carries ONE FAQPage: a second one is a Search Console "Duplicate field
+// FAQPage" error that voids the rich result. City homes used to emit two (the
+// one-question answer FAQ and the pack's city FAQ); fold every FAQPage node into
+// the first, dropping repeated questions. scripts/validation/demand_families_contract.js
+// fails any rendered page with more than one.
+function foldFaqPages(ld) {
+  const faqs = ld.filter((n) => n && n['@type'] === 'FAQPage');
+  if (faqs.length < 2) return ld;
+  const seen = new Set();
+  const mainEntity = [];
+  for (const f of faqs) for (const q of [].concat(f.mainEntity || [])) {
+    const key = String(q && q.name || '').trim().toLowerCase();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    mainEntity.push(q);
+  }
+  const first = ld.indexOf(faqs[0]);
+  return ld.filter((n, i) => i === first || !(n && n['@type'] === 'FAQPage')).map((n, i) => (i === first ? { ...n, mainEntity } : n));
+}
+
 function buildAnswerFaqSchema(question, answer) {
   const q = String(question || '').trim();
   const a = String(answer || '').replace(/\s+/g, ' ').trim();
@@ -2131,7 +2151,7 @@ function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, p
     const faqSchema = buildFaqSchema(faq);
     if (faqSchema) ld.push(faqSchema);
   }
-  return `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>`;
+  return `<script type="application/ld+json">\n${JSON.stringify(foldFaqPages(ld), null, 2)}\n</script>`;
 }
 
 function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateName, title, description, pageSet, listingsAgg) {
@@ -2179,7 +2199,7 @@ function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateNa
     if (faqSchema) ld.push(faqSchema);
   }
 
-  return `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>`;
+  return `<script type="application/ld+json">\n${JSON.stringify(foldFaqPages(ld), null, 2)}\n</script>`;
 }
 
 function buildGuideHowToSchema(siteUrl, route, title, description) {
@@ -2255,7 +2275,7 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
     if (faqSchema) ld.push(faqSchema);
   }
   return `<script type="application/ld+json">
-${JSON.stringify(ld, null, 2)}
+${JSON.stringify(foldFaqPages(ld), null, 2)}
 </script>`;
 }
 
@@ -3560,7 +3580,7 @@ function renderStateCityGridHtml(stateName, cityLinks) {
     '<a class="state-city-card" href="' + escapeHtml(String(item.href || '#')) + '"><span class="state-city-card__name">' + escapeHtml(String(item.label || 'City')) + '</span><span class="state-city-card__meta">City page</span></a>'
   ).join('');
   return (
-    '<section class="section state-cities-block" data-covered-cities="true">' +
+    '<section class="section state-cities-block" id="covered-cities" data-covered-cities="true">' +
       '<h2>Cities we cover in ' + escapeHtml(String(stateName || 'this state')) + '</h2>' +
       '<div class="state-city-grid">' + cards + '</div>' +
     '</section>'
@@ -5544,7 +5564,8 @@ function loadNextStepsSponsor(citySlug) {
     function renderGenericStatePageHtml(stateInfo) {
       const ab = String(stateInfo.abbr || '').toUpperCase();
       const stateName = String(stateInfo.name || ALL_US_STATES[ab] || ab);
-      const title = brandName + ' in ' + stateName + ' — state hub';
+      const stateStrength = searchBlocks.stateHubStrengthening(siteUrl, pageSet, ab, stateName);
+      const title = stateStrength ? stateStrength.title : brandName + ' in ' + stateName + ' — state hub';
       const description = 'Use this state hub to narrow into covered cities, provider examples, official verification resources, and next steps in ' + stateName + '.';
       const guideLinks = selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }));
       const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }));
@@ -5561,7 +5582,8 @@ function loadNextStepsSponsor(citySlug) {
       const naturalizationStateGuides = renderStateNaturalizationGuidesHtml(verticalKey, globalPagesDir);
       let mainHtml = (
         (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and city coverage checks.') : '') +
-        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(brandName) + ' in ' + escapeHtml(stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
+        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : brandName + ' in ' + stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
+        searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:state_hub_top%%' +
         stateLead +
         searchBlocks.renderAudienceBlockHtml(siteUrl, verticalKey, ab, stateName) +
@@ -5596,7 +5618,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
         '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-home', title, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab), brandName, section: 'State hub', keywords: [verticalKey, stateName, 'state hub'] }),
-        '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'states/' + ab, title, description, pageSet),
+        '%%HEAD_JSON_LD%%': searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdGlobal(siteUrl, brandName, 'states/' + ab, title, description, pageSet), stateStrength && { search_strengthening: stateStrength }),
         '%%FOOTER%%': footerHtml,
         '%%CONNECTION_BUBBLE%%': connectionBubbleHtml,
         '%%BRAND_NAME%%': escapeHtml(brandName),
@@ -5709,7 +5731,10 @@ function loadNextStepsSponsor(citySlug) {
         st.stateName ||
         ab
       );
-      const title = 'Personal Injury Lawyers in ' + stateName + ': State Guide';
+      // A state hub in a strengthened demand family (search_intelligence/demand_families.js)
+      // takes the pack's search_strengthening.state_hub: title, H1, top section, FAQ.
+      const stateStrength = searchBlocks.stateHubStrengthening(siteUrl, pageSet, ab, stateName);
+      const title = stateStrength ? stateStrength.title : 'Personal Injury Lawyers in ' + stateName + ': State Guide';
       const description = 'Use this state guide to compare firms, check official resources, and understand what to look for before contacting a personal injury lawyer in ' + stateName + '.';
 
       const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
@@ -5783,9 +5808,10 @@ function loadNextStepsSponsor(citySlug) {
         (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and inventory checks.') : '') +
         '<section class="hero" data-state-hero="true" data-pi-state-page="true">' +
         '<p class="kicker">Personal injury · State guide</p>' +
-        '<h1>' + escapeHtml(stateName) + ' personal injury guide</h1>' +
+        '<h1>' + escapeHtml(stateStrength ? stateStrength.h1 : stateName + ' personal injury guide') + '</h1>' +
         '<p class="muted">Use this state page for neutral decision support, firm comparison, and official verification resources.</p>' +
         '</section>' +
+        searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:pi_state_top%%' +
         '<section class="state-authority-block" data-state-authority-block="true" data-state-authority-strength="true" data-state-authority-dominance="true">' +
         '<p>This page brings together verified firm listings and official resources for this state so you can compare firms and evaluate your options in one place.</p>' +
@@ -5828,7 +5854,7 @@ function loadNextStepsSponsor(citySlug) {
         renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, stateName, verticalLabel: verticalLabelFor(verticalKey), hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
         renderStateCityGridHtml(stateName, cityLinks) +
         '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.route) + '">' + escapeHtml(g.title) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>' +
-        '<section class="section" data-pi-state-directory="true">' +
+        '<section class="section" id="state-directory" data-pi-state-directory="true">' +
         '<h2>Directory Listings (Firms listed for ' + escapeHtml(stateName) + ')</h2>' +
         '<p class="muted">This is a neutral, non-ranked state directory. Use it with the checklist above and the official verification tools below.</p>' +
         '<div class="grid">' + directoryCards + '</div>' +
@@ -5897,7 +5923,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
         '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-home', title, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab), brandName, section: 'State directory', keywords: [stateName, 'personal injury', 'directory'] }),
-        '%%HEAD_JSON_LD%%': renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg),
+        '%%HEAD_JSON_LD%%': searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg), stateStrength && { search_strengthening: stateStrength }),
         '%%FOOTER%%': footerHtml,
         '%%CONNECTION_BUBBLE%%': connectionBubbleHtml,
         '%%BRAND_NAME%%': escapeHtml(brandName),

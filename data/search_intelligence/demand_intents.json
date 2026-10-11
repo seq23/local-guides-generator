@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "note": "Head-term lexicon for demand families (scripts/search_intelligence/demand_families.js). Checked in order, first match wins, against the normalised query (and, for a guide, its route + title to give the page its intent). A query that matches nothing inherits the intent of the page Google showed for it: a state hub serves choose_provider, a guide with no match serves its own topic. Families are (intent, landing page); state hubs collapse to /states/{STATE}/ because one template renders them all. choose_provider is last because 'lawyer', 'dentist' and 'clinic' also appear inside the narrower intents. provider_business is first: practice valuations, contact lists, leads and listings are searches by providers, not by the patients and clients these sites serve.",
+  "state_hub_intent": "choose_provider",
+  "intents": [
+    {
+      "intent": "provider_business",
+      "head_term": "provider business",
+      "pattern": "consulting|practice (evaluations?|valuations?|risk|sale|transitions?)|email|contact lists?|ddsmatch|\\blisting\\b|marketing|\\bleads?\\b"
+    },
+    {
+      "intent": "license_lookup",
+      "head_term": "licence lookup",
+      "pattern": "\\blicen[cs]e|\\bboard\\b|verification|\\bverify|look ?up|renewal|credential|reciprocity"
+    },
+    {
+      "intent": "questions_to_ask",
+      "head_term": "questions to ask",
+      "pattern": "\\bquestions?\\b"
+    },
+    {
+      "intent": "red_flags",
+      "head_term": "red flags",
+      "pattern": "red flags?|warning signs?"
+    },
+    {
+      "intent": "when_to_call",
+      "head_term": "when to call",
+      "pattern": "^when\\b|\\bwhen (to|should|is)\\b"
+    },
+    {
+      "intent": "evidence_checklist",
+      "head_term": "evidence checklist",
+      "pattern": "evidence|checklist"
+    },
+    {
+      "intent": "cost",
+      "head_term": "cost",
+      "pattern": "\\bcosts?\\b|\\bprices?\\b|\\bfees?\\b|charge|how much|\\bbills?\\b"
+    },
+    {
+      "intent": "candidacy",
+      "head_term": "candidate",
+      "pattern": "candidate|candidacy|eligib"
+    },
+    {
+      "intent": "comparison",
+      "head_term": "comparison",
+      "pattern": "\\bvs\\b|versus|better"
+    },
+    {
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "pattern": "choos|select|\\bfind\\b|\\bbest\\b|\\btop\\b|\\bright\\b|lawyer|attorney|dentist|clinic|near me"
+    }
+  ]
+}

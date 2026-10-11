@@ -25,7 +25,8 @@
     "jsonld_types": "scripts/validation/homepage_schema_contract.js",
     "definition_speakable": "scripts/validation/homepage_definition_contract.js",
     "clarity_hosts": "scripts/validation/clarity_hosts_contract.js",
-    "indexnow_key": "scripts/validate_indexnow.js"
+    "indexnow_key": "scripts/validate_indexnow.js",
+    "demand_families": "scripts/validation/demand_families_contract.js"
   },
   "homepage_jsonld_types": [
     "Organization",
@@ -64,14 +65,17 @@
       "data/search_intelligence/audience_ctas.json",
       "data/search_intelligence/publishing_freeze.json",
       "scripts/search_intelligence/render_blocks.js",
-      "functions/api/cta-clicks.js"
+      "functions/api/cta-clicks.js",
+      "data/search_intelligence/demand_intents.json",
+      "scripts/search_intelligence/demand_families.js"
     ],
     "per_site_files": [
       "gsc_search_analytics_export.json",
       "index_coverage.json",
       "target_query_set.json",
       "consolidation_candidates.json",
-      "search_plan.json"
+      "search_plan.json",
+      "demand_families.json"
     ],
     "freshness_days": 8,
     "inspect_cap_per_site": 150,
@@ -85,6 +89,12 @@
       "searchBlocks.mergeFaqIntoJsonLd(",
       "searchBlocks.renderRankedLinksHtml(",
       "searchBlocks.renderAudienceBlockHtml("
-    ]
+    ],
+    "demand_families": {
+      "registered_on": "2026-10-11",
+      "note": "Impressions-weighted strengthening (owner brief 11 Oct 2026): a family qualifies by a page ranking <= 15 with >= 2 impressions OR by being a top-5 family by impressions at weighted position <= 95; state hubs eligible. Rule: scripts/search_intelligence/demand_families.js; proof: scripts/validation/demand_families_contract.js (hard_fail).",
+      "rule": "scripts/search_intelligence/demand_families.js",
+      "validator": "scripts/validation/demand_families_contract.js"
+    }
   }
 }
