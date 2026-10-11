@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "provenance": "Copied 2026-10-11 from local-guides-citation-velocity data/demand/measured_demand.json: every record whose target_domain is one of this repo's five hosts AND that carries a measured monthly volume (semrush_keyword_magic, tier T2b). The 14 other records for these hosts (T3 web research, owner seeds) carry no volume and are not targets. build_search_plan.mjs reads this file; a target admitted from it carries source measured_demand and this volume.",
+  "records": [
+    { "query": "hormone replacement therapy near me", "volume": 8100, "source_type": "semrush_keyword_magic", "evidence_tier": "T2b", "target_domain": "hormonesivhair.com", "intent": "commercial", "owner_route": "/guides/hormone-replacement-therapy-near-me/" },
+    { "query": "uscis civil surgeon", "volume": 5400, "source_type": "semrush_keyword_magic", "evidence_tier": "T2b", "target_domain": "uscisexam.com", "intent": "informational", "owner_route": "/" },
+    { "query": "civil surgeon near me", "volume": 2400, "source_type": "semrush_keyword_magic", "evidence_tier": "T2b", "target_domain": "uscisexam.com", "intent": "commercial", "owner_route": "/" },
+    { "query": "citizenship test 2026", "volume": 170, "source_type": "semrush_keyword_magic", "evidence_tier": "T2b", "target_domain": "uscisexam.com", "intent": "informational", "owner_route": "/guides/citizenship-test/" },
+    { "query": "personal injury guide", "volume": 40, "source_type": "semrush_keyword_magic", "evidence_tier": "T2b", "target_domain": "theaccidentguides.com", "intent": "informational", "owner_route": "/guides/" }
+  ]
+}

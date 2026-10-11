@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "host": "neuroevalguides.com",
+  "gsc_window": "2026-09-11..2026-10-08",
+  "totals": {
+    "clicks": 2,
+    "impressions": 39,
+    "ctr": 0.0513,
+    "position": 15.8
+  },
+  "strengthening_rule": "guide page with >= 2 impressions at average position <= 15",
+  "strengthening_candidates": [
+    {
+      "route": "/guides/adhd-therapy-after-an-evaluation/",
+      "source": "data/page_sets/examples/neuro_global_pages/guides_adhd-therapy-after-an-evaluation.json",
+      "impressions": 2,
+      "clicks": 0,
+      "position": 6,
+      "strengthened": true
+    },
+    {
+      "route": "/guides/hospital-vs-private-neuropsych-testing/",
+      "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
+      "impressions": 6,
+      "clicks": 0,
+      "position": 15,
+      "strengthened": true
+    },
+    {
+      "route": "/guides/neuropsych-testing-cost-by-state/",
+      "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
+      "impressions": 15,
+      "clicks": 2,
+      "position": 7.6,
+      "strengthened": true
+    }
+  ],
+  "not_yet_strengthened": [],
+  "coverage": {
+    "by_coverage_state": {
+      "Crawled - currently not indexed": 58,
+      "Discovered - currently not indexed": 14,
+      "Duplicate, Google chose different canonical than user": 2,
+      "Submitted and indexed": 16,
+      "URL is unknown to Google": 21
+    },
+    "buckets": {
+      "crawled_not_indexed": 58,
+      "discovered_not_indexed": 14,
+      "indexed": 16,
+      "other": 2,
+      "unknown": 21
+    }
+  }
+}

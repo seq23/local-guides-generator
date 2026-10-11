@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "host": "dentistryguides.com",
+  "status": "LEDGER_ONLY_NO_REDIRECTS",
+  "gsc_window": "2026-09-11..2026-10-08",
+  "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
+  "guide_count": 23,
+  "candidate_count": 9,
+  "candidates": [
+    {
+      "route": "/guides/clear-aligners/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_clear-aligners.json",
+      "words": 458,
+      "impressions_28d": 0,
+      "coverage_state": "Discovered - currently not indexed",
+      "fold_into": "/guides/dental-implant-and-oral-surgery-cost/",
+      "fold_basis": "shares 1 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/cosmetic-dentistry/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_cosmetic-dentistry.json",
+      "words": 527,
+      "impressions_28d": 0,
+      "coverage_state": "Crawled - currently not indexed",
+      "fold_into": "/guides/sedation-dentistry/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/dental-crowns/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_dental-crowns.json",
+      "words": 333,
+      "impressions_28d": 0,
+      "coverage_state": "Discovered - currently not indexed",
+      "fold_into": "/guides/dental-implant-and-oral-surgery-cost/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/full-arch-implants/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_full-arch-implants.json",
+      "words": 457,
+      "impressions_28d": 0,
+      "coverage_state": "Discovered - currently not indexed",
+      "fold_into": "/guides/dental-implants/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/gum-disease-treatment/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_gum-disease-treatment.json",
+      "words": 340,
+      "impressions_28d": 0,
+      "coverage_state": "Discovered - currently not indexed",
+      "fold_into": "/guides/dental-implant-and-oral-surgery-cost/",
+      "fold_basis": "shares 1 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/oral-surgery/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_oral-surgery.json",
+      "words": 342,
+      "impressions_28d": 0,
+      "coverage_state": "Crawled - currently not indexed",
+      "fold_into": "/guides/dental-implant-and-oral-surgery-cost/",
+      "fold_basis": "shares 3 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/questions-to-ask/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_questions-to-ask.json",
+      "words": 527,
+      "impressions_28d": 0,
+      "coverage_state": "Submitted and indexed",
+      "fold_into": "/guides/dental-implant-and-oral-surgery-cost/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/root-canal-treatment/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_root-canal-treatment.json",
+      "words": 402,
+      "impressions_28d": 0,
+      "coverage_state": "URL is unknown to Google",
+      "fold_into": "/guides/dental-implant-and-oral-surgery-cost/",
+      "fold_basis": "shares 1 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/tooth-extractions/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_tooth-extractions.json",
+      "words": 457,
+      "impressions_28d": 0,
+      "coverage_state": "URL is unknown to Google",
+      "fold_into": "/guides/dental-implant-and-oral-surgery-cost/",
+      "fold_basis": "shares 1 topic words with a guide that has impressions"
+    }
+  ]
+}

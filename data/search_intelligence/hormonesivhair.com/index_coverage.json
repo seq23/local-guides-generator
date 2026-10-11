@@ -1,0 +1,1151 @@
+{
+  "schema_version": "1.0",
+  "truth_source": "google_search_console_url_inspection",
+  "site_url": "sc-domain:hormonesivhair.com",
+  "collected_at": "2026-10-11T00:00:00+00:00",
+  "state": "OK",
+  "named_stop": null,
+  "sitemap_url_count": 223,
+  "inspected_this_run": 111,
+  "errors_this_run": 0,
+  "inspected_total": 111,
+  "never_inspected": 112,
+  "quota": {
+    "daily_limit_per_property": 2000,
+    "cap_per_site_per_day": 150,
+    "parallel": 8
+  },
+  "rotation": "homepage, then never-inspected sitemap URLs in sitemap order, then oldest inspection first",
+  "summary": {
+    "by_coverage_state": {
+      "Crawled - currently not indexed": 65,
+      "Discovered - currently not indexed": 14,
+      "Duplicate, Google chose different canonical than user": 2,
+      "Submitted and indexed": 12,
+      "URL is unknown to Google": 18
+    },
+    "buckets": {
+      "crawled_not_indexed": 65,
+      "discovered_not_indexed": 14,
+      "indexed": 12,
+      "other": 2,
+      "unknown": 18
+    }
+  },
+  "truth_boundary": "URL Inspection reports Google's index state per URL at inspected_at; impressions come from gsc_search_analytics_export.json.",
+  "notes": [
+    "seeded from GSC Portfolio Report coverage run 38142685248 (velocity repo); the daily cycle continues the rotation from here"
+  ],
+  "urls": [
+    {
+      "url": "https://hormonesivhair.com/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-09T14:46:03Z",
+      "googleCanonical": "https://hormonesivhair.com/",
+      "userCanonical": "https://hormonesivhair.com/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/faq/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-06T16:52:22Z",
+      "googleCanonical": "https://hormonesivhair.com/faq/",
+      "userCanonical": "https://hormonesivhair.com/faq/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/request-assistance/",
+      "bucket": "other",
+      "coverageState": "Duplicate, Google chose different canonical than user",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-03-21T22:48:04Z",
+      "googleCanonical": "https://neuroevalguides.com/request-assistance/?pt=Neuro%20Evaluation%20Provider&src=%2Fguides%2Fadhd-therapy-vs-medication-vs-coaching%2F",
+      "userCanonical": "https://hormonesivhair.com/request-assistance/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-09T07:23:11Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/",
+      "userCanonical": "https://hormonesivhair.com/guides/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/are-peptides-safe/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/beauty-peptide-costs-and-bundles/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-08-16T21:46:42Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/beauty-peptide-costs-and-bundles/",
+      "userCanonical": "https://hormonesivhair.com/guides/beauty-peptide-costs-and-bundles/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/beauty-peptides-after-35/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-11T01:42:29Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/beauty-peptides-after-35/",
+      "userCanonical": "https://hormonesivhair.com/guides/beauty-peptides-after-35/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/beauty-peptides-for-skin-hair-and-appearance/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-21T08:54:43Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/beauty-peptides-for-skin-hair-and-appearance/",
+      "userCanonical": "https://hormonesivhair.com/guides/beauty-peptides-for-skin-hair-and-appearance/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/copper-peptides-hair/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-23T16:16:12Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/copper-peptides-hair/",
+      "userCanonical": "https://hormonesivhair.com/guides/copper-peptides-hair/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/dht-hair-loss-explained/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/does-hair-microneedling-work/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/does-insurance-cover-testosterone-therapy/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-02T08:51:10Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/does-insurance-cover-testosterone-therapy/",
+      "userCanonical": "https://hormonesivhair.com/guides/does-insurance-cover-testosterone-therapy/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/does-prp-work-for-hair-loss/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-24T23:33:08Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/does-prp-work-for-hair-loss/",
+      "userCanonical": "https://hormonesivhair.com/guides/does-prp-work-for-hair-loss/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/ghk-cu-for-skin-and-hair/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-09T00:10:37Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/ghk-cu-for-skin-and-hair/",
+      "userCanonical": "https://hormonesivhair.com/guides/ghk-cu-for-skin-and-hair/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/hair-botox-for-hair-loss/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-09T00:10:16Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/hair-botox-for-hair-loss/",
+      "userCanonical": "https://hormonesivhair.com/guides/hair-botox-for-hair-loss/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/hair-loss-aesthetic-vs-hormonal/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/hair-microneedling-for-hair-loss/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/hormone-replacement-therapy-near-me/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-28T22:04:37Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/hormone-replacement-therapy-near-me/",
+      "userCanonical": "https://hormonesivhair.com/guides/hormone-replacement-therapy-near-me/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/hormone-therapy-cost-what-is-published/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-10-02T09:16:10Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/hormone-therapy-cost-what-is-published/",
+      "userCanonical": "https://hormonesivhair.com/guides/hormone-therapy-cost-what-is-published/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/albuquerque-nm/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/anchorage-ak/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/atlanta-ga/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/baltimore-md/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/billings-mt/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-05T10:33:05Z",
+      "googleCanonical": "https://hormonesivhair.com/billings-mt/",
+      "userCanonical": "https://hormonesivhair.com/billings-mt/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/birmingham-al/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/boise-id/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/boston-ma/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/burlington-vt/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/charleston-wv/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/charlotte-nc/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/cheyenne-wy/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/chicago-il/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/columbia-sc/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/columbus-oh/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/dallas-tx/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-13T16:59:08Z",
+      "googleCanonical": "https://hormonesivhair.com/dallas-tx/",
+      "userCanonical": "https://hormonesivhair.com/dallas-tx/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/denver-co/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/des-moines-ia/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/detroit-mi/",
+      "bucket": "discovered_not_indexed",
+      "coverageState": "Discovered - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/fargo-nd/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/about/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-11T23:38:56Z",
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/albuquerque-nm/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-07T04:59:25Z",
+      "googleCanonical": "https://hormonesivhair.com/albuquerque-nm/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/albuquerque-nm/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/anchorage-ak/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-23T04:12:05Z",
+      "googleCanonical": "https://hormonesivhair.com/anchorage-ak/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/anchorage-ak/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/atlanta-ga/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-24T16:10:32Z",
+      "googleCanonical": "https://hormonesivhair.com/atlanta-ga/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/atlanta-ga/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/baltimore-md/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-02T23:02:35Z",
+      "googleCanonical": "https://hormonesivhair.com/baltimore-md/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/baltimore-md/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/billings-mt/next-steps/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/birmingham-al/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-14T21:09:32Z",
+      "googleCanonical": "https://hormonesivhair.com/birmingham-al/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/birmingham-al/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/boise-id/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-14T23:30:50Z",
+      "googleCanonical": "https://hormonesivhair.com/boise-id/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/boise-id/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/boston-ma/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-13T21:08:06Z",
+      "googleCanonical": "https://hormonesivhair.com/boston-ma/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/boston-ma/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/burlington-vt/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-01T23:40:39Z",
+      "googleCanonical": "https://hormonesivhair.com/burlington-vt/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/burlington-vt/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/charleston-wv/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-14T22:40:47Z",
+      "googleCanonical": "https://hormonesivhair.com/charleston-wv/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/charleston-wv/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/charlotte-nc/next-steps/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/cheyenne-wy/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-07T12:45:01Z",
+      "googleCanonical": "https://hormonesivhair.com/cheyenne-wy/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/cheyenne-wy/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/chicago-il/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-12T14:07:42Z",
+      "googleCanonical": "https://hormonesivhair.com/chicago-il/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/chicago-il/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/columbia-sc/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-26T23:17:24Z",
+      "googleCanonical": "https://hormonesivhair.com/columbia-sc/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/columbia-sc/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/columbus-oh/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-22T21:19:35Z",
+      "googleCanonical": "https://hormonesivhair.com/columbus-oh/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/columbus-oh/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/contact/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-29T12:57:13Z",
+      "googleCanonical": "https://hormonesivhair.com/contact/",
+      "userCanonical": "https://hormonesivhair.com/contact/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/dallas-tx/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-04T21:00:05Z",
+      "googleCanonical": "https://hormonesivhair.com/dallas-tx/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/dallas-tx/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/denver-co/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-13T21:55:40Z",
+      "googleCanonical": "https://hormonesivhair.com/denver-co/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/denver-co/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/des-moines-ia/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-02T09:41:10Z",
+      "googleCanonical": "https://hormonesivhair.com/des-moines-ia/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/des-moines-ia/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/detroit-mi/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-02T10:19:51Z",
+      "googleCanonical": "https://hormonesivhair.com/detroit-mi/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/detroit-mi/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/disclaimer/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/editorial-policy/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/fargo-nd/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-05T05:03:12Z",
+      "googleCanonical": "https://hormonesivhair.com/fargo-nd/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/fargo-nd/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/for-providers/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/hartford-ct/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-13T19:40:09Z",
+      "googleCanonical": "https://hormonesivhair.com/hartford-ct/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/hartford-ct/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/honolulu-hi/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-02T20:32:35Z",
+      "googleCanonical": "https://hormonesivhair.com/honolulu-hi/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/honolulu-hi/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/houston-tx/next-steps/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/indianapolis-in/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-27T04:09:27Z",
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/jackson-ms/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-16T23:54:54Z",
+      "googleCanonical": "https://hormonesivhair.com/jackson-ms/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/jackson-ms/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/kansas-city-ks/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-07T10:15:01Z",
+      "googleCanonical": "https://hormonesivhair.com/kansas-city-ks/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/kansas-city-ks/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/las-vegas-nv/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-08T06:34:47Z",
+      "googleCanonical": "https://hormonesivhair.com/las-vegas-nv/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/las-vegas-nv/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/little-rock-ar/next-steps/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-01T18:58:10Z",
+      "googleCanonical": "https://hormonesivhair.com/little-rock-ar/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/little-rock-ar/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/los-angeles-ca/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-23T01:42:05Z",
+      "googleCanonical": "https://hormonesivhair.com/los-angeles-ca/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/los-angeles-ca/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/louisville-ky/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-04T00:49:37Z",
+      "googleCanonical": "https://hormonesivhair.com/louisville-ky/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/louisville-ky/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/manchester-nh/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-06-22T23:49:35Z",
+      "googleCanonical": "https://hormonesivhair.com/manchester-nh/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/manchester-nh/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/memphis-tn/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-29T04:11:25Z",
+      "googleCanonical": "https://hormonesivhair.com/memphis-tn/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/memphis-tn/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/methodology/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/miami-fl/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-08T21:42:39Z",
+      "googleCanonical": "https://hormonesivhair.com/miami-fl/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/miami-fl/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/milwaukee-wi/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-05T06:18:13Z",
+      "googleCanonical": "https://hormonesivhair.com/milwaukee-wi/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/milwaukee-wi/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/minneapolis-mn/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-02T15:32:35Z",
+      "googleCanonical": "https://hormonesivhair.com/minneapolis-mn/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/minneapolis-mn/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/new-orleans-la/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-05T10:47:19Z",
+      "googleCanonical": "https://hormonesivhair.com/new-orleans-la/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/new-orleans-la/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/new-york-city-ny/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-30T11:58:28Z",
+      "googleCanonical": "https://hormonesivhair.com/new-york-city-ny/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/new-york-city-ny/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/newark-nj/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-02T13:02:35Z",
+      "googleCanonical": "https://hormonesivhair.com/newark-nj/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/newark-nj/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-08T17:25:02Z",
+      "googleCanonical": "https://hormonesivhair.com/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/oklahoma-city-ok/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-14T21:24:32Z",
+      "googleCanonical": "https://hormonesivhair.com/oklahoma-city-ok/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/oklahoma-city-ok/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/omaha-ne/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-06T12:14:37Z",
+      "googleCanonical": "https://hormonesivhair.com/omaha-ne/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/omaha-ne/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/orlando-fl/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-13T20:44:49Z",
+      "googleCanonical": "https://hormonesivhair.com/orlando-fl/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/orlando-fl/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/philadelphia-pa/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-09T00:28:49Z",
+      "googleCanonical": "https://hormonesivhair.com/philadelphia-pa/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/philadelphia-pa/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/phoenix-az/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-08T10:18:50Z",
+      "googleCanonical": "https://hormonesivhair.com/phoenix-az/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/phoenix-az/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/portland-me/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-05T07:28:44Z",
+      "googleCanonical": "https://hormonesivhair.com/portland-me/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/portland-me/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/portland-or/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-23T15:46:21Z",
+      "googleCanonical": "https://hormonesivhair.com/portland-or/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/portland-or/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/privacy/",
+      "bucket": "other",
+      "coverageState": "Duplicate, Google chose different canonical than user",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-26T21:51:10Z",
+      "googleCanonical": "https://neuroevalguides.com/privacy/",
+      "userCanonical": "https://hormonesivhair.com/privacy/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/providence-ri/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-07T11:30:02Z",
+      "googleCanonical": "https://hormonesivhair.com/providence-ri/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/providence-ri/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/richmond-va/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-15T22:54:27Z",
+      "googleCanonical": "https://hormonesivhair.com/richmond-va/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/richmond-va/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/sacramento-ca/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-24T05:18:46Z",
+      "googleCanonical": "https://hormonesivhair.com/sacramento-ca/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/sacramento-ca/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/salt-lake-city-ut/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-30T04:57:11Z",
+      "googleCanonical": "https://hormonesivhair.com/salt-lake-city-ut/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/salt-lake-city-ut/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/san-diego-ca/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-30T03:20:37Z",
+      "googleCanonical": "https://hormonesivhair.com/san-diego-ca/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/san-diego-ca/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/san-francisco-ca/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-03T01:32:36Z",
+      "googleCanonical": "https://hormonesivhair.com/san-francisco-ca/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/san-francisco-ca/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/seattle-wa/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-23T12:08:10Z",
+      "googleCanonical": "https://hormonesivhair.com/seattle-wa/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/seattle-wa/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/sioux-falls-sd/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-15T03:38:11Z",
+      "googleCanonical": "https://hormonesivhair.com/sioux-falls-sd/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/sioux-falls-sd/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/st-louis-mo/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-08-01T01:55:40Z",
+      "googleCanonical": "https://hormonesivhair.com/st-louis-mo/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/st-louis-mo/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/tampa-fl/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-14T23:05:47Z",
+      "googleCanonical": "https://hormonesivhair.com/tampa-fl/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/tampa-fl/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/wilmington-de/next-steps/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-05-14T12:40:14Z",
+      "googleCanonical": "https://hormonesivhair.com/wilmington-de/next-steps/",
+      "userCanonical": "https://hormonesivhair.com/wilmington-de/next-steps/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/how-to-find-a-peptide-provider/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-25T01:17:22Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/how-to-find-a-peptide-provider/",
+      "userCanonical": "https://hormonesivhair.com/guides/how-to-find-a-peptide-provider/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/is-iv-hydration-worth-it/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-09-01T22:05:40Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/is-iv-hydration-worth-it/",
+      "userCanonical": "https://hormonesivhair.com/guides/is-iv-hydration-worth-it/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/iv-hydration-red-flags/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-10-02T17:39:31Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/iv-hydration-red-flags/",
+      "userCanonical": "https://hormonesivhair.com/guides/iv-hydration-red-flags/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/iv-hydration-therapy-overview/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/medical-weight-loss-pricing/",
+      "bucket": "crawled_not_indexed",
+      "coverageState": "Crawled - currently not indexed",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": "2026-07-13T23:09:26Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/medical-weight-loss-pricing/",
+      "userCanonical": "https://hormonesivhair.com/guides/medical-weight-loss-pricing/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/medical-weight-loss-programs-overview/",
+      "bucket": "unknown",
+      "coverageState": "URL is unknown to Google",
+      "verdict": "NEUTRAL",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/nad-plus-for-appearance-and-anti-aging/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-26T22:16:12Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/nad-plus-for-appearance-and-anti-aging/",
+      "userCanonical": "https://hormonesivhair.com/guides/nad-plus-for-appearance-and-anti-aging/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "url": "https://hormonesivhair.com/guides/peptide-and-compounded-therapy-claims/",
+      "bucket": "indexed",
+      "coverageState": "Submitted and indexed",
+      "verdict": "PASS",
+      "lastCrawlTime": "2026-09-27T08:49:31Z",
+      "googleCanonical": "https://hormonesivhair.com/guides/peptide-and-compounded-therapy-claims/",
+      "userCanonical": "https://hormonesivhair.com/guides/peptide-and-compounded-therapy-claims/",
+      "inspected_at": "2026-10-11T00:00:00+00:00"
+    }
+  ]
+}

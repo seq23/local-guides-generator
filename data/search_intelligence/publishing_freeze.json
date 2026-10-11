@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "enabled": true,
+  "since": "2026-10-11",
+  "reason": "Search Console, 11 Sep-8 Oct 2026: 1,464 impressions and 2 clicks across the five sites, and the pages published against unmeasured targets drew none. The cycles improve existing pages; no new page publishes until its query has a measured number.",
+  "rule": "A new guide publishes only when its query (normalised) is a target in data/search_intelligence/<host>/target_query_set.json, i.e. it has Search Console impressions in the rolling 28 days or a measured volume in measured_demand.json. A held candidate is NOT marked processed, so the run after its query gets a number publishes it automatically.",
+  "read_by": ["scripts/reference/generate_from_candidates.js"]
+}

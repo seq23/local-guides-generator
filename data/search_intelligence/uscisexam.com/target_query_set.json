@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "host": "uscisexam.com",
+  "gsc_window": "2026-09-11..2026-10-08",
+  "gsc_collected_at": "2026-10-11T13:55:52+00:00",
+  "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
+  "target_count": 9,
+  "targets_by_source": {
+    "measured_demand": 3,
+    "gsc_export": 6
+  },
+  "dropped_count": 0,
+  "dropped": [],
+  "targets": [
+    {
+      "query": "uscis civil surgeon",
+      "normalized_query": "uscis civil surgeon",
+      "source": "measured_demand",
+      "volume": 5400,
+      "measurement": {
+        "metric": "search_volume_monthly",
+        "value": 5400,
+        "source_type": "semrush_keyword_magic"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "civil surgeon near me",
+      "normalized_query": "civil surgeon near me",
+      "source": "measured_demand",
+      "volume": 2400,
+      "measurement": {
+        "metric": "search_volume_monthly",
+        "value": 2400,
+        "source_type": "semrush_keyword_magic"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "citizenship test 2026",
+      "normalized_query": "citizenship test 2026",
+      "source": "measured_demand",
+      "volume": 170,
+      "measurement": {
+        "metric": "search_volume_monthly",
+        "value": 170,
+        "source_type": "semrush_keyword_magic"
+      },
+      "owner_route": "/guides/citizenship-test/"
+    },
+    {
+      "query": "idaho civics test",
+      "normalized_query": "idaho civics test",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 73,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-11..2026-10-08"
+      },
+      "owner_route": "/states/ID/"
+    },
+    {
+      "query": "uscis alabama",
+      "normalized_query": "uscis alabama",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 68,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-11..2026-10-08"
+      },
+      "owner_route": "/states/AL/"
+    },
+    {
+      "query": "uscis cranston ri",
+      "normalized_query": "uscis cranston ri",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 87,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-11..2026-10-08"
+      },
+      "owner_route": "/states/RI/"
+    },
+    {
+      "query": "uscis manchester nh",
+      "normalized_query": "uscis manchester nh",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 76,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-11..2026-10-08"
+      },
+      "owner_route": "/states/NH/"
+    },
+    {
+      "query": "uscis providence",
+      "normalized_query": "uscis providence",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 92,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-11..2026-10-08"
+      },
+      "owner_route": "/states/RI/"
+    },
+    {
+      "query": "uscis south carolina",
+      "normalized_query": "uscis south carolina",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 85,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-11..2026-10-08"
+      },
+      "owner_route": "/states/SC/"
+    }
+  ]
+}

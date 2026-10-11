@@ -44,3 +44,70 @@ for (const d of homes) {
   if (fs.existsSync(p) && !read(path.relative(ROOT, p)).includes(reg.homepage_definition_marker.replace(/"/g, '\\"'))) fail(`${d}/home.json lost its definition paragraph`);
 }
 console.log(`SITE HYGIENE REGISTRY CONTRACT PASS (${reg.build_steps.length} steps, ${Object.keys(reg.validators).length} validators, ${homes.length} homes)`);
+
+// Search-demand repoint (11 Oct 2026): every file and step registered under
+// search_intelligence is present and wired, the per-site Search Console truth is
+// fresh and internally consistent, every target carries a measured number, the
+// freeze flag is read by the publisher, strengthened pages carry what makes them
+// strengthened, and each audience CTA ref is the same in the registry and the
+// click endpoint.
+{
+  const si = reg.search_intelligence;
+  if (!si) fail('search_intelligence block missing from the registry');
+  const wf = read(si.workflow);
+  for (const step of si.workflow_steps) {
+    if (!fs.existsSync(path.join(ROOT, step))) fail(`${step} missing`);
+    if (!wf.includes(step)) fail(`${si.workflow} no longer runs ${step}`);
+  }
+  if (!new RegExp(`git add [^\\n]*${si.workflow_commits.replace(/\//g, '\\/')}`).test(wf)) fail(`${si.workflow} no longer commits ${si.workflow_commits}`);
+  for (const s of si.sources) if (!fs.existsSync(path.join(ROOT, s))) fail(`search source ${s} missing`);
+  const sites = JSON.parse(read('data/search_intelligence/sites.json')).sites;
+  if (!sites.length) fail('sites.json lists no site');
+  const maxAge = si.freshness_days * 86400000;
+  let targets = 0;
+  for (const site of sites) {
+    const dir = `data/search_intelligence/${site.host}`;
+    for (const f of si.per_site_files) if (!fs.existsSync(path.join(ROOT, dir, f))) fail(`${dir}/${f} missing`);
+    const j = (f) => JSON.parse(read(`${dir}/${f}`));
+    const cov = j('index_coverage.json');
+    const gsc = j('gsc_search_analytics_export.json');
+    for (const [name, at] of [['index_coverage.json', cov.collected_at], ['gsc_search_analytics_export.json', gsc.collected_at]]) {
+      if (!(Date.now() - Date.parse(at) <= maxAge)) fail(`${dir}/${name} is stale (collected_at ${at}, limit ${si.freshness_days} days): the daily cycle stopped measuring`);
+    }
+    const sum = (o) => Object.values(o || {}).reduce((a, b) => a + b, 0);
+    const n = cov.urls.length;
+    if (sum(cov.summary.by_coverage_state) !== n || sum(cov.summary.buckets) !== n || cov.inspected_total !== n) fail(`${dir}/index_coverage.json counts disagree with its ${n} rows`);
+    if (cov.inspected_total + cov.never_inspected !== cov.sitemap_url_count) fail(`${dir}/index_coverage.json inspected + never_inspected != sitemap_url_count`);
+    if (cov.inspected_this_run > si.inspect_cap_per_site) fail(`${dir}/index_coverage.json inspected ${cov.inspected_this_run} > cap ${si.inspect_cap_per_site}`);
+    const tq = j('target_query_set.json');
+    if (tq.target_count !== tq.targets.length) fail(`${dir}/target_query_set.json target_count disagrees with its rows`);
+    for (const t of tq.targets) {
+      if (!['gsc_export', 'measured_demand'].includes(t.source) || !(Number(t.measurement && t.measurement.value) > 0)) fail(`${dir} target "${t.query}" has no measured number`);
+    }
+    targets += tq.targets.length;
+    const cc = j('consolidation_candidates.json');
+    if (cc.status !== 'LEDGER_ONLY_NO_REDIRECTS' || cc.candidates.some((c) => !c.fold_into)) fail(`${dir}/consolidation_candidates.json must be a ledger with a fold_into per candidate`);
+  }
+  if (targets === 0) fail('zero measured targets across all sites');
+  const freeze = JSON.parse(read(si.freeze_flag));
+  if (typeof freeze.enabled !== 'boolean') fail(`${si.freeze_flag} enabled must be a boolean`);
+  for (const r of si.freeze_readers) if (!read(r).includes('publishing_freeze.json') || !read(r).includes('FREEZE.enabled')) fail(`${r} no longer reads the publishing freeze`);
+  const builder = read(si.builder);
+  for (const call of si.builder_calls) if (!builder.includes(call)) fail(`${si.builder} no longer calls ${call}`);
+  for (const p of JSON.parse(read('data/search_intelligence/strengthened_pages.json')).pages) {
+    const page = JSON.parse(read(p.source));
+    const s = page.search_strengthening || {};
+    if (page.route !== p.route || !s.definition || !Array.isArray(s.faq) || s.faq.length < 2) fail(`${p.source} lost its search_strengthening (definition + >= 2 FAQ)`);
+    const words = (x) => new Set(String(x).toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').split(/\s+/).filter((w) => w.length > 3));
+    const q = words(s.query); const shared = [...words(page.title)].filter((w) => q.has(w)).length;
+    if (shared < 2) fail(`${p.route} title "${page.title}" is not aligned to its query "${s.query}"`);
+  }
+  const ctas = JSON.parse(read('data/search_intelligence/audience_ctas.json')).ctas;
+  const fnRefs = (read('functions/api/cta-clicks.js').match(/CTA_REFS = \[([^\]]*)\]/) || [])[1] || '';
+  const refs = ctas.map((c) => c.ref);
+  if (new Set(refs).size !== refs.length) fail('audience CTA refs are not unique');
+  for (const r of refs) if (!fnRefs.includes(`'${r}'`)) fail(`functions/api/cta-clicks.js CTA_REFS is missing ${r}`);
+  if ((fnRefs.match(/'/g) || []).length / 2 !== refs.length) fail('functions/api/cta-clicks.js CTA_REFS lists a ref the registry does not');
+  for (const c of ctas) if (!c.cta_href.includes(`ref=${c.ref}`)) fail(`CTA ${c.ref} link does not carry its ref`);
+  console.log(`SEARCH INTELLIGENCE REGISTRY PASS (${sites.length} sites, ${targets} measured targets, ${ctas.length} CTAs)`);
+}
