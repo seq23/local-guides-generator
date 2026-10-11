@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0",
+  "host": "hormonesivhair.com",
+  "gsc_window": "2026-09-11..2026-10-08",
+  "gsc_collected_at": "2026-10-11T15:09:30+00:00",
+  "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
+  "thresholds": {
+    "top_n": 5,
+    "max_position": 95,
+    "min_family_impressions": 5,
+    "state_page_min_impressions": 10,
+    "ranking_position": 15,
+    "ranking_min_impressions": 2
+  },
+  "family_count": 5,
+  "top_families": [
+    {
+      "rank": 1,
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 10,
+      "status": "no_page"
+    },
+    {
+      "rank": 2,
+      "family": "red flags @ /guides/trt-red-flags/",
+      "impressions": 7,
+      "status": "strengthened"
+    },
+    {
+      "rank": 3,
+      "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
+      "impressions": 6,
+      "status": "strengthened"
+    },
+    {
+      "rank": 4,
+      "family": "comparison @ /guides/",
+      "impressions": 1,
+      "status": "no_page"
+    },
+    {
+      "rank": 5,
+      "family": "comparison @ /guides/trt-telehealth-vs-local-clinic/",
+      "impressions": 1,
+      "status": "below_impression_floor"
+    }
+  ],
+  "families": [
+    {
+      "family": "choose a provider @ /states/{STATE}/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 10,
+      "best_position": 76,
+      "weighted_position": 88,
+      "top_query": "hrt solutions in montana",
+      "query_count": 3,
+      "queries": [
+        {
+          "query": "hrt solutions in montana",
+          "route": "/states/MT/",
+          "impressions": 7,
+          "position": 89.7
+        },
+        {
+          "query": "hormone replacement posted vermont",
+          "route": "/states/VT/",
+          "impressions": 2,
+          "position": 76
+        },
+        {
+          "query": "hrt solutions in wyoming",
+          "route": "/states/WY/",
+          "impressions": 1,
+          "position": 100
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/MT/",
+          "family_impressions": 7,
+          "page_impressions": 8,
+          "page_position": 79.2
+        },
+        {
+          "route": "/states/VT/",
+          "family_impressions": 2,
+          "page_impressions": 3,
+          "page_position": 53
+        },
+        {
+          "route": "/states/WY/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 100
+        }
+      ],
+      "rank": 1,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "no state page in the family has >= 10 impressions (largest 7 on /states/MT/)"
+    },
+    {
+      "family": "red flags @ /guides/trt-red-flags/",
+      "intent": "red_flags",
+      "head_term": "red flags",
+      "page": "/guides/trt-red-flags/",
+      "page_kind": "guide",
+      "page_intent": "red_flags",
+      "impressions": 7,
+      "best_position": 2,
+      "weighted_position": 2,
+      "top_query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
+          "route": "/guides/trt-red-flags/",
+          "impressions": 7,
+          "position": 2
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/trt-red-flags/",
+          "family_impressions": 7,
+          "page_impressions": 8,
+          "page_position": 2.5
+        }
+      ],
+      "rank": 2,
+      "basis": [
+        "ranking_page",
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/trt-red-flags/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json search_strengthening"
+    },
+    {
+      "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
+      "intent": "candidacy",
+      "head_term": "candidate",
+      "page": "/guides/who-is-a-good-candidate-for-trt/",
+      "page_kind": "guide",
+      "page_intent": "candidacy",
+      "impressions": 6,
+      "best_position": 86.8,
+      "weighted_position": 86.8,
+      "top_query": "suitable candidate for trt",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "suitable candidate for trt",
+          "route": "/guides/who-is-a-good-candidate-for-trt/",
+          "impressions": 6,
+          "position": 86.8
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/who-is-a-good-candidate-for-trt/",
+          "family_impressions": 6,
+          "page_impressions": 6,
+          "page_position": 86.8
+        }
+      ],
+      "rank": 3,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/who-is-a-good-candidate-for-trt/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json search_strengthening"
+    },
+    {
+      "family": "comparison @ /guides/",
+      "intent": "comparison",
+      "head_term": "comparison",
+      "page": "/guides/",
+      "page_kind": "hub",
+      "page_intent": "hub",
+      "impressions": 1,
+      "best_position": 8,
+      "weighted_position": 8,
+      "top_query": "what's better, a peptide clinic subscription or a one-time purchase plan?",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "what's better, a peptide clinic subscription or a one-time purchase plan?",
+          "route": "/guides/",
+          "impressions": 1,
+          "position": 8
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/",
+          "family_impressions": 1,
+          "page_impressions": 2,
+          "page_position": 5
+        }
+      ],
+      "rank": 4,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on /guides/ (hub); no guide or state hub serves \"comparison\" there"
+    },
+    {
+      "family": "comparison @ /guides/trt-telehealth-vs-local-clinic/",
+      "intent": "comparison",
+      "head_term": "comparison",
+      "page": "/guides/trt-telehealth-vs-local-clinic/",
+      "page_kind": "guide",
+      "page_intent": "comparison",
+      "impressions": 1,
+      "best_position": 46,
+      "weighted_position": 46,
+      "top_query": "trt telehealth consult",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "trt telehealth consult",
+          "route": "/guides/trt-telehealth-vs-local-clinic/",
+          "impressions": 1,
+          "position": 46
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/trt-telehealth-vs-local-clinic/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 46
+        }
+      ],
+      "rank": 5,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "1 impressions < 5"
+    }
+  ]
+}

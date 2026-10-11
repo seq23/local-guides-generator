@@ -8,14 +8,32 @@
     "ctr": 0,
     "position": 63
   },
-  "strengthening_rule": "guide page with >= 2 impressions at average position <= 15",
+  "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
     {
-      "route": "/guides/dental-implant-and-oral-surgery-cost/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_dental-implant-and-oral-surgery-cost.json",
-      "impressions": 4,
+      "route": "/guides/how-to-choose/",
+      "family": "choose a provider @ /guides/how-to-choose/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 176,
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
+      "impressions": 182,
       "clicks": 0,
-      "position": 5.8,
+      "position": 82.9,
+      "strengthened": true
+    },
+    {
+      "route": "/states/CA/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 44,
+      "source": "data/page_sets/examples/dentistry_v1.json",
+      "impressions": 12,
+      "clicks": 0,
+      "position": 48.8,
       "strengthened": true
     }
   ],

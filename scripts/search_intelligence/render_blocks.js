@@ -7,6 +7,12 @@
  *    section from the real questions; faqJsonLd emits the matching FAQPage.
  *  - renderRankedLinksHtml: the homepage and the guides hub link to every
  *    strengthened page of their host (data/search_intelligence/strengthened_pages.json).
+ *  - stateHubStrengthening / renderStateStrengtheningHtml: a state hub whose
+ *    route is in a strengthened state-hub demand family (demand_families.js,
+ *    data/search_intelligence/<host>/demand_families.json) takes the pack page
+ *    set's search_strengthening.state_hub template: title + H1 on the query, a
+ *    top section with the definition, criteria, the listing CTA and the FAQ; its
+ *    questions merge into the page's one FAQPage through mergeFaqIntoJsonLd.
  *  - renderAudienceBlockHtml: the state-hub block that turns a measured
  *    wrong-audience query family toward the buyer, with one tracked ref
  *    (data/search_intelligence/audience_ctas.json).
@@ -22,6 +28,8 @@ const SI = path.join(ROOT, 'data', 'search_intelligence');
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(SI, rel), 'utf8'));
 const STRENGTHENED = read('strengthened_pages.json').pages;
 const CTAS = read('audience_ctas.json').ctas;
+const { strengthenedStateRoutes } = require('./demand_families');
+const STATE_ROUTES = new Map();
 
 function esc(s) {
   return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -78,6 +86,36 @@ function renderRankedLinksHtml(siteUrl, route) {
     '</ul></section>';
 }
 
+// The pack template, filled for one state, when that state hub is in a strengthened
+// state-hub family; else null (the page renders exactly as before).
+function stateHubStrengthening(siteUrl, pageSet, stateAbbr, stateName) {
+  const t = pageSet && pageSet.search_strengthening && pageSet.search_strengthening.state_hub;
+  if (!t) return null;
+  const host = hostOf(siteUrl);
+  if (!STATE_ROUTES.has(host)) STATE_ROUTES.set(host, strengthenedStateRoutes(host));
+  if (!STATE_ROUTES.get(host).has('/states/' + String(stateAbbr).toUpperCase() + '/')) return null;
+  for (const k of ['query', 'title', 'h1', 'heading', 'definition', 'cta_label', 'cta_href']) {
+    if (!t[k]) throw new Error('search_strengthening.state_hub.' + k + ' is required');
+  }
+  if (!Array.isArray(t.faq) || t.faq.length < 2 || !Array.isArray(t.criteria) || !t.criteria.length) throw new Error('search_strengthening.state_hub needs >= 2 faq and criteria');
+  const fill = (s) => String(s).split('%%STATE%%').join(String(stateName));
+  return {
+    query: fill(t.query), title: fill(t.title), h1: fill(t.h1), heading: fill(t.heading), definition: fill(t.definition),
+    criteria: t.criteria.map(fill), cta_label: fill(t.cta_label), cta_href: t.cta_href,
+    faq: t.faq.map((x) => ({ q: fill(x.q), a: fill(x.a) }))
+  };
+}
+
+function renderStateStrengtheningHtml(s) {
+  if (!s) return '';
+  return '<section class="section search-strengthening" data-search-strengthening="state_hub"><h2>' + esc(s.heading) + '</h2>' +
+    '<p class="search-definition" data-search-definition="true">' + esc(s.definition) + '</p>' +
+    '<ol>' + s.criteria.map((c) => '<li>' + esc(c) + '</li>').join('') + '</ol>' +
+    '<p><a class="button button-primary" href="' + esc(s.cta_href) + '" data-search-listing-cta="true">' + esc(s.cta_label) + '</a></p>' +
+    '<div class="search-faq" data-search-faq="true"><h3>Frequently asked questions</h3>' +
+    s.faq.map((x) => '<h4>' + esc(x.q) + '</h4><p>' + esc(x.a) + '</p>').join('') + '</div></section>';
+}
+
 const TRACK_SCRIPT = '<script>(function(){try{document.querySelectorAll("[data-cta-ref]").forEach(function(a){a.addEventListener("click",function(){try{fetch("/api/track-connection-click",{method:"POST",headers:{"content-type":"application/json"},keepalive:true,body:JSON.stringify({provider_type:"cta:"+a.getAttribute("data-cta-ref"),page_slug:location.pathname,source_domain:location.host,intent_type:"cta_ref",button_source:a.getAttribute("data-cta-ref"),page_kind:"state",vertical_key:a.getAttribute("data-vertical-key")||""})}).catch(function(){})}catch(e){}})})}catch(e){}})();</script>';
 
 function renderAudienceBlockHtml(siteUrl, verticalKey, stateAbbr, stateName) {
@@ -98,4 +136,4 @@ function renderAudienceBlockHtml(siteUrl, verticalKey, stateAbbr, stateName) {
   return '<section class="section audience-cta" data-audience-cta="' + esc(cta.ref) + '"><h2>' + fill(cta.heading) + '</h2><p>' + fill(cta.body) + '</p><p class="audience-cta__actions">' + links.join(' ') + '</p></section>' + TRACK_SCRIPT;
 }
 
-module.exports = { applyStrengthening, mergeFaqIntoJsonLd, renderRankedLinksHtml, renderAudienceBlockHtml, STRENGTHENED, CTAS };
+module.exports = { applyStrengthening, mergeFaqIntoJsonLd, stateHubStrengthening, renderStateStrengtheningHtml, renderRankedLinksHtml, renderAudienceBlockHtml, STRENGTHENED, CTAS };
