@@ -46,7 +46,7 @@ function run() {
       '<meta property="og:title"',
       '<meta property="og:description"',
       '<meta property="og:url"',
-      '<meta name="twitter:card" content="summary"',
+      '<meta name="twitter:card" content="summary', // summary or summary_large_image; the harm is a missing card, not its variant
       '<meta name="citation_title"',
       '<meta name="citation_public_url"',
       '<meta name="citation_author"',

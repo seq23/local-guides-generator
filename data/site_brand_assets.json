@@ -1,0 +1,12 @@
+{
+  "_note": "Per-host brand assets: favicon.ico, apple-touch-icon.png, icon-192/512.png, og.png (1200x630) and site.webmanifest. Binaries live in brand/<host>/ and are produced by scripts/brand/generate_brand_assets.py from this file; scripts/install_site_head_assets.js copies the active host's set to the output root and puts the head tags on every page. Colors follow the shared --accent navy in assets/styles.css with one accent per site.",
+  "files": ["favicon.ico", "apple-touch-icon.png", "icon-192.png", "icon-512.png", "og.png"],
+  "og": { "path": "/og.png", "width": 1200, "height": 630 },
+  "hosts": {
+    "theaccidentguides.com": { "name": "The Accident Guides", "short_name": "Accident Guides", "initials": "AG", "background": "#0b1f3a", "accent": "#f97316", "tagline": "Personal injury claims, explained step by step" },
+    "dentistryguides.com": { "name": "The Dentistry Guides", "short_name": "Dentistry Guides", "initials": "DG", "background": "#0b1f3a", "accent": "#22d3ee", "tagline": "Implants, veneers, sedation and oral surgery, compared" },
+    "hormonesivhair.com": { "name": "Hormone Optimization Guides", "short_name": "Hormone Guides", "initials": "HO", "background": "#0b1f3a", "accent": "#a78bfa", "tagline": "TRT, IV therapy, hair restoration and peptides, explained" },
+    "neuroevalguides.com": { "name": "Neuro Evaluation Guides", "short_name": "Neuro Eval Guides", "initials": "NE", "background": "#0b1f3a", "accent": "#818cf8", "tagline": "ADHD, autism and neuropsych evaluations, explained" },
+    "uscisexam.com": { "name": "USCIS Exam Guides", "short_name": "USCIS Exam", "initials": "UE", "background": "#0b1f3a", "accent": "#4ade80", "tagline": "The Form I-693 immigration medical exam, explained" }
+  }
+}

@@ -49,4 +49,19 @@ const hosts = new Set(priority.concat(batch).map((u) => {
 
 if (hosts.size < 1) fail('IndexNow files do not contain valid URLs');
 
+// The key must be served from the host being pinged (keyLocation), and every
+// public host must be in the ping list the Deploy Distribution matrix submits.
+const distKey = path.join(ROOT, 'dist', resolved.keyFile);
+if (fs.existsSync(path.join(ROOT, 'dist', 'index.html'))) {
+  if (!fs.existsSync(distKey)) fail(`IndexNow key file not in dist/: ${resolved.keyFile}`);
+  if (fs.readFileSync(distKey, 'utf8').trim() !== resolved.key) fail(`dist/${resolved.keyFile} content mismatch`);
+}
+const { PACK_SITE_CONFIG } = require('./lib/pack_site_config');
+const cfgHosts = new Set(((JSON.parse(readIfExists(path.join(ROOT, 'distribution.config.json')) || '{}').indexnow || {}).hosts) || []);
+for (const [key, c] of Object.entries(PACK_SITE_CONFIG)) {
+  if (key === 'starter') continue;
+  const h = new URL(c.siteUrl).hostname;
+  if (!cfgHosts.has(h)) fail(`distribution.config.json indexnow.hosts is missing ${h}`);
+}
+
 console.log(`validate_indexnow: OK (key=${resolved.keyFile} priority=${priority.length} batch=${batch.length} hosts=${Array.from(hosts).join(',')})`);

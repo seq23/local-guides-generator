@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "registered_on": "2026-10-10",
+  "note": "Frozen registration of the site-hygiene layer (favicon/manifest, og:image, homepage JSON-LD, AEO definition + speakable, Clarity, IndexNow key). scripts/validation/site_hygiene_registry_contract.js reads this file and fails if a build path stops running an installer, a validator leaves the hard_fail tier, or a committed source disappears, so a rebuild or content cycle cannot silently drop any of it.",
+  "build_steps": [
+    "scripts/install_clarity.js",
+    "scripts/install_site_head_assets.js",
+    "scripts/copy_indexnow_key_to_dist.js"
+  ],
+  "build_paths": ["package.json#build+postbuild", "scripts/build_all_packs.js"],
+  "sources": [
+    "data/site_brand_assets.json",
+    "data/clarity_projects.json",
+    "scripts/brand/generate_brand_assets.py",
+    "scripts/install_site_head_assets.js",
+    "scripts/install_clarity.js",
+    "distribution.config.json"
+  ],
+  "validators": {
+    "favicon_manifest": "scripts/validation/site_icons_contract.js",
+    "og_image": "scripts/validation/og_image_contract.js",
+    "jsonld_types": "scripts/validation/homepage_schema_contract.js",
+    "definition_speakable": "scripts/validation/homepage_definition_contract.js",
+    "clarity_hosts": "scripts/validation/clarity_hosts_contract.js",
+    "indexnow_key": "scripts/validate_indexnow.js"
+  },
+  "homepage_jsonld_types": ["Organization", "WebSite", "WebPage", "BreadcrumbList", "FAQPage"],
+  "homepage_definition_marker": "data-site-definition=\"true\"",
+  "speakable_selectors": [".site-definition", "[data-home-answer=\"true\"]"],
+  "clarity_projects": {
+    "theaccidentguides.com": "y7l0ezo9ll",
+    "dentistryguides.com": "y7la6o60w8",
+    "hormonesivhair.com": "y7lbnfl7e4",
+    "neuroevalguides.com": "y7leg12n54",
+    "uscisexam.com": "y7l12fhi6v"
+  },
+  "indexnow_key_file": "4d1ce19168524fcd3f96ccc22f58f434423507acff62295e6a5ed28cba8f0080.txt"
+}
