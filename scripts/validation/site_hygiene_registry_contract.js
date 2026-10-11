@@ -109,5 +109,11 @@ console.log(`SITE HYGIENE REGISTRY CONTRACT PASS (${reg.build_steps.length} step
   for (const r of refs) if (!fnRefs.includes(`'${r}'`)) fail(`functions/api/cta-clicks.js CTA_REFS is missing ${r}`);
   if ((fnRefs.match(/'/g) || []).length / 2 !== refs.length) fail('functions/api/cta-clicks.js CTA_REFS lists a ref the registry does not');
   for (const c of ctas) if (!c.cta_href.includes(`ref=${c.ref}`)) fail(`CTA ${c.ref} link does not carry its ref`);
+  // Exactly one FAQPage after the merge, carrying the page's questions.
+  const { mergeFaqIntoJsonLd } = require(path.join(ROOT, 'scripts/search_intelligence/render_blocks.js'));
+  const head = '<script type="application/ld+json">\n' + JSON.stringify([{ '@type': 'WebPage' }, { '@type': 'FAQPage', mainEntity: [{ '@type': 'Question', name: 'q0' }] }]) + '\n</script>';
+  const merged = JSON.parse(mergeFaqIntoJsonLd(head, { search_strengthening: { faq: [{ q: 'q1', a: 'a1' }, { q: 'q2', a: 'a2' }] } }).replace(/^[\s\S]*?<script[^>]*>|<\/script>[\s\S]*$/g, ''));
+  const faqs = merged.filter((n) => n['@type'] === 'FAQPage');
+  if (faqs.length !== 1 || faqs[0].mainEntity.length !== 3) fail(`FAQ merge produced ${faqs.length} FAQPage node(s); a page must carry exactly one`);
   console.log(`SEARCH INTELLIGENCE REGISTRY PASS (${sites.length} sites, ${targets} measured targets, ${ctas.length} CTAs)`);
 }
