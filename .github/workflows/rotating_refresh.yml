@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       search_only:
-        description: "Run only the Search Console measurement steps (no rotation, no paid citation probe)"
+        description: "Run only the Search Console measurement steps (no rotation, no router receipt)"
         type: boolean
         default: false
   schedule:
@@ -47,17 +47,22 @@ jobs:
       - name: Rotate one vertical
         if: ${{ !inputs.search_only }}
         run: node scripts/automation/rotate_vertical_refresh.js
-      - name: Observe whether answer engines cite us
+      - name: LLM cost receipt (zero-paid policy)
         if: ${{ !inputs.search_only }}
-        # The probe shipped here and no workflow invoked it, so no citation
-        # observation was ever taken. Grounded mode reads the pages the answer
-        # was actually built from; knowledge mode would only show whether a
-        # model memorised the brand, which is not a citation.
-        continue-on-error: true
+        # Owner policy 11 Oct 2026: "nothing should be paid ... cut the probes and
+        # make them free." The citation probe that ran here daily (grounded,
+        # :online, billed per request) is removed from this schedule; it is
+        # dispatch-only in citation_probe.yml behind confirm_paid and can only
+        # reach $0 models. This step proves the free router on every cycle: one
+        # tiny call through scripts/lib/free_llm_router.mjs, which can only send
+        # the $0 models in config/llm_routing.json and fails the run if OpenRouter
+        # reports a non-zero cost. A dead or missing key is a NAMED STOP line,
+        # never a red cycle.
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          CITATION_PROBE_MODE: grounded
-        run: node scripts/llm_citation_probe.mjs --limit 25
+        run: |
+          echo "citation probe: SKIPPED - probe disabled by owner policy (dispatch-only, citation_probe.yml)"
+          node scripts/lib/free_llm_router.mjs --ping
       - name: Record the observation
         # Stage FIRST, then ask the index whether anything changed. The old
         # guard asked `git diff --quiet -- data/signals/` before staging, and
