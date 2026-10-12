@@ -62,6 +62,11 @@ Read:
 Read:
 - `SPONSOR_ACTIVATION_RUNBOOK.md`
 
+### If you are touching footers, company name, contact address or lead email
+Read:
+- `HEAD_VA_OPERATIONS_RUNBOOK.md` → "Company, contact and footer"
+- `DECISION-LOG.md` (owner decisions, dated)
+
 ## Core rules
 
 - Modify existing systems. Do not invent parallel systems.

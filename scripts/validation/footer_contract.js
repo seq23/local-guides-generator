@@ -8,6 +8,7 @@
 // The same FORBIDDEN names are then checked across EVERY file in this pack's
 // dist/ (pages, feeds, sitemaps, llms.txt, JSON, scripts), not just footers: no
 // built file may show Spry Labs or spryvc.com. Zero files scanned is a failure.
+// Rule and context: docs/HEAD_VA_OPERATIONS_RUNBOOK.md, "Company, contact and footer".
 const fs = require('fs');
 const path = require('path');
 const { PARENT_COMPANY, CONTACT_EMAIL } = require('../lib/pack_site_config');
