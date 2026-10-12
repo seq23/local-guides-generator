@@ -179,6 +179,15 @@ async function writeToAirtable({ env, record, notesField = '' }) {
   };
 }
 
+// The notification sender is part of the guides' identity, not deployment
+// config: every guides site is a property of The Industry Guides alone, so the
+// lead email goes out as The Industry Guides from its own verified domain
+// (theindustryguides.com, verified in Resend). It is pinned here, not read
+// from EMAIL_FROM, so a stale dashboard or wrangler.toml value can never put
+// another company's sender back on these emails. The recipient
+// (LEAD_TO) is where the owner reads leads, and stays deployment config.
+const LEAD_FROM = 'The Industry Guides <hello@theindustryguides.com>';
+
 async function relayLeadByEmail({ env, record, stored, reason }) {
   const key = String(env.RESEND_API_KEY || '').trim();
   // LEAD_TO accepts a comma-separated list. A lead notification that reaches
@@ -191,8 +200,8 @@ async function relayLeadByEmail({ env, record, stored, reason }) {
     .split(',')
     .map((addr) => addr.trim())
     .filter(Boolean);
-  const from = String(env.EMAIL_FROM || '').trim();
-  if (!key || !to.length || !from) return { ok: false, reason: 'missing_email_env' };
+  const from = LEAD_FROM;
+  if (!key || !to.length) return { ok: false, reason: 'missing_email_env' };
 
   const lines = Object.entries(record).map(([k, v]) => `${k}: ${v}`).join('\n');
   const where = record.market_slug || record.source_domain || '';
