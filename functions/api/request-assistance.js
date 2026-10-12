@@ -184,9 +184,9 @@ async function relayLeadByEmail({ env, record, stored, reason }) {
   // LEAD_TO accepts a comma-separated list. A lead notification that reaches
   // one mailbox is one spam filter away from reaching nobody, and the address
   // that turned out to be reachable is not always the one on the tin: mail to
-  // info@spryvc.com was accepted by Resend and still never surfaced, because
-  // that address forwards and the forward breaks SPF alignment. Sending to
-  // each address directly removes the single point of failure.
+  // a forwarding inbox can be accepted by Resend and still never surface,
+  // because the forward breaks SPF alignment. Sending to each address directly
+  // removes the single point of failure.
   const to = String(env.LEAD_TO || env.EMAIL_REPLY_TO || '')
     .split(',')
     .map((addr) => addr.trim())

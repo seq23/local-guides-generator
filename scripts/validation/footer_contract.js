@@ -12,7 +12,9 @@ const fs = require('fs');
 const path = require('path');
 const { PARENT_COMPANY, CONTACT_EMAIL } = require('../lib/pack_site_config');
 
-const FORBIDDEN = [/spry\s*labs/i, /spryvc\.com/i];
+// 12 Oct 2026: West Peek domains too. Every guides property belongs to The Industry
+// Guides alone; a lead email once went From hello@joinwestpeek.com To info@spryvc.com.
+const FORBIDDEN = [/spry\s*labs/i, /spryvc\.com/i, /joinwestpeek\.com/i, /westpeek\.ventures/i];
 
 function fail(msg){
   const err = new Error(msg);
@@ -89,11 +91,35 @@ function run(ctx){
   if (leaks.length) {
     fail(`Forbidden names in ${leaks.length}/${allFiles.length} dist files:\n` + leaks.slice(0,50).join('\n'));
   }
+
+  // The Pages Functions ship with every guides site (lead form, click tracking).
+  // Their source is held to the same rule: no Spry Labs / West Peek name or domain,
+  // so a sender or recipient can never be hardcoded back in.
+  const fnDir = (ctx && ctx.functionsDir) || path.join(repoRoot,'functions');
+  const fnFiles = [];
+  (function walkFn(dir){
+    if (!fs.existsSync(dir)) return;
+    for (const ent of fs.readdirSync(dir,{withFileTypes:true})){
+      const p = path.join(dir,ent.name);
+      if (ent.isDirectory()) walkFn(p);
+      else if (ent.isFile() && /\.(m?js|ts)$/.test(ent.name)) fnFiles.push(p);
+    }
+  })(fnDir);
+  if (!fnFiles.length) fail('Footer contract scanned zero Pages Function files in functions/ for forbidden names.');
+  const fnLeaks = [];
+  for (const fp of fnFiles){
+    const text = fs.readFileSync(fp,'utf8');
+    const hits = FORBIDDEN.filter((re) => re.test(text)).map(String);
+    if (hits.length) fnLeaks.push(fp.replace(repoRoot+path.sep,'') + ': ' + hits.join(', '));
+  }
+  if (fnLeaks.length) {
+    fail(`Forbidden names in ${fnLeaks.length}/${fnFiles.length} Pages Function files:\n` + fnLeaks.join('\n'));
+  }
   if (offenders.length) {
     fail(`Footer contract failed for ${offenders.length}/${checked} pages:\n` + offenders.slice(0,50).join('\n'));
   }
 
-  console.log(`FOOTER CONTRACT PASS (${checked} pages, "${brand}" · A property of ${PARENT_COMPANY} · ${contact}; ${allFiles.length} dist files free of Spry Labs / spryvc.com)`);
+  console.log(`FOOTER CONTRACT PASS (${checked} pages, "${brand}" · A property of ${PARENT_COMPANY} · ${contact}; ${allFiles.length} dist files + ${fnFiles.length} function files free of Spry Labs / spryvc.com / joinwestpeek.com / westpeek.ventures)`);
 }
 
 module.exports = { run };
