@@ -2,7 +2,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const EXPECTED_TO = 'info@spryvc.com';
+// Every mailto on /for-providers/ (footer included) routes to the one canonical inbox.
+const { CONTACT_EMAIL } = require('../lib/pack_site_config');
+const EXPECTED_TO = CONTACT_EMAIL.toLowerCase();
 const MAX_UNIQ_MAILTOS = 20;
 
 function fail(msg){

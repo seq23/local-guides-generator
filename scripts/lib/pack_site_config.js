@@ -1,5 +1,14 @@
 const path = require('path');
 
+// The one company every canonical site belongs to. Footers, the 404 page and the
+// publisher statements on the shared global pages all derive from this constant;
+// nothing else in the repo may carry a second copy of the name.
+const PARENT_COMPANY = 'The Industry Guides';
+
+// The one contact address every canonical's footer and contact pages show
+// (owner decision, 12 Oct 2026). Routed by Cloudflare Email Routing on theindustryguides.com.
+const CONTACT_EMAIL = 'hello@theindustryguides.com';
+
 const PACK_SITE_CONFIG = {
   pi: {
     pageSetSlugs: ['pi_v1.json', 'cities_pi_v1.json'],
@@ -51,4 +60,4 @@ function getPackSiteConfig(rawPageSetFile) {
   return key ? { key, ...PACK_SITE_CONFIG[key] } : null;
 }
 
-module.exports = { PACK_SITE_CONFIG, getPackKeyFromPageSet, getPackSiteConfig };
+module.exports = { PARENT_COMPANY, CONTACT_EMAIL, PACK_SITE_CONFIG, getPackKeyFromPageSet, getPackSiteConfig };

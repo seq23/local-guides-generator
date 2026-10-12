@@ -24,7 +24,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { getPackSiteConfig } = require("./lib/pack_site_config");
+const { getPackSiteConfig, PARENT_COMPANY } = require("./lib/pack_site_config");
 
 const repoRoot = path.resolve(__dirname, "..");
 const dataDir = path.join(repoRoot, "data");
@@ -106,7 +106,7 @@ function readExistingSite() {
 
 const EXISTING_SITE = readExistingSite();
 const PACK_SITE = getPackSiteConfig(process.env.PAGE_SET_FILE || EXISTING_SITE?.pageSetFile || "");
-const FALLBACK_BRAND_NAME = String(PACK_SITE?.brandName || EXISTING_SITE?.brandName || "The Industry Guides").trim() || "The Industry Guides";
+const FALLBACK_BRAND_NAME = String(PACK_SITE?.brandName || EXISTING_SITE?.brandName || PARENT_COMPANY).trim() || PARENT_COMPANY;
 const FALLBACK_SITE_URL = String(PACK_SITE?.siteUrl || EXISTING_SITE?.siteUrl || "").trim();
 const BRAND_NAME = String(process.env.BRAND_NAME || FALLBACK_BRAND_NAME).trim() || FALLBACK_BRAND_NAME;
 const SITE_URL = String(process.env.SITE_URL || FALLBACK_SITE_URL).trim();

@@ -65,7 +65,7 @@ const cityRegistry = require("./helpers/city_registry");
 const fanout = require("./helpers/fanout");
 const searchBlocks = require("./search_intelligence/render_blocks");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
-const { getPackSiteConfig } = require("./lib/pack_site_config");
+const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL } = require("./lib/pack_site_config");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -4167,7 +4167,10 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   const globalPagesDir = loadGlobalPagesDir(pageSet);
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
 
-  let mainHtml = String(globalPage.main_html || "").split("%%BRAND_NAME%%").join(brandName);
+  let mainHtml = String(globalPage.main_html || "")
+    .split("%%BRAND_NAME%%").join(brandName)
+    .split("%%PARENT_COMPANY%%").join(escapeHtml(PARENT_COMPANY))
+    .split("%%CONTACT_EMAIL%%").join(escapeHtml(CONTACT_EMAIL));
   mainHtml = searchBlocks.applyStrengthening(mainHtml, globalPage);
   if (isStarterTrainingPack(pageSet) && !String(mainHtml).includes('data-training-page="true"')) {
     mainHtml = renderTrainingBannerHtml('Sandbox only. Not a production page.') + mainHtml;
@@ -5246,7 +5249,10 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   const inlineConversionTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'inline_conversion_cta.html'), 'utf8');
   const footerHtml = footerHtmlRaw
     .replace(/%%CURRENT_YEAR%%/g, String(new Date().getFullYear()))
-    .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName));
+    .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName))
+    .replace(/%%PARENT_COMPANY%%/g, escapeHtml(PARENT_COMPANY))
+    .replace(/%%CONTACT_EMAIL%%/g, escapeHtml(CONTACT_EMAIL));
+  if (/%%[A-Z_]+%%/.test(footerHtml)) throw new Error('footer.html has an unreplaced token: ' + footerHtml.match(/%%[A-Z_]+%%/)[0]);
 
   // Sponsors data (optional)
 // Source of truth: data/sponsors/global.json and optional per-city files data/sponsors/<citySlug>.json
