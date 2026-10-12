@@ -40,10 +40,9 @@ Owner decision, 12 Oct 2026 (PRs #61, #62, #63; log entry in `docs/DECISION-LOG.
   and emails a notification to `LEAD_TO` (info@spryvc.com today; Pages project config).
 - Notifications go through the **cryptoclearr Resend account** (vault `resend-industry-guides-api-key`,
   set as `RESEND_API_KEY` on the Pages projects), never the West Peek Resend account.
-- **Sender as of origin/main 16050ae (12 Oct 2026):** the From is read from the Pages env var
-  `EMAIL_FROM` (value lives in Cloudflare, not in the repo). PR #64 (open at time of writing) pins it
-  in code as `The Industry Guides <hello@theindustryguides.com>` and stops reading `EMAIL_FROM`;
-  update this line when it lands.
+- **Sender as of origin/main d434dce (12 Oct 2026, PR #64):** From is pinned in code as
+  `LEAD_FROM = 'The Industry Guides <hello@theindustryguides.com>'` in
+  `functions/api/request-assistance.js`; the `EMAIL_FROM` env var is no longer read.
 
 **Enforced by** `scripts/validation/footer_contract.js` (hard-fail for every real pack via
 `scripts/validate_core.js`; warn-only for the starter training pack). It asserts:
@@ -51,4 +50,6 @@ Owner decision, 12 Oct 2026 (PRs #61, #62, #63; log entry in `docs/DECISION-LOG.
   `PARENT_COMPANY`" and `CONTACT_EMAIL` and no other address; fails if zero footers are found;
 - no file anywhere in the pack's `dist/` matches Spry Labs / spryvc.com / joinwestpeek.com /
   westpeek.ventures; fails on any hit or on zero files scanned;
-- no Pages Function under `functions/` matches the same names; fails on any hit or on zero files.
+- no Pages Function under `functions/` matches the same names; fails on any hit or on zero files;
+- `functions/api/request-assistance.js` pins `LEAD_FROM` to the line above and never reads
+  `env.EMAIL_FROM`.

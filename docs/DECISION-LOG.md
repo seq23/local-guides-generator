@@ -13,7 +13,8 @@ and the check that enforces it.
 - **Why:** a lead email went From hello@joinwestpeek.com To info@spryvc.com; the guides must stand
   alone as their own company.
 - **Landed:** #61 (footers + global pages), #62 (request-assistance, next steps, dist-wide scan),
-  #63 (Pages Functions scan, West Peek domains). Sender pin pending in #64.
+  #63 (Pages Functions scan, West Peek domains), #64 (lead sender pinned to
+  The Industry Guides <hello@theindustryguides.com>, cryptoclearr Resend account).
 - **Source of truth:** `PARENT_COMPANY`, `CONTACT_EMAIL` in `scripts/lib/pack_site_config.js`.
 - **Enforced by:** `scripts/validation/footer_contract.js` (run by `scripts/validate_core.js`).
 - **Runbook:** `docs/HEAD_VA_OPERATIONS_RUNBOOK.md` → "Company, contact and footer".
