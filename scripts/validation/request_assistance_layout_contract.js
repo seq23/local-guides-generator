@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
+const { CONTACT_EMAIL } = require('../lib/pack_site_config');
 
 function fail(msg) {
   throw new Error(`REQUEST ASSISTANCE LAYOUT FAIL: ${msg}`);
@@ -46,7 +47,9 @@ function run(ctx = {}) {
   if (!html.includes('Primary action')) fail('missing primary action label');
   if (!html.includes('Before you submit')) fail('missing before-you-submit guidance label');
   if (!(html.includes('Start your request') || html.includes('Request a Provider Call Back'))) fail('missing top CTA label');
-  if (!html.includes('Email info@spryvc.com')) fail('missing bottom CTA label');
+  // The bottom CTA names the one public contact address and links to it.
+  const bottomCtaLabel = `href="mailto:${CONTACT_EMAIL}" data-request-assistance-bottom-cta="true">Email ${CONTACT_EMAIL}</a>`;
+  if (!html.includes(bottomCtaLabel)) fail(`missing bottom CTA label: ${bottomCtaLabel}`);
   console.log('✅ request_assistance_layout_contract PASS');
 }
 

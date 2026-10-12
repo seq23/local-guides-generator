@@ -2866,7 +2866,10 @@ function extractRequestAssistanceHtml(pageSet) {
     } catch (_) {}
   }
   if (!page || !page.main_html) return '';
-  return String(page.main_html || '');
+  // The embedded form carries the one public contact address as a token, the
+  // same %%CONTACT_EMAIL%% the standalone /request-assistance/ page resolves,
+  // so every /next-steps/ hub shows CONTACT_EMAIL and nothing else.
+  return String(page.main_html || '').split('%%CONTACT_EMAIL%%').join(escapeHtml(CONTACT_EMAIL));
 }
 
 function stripRequestAssistanceHero(requestAssistanceHtml) {

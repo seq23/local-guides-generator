@@ -3,6 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const { loadBuyouts, filterLiveForVertical } = require("./helpers/buyouts");
+const { CONTACT_EMAIL } = require("./lib/pack_site_config");
 
 // Resolve pageSetFile configured in data/site.json to an actual JSON file path.
 // pageSetFile must be a canonical repo-relative path under data/page_sets/.
@@ -54,7 +55,10 @@ const forbiddenMarkers = [
   "Submit Inquiry",
   "Open Email to Submit",
   "/for-providers/",
-  "mailto:info@spryvc.com"
+  // the for-providers inquiry mailto (address + query); the footer's bare
+  // contact link carries no query and stays allowed
+  `mailto:${CONTACT_EMAIL}?`,
+  "spryvc.com"
 ];
 
 function readHtml(rel){

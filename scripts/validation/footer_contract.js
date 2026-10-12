@@ -4,6 +4,10 @@
 // <PARENT_COMPANY>" and the one CONTACT_EMAIL (no other address), and never
 // names Spry Labs or spryvc.com (owner instruction, 12 Oct 2026: every canonical is a
 // property of one company, The Industry Guides). Zero footers checked is a failure.
+//
+// The same FORBIDDEN names are then checked across EVERY file in this pack's
+// dist/ (pages, feeds, sitemaps, llms.txt, JSON, scripts), not just footers: no
+// built file may show Spry Labs or spryvc.com. Zero files scanned is a failure.
 const fs = require('fs');
 const path = require('path');
 const { PARENT_COMPANY, CONTACT_EMAIL } = require('../lib/pack_site_config');
@@ -66,11 +70,30 @@ function run(ctx){
   }
 
   if (!checked) fail('Footer contract checked zero pages: no <footer> found in any dist page.');
+
+  const allFiles = [];
+  (function walkAll(dir){
+    for (const ent of fs.readdirSync(dir,{withFileTypes:true})){
+      const p = path.join(dir,ent.name);
+      if (ent.isDirectory()) walkAll(p);
+      else if (ent.isFile()) allFiles.push(p);
+    }
+  })(dist);
+  if (!allFiles.length) fail('Footer contract scanned zero files in dist/ for forbidden names.');
+  const leaks = [];
+  for (const fp of allFiles){
+    const text = fs.readFileSync(fp,'latin1');
+    const hits = FORBIDDEN.filter((re) => re.test(text)).map(String);
+    if (hits.length) leaks.push(fp.replace(repoRoot+path.sep,'') + ': ' + hits.join(', '));
+  }
+  if (leaks.length) {
+    fail(`Forbidden names in ${leaks.length}/${allFiles.length} dist files:\n` + leaks.slice(0,50).join('\n'));
+  }
   if (offenders.length) {
     fail(`Footer contract failed for ${offenders.length}/${checked} pages:\n` + offenders.slice(0,50).join('\n'));
   }
 
-  console.log(`FOOTER CONTRACT PASS (${checked} pages, "${brand}" · A property of ${PARENT_COMPANY} · ${contact})`);
+  console.log(`FOOTER CONTRACT PASS (${checked} pages, "${brand}" · A property of ${PARENT_COMPANY} · ${contact}; ${allFiles.length} dist files free of Spry Labs / spryvc.com)`);
 }
 
 module.exports = { run };

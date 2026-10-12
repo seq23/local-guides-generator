@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const baseMailto = 'info@spryvc.com';
+const { CONTACT_EMAIL } = require('./lib/pack_site_config');
+const baseMailto = CONTACT_EMAIL;
 
 function urlEncode(s){ return encodeURIComponent(s); }
 function makeMailto(tier){
@@ -188,9 +189,9 @@ function assertForProvidersPricingContract() {
     fail('FOR-PROVIDERS CONTRACT FAIL: expected >=4 "Submit Inquiry" buttons, found ' + submitCount);
   }
 
-  const mailtoCount = (html.match(/href=\"mailto:info@spryvc\.com\?/g) || []).length;
+  const mailtoCount = html.split('href="mailto:' + CONTACT_EMAIL + '?').length - 1;
   if (mailtoCount < submitCount) {
-    fail('FOR-PROVIDERS CONTRACT FAIL: Submit Inquiry buttons must use mailto:info@spryvc.com');
+    fail('FOR-PROVIDERS CONTRACT FAIL: Submit Inquiry buttons must use mailto:' + CONTACT_EMAIL);
   }
 
   if (!html.includes('data-slot-diagram="true"')) {
