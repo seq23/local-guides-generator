@@ -112,6 +112,16 @@ function run(ctx){
     const hits = FORBIDDEN.filter((re) => re.test(text)).map(String);
     if (hits.length) fnLeaks.push(fp.replace(repoRoot+path.sep,'') + ': ' + hits.join(', '));
   }
+  // The lead notification's sender is pinned in the handler, not read from
+  // config (12 Oct 2026: The Industry Guides <hello@theindustryguides.com>). A
+  // handler that reads EMAIL_FROM again, or names any other sender, fails here.
+  const leadFn = fnFiles.find((fp) => path.basename(fp) === 'request-assistance.js');
+  if (!leadFn) fail('functions/api/request-assistance.js not found; cannot check the lead sender.');
+  const leadSrc = fs.readFileSync(leadFn, 'utf8');
+  if (!leadSrc.includes("const LEAD_FROM = 'The Industry Guides <hello@theindustryguides.com>';")) {
+    fail('request-assistance.js must pin LEAD_FROM to The Industry Guides <hello@theindustryguides.com>.');
+  }
+  if (/env\.EMAIL_FROM/.test(leadSrc)) fail('request-assistance.js reads env.EMAIL_FROM; the sender must stay pinned in code.');
   if (fnLeaks.length) {
     fail(`Forbidden names in ${fnLeaks.length}/${fnFiles.length} Pages Function files:\n` + fnLeaks.join('\n'));
   }
@@ -119,7 +129,7 @@ function run(ctx){
     fail(`Footer contract failed for ${offenders.length}/${checked} pages:\n` + offenders.slice(0,50).join('\n'));
   }
 
-  console.log(`FOOTER CONTRACT PASS (${checked} pages, "${brand}" · A property of ${PARENT_COMPANY} · ${contact}; ${allFiles.length} dist files + ${fnFiles.length} function files free of Spry Labs / spryvc.com / joinwestpeek.com / westpeek.ventures)`);
+  console.log(`FOOTER CONTRACT PASS (${checked} pages, "${brand}" · A property of ${PARENT_COMPANY} · ${contact}; ${allFiles.length} dist files + ${fnFiles.length} function files free of Spry Labs / spryvc.com / joinwestpeek.com / westpeek.ventures; lead sender pinned to hello@theindustryguides.com)`);
 }
 
 module.exports = { run };
