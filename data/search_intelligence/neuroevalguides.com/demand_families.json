@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-11..2026-10-08",
-  "gsc_collected_at": "2026-10-11T16:38:37+00:00",
+  "gsc_window": "2026-09-12..2026-10-09",
+  "gsc_collected_at": "2026-10-12T14:02:20+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -23,7 +23,7 @@
     {
       "rank": 2,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 3,
+      "impressions": 2,
       "status": "below_impression_floor"
     },
     {
@@ -81,11 +81,11 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 3,
+      "impressions": 2,
       "best_position": 57,
-      "weighted_position": 66,
+      "weighted_position": 66.5,
       "top_query": "autism testing south dakota",
-      "query_count": 3,
+      "query_count": 2,
       "queries": [
         {
           "query": "autism testing south dakota",
@@ -98,21 +98,9 @@
           "route": "/states/RI/",
           "impressions": 1,
           "position": 57
-        },
-        {
-          "query": "neuropsychology services of kansas",
-          "route": "/states/KS/",
-          "impressions": 1,
-          "position": 65
         }
       ],
       "pages": [
-        {
-          "route": "/states/KS/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 65
-        },
         {
           "route": "/states/RI/",
           "family_impressions": 1,
@@ -131,7 +119,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "3 impressions < 5"
+      "reason": "2 impressions < 5"
     },
     {
       "family": "other @ /privacy/",

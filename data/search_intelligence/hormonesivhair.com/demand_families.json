@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-11..2026-10-08",
-  "gsc_collected_at": "2026-10-11T16:38:37+00:00",
+  "gsc_window": "2026-09-12..2026-10-09",
+  "gsc_collected_at": "2026-10-12T14:02:20+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -29,7 +29,7 @@
     {
       "rank": 3,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 6,
+      "impressions": 5,
       "status": "strengthened"
     },
     {
@@ -154,25 +154,25 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 6,
-      "best_position": 86.8,
-      "weighted_position": 86.8,
+      "impressions": 5,
+      "best_position": 86.6,
+      "weighted_position": 86.6,
       "top_query": "suitable candidate for trt",
       "query_count": 1,
       "queries": [
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 6,
-          "position": 86.8
+          "impressions": 5,
+          "position": 86.6
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 6,
-          "page_impressions": 6,
-          "page_position": 86.8
+          "family_impressions": 5,
+          "page_impressions": 5,
+          "page_position": 86.6
         }
       ],
       "rank": 3,

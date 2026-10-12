@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "host": "uscisexam.com",
   "source": "GET /api/cta-clicks (Airtable clicks table, rolling 28 days)",
-  "collected_at": "2026-10-11T16:48:27.172Z",
+  "collected_at": "2026-10-12T14:12:19.059Z",
   "ctas": [
     {
       "ref": "uscis-field-office-civil-surgeon",
@@ -11,13 +11,23 @@
       "window_days": 28,
       "scanned": 0,
       "truncated": false,
-      "collected_at": "2026-10-11T16:48:27.172Z",
+      "collected_at": "2026-10-12T14:12:19.059Z",
       "cta_href": "/request-assistance/?pt=USCIS%20Medical%20Exam%20Provider&intent=field_office&button=uscis-field-office-civil-surgeon&ref=uscis-field-office-civil-surgeon&vertical=uscis_medical&page_kind=state"
     }
   ],
   "history": [
     {
       "date": "2026-10-11",
+      "rows": [
+        {
+          "ref": "uscis-field-office-civil-surgeon",
+          "state": "OK",
+          "clicks": 0
+        }
+      ]
+    },
+    {
+      "date": "2026-10-12",
       "rows": [
         {
           "ref": "uscis-field-office-civil-surgeon",

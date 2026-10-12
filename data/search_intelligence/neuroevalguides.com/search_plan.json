@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-11..2026-10-08",
+  "gsc_window": "2026-09-12..2026-10-09",
   "totals": {
     "clicks": 2,
-    "impressions": 39,
-    "ctr": 0.0513,
-    "position": 15.8
+    "impressions": 38,
+    "ctr": 0.0526,
+    "position": 14.5
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -29,17 +29,17 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 73,
-      "Discovered - currently not indexed": 42,
-      "Duplicate, Google chose different canonical than user": 2,
-      "Submitted and indexed": 33,
-      "URL is unknown to Google": 55
+      "Discovered - currently not indexed": 29,
+      "Duplicate, Google chose different canonical than user": 1,
+      "Submitted and indexed": 34,
+      "URL is unknown to Google": 68
     },
     "buckets": {
       "crawled_not_indexed": 73,
-      "discovered_not_indexed": 42,
-      "indexed": 33,
-      "other": 2,
-      "unknown": 55
+      "discovered_not_indexed": 29,
+      "indexed": 34,
+      "other": 1,
+      "unknown": 68
     }
   }
 }

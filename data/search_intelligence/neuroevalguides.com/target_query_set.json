@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-11..2026-10-08",
-  "gsc_collected_at": "2026-10-11T16:38:37+00:00",
+  "gsc_window": "2026-09-12..2026-10-09",
+  "gsc_collected_at": "2026-10-12T14:02:20+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 5,
+  "target_count": 4,
   "targets_by_source": {
-    "gsc_export": 5
+    "gsc_export": 4
   },
   "dropped_count": 0,
   "dropped": [],
@@ -21,7 +21,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-11..2026-10-08"
+        "window": "2026-09-12..2026-10-09"
       },
       "owner_route": "/guides/hospital-vs-private-neuropsych-testing/"
     },
@@ -35,7 +35,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-11..2026-10-08"
+        "window": "2026-09-12..2026-10-09"
       },
       "owner_route": "/states/SD/"
     },
@@ -49,23 +49,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-11..2026-10-08"
+        "window": "2026-09-12..2026-10-09"
       },
       "owner_route": "/states/RI/"
-    },
-    {
-      "query": "neuropsychology services of kansas",
-      "normalized_query": "neuropsychology services of kansas",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 65,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-11..2026-10-08"
-      },
-      "owner_route": "/states/KS/"
     },
     {
       "query": "sprylabs",
@@ -77,7 +63,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-11..2026-10-08"
+        "window": "2026-09-12..2026-10-09"
       },
       "owner_route": "/privacy/"
     }
