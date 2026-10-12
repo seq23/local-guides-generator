@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
+const { CONTACT_EMAIL } = require('../lib/pack_site_config');
 
 function exists(p) {
   try { return fs.existsSync(p); } catch (_) { return false; }
@@ -41,7 +42,17 @@ function run(ctx) {
   mustContain(html, 'data-request-assistance-top-cta="true"', label);
   mustContain(html, 'data-request-assistance-bottom-cta="true"', label);
   mustContain(html, 'Airtable-backed routing workflow', label);
-  mustContain(html, 'mailto:info@spryvc.com', label);
+  // Every address the page shows (links, fallback text, the form's submit and
+  // error messages) is the one CONTACT_EMAIL; no other address may appear.
+  mustContain(html, `mailto:${CONTACT_EMAIL}`, label);
+  mustContain(html, `Please try again later or email ${CONTACT_EMAIL}.`, label);
+  // Input placeholders (e.g. "you@yourmail.com") are example text, not an address shown as a contact.
+  const shown = html.replace(/\splaceholder="[^"]*"/g, '');
+  const otherAddresses = Array.from(new Set((shown.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || [])
+    .map((a) => a.toLowerCase()))).filter((a) => a !== CONTACT_EMAIL.toLowerCase());
+  if (otherAddresses.length) {
+    throw new Error(`REQUEST ASSISTANCE TOOL CONTRACT FAIL: ${label} shows an address other than ${CONTACT_EMAIL}: ${otherAddresses.join(', ')}`);
+  }
 
   console.log('✅ request assistance tool contract pass');
 }
