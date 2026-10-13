@@ -1,0 +1,444 @@
+{
+  "_why": "The senior-living query universe (owner brief 13 Oct 2026): head phrases people type x every locality the site covers, each routed to the ONE best page. scripts/lib/senior_fanout.js expands it into dist/_fanout_query_clusters.json records and the visible search lists on city pages and guides; scripts/validation/senior_living_fanout_contract.js holds the floor (>= 600 records, every route built, >= 20 records per locality).",
+  "localities": [
+    {
+      "name": "memphis",
+      "route": "/memphis-tn/"
+    },
+    {
+      "name": "memphis tn",
+      "route": "/memphis-tn/"
+    },
+    {
+      "name": "east memphis",
+      "route": "/east-memphis-tn/"
+    },
+    {
+      "name": "midtown memphis",
+      "route": "/memphis-tn/"
+    },
+    {
+      "name": "downtown memphis",
+      "route": "/memphis-tn/"
+    },
+    {
+      "name": "germantown",
+      "route": "/germantown-tn/"
+    },
+    {
+      "name": "germantown tn",
+      "route": "/germantown-tn/"
+    },
+    {
+      "name": "collierville",
+      "route": "/collierville-tn/"
+    },
+    {
+      "name": "bartlett",
+      "route": "/bartlett-tn/"
+    },
+    {
+      "name": "cordova",
+      "route": "/cordova-tn/"
+    },
+    {
+      "name": "arlington tn",
+      "route": "/arlington-tn/"
+    },
+    {
+      "name": "lakeland tn",
+      "route": "/lakeland-tn/"
+    },
+    {
+      "name": "millington",
+      "route": "/millington-tn/"
+    },
+    {
+      "name": "southaven",
+      "route": "/southaven-ms/"
+    },
+    {
+      "name": "southaven ms",
+      "route": "/southaven-ms/"
+    },
+    {
+      "name": "olive branch",
+      "route": "/olive-branch-ms/"
+    },
+    {
+      "name": "olive branch ms",
+      "route": "/olive-branch-ms/"
+    },
+    {
+      "name": "horn lake",
+      "route": "/horn-lake-ms/"
+    },
+    {
+      "name": "hernando",
+      "route": "/hernando-ms/"
+    },
+    {
+      "name": "hernando ms",
+      "route": "/hernando-ms/"
+    },
+    {
+      "name": "west memphis",
+      "route": "/west-memphis-ar/"
+    },
+    {
+      "name": "marion ar",
+      "route": "/marion-ar/"
+    },
+    {
+      "name": "shelby county",
+      "route": "/memphis-tn/"
+    },
+    {
+      "name": "desoto county",
+      "route": "/southaven-ms/"
+    },
+    {
+      "name": "north mississippi",
+      "route": "/southaven-ms/"
+    },
+    {
+      "name": "mid-south",
+      "route": "/memphis-tn/"
+    }
+  ],
+  "zips": {
+    "38002": "/arlington-tn/",
+    "38016": "/cordova-tn/",
+    "38017": "/collierville-tn/",
+    "38053": "/millington-tn/",
+    "38103": "/regional-one-health/",
+    "38104": "/memphis-tn/",
+    "38117": "/east-memphis-tn/",
+    "38119": "/saint-francis-hospital-park-avenue/",
+    "38120": "/baptist-memorial-hospital-memphis/",
+    "38134": "/bartlett-tn/",
+    "38138": "/germantown-tn/",
+    "38632": "/hernando-ms/",
+    "38637": "/horn-lake-ms/",
+    "38654": "/olive-branch-ms/",
+    "38671": "/southaven-ms/",
+    "72301": "/west-memphis-ar/",
+    "72364": "/marion-ar/"
+  },
+  "place_phrases": [
+    "care home",
+    "care homes",
+    "senior care home",
+    "senior care homes",
+    "senior living",
+    "senior living communities",
+    "senior living care home",
+    "assisted living",
+    "assisted living facility",
+    "assisted living facilities",
+    "assisted living homes",
+    "memory care",
+    "memory care facility",
+    "memory care facilities",
+    "dementia care",
+    "dementia care homes",
+    "alzheimer's care",
+    "old people's home",
+    "old folks home",
+    "retirement home",
+    "retirement homes",
+    "elderly care home",
+    "rest home",
+    "residential care",
+    "personal care home",
+    "board and care",
+    "independent living",
+    "respite care",
+    "24-hour care for elderly",
+    "private pay assisted living",
+    "affordable assisted living",
+    "best assisted living",
+    "pet friendly assisted living",
+    "christian assisted living",
+    "veterans assisted living"
+  ],
+  "place_templates": [
+    "{p} {l}",
+    "{p} in {l}"
+  ],
+  "near_me_templates": [
+    "{p} near me"
+  ],
+  "zip_phrases": [
+    "assisted living",
+    "memory care",
+    "senior living",
+    "care homes",
+    "nursing home"
+  ],
+  "located_guide_phrases": [
+    {
+      "q": "assisted living cost {l}",
+      "route": "/guides/assisted-living-cost-memphis/"
+    },
+    {
+      "q": "assisted living prices {l}",
+      "route": "/guides/assisted-living-cost-memphis/"
+    },
+    {
+      "q": "how much is assisted living in {l}",
+      "route": "/guides/assisted-living-cost-memphis/"
+    },
+    {
+      "q": "memory care cost {l}",
+      "route": "/guides/assisted-living-cost-memphis/"
+    },
+    {
+      "q": "nursing home {l}",
+      "route": "/guides/levels-of-care-tennessee/"
+    },
+    {
+      "q": "nursing homes in {l}",
+      "route": "/guides/levels-of-care-tennessee/"
+    },
+    {
+      "q": "assisted living that takes medicaid {l}",
+      "route": "/guides/when-the-money-runs-out-tenncare-choices/"
+    },
+    {
+      "q": "assisted living that accepts tenncare {l}",
+      "route": "/guides/when-the-money-runs-out-tenncare-choices/",
+      "only_states": [
+        "TN"
+      ]
+    }
+  ],
+  "hospitals": [
+    {
+      "names": [
+        "baptist memorial hospital memphis",
+        "baptist hospital memphis",
+        "baptist east"
+      ],
+      "route": "/baptist-memorial-hospital-memphis/"
+    },
+    {
+      "names": [
+        "methodist university hospital",
+        "methodist hospital memphis"
+      ],
+      "route": "/methodist-university-hospital/"
+    },
+    {
+      "names": [
+        "saint francis hospital park avenue",
+        "saint francis hospital memphis"
+      ],
+      "route": "/saint-francis-hospital-park-avenue/"
+    },
+    {
+      "names": [
+        "regional one health",
+        "the med memphis"
+      ],
+      "route": "/regional-one-health/"
+    }
+  ],
+  "hospital_templates": [
+    "assisted living near {h}",
+    "memory care near {h}",
+    "senior living near {h}",
+    "care homes near {h}",
+    "rehab to assisted living after {h}"
+  ],
+  "questions": [
+    {
+      "q": "how to choose a senior care home",
+      "route": "/guides/how-to-choose-a-senior-care-home-memphis/"
+    },
+    {
+      "q": "how to choose an assisted living facility",
+      "route": "/guides/how-to-choose-a-senior-care-home-memphis/"
+    },
+    {
+      "q": "what to look for in assisted living",
+      "route": "/guides/how-to-choose-a-senior-care-home-memphis/"
+    },
+    {
+      "q": "assisted living vs nursing home",
+      "route": "/guides/levels-of-care-tennessee/"
+    },
+    {
+      "q": "memory care vs assisted living",
+      "route": "/guides/levels-of-care-tennessee/"
+    },
+    {
+      "q": "independent living vs assisted living",
+      "route": "/guides/levels-of-care-tennessee/"
+    },
+    {
+      "q": "what is a residential home for the aged",
+      "route": "/guides/levels-of-care-tennessee/"
+    },
+    {
+      "q": "what is an assisted care living facility tennessee",
+      "route": "/guides/levels-of-care-tennessee/"
+    },
+    {
+      "q": "levels of care in assisted living",
+      "route": "/guides/levels-of-care-tennessee/"
+    },
+    {
+      "q": "how much does assisted living cost",
+      "route": "/guides/assisted-living-cost-memphis/"
+    },
+    {
+      "q": "what does assisted living include",
+      "route": "/guides/assisted-living-cost-memphis/"
+    },
+    {
+      "q": "assisted living community fee",
+      "route": "/guides/assisted-living-cost-memphis/"
+    },
+    {
+      "q": "how much does memory care cost",
+      "route": "/guides/assisted-living-cost-memphis/"
+    },
+    {
+      "q": "how to pay for assisted living",
+      "route": "/guides/how-families-pay-for-assisted-living/"
+    },
+    {
+      "q": "va aid and attendance assisted living",
+      "route": "/guides/how-families-pay-for-assisted-living/"
+    },
+    {
+      "q": "long term care insurance assisted living",
+      "route": "/guides/how-families-pay-for-assisted-living/"
+    },
+    {
+      "q": "bridge loan for assisted living",
+      "route": "/guides/how-families-pay-for-assisted-living/"
+    },
+    {
+      "q": "when is it time for memory care",
+      "route": "/guides/memory-care-when-is-it-time/"
+    },
+    {
+      "q": "signs it is time for memory care",
+      "route": "/guides/memory-care-when-is-it-time/"
+    },
+    {
+      "q": "what is a secured memory care unit",
+      "route": "/guides/memory-care-when-is-it-time/"
+    },
+    {
+      "q": "activities of daily living",
+      "route": "/guides/activities-of-daily-living-care-levels/"
+    },
+    {
+      "q": "assisted living care levels",
+      "route": "/guides/activities-of-daily-living-care-levels/"
+    },
+    {
+      "q": "assisted living assessment",
+      "route": "/guides/activities-of-daily-living-care-levels/"
+    },
+    {
+      "q": "questions to ask when touring assisted living",
+      "route": "/guides/questions-to-ask-on-a-tour/"
+    },
+    {
+      "q": "assisted living tour checklist",
+      "route": "/guides/questions-to-ask-on-a-tour/"
+    },
+    {
+      "q": "tennessee assisted living inspection reports",
+      "route": "/guides/tennessee-assisted-living-inspection-records/"
+    },
+    {
+      "q": "tennessee assisted living license lookup",
+      "route": "/guides/tennessee-assisted-living-inspection-records/"
+    },
+    {
+      "q": "assisted living residency agreement",
+      "route": "/guides/residency-agreement-fees-and-rules/"
+    },
+    {
+      "q": "assisted living contract what to look for",
+      "route": "/guides/residency-agreement-fees-and-rules/"
+    },
+    {
+      "q": "can assisted living kick you out",
+      "route": "/guides/residency-agreement-fees-and-rules/"
+    },
+    {
+      "q": "hospital discharge to assisted living",
+      "route": "/guides/hospital-discharge-to-assisted-living-memphis/"
+    },
+    {
+      "q": "what to do when hospital discharges elderly parent",
+      "route": "/guides/hospital-discharge-to-assisted-living-memphis/"
+    },
+    {
+      "q": "parent refuses assisted living",
+      "route": "/guides/when-a-parent-refuses-to-move/"
+    },
+    {
+      "q": "how to convince a parent to move to assisted living",
+      "route": "/guides/when-a-parent-refuses-to-move/"
+    },
+    {
+      "q": "what happens when money runs out in assisted living",
+      "route": "/guides/when-the-money-runs-out-tenncare-choices/"
+    },
+    {
+      "q": "tenncare choices assisted living",
+      "route": "/guides/when-the-money-runs-out-tenncare-choices/"
+    },
+    {
+      "q": "medicaid spend down tennessee",
+      "route": "/guides/when-the-money-runs-out-tenncare-choices/"
+    },
+    {
+      "q": "does medicare pay for assisted living",
+      "route": "/faq/"
+    },
+    {
+      "q": "does medicaid pay for assisted living in tennessee",
+      "route": "/faq/"
+    },
+    {
+      "q": "does tenncare pay for assisted living",
+      "route": "/faq/"
+    },
+    {
+      "q": "is memory support the same as memory care",
+      "route": "/faq/"
+    },
+    {
+      "q": "can a parent go from hospital to assisted living",
+      "route": "/faq/"
+    },
+    {
+      "q": "do i have to sign an arbitration agreement assisted living",
+      "route": "/faq/"
+    },
+    {
+      "q": "is assisted living covered by insurance",
+      "route": "/faq/"
+    },
+    {
+      "q": "memphis senior care homes",
+      "route": "/"
+    },
+    {
+      "q": "memphisseniorcarehomes.com",
+      "route": "/"
+    },
+    {
+      "q": "senior care homes memphis guide",
+      "route": "/"
+    }
+  ]
+}

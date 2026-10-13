@@ -10,12 +10,14 @@
     "seam produced 0 guides even once source resolution was repaired.",
     "This file is the single link between the two lists. Both the generator and the",
     "seam validator read it, so adding a vertical upstream fails loudly here instead",
-    "of being dropped on the floor."
+    "of being dropped on the floor.",
+    "13 Oct 2026: this file is also the single source of canonical vertical ids. `canonical` names each id once with its pack key and guide folder; generate_from_candidates.js and velocity_candidate_seam_contract.js derive their folder tables from it, and scripts/validation/vertical_id_alias_contract.js fails the build when any `vertical` value in data/ or in the generator's input does not resolve through `aliases`."
   ],
   "upstream_verticals": [
     "dentistry",
     "neuro",
     "personal_injury",
+    "senior-living",
     "trt",
     "uscis"
   ],
@@ -28,6 +30,40 @@
     "trt": "trt",
     "uscis": "uscis-medical",
     "uscis_medical": "uscis-medical",
-    "uscis-medical": "uscis-medical"
+    "uscis-medical": "uscis-medical",
+    "senior-living": "senior-living",
+    "senior_living": "senior-living"
+  },
+  "canonical": {
+    "dentistry": {
+      "pack_key": "dentistry",
+      "global_pages_dir": "data/page_sets/examples/dentistry_global_pages",
+      "guide_file_prefix": "guides_"
+    },
+    "neuro": {
+      "pack_key": "neuro",
+      "global_pages_dir": "data/page_sets/examples/neuro_global_pages",
+      "guide_file_prefix": "guides_"
+    },
+    "personal-injury": {
+      "pack_key": "pi",
+      "global_pages_dir": "data/page_sets/examples/pi_global_pages",
+      "guide_file_prefix": ""
+    },
+    "senior-living": {
+      "pack_key": "senior_living",
+      "global_pages_dir": "data/page_sets/examples/senior_living_global_pages",
+      "guide_file_prefix": "guides_"
+    },
+    "trt": {
+      "pack_key": "trt",
+      "global_pages_dir": "data/page_sets/examples/trt_global_pages",
+      "guide_file_prefix": "guides_trt_"
+    },
+    "uscis-medical": {
+      "pack_key": "uscis_medical",
+      "global_pages_dir": "data/page_sets/examples/uscis_medical_global_pages",
+      "guide_file_prefix": "guides_"
+    }
   }
 }

@@ -51,34 +51,11 @@ function ensureSiteJsonBootstrapped(chosenKey) {
 
   if (fs.existsSync(siteJsonPath)) return;
 
-  const packConfigMap = {
-    pi: {
-      brandName: 'The Accident Guides',
-      siteUrl: 'https://theaccidentguides.com',
-      pageSetFile: 'data/page_sets/examples/pi_v1.json',
-    },
-    uscis_medical: {
-      brandName: 'USCIS Exam Guides',
-      siteUrl: 'https://uscisexam.com',
-      pageSetFile: 'data/page_sets/examples/uscis_medical_v1.json',
-    },
-    trt: {
-      brandName: 'Hormone Optimization Guides',
-      siteUrl: 'https://hormonesivhair.com',
-      pageSetFile: 'data/page_sets/examples/trt_v1.json',
-    },
-    dentistry: {
-      brandName: 'The Dentistry Guides',
-      siteUrl: 'https://dentistryguides.com',
-      pageSetFile: 'data/page_sets/examples/dentistry_v1.json',
-    },
-    neuro: {
-      brandName: 'Neuro Evaluation Guides',
-      siteUrl: 'https://neuroevalguides.com',
-      pageSetFile: 'data/page_sets/examples/neuro_v1.json',
-    },
-  };
-
+  // One list: scripts/lib/pack_site_config.js (it used to be copied here and
+  // drifted; senior_living was missing from both copies).
+  const { PACK_SITE_CONFIG } = require('../lib/pack_site_config');
+  const cfg = PACK_SITE_CONFIG[chosenKey];
+  const packConfigMap = cfg ? { [chosenKey]: { brandName: cfg.brandName, siteUrl: cfg.siteUrl, pageSetFile: `data/page_sets/examples/${cfg.pageSetSlugs[0]}` } } : {};
   const pack = packConfigMap[chosenKey];
   if (!pack) {
     throw new Error(`No bootstrap site config found for vertical: ${chosenKey}`);
@@ -89,24 +66,15 @@ function ensureSiteJsonBootstrapped(chosenKey) {
 }
 const now = new Date();
 const day = now.getUTCDay(); // 0 Sun..6 Sat
-const rotation = [
-  { key: 'pi', label: 'PI' },
-  { key: 'uscis_medical', label: 'USCIS Medical' },
-  { key: 'trt', label: 'TRT' },
-  { key: 'dentistry', label: 'Dentistry' },
-  { key: 'neuro', label: 'Neuro' },
-];
+const { PACK_SITE_CONFIG } = require('../lib/pack_site_config');
+const rotation = Object.entries(PACK_SITE_CONFIG)
+  .filter(([key]) => key !== 'starter')
+  .map(([key, cfg]) => ({ key, label: cfg.brandName }));
 const chosen = rotation[day % rotation.length];
 
 const notes = `Rotating refresh focus: ${chosen.label}.`;
 
-const pageSetMap = {
-  pi: 'data/page_sets/examples/pi_v1.json',
-  uscis_medical: 'data/page_sets/examples/uscis_medical_v1.json',
-  trt: 'data/page_sets/examples/trt_v1.json',
-  dentistry: 'data/page_sets/examples/dentistry_v1.json',
-  neuro: 'data/page_sets/examples/neuro_v1.json',
-};
+const pageSetMap = Object.fromEntries(rotation.map(({ key }) => [key, `data/page_sets/examples/${PACK_SITE_CONFIG[key].pageSetSlugs[0]}`]));
 
 const pageSetFile = pageSetMap[chosen.key];
 if (!pageSetFile) {

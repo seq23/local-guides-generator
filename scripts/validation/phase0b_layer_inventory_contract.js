@@ -67,7 +67,11 @@ if (summary.root_city_content_files.length) {
   errors.push(`Root-level city enrichment files are not allowed: ${summary.root_city_content_files.join(', ')}`);
 }
 
-for (const file of walk(LISTINGS_DIR, f => f.endsWith('.json'))) {
+// data/listings/senior-living/ holds the senior-living pack's licensure
+// directory, a different shape from city listings files; its own hard-fail
+// contract is scripts/validation/senior_living_facilities_contract.js.
+const SENIOR_LISTINGS_DIR = path.join(LISTINGS_DIR, 'senior-living') + path.sep;
+for (const file of walk(LISTINGS_DIR, f => f.endsWith('.json') && !f.startsWith(SENIOR_LISTINGS_DIR))) {
   summary.listings_files_checked += 1;
   const data = JSON.parse(fs.readFileSync(file, 'utf8'));
   const required = ['city_slug', 'sponsor', 'listings'];

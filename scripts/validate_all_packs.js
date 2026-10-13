@@ -22,7 +22,8 @@ const PACKS = [
   "data/page_sets/examples/dentistry_v1.json",
   "data/page_sets/examples/trt_v1.json",
   "data/page_sets/examples/neuro_v1.json",
-  "data/page_sets/examples/uscis_medical_v1.json"
+  "data/page_sets/examples/uscis_medical_v1.json",
+  "data/page_sets/examples/senior_living_v1.json"
 ];
 
 function readJson(p) {

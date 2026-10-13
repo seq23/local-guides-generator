@@ -7,7 +7,7 @@ function file(p){ const fp=path.join(root,p); if(!fs.existsSync(fp)) fail(`missi
 const workflow = file('.github/workflows/deploy-distribution.yml');
 const deploy = file('distribution_scripts/deploy_distribution.sh');
 const submit = file('distribution_scripts/indexnow_submit.sh');
-for (const pack of ['pi_v1.json','dentistry_v1.json','neuro_v1.json','trt_v1.json','uscis_medical_v1.json']) {
+for (const pack of ['pi_v1.json','dentistry_v1.json','neuro_v1.json','trt_v1.json','uscis_medical_v1.json','senior_living_v1.json']) {
   if (!workflow.includes(`data/page_sets/examples/${pack}`)) fail(`workflow missing explicit pack matrix item: ${pack}`);
 }
 if (!workflow.includes('workflow_dispatch')) fail('workflow missing manual dispatch');

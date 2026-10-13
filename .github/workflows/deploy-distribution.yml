@@ -34,6 +34,9 @@ jobs:
           - name: uscis_medical
             page_set_file: data/page_sets/examples/uscis_medical_v1.json
             gsc_site: sc-domain:uscisexam.com
+          - name: senior_living
+            page_set_file: data/page_sets/examples/senior_living_v1.json
+            gsc_site: sc-domain:memphisseniorcarehomes.com
 
     steps:
       - name: Skip non-selected matrix pack

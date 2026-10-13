@@ -45,6 +45,14 @@ const path = require('path');
 // Routes that exist for operators, not readers. Extend deliberately: anything
 // listed here disappears from search and from the sitemap.
 const NOINDEX_ROUTES = new Set(['admin']);
+// Per-pack additions (Search Readiness Checklist A3: legal and utility pages are
+// not search landing pages). The senior-living site adopts it first; the
+// allowlist is explicit so a content page can never be swept up by a pattern.
+const NOINDEX_ROUTES_BY_PACK = { 'senior_living_v1.json': ['privacy', 'disclaimer'] };
+function noindexRoutesForPack() {
+  const ps = path.basename(String(process.env.PAGE_SET_FILE || ''));
+  return new Set([...NOINDEX_ROUTES, ...(NOINDEX_ROUTES_BY_PACK[ps] || [])]);
+}
 const ROBOTS_META = /<meta\s+name=(["'])robots\1\s+content=(["'])[^"']*\2\s*\/?>/i;
 const NOINDEX_TAG = '<meta name="robots" content="noindex,nofollow" />';
 const TEMPLATE_FALLBACK_MARKER = /\sdata-template-fallback=(["'])true\1/i;
@@ -64,7 +72,7 @@ function run() {
   }
   let changed = 0;
   const missing = [];
-  for (const route of NOINDEX_ROUTES) {
+  for (const route of noindexRoutesForPack()) {
     const file = path.join(distDir, route, 'index.html');
     if (!fs.existsSync(file)) { missing.push(route); continue; }
     const before = fs.readFileSync(file, 'utf8');
@@ -101,4 +109,4 @@ function run() {
 }
 
 if (require.main === module) run();
-module.exports = { run, NOINDEX_ROUTES, TEMPLATE_FALLBACK_MARKER, routeFor };
+module.exports = { run, NOINDEX_ROUTES, NOINDEX_ROUTES_BY_PACK, noindexRoutesForPack, TEMPLATE_FALLBACK_MARKER, routeFor };

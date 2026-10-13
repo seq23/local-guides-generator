@@ -117,6 +117,78 @@
         "These are counts of clinicians who billed, not a directory, not a recommendation, and not evidence about quality.",
         "The city figure is a service-weighted mean of provider averages, not a population mean."
       ]
+    },
+    {
+      "id": "va_pension_rates_2025_12",
+      "publisher": "U.S. Department of Veterans Affairs",
+      "title": "Current Veterans Pension rates",
+      "vintage": "Rates effective December 1, 2025; net worth limit December 1, 2025 to November 30, 2026",
+      "url": "https://www.va.gov/pension/veterans-pension-rates/",
+      "pinned_distribution": "",
+      "local_snapshot": "",
+      "pulled_by": "by hand, 2026-10-13",
+      "used_by": [
+        "data/page_sets/examples/senior_living_global_pages/"
+      ],
+      "what_it_gives": "Maximum annual pension rate (MAPR) with Aid and Attendance: $29,093 for a veteran with no dependents; $34,488 for a veteran with one dependent (spouse); $34,488 for two married veterans where one needs Aid and Attendance. Net worth limit: $163,699.",
+      "limits": [
+        "MAPR is a cap on the combined pension, not a fixed benefit: the award is the MAPR minus countable income after unreimbursed medical expenses.",
+        "Rates change every December 1 with the cost-of-living adjustment."
+      ]
+    },
+    {
+      "id": "tenncare_aclf_room_board_2026",
+      "publisher": "Division of TennCare",
+      "title": "2026 ACLF Room and Board Memo (CHOICES)",
+      "vintage": "Memo dated December 15, 2025; figures for calendar 2026",
+      "url": "https://www.tn.gov/content/dam/tn/tenncare/documents/ACLFRoomAndBoardMemo2026.pdf",
+      "pinned_distribution": "",
+      "local_snapshot": "",
+      "pulled_by": "by hand, 2026-10-13",
+      "used_by": [
+        "data/page_sets/examples/senior_living_global_pages/"
+      ],
+      "what_it_gives": "CHOICES reimbursement for covered Assisted Care Living Facility services shall not exceed $1,497.77 per month (effective July 1, 2025), excluding room and board. The CHOICES personal needs allowance is 300% of the SSI federal benefit rate, $2,982 per month as of January 1, 2026. Maximum monthly room and board an ACLF may charge a CHOICES member in 2026: the lesser of $2,385.60 or what it charges non-CHOICES residents, unless the family elects a private room. Maximum total payment to the facility: $3,883.37 per month. For July 1 to December 31, 2025 the maximum total was $3,789.20.",
+      "limits": [
+        "Applies only to residents enrolled in CHOICES whose person-centered support plan authorises ACLF services.",
+        "Federal rules bar Medicaid from paying room and board as part of home and community based services."
+      ]
+    },
+    {
+      "id": "tenncare_choices_eligibility",
+      "publisher": "Division of TennCare",
+      "title": "CHOICES in Long-Term Services and Supports",
+      "vintage": "Page as read 2026-10-13; income limit for 2026",
+      "url": "https://www.tn.gov/tenncare/long-term-services-supports/choices.html",
+      "pinned_distribution": "",
+      "local_snapshot": "",
+      "pulled_by": "by hand, 2026-10-13",
+      "used_by": [
+        "data/page_sets/examples/senior_living_global_pages/"
+      ],
+      "what_it_gives": "Income cannot be more than $2,982 per month for 2026 (three times the SSI federal benefit, changes yearly; a Qualifying Income Trust may be an option above it). Countable resources cannot be more than $2,000; the home you live in does not count. Nothing given away or sold for less than its worth in the last five years.",
+      "limits": [
+        "Medical eligibility (nursing facility level of care, or at risk of it) is assessed separately.",
+        "Group 3 enrollment is capped by appropriations."
+      ]
+    },
+    {
+      "id": "carescout_2025_tennessee",
+      "publisher": "CareScout (Genworth)",
+      "title": "CareScout Releases 2025 Cost of Care Data for Tennessee",
+      "vintage": "Released March 2, 2026; 2025 survey",
+      "url": "https://www.businesswire.com/news/home/20260302867805/en/CareScout-Releases-2025-Cost-of-Care-Data-for-Tennessee",
+      "pinned_distribution": "",
+      "local_snapshot": "",
+      "pulled_by": "by hand, 2026-10-13",
+      "used_by": [
+        "data/page_sets/examples/senior_living_global_pages/"
+      ],
+      "what_it_gives": "Annual median cost of assisted living: $67,140 in Tennessee (up 4% from 2024) and $74,400 nationally.",
+      "limits": [
+        "A statewide median; Memphis-area communities price above and below it.",
+        "Survey medians describe base rates and typical care, not any one community's contract."
+      ]
     }
   ],
   "not_available": [

@@ -39,6 +39,10 @@ const expectByHost = new Map();
 
 for (const site of sites) {
   const dir = `data/search_intelligence/${site.host}`;
+  if (site.awaiting_gsc && !fs.existsSync(path.join(ROOT, dir, 'gsc_search_analytics_export.json'))) {
+    console.log(`NAMED STOP: ${site.host} awaiting Search Console access (${site.awaiting_gsc}); no families until the first export`);
+    continue;
+  }
   const file = path.join(ROOT, dir, 'demand_families.json');
   if (!fs.existsSync(file)) fail(`${dir}/demand_families.json missing (run scripts/search_intelligence/build_search_plan.mjs)`);
   const doc = read(`${dir}/demand_families.json`);
