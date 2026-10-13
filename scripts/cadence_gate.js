@@ -94,14 +94,23 @@ const ageDays = (d) => Math.floor((today - new Date(d)) / 86400000);
 // lastmod as a new page made a one-off structural edit across the library look
 // like a publishing spree, which is exactly the signal this is meant to
 // distinguish. New means a URL that was not in the sitemap last time this ran.
+//
+// The ledger is kept per host. CI builds every pack into one dist/ in turn and
+// gates the last one, so a single flat list made the gate compare one site's
+// sitemap against another site's URLs whenever the pack order changed. A host
+// seen for the first time initialises its own entry, exactly as a missing
+// ledger always has: launching a site is recorded, then its weekly cap applies.
 const ledgerPath = path.join(ROOT, 'data/cadence/known_urls.json');
-let known = new Set();
-let ledgerExists = fs.existsSync(ledgerPath);
-if (ledgerExists) {
-  try { known = new Set(JSON.parse(fs.readFileSync(ledgerPath, 'utf8')).urls || []); }
-  catch { ledgerExists = false; }
-}
-const newUrls = [...urls.keys()].filter((u) => !known.has(u));
+const hostOf = (u) => { try { return new URL(u).hostname; } catch { return ''; } };
+let ledger = null;
+try { ledger = JSON.parse(fs.readFileSync(ledgerPath, 'utf8')); } catch { ledger = null; }
+const byHost = {};
+for (const [h, list] of Object.entries((ledger && ledger.by_host) || {})) byHost[h] = new Set(list);
+for (const u of (ledger && ledger.urls) || []) { const h = hostOf(u); if (h) (byHost[h] = byHost[h] || new Set()).add(u); }
+const hostsNow = [...new Set([...urls.keys()].map(hostOf).filter(Boolean))];
+const initialisedHosts = hostsNow.filter((h) => !byHost[h]);
+let ledgerExists = !!ledger && hostsNow.some((h) => byHost[h]);
+const newUrls = [...urls.keys()].filter((u) => byHost[hostOf(u)] && !byHost[hostOf(u)].has(u));
 
 const dated = [...urls.entries()].filter(([, d]) => d);
 const undated = [...urls.entries()].filter(([, d]) => !d);
@@ -154,6 +163,7 @@ const report = {
   lastmod_within_7d: publishedThisWeek,
   new_since_last_run: ledgerExists ? newUrls.length : null,
   ledger_initialised: ledgerExists,
+  hosts_initialised_this_run: initialisedHosts,
   maintainable_ceiling: ceiling,
   policy: { ...policy, _source: undefined },
   blocking,
@@ -165,7 +175,13 @@ const report = {
 // whether or not the gate blocks: the ledger is a record of what exists, not a
 // reward for passing.
 fs.mkdirSync(path.dirname(ledgerPath), { recursive: true });
-fs.writeFileSync(ledgerPath, JSON.stringify({ generated_at: report_date(), urls: [...urls.keys()].sort() }, null, 2) + '\n');
+for (const h of hostsNow) byHost[h] = new Set([...urls.keys()].filter((u) => hostOf(u) === h));
+const allKnown = [...new Set(Object.values(byHost).flatMap((set) => [...set]))].sort();
+fs.writeFileSync(ledgerPath, JSON.stringify({
+  generated_at: report_date(),
+  urls: allKnown,
+  by_host: Object.fromEntries(Object.keys(byHost).sort().map((h) => [h, [...byHost[h]].sort()])),
+}, null, 2) + '\n');
 
 fs.mkdirSync(path.join(ROOT, 'reports/cadence'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'reports/cadence/cadence-gate.json'), JSON.stringify(report, null, 2) + '\n');

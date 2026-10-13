@@ -15,6 +15,7 @@ const EXPECTED = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'contracts',
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'clarity_projects.json'), 'utf8'));
 for (const host of publicHosts()) {
   const id = (cfg.projects || {})[host];
+  if (!id && (cfg.pending || {})[host]) { console.log(`NAMED STOP: no Clarity project for ${host} yet: ${cfg.pending[host]}`); continue; }
   if (!id) fail(`no Clarity project for ${host}`);
   if (EXPECTED[host] && EXPECTED[host] !== id) fail(`${host} maps to ${id}, expected ${EXPECTED[host]}`);
 }

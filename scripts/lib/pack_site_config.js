@@ -35,6 +35,12 @@ const PACK_SITE_CONFIG = {
     siteUrl: 'https://uscisexam.com',
     brandName: 'USCIS Exam Guides',
   },
+  senior_living: {
+    pageSetSlugs: ['senior_living_v1.json', 'cities_senior_living_v1.json'],
+    siteUrl: 'https://memphisseniorcarehomes.com',
+    brandName: 'Memphis Senior Care Homes',
+    alternateNames: ['memphis senior care homes', 'memphis senior guide'],
+  },
   starter: {
     pageSetSlugs: ['starter_v1.json'],
     siteUrl: 'https://local-guides-generator.pages.dev',

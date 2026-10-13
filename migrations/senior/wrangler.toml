@@ -1,0 +1,22 @@
+# D1 config for the senior-living lead backend ONLY. It lives here, not at the repo root,
+# on purpose: a root wrangler.toml with pages_build_output_dir would become the binding
+# source of truth for all six guides Pages projects built from this repo.
+# The Pages binding itself (SENIOR_DB on local-guides-generator-senior-living) is applied
+# by scripts/senior/bind_pages.sh. Apply migrations with:
+#   npx wrangler d1 migrations apply senior-leads --remote --config migrations/senior/wrangler.toml
+name = "senior-leads-migrations"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "SENIOR_DB"
+database_name = "senior-leads"
+database_id = "e36cb56a-6d35-400c-b28f-cd0a148d2e83"
+migrations_dir = "."
+
+# Branch previews bind SENIOR_DB to a separate database. Apply the same migrations there:
+#   npx wrangler d1 migrations apply senior-leads-preview --remote --config migrations/senior/wrangler.toml
+[[d1_databases]]
+binding = "SENIOR_DB_PREVIEW"
+database_name = "senior-leads-preview"
+database_id = "c9e70112-d6ef-44f4-ad5b-5b33e1bbba31"
+migrations_dir = "."

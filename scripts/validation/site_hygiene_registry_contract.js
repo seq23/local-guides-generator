@@ -67,6 +67,13 @@ console.log(`SITE HYGIENE REGISTRY CONTRACT PASS (${reg.build_steps.length} step
   let targets = 0;
   for (const site of sites) {
     const dir = `data/search_intelligence/${site.host}`;
+    // A newly added property is measured from the day Search Console grants the
+    // service account access; until the daily cycle writes its first export it
+    // is a NAMED STOP that clears itself (the flag is ignored once files exist).
+    if (site.awaiting_gsc && !fs.existsSync(path.join(ROOT, dir, 'gsc_search_analytics_export.json'))) {
+      console.log(`NAMED STOP: ${site.host} not yet readable in Search Console (${site.awaiting_gsc}); its per-site files appear on the first daily run after access`);
+      continue;
+    }
     for (const f of si.per_site_files) if (!fs.existsSync(path.join(ROOT, dir, f))) fail(`${dir}/${f} missing`);
     const j = (f) => JSON.parse(read(`${dir}/${f}`));
     const cov = j('index_coverage.json');

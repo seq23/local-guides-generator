@@ -106,6 +106,9 @@ function main() {
     `Sitemap: ${baseUrl}/sitemap.xml`,
     `Full manifest: ${baseUrl}/llms-full.txt`,
     '',
+    // senior-living (memphisseniorcarehomes.com): what the site is, the
+    // licensed-facility directory and how to cite it.
+    ...(/memphisseniorcarehomes\.com/.test(baseUrl) ? require('./lib/senior_living').llmsAboutLines(baseUrl) : []),
     '## Priority URLs',
     ...top.map((p) => `- ${formatUrl(baseUrl, p)}`),
     '',

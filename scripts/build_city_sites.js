@@ -22,6 +22,8 @@
 
 const fs = require("fs");
 const path = require("path");
+const senior = require("./lib/senior_living");
+const seniorFanout = require("./lib/senior_fanout");
 
 
 function loadGuideAnswerShapeContract() {
@@ -1135,6 +1137,7 @@ function providerTypeLabelForVertical(verticalKey) {
   if (vk === 'neuro') return 'Neuro Evaluation Provider';
   if (vk === 'trt') return 'Hormone / Wellness Clinic';
   if (vk === 'uscis_medical') return 'USCIS Medical Exam Provider';
+  if (senior.isSeniorLiving(vk)) return 'Senior Living Community';
   // Training/unknown packs: keep a generic label without implying a vertical.
   return 'provider';
 }
@@ -1211,7 +1214,7 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
     src,
     intent: intentType,
     button: buttonSource,
-    vertical: verticalKey,
+    vertical: senior.isSeniorLiving(verticalKey) ? senior.PUBLIC_ID : verticalKey,
     page_kind: pageKind,
     page_slug: pageSlug,
     market: marketSlug
@@ -1263,7 +1266,7 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
     src,
     intent: 'decision_hub',
     button: 'next_steps_cta',
-    vertical: verticalKey,
+    vertical: senior.isSeniorLiving(verticalKey) ? senior.PUBLIC_ID : verticalKey,
     page_kind: pageKind,
     page_slug: pageSlug,
     market: marketSlug
@@ -1271,7 +1274,17 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
   return { label, labelLower, src, pt, href, nextStepsHref, pageKind, pageSlug, marketSlug, intentType, buttonSource, verticalKey };
 }
 
+// Senior-living families are matched with a community, not "a provider".
 function conversionCopyForContext(pageType, verticalKey, ctx) {
+  const copy = conversionCopyForContextBase(pageType, verticalKey, ctx);
+  if (!senior.isSeniorLiving(verticalKey) || !copy || typeof copy !== 'object') return copy;
+  const swap = (v) => (typeof v === 'string' ? v.replace(/a provider\b/g, 'a community').replace(/A Provider\b/g, 'a Community').replace(/\bproviders\b/g, 'communities').replace(/\bprovider\b/g, 'community') : v);
+  const out = {};
+  for (const [k, v] of Object.entries(copy)) out[k] = (k === 'variant' || k === 'href') ? v : swap(v);
+  return out;
+}
+
+function conversionCopyForContextBase(pageType, verticalKey, ctx) {
   const info = buildRequestAssistanceContext(verticalKey, ctx);
   const marketLabel = String(ctx?.marketLabel || '').trim();
   const marketShort = marketLabel ? marketLabel.split(',')[0].trim() : 'your area';
@@ -1620,8 +1633,13 @@ function loadCities(pageSet, verticalKey) {
   const bySlug = new Map();
   // Pack cities first so pack can override fields, then promoted ready cities, then base top10.
   for (const c of (packCities || [])) bySlug.set(String(c.slug), c);
-  for (const c of (promotedReadyCities || [])) if (!bySlug.has(String(c.slug))) bySlug.set(String(c.slug), c);
-  for (const c of (baseCities || [])) if (!bySlug.has(String(c.slug))) bySlug.set(String(c.slug), c);
+  // A fenced pack (citiesExclusive) publishes exactly its own city list: the
+  // senior-living site is hyperlocal to Memphis, and the shared top-10 national
+  // cities would put Atlanta and Boston pages on a Memphis care-home site.
+  if (!(pageSet && pageSet.citiesExclusive === true)) {
+    for (const c of (promotedReadyCities || [])) if (!bySlug.has(String(c.slug))) bySlug.set(String(c.slug), c);
+    for (const c of (baseCities || [])) if (!bySlug.has(String(c.slug))) bySlug.set(String(c.slug), c);
+  }
   // Ensure we always have minimally usable city metadata (city/state labels).
   // Some packs provide cities files that only contain slugs.
   return Array.from(bySlug.values()).map((c) => {
@@ -1643,6 +1661,9 @@ function applyCityTokens(str, city) {
     .split("%%STATE%%").join(city.state)
     .split("%%STATE_NAME%%").join(city.stateName || "")
     .split("%%MARKET_LABEL%%").join(city.marketLabel || "")
+    // "in Germantown, TN" for a city, "near Regional One Health" for a page
+    // anchored on a place that is not a city (senior-living hospital pages).
+    .split("%%PLACE_PHRASE%%").join(city.placePhrase || ("in " + (city.marketLabel || "")))
     .split("%%SLUG%%").join(city.slug);
 }
 
@@ -1682,8 +1703,17 @@ function buildWebSiteSchema(siteUrl, brandName) {
     publisher: { "@type": "Organization", name: brandName, url: base },
     publishingPrinciples: base + "methodology/",
     ethicsPolicy: base + "editorial-policy/",
-    ownershipFundingInfo: base + "editorial-policy/#funding"
+    ownershipFundingInfo: base + "editorial-policy/#funding",
+    // Brand capture: the spellings people search for this site by, from
+    // scripts/lib/pack_site_config.js (only packs that declare them).
+    ...(alternateNamesForSite(siteUrl).length ? { alternateName: alternateNamesForSite(siteUrl) } : {})
   };
+}
+function alternateNamesForSite(siteUrl) {
+  const host = String(siteUrl || '').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+  const { PACK_SITE_CONFIG } = require('./lib/pack_site_config');
+  const cfg = Object.values(PACK_SITE_CONFIG).find((c) => String(c.siteUrl || '').includes('//' + host));
+  return (cfg && Array.isArray(cfg.alternateNames)) ? cfg.alternateNames : [];
 }
 function buildWebPageSchema(siteUrl, brandName, city, route, title, description) {
   return {
@@ -3062,6 +3092,20 @@ function renderLLMBaitQuestionHtml(verticalKey, city) {
   );
 }
 
+// Insert `block` after the <section> carrying `attr`, else after the page's first
+// section (the hero), else at the end. ensureCityHubRequiredBlocks called this
+// on its last branch but it was never defined: any city page without a provider,
+// listings or eval-framework section crashed the build with a ReferenceError.
+function injectAfterSection(html, attr, block) {
+  const out = String(html || '');
+  const re = new RegExp('<section[^>]*' + attr + '[^>]*>[\\s\\S]*?<\\/section>', 'm');
+  const m = out.match(re);
+  if (m) return out.replace(m[0], m[0] + '\n' + block);
+  const first = out.indexOf('</section>');
+  if (first >= 0) return out.slice(0, first + 10) + '\n' + block + out.slice(first + 10);
+  return out + '\n' + block;
+}
+
 function ensureCityHubRequiredBlocks(html, verticalKey, city) {
   let out = String(html || '');
   const baitRe = /<section[^>]*data-llm-bait="question"[\s\S]*?<\/section>/m;
@@ -3794,6 +3838,16 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
 
   let mainHtml = applyCityTokens(page.main_html, city);
 
+  if (senior.isSeniorLiving(verticalKey)) {
+    mainHtml = mainHtml
+      .split('%%SENIOR_H1%%').join(senior.h1For(city))
+      .split('%%SENIOR_CITY_INTRO%%').join(senior.cityIntroHtml(city))
+      .split('%%SENIOR_INTAKE%%').join(senior.intakeSlotForCity(city))
+      .split('%%SENIOR_DIRECTORY%%').join(senior.directoryHtml(city))
+      .split('%%SENIOR_SEARCHES%%').join(seniorFanout.searchesHtml('/' + city.slug + '/'))
+      .split('%%SENIOR_LOCAL%%').join(senior.cityLocalHtml(city));
+  }
+
   if (isStarterTrainingPack(pageSet)) {
     mainHtml = mainHtml.split("%%TRAINING_SPONSOR_SPOTLIGHT%%").join(renderTrainingSponsorSpotlight(city));
   } else {
@@ -4171,6 +4225,9 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
 
   let mainHtml = String(globalPage.main_html || "")
+    .split("%%SENIOR_INTAKE%%").join(senior.isSeniorLiving(verticalKey) ? senior.intakeSlotForSite() : "")
+    .split("%%SENIOR_PRODUCTS%%").join(senior.isSeniorLiving(verticalKey) ? senior.productsHtml(CONTACT_EMAIL) : "")
+    .split("%%SENIOR_SEARCHES%%").join(senior.isSeniorLiving(verticalKey) ? seniorFanout.searchesHtml((globalPage.route || '/').replace(/^\/*/, '/').replace(/\/*$/, '/')) : "")
     .split("%%BRAND_NAME%%").join(brandName)
     .split("%%PARENT_COMPANY%%").join(escapeHtml(PARENT_COMPANY))
     .split("%%CONTACT_EMAIL%%").join(escapeHtml(CONTACT_EMAIL));
@@ -4436,7 +4493,7 @@ if (route === 'admin') {
     mainHtml = mainHtml.split("%%STATE_GRID%%").join('<div class="state-card-grid" data-home-state-grid="true">' + (marketsStatusListHtml || '') + '</div>');
   }
   if (route === '' && mainHtml.includes("%%HOME_PROVIDER_PREVIEW%%")) {
-    mainHtml = mainHtml.split("%%HOME_PROVIDER_PREVIEW%%").join(collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName));
+    mainHtml = mainHtml.split("%%HOME_PROVIDER_PREVIEW%%").join(senior.isSeniorLiving(verticalKey) ? senior.homePreviewHtml() : collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName));
   }
   if (route === '' && mainHtml.includes("%%HOME_FAQ_ENTRY%%")) {
     mainHtml = mainHtml.split("%%HOME_FAQ_ENTRY%%").join(renderHomepageFaqEntryHtml(brandName));
@@ -4995,7 +5052,8 @@ const VERTICAL_LABELS = {
   trt: 'TRT, peptide, IV therapy, and clinic',
   uscis: 'USCIS medical-exam and civil-surgeon',
   uscis_medical: 'USCIS medical-exam and civil-surgeon',
-  pi: 'personal-injury lawyer'
+  pi: 'personal-injury lawyer',
+  senior_living: 'assisted living and memory care'
 };
 function verticalLabelFor(verticalKey) {
   return VERTICAL_LABELS[String(verticalKey || '').toLowerCase()] || 'local service';
@@ -5250,11 +5308,12 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   const connectionBubbleTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'connection_bubble.html'), 'utf8');
   const primaryConversionTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'primary_conversion_cta.html'), 'utf8');
   const inlineConversionTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'inline_conversion_cta.html'), 'utf8');
-  const footerHtml = footerHtmlRaw
+  const footerHtmlShared = footerHtmlRaw
     .replace(/%%CURRENT_YEAR%%/g, String(new Date().getFullYear()))
     .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName))
     .replace(/%%PARENT_COMPANY%%/g, escapeHtml(PARENT_COMPANY))
     .replace(/%%CONTACT_EMAIL%%/g, escapeHtml(CONTACT_EMAIL));
+  const footerHtml = senior.isSeniorLiving(verticalKey) ? senior.footerFor(footerHtmlShared) : footerHtmlShared;
   if (/%%[A-Z_]+%%/.test(footerHtml)) throw new Error('footer.html has an unreplaced token: ' + footerHtml.match(/%%[A-Z_]+%%/)[0]);
 
   // Sponsors data (optional)
@@ -5333,6 +5392,7 @@ function loadNextStepsSponsor(citySlug) {
   const assetsSrc = path.join(REPO_ROOT, "assets");
   const assetsDst = path.join(OUT_DIR, "assets");
   fs.cpSync(assetsSrc, assetsDst, { recursive: true });
+  if (senior.isSeniorLiving(verticalKey)) { senior.copySeatFile(OUT_DIR); senior.publishFacilities(OUT_DIR); }
   // Copy sponsor assets into public assets/sponsors/<slug>/
   try {
     const sponsorIntakeDir = path.join(DATA_DIR, "sponsor_intake", "sponsors");
@@ -5471,7 +5531,11 @@ function loadNextStepsSponsor(citySlug) {
   }
   for (const gp of packPages) {
     const r = (gp.route || '').replace(/^\/+|\/+$/g, '');
-    if (sharedRoutes.has(r)) continue;
+    // The senior-living site sells different products (lead routing, per-lead
+    // fees), so it overrides /for-providers/.
+    // /about/ too: the shared page says "not a referral service", which is
+    // untrue for a site paid referral fees by communities.
+    if (sharedRoutes.has(r) && !(['for-providers', 'about'].includes(r) && senior.isSeniorLiving(verticalKey))) continue;
     byRoute.set(r, gp);
   }
 
@@ -6009,6 +6073,9 @@ function loadNextStepsSponsor(citySlug) {
     fanoutRecords.push(piHubFanoutCluster);
   }
 
+  // senior-living: one record per authored query, routed to the one page that
+  // answers it (data/fanout/senior_living_query_universe.json).
+  if (senior.isSeniorLiving(verticalKey)) fanoutRecords.push(...seniorFanout.fanoutRecords());
   fanout.writeFanoutExport(OUT_DIR, fanoutRecords, pageSet, verticalKey);
 
   // Write build meta

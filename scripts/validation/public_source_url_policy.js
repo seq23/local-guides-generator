@@ -54,7 +54,14 @@ function run() {
   }
 
   const listingsDir = path.join(root, 'data', 'listings');
+  // data/listings/senior-living/ is the state licensure directory for the
+  // senior-living pack, not a city listings/sponsor file: the owner's brief
+  // (13 Oct 2026) requires each licensed facility's own website on it. It is
+  // held instead by scripts/validation/senior_living_facilities_contract.js,
+  // which allows `website` there and nowhere else.
+  const seniorDir = path.join(listingsDir, 'senior-living') + path.sep;
   for (const file of walkJsonFiles(listingsDir)) {
+    if (file.startsWith(seniorDir)) continue;
     const data = JSON.parse(fs.readFileSync(file, 'utf8'));
     const hits = containsBannedKeys(data, banned);
     if (hits.length) {

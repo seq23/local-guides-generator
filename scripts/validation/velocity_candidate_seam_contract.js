@@ -119,16 +119,11 @@ function setupSandbox(policy) {
   }
 }
 
-// Mirrors the VERTICALS table in generate_from_candidates.js. Kept in step by
-// the folder-reachability check below, which fails if any alias target has no
-// folder in the real tree.
-const FOLDER_BY_VERTICAL = {
-  dentistry: 'data/page_sets/examples/dentistry_global_pages',
-  neuro: 'data/page_sets/examples/neuro_global_pages',
-  'uscis-medical': 'data/page_sets/examples/uscis_medical_global_pages',
-  trt: 'data/page_sets/examples/trt_global_pages',
-  'personal-injury': 'data/page_sets/examples/pi_global_pages',
-};
+// The generator's folder table, read from the same `canonical` block of the
+// alias contract the generator reads, so the two cannot drift.
+const FOLDER_BY_VERTICAL = Object.fromEntries(
+  Object.entries(readJson(ALIASES).canonical || {}).map(([id, c]) => [id, c.global_pages_dir])
+);
 
 function run(script, { env = {}, cwd = sandbox } = {}) {
   try {

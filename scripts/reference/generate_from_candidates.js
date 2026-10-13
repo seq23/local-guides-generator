@@ -62,38 +62,18 @@ if (!ALIAS_CONTRACT || !ALIAS_CONTRACT.aliases) {
 }
 const VERTICAL_ALIASES = ALIAS_CONTRACT.aliases;
 
-const VERTICALS = {
-  dentistry: {
-    folder: 'data/page_sets/examples/dentistry_global_pages',
-    filePrefix: 'guides_',
-    publicVertical: 'dentistry'
-  },
-  neuro: {
-    folder: 'data/page_sets/examples/neuro_global_pages',
-    filePrefix: 'guides_',
-    publicVertical: 'neuro'
-  },
-  'uscis-medical': {
-    folder: 'data/page_sets/examples/uscis_medical_global_pages',
-    filePrefix: 'guides_',
-    publicVertical: 'uscis-medical'
-  },
-  trt: {
-    folder: 'data/page_sets/examples/trt_global_pages',
-    filePrefix: 'guides_trt_',
-    publicVertical: 'trt'
-  },
-  'personal-injury': {
-    folder: 'data/page_sets/examples/pi_global_pages',
-    filePrefix: '',
-    publicVertical: 'personal-injury'
-  },
-  pi: {
-    folder: 'data/page_sets/examples/pi_global_pages',
-    filePrefix: '',
-    publicVertical: 'personal-injury'
-  }
-};
+// Built from the alias contract's `canonical` table, the one place a vertical's
+// guide folder is named. A second hand-kept list here is how personal_injury
+// and uscis were once dropped on the floor.
+if (!ALIAS_CONTRACT.canonical || !Object.keys(ALIAS_CONTRACT.canonical).length) {
+  console.error('generate_from_candidates: velocity_vertical_aliases.json has no `canonical` table.');
+  process.exit(1);
+}
+const VERTICALS = Object.fromEntries(Object.entries(ALIAS_CONTRACT.canonical).map(([id, c]) => [id, {
+  folder: c.global_pages_dir,
+  filePrefix: c.guide_file_prefix,
+  publicVertical: id
+}]));
 
 
 // Publishing freeze (data/search_intelligence/publishing_freeze.json, 11 Oct 2026):

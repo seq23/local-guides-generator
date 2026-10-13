@@ -84,6 +84,8 @@
     "validate:promote-reference:intake": "node scripts/reference/guard_visible_surfaces.js && node scripts/validation/promote_reference_intake_contract.js",
     "validate:promoted-guide-completion": "node scripts/validation/promoted_guide_completion_contract.js",
     "validate:snapshot-package": "node scripts/validate_snapshot_package.js",
+    "validate:senior-lead": "node scripts/validation/senior_seat_schema_contract.js && node scripts/validation/senior_static_contract.js && node scripts/validation/senior_lead_flow_contract.js",
+    "test:senior": "node --test tests/senior/senior_lead.test.mjs",
     "validate:sourced-cost-figures": "node scripts/validation/sourced_cost_figures_contract.js",
     "validate:tier:developer": "node scripts/validation/run_validator_tier.js developer",
     "validate:tier:hard-fail": "node scripts/validation/run_validator_tier.js hard_fail",
