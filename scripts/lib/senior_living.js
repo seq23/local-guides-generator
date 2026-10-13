@@ -197,7 +197,7 @@ function cityLocalHtml(city) {
   const mc = list.filter((f) => f.memory_care);
   const small = list.filter((f) => typeof f.total_beds === 'number' && f.total_beds <= 30);
   const nearestTxt = near.map((f) => esc(titleCaseName(f.name)) + ' (' + f.miles.toFixed(1) + ' miles, ' + esc(f.phone) + ')').join('; ');
-  return '<section class="section senior-local" data-senior-local="true">' +
+  return '<section class="section senior-local" data-senior-local="true" data-decision-routing-block="true">' +
     '<h2>What families near ' + esc(city.city) + ' should know</h2>' +
     '<p><strong>Closest licensed communities:</strong> ' + nearestTxt + '. Distances are straight-line; allow for traffic on Poplar Avenue, I-240, US-78 and I-55 when you plan regular visits.</p>' +
     '<p><strong>Memory care:</strong> ' + mc.length + ' of the ' + list.length + ' communities listed here report a secured memory care unit to the state' + (mc.length ? ', the nearest being ' + esc(titleCaseName(mc[0].name)) + (mc[0].miles != null ? ' at ' + mc[0].miles.toFixed(1) + ' miles' : '') : '') + '. If your parent wanders or cannot be left alone safely, start with those. <a href="/guides/memory-care-when-is-it-time/">How to tell when it is time</a>.</p>' +
@@ -214,7 +214,7 @@ function hospitalLocalHtml(city) {
   const nearest = list[0];
   const allCities = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'page_sets', 'examples', 'cities_senior_living_v1.json'), 'utf8')).filter((c) => c.kind === 'city');
   const nearCities = allCities.map((c) => ({ ...c, miles: milesBetween(city.lat, city.lng, c.lat, c.lng) })).sort((a, b) => a.miles - b.miles).slice(0, 3);
-  return '<section class="section senior-local" data-senior-local="true">' +
+  return '<section class="section senior-local" data-senior-local="true" data-decision-routing-block="true">' +
     '<h2>Leaving ' + esc(city.hospital_name) + ' for assisted living</h2>' +
     '<p><strong>Who to talk to:</strong> every unit at ' + esc(city.hospital_name) + ' has a case manager or discharge planner. Tell them on the first day that your parent cannot safely go home alone and that you are looking at assisted living, and ask whether your parent is an inpatient or under observation, because only inpatient days count toward Medicare\'s three-day rule for a rehab stay.</p>' +
     '<p><strong>Closest community:</strong> ' + (nearest ? esc(titleCaseName(nearest.name)) + ', ' + nearest.miles.toFixed(1) + ' miles away, ' + esc(nearest.phone) : 'see the directory above') + '. ' +
@@ -351,3 +351,21 @@ function llmsAboutLines(baseUrl) {
   ];
 }
 module.exports.llmsAboutLines = llmsAboutLines;
+
+// Home page preview: a neutral sample of licensed communities, one per area,
+// so the home page shows real places before a family picks a city page.
+function homePreviewHtml() {
+  const rows = loadFacilities().facilities || [];
+  const pick = [];
+  for (const city of ['Memphis', 'Germantown', 'Collierville', 'Bartlett', 'Cordova', 'Southaven', 'Olive Branch', 'Arlington']) {
+    const f = rows.find((r) => r.city === city && !pick.includes(r));
+    if (f) pick.push(f);
+  }
+  const cards = pick.map((f) => '<div class="card"><h3>' + esc(titleCaseName(f.name)) + '</h3><p class="muted">' + esc(f.city) + ', ' + esc(f.state) + ' · <a href="' + telHref(f.phone) + '">' + esc(f.phone) + '</a>' + (f.memory_care ? ' · memory care' : '') + '</p></div>').join('');
+  return '<section class="section" data-home-provider-preview="true">' +
+    '<h2>Licensed communities across the Memphis area</h2>' +
+    '<p class="muted">A sample, one per area, in no order of preference. Each city page lists every licensed community near it, with licence numbers and distances.</p>' +
+    '<div class="grid">' + cards + '</div>' +
+    '</section>';
+}
+module.exports.homePreviewHtml = homePreviewHtml;

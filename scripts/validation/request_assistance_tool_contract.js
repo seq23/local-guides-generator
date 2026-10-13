@@ -27,6 +27,22 @@ function run(ctx) {
   const html = readText(fp);
   const label = path.relative(repoRoot, fp);
 
+  // The senior-living site's intake is the lead backend's wizard mounted in an
+  // exact embed slot (assets/senior-intake.js), not the shared Airtable form.
+  // Its page is held to the same structural markers plus that slot.
+  let pageSetFile = '';
+  try { pageSetFile = String(JSON.parse(readText(path.join(repoRoot, 'data', 'site.json'))).pageSetFile || ''); } catch (_) {}
+  if (/senior_living_v1\.json$/.test(pageSetFile)) {
+    for (const n of ['data-request-assistance-tool-intro="true"', 'data-request-assistance-form-primary="true"', 'data-request-assistance-who-its-for="true"', 'data-request-assistance-what-happens-next="true"', 'id="request-assistance-form"', 'data-request-assistance-top-cta="true"', 'data-request-assistance-bottom-cta="true"', `mailto:${CONTACT_EMAIL}`, 'Senior living communities pay us a referral fee',
+      '<div id="senior-intake" data-vertical="senior-living" data-city="memphis-tn" data-zip="38104"></div><script src="/assets/senior-intake.js" defer></script>']) mustContain(html, n, label);
+    if (html.includes('action="/api/request-assistance"')) throw new Error(`REQUEST ASSISTANCE TOOL CONTRACT FAIL: ${label} renders the shared Airtable form next to the senior intake wizard`);
+    const shownS = html.replace(/\splaceholder="[^"]*"/g, '');
+    const others = Array.from(new Set((shownS.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || []).map((a) => a.toLowerCase()))).filter((a) => a !== CONTACT_EMAIL.toLowerCase());
+    if (others.length) throw new Error(`REQUEST ASSISTANCE TOOL CONTRACT FAIL: ${label} shows an address other than ${CONTACT_EMAIL}: ${others.join(', ')}`);
+    console.log('✅ request assistance tool contract pass (senior-living intake slot)');
+    return;
+  }
+
   mustContain(html, 'data-request-assistance-tool-intro="true"', label);
   mustContain(html, 'data-request-assistance-form-primary="true"', label);
   mustContain(html, 'data-request-assistance-who-its-for="true"', label);

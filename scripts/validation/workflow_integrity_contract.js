@@ -84,6 +84,11 @@ function run() {
   if (!/const pageSetMap = \{/.test(rotateScript)) {
     fail('rotate_vertical_refresh.js must define pageSetMap for rotating verticals');
   }
+  // ...and take the rotating verticals from the one pack list, so a new pack
+  // cannot be deployed and never refreshed (senior_living, 13 Oct 2026).
+  if (!/require\('\.\.\/lib\/pack_site_config'\)/.test(rotateScript) || !/PACK_SITE_CONFIG/.test(rotateScript.slice(rotateScript.indexOf('const rotation')))) {
+    fail('rotate_vertical_refresh.js must build its rotation from scripts/lib/pack_site_config.js');
+  }
 
   // rotate script must bootstrap site.json somehow when missing
   if (!/site\.json/.test(rotateScript)) {

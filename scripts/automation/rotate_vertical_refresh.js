@@ -74,7 +74,9 @@ const chosen = rotation[day % rotation.length];
 
 const notes = `Rotating refresh focus: ${chosen.label}.`;
 
-const pageSetMap = Object.fromEntries(rotation.map(({ key }) => [key, `data/page_sets/examples/${PACK_SITE_CONFIG[key].pageSetSlugs[0]}`]));
+const pageSetMap = {
+  ...Object.fromEntries(rotation.map(({ key }) => [key, `data/page_sets/examples/${PACK_SITE_CONFIG[key].pageSetSlugs[0]}`])),
+};
 
 const pageSetFile = pageSetMap[chosen.key];
 if (!pageSetFile) {

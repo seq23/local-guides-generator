@@ -4493,7 +4493,7 @@ if (route === 'admin') {
     mainHtml = mainHtml.split("%%STATE_GRID%%").join('<div class="state-card-grid" data-home-state-grid="true">' + (marketsStatusListHtml || '') + '</div>');
   }
   if (route === '' && mainHtml.includes("%%HOME_PROVIDER_PREVIEW%%")) {
-    mainHtml = mainHtml.split("%%HOME_PROVIDER_PREVIEW%%").join(collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName));
+    mainHtml = mainHtml.split("%%HOME_PROVIDER_PREVIEW%%").join(senior.isSeniorLiving(verticalKey) ? senior.homePreviewHtml() : collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName));
   }
   if (route === '' && mainHtml.includes("%%HOME_FAQ_ENTRY%%")) {
     mainHtml = mainHtml.split("%%HOME_FAQ_ENTRY%%").join(renderHomepageFaqEntryHtml(brandName));
