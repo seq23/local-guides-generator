@@ -394,8 +394,33 @@
       }
     };
 
+    // Anonymous funnel: screen numbers only (no answers, no contact details), one random
+    // id per visit, so drop-off is visible in GET /api/senior-funnel. Never blocks the wizard.
+    var SPECIAL = { offramp: 12, offramp_done: 13, thanks: 14 };
+    var session = (function () {
+      var a = new Uint8Array(12);
+      try { window.crypto.getRandomValues(a); } catch (e) { for (var i = 0; i < a.length; i += 1) a[i] = Math.floor(Math.random() * 256); }
+      return Array.prototype.map.call(a, function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join('');
+    })();
+    function track(event, screen) {
+      try {
+        fetch('/api/senior-event', { method: 'POST', keepalive: true, headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ session: session, event: event, screen: screen, page_kind: attribution.page_kind, page_slug: attribution.page_slug, src: attribution.src }) }).catch(function () {});
+      } catch (e) { /* never block the wizard */ }
+    }
+    function screenNumber() {
+      if (SPECIAL[s.step]) return SPECIAL[s.step];
+      var i = flow().indexOf(s.step);
+      if (i === -1) return 0;
+      return s.a.who_for === 'professional' ? 21 + i : 1 + i;
+    }
+
     function render() {
       (screens[s.step] || screens.who)();
+      var n = screenNumber();
+      track('screen', n);
+      if (n === 2 || n === 22) track('intake_start', 0);
+      if (s.step === 'results' && (facilities || facilitiesError)) track('results_shown', 0);
     }
     render();
   }

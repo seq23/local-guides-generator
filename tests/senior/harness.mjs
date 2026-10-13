@@ -6,7 +6,10 @@ import { DatabaseSync } from 'node:sqlite';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import * as H from '../../lib/senior/handlers.mjs';
+import * as HL from '../../lib/senior/handlers.mjs';
+import * as FN from '../../lib/senior/funnel.mjs';
+
+const H = { ...HL, ...FN };
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const ZIPS = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/senior-zips.json'), 'utf8')).zips;

@@ -16,6 +16,10 @@ Run the queries below with:
 - Seat history: `SELECT * FROM seat_events ORDER BY id DESC`. Every email attempt: `SELECT * FROM sends ORDER BY id DESC`. Teasers: `SELECT lead_id, facility_id, sent_at, send_error FROM teasers`.
 - Unsellable leads (Medicaid only, or tier 3, which is a skilled-nursing level of care): `SELECT id, unsellable_reason, created_at FROM leads WHERE status = 'unsellable'`.
 
+## Funnel numbers
+`curl -s -H "x-senior-tick-token: <SENIOR_TICK_TOKEN>" "https://memphisseniorcarehomes.com/api/senior-funnel?days=7"` returns counts with no personal details. It covers intake starts, results shown, leads, unsellable leads and their reasons, teasers, accepts (flat, rent, late), releases, passes, follow-up outcomes and the seat state. It also gives per-screen drop-off and leads grouped by page_kind/page_slug and by src.
+Screen numbers: the family flow runs 1-11 (who → contact), the off-ramp is 12, off-ramp done is 13 and thanks is 14. The discharge-planner flow runs 21-26.
+
 ## A community says "no referral fees"
 In `data/listings/senior-living/facilities.json`, add `"no_teasers": true` to that community's row, then merge. The community stays in the list families see, but it gets no more teasers. Anyone who uses an email's unsubscribe link is also suppressed at once (`recipients.unsubscribed_at`).
 

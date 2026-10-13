@@ -324,3 +324,45 @@ test('matcher: tiers, radius and the full list', () => {
   ] });
   assert.deepEqual(dir.map((f) => f.id), ['AL-0042', 'unlicensed-name-38103']);
 });
+
+test('funnel refuses without the token and returns no PII', async () => {
+  const w = world({ seat: { active: true, facility_id: 'mc-east', start: '2026-10-01', end: '2027-03-31' } });
+  const sess = 'ab'.repeat(12);
+  for (const [event, screen] of [['screen', 1], ['screen', 2], ['intake_start', 0], ['screen', 10], ['results_shown', 0], ['screen', 2]]) {
+    const r = await w.call('handleEvent', 'POST', '/api/senior-event', { json: { session: sess, event, screen, page_kind: 'guide', page_slug: 'guides/x', src: 'guide' } });
+    assert.equal(r.status, 200);
+  }
+  assert.equal((await w.call('handleEvent', 'POST', '/api/senior-event', { json: { session: sess, event: 'email', screen: 1 } })).status, 400);
+  assert.equal((await w.call('handleEvent', 'POST', '/api/senior-event', { json: { session: PII.email, event: 'screen', screen: 1 } })).status, 400, 'a session id can never carry an address');
+  await w.lead({ page_kind: 'guide', page_slug: 'guides/x', src: 'guide' });
+  await w.lead({ payers: ['medicaid'], page_kind: 'city', page_slug: 'memphis-tn', src: 'city' });
+  const tok = w.db.q("SELECT token FROM seat_events WHERE event = 'offered'")[0].token;
+  await w.call('handleSeat', 'POST', `/api/senior-seat?t=${tok}&a=pass`, { form: { why: 'Other' } });
+  const t = w.db.q('SELECT token FROM teasers LIMIT 1')[0].token;
+  await w.call('handleAccept', 'POST', `/api/senior-accept?t=${t}&o=rent`);
+  assert.equal((await w.call('handleFunnel', 'GET', '/api/senior-funnel?days=7')).status, 401);
+  assert.equal((await w.call('handleFunnel', 'GET', '/api/senior-funnel?days=7', { headers: { 'x-senior-tick-token': 'wrong' } })).status, 401);
+  const r = await w.call('handleFunnel', 'GET', '/api/senior-funnel?days=7', { headers: { 'x-senior-tick-token': TICK } });
+  assert.equal(r.status, 200);
+  const f = r.body;
+  assert.equal(f.intake_starts, 1);
+  assert.equal(f.results_shown, 1);
+  assert.deepEqual(f.screens, { 1: 1, 2: 1, 10: 1 });
+  assert.equal(f.contact_submitted, 2);
+  assert.equal(f.unsellable, 1);
+  assert.deepEqual(f.unsellable_reasons, { medicaid_only: 1 });
+  assert.ok(f.teasers_sent >= 3);
+  assert.equal(f.accepts_rent, 1);
+  assert.equal(f.accepts_flat, 0);
+  assert.equal(f.releases, 1);
+  assert.deepEqual(f.passes, { pass: 1 });
+  assert.deepEqual(f.followup_outcomes, { moved_in: 0, not_yet: 0, elsewhere: 0 });
+  assert.deepEqual(f.seat, { active: true, end: '2027-03-31' });
+  assert.deepEqual(f.leads_by_page.sort((a, b) => a.page_slug.localeCompare(b.page_slug)), [{ page_kind: 'guide', page_slug: 'guides/x', leads: 1 }, { page_kind: 'city', page_slug: 'memphis-tn', leads: 1 }]);
+  assert.deepEqual(f.leads_by_src, { guide: 1, city: 1 });
+  const text = JSON.stringify(f);
+  for (const v of [PII.email, PII.phone, PII.phone.replace(/\D/g, ''), PII.name, PII.senior_first_name, 'mc-east', 'example.org']) assert.ok(!text.includes(v), `funnel leaks ${v}`);
+  const keys = [];
+  (function walk(o) { if (o && typeof o === 'object') for (const [k, v] of Object.entries(o)) { keys.push(k); walk(v); } })(f);
+  for (const k of keys) assert.ok(!/email|phone|name|token|facility/i.test(k), `funnel response has a ${k} field`);
+});

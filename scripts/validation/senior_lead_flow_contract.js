@@ -27,7 +27,8 @@ const REQUIRED = [
   'honeypot, consent and contact are enforced',
   'follow-up move-in emails the owner with the invoice line',
   'every outgoing email carries the footer',
-  'matcher: tiers, radius and the full list'
+  'matcher: tiers, radius and the full list',
+  'funnel refuses without the token and returns no PII'
 ];
 
 function fail(msg) { console.error(`SENIOR LEAD FLOW FAIL: ${msg}`); process.exit(1); }

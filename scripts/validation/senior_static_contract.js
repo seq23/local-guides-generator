@@ -20,7 +20,7 @@ const read = (rel) => fs.readFileSync(path.join(ROOT, rel), 'utf8');
 
 const PAID_MODEL = [/openrouter\.ai/i, /api\.anthropic\.com/i, /api\.openai\.com/i, /generativelanguage\.googleapis\.com/i, /@anthropic-ai\//, /from ['"]openai['"]/, /env\.AI\b/, /api\.mistral\.ai/i, /api\.cohere\.(ai|com)/i, /free_llm_router/];
 const FORBIDDEN_NAMES = [/spry\s*labs/i, /spryvc\.com/i, /joinwestpeek\.com/i, /westpeek\.ventures/i];
-const TABLES = ['leads', 'teasers', 'accepts', 'seat_events', 'followups', 'recipients', 'sends'];
+const TABLES = ['leads', 'teasers', 'accepts', 'seat_events', 'followups', 'recipients', 'sends', 'funnel_events'];
 
 function declared(envSrc) {
   const block = envSrc.slice(envSrc.indexOf('SENIOR_ENV = {'), envSrc.indexOf('};', envSrc.indexOf('SENIOR_ENV = {')));
@@ -71,7 +71,7 @@ add('functions/api', /^senior-.*\.js$/);
 add('lib/senior', /\.mjs$/);
 add('assets', /^senior-.*\.js$/);
 const routeCount = Object.keys(files).filter((k) => k.startsWith('functions/api/')).length;
-if (routeCount < 8 || !files['lib/senior/email.mjs']) fail([`scanned ${routeCount} senior route files and ${Object.keys(files).length} files in all; expected the 8 routes and lib/senior`]);
+if (routeCount < 10 || !files['lib/senior/email.mjs']) fail([`scanned ${routeCount} senior route files and ${Object.keys(files).length} files in all; expected the 10 routes and lib/senior`]);
 
 const failures = check(files, envSrc);
 
@@ -103,6 +103,7 @@ else {
 }
 if (!files['functions/api/senior-tick.js'] || !/handleTick/.test(files['functions/api/senior-tick.js'])) failures.push('functions/api/senior-tick.js does not route to handleTick');
 if (!/x-senior-tick-token/.test(files['lib/senior/handlers.mjs'] || '')) failures.push('handleTick no longer checks x-senior-tick-token');
+if (!/x-senior-tick-token/.test(files['lib/senior/funnel.mjs'] || '') || !/handleFunnel/.test(files['functions/api/senior-funnel.js'] || '')) failures.push('GET /api/senior-funnel is not routed to handleFunnel behind x-senior-tick-token');
 
 // The evidence trail exists in the schema.
 const migDir = path.join(ROOT, 'migrations/senior');
