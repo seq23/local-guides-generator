@@ -1,0 +1,32 @@
+name: Senior lead tick
+
+# Drives the senior-living lead clock (lib/senior/flows.mjs tick): the 72-hour seat
+# release, teaser retries, and the 30/60/90-day family follow-ups. Pages Functions
+# have no cron of their own, so this calls POST /api/senior-tick every 15 minutes.
+# It reaches no model and costs nothing: one authenticated HTTP call.
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: senior-tick
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: POST /api/senior-tick
+        env:
+          SENIOR_TICK_URL: https://local-guides-generator-senior-living.pages.dev/api/senior-tick
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o body.json -w '%{http_code}' --max-time 60 -X POST "$SENIOR_TICK_URL" \
+            -H "x-senior-tick-token: ${{ secrets.SENIOR_TICK_TOKEN }}")
+          cat body.json; echo
+          if [ "$code" != "200" ]; then echo "::error::senior tick answered HTTP $code"; exit 1; fi
