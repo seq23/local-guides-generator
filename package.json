@@ -88,6 +88,7 @@
     "validate:senior-lead": "node scripts/validation/senior_seat_schema_contract.js && node scripts/validation/senior_static_contract.js && node scripts/validation/senior_lead_flow_contract.js",
     "test:senior": "node --test tests/senior/senior_lead.test.mjs",
     "test:homepage-shape": "node --test tests/homepage/homepage_shape.test.mjs",
+    "test:indexnow-named-stop": "node --test tests/indexnow/indexnow_named_stop.test.mjs",
     "validate:sourced-cost-figures": "node scripts/validation/sourced_cost_figures_contract.js",
     "validate:tier:developer": "node scripts/validation/run_validator_tier.js developer",
     "validate:tier:hard-fail": "node scripts/validation/run_validator_tier.js hard_fail",
