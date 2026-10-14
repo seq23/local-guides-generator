@@ -27,6 +27,7 @@
     "og_image": "scripts/validation/og_image_contract.js",
     "jsonld_types": "scripts/validation/homepage_schema_contract.js",
     "definition_speakable": "scripts/validation/homepage_definition_contract.js",
+    "homepage_shape": "scripts/validation/homepage_shape_contract.js",
     "clarity_hosts": "scripts/validation/clarity_hosts_contract.js",
     "indexnow_key": "scripts/validate_indexnow.js",
     "demand_families": "scripts/validation/demand_families_contract.js",
@@ -42,7 +43,7 @@
   "homepage_definition_marker": "data-site-definition=\"true\"",
   "speakable_selectors": [
     ".site-definition",
-    "[data-home-answer=\"true\"]"
+    "[data-home-questions=\"true\"]"
   ],
   "clarity_projects": {
     "theaccidentguides.com": "y7l0ezo9ll",

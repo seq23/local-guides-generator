@@ -141,6 +141,19 @@ function run() {
     const n = countBubbleMarkers(html);
     if (n === 0) failures.push(`MISSING bubble on required page (${label}): ${path.relative(REPO_ROOT, p)}`);
     if (n > 1) failures.push(`DUPLICATE bubble (${n}) on required page (${label}): ${path.relative(REPO_ROOT, p)}`);
+    // The homepage's connection surface is its callback band (owner-approved
+    // layout, 14 Oct 2026): the one marker must sit on that band, and the band
+    // must carry the working form (POST /api/request-assistance) or the Memphis
+    // site's intake, not just a link.
+    if (label === 'global_home' && n === 1) {
+      const band = html.match(/<section[^>]*data-connection-bubble\s*=\s*"true"[^>]*>[\s\S]*?<\/section>/i);
+      const open = band ? band[0].slice(0, band[0].indexOf('>') + 1) : '';
+      if (!/data-home-callback="true"/.test(open)) failures.push(`homepage bubble is not the callback band (data-home-callback): ${path.relative(REPO_ROOT, p)}`);
+      const whole = html.slice(html.indexOf(open));
+      if (!/<form[^>]*action="\/api\/request-assistance"/.test(whole.slice(0, 20000)) && !/id="senior-intake"/.test(whole.slice(0, 20000))) {
+        failures.push(`homepage callback band carries neither the request form nor the senior intake: ${path.relative(REPO_ROOT, p)}`);
+      }
+    }
   }
 
   // Warning-only: bubble on non-required pages

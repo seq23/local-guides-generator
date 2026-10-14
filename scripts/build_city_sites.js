@@ -66,6 +66,7 @@ const buyouts = require("./helpers/buyouts");
 const cityRegistry = require("./helpers/city_registry");
 const fanout = require("./helpers/fanout");
 const searchBlocks = require("./search_intelligence/render_blocks");
+const homeV2 = require("./lib/homepage_v2");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
 const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL } = require("./lib/pack_site_config");
 
@@ -1746,7 +1747,9 @@ function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description)
   };
 }
 
-const HOME_SPEAKABLE_SELECTORS = ['.site-definition', '[data-home-answer="true"]'];
+// Read from the registry so the selectors the page declares and the selectors
+// scripts/validation/homepage_definition_contract.js resolves are one list.
+const HOME_SPEAKABLE_SELECTORS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'contracts', 'site_hygiene_registry.json'), 'utf8')).speakable_selectors;
 
 function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description) {
   return {
@@ -2250,7 +2253,7 @@ function buildGuideHowToSchema(siteUrl, route, title, description) {
   };
 }
 
-function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet) {
+function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, pageSet, verticalKey) {
   const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
   const primaryPageSchema = (cleanRoute === 'guides' || cleanRoute === 'faq')
     ? buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description)
@@ -2261,7 +2264,12 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
     primaryPageSchema,
     buildBreadcrumbsGlobal(siteUrl, route, title)
   ];
-  const answerSchema = buildAnswerFaqSchema(title, `${title}. ${description}`.trim());
+  // The homepage's FAQPage carries the six questions its "questions people ask
+  // first" section shows (homeV2.selectHomeFaq, the same selection the page
+  // renders); every other global page keeps its one-question answer FAQ.
+  const homeFaq = (cleanRoute === '' && homeV2.siteFor(verticalKey) && !isStarterTrainingPack(pageSet))
+    ? homeV2.selectHomeFaq(verticalKey, getGlobalFaqItems(pageSet)) : null;
+  const answerSchema = homeFaq ? buildFaqSchema(homeFaq) : buildAnswerFaqSchema(title, `${title}. ${description}`.trim());
   if (answerSchema) ld.push(answerSchema);
 
   if (/^guides\/.+/.test(cleanRoute)) {
@@ -3647,6 +3655,28 @@ function renderRequestCitySectionHtml(brandName, stateName) {
 
 function collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName) {
   const vk = String(verticalKey || '').toLowerCase();
+  const cards = collectHomepageProviderCardList(verticalKey, pageSet);
+  const leadMap = {
+    pi: 'These are neutral, non-ranked examples of firms so the homepage feels concrete before you compare options using the state guides and canonical PI guides.',
+    dentistry: 'These are neutral, non-ranked examples of dental providers so the homepage feels concrete before you narrow into a state or city page.',
+    neuro: 'These are neutral, non-ranked examples of evaluation providers so the homepage feels concrete before you narrow into a state or city page.',
+    trt: 'These are neutral, non-ranked examples of clinics and providers so the homepage feels concrete before you narrow into a state or city page.',
+    uscis_medical: 'These are neutral, non-ranked examples of civil surgeons and immigration medical exam providers so the homepage feels concrete before you narrow into a state or city page.'
+  };
+  if (!cards.length) return '';
+  return renderStructuredProviderCardsSectionHtml({
+    heading: 'Examples of providers',
+    lead: leadMap[vk] || 'These are neutral, non-ranked examples to ground the page before you narrow into a state or city page.',
+    cards,
+    preview: true,
+    verifyUrl: ''
+  });
+}
+
+// The provider examples the homepage shows: the same data source and the same
+// first four the preview has always shown, as card objects.
+function collectHomepageProviderCardList(verticalKey, pageSet) {
+  const vk = String(verticalKey || '').toLowerCase();
   const cities = loadCities(pageSet, verticalKey).slice(0, 12);
   const cards = [];
   if (vk === 'pi') {
@@ -3699,21 +3729,7 @@ function collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName) {
       if (cards.length >= 4) break;
     }
   }
-  const leadMap = {
-    pi: 'These are neutral, non-ranked examples of firms so the homepage feels concrete before you compare options using the state guides and canonical PI guides.',
-    dentistry: 'These are neutral, non-ranked examples of dental providers so the homepage feels concrete before you narrow into a state or city page.',
-    neuro: 'These are neutral, non-ranked examples of evaluation providers so the homepage feels concrete before you narrow into a state or city page.',
-    trt: 'These are neutral, non-ranked examples of clinics and providers so the homepage feels concrete before you narrow into a state or city page.',
-    uscis_medical: 'These are neutral, non-ranked examples of civil surgeons and immigration medical exam providers so the homepage feels concrete before you narrow into a state or city page.'
-  };
-  if (!cards.length) return '';
-  return renderStructuredProviderCardsSectionHtml({
-    heading: 'Examples of providers',
-    lead: leadMap[vk] || 'These are neutral, non-ranked examples to ground the page before you narrow into a state or city page.',
-    cards,
-    preview: true,
-    verifyUrl: ''
-  });
+  return cards;
 }
 
 function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
@@ -4208,6 +4224,72 @@ const GUIDE_ENHANCEMENTS = Object.assign({}, LEGACY_GUIDE_ENHANCEMENTS, loadGuid
 const GUIDE_ANSWER_SHAPE_MAP = buildGuideAnswerShapeMap();
 
 
+// --- Homepage (owner-approved layout, 14 Oct 2026; scripts/lib/homepage_v2.js) ---
+
+// States in the order the homepage's "Most visited" chips show them: by Search
+// Console impressions on each /states/XX/ page (the committed per-site export),
+// then clicks, then alphabetically; the rest alphabetically to fill eight.
+function homeTopStates(siteUrl, states) {
+  const host = String(siteUrl || '').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+  const fp = path.join(DATA_DIR, 'search_intelligence', host, 'gsc_search_analytics_export.json');
+  const score = new Map();
+  try {
+    const rows = (JSON.parse(fs.readFileSync(fp, 'utf8')).by_page) || [];
+    for (const r of rows) {
+      const m = String(r.page || '').match(/\/states\/([A-Z]{2})\/$/);
+      if (m) score.set(m[1], { imp: Number(r.impressions) || 0, clk: Number(r.clicks) || 0 });
+    }
+  } catch (_) { /* no export for this host: alphabetical */ }
+  const byName = (a, b) => a.name.localeCompare(b.name);
+  const visited = states.filter((s) => score.has(s.abbr)).sort((a, b) => (score.get(b.abbr).imp - score.get(a.abbr).imp) || (score.get(b.abbr).clk - score.get(a.abbr).clk) || byName(a, b));
+  const rest = states.filter((s) => !score.has(s.abbr)).sort(byName);
+  return visited.concat(rest).slice(0, 8);
+}
+
+function renderHomeV2Main(o) {
+  const usStates = readJson(path.join(DATA_DIR, 'us_states.json')) || {};
+  const states = [];
+  const re = /<a href="\/states\/([A-Z]{2})\/">([^<]+)<\/a>/g;
+  let m;
+  while ((m = re.exec(String(o.marketsStatusListHtml || '')))) states.push({ abbr: m[1], name: (typeof usStates[m[1]] === 'string' ? usStates[m[1]] : (usStates[m[1]] && usStates[m[1]].stateName)) || m[2] });
+  states.sort((a, b) => a.name.localeCompare(b.name));
+  const raHtml = extractRequestAssistanceHtml(o.pageSet) || '';
+  const sel = raHtml.match(/<select id="provider_type"[\s\S]*?<\/select>/i);
+  const options = sel ? Array.from(sel[0].matchAll(/<option(?![^>]*disabled)[^>]*>([^<]+)<\/option>/g)).map((x) => x[1].trim()) : [];
+  const pt = providerTypeLabelForVertical(o.verticalKey);
+  const guides = listJsonFiles(o.globalPagesDir).map(readJson).filter((g) => g && /^\/guides\/.+/.test(String(g.route || '')))
+    .map((g) => ({ route: g.route, title: String(g.title || '').split('%%BRAND_NAME%%').join(o.brandName) }));
+  return homeV2.render({
+    verticalKey: o.verticalKey,
+    brandName: o.brandName,
+    homeMainHtml: o.mainHtml,
+    faqItems: getGlobalFaqItems(o.pageSet),
+    guides,
+    states,
+    topStates: homeTopStates(o.siteUrl, states),
+    providerCards: senior.isSeniorLiving(o.verticalKey) ? [] : collectHomepageProviderCardList(o.verticalKey, o.pageSet),
+    seniorPreviewHtml: senior.isSeniorLiving(o.verticalKey) ? senior.homePreviewHtml() : '',
+    rankedLinks: searchBlocks.rankedLinks(o.siteUrl),
+    providerTypeLabel: pt,
+    providerTypeOptions: options.length ? options : [pt],
+    verticalParam: senior.isSeniorLiving(o.verticalKey) ? senior.PUBLIC_ID : o.verticalKey,
+    buildIso: BUILD_ISO
+  });
+}
+
+// Homepage chrome: its own header (consumer nav + primary button), the IBM Plex
+// font and assets/home.css, and a body class the stylesheet scopes to.
+function applyHomeV2Chrome(html, verticalKey, brandName) {
+  let out = String(html);
+  const header = out.match(/<header class="site-header">[\s\S]*?<\/header>/i);
+  if (!header) throw new Error('homepage_v2: base template header not found');
+  out = out.replace(header[0], homeV2.renderHeaderHtml(verticalKey, brandName));
+  out = out.replace(/<body([^>]*)>/i, '<body$1 class="hp-body">');
+  out = out.replace('<link rel="stylesheet" href="/assets/guide.css" />',
+    '<link rel="stylesheet" href="/assets/guide.css" />\n  <link rel="preconnect" href="https://fonts.googleapis.com" />\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" />\n  <link rel="stylesheet" href="/assets/home.css" />');
+  return out;
+}
+
 function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryConversionTemplate, inlineConversionTemplate, globalPage, siteUrl, brandName, pageSet, globalSponsorsByStack, marketsStatusListHtml, ads, verticalKey) {
   const route = (globalPage.route || "").replace(/^\/+|\/+$/g, "");
   const title = String(globalPage.title || "").split("%%BRAND_NAME%%").join(brandName);
@@ -4232,6 +4314,10 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     .split("%%PARENT_COMPANY%%").join(escapeHtml(PARENT_COMPANY))
     .split("%%CONTACT_EMAIL%%").join(escapeHtml(CONTACT_EMAIL));
   mainHtml = searchBlocks.applyStrengthening(mainHtml, globalPage);
+  const isHomeV2 = route === '' && !isStarterTrainingPack(pageSet) && !!homeV2.siteFor(verticalKey);
+  if (isHomeV2) {
+    mainHtml = renderHomeV2Main({ mainHtml, verticalKey, pageSet, brandName, siteUrl, marketsStatusListHtml, globalPagesDir });
+  }
   if (isStarterTrainingPack(pageSet) && !String(mainHtml).includes('data-training-page="true"')) {
     mainHtml = renderTrainingBannerHtml('Sandbox only. Not a production page.') + mainHtml;
   }
@@ -4498,7 +4584,7 @@ if (route === 'admin') {
   if (route === '' && mainHtml.includes("%%HOME_FAQ_ENTRY%%")) {
     mainHtml = mainHtml.split("%%HOME_FAQ_ENTRY%%").join(renderHomepageFaqEntryHtml(brandName));
   }
-  if (route === '') {
+  if (route === '' && !isHomeV2) {
     if (false && !mainHtml.includes('data-distribution-priority-block="true"')) {
       const globalDistributionHtml = renderInternalDistributionZoneHtml({
         kind: 'home',
@@ -4666,6 +4752,11 @@ if (route === 'admin') {
   }
 
   mainHtml = applyExplicitSponsorSurfaceOverrides(mainHtml, { pageKind: (route === '' ? 'vertical_hub' : (route.startsWith('guides/') && route !== 'guides' ? 'guide' : '')), route, verticalKey });
+  // A live vertical buyout owns the homepage's top CTA surface; the hero's own
+  // buttons then stop counting as the primary conversion CTA (exactly one).
+  if (isHomeV2 && /data-sponsored-surface="top-cta"/.test(mainHtml)) {
+    mainHtml = mainHtml.replace('<p class="hp-actions" data-primary-conversion-cta="true">', '<p class="hp-actions">');
+  }
   mainHtml = injectAdPlacements(mainHtml, ads, { city: null, verticalKey: verticalKey, cityFeatures: pageSet && pageSet.__cityFeatures ? pageSet.__cityFeatures : null, guideRoute: (route.startsWith('guides/') && route !== 'guides') ? route : undefined, pageType: (route.startsWith('guides/') && route !== 'guides') ? 'guide' : ((route === '') ? 'vertical_hub' : '') });
   if (route.startsWith('guides/') && route !== 'guides') {
     if (!/data-sponsored-placement="top"/.test(mainHtml)) {
@@ -4698,11 +4789,14 @@ if (route === 'admin') {
     description
   }, pageSet);
   const globalFanoutHtml = fanout.renderFanoutClusterHtml(globalFanoutCluster);
-  if (globalFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) {
+  // The homepage does not show the "Related search paths" grid (owner-approved
+  // layout, 14 Oct 2026); its cluster is still built and recorded by the fanout
+  // emitter like every page's.
+  if (globalFanoutHtml && !isHomeV2 && !mainHtml.includes('data-fanout-query-cluster="true"')) {
     mainHtml += "\n" + globalFanoutHtml;
   }
 
-  const connectionBubbleHtml = shouldRenderConnectionBubble({ pageKind: 'global', route })
+  const connectionBubbleHtml = (!isHomeV2 && shouldRenderConnectionBubble({ pageKind: 'global', route }))
     ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: route ? ('/' + route + '/') : '/' })
     : '';
 
@@ -4717,8 +4811,8 @@ if (route === 'admin') {
     "%%INLINE_SCRIPTS%%": "",
     "%%CANONICAL%%": buildCanonicalGlobal(siteUrl, route),
     "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "home" : (route === "guides" ? "guides-hub" : (route.startsWith("guides/") ? "guide-detail" : "global")), title: headTitle, description: headDescription, canonical: buildCanonicalGlobal(siteUrl, route), brandName, section: route.startsWith("guides/") ? "Guide" : (route === "guides" ? "Guides hub" : "Global"), keywords: [verticalKey, route.replace(/\//g, " "), title] }),
-    "%%HEAD_JSON_LD%%": searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdGlobal(siteUrl, brandName, route, headTitle, headDescription, pageSet), globalPage),
-    "%%FOOTER%%": footerHtml,
+    "%%HEAD_JSON_LD%%": searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdGlobal(siteUrl, brandName, route, headTitle, headDescription, pageSet, verticalKey), globalPage),
+    "%%FOOTER%%": isHomeV2 ? homeV2.renderFooterHtml(verticalKey, footerHtml) : footerHtml,
     "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
     ,"%%OPTIONAL_TOP_NAV%%": (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
@@ -4726,7 +4820,11 @@ if (route === 'admin') {
   // Last-mile safety: ensure footer disclosure exists on every page.
   // Some regressions have produced city pages without the shared footer injection.
   let out = mapped;
-  out = reorderMainSections(out, route === '' ? 'home' : (route === 'guides' ? 'guides-hub' : (route.startsWith('states/') ? 'state' : '')));
+  if (isHomeV2) {
+    out = applyHomeV2Chrome(out, verticalKey, brandName);
+  } else {
+    out = reorderMainSections(out, route === '' ? 'home' : (route === 'guides' ? 'guides-hub' : (route.startsWith('states/') ? 'state' : '')));
+  }
   if (!out.includes('<footer') || !out.includes('Advertising disclosure.') || !out.includes('No guarantees or endorsements.')) {
     // Inject footerHtml immediately before </body> if missing.
     out = out.replace(/<\/body>/i, "\n" + footerHtml + "\n</body>");
