@@ -1,0 +1,37 @@
+/* Site chrome: the header and footer every page on the six canonical sites
+   shares with its homepage (owner, 14 Oct 2026: "all page shapes the same").
+   Not scoped to body.hp-body, so inner pages get exactly the homepage header.
+   Selectors start at .site-header.hp-header so they outrank styles.css's
+   generic .site-header / .brand / .top-nav rules on every page. */
+.site-header.hp-header {
+  --hp-ink: #14213D;
+  --hp-muted: #4B5563;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E3E7EE;
+  position: static;
+  box-shadow: none;
+  backdrop-filter: none;
+  color: var(--hp-ink);
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.site-header.hp-header .hp-wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+.site-header.hp-header .hp-header-inner { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding-top: 14px; padding-bottom: 14px; }
+.site-header.hp-header .hp-brand { text-decoration: none; display: flex; flex-direction: column; gap: 2px; color: var(--hp-ink); font-family: inherit; letter-spacing: normal; text-transform: none; }
+.site-header.hp-header .hp-wordmark { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.site-header.hp-header .hp-parent { font-size: 12px; font-weight: 400; color: var(--hp-muted); }
+.site-header.hp-header .hp-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 22px; margin-left: auto; font-size: 15px; font-weight: 500; min-width: 0; }
+.site-header.hp-header .hp-nav a { color: var(--hp-ink); text-decoration: none; padding: 10px 0; background: none; font-size: 15px; font-weight: 500; text-transform: none; letter-spacing: normal; border-radius: 0; }
+.site-header.hp-header .hp-nav a:hover { text-decoration: underline; background: none; }
+.site-header.hp-header .hp-nav a.hp-nav-cta { color: #FFFFFF; background: var(--hp-accent, #14213D); padding: 11px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; }
+.site-header.hp-header .hp-nav a.hp-nav-cta:hover { background: var(--hp-accent-hover, #14213D); }
+
+/* Footer additions */
+footer .hp-footer-nav { margin-top: 8px; }
+footer .hp-footer-line { margin: 12px 0 0; font-size: 14px; }
+
+@media (max-width: 860px) {
+  .site-header.hp-header .hp-nav { margin-left: 0; gap: 2px 18px; }
+}
+@media (max-width: 480px) {
+  .site-header.hp-header .hp-wrap { padding: 0 16px; }
+}

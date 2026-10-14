@@ -225,32 +225,52 @@ function extractHomeParts(homeMainHtml) {
   };
 }
 
-function navHtml(cfg) {
-  return cfg.nav.map(([label, href]) => '<a href="' + esc(href) + '">' + esc(label) + '</a>').join('') +
-    '<a href="/guides/">Guides</a><a href="/faq/">FAQ</a>' +
-    '<a class="hp-nav-cta" href="#match">' + esc(cfg.findLabel) + '</a>';
+// Site chrome (header + footer). Since 14 Oct 2026 the homepage's header and
+// footer are the chrome of EVERY page on the six canonical sites (owner: "all
+// page shapes the same"). build_city_sites.js applies them once, to the shared
+// base template and footer, so no page type renders its own.
+// The primary button always targets the homepage callback band: "#match" on the
+// homepage itself, "/#match" everywhere else (same target).
+const HOME_CTA_HREF = '#match';
+const SITE_CTA_HREF = '/#match';
+
+function navItems(cfg, ctaHref) {
+  return cfg.nav.map(([label, href]) => ({ label, href }))
+    .concat([{ label: 'Guides', href: '/guides/' }, { label: 'FAQ', href: '/faq/' }, { label: cfg.findLabel, href: ctaHref, cta: true }]);
 }
 
-/** Header for the homepage: wordmark + parent line, consumer nav, primary button. */
-function renderHeaderHtml(verticalKey, brandName) {
+function navHtml(cfg, ctaHref) {
+  return navItems(cfg, ctaHref).map((x) => '<a' + (x.cta ? ' class="hp-nav-cta"' : '') + ' href="' + esc(x.href) + '">' + esc(x.label) + '</a>').join('');
+}
+
+/** Header for every page: wordmark + parent line, consumer nav, primary button.
+ *  opts.home marks the homepage instance (data-home-header, in-page #match). */
+function renderHeaderHtml(verticalKey, brandName, opts) {
   const cfg = siteFor(verticalKey);
-  return '<header class="site-header hp-header" data-home-header="true" style="--hp-accent:' + cfg.accent + ';--hp-accent-hover:' + cfg.accentHover + '">' +
+  const home = !opts || opts.home !== false;
+  return '<header class="site-header hp-header"' + (home ? ' data-home-header="true"' : '') + ' data-site-chrome="header" style="--hp-accent:' + cfg.accent + ';--hp-accent-hover:' + cfg.accentHover + '">' +
     '<div class="hp-wrap hp-header-inner">' +
     '<a class="hp-brand" href="/" aria-label="' + esc(brandName) + ' home"><span class="hp-wordmark">' + esc(brandName) + '</span><span class="hp-parent">Part of The Industry Guides</span></a>' +
-    '<nav class="top-nav hp-nav" aria-label="Primary">' + navHtml(cfg) + '</nav>' +
+    '<nav class="top-nav hp-nav" aria-label="Primary">' + navHtml(cfg, home ? HOME_CTA_HREF : SITE_CTA_HREF) + '</nav>' +
     '</div></header>';
 }
 
-/** Footer for the homepage. The shared disclosures stay; the header's old links move here. */
+// Links that lived in the old header move to the footer so no page loses a
+// link. The personal-injury hub was an extra header link on that site only.
+const FOOTER_EXTRA = { pi: [['Personal Injury', '/personal-injury/']] };
+
+/** Footer for every page. The shared disclosures stay; the old header's links move here. */
 function renderFooterHtml(verticalKey, sharedFooterHtml) {
   const cfg = siteFor(verticalKey);
+  const links = [['Methodology', '/methodology/'], ['Advertising & Provider Info', '/for-providers/'], ['Contact', '/contact/']]
+    .concat(FOOTER_EXTRA[verticalKey] || []);
   const extra = '<nav class="footer-nav hp-footer-nav" aria-label="Site">' +
-    '<a href="/methodology/">Methodology</a>' +
-    '<a href="/for-providers/">Advertising &amp; Provider Info</a>' +
-    '<a href="/contact/">Contact</a>' +
+    links.map(([label, href]) => '<a href="' + esc(href) + '">' + esc(label) + '</a>').join('') +
     '</nav>' +
     '<p class="hp-footer-line" data-home-footer-line="true">Educational content, not ' + esc(cfg.advice) + ' advice.</p>';
-  return String(sharedFooterHtml || '').replace(/(<\/div>\s*<\/footer>)/i, extra + '$1');
+  const out = String(sharedFooterHtml || '').replace(/(<\/div>\s*<\/footer>)/i, extra + '$1');
+  if (out === String(sharedFooterHtml || '')) throw new Error('homepage_v2: shared footer has no closing </div></footer> to extend');
+  return out.replace(/<footer\b/i, '<footer data-site-chrome="footer"');
 }
 
 function routeChecker(knownRoutes, verticalKey) {
@@ -457,4 +477,4 @@ function render(ctx) {
   return '<div class="hp" data-home-v2="true" style="--hp-accent:' + cfg.accent + ';--hp-accent-hover:' + cfg.accentHover + '">' + out.join('\n') + '</div>';
 }
 
-module.exports = { SITES, NEUTRALITY, siteFor, selectHomeFaq, extractHomeParts, render, renderHeaderHtml, renderFooterHtml, trimWords };
+module.exports = { SITES, NEUTRALITY, siteFor, selectHomeFaq, extractHomeParts, render, renderHeaderHtml, renderFooterHtml, navItems, HOME_CTA_HREF, SITE_CTA_HREF, trimWords };
