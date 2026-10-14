@@ -107,6 +107,11 @@ function stampDates(html, modifiedIso, publishedIso) {
   out = setMeta(out, 'property', 'article:published_time', publishedIso);
   out = setJsonLd(out, 'dateModified', modifiedIso);
   out = setJsonLd(out, 'datePublished', publishedIso);
+  // The homepage's visible "Updated" date (homepage_v2 trust line) is the same
+  // content-change date, never the build day.
+  const day = String(modifiedIso).slice(0, 10);
+  const human = new Date(day + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+  out = out.replace(/<time data-page-modified="true" datetime="[^"]*">[^<]*<\/time>/g, `<time data-page-modified="true" datetime="${day}">${human}</time>`);
   return out;
 }
 

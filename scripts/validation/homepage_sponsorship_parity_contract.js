@@ -36,7 +36,13 @@ function run(ctx) {
 
   if (!winner) {
     if (sponsoredTopCount !== 0 || runtimeSponsorCount !== 0) bad.push('unsponsored homepage renders a sponsor-owned CTA surface');
-    if (!/View your next steps/i.test(html) || !/View Your Next Steps/i.test(html)) bad.push('unsponsored homepage is missing the standard next-steps heading/button');
+    // Owner-approved layout (14 Oct 2026): the next-steps box is folded into the
+    // hero buttons. The one primary CTA is the hero's button to the callback
+    // band, and the band must carry the working form (or the senior intake).
+    const primary = html.match(/<[^>]*data-primary-conversion-cta="true"[^>]*>[\s\S]{0,600}/i);
+    if (!primary || !/data-home-hero-cta="true"[^>]*>|href="#match"/.test(primary[0])) bad.push('unsponsored homepage primary CTA is not the hero button to the callback band (#match)');
+    if (!/id="match"[^>]*data-home-callback="true"/.test(html)) bad.push('unsponsored homepage is missing the callback band (id="match")');
+    if (!/<form[^>]*action="\/api\/request-assistance"/.test(html) && !/id="senior-intake"/.test(html)) bad.push('unsponsored homepage callback band carries neither the request form nor the senior intake');
   } else {
     if (sponsoredTopCount !== 1) bad.push(`sponsored homepage must render exactly one top sponsor surface; found ${sponsoredTopCount}`);
     if (runtimeSponsorCount < 1) bad.push('sponsored homepage is missing runtime sponsor CTA marker');

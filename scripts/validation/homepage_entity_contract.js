@@ -24,8 +24,13 @@ function run(ctx) {
   const bad = [];
 
   if (brand) {
-    const h1Re = new RegExp('<h1[^>]*>\\s*' + escapeRegExp(brand) + '\\s*<\\/h1>', 'i');
-    if (!h1Re.test(html)) bad.push('missing exact brand H1');
+    // Owner-approved layout (14 Oct 2026): the H1 is the reader's question, so
+    // the exact brand name moves to the two places a reader and a parser look
+    // for the entity: the header wordmark and the About heading. Both required.
+    const wordmarkRe = new RegExp('<span class="hp-wordmark">\\s*' + escapeRegExp(brand) + '\\s*<\\/span>', 'i');
+    if (!wordmarkRe.test(html)) bad.push('missing exact brand wordmark in the homepage header');
+    const aboutRe = new RegExp('<h2[^>]*>\\s*About ' + escapeRegExp(brand) + '\\s*<\\/h2>', 'i');
+    if (!aboutRe.test(html)) bad.push('missing exact "About ' + brand + '" heading');
     const mentions = html.match(new RegExp(escapeRegExp(brand), 'g')) || [];
     if (mentions.length < 3) bad.push('brand appears too few times on homepage');
     if (!html.includes('"@type": "Organization"')) bad.push('missing Organization schema');

@@ -76,6 +76,14 @@ function mergeFaqIntoJsonLd(headJsonLd, page) {
   return String(headJsonLd).replace(m[0], m[1] + JSON.stringify(out, null, 2) + m[3]);
 }
 
+// The strengthened pages for one host, as {route, title}: the "Guides readers find
+// in search" list. The homepage renders these as its "Most read" line.
+function rankedLinks(siteUrl) {
+  const host = hostOf(siteUrl);
+  return STRENGTHENED.filter((p) => p.host === host)
+    .map((p) => ({ route: p.route, title: JSON.parse(fs.readFileSync(path.join(ROOT, p.source), 'utf8')).title || p.route }));
+}
+
 function renderRankedLinksHtml(siteUrl, route) {
   if (route !== '' && route !== 'guides') return '';
   const host = hostOf(siteUrl);
@@ -136,4 +144,4 @@ function renderAudienceBlockHtml(siteUrl, verticalKey, stateAbbr, stateName) {
   return '<section class="section audience-cta" data-audience-cta="' + esc(cta.ref) + '"><h2>' + fill(cta.heading) + '</h2><p>' + fill(cta.body) + '</p><p class="audience-cta__actions">' + links.join(' ') + '</p></section>' + TRACK_SCRIPT;
 }
 
-module.exports = { applyStrengthening, mergeFaqIntoJsonLd, stateHubStrengthening, renderStateStrengtheningHtml, renderRankedLinksHtml, renderAudienceBlockHtml, STRENGTHENED, CTAS };
+module.exports = { rankedLinks, applyStrengthening, mergeFaqIntoJsonLd, stateHubStrengthening, renderStateStrengtheningHtml, renderRankedLinksHtml, renderAudienceBlockHtml, STRENGTHENED, CTAS };
