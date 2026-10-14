@@ -4277,16 +4277,40 @@ function renderHomeV2Main(o) {
   });
 }
 
-// Homepage chrome: its own header (consumer nav + primary button), the IBM Plex
-// font and assets/home.css, and a body class the stylesheet scopes to.
+// Site chrome, applied ONCE per site to the shared base template and footer, so
+// every page type (homepage, state hubs, city pages, guides, FAQ, methodology,
+// request-assistance, for-providers...) renders the same header and footer as
+// the homepage (owner, 14 Oct 2026: "all page shapes the same"). Packs without a
+// homepage_v2 site entry, and starter training packs, keep the old chrome.
+const SITE_CHROME_HEAD = '<link rel="stylesheet" href="/assets/guide.css" />\n  <link rel="preconnect" href="https://fonts.googleapis.com" />\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" />\n  <link rel="stylesheet" href="/assets/site-chrome.css" />';
+function usesSiteChrome(verticalKey, pageSet) {
+  return !isStarterTrainingPack(pageSet) && !!homeV2.siteFor(verticalKey);
+}
+function applySiteChromeToBase(baseTemplate, verticalKey, brandName, pageSet) {
+  if (!usesSiteChrome(verticalKey, pageSet)) return baseTemplate;
+  let out = String(baseTemplate);
+  const header = out.match(/<header class="site-header">[\s\S]*?<\/header>/i);
+  if (!header) throw new Error('site chrome: base template header not found');
+  out = out.replace(header[0], homeV2.renderHeaderHtml(verticalKey, brandName, { home: false }));
+  if (!out.includes('<link rel="stylesheet" href="/assets/guide.css" />')) throw new Error('site chrome: base template guide.css link not found');
+  out = out.replace('<link rel="stylesheet" href="/assets/guide.css" />', SITE_CHROME_HEAD);
+  return out;
+}
+function applySiteChromeToFooter(footerHtml, verticalKey, pageSet) {
+  return usesSiteChrome(verticalKey, pageSet) ? homeV2.renderFooterHtml(verticalKey, footerHtml) : footerHtml;
+}
+
+// Homepage-only additions on top of the site chrome: the header instance that
+// points its button in-page (#match), assets/home.css, and the body class the
+// homepage stylesheet scopes to.
 function applyHomeV2Chrome(html, verticalKey, brandName) {
   let out = String(html);
-  const header = out.match(/<header class="site-header">[\s\S]*?<\/header>/i);
-  if (!header) throw new Error('homepage_v2: base template header not found');
-  out = out.replace(header[0], homeV2.renderHeaderHtml(verticalKey, brandName));
+  const header = out.match(/<header class="site-header hp-header"[\s\S]*?<\/header>/i);
+  if (!header) throw new Error('homepage_v2: site chrome header not found');
+  out = out.replace(header[0], homeV2.renderHeaderHtml(verticalKey, brandName, { home: true }));
   out = out.replace(/<body([^>]*)>/i, '<body$1 class="hp-body">');
-  out = out.replace('<link rel="stylesheet" href="/assets/guide.css" />',
-    '<link rel="stylesheet" href="/assets/guide.css" />\n  <link rel="preconnect" href="https://fonts.googleapis.com" />\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" />\n  <link rel="stylesheet" href="/assets/home.css" />');
+  if (!out.includes('<link rel="stylesheet" href="/assets/site-chrome.css" />')) throw new Error('homepage_v2: site chrome stylesheet not found');
+  out = out.replace('<link rel="stylesheet" href="/assets/site-chrome.css" />', '<link rel="stylesheet" href="/assets/site-chrome.css" />\n  <link rel="stylesheet" href="/assets/home.css" />');
   return out;
 }
 
@@ -4812,7 +4836,7 @@ if (route === 'admin') {
     "%%CANONICAL%%": buildCanonicalGlobal(siteUrl, route),
     "%%HEAD_META%%": renderHeadMeta({ pageType: route === "" ? "home" : (route === "guides" ? "guides-hub" : (route.startsWith("guides/") ? "guide-detail" : "global")), title: headTitle, description: headDescription, canonical: buildCanonicalGlobal(siteUrl, route), brandName, section: route.startsWith("guides/") ? "Guide" : (route === "guides" ? "Guides hub" : "Global"), keywords: [verticalKey, route.replace(/\//g, " "), title] }),
     "%%HEAD_JSON_LD%%": searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdGlobal(siteUrl, brandName, route, headTitle, headDescription, pageSet, verticalKey), globalPage),
-    "%%FOOTER%%": isHomeV2 ? homeV2.renderFooterHtml(verticalKey, footerHtml) : footerHtml,
+    "%%FOOTER%%": footerHtml,
     "%%CONNECTION_BUBBLE%%": connectionBubbleHtml,
     "%%BRAND_NAME%%": escapeHtml(brandName)
     ,"%%OPTIONAL_TOP_NAV%%": (isPersonalInjury(verticalKey) ? '<a href="/personal-injury/">Personal Injury</a>' : '')
@@ -5401,7 +5425,7 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   const globalPagesDir = loadGlobalPagesDir(pageSet);
 
   // Templates
-  const baseTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, "base.html"), "utf8");
+  const baseTemplate = applySiteChromeToBase(fs.readFileSync(path.join(TEMPLATES_DIR, "base.html"), "utf8"), verticalKey, brandName, pageSet);
   const footerHtmlRaw = fs.readFileSync(path.join(TEMPLATES_DIR, "partials", "footer.html"), "utf8");
   const connectionBubbleTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'connection_bubble.html'), 'utf8');
   const primaryConversionTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'partials', 'primary_conversion_cta.html'), 'utf8');
@@ -5411,7 +5435,7 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
     .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName))
     .replace(/%%PARENT_COMPANY%%/g, escapeHtml(PARENT_COMPANY))
     .replace(/%%CONTACT_EMAIL%%/g, escapeHtml(CONTACT_EMAIL));
-  const footerHtml = senior.isSeniorLiving(verticalKey) ? senior.footerFor(footerHtmlShared) : footerHtmlShared;
+  const footerHtml = applySiteChromeToFooter(senior.isSeniorLiving(verticalKey) ? senior.footerFor(footerHtmlShared) : footerHtmlShared, verticalKey, pageSet);
   if (/%%[A-Z_]+%%/.test(footerHtml)) throw new Error('footer.html has an unreplaced token: ' + footerHtml.match(/%%[A-Z_]+%%/)[0]);
 
   // Sponsors data (optional)

@@ -41,6 +41,11 @@ const siteName = (index.match(/<title>([^<]*)<\/title>/i) || [, 'This site'])[1]
 // Reuse the site's own footer so the 404 carries the same legal/nav links every
 // other page does, rather than becoming a dead end.
 const footer = (index.match(/<footer[\s\S]*?<\/footer>/i) || [''])[0];
+// Same for the header: the 404 carries the site chrome every page shares. The
+// homepage's button points in-page (#match); here it must reach the homepage.
+const header = (index.match(/<header[\s\S]*?<\/header>/i) || [''])[0]
+  .replace(/ data-home-header="true"/, '')
+  .replace(/href="#match"/g, 'href="/#match"');
 // Derive the origin from the homepage's canonical so the 404 can self-canonicalize
 // without this script knowing any repo's domain.
 // Attribute order varies across these repos, so match either arrangement.
@@ -71,6 +76,7 @@ ${styles}
   </style>
 </head>
 <body>
+${header}
   <main class="nf-wrap">
     <p class="nf-code">Error 404</p>
     <h1>We couldn&rsquo;t find that page</h1>
