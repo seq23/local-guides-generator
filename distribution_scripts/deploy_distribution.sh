@@ -69,8 +69,12 @@ for f in ['reports/indexnow-priority-submit-report.json','reports/indexnow-batch
     reports.append(json.loads(p.read_text()) if p.exists() else {'status':'missing','sourceFile':f})
 out={'submittedAt':datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),'status':'success','reports':reports,'failures':[]}
 for r in reports:
-    if r.get('status') not in ('success','dry-run'):
+    out.setdefault('namedStops',[]).extend(r.get('namedStops',[]))
+    if r.get('status') not in ('success','dry-run','named-stop'):
         out['status']='failed'; out['failures'].extend(r.get('failures',[]))
+if out['status']!='failed' and out['namedStops']:
+    out['status']='named-stop'
+    for s in out['namedStops']: print(f"NAMED STOP: {s['code']} {s['host']} {s['httpStatus']}")
 pathlib.Path('reports/indexnow-submit-report.json').write_text(json.dumps(out,indent=2)+'\n')
 print('Aggregate IndexNow report written: reports/indexnow-submit-report.json')
 if out['status']=='failed': raise SystemExit(1)

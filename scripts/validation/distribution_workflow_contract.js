@@ -20,4 +20,10 @@ if (!deploy.includes('== 1) Submit IndexNow priority URLs ==')) fail('deploy scr
 if (!deploy.includes('Optional Google sitemap submit')) fail('deploy script does not keep GSC optional');
 if (!deploy.includes('reports/indexnow-submit-report.json')) fail('deploy script does not write aggregate IndexNow report');
 if (!submit.includes('reports/') || !submit.includes('dryRun') || !submit.includes('api.indexnow.org/indexnow')) fail('submit script lacks report/dry-run/API support');
+// IndexNow named stop: narrow by construction, and its fixture test must run on every PR.
+if (!submit.includes('INDEXNOW_SITE_NOT_YET_VERIFIED') || !submit.includes('def live_key_verifies') || !submit.includes('exc.code == 403 and live_ok')) fail('submit script lacks the narrow INDEXNOW_SITE_NOT_YET_VERIFIED named stop (403 + live exact key only)');
+if (!submit.includes('GITHUB_STEP_SUMMARY')) fail('IndexNow named stop is not written to the job summary');
+if (!deploy.includes("'named-stop'")) fail('deploy aggregate does not carry IndexNow named stops');
+if (!has('.github/workflows/validate.yml', 'npm run test:indexnow-named-stop')) fail('Validate workflow does not run the IndexNow named-stop fixtures');
+if (!fs.existsSync(path.join(root, 'tests/indexnow/indexnow_named_stop.test.mjs'))) fail('missing tests/indexnow/indexnow_named_stop.test.mjs');
 console.log('DISTRIBUTION WORKFLOW CONTRACT PASS');
