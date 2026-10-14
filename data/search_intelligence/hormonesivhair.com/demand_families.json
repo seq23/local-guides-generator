@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-13..2026-10-10",
-  "gsc_collected_at": "2026-10-13T13:49:18+00:00",
+  "gsc_window": "2026-09-14..2026-10-11",
+  "gsc_collected_at": "2026-10-14T13:40:40+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,7 +12,7 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 5,
+  "family_count": 6,
   "top_families": [
     {
       "rank": 1,
@@ -29,20 +29,20 @@
     {
       "rank": 3,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 4,
+      "impressions": 3,
       "status": "below_impression_floor"
     },
     {
       "rank": 4,
-      "family": "comparison @ /guides/",
+      "family": "choose a provider @ /guides/trt-red-flags/",
       "impressions": 1,
-      "status": "no_page"
+      "status": "intent_mismatch"
     },
     {
       "rank": 5,
-      "family": "comparison @ /guides/trt-telehealth-vs-local-clinic/",
+      "family": "comparison @ /guides/",
       "impressions": 1,
-      "status": "below_impression_floor"
+      "status": "no_page"
     }
   ],
   "families": [
@@ -131,8 +131,8 @@
         {
           "route": "/guides/trt-red-flags/",
           "family_impressions": 7,
-          "page_impressions": 8,
-          "page_position": 2.5
+          "page_impressions": 9,
+          "page_position": 3.3
         }
       ],
       "rank": 2,
@@ -154,25 +154,25 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 4,
-      "best_position": 87,
-      "weighted_position": 87,
+      "impressions": 3,
+      "best_position": 87.7,
+      "weighted_position": 87.7,
       "top_query": "suitable candidate for trt",
       "query_count": 1,
       "queries": [
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 4,
-          "position": 87
+          "impressions": 3,
+          "position": 87.7
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 4,
-          "page_impressions": 4,
-          "page_position": 87
+          "family_impressions": 3,
+          "page_impressions": 3,
+          "page_position": 87.7
         }
       ],
       "rank": 3,
@@ -180,7 +180,44 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "4 impressions < 5"
+      "reason": "3 impressions < 5"
+    },
+    {
+      "family": "choose a provider @ /guides/trt-red-flags/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/guides/trt-red-flags/",
+      "page_kind": "guide",
+      "page_intent": "red_flags",
+      "impressions": 1,
+      "best_position": 10,
+      "weighted_position": 10,
+      "top_query": "what's the process for getting a low testosterone diagnosis — do i need a referral or can i go directly to a trt clinic?",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "what's the process for getting a low testosterone diagnosis — do i need a referral or can i go directly to a trt clinic?",
+          "route": "/guides/trt-red-flags/",
+          "impressions": 1,
+          "position": 10
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/trt-red-flags/",
+          "family_impressions": 1,
+          "page_impressions": 9,
+          "page_position": 3.3
+        }
+      ],
+      "rank": 4,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "intent_mismatch",
+      "reason": "query intent choose_provider vs page intent red_flags"
     },
     {
       "family": "comparison @ /guides/",
@@ -210,7 +247,7 @@
           "page_position": 5
         }
       ],
-      "rank": 4,
+      "rank": 5,
       "basis": [
         "ranking_page"
       ],
@@ -247,12 +284,12 @@
           "page_position": 46
         }
       ],
-      "rank": 5,
+      "rank": 6,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "1 impressions < 5"
+      "status": "not_top_family",
+      "reason": "rank 6 of 6 by impressions; no page at position <= 15"
     }
   ]
 }

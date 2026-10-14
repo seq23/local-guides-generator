@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-13..2026-10-10",
+  "gsc_window": "2026-09-14..2026-10-11",
   "totals": {
     "clicks": 2,
     "impressions": 38,
     "ctr": 0.0526,
-    "position": 14.5
+    "position": 15.8
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -14,12 +14,11 @@
       "route": "/guides/hospital-vs-private-neuropsych-testing/",
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
       "basis": [
-        "ranking_page",
-        "top_demand"
+        "ranking_page"
       ],
-      "family_impressions": 5,
+      "family_impressions": 4,
       "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
-      "impressions": 6,
+      "impressions": 5,
       "clicks": 0,
       "position": 15,
       "strengthened": true
@@ -29,15 +28,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 75,
-      "Discovered - currently not indexed": 23,
+      "Discovered - currently not indexed": 38,
       "Submitted and indexed": 33,
-      "URL is unknown to Google": 74
+      "URL is unknown to Google": 59
     },
     "buckets": {
       "crawled_not_indexed": 75,
-      "discovered_not_indexed": 23,
+      "discovered_not_indexed": 38,
       "indexed": 33,
-      "unknown": 74
+      "unknown": 59
     }
   }
 }
