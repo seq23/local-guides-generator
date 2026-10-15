@@ -2,17 +2,17 @@
   "schema_version": "1.0",
   "host": "theaccidentguides.com",
   "status": "LEDGER_ONLY_NO_REDIRECTS",
-  "gsc_window": "2026-09-14..2026-10-11",
+  "gsc_window": "2026-09-15..2026-10-12",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
   "guide_count": 34,
-  "candidate_count": 16,
+  "candidate_count": 15,
   "candidates": [
     {
       "route": "/guides/bicycle-accidents/",
       "source": "data/page_sets/examples/pi_global_pages/bicycle-accidents.json",
       "words": 389,
       "impressions_28d": 0,
-      "coverage_state": "URL is unknown to Google",
+      "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/motorcycle-accidents/",
       "fold_basis": "shares 2 topic words with a guide that has impressions"
     },
@@ -30,9 +30,9 @@
       "source": "data/page_sets/examples/pi_global_pages/bystander-injuries-near-law-enforcement.json",
       "words": 541,
       "impressions_28d": 0,
-      "coverage_state": "URL is unknown to Google",
-      "fold_into": "/guides/premises-liability/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "coverage_state": "Discovered - currently not indexed",
+      "fold_into": "/guides/injuries-during-immigration-enforcement/",
+      "fold_basis": "shares 3 topic words with a guide that has impressions"
     },
     {
       "route": "/guides/car-accidents/",
@@ -57,18 +57,9 @@
       "source": "data/page_sets/examples/pi_global_pages/dog-bites.json",
       "words": 437,
       "impressions_28d": 0,
-      "coverage_state": "Submitted and indexed",
-      "fold_into": "/guides/burn-injury/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
-    },
-    {
-      "route": "/guides/injuries-during-immigration-enforcement/",
-      "source": "data/page_sets/examples/pi_global_pages/injuries-during-immigration-enforcement.json",
-      "words": 467,
-      "impressions_28d": 0,
-      "coverage_state": "Submitted and indexed",
-      "fold_into": "/guides/burn-injury/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "coverage_state": "Crawled - currently not indexed",
+      "fold_into": "/guides/injuries-during-immigration-enforcement/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
     },
     {
       "route": "/guides/medical-malpractice/",
@@ -85,8 +76,8 @@
       "words": 532,
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
-      "fold_into": "/guides/burn-injury/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "fold_into": "/guides/injuries-during-immigration-enforcement/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
     },
     {
       "route": "/guides/pedestrian-accidents/",
@@ -130,8 +121,8 @@
       "words": 466,
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
-      "fold_into": "/guides/burn-injury/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_into": "/guides/injuries-during-immigration-enforcement/",
+      "fold_basis": "shares 3 topic words with a guide that has impressions"
     },
     {
       "route": "/guides/what-a-personal-injury-case-costs-you/",
@@ -148,8 +139,8 @@
       "words": 355,
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
-      "fold_into": "/guides/burn-injury/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "fold_into": "/guides/injuries-during-immigration-enforcement/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
     }
   ]
 }

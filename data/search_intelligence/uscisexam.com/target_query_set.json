@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-09-14..2026-10-11",
-  "gsc_collected_at": "2026-10-14T13:40:40+00:00",
+  "gsc_window": "2026-09-15..2026-10-12",
+  "gsc_collected_at": "2026-10-15T13:43:23+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 9,
+  "target_count": 8,
   "targets_by_source": {
     "measured_demand": 3,
-    "gsc_export": 6
+    "gsc_export": 5
   },
   "dropped_count": 0,
   "dropped": [],
@@ -58,7 +58,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-14..2026-10-11"
+        "window": "2026-09-15..2026-10-12"
       },
       "owner_route": "/states/ID/"
     },
@@ -72,7 +72,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-14..2026-10-11"
+        "window": "2026-09-15..2026-10-12"
       },
       "owner_route": "/states/AL/"
     },
@@ -86,7 +86,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-14..2026-10-11"
+        "window": "2026-09-15..2026-10-12"
       },
       "owner_route": "/states/RI/"
     },
@@ -100,23 +100,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-14..2026-10-11"
+        "window": "2026-09-15..2026-10-12"
       },
       "owner_route": "/states/NH/"
-    },
-    {
-      "query": "uscis providence",
-      "normalized_query": "uscis providence",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 92,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-14..2026-10-11"
-      },
-      "owner_route": "/states/RI/"
     },
     {
       "query": "uscis south carolina",
@@ -128,7 +114,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-14..2026-10-11"
+        "window": "2026-09-15..2026-10-12"
       },
       "owner_route": "/states/SC/"
     }

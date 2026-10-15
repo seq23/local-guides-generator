@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-14..2026-10-11",
-  "gsc_collected_at": "2026-10-14T13:40:40+00:00",
+  "gsc_window": "2026-09-15..2026-10-12",
+  "gsc_collected_at": "2026-10-15T13:43:23+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -29,7 +29,7 @@
     {
       "rank": 3,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 3,
+      "impressions": 2,
       "status": "below_impression_floor"
     },
     {
@@ -154,25 +154,25 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 3,
-      "best_position": 87.7,
-      "weighted_position": 87.7,
+      "impressions": 2,
+      "best_position": 88,
+      "weighted_position": 88,
       "top_query": "suitable candidate for trt",
       "query_count": 1,
       "queries": [
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 3,
-          "position": 87.7
+          "impressions": 2,
+          "position": 88
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 3,
-          "page_impressions": 3,
-          "page_position": 87.7
+          "family_impressions": 2,
+          "page_impressions": 2,
+          "page_position": 88
         }
       ],
       "rank": 3,
@@ -180,7 +180,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "3 impressions < 5"
+      "reason": "2 impressions < 5"
     },
     {
       "family": "choose a provider @ /guides/trt-red-flags/",
