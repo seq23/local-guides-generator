@@ -68,6 +68,7 @@ const fanout = require("./helpers/fanout");
 const searchBlocks = require("./search_intelligence/render_blocks");
 const homeV2 = require("./lib/homepage_v2");
 const neuroServices = require("./lib/neuro_services");
+const trtAffiliates = require("./lib/trt_affiliates");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
 const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL } = require("./lib/pack_site_config");
 
@@ -2914,8 +2915,13 @@ function extractRequestAssistanceHtml(pageSet, verticalKey) {
 // The neuro site's request form asks evaluation / therapy / both first and
 // carries the evaluation-or-therapy provider label (scripts/lib/neuro_services.js).
 // Every other site serves the shared page unchanged.
+// The hormone site's adds a "Menopause / women's HRT clinic" option (owner, 16 Oct 2026;
+// scripts/lib/trt_affiliates.js).
 function applyVerticalRequestAssistanceForm(html, verticalKey) {
-  return String(verticalKey || '').toLowerCase() === 'neuro' ? neuroServices.applyToRequestAssistanceHtml(html) : html;
+  const vk = String(verticalKey || '').toLowerCase();
+  if (vk === 'neuro') return neuroServices.applyToRequestAssistanceHtml(html);
+  if (vk === 'trt') return trtAffiliates.applyToRequestAssistanceHtml(html);
+  return html;
 }
 
 function stripRequestAssistanceHero(requestAssistanceHtml) {
@@ -5717,7 +5723,7 @@ function loadNextStepsSponsor(citySlug) {
       ads,
       verticalKey
     );
-    writeFileEnsured(outPathForGlobal(route), html);
+    writeFileEnsured(outPathForGlobal(route), trtAffiliates.applyToPageHtml(html, { verticalKey, kind: 'global', route }));
     fanoutRecords.push(fanout.buildFanoutCluster({
       verticalKey,
       pageKind: fanout.classifyPageKind({ route: route ? ('/' + route + '/') : '/' }),
@@ -5769,7 +5775,7 @@ function loadNextStepsSponsor(citySlug) {
         ads,
         verticalKey
       );
-      writeFileEnsured(outPathFor(city, route), html);
+      writeFileEnsured(outPathFor(city, route), trtAffiliates.applyToPageHtml(html, { verticalKey, kind: 'city', route, citySlug: city.slug }));
       fanoutRecords.push(fanout.buildFanoutCluster({
         verticalKey,
         pageKind: 'city',
