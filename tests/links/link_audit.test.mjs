@@ -56,3 +56,32 @@ test('an unfenced mailto anchor still fails', () => {
 test('an empty dead list is refused, not passed', () => {
   assert.throws(() => run(fixture('', { entries: [] })), /zero entries/);
 });
+
+function sitemapFixture(cityHtml) {
+  const ctx = fixture('<a href="/x-ca/">City</a>');
+  const dist = path.join(ctx.repoRoot, 'dist');
+  fs.mkdirSync(path.join(dist, 'x-ca', 'next-steps'), { recursive: true });
+  fs.writeFileSync(path.join(dist, 'x-ca', 'index.html'), cityHtml);
+  fs.writeFileSync(path.join(dist, 'x-ca', 'next-steps', 'index.html'), '<a href="/x-ca/">back</a>');
+  fs.writeFileSync(path.join(dist, 'sitemap.xml'), '<sitemapindex><sitemap><loc>https://e.com/sitemap-core.xml</loc></sitemap></sitemapindex>');
+  fs.writeFileSync(path.join(dist, 'sitemap-core.xml'), ['/', '/about/', '/x-ca/', '/x-ca/next-steps/'].map((u) => `<url><loc>https://e.com${u}</loc></url>`).join(''));
+  return ctx;
+}
+
+test('a sitemap page linked only by a ?query tracked CTA is an orphan', () => {
+  assert.throws(
+    () => run(sitemapFixture('<a href="/x-ca/next-steps/?src=%2Fx-ca%2F&amp;intent=decision_hub">Next</a>')),
+    /Orphan pages: 1 [\s\S]*\/x-ca\/next-steps\//
+  );
+});
+
+test('a sitemap page with a clean inbound link passes the orphan check', () => {
+  const r = run(sitemapFixture('<a href="/x-ca/next-steps/?src=a">Next</a> <a href="/x-ca/next-steps/">Next steps</a>'));
+  assert.equal(r.sitemapPagesExamined, 3);
+});
+
+test('a self-link does not rescue an orphan', () => {
+  const ctx = sitemapFixture('<a href="/x-ca/next-steps/?src=a">Next</a>');
+  fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'x-ca', 'next-steps', 'index.html'), '<a href="/x-ca/next-steps/">self</a><a href="/x-ca/">back</a>');
+  assert.throws(() => run(ctx), /Orphan pages/);
+});

@@ -424,6 +424,73 @@ function fenceMailtoAnchors(html) {
     .join('');
 }
 
+// Every page a pack writes must be reachable by a clean (query-free) link.
+// Ahrefs (14 Oct 2026) found every /<city>/next-steps/ and PI
+// /states/<ST>/next-steps/ page linked only through ?src=...&intent=...
+// tracked CTAs, which a crawler treats as different URLs, so the canonical page
+// had zero inbound links (theaccidentguides 50, uscisexam 36); senior-living's
+// /states/<ST>/ pages had no inbound link at all. This pass runs after every
+// page is written and gives each child page a plain link from its parent:
+//   <dir>/next-steps/   <- <dir>/          (city, hospital and PI state pages)
+//   states/<ST>/        <- <city>-<st>/     (city pages whose slug ends in -st)
+// The tracked CTAs stay (attribution); this adds the crawlable path. The root
+// home page is never edited here. link_audit.js fails the build on any sitemap
+// page still lacking a clean inbound link.
+function cleanLinksTo(html, target) {
+  const esc = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp('href=["\']' + esc + '(?:#[^"\']*)?["\']').test(html);
+}
+
+function pageHeading(html) {
+  const m = String(html).match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i);
+  return m ? m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() : '';
+}
+
+function addRelatedLink(parentFile, target, label) {
+  const html = fs.readFileSync(parentFile, 'utf8');
+  if (cleanLinksTo(html, target)) return false;
+  const link = '<nav class="related-pages" aria-label="Related pages" data-related-page-link="true"><p><a href="' + escapeHtml(target) + '">' + escapeHtml(label) + '</a></p></nav>';
+  let out;
+  if (/<\/main>/i.test(html)) out = html.replace(/<\/main>/i, link + '</main>');
+  else if (/<footer\b/i.test(html)) out = html.replace(/<footer\b/i, link + '<footer');
+  else return false;
+  writeFileEnsured(parentFile, out);
+  return true;
+}
+
+function linkOrphanChildPages(outDir) {
+  let added = 0;
+  for (const ent of fs.readdirSync(outDir, { withFileTypes: true })) {
+    if (!ent.isDirectory()) continue;
+    const dir = ent.name;
+    const parent = path.join(outDir, dir, 'index.html');
+    const ns = path.join(outDir, dir, 'next-steps', 'index.html');
+    if (fs.existsSync(parent) && fs.existsSync(ns)) {
+      const h = pageHeading(fs.readFileSync(ns, 'utf8')) || 'Next steps';
+      if (addRelatedLink(parent, '/' + dir + '/next-steps/', h)) added += 1;
+    }
+    const st = (dir.match(/-([a-z]{2})$/) || [])[1];
+    const stateFile = st ? path.join(outDir, 'states', st.toUpperCase(), 'index.html') : '';
+    if (st && fs.existsSync(parent) && fs.existsSync(stateFile)) {
+      const h = pageHeading(fs.readFileSync(stateFile, 'utf8')) || st.toUpperCase();
+      if (addRelatedLink(parent, '/states/' + st.toUpperCase() + '/', h)) added += 1;
+    }
+  }
+  const statesDir = path.join(outDir, 'states');
+  if (fs.existsSync(statesDir)) {
+    for (const ent of fs.readdirSync(statesDir, { withFileTypes: true })) {
+      if (!ent.isDirectory()) continue;
+      const parent = path.join(statesDir, ent.name, 'index.html');
+      const ns = path.join(statesDir, ent.name, 'next-steps', 'index.html');
+      if (fs.existsSync(parent) && fs.existsSync(ns)) {
+        const h = pageHeading(fs.readFileSync(ns, 'utf8')) || 'Next steps';
+        if (addRelatedLink(parent, '/states/' + ent.name + '/next-steps/', h)) added += 1;
+      }
+    }
+  }
+  console.log(`linkOrphanChildPages: added ${added} clean parent->child link(s)`);
+}
+
 function writeFileEnsured(p, content) {
   const out = String(p).toLowerCase().endsWith('.html') ? fenceMailtoAnchors(content) : content;
   fs.mkdirSync(path.dirname(p), { recursive: true });
@@ -3116,6 +3183,55 @@ function loadExampleProviderLists(verticalKey, citySlug) {
 }
 
 
+// City-specific block for /<city>/next-steps/. Without it every city's
+// next-steps page was the same decision hub with the city name swapped, and
+// Google folded uscisexam's /wilmington-de/next-steps/ into another page as a
+// duplicate (Search Console, 16 Oct 2026). Each page now names the providers
+// already listed for that city (same data, alphabetical, no ranking) and, for
+// the USCIS pack, the field office the city's ZIP codes are assigned to (USCIS
+// ZIP-to-field-office file, data/research/uscis_medical/field_office_assignments.json).
+let _fieldOfficeAssignments;
+function uscisFieldOffices(citySlug) {
+  if (_fieldOfficeAssignments === undefined) {
+    const p = path.join(DATA_DIR, 'research', 'uscis_medical', 'field_office_assignments.json');
+    _fieldOfficeAssignments = fs.existsSync(p) ? readJson(p) : null;
+  }
+  const row = _fieldOfficeAssignments && _fieldOfficeAssignments.cities && _fieldOfficeAssignments.cities[citySlug];
+  return row && Array.isArray(row.field_offices) ? { row, source: _fieldOfficeAssignments.source || {} } : null;
+}
+
+function renderNextStepsLocalHtml(verticalKey, city) {
+  const slug = String((city && city.slug) || '');
+  const market = String((city && (city.marketLabel || city.city)) || slug);
+  const vk = String(verticalKey || '').toLowerCase();
+  const parts = [];
+  const lists = loadExampleProviderLists(verticalKey, slug) || [];
+  const names = [...new Set(lists.flatMap((l) => l.providers.map((p) => p.name)))]
+    .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' }))
+    .slice(0, 9);
+  if (names.length) {
+    parts.push(
+      '<p>Providers listed on our <a href="/' + escapeHtml(slug) + '/">' + escapeHtml(market) + ' page</a> (alphabetical, not ranked or endorsed):</p>' +
+      '<ul data-next-steps-local-providers="true">' + names.map((n) => '<li>' + escapeHtml(n) + '</li>').join('') + '</ul>'
+    );
+  }
+  if (vk.includes('uscis')) {
+    const fo = uscisFieldOffices(slug);
+    if (fo) {
+      const offices = fo.row.field_offices.map((o) =>
+        '<li>' + escapeHtml(o.office_name) + ' Field Office, ' + escapeHtml(o.street) + ', ' + escapeHtml(o.office_city) + ', ' + escapeHtml(o.office_state) + ' ' + escapeHtml(o.office_zip) +
+        ' (' + escapeHtml(String(o.zip_codes_assigned)) + ' of ' + escapeHtml(String(fo.row.zip_codes_in_city)) + ' ' + escapeHtml(fo.row.csv_city) + ' ZIP codes)</li>').join('');
+      parts.push(
+        '<p>USCIS field office for ' + escapeHtml(market) + ' ZIP codes (green card interviews for these ZIP codes are scheduled there):</p>' +
+        '<ul data-next-steps-field-office="true">' + offices + '</ul>' +
+        '<p class="muted">Source: USCIS ZIP code assignment file (' + escapeHtml(String(fo.source.file_vintage || '')) + '). Confirm your own office on your USCIS notice or the <a href="' + escapeHtml(String(fo.source.page || 'https://www.uscis.gov/about-us/find-a-uscis-office/field-offices')) + '">USCIS field office locator</a>.</p>'
+      );
+    }
+  }
+  if (!parts.length) return '';
+  return '<section class="section" data-next-steps-local="true"><div class="card"><h2>In ' + escapeHtml(market) + '</h2>' + parts.join('') + '</div></section>';
+}
+
 function getServicePluralForVertical(verticalKey) {
   const v = String(verticalKey || "").toLowerCase();
   if (v === "pi" || v === "personal_injury" || v === "personal-injury") return "personal injury lawyers";
@@ -4185,6 +4301,7 @@ function stripForbiddenInlineBlocks(html) {
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
       requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey)
     });
+    mainHtml += "\n" + renderNextStepsLocalHtml(verticalKey, city);
     if (cityFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) {
       mainHtml += "\n" + cityFanoutHtml;
     }
@@ -6266,6 +6383,8 @@ function loadNextStepsSponsor(citySlug) {
   // answers it (data/fanout/senior_living_query_universe.json).
   if (senior.isSeniorLiving(verticalKey)) fanoutRecords.push(...seniorFanout.fanoutRecords());
   fanout.writeFanoutExport(OUT_DIR, fanoutRecords, pageSet, verticalKey);
+
+  linkOrphanChildPages(OUT_DIR);
 
   // Write build meta
   const coveragePlanningMeta = loadCoveragePlanningMeta();
