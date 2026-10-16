@@ -32,6 +32,10 @@ jobs:
         # A 403/404 for one $0 model falls through to the next; only 401, 402,
         # a key-shaped message or a failed key check is a credential stop.
         run: npm run test:llm-router
+      - name: Link audit pins
+        # Dead outbound URL list, /cdn-cgi/l/email-protection hrefs and bare
+        # email text outside an email_off fence each fail a fixture page.
+        run: npm run test:link-audit
 
       - name: Warning tier
         # The tiering policy defines three tiers and the repo ships a runner for

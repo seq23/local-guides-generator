@@ -12,6 +12,14 @@
 //    Email Address Obfuscation rewrites the anchor at the edge into
 //    /cdn-cgi/l/email-protection#<hex>, which answers 404 -- one broken link on
 //    every page that carries the shared footer.
+// 3. No bare email address in page TEXT outside a fence either: Cloudflare
+//    obfuscates text addresses too (dentistryguides, thedentistryguides and
+//    uscisexam carried /cdn-cgi/l/email-protection links on 16 Oct 2026 that
+//    came from "by email to x@y.org" in listing copy), and no rendered href may
+//    point at /cdn-cgi/l/email-protection at all.
+// 4. No outbound href may match config/dead_outbound_urls.json, the checked-in
+//    list of external URLs confirmed dead and replaced at source. A dead link
+//    re-entering through a data refresh fails the pack build.
 //
 // Why it exists
 // -------------
@@ -33,6 +41,44 @@ const path = require('path');
 const MAILTO_ANCHOR_RE = /<a\b[^>]*\bhref=["']mailto:[^"']*["'][^>]*>[\s\S]*?<\/a>/gi;
 const FENCE_SPLIT_RE = /(<!--email_off-->[\s\S]*?<!--\/email_off-->)/i;
 const LINK_RE = /(?:href|src)=["']([^"']+)["']/g;
+const HREF_RE = /\bhref=["']([^"']+)["']/gi;
+const CF_EMAIL_PATH_RE = /\/cdn-cgi\/l\/email-protection/i;
+const TEXT_EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+const RAW_BLOCK_OR_TAG_RE = /(<script\b[\s\S]*?<\/script>|<style\b[\s\S]*?<\/style>|<!--[\s\S]*?-->|<[^>]*>)/i;
+const DEAD_LIST_PATH = path.join('config', 'dead_outbound_urls.json');
+
+function normUrl(u) {
+  return decodeHref(u).split('#')[0].split('?')[0].replace(/\/+$/, '').toLowerCase();
+}
+
+function loadDeadList(repoRoot) {
+  const p = path.join(repoRoot, DEAD_LIST_PATH);
+  const doc = JSON.parse(fs.readFileSync(p, 'utf8'));
+  const entries = (doc && doc.entries) || [];
+  if (!entries.length) throw new Error(`LINK AUDIT FAIL: ${DEAD_LIST_PATH} has zero entries; the dead-link guard would examine nothing.`);
+  return entries.map((e) => {
+    if (!['host', 'url'].includes(e.match) || !/^https?:\/\//.test(String(e.url || ''))) {
+      throw new Error(`LINK AUDIT FAIL: malformed entry in ${DEAD_LIST_PATH}: ${JSON.stringify(e)}`);
+    }
+    return { match: e.match, url: e.url, host: new URL(e.url).hostname.toLowerCase(), norm: normUrl(e.url) };
+  });
+}
+
+function deadMatch(dead, href) {
+  if (!/^https?:\/\//i.test(href)) return null;
+  let host;
+  try { host = new URL(decodeHref(href)).hostname.toLowerCase(); } catch (_) { return null; }
+  const n = normUrl(href);
+  return dead.find((d) => (d.match === 'host' ? d.host === host : d.norm === n)) || null;
+}
+
+function unfencedTextEmails(segment) {
+  const found = [];
+  segment.split(RAW_BLOCK_OR_TAG_RE).forEach((part, i) => {
+    if (i % 2 === 0) for (const m of part.matchAll(TEXT_EMAIL_RE)) found.push(m[0]);
+  });
+  return found;
+}
 
 // Schemes and fragments that never resolve to a file in dist.
 const NON_PATH_RE = /^(?:https?:|mailto:|tel:|sms:|data:|javascript:|#|\/\/)/i;
@@ -94,6 +140,11 @@ function run(ctx) {
   let mailtoAnchorsExamined = 0;
   const brokenByTarget = new Map(); // target -> [page, ...]
   const unfencedMailto = [];
+  const unfencedText = [];
+  const cfEmailHrefs = [];
+  const deadHits = new Map(); // dead url -> [page, ...]
+  const dead = loadDeadList(repoRoot);
+  let outboundExamined = 0;
 
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');
@@ -118,6 +169,21 @@ function run(ctx) {
       const hits = segments[i].match(MAILTO_ANCHOR_RE) || [];
       mailtoAnchorsExamined += hits.length;
       if (!inFence && hits.length) unfencedMailto.push(`${relPage} (${hits.length})`);
+      if (!inFence) {
+        const bare = unfencedTextEmails(segments[i]);
+        if (bare.length) unfencedText.push(`${relPage} (${[...new Set(bare)].join(', ')})`);
+      }
+    }
+
+    for (const match of html.matchAll(HREF_RE)) {
+      const href = match[1];
+      if (CF_EMAIL_PATH_RE.test(href)) cfEmailHrefs.push(`${relPage} -> ${href}`);
+      if (/^https?:\/\//i.test(href)) outboundExamined += 1;
+      const d = deadMatch(dead, href);
+      if (d) {
+        if (!deadHits.has(d.url)) deadHits.set(d.url, []);
+        deadHits.get(d.url).push(`${relPage} -> ${href}`);
+      }
     }
   }
 
@@ -152,15 +218,43 @@ function run(ctx) {
     );
   }
 
+  if (unfencedText.length) {
+    problems.push(
+      `Bare email addresses outside an <!--email_off--> fence on ${unfencedText.length} page(s). Cloudflare ` +
+      'rewrites text addresses into /cdn-cgi/l/email-protection links too (404 without JS).\n' +
+      unfencedText.slice(0, 20).map((l) => `  ${l}`).join('\n') +
+      (unfencedText.length > 20 ? `\n  ...and ${unfencedText.length - 20} more` : '')
+    );
+  }
+
+  if (cfEmailHrefs.length) {
+    problems.push(
+      `Rendered hrefs to /cdn-cgi/l/email-protection on ${cfEmailHrefs.length} link(s) (404 without JS):\n` +
+      cfEmailHrefs.slice(0, 20).map((l) => `  ${l}`).join('\n')
+    );
+  }
+
+  if (deadHits.size) {
+    const lines = [...deadHits.entries()].map(([u, pages]) => `  ${u}  <- ${pages.length} link(s), e.g. ${pages[0]}`);
+    problems.push(
+      `Outbound links to URLs listed dead in ${DEAD_LIST_PATH}:\n${lines.join('\n')}\n` +
+      'Replace the URL in the source data (see replaced_by in the list), never in the rendered page.'
+    );
+  }
+
+  if (outboundExamined === 0) {
+    problems.push('Examined zero outbound http(s) links: the dead-URL guard checked nothing.');
+  }
+
   if (problems.length) {
     throw new Error(`LINK AUDIT FAIL\n\n${problems.join('\n\n')}`);
   }
 
   console.log(
     `✅ LINK AUDIT PASS: ${files.length} page(s), ${internalLinksExamined} internal link(s) resolved, ` +
-    `${mailtoAnchorsExamined} mailto anchor(s) fenced.`
+    `${mailtoAnchorsExamined} mailto anchor(s) fenced, ${outboundExamined} outbound link(s) checked against ${dead.length} dead URL(s).`
   );
-  return { files: files.length, internalLinksExamined, mailtoAnchorsExamined };
+  return { files: files.length, internalLinksExamined, mailtoAnchorsExamined, outboundExamined };
 }
 
 module.exports = { run };

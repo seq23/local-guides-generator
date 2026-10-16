@@ -390,13 +390,37 @@ const EMAIL_OFF_OPEN = '<!--email_off-->';
 const EMAIL_OFF_CLOSE = '<!--/email_off-->';
 const MAILTO_ANCHOR_RE = /<a\b[^>]*\bhref=["']mailto:[^"']*["'][^>]*>[\s\S]*?<\/a>/gi;
 
+// Cloudflare obfuscates a bare address in page TEXT too, not only mailto
+// anchors: "by email to someone@clinic.org" in a listing became
+// <a href="/cdn-cgi/l/email-protection"> on dentistryguides, thedentistryguides
+// and uscisexam (portfolio dead-link audit, 16 Oct 2026). So every address in a
+// text node is fenced as well. <script>/<style> bodies and tag attributes are
+// left alone (a comment inside JSON-LD or an attribute would corrupt it, and
+// Cloudflare does not rewrite those).
+const TEXT_EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+const RAW_BLOCK_OR_TAG_RE = /(<script\b[\s\S]*?<\/script>|<style\b[\s\S]*?<\/style>|<!--[\s\S]*?-->|<[^>]*>)/i;
+
+function fenceTextEmails(html) {
+  return html
+    .split(RAW_BLOCK_OR_TAG_RE)
+    .map((part, i) => (i % 2 === 1 ? part : part.replace(TEXT_EMAIL_RE, (m) => EMAIL_OFF_OPEN + m + EMAIL_OFF_CLOSE)))
+    .join('');
+}
+
 function fenceMailtoAnchors(html) {
   const s = String(html || '');
-  if (!s.includes('mailto:')) return s;
+  if (!s.includes('@')) return s;
   // Split on existing fences so an already-fenced anchor is never double-wrapped.
   const parts = s.split(/(<!--email_off-->[\s\S]*?<!--\/email_off-->)/i);
   return parts
-    .map((part, i) => (i % 2 === 1 ? part : part.replace(MAILTO_ANCHOR_RE, (m) => EMAIL_OFF_OPEN + m + EMAIL_OFF_CLOSE)))
+    .map((part, i) => {
+      if (i % 2 === 1) return part;
+      // Anchors first (whole <a>...</a> fenced, so its text address is inside
+      // that fence), then any address left bare in text between fences.
+      const segs = part.replace(MAILTO_ANCHOR_RE, (m) => EMAIL_OFF_OPEN + m + EMAIL_OFF_CLOSE)
+        .split(/(<!--email_off-->[\s\S]*?<!--\/email_off-->)/i);
+      return segs.map((seg, j) => (j % 2 === 1 ? seg : fenceTextEmails(seg))).join('');
+    })
     .join('');
 }
 
