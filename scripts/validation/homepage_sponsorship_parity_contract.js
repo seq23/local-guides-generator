@@ -39,8 +39,18 @@ function run(ctx) {
     // Owner-approved layout (14 Oct 2026): the next-steps box is folded into the
     // hero buttons. The one primary CTA is the hero's button to the callback
     // band, and the band must carry the working form (or the senior intake).
-    const primary = html.match(/<[^>]*data-primary-conversion-cta="true"[^>]*>[\s\S]{0,600}/i);
-    if (!primary || !/data-home-hero-cta="true"[^>]*>|href="#match"/.test(primary[0])) bad.push('unsponsored homepage primary CTA is not the hero button to the callback band (#match)');
+    // Every hero button must lead somewhere on the page: the callback band
+    // (#match), or, on neuroevalguides (owner, 16 Oct 2026: "Find an
+    // evaluator" / "Find ADHD or autism therapy"), the state and city finder
+    // (#states). Each target must exist.
+    const primary = html.match(/<[^>]*data-primary-conversion-cta="true"[^>]*>[\s\S]*?<\/p>/i);
+    const heroCtas = primary ? Array.from(primary[0].matchAll(/<a\b[^>]*data-home-hero-cta="true"[^>]*>/gi)).map((m) => (m[0].match(/href="([^"]*)"/) || [])[1] || '') : [];
+    if (!heroCtas.length) bad.push('unsponsored homepage primary CTA has no hero button');
+    for (const href of heroCtas) {
+      const target = href === '#match' ? 'match' : (href === '#states' && verticalKey === 'neuro' ? 'states' : '');
+      if (!target) bad.push(`unsponsored homepage hero button leads to "${href}", not the callback band (#match)${verticalKey === 'neuro' ? ' or the state finder (#states)' : ''}`);
+      else if (!new RegExp('id="' + target + '"').test(html)) bad.push(`unsponsored homepage hero button target ${href} does not exist on the page`);
+    }
     if (!/id="match"[^>]*data-home-callback="true"/.test(html)) bad.push('unsponsored homepage is missing the callback band (id="match")');
     if (!/<form[^>]*action="\/api\/request-assistance"/.test(html) && !/id="senior-intake"/.test(html)) bad.push('unsponsored homepage callback band carries neither the request form nor the senior intake');
   } else {

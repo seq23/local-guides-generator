@@ -8,6 +8,8 @@
  *
  * Accepted input:
  * - provider_type (required enum)
+ * - service_needed (evaluation | therapy | both; required with the neuro
+ *   evaluation-or-therapy provider type, optional and enum-checked otherwise)
  * - email or phone (at least one required)
  * - consent (required)
  * - phone (optional)
@@ -38,10 +40,21 @@
 const ALLOWED_PROVIDER_TYPES = new Set([
   'Personal Injury Attorney',
   'Dentist (Cosmetic, Implant, or General Care)',
+  // Before 16 Oct 2026 the neuro label; the other sites' shared request page
+  // still lists it, so it stays accepted.
   'Neuro Evaluation Provider',
+  'ADHD / autism evaluation or therapy provider',
   'Hormone / Wellness Clinic',
   'USCIS Medical Exam Provider'
 ]);
+
+// neuroevalguides.com asks evaluation / therapy / both first (owner, 16 Oct
+// 2026) so a lead can be routed to an evaluator, a therapy practice, or a
+// practice that does both. Mirrors scripts/lib/neuro_services.js (this file
+// runs on Cloudflare and cannot import it); tests/neuro/neuro_services.test.mjs
+// fails if the two differ.
+const NEURO_PROVIDER_TYPE = 'ADHD / autism evaluation or therapy provider';
+const SERVICE_NEEDED_VALUES = new Set(['evaluation', 'therapy', 'both']);
 
 function json(body, init = {}) {
   return new Response(JSON.stringify(body), {
@@ -205,9 +218,10 @@ async function relayLeadByEmail({ env, record, stored, reason }) {
 
   const lines = Object.entries(record).map(([k, v]) => `${k}: ${v}`).join('\n');
   const where = record.market_slug || record.source_domain || '';
+  const what = `${record.provider_type || 'request'}${record.service_needed ? ` (${record.service_needed})` : ''}`;
   const subject = stored
-    ? `Lead - ${record.provider_type || 'request'}${where ? ` - ${where}` : ''}`
-    : `Lead (Airtable down: ${reason}) - ${record.provider_type || 'request'}${where ? ` - ${where}` : ''}`;
+    ? `Lead - ${what}${where ? ` - ${where}` : ''}`
+    : `Lead (Airtable down: ${reason}) - ${what}${where ? ` - ${where}` : ''}`;
   const preamble = stored
     ? 'This lead is stored in Airtable. This email is a notification copy.\n'
     : `Airtable write failed (${reason}), so this lead is being relayed by email.\nIt is NOT in Airtable and needs to be entered manually.\n`;
@@ -263,9 +277,16 @@ export async function onRequestPost(context) {
     const phone = normalizePhone(body.phone || '');
     const zip = normalizeZip(body.zip || '');
     const src = String(body.src || '').trim().slice(0, 120);
+    const service_needed = String(body.service_needed || '').trim().toLowerCase().slice(0, 16);
 
     if (!provider_type || !ALLOWED_PROVIDER_TYPES.has(provider_type)) {
       return json({ ok: false, error: 'provider_type' }, { status: 400 });
+    }
+    if (service_needed && !SERVICE_NEEDED_VALUES.has(service_needed)) {
+      return json({ ok: false, error: 'service_needed' }, { status: 400 });
+    }
+    if (provider_type === NEURO_PROVIDER_TYPE && !service_needed) {
+      return json({ ok: false, error: 'service_needed' }, { status: 400 });
     }
     if (email && !isEmail(email)) {
       return json({ ok: false, error: 'email' }, { status: 400 });
@@ -289,6 +310,8 @@ export async function onRequestPost(context) {
 
     const record = {
       provider_type,
+      // Only when asked: a key the Airtable table lacks costs a retry.
+      ...(service_needed ? { service_needed } : {}),
       email: email || '',
       phone: phone || '',
       zip: zip || '',

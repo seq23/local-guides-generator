@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const neuroServices = require('../lib/neuro_services');
 
 const REPO_ROOT = path.join(__dirname, '..', '..');
 const CSV_PATH = path.join(REPO_ROOT, 'data', 'research', 'coverage', 'coverage_runtime_support.csv');
@@ -34,7 +35,8 @@ function hasSortedThree(list, vertical) {
     if (!item || typeof item !== 'object') return false;
     const name = String(item.name || '').trim();
     if (!name) return false;
-    if (String(vertical || '').toLowerCase() === 'neuro' && typeof item.offers_therapy !== 'boolean') return false;
+    // Neuro: offers_evaluation and offers_therapy both booleans, at least one true.
+    if (String(vertical || '').toLowerCase() === 'neuro' && neuroServices.recordProblem(item)) return false;
     if (String(vertical || '').toLowerCase() === 'trt') {
       if (typeof item.offers_peptide_programs !== 'boolean') return false;
       if (typeof item.peptide_program_notes !== 'string') return false;
@@ -74,7 +76,7 @@ for (const row of rows) {
       const file = path.join(baseDir, `${row.city_slug}__${subKey}.json`);
       if (!fs.existsSync(file)) fail(`missing grouped provider dataset for ${key}: ${path.relative(REPO_ROOT, file)}`);
       const data = loadJson(file, key);
-      if (!hasSortedThree(data, row.vertical)) fail(`grouped provider dataset must contain exactly 3 alphabetized unique provider objects for ${key} (${subKey})${String(row.vertical).toLowerCase()==='neuro' ? ' with boolean offers_therapy flags' : (String(row.vertical).toLowerCase()==='trt' ? ' with peptide-program fields' : '')}`);
+      if (!hasSortedThree(data, row.vertical)) fail(`grouped provider dataset must contain exactly 3 alphabetized unique provider objects for ${key} (${subKey})${String(row.vertical).toLowerCase()==='neuro' ? ' with boolean offers_evaluation and offers_therapy flags, at least one true' : (String(row.vertical).toLowerCase()==='trt' ? ' with peptide-program fields' : '')}`);
     }
   } else {
     const providerPath = path.join(REPO_ROOT, row.provider_dataset_path);

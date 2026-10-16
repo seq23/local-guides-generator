@@ -1,6 +1,20 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const neuroServices = require('../lib/neuro_services');
+
+// (name, service tag) for every provider card in the given sections.
+function renderedNeuroServicePairs(sections) {
+  const out = [];
+  for (const sec of sections) {
+    for (const card of sec.match(/<article[^>]*data-provider-card="true"[^>]*>[\s\S]*?<\/article>/gi) || []) {
+      const name = (card.match(/provider-card__name">([^<]*)<\/h3>/) || [])[1];
+      const tag = (card.match(/data-provider-service-tag="([^"]*)"/) || [])[1];
+      if (name) out.push(`${name.replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&')}\u0000${tag || ''}`);
+    }
+  }
+  return out;
+}
 
 const REPO_ROOT = path.join(__dirname, '..', '..');
 const PROMOTED_PATH = path.join(REPO_ROOT, 'data', 'research', 'coverage', 'coverage_promoted.csv');
@@ -106,20 +120,28 @@ function run() {
     if (subKeys.length) {
       const grouped = loadGroupedProviders(row.vertical, row.city_slug);
       if (allSections.length < grouped.length && !html.includes('data-provider-directory="true"')) fail(`missing grouped example providers sections for ${key}`);
-      let therapyTrueCount = 0;
       let peptideTrueCount = 0;
+      // Neuro: every provider card carries the service tag its two booleans
+      // name (Evaluation / Therapy / Evaluation and therapy), on the card that
+      // carries its name. Exact (name, tag) pairs, not a word count.
+      const isNeuro = String(row.vertical).toLowerCase() === 'neuro';
+      const renderedPairs = isNeuro ? renderedNeuroServicePairs(allSections) : null;
       for (const entry of grouped) {
         for (const provider of entry.providers) {
           const name = String(provider?.name || '').trim();
           if (!hasProviderName(name)) fail(`provider name not rendered for ${key}: ${name}`);
-          if (String(row.vertical).toLowerCase() === 'neuro' && provider && provider.offers_therapy === true) therapyTrueCount += 1;
+          if (isNeuro) {
+            const tag = neuroServices.serviceTag(provider);
+            if (!tag) fail(`neuro provider offers neither evaluation nor therapy for ${key}: ${name}`);
+            const want = `${name}\u0000${tag}`;
+            const i = renderedPairs.indexOf(want);
+            if (i < 0) fail(`neuro provider card for ${key} does not carry its service tag: ${name} should show "${tag}"`);
+            renderedPairs.splice(i, 1);
+          }
           if (String(row.vertical).toLowerCase() === 'trt' && provider && provider.offers_peptide_programs === true) peptideTrueCount += 1;
         }
       }
-      if (String(row.vertical).toLowerCase() === 'neuro' && therapyTrueCount > 0) {
-        const markerCount = (html.match(/therapy/gi) || []).length;
-        if (markerCount < therapyTrueCount) fail(`therapy capability marker count too low for ${key}: expected >= ${therapyTrueCount}, found ${markerCount}`);
-      }
+      if (isNeuro && /Offers therapy follow-up/.test(html)) fail(`neuro city page ${key} still renders the retired "Offers therapy follow-up" badge`);
       if (String(row.vertical).toLowerCase() === 'trt' && peptideTrueCount > 0) {
         const markerCount = (html.match(/peptide/gi) || []).length;
         if (markerCount < peptideTrueCount) fail(`peptide-program marker count too low for ${key}: expected >= ${peptideTrueCount}, found ${markerCount}`);

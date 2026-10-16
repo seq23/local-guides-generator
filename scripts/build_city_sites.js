@@ -67,6 +67,7 @@ const cityRegistry = require("./helpers/city_registry");
 const fanout = require("./helpers/fanout");
 const searchBlocks = require("./search_intelligence/render_blocks");
 const homeV2 = require("./lib/homepage_v2");
+const neuroServices = require("./lib/neuro_services");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
 const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL } = require("./lib/pack_site_config");
 
@@ -1135,7 +1136,7 @@ function providerTypeLabelForVertical(verticalKey) {
   const vk = String(verticalKey || '').toLowerCase();
   if (vk === 'pi') return 'Personal Injury Attorney';
   if (vk === 'dentistry') return 'Dentist (Cosmetic, Implant, or General Care)';
-  if (vk === 'neuro') return 'Neuro Evaluation Provider';
+  if (vk === 'neuro') return neuroServices.NEURO_PROVIDER_TYPE;
   if (vk === 'trt') return 'Hormone / Wellness Clinic';
   if (vk === 'uscis_medical') return 'USCIS Medical Exam Provider';
   if (senior.isSeniorLiving(vk)) return 'Senior Living Community';
@@ -2893,7 +2894,7 @@ function loadGlobalPageByRoute(pageSet, wantedRoute) {
   return null;
 }
 
-function extractRequestAssistanceHtml(pageSet) {
+function extractRequestAssistanceHtml(pageSet, verticalKey) {
   var page = loadGlobalPageByRoute(pageSet, '/request-assistance');
   if (!page || !page.main_html) {
     try {
@@ -2907,7 +2908,14 @@ function extractRequestAssistanceHtml(pageSet) {
   // The embedded form carries the one public contact address as a token, the
   // same %%CONTACT_EMAIL%% the standalone /request-assistance/ page resolves,
   // so every /next-steps/ hub shows CONTACT_EMAIL and nothing else.
-  return String(page.main_html || '').split('%%CONTACT_EMAIL%%').join(escapeHtml(CONTACT_EMAIL));
+  return applyVerticalRequestAssistanceForm(String(page.main_html || '').split('%%CONTACT_EMAIL%%').join(escapeHtml(CONTACT_EMAIL)), verticalKey);
+}
+
+// The neuro site's request form asks evaluation / therapy / both first and
+// carries the evaluation-or-therapy provider label (scripts/lib/neuro_services.js).
+// Every other site serves the shared page unchanged.
+function applyVerticalRequestAssistanceForm(html, verticalKey) {
+  return String(verticalKey || '').toLowerCase() === 'neuro' ? neuroServices.applyToRequestAssistanceHtml(html) : html;
 }
 
 function stripRequestAssistanceHero(requestAssistanceHtml) {
@@ -3021,6 +3029,7 @@ function normalizeExampleProviderList(raw) {
       city: String(x.city || '').trim(),
       state: String(x.state || '').trim(),
       attributes: Array.isArray(x.attributes) ? x.attributes.map((v) => String(v || '').trim()).filter(Boolean).slice(0, 4) : [],
+      offers_evaluation: x.offers_evaluation === true,
       offers_therapy: x.offers_therapy === true,
       offers_peptide_programs: x.offers_peptide_programs === true,
       peptide_program_notes: String(x.peptide_program_notes || '').trim(),
@@ -3538,7 +3547,7 @@ function inferProviderCategory(verticalKey, subKey, provider) {
   const sk = String(subKey || '').toLowerCase();
   if (vk === 'pi') return 'Personal injury law firm';
   if (vk === 'dentistry') return 'Dental provider';
-  if (vk === 'neuro') return sk === 'autism_eval' ? 'Autism evaluation provider' : 'Neuro evaluation provider';
+  if (vk === 'neuro') return sk === 'autism_eval' ? 'Autism provider' : 'ADHD provider';
   if (vk === 'trt') return sk === 'iv_hydration' ? 'IV hydration clinic' : (sk === 'hair_restoration' ? 'Hair restoration provider' : 'Hormone optimization clinic');
   if (vk === 'uscis_medical' || vk === 'uscis') return 'Civil surgeon / immigration medical exam provider';
   return 'Provider';
@@ -3546,7 +3555,6 @@ function inferProviderCategory(verticalKey, subKey, provider) {
 
 function defaultProviderAttributes(verticalKey, subKey, provider, city) {
   const attrs = Array.isArray(provider && provider.attributes) ? provider.attributes.map((v) => String(v || '').trim()).filter(Boolean) : [];
-  if (provider && provider.offers_therapy === true) attrs.push('Offers therapy follow-up');
   if (provider && provider.offers_peptide_programs === true) attrs.push('May also offer peptide programs');
   const vk = String(verticalKey || '').toLowerCase();
   const sk = String(subKey || '').toLowerCase();
@@ -3557,8 +3565,13 @@ function defaultProviderAttributes(verticalKey, subKey, provider, city) {
     attrs.push('Compare treatment scope, written plan clarity, and follow-up expectations');
     attrs.push('Verify dental licensing through the official state resource');
   } else if (vk === 'neuro') {
-    attrs.push(sk === 'autism_eval' ? 'Use this when you are comparing autism evaluation options' : 'Use this when you are comparing ADHD / neuro evaluation options');
-    attrs.push('Ask what the report, testing scope, and feedback session actually include');
+    const area = sk === 'autism_eval' ? 'autism' : 'ADHD';
+    const ev = !!(provider && provider.offers_evaluation === true);
+    const th = !!(provider && provider.offers_therapy === true);
+    if (ev) attrs.push(sk === 'autism_eval' ? 'Use this when you are comparing autism evaluation options' : 'Use this when you are comparing ADHD / neuro evaluation options');
+    if (th) attrs.push('Use this when you are comparing ' + area + ' therapy options');
+    if (ev) attrs.push('Ask what the report, testing scope, and feedback session actually include');
+    if (th) attrs.push('Ask how therapy goals are set and how progress is reviewed');
   } else if (vk === 'trt') {
     attrs.push(sk === 'iv_hydration' ? 'Compare IV protocols, pricing, and supervision' : 'Compare evaluation steps, monitoring, and follow-up clarity');
     attrs.push('Ask what is included before treatment starts and what is billed separately');
@@ -3579,6 +3592,7 @@ function normalizeProviderCard(verticalKey, subKey, provider, city, verifyUrl) {
     city: locationCity,
     state: locationState,
     category: inferProviderCategory(verticalKey, subKey, provider),
+    serviceTag: String(verticalKey || '').toLowerCase() === 'neuro' ? neuroServices.serviceTag(provider) : '',
     attributes: defaultProviderAttributes(verticalKey, subKey, provider, city),
     verifyUrl: normalizeUrl(verifyUrl || '')
   };
@@ -3602,6 +3616,7 @@ function renderStructuredProviderCardsSectionHtml(opts) {
         return (
           '<article class="provider-card" data-provider-card="true">' +
             '<h3 class="provider-card__name">' + escapeHtml(card.name) + '</h3>' +
+            neuroServices.serviceTagHtml(card.serviceTag) +
             '<p class="provider-card__meta" data-provider-card-meta="true">' + escapeHtml(meta) + '</p>' +
             '<ul class="provider-card__attributes" data-provider-card-attributes="true">' + attrs + '</ul>' +
             (verifyUrl ? ('<p class="provider-card__verify"><a href="' + escapeHtml(verifyUrl) + '" rel="nofollow">Verify license / registry</a></p>') : '') +
@@ -3659,7 +3674,7 @@ function collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName) {
   const leadMap = {
     pi: 'These are neutral, non-ranked examples of firms so the homepage feels concrete before you compare options using the state guides and canonical PI guides.',
     dentistry: 'These are neutral, non-ranked examples of dental providers so the homepage feels concrete before you narrow into a state or city page.',
-    neuro: 'These are neutral, non-ranked examples of evaluation providers so the homepage feels concrete before you narrow into a state or city page.',
+    neuro: 'These are neutral, non-ranked examples of evaluation and therapy providers so the homepage feels concrete before you narrow into a state or city page.',
     trt: 'These are neutral, non-ranked examples of clinics and providers so the homepage feels concrete before you narrow into a state or city page.',
     uscis_medical: 'These are neutral, non-ranked examples of civil surgeons and immigration medical exam providers so the homepage feels concrete before you narrow into a state or city page.'
   };
@@ -4121,7 +4136,7 @@ function stripForbiddenInlineBlocks(html) {
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
-      requestAssistanceHtml: extractRequestAssistanceHtml(pageSet)
+      requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey)
     });
     if (cityFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) {
       mainHtml += "\n" + cityFanoutHtml;
@@ -4253,7 +4268,7 @@ function renderHomeV2Main(o) {
   let m;
   while ((m = re.exec(String(o.marketsStatusListHtml || '')))) states.push({ abbr: m[1], name: (typeof usStates[m[1]] === 'string' ? usStates[m[1]] : (usStates[m[1]] && usStates[m[1]].stateName)) || m[2] });
   states.sort((a, b) => a.name.localeCompare(b.name));
-  const raHtml = extractRequestAssistanceHtml(o.pageSet) || '';
+  const raHtml = extractRequestAssistanceHtml(o.pageSet, o.verticalKey) || '';
   const sel = raHtml.match(/<select id="provider_type"[\s\S]*?<\/select>/i);
   const options = sel ? Array.from(sel[0].matchAll(/<option(?![^>]*disabled)[^>]*>([^<]+)<\/option>/g)).map((x) => x[1].trim()) : [];
   const pt = providerTypeLabelForVertical(o.verticalKey);
@@ -4338,6 +4353,8 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     .split("%%PARENT_COMPANY%%").join(escapeHtml(PARENT_COMPANY))
     .split("%%CONTACT_EMAIL%%").join(escapeHtml(CONTACT_EMAIL));
   mainHtml = searchBlocks.applyStrengthening(mainHtml, globalPage);
+  if (route === 'request-assistance') mainHtml = applyVerticalRequestAssistanceForm(mainHtml, verticalKey);
+  if (route === 'for-providers' && String(verticalKey || '').toLowerCase() === 'neuro') mainHtml = neuroServices.applyToForProvidersHtml(mainHtml);
   const isHomeV2 = route === '' && !isStarterTrainingPack(pageSet) && !!homeV2.siteFor(verticalKey);
   if (isHomeV2) {
     mainHtml = renderHomeV2Main({ mainHtml, verticalKey, pageSet, brandName, siteUrl, marketsStatusListHtml, globalPagesDir });
@@ -4767,7 +4784,7 @@ if (route === 'admin') {
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
-      requestAssistanceHtml: extractRequestAssistanceHtml(pageSet),
+      requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey),
       sponsorRouting: sponsorship.getActiveVerticalLeadRouting(verticalKey)
     });
   } else {

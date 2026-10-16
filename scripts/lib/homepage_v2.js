@@ -25,6 +25,8 @@
  * Guarded by scripts/validation/homepage_shape_contract.js (hard_fail tier).
  */
 
+const { SERVICE_QUESTION, serviceSelectHtml } = require('./neuro_services');
+
 const NEUTRALITY = 'We do not rank providers. Providers may pay a listing or referral fee; that never changes the guides.';
 
 const SITES = {
@@ -87,14 +89,28 @@ const SITES = {
   },
   neuro: {
     accent: '#6D28D9', accentHover: '#5B21B6',
-    providerNoun: 'evaluator', providerPlural: 'evaluation providers', findLabel: 'Find an evaluator',
+    // Evaluation AND therapy (owner, 16 Oct 2026): many providers do both, and
+    // therapy practices are the recurring-client side. Evaluation stays first
+    // everywhere (the only search clicks are on testing pages).
+    providerNoun: 'provider', providerPlural: 'evaluation and therapy providers', findLabel: 'Find an evaluator',
     advice: 'medical, psychological or legal',
     nav: [['Costs', '/guides/neuropsychological-evaluation-cost/'], ['Wait times', '/guides/hospital-vs-private-neuropsych-testing/'], ['School vs private', '/guides/school-district-vs-private-vs-ssa-evaluation/']],
-    eyebrow: 'ADHD · autism · neuropsychological testing · children and adults',
-    h1: 'Getting an evaluation: which kind you need, who can do it, what it costs, and how long you will wait.',
-    sub: 'Plain answers for parents and adults deciding between a school, private or clinical evaluation, with the source behind each one.',
+    eyebrow: 'ADHD · autism · evaluations and testing · therapy · children and adults',
+    h1: 'ADHD and autism: getting evaluated, and finding therapy — with or without a diagnosis.',
+    sub: 'Plain answers for parents and adults on school, private and clinical evaluations — what they cost and how long the wait is — and on finding ADHD or autism therapy, with the source behind each one.',
+    // Two equal primary buttons, both to the state and city finder.
+    heroCtas: [['Find an evaluator', '#states'], ['Find ADHD or autism therapy', '#states']],
     sources: 'Centers for Medicare & Medicaid Services, U.S. Department of Education (IDEA), state psychology licensing boards',
-    tiles: ['What is a neuropsychological evaluation?', 'Who conducts the evaluation?', 'How much does a neuropsychological evaluation usually cost?', 'Does insurance cover evaluations?', 'Is a referral required?', 'What happens after an ADHD or autism evaluation?'],
+    tiles: ['What is a neuropsychological evaluation?', 'Who conducts the evaluation?', 'How much does a neuropsychological evaluation usually cost?', 'Does insurance cover evaluations?', 'Is a referral required?', 'What happens after an ADHD or autism evaluation?', 'Do I need a diagnosis to start ADHD therapy?', 'Does insurance cover ADHD therapy?', 'Therapy, coaching or medication: which comes first for ADHD?'],
+    tileCount: 9,
+    // A tile whose full answer is a guide links to that guide, not the FAQ.
+    tileLinks: {
+      'Do I need a diagnosis to start ADHD therapy?': '/guides/questions-to-ask-an-adhd-therapist/',
+      'Does insurance cover ADHD therapy?': '/guides/adhd-therapy-after-an-evaluation/',
+      'Therapy, coaching or medication: which comes first for ADHD?': '/guides/adhd-therapy-vs-medication-vs-coaching/'
+    },
+    callbackHeading: 'Get a callback from a provider in your area.',
+    serviceChoice: true,
     glance: [
       ['Full evaluation', 'How much does a neuropsychological evaluation usually cost?', '/guides/neuropsychological-evaluation-cost/'],
       ['Testing time', 'How long does testing take?', '/guides/neuropsych-testing-overview/'],
@@ -166,11 +182,12 @@ function siteFor(verticalKey) {
   return SITES[String(verticalKey || '').toLowerCase()] || null;
 }
 
-/** The six FAQ items the homepage shows (and its FAQPage carries), from the pack's own FAQ. */
+/** The six (or cfg.tileCount) FAQ items the homepage shows (and its FAQPage carries), from the pack's own FAQ. */
 function selectHomeFaq(verticalKey, faqItems) {
   const cfg = siteFor(verticalKey);
   const items = Array.isArray(faqItems) ? faqItems : [];
   const byQ = new Map(items.map((x) => [String(x.q).trim(), x]));
+  const count = (cfg && cfg.tileCount) || 6;
   const out = [];
   for (const q of (cfg && cfg.tiles) || []) {
     const hit = byQ.get(q);
@@ -178,11 +195,11 @@ function selectHomeFaq(verticalKey, faqItems) {
   }
   // Fill from the pack's own order, skipping questions about the site itself.
   for (const x of items) {
-    if (out.length >= 6) break;
+    if (out.length >= count) break;
     if (out.includes(x) || /this site/i.test(x.q)) continue;
     out.push(x);
   }
-  return out.slice(0, 6);
+  return out.slice(0, count);
 }
 
 function parseStartCards(homeMainHtml) {
@@ -306,7 +323,10 @@ function render(ctx) {
         '<p class="kicker hp-eyebrow">' + esc(cfg.eyebrow) + '</p>' +
         '<h1>' + esc(cfg.h1) + '</h1>' +
         '<p class="hp-sub" data-hero-subline="true">' + esc(cfg.sub) + '</p>' +
-        '<p class="hp-actions" data-primary-conversion-cta="true"><a class="hp-btn hp-btn--primary" href="#match" data-home-hero-cta="true">' + esc(cfg.findLabel) + ' near me</a>' +
+        '<p class="hp-actions" data-primary-conversion-cta="true">' +
+        (cfg.heroCtas
+          ? cfg.heroCtas.map(([label, href]) => '<a class="hp-btn hp-btn--primary" href="' + esc(href) + '" data-home-hero-cta="true">' + esc(label) + '</a>').join('')
+          : '<a class="hp-btn hp-btn--primary" href="#match" data-home-hero-cta="true">' + esc(cfg.findLabel) + ' near me</a>') +
         '<a class="hp-btn hp-btn--ghost" href="/guides/">Browse all guides</a></p>' +
         '<p class="hp-trust" data-home-trust-line="true">Reviewed by The Industry Guides Editorial Team · Updated <time data-page-modified="true" datetime="' + esc(ctx.buildIso) + '">' + esc(ctx.buildIso) + '</time> · Sources: ' + esc(cfg.sources) + '</p>' +
       '</div>' +
@@ -322,7 +342,11 @@ function render(ctx) {
         '<a href="/faq/">All ' + faqAll.length + ' questions</a></div>' +
         '<p class="hp-muted hp-lead">Short answers first. What applies to you depends on your situation, but each one links to the full answer.</p>' +
         '<div class="hp-grid hp-grid--3">' +
-        faq.map((x) => '<article class="hp-card" data-home-question="true"><h3>' + esc(x.q) + '</h3><p>' + esc(trimWords(x.a, 40)) + '</p><a href="/faq/">Full answer in the FAQ</a></article>').join('') +
+        faq.map((x) => {
+          const guide = cfg.tileLinks && cfg.tileLinks[String(x.q).trim()];
+          const link = guide ? '<a href="' + esc(check(guide)) + '">Full answer: ' + esc(titleOf(guide)) + '</a>' : '<a href="/faq/">Full answer in the FAQ</a>';
+          return '<article class="hp-card" data-home-question="true"><h3>' + esc(x.q) + '</h3><p>' + esc(trimWords(x.a, 40)) + '</p>' + link + '</article>';
+        }).join('') +
         '</div>' +
       '</div>' +
     '</section>'
@@ -393,6 +417,7 @@ function render(ctx) {
           '<div class="hp-grid hp-grid--2 provider-directory-grid">' +
           cards.map((c) => '<article class="hp-card provider-card" data-provider-card="true">' +
             '<h3 class="provider-card__name">' + esc(c.name) + '</h3>' +
+            (c.serviceTag ? '<p class="provider-card__service" data-provider-service-tag="' + esc(c.serviceTag) + '">' + esc(c.serviceTag) + '</p>' : '') +
             '<p class="provider-card__meta" data-provider-card-meta="true">' + esc([c.category, [c.city, c.state].filter(Boolean).join(', ')].filter(Boolean).join(' — ')) + '</p>' +
             '<p class="hp-verify provider-card__attributes" data-provider-card-attributes="true" data-provider-verify-line="true">' + esc(cfg.verify) + '</p>' +
             '<a href="#match" data-provider-callback="true">Request a callback</a>' +
@@ -440,10 +465,11 @@ function render(ctx) {
     out.push(
       '<section class="section hp-band" id="match" data-home-callback="true" data-connection-bubble="true">' +
         '<div class="hp-wrap">' +
-          '<h2>Get a callback from ' + (/^[aeiou]/i.test(cfg.providerNoun) ? 'an ' : 'a ') + esc(cfg.providerNoun) + ' in your area.</h2>' +
+          '<h2>' + esc(cfg.callbackHeading || ('Get a callback from ' + (/^[aeiou]/i.test(cfg.providerNoun) ? 'an ' : 'a ') + cfg.providerNoun + ' in your area.')) + '</h2>' +
           '<p class="hp-band-note">One short request. We pass it to a provider near you. We never ask for case details here.</p>' +
           '<form id="home-callback-form" class="hp-form" method="post" action="/api/request-assistance" data-home-callback-form="true">' +
-            '<label><span>What do you need?</span><select name="provider_type" required>' + options + '</select></label>' +
+            (cfg.serviceChoice ? '<label data-neuro-service-field="true"><span>' + esc(SERVICE_QUESTION) + '</span>' + serviceSelectHtml() + '</label>' : '') +
+            '<label><span>' + (cfg.serviceChoice ? 'Provider type' : 'What do you need?') + '</span><select name="provider_type" required>' + options + '</select></label>' +
             '<label><span>Email</span><input name="email" type="email" autocomplete="email" required placeholder="you@yourmail.com" /></label>' +
             '<label><span>ZIP (optional)</span><input name="zip" inputmode="numeric" pattern="[0-9]{5}(-[0-9]{4})?" placeholder="ZIP" /></label>' +
             Object.entries(hidden).map(([k, v]) => '<input type="hidden" name="' + k + '" value="' + esc(v) + '" />').join('') +
