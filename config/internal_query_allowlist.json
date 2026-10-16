@@ -1,0 +1,4 @@
+{
+  "_why": "Internal <a href> paths that may carry a query string. Every other internal link must be a clean canonical path (scripts/validation/link_audit.js); attribution travels in data-attr-qs and /assets/attr-carry.js restores it. Add a path prefix here only when the destination page genuinely needs the query in the link itself, with the reason.",
+  "prefixes": []
+}

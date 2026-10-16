@@ -491,8 +491,31 @@ function linkOrphanChildPages(outDir) {
   console.log(`linkOrphanChildPages: added ${added} clean parent->child link(s)`);
 }
 
+// Internal links carry no query string. Attribution (?src=&intent=&button=
+// &vertical=&page_kind=&page_slug=&market=&pt=) moved from the href to
+// data-attr-qs: each distinct query was its own crawlable URL (Ahrefs: 1,306
+// uscisexam URLs/week vs a 228-URL sitemap) and starved the canonical pages of
+// clean inbound links. /assets/attr-carry.js, loaded synchronously in <head>,
+// restores the query on the destination page so the forms and analytics that
+// read location.search see the same values. link_audit.js fails the build on
+// any internal <a href> with a query that is not allow-listed.
+const ATTR_CARRY_TAG = '<script src="/assets/attr-carry.js" data-attr-carry="true"></script>';
+function moveInternalQueryToData(html) {
+  let out = String(html).replace(/<a\b[^>]*>/gi, (tag) => {
+    const m = tag.match(/\bhref=(["'])(\/(?!\/)[^"'?#]*)\?([^"'#]*)(#[^"']*)?\1/i);
+    if (!m || /\bdata-attr-qs=/i.test(tag)) return tag;
+    const q = m[3];
+    const clean = 'href=' + m[1] + m[2] + (m[4] || '') + m[1];
+    return tag.replace(m[0], clean + (q ? ' data-attr-qs=' + m[1] + q + m[1] : ''));
+  });
+  if (/<head\b/i.test(out) && !out.includes('data-attr-carry="true"')) {
+    out = out.replace(/<head\b[^>]*>/i, (h) => h + ATTR_CARRY_TAG);
+  }
+  return out;
+}
+
 function writeFileEnsured(p, content) {
-  const out = String(p).toLowerCase().endsWith('.html') ? fenceMailtoAnchors(content) : content;
+  const out = String(p).toLowerCase().endsWith('.html') ? moveInternalQueryToData(fenceMailtoAnchors(content)) : content;
   fs.mkdirSync(path.dirname(p), { recursive: true });
   fs.writeFileSync(p, out, "utf8");
 }

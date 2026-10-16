@@ -26,6 +26,11 @@
 //    /{city}/next-steps/ pages reachable only through the sitemap: canonical,
 //    indexable, and linked from nowhere except by ?src=... tracked CTAs, which
 //    a crawler treats as other URLs. Only a query-free href counts as inbound.
+// 6. No internal <a href> (relative, or absolute on this site's host) carries
+//    a query string unless its path is in config/internal_query_allowlist.json.
+//    Tracked internal links made every attribution combination its own
+//    crawlable URL (Ahrefs: 1,306 uscisexam URLs/week vs 228 in the sitemap).
+//    Attribution belongs in data-attr-qs (restored by /assets/attr-carry.js).
 //
 // Why it exists
 // -------------
@@ -52,6 +57,8 @@ const CF_EMAIL_PATH_RE = /\/cdn-cgi\/l\/email-protection/i;
 const TEXT_EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
 const RAW_BLOCK_OR_TAG_RE = /(<script\b[\s\S]*?<\/script>|<style\b[\s\S]*?<\/style>|<!--[\s\S]*?-->|<[^>]*>)/i;
 const DEAD_LIST_PATH = path.join('config', 'dead_outbound_urls.json');
+const QUERY_ALLOW_PATH = path.join('config', 'internal_query_allowlist.json');
+const A_TAG_RE = /<a\b[^>]*>/gi;
 
 function normUrl(u) {
   return decodeHref(u).split('#')[0].split('?')[0].replace(/\/+$/, '').toLowerCase();
@@ -183,6 +190,23 @@ function run(ctx) {
   const dead = loadDeadList(repoRoot);
   let outboundExamined = 0;
   const inbound = new Map(); // pageKey -> count of links from OTHER pages
+  const queryAllow = (() => {
+    const p = path.join(repoRoot, QUERY_ALLOW_PATH);
+    if (!fs.existsSync(p)) throw new Error(`LINK AUDIT FAIL: ${QUERY_ALLOW_PATH} missing.`);
+    return (JSON.parse(fs.readFileSync(p, 'utf8')).prefixes || []).map(String);
+  })();
+  const smForHost = sitemapPaths(distRoot);
+  let siteHost = '';
+  try {
+    const idx = path.join(distRoot, 'sitemap.xml');
+    const m = fs.existsSync(idx) && fs.readFileSync(idx, 'utf8').match(/<loc>\s*(https?:\/\/[^<\s]+)/);
+    siteHost = m ? new URL(m[1]).hostname.toLowerCase() : '';
+  } catch (_) { siteHost = ''; }
+  void smForHost;
+  const queryHrefs = new Map(); // path -> [page, ...]
+  const carryTargets = new Map(); // dist key of a data-attr-qs destination -> example source
+  const pagesWithCarry = new Set();
+  let internalAnchorsExamined = 0;
 
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');
@@ -218,6 +242,36 @@ function run(ctx) {
       if (!inFence) {
         const bare = unfencedTextEmails(segments[i]);
         if (bare.length) unfencedText.push(`${relPage} (${[...new Set(bare)].join(', ')})`);
+      }
+    }
+
+    const selfK = pageKey(distRoot, file, '/' + relPage.split(path.sep).join('/'));
+    if (html.includes('data-attr-carry="true"')) pagesWithCarry.add(selfK);
+    for (const tagMatch of html.matchAll(A_TAG_RE)) {
+      const hm = tagMatch[0].match(/\bhref=["']([^"']+)["']/i);
+      if (!hm) continue;
+      if (/\bdata-attr-qs=/i.test(tagMatch[0]) && /^\/(?!\/)/.test(hm[1])) {
+        const tk = pageKey(distRoot, file, hm[1]);
+        if (tk !== null && !carryTargets.has(tk)) carryTargets.set(tk, relPage);
+      }
+      const raw = decodeHref(hm[1]);
+      let pathPart = null;
+      let query = '';
+      if (/^\/(?!\/)/.test(raw)) {
+        const noHash = raw.split('#')[0];
+        pathPart = noHash.split('?')[0];
+        query = noHash.includes('?') ? noHash.slice(noHash.indexOf('?') + 1) : '';
+      } else if (siteHost && /^https?:\/\//i.test(raw)) {
+        try {
+          const u = new URL(raw);
+          if (u.hostname.toLowerCase().replace(/^www\./, '') === siteHost.replace(/^www\./, '')) { pathPart = u.pathname; query = u.search.replace(/^\?/, ''); }
+        } catch (_) { pathPart = null; }
+      }
+      if (pathPart === null) continue;
+      internalAnchorsExamined += 1;
+      if (query && !queryAllow.some((pre) => pathPart.startsWith(pre))) {
+        if (!queryHrefs.has(pathPart)) queryHrefs.set(pathPart, []);
+        queryHrefs.get(pathPart).push(`${relPage} -> ${hm[1]}`);
       }
     }
 
@@ -309,6 +363,27 @@ function run(ctx) {
     }
   }
 
+  if (queryHrefs.size) {
+    const ranked = [...queryHrefs.entries()].sort((a, b) => b[1].length - a[1].length);
+    problems.push(
+      `Internal links with a query string: ${ranked.reduce((n, [, v]) => n + v.length, 0)} link(s) to ${ranked.length} path(s). ` +
+      'Each query is a separate crawlable URL. Put attribution in data-attr-qs (scripts/build_city_sites.js moveInternalQueryToData), ' +
+      `or allow-list the path in ${QUERY_ALLOW_PATH} with the reason.\n` +
+      ranked.slice(0, 30).map(([p, v]) => `  ${p}  <- ${v.length} link(s), e.g. ${v[0]}`).join('\n')
+    );
+  }
+  const carryMissing = [...carryTargets.entries()].filter(([k]) => {
+    const f = k === '' ? path.join(distRoot, 'index.html') : (/\.[a-z0-9]{2,12}$/i.test(k) ? path.join(distRoot, k) : path.join(distRoot, k, 'index.html'));
+    return fs.existsSync(f) && !pagesWithCarry.has(k);
+  });
+  if (carryMissing.length) {
+    problems.push(
+      `Pages reached by data-attr-qs links that do not load /assets/attr-carry.js (their attribution would be lost): ${carryMissing.length}\n` +
+      carryMissing.slice(0, 20).map(([k, src]) => `  /${k}  <- e.g. ${src}`).join('\n')
+    );
+  }
+  if (internalAnchorsExamined === 0) problems.push('Examined zero internal <a href> links: the internal-query check checked nothing.');
+
   if (outboundExamined === 0) {
     problems.push('Examined zero outbound http(s) links: the dead-URL guard checked nothing.');
   }
@@ -320,7 +395,7 @@ function run(ctx) {
   console.log(
     `✅ LINK AUDIT PASS: ${files.length} page(s), ${internalLinksExamined} internal link(s) resolved, ` +
     `${mailtoAnchorsExamined} mailto anchor(s) fenced, ${outboundExamined} outbound link(s) checked against ${dead.length} dead URL(s), ` +
-    `${sitemapPagesExamined} sitemap page(s) each linked from another page.`
+    `${sitemapPagesExamined} sitemap page(s) each linked from another page, ${internalAnchorsExamined} internal <a href> query-free.`
   );
   return { files: files.length, internalLinksExamined, mailtoAnchorsExamined, outboundExamined, sitemapPagesExamined };
 }
