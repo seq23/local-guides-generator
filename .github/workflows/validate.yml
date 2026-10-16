@@ -28,6 +28,10 @@ jobs:
         # stop INDEXNOW_SITE_NOT_YET_VERIFIED (live key file exact). These
         # fixtures prove every other 403/status still fails.
         run: npm run test:indexnow-named-stop
+      - name: Free LLM router 403 pins
+        # A 403/404 for one $0 model falls through to the next; only 401, 402,
+        # a key-shaped message or a failed key check is a credential stop.
+        run: npm run test:llm-router
 
       - name: Warning tier
         # The tiering policy defines three tiers and the repo ships a runner for
