@@ -20,6 +20,12 @@
 // 4. No outbound href may match config/dead_outbound_urls.json, the checked-in
 //    list of external URLs confirmed dead and replaced at source. A dead link
 //    re-entering through a data refresh fails the pack build.
+// 5. Every page advertised in the sitemap must have at least one internal
+//    inbound link from another rendered page. Ahrefs (14 Oct 2026) found 50
+//    theaccidentguides /states/XX/next-steps/ pages and 36 uscisexam
+//    /{city}/next-steps/ pages reachable only through the sitemap: canonical,
+//    indexable, and linked from nowhere except by ?src=... tracked CTAs, which
+//    a crawler treats as other URLs. Only a query-free href counts as inbound.
 //
 // Why it exists
 // -------------
@@ -70,6 +76,37 @@ function deadMatch(dead, href) {
   try { host = new URL(decodeHref(href)).hostname.toLowerCase(); } catch (_) { return null; }
   const n = normUrl(href);
   return dead.find((d) => (d.match === 'host' ? d.host === host : d.norm === n)) || null;
+}
+
+// dist-relative page key for an internal href or sitemap path: "a/b/" form.
+function pageKey(distRoot, pageFile, href) {
+  const cleaned = decodeHref(href).split('#')[0].split('?')[0];
+  if (!cleaned) return null;
+  let rel = cleaned.startsWith('/')
+    ? cleaned.replace(/^\/+/, '')
+    : path.relative(distRoot, path.resolve(path.dirname(pageFile), cleaned)).split(path.sep).join('/');
+  if (rel.startsWith('..')) return null;
+  rel = rel.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '/');
+  if (rel && !rel.endsWith('/') && !/\.[a-z0-9]{2,12}$/i.test(rel)) rel += '/';
+  return rel;
+}
+
+function sitemapPaths(distRoot) {
+  const idx = path.join(distRoot, 'sitemap.xml');
+  if (!fs.existsSync(idx)) return null;
+  const seen = new Set();
+  const out = new Set();
+  (function read(file) {
+    if (seen.has(file) || !fs.existsSync(file)) return;
+    seen.add(file);
+    for (const m of fs.readFileSync(file, 'utf8').matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)) {
+      let u;
+      try { u = new URL(m[1]); } catch (_) { continue; }
+      if (/\.xml$/i.test(u.pathname)) read(path.join(distRoot, u.pathname.replace(/^\/+/, '')));
+      else out.add(u.pathname);
+    }
+  })(idx);
+  return [...out];
 }
 
 function unfencedTextEmails(segment) {
@@ -145,6 +182,7 @@ function run(ctx) {
   const deadHits = new Map(); // dead url -> [page, ...]
   const dead = loadDeadList(repoRoot);
   let outboundExamined = 0;
+  const inbound = new Map(); // pageKey -> count of links from OTHER pages
 
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');
@@ -154,6 +192,14 @@ function run(ctx) {
       const href = match[1];
       if (!href || NON_PATH_RE.test(href)) continue;
       internalLinksExamined += 1;
+      const k = pageKey(distRoot, file, href);
+      const selfKey = pageKey(distRoot, file, '/' + relPage.split(path.sep).join('/'));
+      // A link carrying a query string (?src=...&intent=... attribution) is a
+      // different URL to a crawler; the canonical page it canonicalizes to still
+      // has no inbound link. That is exactly how the 86 Ahrefs orphans arose:
+      // every link to them was a tracked CTA. Only a clean href counts.
+      const hasQuery = /\?./.test(decodeHref(href).split('#')[0]);
+      if (k !== null && k !== selfKey && !hasQuery) inbound.set(k, (inbound.get(k) || 0) + 1);
       if (!resolvesInDist(distRoot, file, href)) {
         const target = decodeHref(href).split('#')[0].split('?')[0];
         if (!brokenByTarget.has(target)) brokenByTarget.set(target, []);
@@ -242,6 +288,27 @@ function run(ctx) {
     );
   }
 
+  const smPaths = sitemapPaths(distRoot);
+  let sitemapPagesExamined = 0;
+  if (smPaths) {
+    if (!smPaths.length) problems.push('sitemap.xml lists zero page URLs: the orphan check examined nothing.');
+    const orphans = [];
+    for (const p of smPaths) {
+      const k = pageKey(distRoot, path.join(distRoot, 'index.html'), p);
+      if (k === null || k === '') continue; // the home page is the crawl root
+      sitemapPagesExamined += 1;
+      if (!inbound.get(k)) orphans.push(p);
+    }
+    if (orphans.length) {
+      problems.push(
+        `Orphan pages: ${orphans.length} sitemap URL(s) with no internal inbound link from any other page. ` +
+        'Link each from its parent page in the generator template.\n' +
+        orphans.slice(0, 40).map((o) => `  ${o}`).join('\n') +
+        (orphans.length > 40 ? `\n  ...and ${orphans.length - 40} more` : '')
+      );
+    }
+  }
+
   if (outboundExamined === 0) {
     problems.push('Examined zero outbound http(s) links: the dead-URL guard checked nothing.');
   }
@@ -252,9 +319,10 @@ function run(ctx) {
 
   console.log(
     `✅ LINK AUDIT PASS: ${files.length} page(s), ${internalLinksExamined} internal link(s) resolved, ` +
-    `${mailtoAnchorsExamined} mailto anchor(s) fenced, ${outboundExamined} outbound link(s) checked against ${dead.length} dead URL(s).`
+    `${mailtoAnchorsExamined} mailto anchor(s) fenced, ${outboundExamined} outbound link(s) checked against ${dead.length} dead URL(s), ` +
+    `${sitemapPagesExamined} sitemap page(s) each linked from another page.`
   );
-  return { files: files.length, internalLinksExamined, mailtoAnchorsExamined, outboundExamined };
+  return { files: files.length, internalLinksExamined, mailtoAnchorsExamined, outboundExamined, sitemapPagesExamined };
 }
 
 module.exports = { run };
