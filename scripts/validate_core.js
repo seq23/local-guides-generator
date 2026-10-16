@@ -58,6 +58,7 @@ const executableBitsContract = require('./validation/executable_bits_contract');
 const coveragePlanContract = require('./validation/coverage_plan_contract');
 const coverageRuntimeSupportContract = require('./validation/coverage_runtime_support_contract');
 const coverageRenderingContract = require('./validation/coverage_rendering_contract');
+const neuroServicesContract = require('./validation/neuro_services_contract');
 const fanoutWarning = require('./validation/fanout_warning');
 const fanoutDistributionContract = require('./validation/fanout_distribution_contract');
 const queryCompilerOverridesContract = require('./validation/query_compiler_overrides_contract');
@@ -252,6 +253,7 @@ function main() {
     providerCardContract.run({ site });
     uscisVerticalCongruenceContract.run({ site });
     coverageRenderingContract.run({ site });
+    neuroServicesContract.run({ site });
     fanoutWarning.run({ site });
     fanoutDistributionContract.run({ site });
   } else {

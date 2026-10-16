@@ -82,9 +82,17 @@ The request flow uses a strict, locked enum:
 
 - `Personal Injury Attorney`
 - `Dentist (Cosmetic, Implant, or General Care)`
-- `Neuro Evaluation Provider`
+- `Neuro Evaluation Provider` (the other sites' shared request page; still accepted)
+- `ADHD / autism evaluation or therapy provider` (neuroevalguides.com since 16 Oct 2026)
 - `Hormone / Wellness Clinic`
 - `USCIS Medical Exam Provider`
+
+On neuroevalguides.com the homepage callback and the request page ask first
+"Are you looking for an evaluation, therapy, or both?" (`service_needed`:
+`evaluation` | `therapy` | `both`). The endpoint requires it with the neuro
+label, stores it on the lead record, and puts it in the lead email subject.
+One definition: `scripts/lib/neuro_services.js`; the endpoint's copy is pinned
+to it by `tests/neuro/neuro_services.test.mjs`.
 
 If you change these strings, you must update:
 - the request page dropdown
