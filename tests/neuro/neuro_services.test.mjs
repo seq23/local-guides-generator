@@ -247,6 +247,27 @@ test('every neuro therapy dataset in the repo passes, and coverage meets the flo
   assert.ok(therapyOnly >= ns.THERAPY_MIN_METROS, `only ${therapyOnly} metros with a therapy-only practice`);
 });
 
+test('at least 25 neuro metros list an ADHD therapy practice, each with ADHD evidence', () => {
+  assert.ok(ns.THERAPY_ADHD_MIN_METROS >= 25);
+  const dir = path.join(ROOT, 'data', 'example_providers', 'neuro');
+  const adhdMetros = [];
+  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('__therapy.json'))) {
+    const list = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+    if (!ns.listServesAdhd(list)) continue;
+    adhdMetros.push(f);
+    for (const r of list.filter((x) => ns.THERAPY_ADHD_FOCUS.includes(x.therapy_focus))) {
+      assert.equal(r.offers_evaluation, false, `${f}: ${r.name} is listed as therapy-only`);
+      assert.match(r.evidence_note, /ADHD/i, `${f}: ${r.name} evidence note does not say what ADHD service the page shows`);
+    }
+  }
+  assert.ok(adhdMetros.length >= ns.THERAPY_ADHD_MIN_METROS, `only ${adhdMetros.length} metros with an ADHD therapy practice (floor ${ns.THERAPY_ADHD_MIN_METROS})`);
+});
+
+test('an autism-only therapy list does not count as ADHD coverage', () => {
+  assert.equal(ns.listServesAdhd([{ name: 'A', offers_evaluation: false, offers_therapy: true, therapy_focus: 'autism' }]), false);
+  assert.equal(ns.listServesAdhd([{ name: 'A', offers_evaluation: false, offers_therapy: true, therapy_focus: 'adhd_and_autism' }]), true);
+});
+
 test('a built neuro metro with therapy data renders at least one "Therapy" tag', () => {
   const dist = path.join(ROOT, 'dist');
   const dir = path.join(ROOT, 'data', 'example_providers', 'neuro');

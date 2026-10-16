@@ -65,7 +65,18 @@ const THERAPY_FOCUS = ['adhd', 'autism', 'adhd_and_autism'];
 const THERAPY_MAX = 3;
 // Metros with a therapy dataset on 16 Oct 2026. Coverage may grow, never
 // silently shrink: coverage_runtime_support_contract fails below this.
-const THERAPY_MIN_METROS = 50;
+const THERAPY_MIN_METROS = 52;
+// PR #75's 83 therapy records were all autism/ABA: someone seeking ADHD therapy
+// found none. On 16 Oct 2026 verified ADHD therapy practices (therapy-only, own
+// page naming the metro) were added to 27 metros. A metro counts when one
+// record's therapy_focus is adhd or adhd_and_autism; the floor never drops.
+const THERAPY_ADHD_FOCUS = ['adhd', 'adhd_and_autism'];
+const THERAPY_ADHD_MIN_METROS = 25;
+
+/** True when a therapy list serves ADHD therapy seekers. */
+function listServesAdhd(list) {
+  return Array.isArray(list) && list.some((r) => r && r.offers_therapy === true && THERAPY_ADHD_FOCUS.includes(r.therapy_focus));
+}
 // A therapy record carries provenance, never a judgement of the practice.
 const THERAPY_BANNED_KEYS = ['rating', 'ratings', 'rank', 'ranking', 'score', 'stars', 'reviews', 'review_count', 'best'];
 
@@ -246,6 +257,9 @@ module.exports = {
   THERAPY_FOCUS,
   THERAPY_MAX,
   THERAPY_MIN_METROS,
+  THERAPY_ADHD_FOCUS,
+  THERAPY_ADHD_MIN_METROS,
+  listServesAdhd,
   therapyRecordProblem,
   therapyListProblem,
   therapyFocusLabel,
