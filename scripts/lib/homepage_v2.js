@@ -73,9 +73,14 @@ const SITES = {
     providerNoun: 'clinic', providerPlural: 'clinics', findLabel: 'Find a clinic',
     advice: 'medical',
     nav: [['Costs', '/guides/hormone-therapy-cost-what-is-published/'], ['Labs', '/guides/trt-pricing-and-labs/'], ['Treatments', '/guides/testosterone-replacement-therapy-overview/']],
-    eyebrow: 'TRT · peptides · IV therapy · hair restoration',
-    h1: 'Hormone and wellness treatments, explained: what each one involves, what it costs, and the labs a clinic should run first.',
-    sub: 'Plain answers to the questions people ask before signing up with a TRT, IV, peptide or hair clinic, with the source behind each one.',
+    // Women seeking menopause / perimenopause HRT are named alongside TRT
+    // (owner, 16 Oct 2026). Copy only; the approved section order is unchanged.
+    eyebrow: 'TRT · menopause HRT · peptides · IV therapy · hair restoration',
+    h1: 'Hormone therapy for men and women, explained: TRT, menopause and perimenopause HRT, what each one costs, and the labs a clinic should run first.',
+    sub: 'Plain answers to the questions people ask before signing up with a TRT, menopause HRT, IV, peptide or hair clinic, with the source behind each one.',
+    providersLead: 'Examples, not rankings. Every state and city page lists clinics near you, with the same checklist, whether you are looking into TRT or menopause and perimenopause HRT.',
+    callbackHeading: 'Get a callback from a TRT or menopause HRT clinic in your area.',
+    callbackNote: ['Looking for menopause or perimenopause HRT? Choose “Menopause / women\'s HRT clinic” above. Before you book, read', '/guides/hormone-replacement-therapy-near-me/'],
     sources: 'U.S. Food and Drug Administration, Federation of State Medical Boards, Centers for Medicare & Medicaid Services',
     tiles: ['What tests are required before starting TRT?', 'How much does TRT usually cost per month?', 'Can TRT be done via telehealth?', 'Are peptide injections FDA-approved?', 'Are there risks or side effects with TRT?', 'Is TRT covered by insurance?'],
     glance: [
@@ -467,6 +472,7 @@ function render(ctx) {
         '<div class="hp-wrap">' +
           '<h2>' + esc(cfg.callbackHeading || ('Get a callback from ' + (/^[aeiou]/i.test(cfg.providerNoun) ? 'an ' : 'a ') + cfg.providerNoun + ' in your area.')) + '</h2>' +
           '<p class="hp-band-note">One short request. We pass it to a provider near you. We never ask for case details here.</p>' +
+          (cfg.callbackNote ? '<p class="hp-band-note" data-home-womens-hrt="true">' + esc(cfg.callbackNote[0]) + ' <a href="' + esc(check(cfg.callbackNote[1])) + '">' + esc(titleOf(cfg.callbackNote[1])) + '</a>.</p>' : '') +
           '<form id="home-callback-form" class="hp-form" method="post" action="/api/request-assistance" data-home-callback-form="true">' +
             (cfg.serviceChoice ? '<label data-neuro-service-field="true"><span>' + esc(SERVICE_QUESTION) + '</span>' + serviceSelectHtml() + '</label>' : '') +
             '<label><span>' + (cfg.serviceChoice ? 'Provider type' : 'What do you need?') + '</span><select name="provider_type" required>' + options + '</select></label>' +

@@ -45,6 +45,10 @@ const ALLOWED_PROVIDER_TYPES = new Set([
   'Neuro Evaluation Provider',
   'ADHD / autism evaluation or therapy provider',
   'Hormone / Wellness Clinic',
+  // hormonesivhair.com welcomes women seeking menopause / perimenopause HRT (owner,
+  // 16 Oct 2026). Mirrors WOMENS_HRT_PROVIDER_TYPE in scripts/lib/trt_affiliates.js;
+  // tests/trt/trt_affiliates.test.mjs fails if the two differ.
+  "Menopause / women's HRT clinic",
   'USCIS Medical Exam Provider'
 ]);
 

@@ -85,6 +85,8 @@ The request flow uses a strict, locked enum:
 - `Neuro Evaluation Provider` (the other sites' shared request page; still accepted)
 - `ADHD / autism evaluation or therapy provider` (neuroevalguides.com since 16 Oct 2026)
 - `Hormone / Wellness Clinic`
+- `Menopause / women's HRT clinic` (hormonesivhair.com since 16 Oct 2026; one definition in
+  `scripts/lib/trt_affiliates.js`, the endpoint's copy pinned by `tests/trt/trt_affiliates.test.mjs`)
 - `USCIS Medical Exam Provider`
 
 On neuroevalguides.com the homepage callback and the request page ask first
