@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-15..2026-10-12",
-  "gsc_collected_at": "2026-10-15T13:43:23+00:00",
+  "gsc_window": "2026-09-16..2026-10-13",
+  "gsc_collected_at": "2026-10-16T13:41:49+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,8 +17,8 @@
     {
       "rank": 1,
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
-      "impressions": 4,
-      "status": "strengthened"
+      "impressions": 3,
+      "status": "below_impression_floor"
     },
     {
       "rank": 2,
@@ -47,37 +47,33 @@
       "page": "/guides/hospital-vs-private-neuropsych-testing/",
       "page_kind": "guide",
       "page_intent": "comparison",
-      "impressions": 4,
-      "best_position": 18.2,
-      "weighted_position": 18.2,
+      "impressions": 3,
+      "best_position": 21.7,
+      "weighted_position": 21.7,
       "top_query": "hospital vs private neuropsych testing",
       "query_count": 1,
       "queries": [
         {
           "query": "hospital vs private neuropsych testing",
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "impressions": 4,
-          "position": 18.2
+          "impressions": 3,
+          "position": 21.7
         }
       ],
       "pages": [
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "family_impressions": 4,
-          "page_impressions": 5,
-          "page_position": 15
+          "family_impressions": 3,
+          "page_impressions": 3,
+          "page_position": 21.7
         }
       ],
       "rank": 1,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [
-        "/guides/hospital-vs-private-neuropsych-testing/"
-      ],
-      "status": "strengthened",
-      "reason": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json search_strengthening"
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "3 impressions < 5"
     },
     {
       "family": "choose a provider @ /states/{STATE}/",

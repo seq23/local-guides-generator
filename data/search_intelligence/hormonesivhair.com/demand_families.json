@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-15..2026-10-12",
-  "gsc_collected_at": "2026-10-15T13:43:23+00:00",
+  "gsc_window": "2026-09-16..2026-10-13",
+  "gsc_collected_at": "2026-10-16T13:41:49+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 10,
+      "impressions": 9,
       "status": "no_page"
     },
     {
@@ -29,7 +29,7 @@
     {
       "rank": 3,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 2,
+      "impressions": 4,
       "status": "below_impression_floor"
     },
     {
@@ -53,9 +53,9 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 10,
-      "best_position": 76,
-      "weighted_position": 88,
+      "impressions": 9,
+      "best_position": 77,
+      "weighted_position": 89.4,
       "top_query": "hrt solutions in montana",
       "query_count": 3,
       "queries": [
@@ -68,8 +68,8 @@
         {
           "query": "hormone replacement posted vermont",
           "route": "/states/VT/",
-          "impressions": 2,
-          "position": 76
+          "impressions": 1,
+          "position": 77
         },
         {
           "query": "hrt solutions in wyoming",
@@ -87,9 +87,9 @@
         },
         {
           "route": "/states/VT/",
-          "family_impressions": 2,
-          "page_impressions": 3,
-          "page_position": 53
+          "family_impressions": 1,
+          "page_impressions": 2,
+          "page_position": 42
         },
         {
           "route": "/states/WY/",
@@ -154,25 +154,31 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 2,
-      "best_position": 88,
-      "weighted_position": 88,
-      "top_query": "suitable candidate for trt",
-      "query_count": 1,
+      "impressions": 4,
+      "best_position": 89,
+      "weighted_position": 89.5,
+      "top_query": "am i a candidate for trt",
+      "query_count": 2,
       "queries": [
+        {
+          "query": "am i a candidate for trt",
+          "route": "/guides/who-is-a-good-candidate-for-trt/",
+          "impressions": 3,
+          "position": 89.7
+        },
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 2,
-          "position": 88
+          "impressions": 1,
+          "position": 89
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 2,
-          "page_impressions": 2,
-          "page_position": 88
+          "family_impressions": 4,
+          "page_impressions": 4,
+          "page_position": 89.5
         }
       ],
       "rank": 3,
@@ -180,7 +186,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "2 impressions < 5"
+      "reason": "4 impressions < 5"
     },
     {
       "family": "choose a provider @ /guides/trt-red-flags/",
