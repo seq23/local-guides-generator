@@ -17,6 +17,7 @@ function fixture(body, deadList = REAL_DEAD_LIST) {
   fs.mkdirSync(path.join(root, 'dist', 'about'), { recursive: true });
   fs.mkdirSync(path.join(root, 'config'), { recursive: true });
   fs.writeFileSync(path.join(root, 'config', 'dead_outbound_urls.json'), JSON.stringify(deadList));
+  fs.writeFileSync(path.join(root, 'config', 'internal_query_allowlist.json'), JSON.stringify({ prefixes: [] }));
   fs.writeFileSync(path.join(root, 'dist', 'about', 'index.html'), '<p>about</p>');
   fs.writeFileSync(
     path.join(root, 'dist', 'index.html'),
@@ -76,7 +77,7 @@ test('a sitemap page linked only by a ?query tracked CTA is an orphan', () => {
 });
 
 test('a sitemap page with a clean inbound link passes the orphan check', () => {
-  const r = run(sitemapFixture('<a href="/x-ca/next-steps/?src=a">Next</a> <a href="/x-ca/next-steps/">Next steps</a>'));
+  const r = run(sitemapFixture('<a href="/x-ca/next-steps/">Next steps</a>'));
   assert.equal(r.sitemapPagesExamined, 3);
 });
 
@@ -84,4 +85,54 @@ test('a self-link does not rescue an orphan', () => {
   const ctx = sitemapFixture('<a href="/x-ca/next-steps/?src=a">Next</a>');
   fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'x-ca', 'next-steps', 'index.html'), '<a href="/x-ca/next-steps/">self</a><a href="/x-ca/">back</a>');
   assert.throws(() => run(ctx), /Orphan pages/);
+});
+
+test('an internal link carrying a query string fails, relative or absolute on the site host', () => {
+  assert.throws(() => run(sitemapFixture('<a href="/x-ca/next-steps/">Next</a> <a href="/faq/?intent=self_serve&amp;market=x">FAQ</a>')), /Internal links with a query string: 1 [\s\S]*\/faq\//);
+  assert.throws(() => run(sitemapFixture('<a href="/x-ca/next-steps/">Next</a> <a href="https://e.com/about/?src=x">About</a>')), /Internal links with a query string/);
+});
+
+test('attribution in data-attr-qs passes when the destination loads attr-carry, fails when it does not', () => {
+  const ctx = sitemapFixture('<a href="/x-ca/next-steps/" data-attr-qs="src=%2Fx-ca%2F&amp;intent=decision_hub">Next</a>');
+  assert.throws(() => run(ctx), /do not load \/assets\/attr-carry\.js[\s\S]*\/x-ca\/next-steps\//);
+  fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'x-ca', 'next-steps', 'index.html'), '<head><script src="/assets/attr-carry.js" data-attr-carry="true"></script></head><a href="/x-ca/">back</a>');
+  fs.mkdirSync(path.join(ctx.repoRoot, 'dist', 'assets'), { recursive: true });
+  fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'assets', 'attr-carry.js'), '');
+  run(ctx);
+});
+
+test('an allow-listed path may carry a query', () => {
+  const ctx = sitemapFixture('<a href="/x-ca/next-steps/">Next</a> <a href="/search/?q=x">Search</a>');
+  fs.writeFileSync(path.join(ctx.repoRoot, 'config', 'internal_query_allowlist.json'), JSON.stringify({ prefixes: ['/search/'] }));
+  fs.mkdirSync(path.join(ctx.repoRoot, 'dist', 'search'), { recursive: true });
+  fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'search', 'index.html'), 'x');
+  run(ctx);
+});
+
+test('attr-carry.js restores the clicked link attribution on the destination page only', () => {
+  const src = fs.readFileSync(new URL('../../assets/attr-carry.js', import.meta.url), 'utf8');
+  const store = new Map();
+  function page(pathname, search) {
+    const listeners = [];
+    const loc = { pathname, search, hash: '' };
+    const win = {
+      location: loc,
+      history: { state: null, replaceState: (_s, _t, url) => { const u = new URL(url, 'https://e.com'); loc.search = u.search; } }
+    };
+    const doc = { addEventListener: (_t, fn) => listeners.push(fn) };
+    const ss = { getItem: (k) => (store.has(k) ? store.get(k) : null), setItem: (k, v) => store.set(k, String(v)), removeItem: (k) => store.delete(k) };
+    new Function('window', 'document', 'sessionStorage', src)(win, doc, ss);
+    return { loc, click: (a) => listeners.forEach((fn) => fn({ target: { closest: () => a } })) };
+  }
+  const city = page('/x-ca/', '');
+  city.click({ pathname: '/request-assistance/', getAttribute: () => 'pt=Dentist&src=%2Fx-ca%2F&intent=direct_match' });
+  const other = page('/faq/', '');
+  assert.equal(other.loc.search, '', 'a different page must not receive the attribution');
+  const dest = page('/request-assistance/', '');
+  assert.equal(dest.loc.search, '?pt=Dentist&src=%2Fx-ca%2F&intent=direct_match');
+  const again = page('/request-assistance/', '');
+  assert.equal(again.loc.search, '', 'attribution is used once');
+  city.click({ pathname: '/request-assistance/', getAttribute: () => 'src=a' });
+  const campaign = page('/request-assistance/', '?utm_source=x');
+  assert.equal(campaign.loc.search, '?utm_source=x', 'an existing query (external campaign link) is never overwritten');
 });

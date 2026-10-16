@@ -103,7 +103,10 @@ function run() {
     if (!html.includes('data-example-providers="true"') && !html.includes('data-provider-directory="true"')) fail(`missing example providers block for ${key}`);
     if (!html.includes('data-state-lookup="true"')) fail(`missing state lookup block for ${key}`);
     if (!html.includes('data-faq="true"')) fail(`missing FAQ block for ${key}`);
-    if (!html.includes('/request-assistance/?pt=')) fail(`missing request-assistance CTA for ${key}`);
+    // The CTA href is the clean canonical path; its attribution (pt=, src=...)
+    // rides in data-attr-qs and is restored by /assets/attr-carry.js.
+    if (!/<a\b[^>]*href="\/request-assistance\/"[^>]*data-attr-qs="[^"]*\bpt=[^"&]/.test(html)) fail(`missing request-assistance CTA (clean href + data-attr-qs with pt=) for ${key}`);
+    if (!html.includes('data-attr-carry="true"')) fail(`page does not load /assets/attr-carry.js for ${key}: attribution would be lost`);
 
     const allSections = Array.from(String(html).matchAll(/<section[^>]*(?:data-example-providers="true"|data-provider-directory="true")[^>]*>[\s\S]*?<\/section>/gi)).map((m) => m[0]);
     if (!allSections.length) fail(`unable to extract example providers sections for ${key}`);
