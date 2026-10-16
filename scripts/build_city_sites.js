@@ -3031,6 +3031,7 @@ function normalizeExampleProviderList(raw) {
       attributes: Array.isArray(x.attributes) ? x.attributes.map((v) => String(v || '').trim()).filter(Boolean).slice(0, 4) : [],
       offers_evaluation: x.offers_evaluation === true,
       offers_therapy: x.offers_therapy === true,
+      therapy_focus: String(x.therapy_focus || '').trim(),
       offers_peptide_programs: x.offers_peptide_programs === true,
       peptide_program_notes: String(x.peptide_program_notes || '').trim(),
       peptide_program_source: String(x.peptide_program_source || 'unknown').trim() || 'unknown'
@@ -3043,7 +3044,9 @@ function normalizeExampleProviderList(raw) {
 function getExampleProviderSubKeys(verticalKey) {
   const vk = String(verticalKey || '').toLowerCase();
   if (vk === 'trt') return ['trt', 'iv_hydration', 'hair_restoration'];
-  if (vk === 'neuro') return ['adhd_eval', 'autism_eval'];
+  // Neuro: the two evaluation lists, then the optional therapy-practice list
+  // (scripts/lib/neuro_services.js).
+  if (vk === 'neuro') return ['adhd_eval', 'autism_eval', neuroServices.THERAPY_SUBKEY];
   // USCIS pack key varies; keep single-file by default unless extended.
   return [];
 }
@@ -3547,6 +3550,10 @@ function inferProviderCategory(verticalKey, subKey, provider) {
   const sk = String(subKey || '').toLowerCase();
   if (vk === 'pi') return 'Personal injury law firm';
   if (vk === 'dentistry') return 'Dental provider';
+  if (vk === 'neuro' && sk === neuroServices.THERAPY_SUBKEY) {
+    const label = neuroServices.therapyFocusLabel(provider && provider.therapy_focus);
+    return label.charAt(0).toUpperCase() + label.slice(1) + ' therapy practice';
+  }
   if (vk === 'neuro') return sk === 'autism_eval' ? 'Autism provider' : 'ADHD provider';
   if (vk === 'trt') return sk === 'iv_hydration' ? 'IV hydration clinic' : (sk === 'hair_restoration' ? 'Hair restoration provider' : 'Hormone optimization clinic');
   if (vk === 'uscis_medical' || vk === 'uscis') return 'Civil surgeon / immigration medical exam provider';
@@ -3565,7 +3572,7 @@ function defaultProviderAttributes(verticalKey, subKey, provider, city) {
     attrs.push('Compare treatment scope, written plan clarity, and follow-up expectations');
     attrs.push('Verify dental licensing through the official state resource');
   } else if (vk === 'neuro') {
-    const area = sk === 'autism_eval' ? 'autism' : 'ADHD';
+    const area = sk === neuroServices.THERAPY_SUBKEY ? neuroServices.therapyFocusLabel(provider && provider.therapy_focus) : (sk === 'autism_eval' ? 'autism' : 'ADHD');
     const ev = !!(provider && provider.offers_evaluation === true);
     const th = !!(provider && provider.offers_therapy === true);
     if (ev) attrs.push(sk === 'autism_eval' ? 'Use this when you are comparing autism evaluation options' : 'Use this when you are comparing ADHD / neuro evaluation options');
@@ -3606,7 +3613,7 @@ function renderStructuredProviderCardsSectionHtml(opts) {
   const verifyUrl = normalizeUrl((opts && opts.verifyUrl) || '');
   if (!cards.length) return '';
   return (
-    '<section class="section provider-directory-section' + (preview ? ' provider-directory-section--preview' : '') + '" data-provider-directory="true"' + (preview ? ' data-home-provider-preview="true"' : '') + '>' +
+    '<section class="section provider-directory-section' + (preview ? ' provider-directory-section--preview' : '') + '" data-provider-directory="true"' + (preview ? ' data-home-provider-preview="true"' : '') + String((opts && opts.sectionAttrs) || '') + '>' +
       '<h2>' + heading + '</h2>' +
       (lead ? ('<p class="muted">' + lead + '</p>') : '') +
       '<div class="provider-directory-grid">' +
@@ -3757,7 +3764,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
   const heading = (opts && opts.heading) ? String(opts.heading) : ('Directory Listings (Examples of providers in ' + marketRaw + ')');
   const lead = (opts && opts.lead) ? String(opts.lead) : 'These are non-ranked, non-sponsored examples of providers that help show what exists locally. Use the guide layer and official verification resources before you contact anyone.';
   const cards = providers.map((provider) => normalizeProviderCard(verticalKey, opts && opts.subKey || '', provider, city, verifyUrl));
-  return renderStructuredProviderCardsSectionHtml({ heading, lead, cards, verifyUrl });
+  return renderStructuredProviderCardsSectionHtml({ heading, lead, cards, verifyUrl, sectionAttrs: (opts && opts.sectionAttrs) || '' });
 }
 
 
@@ -4006,6 +4013,11 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
           lead = 'Below are non-exhaustive examples of nearby providers that offer this service. Some listed clinics may also offer peptide programs. Confirm services, supervision, pricing, and follow-up directly with the clinic. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.';
         }
 
+        if (v === 'neuro' && s === neuroServices.THERAPY_SUBKEY) {
+          const copy = neuroServices.therapySectionCopy(market);
+          return { heading: copy.heading, lead: copy.lead };
+        }
+
         if (v === 'neuro') {
           if (s === 'adhd_eval') heading = 'Examples of ADHD evaluation providers in ' + market;
           else if (s === 'autism_eval') heading = 'Examples of autism evaluation providers in ' + market;
@@ -4023,6 +4035,11 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
       // Render in the deterministic order returned by loadExampleProviderLists
       const blocks = lists.map((entry) => {
         const hl = getSubHeadingAndLead(verticalKey, entry.subKey);
+        // The therapy list keeps its sub key (category and attributes name the
+        // therapy) and its anchor, which the hero's therapy link targets.
+        if (String(verticalKey || '').toLowerCase() === 'neuro' && entry.subKey === neuroServices.THERAPY_SUBKEY) {
+          return renderExampleProvidersSectionHtml(verticalKey, city, entry.providers, { heading: hl.heading, lead: hl.lead, subKey: entry.subKey, sectionAttrs: ' id="' + neuroServices.THERAPY_SECTION_ID + '" data-neuro-therapy-practices="true"' });
+        }
         return renderExampleProvidersSectionHtml(verticalKey, city, entry.providers, { heading: hl.heading, lead: hl.lead });
       }).join('\n');
 
@@ -4184,6 +4201,9 @@ function stripForbiddenInlineBlocks(html) {
     out = out.replace(/<main[^>]*>/i, function(m){ return m + renderTrainingBannerHtml('Sandbox only. Not a production page.'); });
   }
   out = reorderMainSections(out, route === '' ? 'city' : '');
+  if (route === '' && String(verticalKey || '').toLowerCase() === 'neuro' && out.includes('data-neuro-therapy-practices="true"')) {
+    out = neuroServices.addTherapyJumpToHero(out, String(city.marketLabel || city.city || city.slug || 'this area'));
+  }
   if (!out.includes('<footer') || !out.includes('Advertising disclosure.') || !out.includes('No guarantees or endorsements.')) {
     // Inject footerHtml immediately before </body> if missing.
     out = out.replace(/<\/body>/i, "\n" + footerHtml + "\n</body>");

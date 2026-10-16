@@ -50,6 +50,116 @@ function recordProblem(provider) {
   return '';
 }
 
+/*
+ * Therapy practices (owner, 16 Oct 2026: therapy practices are the listing
+ * buyers). The evaluation datasets (<city>__adhd_eval.json,
+ * <city>__autism_eval.json) hold exactly three evaluators each; a metro may
+ * also carry <city>__therapy.json, one to three practices that offer ADHD or
+ * autism THERAPY, each with the public page that shows it serves that metro.
+ * The city page renders them in their own "Therapy practices" block
+ * (id="therapy-practices"), which the hero links to.
+ */
+const THERAPY_SUBKEY = 'therapy';
+const THERAPY_SECTION_ID = 'therapy-practices';
+const THERAPY_FOCUS = ['adhd', 'autism', 'adhd_and_autism'];
+const THERAPY_MAX = 3;
+// Metros with a therapy dataset on 16 Oct 2026. Coverage may grow, never
+// silently shrink: coverage_runtime_support_contract fails below this.
+const THERAPY_MIN_METROS = 50;
+// A therapy record carries provenance, never a judgement of the practice.
+const THERAPY_BANNED_KEYS = ['rating', 'ratings', 'rank', 'ranking', 'score', 'stars', 'reviews', 'review_count', 'best'];
+
+function evidenceUrlProblem(u) {
+  if (typeof u !== 'string' || !u.trim()) return 'has no evidence_url';
+  let parsed;
+  try { parsed = new URL(u); } catch (_) { return 'evidence_url is not a URL: ' + u; }
+  if (parsed.protocol !== 'https:') return 'evidence_url is not https: ' + u;
+  if (!/\.[a-z]{2,}$/i.test(parsed.hostname)) return 'evidence_url has no public host: ' + u;
+  return '';
+}
+
+/** Why a therapy-dataset record is not well formed, or '' when it is. */
+function therapyRecordProblem(rec) {
+  const base = recordProblem(rec);
+  if (base) return base;
+  if (!String(rec.name || '').trim()) return 'has no name';
+  if (rec.offers_therapy !== true) return 'is in a therapy dataset but offers_therapy is not true';
+  if (!THERAPY_FOCUS.includes(rec.therapy_focus)) return 'therapy_focus must be one of ' + THERAPY_FOCUS.join(', ');
+  const ev = evidenceUrlProblem(rec.evidence_url);
+  if (ev) return ev;
+  if (typeof rec.evidence_note !== 'string' || rec.evidence_note.trim().length < 20) return 'has no evidence_note saying what the evidence page shows';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(rec.evidence_checked || ''))) return 'evidence_checked is not a YYYY-MM-DD date';
+  for (const k of THERAPY_BANNED_KEYS) if (Object.prototype.hasOwnProperty.call(rec, k)) return 'carries a "' + k + '" field (no ratings or rankings)';
+  return '';
+}
+
+/** Why a <city>__therapy.json list is not well formed, or '' when it is. */
+function therapyListProblem(list) {
+  if (!Array.isArray(list)) return 'is not an array';
+  if (list.length < 1 || list.length > THERAPY_MAX) return 'must hold 1 to ' + THERAPY_MAX + ' practices, has ' + list.length;
+  const names = [];
+  for (let i = 0; i < list.length; i++) {
+    const p = therapyRecordProblem(list[i]);
+    if (p) return 'record ' + (i + 1) + ' (' + String((list[i] && list[i].name) || '?') + ') ' + p;
+    names.push(String(list[i].name).trim());
+  }
+  if (new Set(names.map((n) => n.toLowerCase())).size !== names.length) return 'has duplicate practice names';
+  const sorted = [...names].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+  if (!sorted.every((x, i) => x === names[i])) return 'is not alphabetized by name';
+  return '';
+}
+
+function therapyFocusLabel(focus) {
+  if (focus === 'adhd') return 'ADHD';
+  if (focus === 'adhd_and_autism') return 'ADHD and autism';
+  return 'autism';
+}
+
+function therapySectionCopy(market) {
+  return {
+    heading: 'Therapy practices in ' + market,
+    lead: 'Practices offering ADHD or autism therapy for people who already have a diagnosis or are working toward one. Each card says whether the practice offers evaluation, therapy, or both. Confirm age range, insurance, wait times, and therapy goals directly with the practice. This list is non-exhaustive and is not a recommendation, ranking, or endorsement.'
+  };
+}
+
+/**
+ * Adds the "looking for therapy?" link to the city page hero, so the
+ * "Find ADHD or autism therapy" path lands on the therapy block, not on the
+ * evaluator lists above it. Throws when the page has no hero to carry it.
+ */
+function addTherapyJumpToHero(html, market) {
+  const out = String(html || '');
+  const re = /(<section class="hero"[\s\S]*?)(<\/section>)/;
+  if (!re.test(out)) throw new Error('neuro_services: city page has no hero section for the therapy link');
+  const link = '<p class="hero-therapy-jump" data-neuro-therapy-jump="true"><a href="#' + THERAPY_SECTION_ID + '">Looking for ADHD or autism therapy? See therapy practices in ' + esc(market) + '</a></p>';
+  return out.replace(re, (m0, body, close) => body + link + close);
+}
+
+/**
+ * Problems with a built neuro city page that has a therapy dataset: the hero
+ * link, the therapy block, and every practice's card with its service tag
+ * inside that block. At least one card tagged "Therapy" when a record is
+ * therapy-only.
+ */
+function cityTherapyProblems(html, records) {
+  const doc = String(html || '');
+  const problems = [];
+  if (!new RegExp('data-neuro-therapy-jump="true"><a href="#' + THERAPY_SECTION_ID + '"').test(doc)) problems.push('hero has no link to #' + THERAPY_SECTION_ID);
+  const sec = (doc.match(new RegExp('<section[^>]*id="' + THERAPY_SECTION_ID + '"[^>]*>[\\s\\S]*?</section>')) || [])[0];
+  if (!sec) return problems.concat(['no therapy practices block (id="' + THERAPY_SECTION_ID + '")']);
+  if (!/data-neuro-therapy-practices="true"/.test(sec)) problems.push('therapy block has no data-neuro-therapy-practices marker');
+  const cards = (sec.match(/<article[^>]*data-provider-card="true"[^>]*>[\s\S]*?<\/article>/gi) || []).map((c) => ({
+    name: ((c.match(/provider-card__name">([^<]*)<\/h3>/) || [])[1] || '').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&'),
+    tag: (c.match(/data-provider-service-tag="([^"]*)"/) || [])[1] || ''
+  }));
+  for (const r of records || []) {
+    const want = serviceTag(r);
+    if (!cards.some((c) => c.name === r.name && c.tag === want)) problems.push('therapy block has no card for ' + r.name + ' tagged "' + want + '"');
+  }
+  if ((records || []).some((r) => serviceTag(r) === TAG_THERAPY) && !cards.some((c) => c.tag === TAG_THERAPY)) problems.push('therapy block shows no card tagged "' + TAG_THERAPY + '"');
+  return problems;
+}
+
 function esc(s) {
   return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -130,5 +240,16 @@ module.exports = {
   recordProblem,
   serviceTagHtml,
   serviceSelectHtml,
-  applyToRequestAssistanceHtml
+  applyToRequestAssistanceHtml,
+  THERAPY_SUBKEY,
+  THERAPY_SECTION_ID,
+  THERAPY_FOCUS,
+  THERAPY_MAX,
+  THERAPY_MIN_METROS,
+  therapyRecordProblem,
+  therapyListProblem,
+  therapyFocusLabel,
+  therapySectionCopy,
+  addTherapyJumpToHero,
+  cityTherapyProblems
 };

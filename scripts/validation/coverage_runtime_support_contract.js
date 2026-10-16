@@ -56,6 +56,7 @@ const promoted = parseCsv(fs.readFileSync(PROMOTED_PATH, 'utf8'));
 if (!rows.length) fail('coverage_runtime_support.csv has no rows');
 const promotedKeys = new Set(promoted.filter(r=>String(r.publish_enabled).toLowerCase()==='true').map(r => `${r.vertical}::${r.city_slug}`));
 const seen = new Set();
+const therapyMetros = new Set();
 for (const row of rows) {
   const key = `${row.vertical}::${row.city_slug}`;
   if (seen.has(key)) fail(`duplicate row: ${key}`);
@@ -78,6 +79,16 @@ for (const row of rows) {
       const data = loadJson(file, key);
       if (!hasSortedThree(data, row.vertical)) fail(`grouped provider dataset must contain exactly 3 alphabetized unique provider objects for ${key} (${subKey})${String(row.vertical).toLowerCase()==='neuro' ? ' with boolean offers_evaluation and offers_therapy flags, at least one true' : (String(row.vertical).toLowerCase()==='trt' ? ' with peptide-program fields' : '')}`);
     }
+    // Neuro therapy practices: optional per metro, but every one present must
+    // carry a public evidence URL, a note on what it shows, and its booleans.
+    if (String(row.vertical).toLowerCase() === 'neuro') {
+      const therapyFile = path.join(baseDir, `${row.city_slug}__${neuroServices.THERAPY_SUBKEY}.json`);
+      if (fs.existsSync(therapyFile)) {
+        const problem = neuroServices.therapyListProblem(loadJson(therapyFile, key));
+        if (problem) fail(`neuro therapy dataset for ${key} ${problem} (${path.relative(REPO_ROOT, therapyFile)})`);
+        therapyMetros.add(row.city_slug);
+      }
+    }
   } else {
     const providerPath = path.join(REPO_ROOT, row.provider_dataset_path);
     if (!fs.existsSync(providerPath)) fail(`missing provider dataset for ${key}: ${row.provider_dataset_path}`);
@@ -89,4 +100,17 @@ for (const row of rows) {
 for (const key of promotedKeys) {
   if (!seen.has(key)) fail(`promoted city missing runtime support row: ${key}`);
 }
-console.log(`COVERAGE RUNTIME SUPPORT CONTRACT PASS (${rows.length} rows)`);
+// Neuro therapy coverage: no therapy file for a metro that is not promoted
+// (it would never render), and coverage never silently drops below the floor.
+const neuroDir = path.join(REPO_ROOT, 'data', 'example_providers', 'neuro');
+if (fs.existsSync(neuroDir)) {
+  const suffix = `__${neuroServices.THERAPY_SUBKEY}.json`;
+  const therapyFiles = fs.readdirSync(neuroDir).filter((f) => f.endsWith(suffix));
+  for (const f of therapyFiles) {
+    const slug = f.slice(0, -suffix.length);
+    if (!therapyMetros.has(slug)) fail(`neuro therapy dataset for a metro with no promoted runtime row: data/example_providers/neuro/${f}`);
+  }
+  if (therapyFiles.length && therapyMetros.size < neuroServices.THERAPY_MIN_METROS) fail(`neuro therapy coverage fell to ${therapyMetros.size} metros (floor ${neuroServices.THERAPY_MIN_METROS}, scripts/lib/neuro_services.js)`);
+  if (!therapyFiles.length && rows.some((r) => String(r.vertical).toLowerCase() === 'neuro')) fail('no neuro therapy datasets (data/example_providers/neuro/*__therapy.json): the therapy path would land on evaluator lists only');
+}
+console.log(`COVERAGE RUNTIME SUPPORT CONTRACT PASS (${rows.length} rows; ${therapyMetros.size} neuro metros with therapy practices)`);

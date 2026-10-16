@@ -91,6 +91,7 @@ function run() {
   const home = fs.readFileSync(HOME_PATH, 'utf8');
 
   let checked = 0;
+  let therapyChecked = 0;
   for (const row of promoted) {
     const key = `${row.vertical}::${row.city_slug}`;
     const runtime = runtimeMap.get(key);
@@ -141,6 +142,16 @@ function run() {
           if (String(row.vertical).toLowerCase() === 'trt' && provider && provider.offers_peptide_programs === true) peptideTrueCount += 1;
         }
       }
+      if (isNeuro) {
+        const therapyFile = path.join(REPO_ROOT, 'data', 'example_providers', 'neuro', `${row.city_slug}__${neuroServices.THERAPY_SUBKEY}.json`);
+        if (fs.existsSync(therapyFile)) {
+          let therapy;
+          try { therapy = JSON.parse(fs.readFileSync(therapyFile, 'utf8')); } catch { fail(`invalid neuro therapy dataset: ${path.relative(REPO_ROOT, therapyFile)}`); }
+          const problems = neuroServices.cityTherapyProblems(html, therapy);
+          if (problems.length) fail(`neuro city page ${key} therapy practices: ${problems.join('; ')}`);
+          therapyChecked += 1;
+        }
+      }
       if (isNeuro && /Offers therapy follow-up/.test(html)) fail(`neuro city page ${key} still renders the retired "Offers therapy follow-up" badge`);
       if (String(row.vertical).toLowerCase() === 'trt' && peptideTrueCount > 0) {
         const markerCount = (html.match(/peptide/gi) || []).length;
@@ -163,7 +174,7 @@ function run() {
 
     checked += 1;
   }
-  console.log(`COVERAGE RENDERING CONTRACT PASS (${checked} promoted cities)`);
+  console.log(`COVERAGE RENDERING CONTRACT PASS (${checked} promoted cities${therapyChecked ? `; ${therapyChecked} with therapy practices` : ''})`);
 }
 
 if (require.main === module) run();

@@ -206,3 +206,66 @@ test('the endpoint refuses a neuro lead without the choice, or with a made-up on
   assert.equal(legacy.status, 200, 'the old label from other sites stays accepted');
   assert.ok(!('service_needed' in legacy.calls.find((c) => c.url.includes('airtable')).body.records[0].fields), 'no empty column sent when nothing was asked');
 });
+
+// ── Therapy practices (16 Oct 2026): therapy-only practices per metro ────────
+const goodTherapy = () => ({
+  name: 'Example ABA', offers_evaluation: false, offers_therapy: true, therapy_focus: 'autism',
+  evidence_url: 'https://example.org/locations/city', evidence_note: 'ABA therapy; no diagnostic evaluations listed.', evidence_checked: '2026-10-16'
+});
+
+test('a therapy record without an evidence URL is rejected', () => {
+  assert.equal(ns.therapyRecordProblem(goodTherapy()), '');
+  for (const bad of [undefined, '', '   ', 'example.org/x', 'http://example.org/x', 'https://localhost/x', 'not a url']) {
+    const r = goodTherapy();
+    if (bad === undefined) delete r.evidence_url; else r.evidence_url = bad;
+    assert.notEqual(ns.therapyRecordProblem(r), '', `evidence_url ${JSON.stringify(bad)} was accepted`);
+  }
+  assert.match(ns.therapyListProblem([{ ...goodTherapy(), evidence_url: '' }]), /evidence_url/);
+});
+
+test('a therapy record must offer therapy, carry provenance, and no ratings', () => {
+  assert.match(ns.therapyRecordProblem({ ...goodTherapy(), offers_therapy: false, offers_evaluation: true }), /offers_therapy/);
+  assert.match(ns.therapyRecordProblem({ ...goodTherapy(), therapy_focus: 'speech' }), /therapy_focus/);
+  assert.match(ns.therapyRecordProblem({ ...goodTherapy(), evidence_note: '' }), /evidence_note/);
+  assert.match(ns.therapyRecordProblem({ ...goodTherapy(), evidence_checked: 'today' }), /evidence_checked/);
+  assert.match(ns.therapyRecordProblem({ ...goodTherapy(), rating: 4.9 }), /rating/);
+  assert.match(ns.therapyListProblem([]), /1 to 3/);
+  assert.match(ns.therapyListProblem([goodTherapy(), goodTherapy()]), /duplicate/);
+  assert.match(ns.therapyListProblem([{ ...goodTherapy(), name: 'Zed' }, { ...goodTherapy(), name: 'Abe' }]), /alphabetized/);
+});
+
+test('every neuro therapy dataset in the repo passes, and coverage meets the floor', () => {
+  const dir = path.join(ROOT, 'data', 'example_providers', 'neuro');
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('__therapy.json'));
+  assert.ok(files.length >= ns.THERAPY_MIN_METROS, `only ${files.length} metros with therapy practices (floor ${ns.THERAPY_MIN_METROS})`);
+  let therapyOnly = 0;
+  for (const f of files) {
+    const list = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+    assert.equal(ns.therapyListProblem(list), '', f);
+    if (list.some((r) => ns.serviceTag(r) === ns.TAG_THERAPY)) therapyOnly += 1;
+  }
+  assert.ok(therapyOnly >= ns.THERAPY_MIN_METROS, `only ${therapyOnly} metros with a therapy-only practice`);
+});
+
+test('a built neuro metro with therapy data renders at least one "Therapy" tag', () => {
+  const dist = path.join(ROOT, 'dist');
+  const dir = path.join(ROOT, 'data', 'example_providers', 'neuro');
+  const slug = 'chicago-il';
+  const records = JSON.parse(fs.readFileSync(path.join(dir, `${slug}__therapy.json`), 'utf8'));
+  // Rendered from the real section renderer's shape, so the check is exercised
+  // even without a dist build; the built page is checked too when present.
+  const card = (r) => '<article class="provider-card" data-provider-card="true"><h3 class="provider-card__name">' + r.name + '</h3>' + ns.serviceTagHtml(ns.serviceTag(r)) + '</article>';
+  const page = ns.addTherapyJumpToHero('<main><section class="hero"><h1>Chicago</h1></section>' +
+    '<section class="section" data-provider-directory="true" id="therapy-practices" data-neuro-therapy-practices="true"><h2>Therapy practices</h2>' + records.map(card).join('') + '</section></main>', 'Chicago, IL');
+  assert.deepEqual(ns.cityTherapyProblems(page, records), []);
+  // Negative: tag flipped to evaluation, block missing, hero link missing.
+  assert.match(ns.cityTherapyProblems(page.split('data-provider-service-tag="Therapy">Therapy').join('data-provider-service-tag="Evaluation">Evaluation'), records).join(' '), /Therapy/);
+  assert.match(ns.cityTherapyProblems(page.replace(/<section class="section" data-provider-directory[\s\S]*<\/section>/, ''), records).join(' '), /no therapy practices block/);
+  assert.match(ns.cityTherapyProblems(page.replace(/<p class="hero-therapy-jump"[\s\S]*?<\/p>/, ''), records).join(' '), /#therapy-practices/);
+  const built = path.join(dist, slug, 'index.html');
+  if (fs.existsSync(built) && /neuro/i.test(fs.readFileSync(path.join(ROOT, 'data', 'site.json'), 'utf8'))) {
+    const html = fs.readFileSync(built, 'utf8');
+    assert.deepEqual(ns.cityTherapyProblems(html, records), []);
+    assert.ok(/data-neuro-therapy-practices="true"[\s\S]*data-provider-service-tag="Therapy"/.test(html), 'built page has no "Therapy" tag in its therapy block');
+  }
+});
