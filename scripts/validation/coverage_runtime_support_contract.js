@@ -57,6 +57,7 @@ if (!rows.length) fail('coverage_runtime_support.csv has no rows');
 const promotedKeys = new Set(promoted.filter(r=>String(r.publish_enabled).toLowerCase()==='true').map(r => `${r.vertical}::${r.city_slug}`));
 const seen = new Set();
 const therapyMetros = new Set();
+const adhdTherapyMetros = new Set();
 for (const row of rows) {
   const key = `${row.vertical}::${row.city_slug}`;
   if (seen.has(key)) fail(`duplicate row: ${key}`);
@@ -87,6 +88,7 @@ for (const row of rows) {
         const problem = neuroServices.therapyListProblem(loadJson(therapyFile, key));
         if (problem) fail(`neuro therapy dataset for ${key} ${problem} (${path.relative(REPO_ROOT, therapyFile)})`);
         therapyMetros.add(row.city_slug);
+        if (neuroServices.listServesAdhd(loadJson(therapyFile, key))) adhdTherapyMetros.add(row.city_slug);
       }
     }
   } else {
@@ -111,6 +113,7 @@ if (fs.existsSync(neuroDir)) {
     if (!therapyMetros.has(slug)) fail(`neuro therapy dataset for a metro with no promoted runtime row: data/example_providers/neuro/${f}`);
   }
   if (therapyFiles.length && therapyMetros.size < neuroServices.THERAPY_MIN_METROS) fail(`neuro therapy coverage fell to ${therapyMetros.size} metros (floor ${neuroServices.THERAPY_MIN_METROS}, scripts/lib/neuro_services.js)`);
+  if (therapyFiles.length && adhdTherapyMetros.size < neuroServices.THERAPY_ADHD_MIN_METROS) fail(`neuro ADHD therapy coverage fell to ${adhdTherapyMetros.size} metros (floor ${neuroServices.THERAPY_ADHD_MIN_METROS}, scripts/lib/neuro_services.js): ADHD therapy seekers would land on autism-only lists`);
   if (!therapyFiles.length && rows.some((r) => String(r.vertical).toLowerCase() === 'neuro')) fail('no neuro therapy datasets (data/example_providers/neuro/*__therapy.json): the therapy path would land on evaluator lists only');
 }
-console.log(`COVERAGE RUNTIME SUPPORT CONTRACT PASS (${rows.length} rows; ${therapyMetros.size} neuro metros with therapy practices)`);
+console.log(`COVERAGE RUNTIME SUPPORT CONTRACT PASS (${rows.length} rows; ${therapyMetros.size} neuro metros with therapy practices, ${adhdTherapyMetros.size} with ADHD therapy)`);
