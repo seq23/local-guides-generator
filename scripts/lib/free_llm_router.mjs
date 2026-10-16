@@ -17,9 +17,14 @@
  *   - If no listed model answers, the result is a NAMED STOP and nothing is
  *     generated. There is no paid fallback, by construction: the only ids this
  *     module can send are the ids in the config.
- *   - A refused credential (401/403, or a disabled key) is its own named stop,
- *     distinct from "no free model answered", so a receipt never confuses a dead
- *     key with a model outage.
+ *   - A refused credential is its own named stop, distinct from "no free model
+ *     answered", so a receipt never confuses a dead key with a model outage. A
+ *     credential is refused on 401, 402, a key-shaped message (disabled, invalid
+ *     key, key limit, unauthorized, user not found, no auth), or a 403/404 whose
+ *     key check (GET /api/v1/auth/key) also fails. A 403/404 for ONE model while
+ *     the key checks out (16 Oct 2026: thinkingmachines/inkling:free answered 403
+ *     "only available on agentic harnesses" on a live key) is that model's
+ *     refusal: the attempt is recorded and the next $0 model is tried.
  *
  * CLI:
  *   node scripts/lib/free_llm_router.mjs --receipt   policy receipt, no network
@@ -90,8 +95,18 @@ async function fetchJson(url, init, timeoutMs) {
   } finally { clearTimeout(t); }
 }
 
-const keyRefused = (status, msg) => status === 401 || status === 403
-  || /disabled|invalid api key|no auth|user not found|key limit|unauthori[sz]ed/i.test(String(msg || ''));
+const KEY_MESSAGE = /disabled|invalid (api )?key|no auth|user not found|key limit|unauthori[sz]ed/i;
+/** Unambiguously the credential: 401, 402 (key out of credit/limit), or a key-shaped message. */
+export const keyRefused = (status, msg) => status === 401 || status === 402 || KEY_MESSAGE.test(String(msg || ''));
+/** Ambiguous: a model-scoped refusal unless the key check also fails. */
+export const modelRefused = (status, msg) => (status === 403 || status === 404) && !keyRefused(status, msg);
+
+// One key check per key per process: a roster of 403ing models costs one GET, not one each.
+const keyChecks = new Map();
+async function keyChecksOut(key) {
+  if (!keyChecks.has(key)) keyChecks.set(key, keyInfo(key).then((i) => !i.error));
+  return keyChecks.get(key);
+}
 
 /**
  * One call to one listed $0 model. Returns { ok, model, content, data, cost } or
@@ -113,7 +128,14 @@ export async function chatOnce(cfg, { model, messages, max_tokens = 400, tempera
   }
   const errMsg = data?.error?.message;
   if (!res.ok || errMsg) {
-    return { ok: false, model, status: res.status, error: errMsg || `HTTP ${res.status}`, credential_refused: keyRefused(res.status, errMsg) };
+    const status = res.status;
+    const error = errMsg || `HTTP ${status}`;
+    if (modelRefused(status, errMsg)) {
+      // Fail closed: if the key itself does not check out, this 403/404 is the credential.
+      const keyOk = await keyChecksOut(key);
+      return { ok: false, model, status, error, credential_refused: !keyOk, model_refused: keyOk };
+    }
+    return { ok: false, model, status, error, credential_refused: keyRefused(status, errMsg) };
   }
   const cost = data?.usage?.cost;
   if (cost !== undefined && cost !== null && Number(cost) !== 0) {
