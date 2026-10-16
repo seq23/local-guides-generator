@@ -1,0 +1,13 @@
+{
+  "_why": "Outbound URLs confirmed dead (404, NXDOMAIN or a host that no longer answers) that must never be emitted again. scripts/validation/link_audit.js fails the pack build when any rendered href matches. match=host blocks every URL on that hostname (the host itself is gone); match=url blocks that URL with or without a trailing slash, query or fragment. Add an entry whenever a dead link is replaced at source.",
+  "entries": [
+    { "match": "url",  "url": "https://www.ncdentalboard.org/verify/", "found": "2026-10-16", "status": "404", "replaced_by": "https://www.members-base.com/NCBDESearch/search (linked from ncdentalboard.org)" },
+    { "match": "host", "url": "https://val.apps.lara.state.mi.us/", "found": "2026-10-16", "status": "NXDOMAIN", "replaced_by": "https://www.michigan.gov/lara/i-need-to/find-or-verify-a-licensed-professional-or-business" },
+    { "match": "host", "url": "https://dhp.virginia.gov/", "found": "2026-10-16", "status": "timeout (www. host answers)", "replaced_by": "https://www.dhp.virginia.gov/" },
+    { "match": "host", "url": "https://member.vsb.org", "found": "2026-10-16", "status": "NXDOMAIN", "replaced_by": "https://vsb.org/Shared_Content/Directory/va-lawyer-directory.aspx" },
+    { "match": "host", "url": "https://mcle.wcc.ne.gov", "found": "2026-10-16", "status": "NXDOMAIN", "replaced_by": "https://attorneys.nejudicial.gov/member-search" },
+    { "match": "host", "url": "https://directory-kard.kscourts.org", "found": "2026-10-16", "status": "timeout (directory moved to .gov)", "replaced_by": "https://directory-kard.kscourts.gov" },
+    { "match": "host", "url": "https://azbar.legalserviceslink.com", "found": "2026-10-16", "status": "timeout", "replaced_by": "https://www.azbar.org/for-legal-professionals/practice-tools-management/member-directory/" },
+    { "match": "url",  "url": "https://www.jeaseniorliving.com/senior-living/tn/bartlett/quail-ridge-alzheimers-special-care-center/memory-care", "found": "2026-10-16", "status": "404 (operator site now sinceriseniorliving.com, no Quail Ridge page)", "replaced_by": "no official site found; listing shows phone only" }
+  ]
+}

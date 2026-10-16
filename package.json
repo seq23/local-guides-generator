@@ -97,6 +97,7 @@
     "validate:tier:hard-fail": "node scripts/validation/run_validator_tier.js hard_fail",
     "validate:tier:warning": "node scripts/validation/run_validator_tier.js warning",
     "validate:velocity-candidate-seam": "node scripts/validation/velocity_candidate_seam_contract.js",
+    "test:link-audit": "node --test tests/links/link_audit.test.mjs",
     "test:llm-router": "node --test tests/llm_router/free_llm_router_403.test.mjs tests/llm_router/free_llm_router_empty.test.mjs"
   },
   "dependencies": {},
