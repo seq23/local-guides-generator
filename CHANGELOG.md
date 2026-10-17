@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-10-17
+
+- Revalidated core contracts and inventories (rotating focus: The Accident Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-10-16
 
 - Revalidated core contracts and inventories (rotating focus: Memphis Senior Care Homes).

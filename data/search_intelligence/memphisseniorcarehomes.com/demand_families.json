@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-09-16..2026-10-13",
-  "gsc_collected_at": "2026-10-16T13:41:49+00:00",
+  "gsc_window": "2026-09-17..2026-10-14",
+  "gsc_collected_at": "2026-10-17T13:36:58+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,7 +12,372 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 0,
-  "top_families": [],
-  "families": []
+  "family_count": 9,
+  "top_families": [
+    {
+      "rank": 1,
+      "family": "other @ /east-memphis-tn/",
+      "impressions": 3,
+      "status": "no_page"
+    },
+    {
+      "rank": 2,
+      "family": "hub @ /",
+      "impressions": 2,
+      "status": "below_impression_floor"
+    },
+    {
+      "rank": 3,
+      "family": "other @ /baptist-memorial-hospital-memphis/",
+      "impressions": 2,
+      "status": "no_page"
+    },
+    {
+      "rank": 4,
+      "family": "other @ /bartlett-tn/",
+      "impressions": 2,
+      "status": "below_impression_floor"
+    },
+    {
+      "rank": 5,
+      "family": "other @ /germantown-tn/",
+      "impressions": 1,
+      "status": "below_impression_floor"
+    }
+  ],
+  "families": [
+    {
+      "family": "other @ /east-memphis-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/east-memphis-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 3,
+      "best_position": 1,
+      "weighted_position": 1,
+      "top_query": "\"opus east memphis\"",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "\"opus east memphis\"",
+          "route": "/east-memphis-tn/",
+          "impressions": 3,
+          "position": 1
+        }
+      ],
+      "pages": [
+        {
+          "route": "/east-memphis-tn/",
+          "family_impressions": 3,
+          "page_impressions": 3,
+          "page_position": 1
+        }
+      ],
+      "rank": 1,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on /east-memphis-tn/ (other); no guide or state hub serves \"other\" there"
+    },
+    {
+      "family": "hub @ /",
+      "intent": "hub",
+      "head_term": "hub",
+      "page": "/",
+      "page_kind": "hub",
+      "page_intent": "hub",
+      "impressions": 2,
+      "best_position": 65,
+      "weighted_position": 68,
+      "top_query": "assisted living memphis tn",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "assisted living memphis tn",
+          "route": "/",
+          "impressions": 1,
+          "position": 65
+        },
+        {
+          "query": "memory care memphis tn",
+          "route": "/",
+          "impressions": 1,
+          "position": 71
+        }
+      ],
+      "pages": [
+        {
+          "route": "/",
+          "family_impressions": 2,
+          "page_impressions": 1,
+          "page_position": 71
+        }
+      ],
+      "rank": 2,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "2 impressions < 5"
+    },
+    {
+      "family": "other @ /baptist-memorial-hospital-memphis/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/baptist-memorial-hospital-memphis/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 2,
+      "best_position": 3,
+      "weighted_position": 3,
+      "top_query": "\"opus east memphis\"",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "\"opus east memphis\"",
+          "route": "/baptist-memorial-hospital-memphis/",
+          "impressions": 2,
+          "position": 3
+        }
+      ],
+      "pages": [
+        {
+          "route": "/baptist-memorial-hospital-memphis/",
+          "family_impressions": 2,
+          "page_impressions": 2,
+          "page_position": 3
+        }
+      ],
+      "rank": 3,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on /baptist-memorial-hospital-memphis/ (other); no guide or state hub serves \"other\" there"
+    },
+    {
+      "family": "other @ /bartlett-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/bartlett-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 2,
+      "best_position": 86,
+      "weighted_position": 90.5,
+      "top_query": "assisted living bartlett tn",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "assisted living bartlett tn",
+          "route": "/bartlett-tn/",
+          "impressions": 1,
+          "position": 86
+        },
+        {
+          "query": "independent living bartlett tn",
+          "route": "/bartlett-tn/",
+          "impressions": 1,
+          "position": 95
+        }
+      ],
+      "pages": [
+        {
+          "route": "/bartlett-tn/",
+          "family_impressions": 2,
+          "page_impressions": 2,
+          "page_position": 90.5
+        }
+      ],
+      "rank": 4,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "2 impressions < 5"
+    },
+    {
+      "family": "other @ /germantown-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/germantown-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 1,
+      "best_position": 50,
+      "weighted_position": 50,
+      "top_query": "alzheimers and dementia care germantown tn",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "alzheimers and dementia care germantown tn",
+          "route": "/germantown-tn/",
+          "impressions": 1,
+          "position": 50
+        }
+      ],
+      "pages": [
+        {
+          "route": "/germantown-tn/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 50
+        }
+      ],
+      "rank": 5,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "1 impressions < 5"
+    },
+    {
+      "family": "other @ /memphis-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/memphis-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 1,
+      "best_position": 70,
+      "weighted_position": 70,
+      "top_query": "assisted living facility memphis",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "assisted living facility memphis",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 70
+        }
+      ],
+      "pages": [
+        {
+          "route": "/memphis-tn/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 70
+        }
+      ],
+      "rank": 6,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 6 of 9 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "other @ /millington-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/millington-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 1,
+      "best_position": 41,
+      "weighted_position": 41,
+      "top_query": "live in memory care millington tn",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "live in memory care millington tn",
+          "route": "/millington-tn/",
+          "impressions": 1,
+          "position": 41
+        }
+      ],
+      "pages": [
+        {
+          "route": "/millington-tn/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 41
+        }
+      ],
+      "rank": 7,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 7 of 9 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "other @ /saint-francis-hospital-park-avenue/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/saint-francis-hospital-park-avenue/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 1,
+      "best_position": 8,
+      "weighted_position": 8,
+      "top_query": "\"opus east memphis\"",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "\"opus east memphis\"",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 1,
+          "position": 8
+        }
+      ],
+      "pages": [
+        {
+          "route": "/saint-francis-hospital-park-avenue/",
+          "family_impressions": 1,
+          "page_impressions": 2,
+          "page_position": 12
+        }
+      ],
+      "rank": 8,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on /saint-francis-hospital-park-avenue/ (other); no guide or state hub serves \"other\" there"
+    },
+    {
+      "family": "other @ /west-memphis-ar/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/west-memphis-ar/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 1,
+      "best_position": 69,
+      "weighted_position": 69,
+      "top_query": "\"american house\"",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "\"american house\"",
+          "route": "/west-memphis-ar/",
+          "impressions": 1,
+          "position": 69
+        }
+      ],
+      "pages": [
+        {
+          "route": "/west-memphis-ar/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 69
+        }
+      ],
+      "rank": 9,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 9 of 9 by impressions; no page at position <= 15"
+    }
+  ]
 }

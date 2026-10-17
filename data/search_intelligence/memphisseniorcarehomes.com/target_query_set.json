@@ -1,12 +1,141 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-09-16..2026-10-13",
-  "gsc_collected_at": "2026-10-16T13:41:49+00:00",
+  "gsc_window": "2026-09-17..2026-10-14",
+  "gsc_collected_at": "2026-10-17T13:36:58+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 0,
-  "targets_by_source": {},
+  "target_count": 9,
+  "targets_by_source": {
+    "gsc_export": 9
+  },
   "dropped_count": 0,
   "dropped": [],
-  "targets": []
+  "targets": [
+    {
+      "query": "\"opus east memphis\"",
+      "normalized_query": "opus east memphis",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 2.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/east-memphis-tn/"
+    },
+    {
+      "query": "\"american house\"",
+      "normalized_query": "american house",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 69,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/west-memphis-ar/"
+    },
+    {
+      "query": "alzheimers and dementia care germantown tn",
+      "normalized_query": "alzheimers and dementia care germantown tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 50,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/germantown-tn/"
+    },
+    {
+      "query": "assisted living bartlett tn",
+      "normalized_query": "assisted living bartlett tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 86,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/bartlett-tn/"
+    },
+    {
+      "query": "assisted living facility memphis",
+      "normalized_query": "assisted living facility memphis",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 70,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/memphis-tn/"
+    },
+    {
+      "query": "assisted living memphis tn",
+      "normalized_query": "assisted living memphis tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 65,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "independent living bartlett tn",
+      "normalized_query": "independent living bartlett tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 95,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/bartlett-tn/"
+    },
+    {
+      "query": "live in memory care millington tn",
+      "normalized_query": "live in memory care millington tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 41,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/millington-tn/"
+    },
+    {
+      "query": "memory care memphis tn",
+      "normalized_query": "memory care memphis tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 71,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-17..2026-10-14"
+      },
+      "owner_route": "/"
+    }
+  ]
 }
