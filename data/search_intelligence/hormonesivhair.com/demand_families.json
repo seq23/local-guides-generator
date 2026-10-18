@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-17..2026-10-14",
-  "gsc_collected_at": "2026-10-17T13:36:58+00:00",
+  "gsc_window": "2026-09-18..2026-10-15",
+  "gsc_collected_at": "2026-10-18T13:36:55+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -16,15 +16,15 @@
   "top_families": [
     {
       "rank": 1,
-      "family": "choose a provider @ /states/{STATE}/",
+      "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
       "impressions": 9,
-      "status": "no_page"
+      "status": "strengthened"
     },
     {
       "rank": 2,
-      "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 7,
-      "status": "strengthened"
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 9,
+      "status": "no_page"
     },
     {
       "rank": 3,
@@ -46,6 +46,45 @@
     }
   ],
   "families": [
+    {
+      "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
+      "intent": "candidacy",
+      "head_term": "candidate",
+      "page": "/guides/who-is-a-good-candidate-for-trt/",
+      "page_kind": "guide",
+      "page_intent": "candidacy",
+      "impressions": 9,
+      "best_position": 90.8,
+      "weighted_position": 90.8,
+      "top_query": "am i a candidate for trt",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "am i a candidate for trt",
+          "route": "/guides/who-is-a-good-candidate-for-trt/",
+          "impressions": 9,
+          "position": 90.8
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/who-is-a-good-candidate-for-trt/",
+          "family_impressions": 9,
+          "page_impressions": 9,
+          "page_position": 90.8
+        }
+      ],
+      "rank": 1,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/who-is-a-good-candidate-for-trt/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json search_strengthening"
+    },
     {
       "family": "choose a provider @ /states/{STATE}/",
       "intent": "choose_provider",
@@ -98,7 +137,7 @@
           "page_position": 100
         }
       ],
-      "rank": 1,
+      "rank": 2,
       "basis": [
         "top_demand"
       ],
@@ -106,45 +145,6 @@
       "strengthened_pages": [],
       "status": "no_page",
       "reason": "no state page in the family has >= 10 impressions (largest 7 on /states/MT/)"
-    },
-    {
-      "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "intent": "candidacy",
-      "head_term": "candidate",
-      "page": "/guides/who-is-a-good-candidate-for-trt/",
-      "page_kind": "guide",
-      "page_intent": "candidacy",
-      "impressions": 7,
-      "best_position": 90.6,
-      "weighted_position": 90.6,
-      "top_query": "am i a candidate for trt",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "am i a candidate for trt",
-          "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 7,
-          "position": 90.6
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 7,
-          "page_impressions": 7,
-          "page_position": 90.6
-        }
-      ],
-      "rank": 2,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [
-        "/guides/who-is-a-good-candidate-for-trt/"
-      ],
-      "status": "strengthened",
-      "reason": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json search_strengthening"
     },
     {
       "family": "red flags @ /guides/trt-red-flags/",

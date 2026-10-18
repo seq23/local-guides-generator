@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-09-17..2026-10-14",
-  "gsc_collected_at": "2026-10-17T13:36:58+00:00",
+  "gsc_window": "2026-09-18..2026-10-15",
+  "gsc_collected_at": "2026-10-18T13:36:55+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,13 +17,13 @@
     {
       "rank": 1,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 5,
+      "impressions": 7,
       "status": "no_page"
     },
     {
       "rank": 2,
       "family": "hub @ /",
-      "impressions": 1,
+      "impressions": 2,
       "status": "below_impression_floor"
     }
   ],
@@ -35,12 +35,18 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 5,
+      "impressions": 7,
       "best_position": 68,
-      "weighted_position": 77.8,
-      "top_query": "idaho civics test",
-      "query_count": 5,
+      "weighted_position": 83.9,
+      "top_query": "citizenship test preparation las vegas",
+      "query_count": 6,
       "queries": [
+        {
+          "query": "citizenship test preparation las vegas",
+          "route": "/states/NV/",
+          "impressions": 2,
+          "position": 99
+        },
         {
           "query": "idaho civics test",
           "route": "/states/ID/",
@@ -73,6 +79,12 @@
         }
       ],
       "pages": [
+        {
+          "route": "/states/NV/",
+          "family_impressions": 2,
+          "page_impressions": 2,
+          "page_position": 99
+        },
         {
           "route": "/states/AL/",
           "family_impressions": 1,
@@ -111,7 +123,7 @@
       "qualifies": true,
       "strengthened_pages": [],
       "status": "no_page",
-      "reason": "no state page in the family has >= 10 impressions (largest 1 on /states/AL/)"
+      "reason": "no state page in the family has >= 10 impressions (largest 2 on /states/NV/)"
     },
     {
       "family": "hub @ /",
@@ -120,12 +132,18 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 1,
-      "best_position": 99,
-      "weighted_position": 99,
-      "top_query": "uscis-designated civil surgeon",
-      "query_count": 1,
+      "impressions": 2,
+      "best_position": 96,
+      "weighted_position": 97.5,
+      "top_query": "uscis civil surgeon",
+      "query_count": 2,
       "queries": [
+        {
+          "query": "uscis civil surgeon",
+          "route": "/",
+          "impressions": 1,
+          "position": 96
+        },
         {
           "query": "uscis-designated civil surgeon",
           "route": "/",
@@ -136,9 +154,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 1,
-          "page_impressions": 4,
-          "page_position": 27.8
+          "family_impressions": 2,
+          "page_impressions": 5,
+          "page_position": 41.4
         }
       ],
       "rank": 2,
@@ -146,7 +164,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "1 impressions < 5"
+      "reason": "2 impressions < 5"
     }
   ]
 }
