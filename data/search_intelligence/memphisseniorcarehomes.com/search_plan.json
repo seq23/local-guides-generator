@@ -1,16 +1,32 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-09-18..2026-10-15",
+  "gsc_window": "2026-09-19..2026-10-16",
   "totals": {
     "clicks": 0,
-    "impressions": 71,
+    "impressions": 121,
     "ctr": 0,
-    "position": 51.7
+    "position": 51.5
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
-  "strengthening_candidates": [],
-  "not_yet_strengthened": [],
+  "strengthening_candidates": [
+    {
+      "route": "/guides/when-a-parent-refuses-to-move/",
+      "family": "when to call @ /guides/when-a-parent-refuses-to-move/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 24,
+      "source": "data/page_sets/examples/senior_living_global_pages/guides_when-a-parent-refuses-to-move.json",
+      "impressions": 24,
+      "clicks": 0,
+      "position": 77.5,
+      "strengthened": false
+    }
+  ],
+  "not_yet_strengthened": [
+    "/guides/when-a-parent-refuses-to-move/"
+  ],
   "coverage": {
     "by_coverage_state": {
       "Discovered - currently not indexed": 1,
