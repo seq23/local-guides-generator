@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-10-21
+
+- Revalidated core contracts and inventories (rotating focus: Neuro Evaluation Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-10-20
 
 - Revalidated core contracts and inventories (rotating focus: Hormone Optimization Guides).

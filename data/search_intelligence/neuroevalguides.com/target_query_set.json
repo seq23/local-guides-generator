@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-20..2026-10-17",
-  "gsc_collected_at": "2026-10-20T18:04:30+00:00",
+  "gsc_window": "2026-09-21..2026-10-18",
+  "gsc_collected_at": "2026-10-21T18:12:41+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 4,
+  "target_count": 5,
   "targets_by_source": {
-    "gsc_export": 4
+    "gsc_export": 5
   },
   "dropped_count": 0,
   "dropped": [],
@@ -15,13 +15,13 @@
       "query": "hospital vs private neuropsych testing",
       "normalized_query": "hospital vs private neuropsych testing",
       "source": "gsc_export",
-      "impressions": 3,
+      "impressions": 4,
       "clicks": 0,
-      "average_position": 21.7,
+      "average_position": 23.5,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-09-20..2026-10-17"
+        "value": 4,
+        "window": "2026-09-21..2026-10-18"
       },
       "owner_route": "/guides/hospital-vs-private-neuropsych-testing/"
     },
@@ -35,7 +35,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-20..2026-10-17"
+        "window": "2026-09-21..2026-10-18"
       },
       "owner_route": "/contact/"
     },
@@ -49,7 +49,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-20..2026-10-17"
+        "window": "2026-09-21..2026-10-18"
       },
       "owner_route": "/states/SD/"
     },
@@ -63,9 +63,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-20..2026-10-17"
+        "window": "2026-09-21..2026-10-18"
       },
       "owner_route": "/states/RI/"
+    },
+    {
+      "query": "neuropsych testing near me",
+      "normalized_query": "neuropsych testing near me",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 21,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-21..2026-10-18"
+      },
+      "owner_route": "/states/SD/"
     }
   ]
 }
