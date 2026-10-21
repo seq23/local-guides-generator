@@ -100,6 +100,8 @@
     "validate:tier:warning": "node scripts/validation/run_validator_tier.js warning",
     "validate:velocity-candidate-seam": "node scripts/validation/velocity_candidate_seam_contract.js",
     "test:link-audit": "node --test tests/links/link_audit.test.mjs",
+    "test:edge-cache": "node --test tests/edge_cache/edge_cache_config.test.mjs",
+    "test:structured-data": "node --test tests/schema/structured_data_vocab.test.mjs",
     "test:llm-router": "node --test tests/llm_router/free_llm_router_403.test.mjs tests/llm_router/free_llm_router_empty.test.mjs"
   },
   "dependencies": {},

@@ -449,9 +449,15 @@ function pageHeading(html) {
 function addRelatedLink(parentFile, target, label) {
   const html = fs.readFileSync(parentFile, 'utf8');
   if (cleanLinksTo(html, target)) return false;
-  const link = '<nav class="related-pages" aria-label="Related pages" data-related-page-link="true"><p><a href="' + escapeHtml(target) + '">' + escapeHtml(label) + '</a></p></nav>';
+  const item = '<p><a href="' + escapeHtml(target) + '">' + escapeHtml(label) + '</a></p>';
+  const navOpen = '<nav class="related-pages" aria-label="Related pages" data-related-page-link="true">';
+  const link = navOpen + item + '</nav>';
   let out;
-  if (/<\/main>/i.test(html)) out = html.replace(/<\/main>/i, link + '</main>');
+  // One "Related pages" block per page: later links join the first one.
+  const at = html.indexOf(navOpen);
+  const close = at >= 0 ? html.indexOf('</nav>', at) : -1;
+  if (close >= 0) out = html.slice(0, close) + item + html.slice(close);
+  else if (/<\/main>/i.test(html)) out = html.replace(/<\/main>/i, link + '</main>');
   else if (/<footer\b/i.test(html)) out = html.replace(/<footer\b/i, link + '<footer');
   else return false;
   writeFileEnsured(parentFile, out);
@@ -488,7 +494,173 @@ function linkOrphanChildPages(outDir) {
       }
     }
   }
-  console.log(`linkOrphanChildPages: added ${added} clean parent->child link(s)`);
+  // Second inbound link. Ahrefs (14 Oct 2026) flagged 126 uscisexam and 128
+  // theaccidentguides pages with only one dofollow inbound link: each next-steps
+  // page was reachable from its own parent alone, and PI city pages from their
+  // state hub alone. Each gets a second contextual link from a different page:
+  //   <dir>/                 <- <dir>/next-steps/      (back to the guide it continues)
+  //   <city>-<st>/next-steps/ <- states/<ST>/          (the state hub lists its cities' next steps)
+  //   states/<ST>/next-steps/ <- <city>-<st>/next-steps/ (city next steps up to the state's)
+  //   states/<ST>/            <- <city>-<st>/next-steps/ (and up to the state hub)
+  // link_audit.js fails the build on an indexable sitemap page with fewer than
+  // two inbound links from different indexable pages.
+  let second = 0;
+  const cityDirs = fs.readdirSync(outDir, { withFileTypes: true })
+    .filter((e) => e.isDirectory() && fs.existsSync(path.join(outDir, e.name, 'index.html')) && fs.existsSync(path.join(outDir, e.name, 'next-steps', 'index.html')))
+    .map((e) => e.name);
+  for (const dir of cityDirs) {
+    const parent = path.join(outDir, dir, 'index.html');
+    const ns = path.join(outDir, dir, 'next-steps', 'index.html');
+    const parentHtml = fs.readFileSync(parent, 'utf8');
+    const ph = pageHeading(parentHtml);
+    // A template-fallback city page is noindexed after the build; never link it.
+    const parentIndexable = !require('./apply_robots_policy').TEMPLATE_FALLBACK_MARKER.test(parentHtml);
+    if (ph && parentIndexable && addRelatedLink(ns, '/' + dir + '/', ph)) second += 1;
+    const st = (dir.match(/-([a-z]{2})$/) || [])[1];
+    if (!st) continue;
+    const ST = st.toUpperCase();
+    const stateFile = path.join(outDir, 'states', ST, 'index.html');
+    const nsLabel = pageHeading(fs.readFileSync(ns, 'utf8'));
+    if (nsLabel && fs.existsSync(stateFile) && addRelatedLink(stateFile, '/' + dir + '/next-steps/', nsLabel)) second += 1;
+    // Up to the state hub: the indexable path to a state whose city pages are
+    // noindex template fallbacks (dentistry: 12 state hubs linked from the home page alone).
+    const stateLabel = fs.existsSync(stateFile) && pageHeading(fs.readFileSync(stateFile, 'utf8'));
+    if (stateLabel && addRelatedLink(ns, '/states/' + ST + '/', stateLabel)) second += 1;
+    const stateNs = path.join(outDir, 'states', ST, 'next-steps', 'index.html');
+    const stateNsLabel = fs.existsSync(stateNs) && pageHeading(fs.readFileSync(stateNs, 'utf8'));
+    if (stateNsLabel && addRelatedLink(ns, '/states/' + ST + '/next-steps/', stateNsLabel)) second += 1;
+  }
+  if (fs.existsSync(statesDir)) {
+    for (const ent of fs.readdirSync(statesDir, { withFileTypes: true })) {
+      if (!ent.isDirectory()) continue;
+      const parent = path.join(statesDir, ent.name, 'index.html');
+      const ns = path.join(statesDir, ent.name, 'next-steps', 'index.html');
+      if (!fs.existsSync(parent) || !fs.existsSync(ns)) continue;
+      const ph = pageHeading(fs.readFileSync(parent, 'utf8'));
+      if (ph && addRelatedLink(ns, '/states/' + ent.name + '/', ph)) second += 1;
+    }
+  }
+  // Guides: a guide reachable only from the /guides/ hub gets a second link
+  // from the sibling guide whose slug shares the most topic words with it (the
+  // closest related guide), never from a hub or footer list.
+  second += linkThinGuidesFromClosestSibling(outDir);
+  second += linkThinCityNextStepsFromSiblings(outDir);
+  console.log(`linkOrphanChildPages: added ${added} clean parent->child link(s), ${second} second-inbound link(s)`);
+}
+
+const GUIDE_SLUG_STOPWORDS = new Set(['a', 'an', 'and', 'the', 'of', 'to', 'for', 'in', 'on', 'vs', 'or', 'is', 'it', 'what', 'how', 'when', 'why', 'who', 'are', 'do', 'does', 'your', 'you', 'after', 'with', 'near', 'me', 'guide', 'explained', 'overview']);
+function slugWords(slug) {
+  return new Set(String(slug).split('-').filter((w) => w && !GUIDE_SLUG_STOPWORDS.has(w)));
+}
+
+// Indexable pages (no meta robots noindex) that link to each page with a clean
+// <a href>, keyed "/a/b/". Script bodies are skipped: a crawler does not follow them.
+function cleanInboundSources(outDir) {
+  const files = [];
+  (function walk(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.isFile() && e.name === 'index.html') files.push(p);
+    }
+  })(outDir);
+  const sources = new Map();
+  // apply_robots_policy.js runs after this build and noindexes operator routes
+  // and template-fallback city pages; count those as non-indexable already.
+  const robots = require('./apply_robots_policy');
+  const noindexRoutes = robots.noindexRoutesForPack();
+  for (const f of files) {
+    const html = fs.readFileSync(f, 'utf8');
+    if (/<meta\b[^>]*name=["']robots["'][^>]*noindex/i.test(html)) continue;
+    if (robots.TEMPLATE_FALLBACK_MARKER.test(html) || noindexRoutes.has(robots.routeFor(outDir, f))) continue;
+    const self = '/' + path.relative(outDir, path.dirname(f)).split(path.sep).join('/') + '/';
+    const body = html.replace(/<script\b[\s\S]*?<\/script>/gi, '');
+    for (const m of body.matchAll(/<a\b[^>]*?\bhref=["'](\/(?!\/)[^"'?#]*)["']/gi)) {
+      let t = m[1];
+      if (!t.endsWith('/') && !/\.[a-z0-9]{2,12}$/i.test(t)) t += '/';
+      if (t === self.replace(/^\/\/$/, '/')) continue;
+      if (!sources.has(t)) sources.set(t, new Set());
+      sources.get(t).add(self === '//' ? '/' : self);
+    }
+  }
+  return sources;
+}
+
+// A city's next-steps page whose own city page is noindex,nofollow (a template
+// fallback city: scripts/apply_robots_policy.js) is linked by its state hub
+// alone (and senior-living hospital next-steps by their hospital page alone).
+// Its second link comes from the next-steps page of another city in the same
+// state, or another hospital (the next one alphabetically, wrapping), else from
+// the /next-steps/ hub when the group has no other page.
+function linkThinCityNextStepsFromSiblings(outDir) {
+  const sources = cleanInboundSources(outDir);
+  const byState = new Map();
+  for (const e of fs.readdirSync(outDir, { withFileTypes: true })) {
+    if (!e.isDirectory() || ['states', 'guides', 'next-steps'].includes(e.name)) continue;
+    // Group by state suffix; pages anchored on a place that is not a city
+    // (senior-living hospital pages) form their own group.
+    const st = (e.name.match(/-([a-z]{2})$/) || [])[1] || '';
+    if (!fs.existsSync(path.join(outDir, e.name, 'index.html')) || !fs.existsSync(path.join(outDir, e.name, 'next-steps', 'index.html'))) continue;
+    if (!byState.has(st)) byState.set(st, []);
+    byState.get(st).push(e.name);
+  }
+  const hub = path.join(outDir, 'next-steps', 'index.html');
+  let added = 0;
+  for (const dirs of byState.values()) {
+    dirs.sort();
+    dirs.forEach((dir, i) => {
+      const target = '/' + dir + '/next-steps/';
+      const nsFile = path.join(outDir, dir, 'next-steps', 'index.html');
+      const nsHtml = fs.readFileSync(nsFile, 'utf8');
+      if (/<meta\b[^>]*name=["']robots["'][^>]*noindex/i.test(nsHtml)) return;
+      if ((sources.get(target) || new Set()).size >= 2) return;
+      const label = pageHeading(nsHtml);
+      if (!label) return;
+      const sib = dirs.length > 1 ? dirs[(i + 1) % dirs.length] : null;
+      const fromFile = sib ? path.join(outDir, sib, 'next-steps', 'index.html') : (fs.existsSync(hub) ? hub : null);
+      if (fromFile && addRelatedLink(fromFile, target, label)) {
+        added += 1;
+        if (!sources.has(target)) sources.set(target, new Set());
+        sources.get(target).add(sib ? '/' + sib + '/next-steps/' : '/next-steps/');
+      }
+    });
+  }
+  return added;
+}
+
+function linkThinGuidesFromClosestSibling(outDir) {
+  const guidesDir = path.join(outDir, 'guides');
+  if (!fs.existsSync(guidesDir)) return 0;
+  const guides = fs.readdirSync(guidesDir, { withFileTypes: true })
+    .filter((e) => e.isDirectory() && fs.existsSync(path.join(guidesDir, e.name, 'index.html')))
+    .map((e) => e.name)
+    .sort();
+  if (guides.length < 2) return 0;
+  const sources = cleanInboundSources(outDir);
+  let added = 0;
+  for (const g of guides) {
+    const target = '/guides/' + g + '/';
+    const from = sources.get(target) || new Set();
+    if (from.size >= 2) continue;
+    const words = slugWords(g);
+    let best = null;
+    let bestScore = -1;
+    for (const other of guides) {
+      if (other === g || from.has('/guides/' + other + '/')) continue;
+      const ow = slugWords(other);
+      let score = 0;
+      for (const w of words) if (ow.has(w)) score += 1;
+      if (score > bestScore) { best = other; bestScore = score; }
+    }
+    if (!best) continue;
+    const label = pageHeading(fs.readFileSync(path.join(guidesDir, g, 'index.html'), 'utf8'));
+    if (label && addRelatedLink(path.join(guidesDir, best, 'index.html'), target, label)) {
+      added += 1;
+      if (!sources.has(target)) sources.set(target, new Set());
+      sources.get(target).add('/guides/' + best + '/');
+    }
+  }
+  return added;
 }
 
 // Internal links carry no query string. Attribution (?src=&intent=&button=
@@ -1813,14 +1985,23 @@ function buildWebSiteSchema(siteUrl, brandName) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-      "correctionsPolicy": "/editorial-policy/#corrections",
     name: brandName,
     url: base,
     inLanguage: "en-US",
-    publisher: { "@type": "Organization", name: brandName, url: base },
+    // correctionsPolicy, ethicsPolicy and ownershipFundingInfo are Organization
+    // properties in schema.org, not WebSite ones. Set on the WebSite they were a
+    // schema.org validation error on every page (Ahrefs, 14 Oct 2026: 436
+    // uscisexam pages, 783 theaccidentguides pages). They belong to the
+    // publisher. Guarded by scripts/validation/structured_data_vocab_contract.js.
+    publisher: {
+      "@type": "Organization",
+      name: brandName,
+      url: base,
+      correctionsPolicy: base + "editorial-policy/#corrections",
+      ethicsPolicy: base + "editorial-policy/",
+      ownershipFundingInfo: base + "editorial-policy/#funding"
+    },
     publishingPrinciples: base + "methodology/",
-    ethicsPolicy: base + "editorial-policy/",
-    ownershipFundingInfo: base + "editorial-policy/#funding",
     // Brand capture: the spellings people search for this site by, from
     // scripts/lib/pack_site_config.js (only packs that declare them).
     ...(alternateNamesForSite(siteUrl).length ? { alternateName: alternateNamesForSite(siteUrl) } : {})

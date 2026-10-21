@@ -58,12 +58,17 @@ test('an empty dead list is refused, not passed', () => {
   assert.throws(() => run(fixture('', { entries: [] })), /zero entries/);
 });
 
-function sitemapFixture(cityHtml) {
+// Every page gets a second linking page so the two-inbound rule holds:
+// /about/ <- home + next-steps; /x-ca/ <- home + about; /x-ca/next-steps/ <- city
+// (+ about when a test passes SECOND_NS, the second link the build adds).
+const SECOND_NS = '<a href="/x-ca/">City</a> <a href="/x-ca/next-steps/">City next steps</a>';
+function sitemapFixture(cityHtml, aboutHtml = '<a href="/x-ca/">City</a>') {
   const ctx = fixture('<a href="/x-ca/">City</a>');
   const dist = path.join(ctx.repoRoot, 'dist');
   fs.mkdirSync(path.join(dist, 'x-ca', 'next-steps'), { recursive: true });
+  fs.writeFileSync(path.join(dist, 'about', 'index.html'), aboutHtml);
   fs.writeFileSync(path.join(dist, 'x-ca', 'index.html'), cityHtml);
-  fs.writeFileSync(path.join(dist, 'x-ca', 'next-steps', 'index.html'), '<a href="/x-ca/">back</a>');
+  fs.writeFileSync(path.join(dist, 'x-ca', 'next-steps', 'index.html'), '<a href="/x-ca/">back</a> <a href="/about/">About</a>');
   fs.writeFileSync(path.join(dist, 'sitemap.xml'), '<sitemapindex><sitemap><loc>https://e.com/sitemap-core.xml</loc></sitemap></sitemapindex>');
   fs.writeFileSync(path.join(dist, 'sitemap-core.xml'), ['/', '/about/', '/x-ca/', '/x-ca/next-steps/'].map((u) => `<url><loc>https://e.com${u}</loc></url>`).join(''));
   return ctx;
@@ -77,7 +82,7 @@ test('a sitemap page linked only by a ?query tracked CTA is an orphan', () => {
 });
 
 test('a sitemap page with a clean inbound link passes the orphan check', () => {
-  const r = run(sitemapFixture('<a href="/x-ca/next-steps/">Next steps</a>'));
+  const r = run(sitemapFixture('<a href="/x-ca/next-steps/">Next steps</a>', SECOND_NS));
   assert.equal(r.sitemapPagesExamined, 3);
 });
 
@@ -88,21 +93,21 @@ test('a self-link does not rescue an orphan', () => {
 });
 
 test('an internal link carrying a query string fails, relative or absolute on the site host', () => {
-  assert.throws(() => run(sitemapFixture('<a href="/x-ca/next-steps/">Next</a> <a href="/faq/?intent=self_serve&amp;market=x">FAQ</a>')), /Internal links with a query string: 1 [\s\S]*\/faq\//);
+  assert.throws(() => run(sitemapFixture('<a href="/x-ca/next-steps/">Next</a> <a href="/faq/?intent=self_serve&amp;market=x">FAQ</a>', SECOND_NS)), /Internal links with a query string: 1 [\s\S]*\/faq\//);
   assert.throws(() => run(sitemapFixture('<a href="/x-ca/next-steps/">Next</a> <a href="https://e.com/about/?src=x">About</a>')), /Internal links with a query string/);
 });
 
 test('attribution in data-attr-qs passes when the destination loads attr-carry, fails when it does not', () => {
-  const ctx = sitemapFixture('<a href="/x-ca/next-steps/" data-attr-qs="src=%2Fx-ca%2F&amp;intent=decision_hub">Next</a>');
+  const ctx = sitemapFixture('<a href="/x-ca/next-steps/" data-attr-qs="src=%2Fx-ca%2F&amp;intent=decision_hub">Next</a>', SECOND_NS);
   assert.throws(() => run(ctx), /do not load \/assets\/attr-carry\.js[\s\S]*\/x-ca\/next-steps\//);
-  fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'x-ca', 'next-steps', 'index.html'), '<head><script src="/assets/attr-carry.js" data-attr-carry="true"></script></head><a href="/x-ca/">back</a>');
+  fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'x-ca', 'next-steps', 'index.html'), '<head><script src="/assets/attr-carry.js" data-attr-carry="true"></script></head><a href="/x-ca/">back</a> <a href="/about/">About</a>');
   fs.mkdirSync(path.join(ctx.repoRoot, 'dist', 'assets'), { recursive: true });
   fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'assets', 'attr-carry.js'), '');
   run(ctx);
 });
 
 test('an allow-listed path may carry a query', () => {
-  const ctx = sitemapFixture('<a href="/x-ca/next-steps/">Next</a> <a href="/search/?q=x">Search</a>');
+  const ctx = sitemapFixture('<a href="/x-ca/next-steps/">Next</a> <a href="/search/?q=x">Search</a>', SECOND_NS);
   fs.writeFileSync(path.join(ctx.repoRoot, 'config', 'internal_query_allowlist.json'), JSON.stringify({ prefixes: ['/search/'] }));
   fs.mkdirSync(path.join(ctx.repoRoot, 'dist', 'search'), { recursive: true });
   fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'search', 'index.html'), 'x');
@@ -135,4 +140,54 @@ test('attr-carry.js restores the clicked link attribution on the destination pag
   city.click({ pathname: '/request-assistance/', getAttribute: () => 'src=a' });
   const campaign = page('/request-assistance/', '?utm_source=x');
   assert.equal(campaign.loc.search, '?utm_source=x', 'an existing query (external campaign link) is never overwritten');
+});
+
+// --- Crawl reachability, 3XX targets, two-inbound rule, non-indexable targets (21 Oct 2026) ---
+
+test('a page linked only from an unreachable page is an orphan island', () => {
+  const ctx = sitemapFixture('<a href="/about/">About</a>', '<a href="/x-ca/">City</a>');
+  // Nothing reachable links /x-ca/next-steps/ ... except an unlisted page nobody links.
+  const dist = path.join(ctx.repoRoot, 'dist');
+  fs.mkdirSync(path.join(dist, 'island'), { recursive: true });
+  fs.writeFileSync(path.join(dist, 'island', 'index.html'), '<a href="/x-ca/next-steps/">ns</a>');
+  assert.throws(() => run(ctx), /Unreachable pages: 1 [\s\S]*\/x-ca\/next-steps\//);
+});
+
+test('a page with clean links from only one indexable page fails the two-inbound rule', () => {
+  assert.throws(() => run(sitemapFixture('<a href="/x-ca/next-steps/">Next steps</a>')), /Thinly linked pages: 1 [\s\S]*\/x-ca\/next-steps\/  \(1 linking page: \/x-ca\/\)/);
+});
+
+test('a link from a noindex page does not count toward the two inbound links', () => {
+  const ctx = sitemapFixture('<a href="/x-ca/next-steps/">Next steps</a>', '<meta name="robots" content="noindex,nofollow" />' + SECOND_NS);
+  assert.throws(() => run(ctx), /Thinly linked pages/);
+});
+
+test('an internal link that answers 3XX fails: no trailing slash, index.html, www/http host, _redirects source', () => {
+  const cases = [
+    ['<a href="/x-ca">City</a>', /missing trailing slash/],
+    ['<a href="/x-ca/index.html">City</a>', /index\.html is served at its directory/],
+    ['<a href="https://www.e.com/x-ca/">City</a>', /host www\.e\.com redirects/],
+    ['<a href="http://e.com/x-ca/">City</a>', /http:\/\/ redirects/],
+    ['<a href="/old-page/">Old</a>', /listed in _redirects/]
+  ];
+  for (const [html, re] of cases) {
+    const ctx = sitemapFixture('<a href="/x-ca/next-steps/">Next steps</a> ' + html, SECOND_NS);
+    fs.writeFileSync(path.join(ctx.repoRoot, 'dist', '_redirects'), '/old-page /x-ca/ 301\n/sitemap.xml /sitemap.xml 200\n');
+    fs.mkdirSync(path.join(ctx.repoRoot, 'dist', 'old-page'), { recursive: true });
+    fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'old-page', 'index.html'), 'x');
+    assert.throws(() => run(ctx), re, html);
+  }
+});
+
+test('a canonical that answers 3XX fails (the 404 page used to canonicalise to /404.html)', () => {
+  const ctx = sitemapFixture('<a href="/x-ca/next-steps/">Next steps</a>', SECOND_NS);
+  fs.writeFileSync(path.join(ctx.repoRoot, 'dist', '404.html'), '<link rel="canonical" href="https://e.com/404.html"><a href="/">home</a>');
+  assert.throws(() => run(ctx), /canonical https:\/\/e\.com\/404\.html  \(\.html is served without the extension/);
+});
+
+test('an internal link to a noindex or canonicalised-elsewhere page fails', () => {
+  const ctx = sitemapFixture('<a href="/x-ca/next-steps/">Next steps</a> <a href="/dup/">Dup</a>', SECOND_NS);
+  fs.mkdirSync(path.join(ctx.repoRoot, 'dist', 'dup'), { recursive: true });
+  fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'dup', 'index.html'), '<link rel="canonical" href="https://e.com/x-ca/">');
+  assert.throws(() => run(ctx), /Internal links to non-indexable pages: 1 [\s\S]*\/dup\/  \(canonical points to \/x-ca\/\)/);
 });

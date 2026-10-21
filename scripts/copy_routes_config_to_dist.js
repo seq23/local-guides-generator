@@ -2,21 +2,14 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Keep the Pages Functions route config with the build output.
+ * Keep the Pages routing and header config with the build output.
  *
- * Why this exists. functions/_middleware.js sets X-Robots-Tag: noindex on any
- * *.pages.dev hostname, which is the only way to stop the domainless base
- * project publishing a full duplicate of all five verticals — the hostname is
- * known per request, not at build time, so it cannot live in the generator.
- * But with no _routes.json, adding a root middleware widens the Functions route
- * from /api/* to /*, so every request on all five production domains invokes a
- * Worker, static assets included.
- *
- * _routes.json narrows that back down. The middleware still runs for HTML, where
- * the hostname check matters, and assets are served straight from the edge.
- * Excluding by extension rather than by directory covers the generated files
- * (sitemaps, llms.txt, citation manifests) that sit at the dist root alongside
- * the pages.
+ * _routes.json sends only /api/* to Pages Functions, so static HTML and assets
+ * never wake a Worker. _headers sets X-Robots-Tag: noindex on every
+ * *.pages.dev hostname (the domainless base project would otherwise publish a
+ * full duplicate of all five verticals); that used to be a root
+ * functions/_middleware.js, which ran a Worker on every HTML request on all six
+ * production domains. Pinned by tests/edge_cache/edge_cache_config.test.mjs.
  */
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, 'dist');
@@ -36,4 +29,7 @@ if (!Array.isArray(parsed.include) || !Array.isArray(parsed.exclude)) {
 }
 
 fs.copyFileSync(from, path.join(DIST, NAME));
-console.log(`copy_routes_config_to_dist: copied ${NAME} to dist/ (${parsed.exclude.length} exclude rules)`);
+const HEADERS = path.join(ROOT, '_headers');
+if (!fs.existsSync(HEADERS)) throw new Error('_headers not found at repo root');
+fs.copyFileSync(HEADERS, path.join(DIST, '_headers'));
+console.log(`copy_routes_config_to_dist: copied ${NAME} (${parsed.include.length} include rule(s)) and _headers to dist/`);

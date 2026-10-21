@@ -31,6 +31,20 @@
 //    Tracked internal links made every attribution combination its own
 //    crawlable URL (Ahrefs: 1,306 uscisexam URLs/week vs 228 in the sitemap).
 //    Attribution belongs in data-attr-qs (restored by /assets/attr-carry.js).
+// 7. Every sitemap page must be REACHABLE from the home page by following
+//    query-free <a href> links (a crawler's view). An inbound link from a page
+//    that is itself unreachable is an orphan island, and Ahrefs reports every
+//    page in it as an orphan just the same.
+// 8. No internal <a href> or rel=canonical may point at a URL that answers
+//    3XX: a directory page without its trailing slash, /index.html or a .html
+//    spelling (Pages answers 308), the http:// or www. spelling of the host, or
+//    a source path in dist/_redirects. Ahrefs (14 Oct 2026) reported "3XX
+//    redirect" on uscisexam (2) and theaccidentguides (1). Link the final URL.
+// 9. Every indexable sitemap page has clean <a href> links from at least TWO
+//    different indexable pages, and no internal <a href> points at a page that
+//    is not indexable (meta robots noindex, or canonical to another URL).
+//    Ahrefs (14 Oct 2026): "only one dofollow incoming internal link" on 126
+//    uscisexam and 128 theaccidentguides pages.
 //
 // Why it exists
 // -------------
@@ -114,6 +128,47 @@ function sitemapPaths(distRoot) {
     }
   })(idx);
   return [...out];
+}
+
+// Source paths that dist/_redirects answers with a 3XX (a 200 rewrite is not a redirect).
+function loadRedirectSources(distRoot) {
+  const p = path.join(distRoot, '_redirects');
+  const out = new Set();
+  if (!fs.existsSync(p)) return out;
+  for (const line of fs.readFileSync(p, 'utf8').split('\n')) {
+    const parts = line.trim().split(/\s+/);
+    if (!parts[0] || parts[0].startsWith('#') || parts.length < 2) continue;
+    const status = Number(parts[2] || 301);
+    if (status >= 300 && status < 400) out.add(parts[0].replace(/\/+$/, '') || '/');
+  }
+  return out;
+}
+
+// Why an internal href would answer 3XX on Cloudflare Pages, or null.
+function redirectReason(distRoot, siteHost, redirectSources, raw) {
+  let pathPart;
+  if (/^https?:\/\//i.test(raw)) {
+    let u;
+    try { u = new URL(raw); } catch (_) { return null; }
+    const h = u.hostname.toLowerCase();
+    if (h.replace(/^www\./, '') !== siteHost.replace(/^www\./, '')) return null; // not this site
+    if (h !== siteHost) return `host ${h} redirects to ${siteHost}`;
+    if (u.protocol !== 'https:') return 'http:// redirects to https://';
+    pathPart = u.pathname;
+  } else if (/^\/(?!\/)/.test(raw)) {
+    pathPart = raw.split('#')[0].split('?')[0];
+  } else {
+    return null;
+  }
+  if (!pathPart || pathPart === '/') return null;
+  if (redirectSources.has(pathPart.replace(/\/+$/, ''))) return 'listed in _redirects';
+  const rel = pathPart.replace(/^\/+/, '');
+  if (/(^|\/)index\.html$/i.test(rel)) return 'index.html is served at its directory (308)';
+  if (/\.html$/i.test(rel) && fs.existsSync(path.join(distRoot, rel))) return '.html is served without the extension (308)';
+  if (!rel.endsWith('/') && !/\.[a-z0-9]{2,12}$/i.test(rel) && fs.existsSync(path.join(distRoot, rel, 'index.html'))) {
+    return 'missing trailing slash (308)';
+  }
+  return null;
 }
 
 function unfencedTextEmails(segment) {
@@ -207,6 +262,15 @@ function run(ctx) {
   const carryTargets = new Map(); // dist key of a data-attr-qs destination -> example source
   const pagesWithCarry = new Set();
   let internalAnchorsExamined = 0;
+  const graph = new Map(); // page key -> Set of page keys it links to with a clean <a href>
+  const redirecting = new Map(); // href -> [page, ...]
+  const redirectSources = loadRedirectSources(distRoot);
+  const notIndexable = new Map(); // page key -> reason
+  const noteRedirect = (href, relPage, why) => {
+    const k = `${href}  (${why})`;
+    if (!redirecting.has(k)) redirecting.set(k, []);
+    redirecting.get(k).push(relPage);
+  };
 
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');
@@ -247,6 +311,39 @@ function run(ctx) {
 
     const selfK = pageKey(distRoot, file, '/' + relPage.split(path.sep).join('/'));
     if (html.includes('data-attr-carry="true"')) pagesWithCarry.add(selfK);
+    if (!graph.has(selfK)) graph.set(selfK, new Set());
+    const robots = (html.match(/<meta\b[^>]*\bname=["']robots["'][^>]*>/i) || [''])[0];
+    if (/noindex/i.test(robots)) notIndexable.set(selfK, 'noindex');
+    const canon = html.match(/<link\b[^>]*\brel=["']canonical["'][^>]*>/i);
+    const canonHref = canon && (canon[0].match(/\bhref=["']([^"']+)["']/i) || [])[1];
+    if (canonHref && siteHost) {
+      const why = redirectReason(distRoot, siteHost, redirectSources, decodeHref(canonHref));
+      if (why) noteRedirect(`canonical ${canonHref}`, relPage, why);
+      const ck = pageKey(distRoot, file, (() => { try { const u = new URL(decodeHref(canonHref)); return u.pathname; } catch (_) { return decodeHref(canonHref); } })());
+      if (ck !== null && ck !== selfK && !notIndexable.has(selfK)) notIndexable.set(selfK, `canonical points to /${ck}`);
+    }
+    // Crawl graph: only <a href> outside <script>, the links a crawler follows.
+    const crawlable = html.replace(/<script\b[\s\S]*?<\/script>/gi, '');
+    for (const tagMatch of crawlable.matchAll(A_TAG_RE)) {
+      const hm = tagMatch[0].match(/\bhref=["']([^"']+)["']/i);
+      if (!hm) continue;
+      const raw = decodeHref(hm[1]);
+      let local = null;
+      if (/^\/(?!\/)/.test(raw)) local = raw;
+      else if (siteHost && /^https?:\/\//i.test(raw)) {
+        try {
+          const u = new URL(raw);
+          if (u.hostname.toLowerCase().replace(/^www\./, '') === siteHost.replace(/^www\./, '')) local = u.pathname + u.search;
+        } catch (_) { local = null; }
+      }
+      if (siteHost && (local !== null || /^https?:\/\//i.test(raw))) {
+        const why = redirectReason(distRoot, siteHost, redirectSources, raw);
+        if (why) noteRedirect(hm[1], relPage, why);
+      }
+      if (local === null || /\?./.test(local.split('#')[0])) continue;
+      const tk = pageKey(distRoot, file, local);
+      if (tk !== null && tk !== selfK) graph.get(selfK).add(tk);
+    }
     for (const tagMatch of html.matchAll(A_TAG_RE)) {
       const hm = tagMatch[0].match(/\bhref=["']([^"']+)["']/i);
       if (!hm) continue;
@@ -347,11 +444,74 @@ function run(ctx) {
   if (smPaths) {
     if (!smPaths.length) problems.push('sitemap.xml lists zero page URLs: the orphan check examined nothing.');
     const orphans = [];
+    const islands = [];
+    const reachable = new Set(['']);
+    const queue = [''];
+    while (queue.length) {
+      for (const t of graph.get(queue.shift()) || []) {
+        if (!reachable.has(t)) { reachable.add(t); queue.push(t); }
+      }
+    }
     for (const p of smPaths) {
       const k = pageKey(distRoot, path.join(distRoot, 'index.html'), p);
       if (k === null || k === '') continue; // the home page is the crawl root
       sitemapPagesExamined += 1;
       if (!inbound.get(k)) orphans.push(p);
+      else if (!reachable.has(k)) islands.push(p);
+    }
+    const isPage = new Set(graph.keys());
+    // Routes noindexed on purpose by scripts/apply_robots_policy.js (operator
+    // panels; senior-living privacy/disclaimer) are still linked where the law or
+    // the operator needs them, so a link to them is not a defect.
+    // The pack is the one standing in dist/ (data/site.json), not only PAGE_SET_FILE.
+    const policyNoindex = (() => {
+      const robots = require(path.join(__dirname, '..', 'apply_robots_policy.js'));
+      let ps = path.basename(String(process.env.PAGE_SET_FILE || ''));
+      try { ps = path.basename(JSON.parse(fs.readFileSync(path.join(repoRoot, 'data', 'site.json'), 'utf8')).pageSetFile || '') || ps; } catch (_) { /* fixture repo */ }
+      return new Set([...robots.NOINDEX_ROUTES, ...(robots.NOINDEX_ROUTES_BY_PACK[ps] || [])]);
+    })();
+    const sources = new Map();
+    const toNonIndexable = new Map();
+    for (const [from, targets] of graph) {
+      for (const t of targets) {
+        if (notIndexable.has(t) && !policyNoindex.has(t.replace(/\/$/, ''))) {
+          const k = `/${t}  (${notIndexable.get(t)})`;
+          if (!toNonIndexable.has(k)) toNonIndexable.set(k, []);
+          toNonIndexable.get(k).push(`/${from}`);
+        }
+        if (notIndexable.has(from) || !isPage.has(t)) continue;
+        if (!sources.has(t)) sources.set(t, new Set());
+        sources.get(t).add(from);
+      }
+    }
+    const thin = [];
+    for (const p of smPaths) {
+      const k = pageKey(distRoot, path.join(distRoot, 'index.html'), p);
+      if (k === null || k === '' || notIndexable.has(k) || !inbound.get(k)) continue;
+      const n = (sources.get(k) || new Set()).size;
+      if (n < 2) thin.push(`${p}  (${n} linking page${n === 1 ? '' : 's'}${n ? ': /' + [...sources.get(k)][0] : ''})`);
+    }
+    if (thin.length) {
+      problems.push(
+        `Thinly linked pages: ${thin.length} indexable sitemap URL(s) with clean links from fewer than two different indexable pages. ` +
+        'Add a second contextual link from a related page (scripts/build_city_sites.js linkOrphanChildPages).\n' +
+        thin.slice(0, 40).map((o) => `  ${o}`).join('\n') + (thin.length > 40 ? `\n  ...and ${thin.length - 40} more` : '')
+      );
+    }
+    if (toNonIndexable.size) {
+      const ranked = [...toNonIndexable.entries()].sort((a, b) => b[1].length - a[1].length);
+      problems.push(
+        `Internal links to non-indexable pages: ${ranked.length} target(s). Link the canonical indexable URL or drop the link.\n` +
+        ranked.slice(0, 30).map(([t, v]) => `  ${t}  <- ${v.length} page(s), e.g. ${v[0]}`).join('\n')
+      );
+    }
+    if (islands.length) {
+      problems.push(
+        `Unreachable pages: ${islands.length} sitemap URL(s) linked only from pages a crawler cannot reach from the home page ` +
+        'by following clean <a href> links (an orphan island). Link each from a reachable parent in the generator.\n' +
+        islands.slice(0, 40).map((o) => `  ${o}`).join('\n') +
+        (islands.length > 40 ? `\n  ...and ${islands.length - 40} more` : '')
+      );
     }
     if (orphans.length) {
       problems.push(
@@ -380,6 +540,13 @@ function run(ctx) {
     problems.push(
       `Pages reached by data-attr-qs links that do not load /assets/attr-carry.js (their attribution would be lost): ${carryMissing.length}\n` +
       carryMissing.slice(0, 20).map(([k, src]) => `  /${k}  <- e.g. ${src}`).join('\n')
+    );
+  }
+  if (redirecting.size) {
+    const ranked = [...redirecting.entries()].sort((a, b) => b[1].length - a[1].length);
+    problems.push(
+      `Internal links to a URL that answers 3XX: ${ranked.length} distinct href(s). Link the final 200 URL; keep the redirect for outside links.\n` +
+      ranked.slice(0, 30).map(([h, v]) => `  ${h}  <- ${v.length} link(s), e.g. ${v[0]}`).join('\n')
     );
   }
   if (internalAnchorsExamined === 0) problems.push('Examined zero internal <a href> links: the internal-query check checked nothing.');

@@ -36,6 +36,14 @@ jobs:
         # Dead outbound URL list, /cdn-cgi/l/email-protection hrefs and bare
         # email text outside an email_off fence each fail a fixture page.
         run: npm run test:link-audit
+      - name: Edge cache config pins
+        # Static HTML stays edge-cacheable: only /api/* reaches Functions, no
+        # middleware, pages.dev noindex via _headers, a cache rule per canonical zone.
+        run: npm run test:edge-cache
+      - name: Structured data vocabulary pins
+        # Organization-only properties on WebSite, unknown types/properties and
+        # zero-node pages each fail a fixture.
+        run: npm run test:structured-data
 
       - name: Warning tier
         # The tiering policy defines three tiers and the repo ships a runner for
