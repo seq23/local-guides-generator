@@ -46,7 +46,7 @@ const footer = (index.match(/<footer[\s\S]*?<\/footer>/i) || [''])[0];
 const header = (index.match(/<header[\s\S]*?<\/header>/i) || [''])[0]
   .replace(/ data-home-header="true"/, '')
   .replace(/href="#match"/g, 'href="/#match"');
-// Derive the origin from the homepage's canonical so the 404 can self-canonicalize
+// Derive the origin from the homepage's canonical (for the JSON-LD isPartOf)
 // without this script knowing any repo's domain.
 // Attribute order varies across these repos, so match either arrangement.
 const canonicalTagRaw = (index.match(/<link[^>]*rel=["']canonical["'][^>]*>/i)
@@ -54,7 +54,12 @@ const canonicalTagRaw = (index.match(/<link[^>]*rel=["']canonical["'][^>]*>/i)
 const canonicalHref = (canonicalTagRaw.match(/href=["']([^"']+)["']/i) || [])[1];
 let origin = '';
 try { origin = canonicalHref ? new URL(canonicalHref).origin : ''; } catch { origin = ''; }
-const canonicalTag = origin ? `\n  <link rel="canonical" href="${origin}/404.html">` : '';
+// No canonical on the 404. Pages serves this file for every missing path, so a
+// self-canonical pointed every 404 response at /404.html, which Pages answers
+// with a 308 to /404: Ahrefs (14 Oct 2026) counted that as an internal 3XX. A
+// noindex page needs no canonical. scripts/validation/link_audit.js fails a
+// canonical (or any internal link) that answers 3XX.
+const canonicalTag = '';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -88,8 +93,7 @@ ${footer}
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": `Page not found \u00b7 ${siteName}`,
-    ...(origin ? { "@id": `${origin}/404.html`, url: `${origin}/404.html`,
-                   isPartOf: { "@type": "WebSite", name: siteName, url: `${origin}/` } } : {}),
+    ...(origin ? { isPartOf: { "@type": "WebSite", name: siteName, url: `${origin}/` } } : {}),
   }, null, 2)}</script>
 </body>
 </html>

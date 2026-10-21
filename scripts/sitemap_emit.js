@@ -249,11 +249,18 @@ function run() {
     ...freshCities,
   ]).slice(0, 60);
 
+  // Every URL is listed in exactly one sub-sitemap. sitemap-fresh.xml used to
+  // repeat up to 60 URLs that their bucket sitemap also listed, and Ahrefs
+  // (14 Oct 2026) reported 39 theaccidentguides URLs as "Page in multiple
+  // sitemaps". A fresh URL now leaves its bucket for as long as it is fresh.
+  // Guarded by scripts/validation/sitemap_distribution_contract.js.
+  const freshRoutes = new Set(fresh.map((r) => r.route));
+  const notFresh = (items) => items.filter((r) => !freshRoutes.has(r.route));
   const outputs = {
-    'sitemap-guides.xml': guides,
-    'sitemap-cities.xml': cities,
-    'sitemap-states.xml': states,
-    'sitemap-core.xml': core,
+    'sitemap-guides.xml': notFresh(guides),
+    'sitemap-cities.xml': notFresh(cities),
+    'sitemap-states.xml': notFresh(states),
+    'sitemap-core.xml': notFresh(core),
     'sitemap-fresh.xml': fresh
   };
 

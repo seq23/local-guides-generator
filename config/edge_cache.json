@@ -1,0 +1,16 @@
+{
+  "why": "Static HTML on the six canonical sites was never edge-cached (cf-cache-status: DYNAMIC on every page; Cloudflare does not cache HTML by default). Ahrefs (14 Oct 2026) flagged Slow page on dentistryguides (69), theaccidentguides (59), uscisexam (30) and Slow server response for AI crawlers. This rule makes every GET outside /api/ eligible for the edge cache; the deploy workflow purges each zone once the new build is live. Applied by scripts/cloudflare/apply_edge_cache.js, pinned by tests/edge_cache/edge_cache_config.test.mjs.",
+  "account_id": "8d147e242033699dd37c6f5a451f48d2",
+  "rule_ref": "lgg_static_html_edge_cache",
+  "edge_ttl_seconds": 14400,
+  "uncached_path_prefixes": ["/api/"],
+  "sites": [
+    { "zone": "theaccidentguides.com", "pages_project": "local-guides-generator-pi" },
+    { "zone": "dentistryguides.com", "pages_project": "local-guides-generator-dentistry" },
+    { "zone": "thedentistryguides.com", "pages_project": "local-guides-generator-dentistry" },
+    { "zone": "hormonesivhair.com", "pages_project": "local-guides-generator-trt" },
+    { "zone": "neuroevalguides.com", "pages_project": "local-guides-generator-neuro" },
+    { "zone": "uscisexam.com", "pages_project": "local-guides-generator-uscis-medical" },
+    { "zone": "memphisseniorcarehomes.com", "pages_project": "local-guides-generator-senior-living" }
+  ]
+}

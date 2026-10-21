@@ -102,10 +102,57 @@ function run() {
     }
   };
   walk(distDir);
+  const relinked = relinkNoindexFallbacks(distDir);
 
   const note = missing.length ? `; not built in this pack: ${missing.join(', ')}` : '';
   console.log(`apply_robots_policy: ${changed} operator route(s) set to noindex,nofollow${note}`);
+  console.log(`apply_robots_policy: ${relinked} internal link(s) to those noindex city pages repointed to the city's indexable next-steps page or unlinked`);
   console.log(`apply_robots_policy: ${fallbacks} unresearched city page(s) set to noindex,nofollow - they had no data/city_content research file and were rendered from the slug template. Write a research file to promote one back.`);
+}
+
+// Internal links must not point at a noindex page (Ahrefs counts every such link
+// against the site, and a crawler spends the visit on a page it will not index).
+// A noindex template-fallback city page /<city>/ still has an indexable
+// /<city>/next-steps/ about the same city: links to the city page are repointed
+// there, or unlinked (text kept) when there is none or it is the page itself.
+// Guarded by scripts/validation/link_audit.js (internal links to non-indexable pages).
+function relinkNoindexFallbacks(distDir) {
+  const files = [];
+  (function w(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) w(full);
+      else if (e.name === 'index.html') files.push(full);
+    }
+  })(distDir);
+  const fallbackRoutes = files
+    .filter((f) => { const h = fs.readFileSync(f, 'utf8'); return TEMPLATE_FALLBACK_MARKER.test(h) && /content=["'][^"']*noindex/i.test(h); })
+    .map((f) => routeFor(distDir, f))
+    .filter((r) => r);
+  if (!fallbackRoutes.length) return 0;
+  const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const indexableNext = new Map(fallbackRoutes.map((r) => {
+    const f = path.join(distDir, r, 'next-steps', 'index.html');
+    const ok = fs.existsSync(f) && !/content=["'][^"']*noindex/i.test(fs.readFileSync(f, 'utf8'));
+    return [r, ok ? `/${r}/next-steps/` : null];
+  }));
+  let n = 0;
+  for (const f of files) {
+    const self = '/' + routeFor(distDir, f) + '/';
+    let html = fs.readFileSync(f, 'utf8');
+    const before = html;
+    for (const r of fallbackRoutes) {
+      if (self === `/${r}/`) continue; // the noindex page itself is not crawled for links
+      const re = new RegExp(`<a\\b([^>]*?)\\bhref=(["'])\\/${esc(r)}\\/(?:#[^"']*)?\\2([^>]*)>([\\s\\S]*?)<\\/a>`, 'gi');
+      html = html.replace(re, (m, pre, q, post, text) => {
+        n += 1;
+        const to = indexableNext.get(r);
+        return to && to !== self ? `<a${pre}href=${q}${to}${q}${post}>${text}</a>` : text;
+      });
+    }
+    if (html !== before) fs.writeFileSync(f, html, 'utf8');
+  }
+  return n;
 }
 
 if (require.main === module) run();

@@ -1,0 +1,13 @@
+# Copied into dist/ by scripts/copy_routes_config_to_dist.js.
+#
+# Any *.pages.dev hostname (the domainless base project and every project's
+# own preview hostnames) is a full duplicate of a production site, so it is
+# kept out of the index here. This used to be functions/_middleware.js, which
+# put a Worker in front of every HTML request on all six production domains;
+# Pages applies these host-matched rules without one, and _routes.json now
+# sends only /api/* to Functions. Pinned by tests/edge_cache/edge_cache_config.test.mjs.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
