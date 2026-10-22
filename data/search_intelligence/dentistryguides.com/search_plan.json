@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-09-21..2026-10-18",
+  "gsc_window": "2026-09-22..2026-10-19",
   "totals": {
     "clicks": 0,
-    "impressions": 555,
+    "impressions": 584,
     "ctr": 0,
-    "position": 61.7
+    "position": 61.6
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 181,
+      "family_impressions": 186,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
-      "impressions": 183,
+      "impressions": 188,
       "clicks": 0,
-      "position": 79.1,
+      "position": 78.9,
       "strengthened": true
     },
     {
@@ -29,11 +29,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 77,
+      "family_impressions": 81,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 23,
+      "impressions": 25,
       "clicks": 0,
-      "position": 54,
+      "position": 54.6,
       "strengthened": true
     },
     {
@@ -42,11 +42,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 77,
+      "family_impressions": 81,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 41,
+      "impressions": 47,
       "clicks": 0,
-      "position": 52,
+      "position": 53.2,
       "strengthened": true
     },
     {
@@ -55,9 +55,9 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 77,
+      "family_impressions": 81,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 30,
+      "impressions": 31,
       "clicks": 0,
       "position": 62.8,
       "strengthened": true

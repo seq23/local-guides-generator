@@ -1,29 +1,71 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-09-21..2026-10-18",
-  "gsc_collected_at": "2026-10-21T18:12:41+00:00",
+  "gsc_window": "2026-09-22..2026-10-19",
+  "gsc_collected_at": "2026-10-22T18:07:10+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 108,
+  "target_count": 113,
   "targets_by_source": {
-    "gsc_export": 108
+    "gsc_export": 113
   },
   "dropped_count": 0,
   "dropped": [],
   "targets": [
     {
+      "query": "memory care",
+      "normalized_query": "memory care",
+      "source": "gsc_export",
+      "impressions": 8,
+      "clicks": 0,
+      "average_position": 38.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 8,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/faq/"
+    },
+    {
+      "query": "memory care near me",
+      "normalized_query": "memory care near me",
+      "source": "gsc_export",
+      "impressions": 8,
+      "clicks": 0,
+      "average_position": 28,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 8,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
+    },
+    {
       "query": "assisted living memphis tn",
       "normalized_query": "assisted living memphis tn",
       "source": "gsc_export",
-      "impressions": 6,
+      "impressions": 7,
       "clicks": 0,
-      "average_position": 73.5,
+      "average_position": 74.7,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 6,
-        "window": "2026-09-21..2026-10-18"
+        "value": 7,
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
+    },
+    {
+      "query": "parent refuses to go to nursing home",
+      "normalized_query": "parent refuses to go to nursing home",
+      "source": "gsc_export",
+      "impressions": 7,
+      "clicks": 0,
+      "average_position": 57.1,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 7,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
     {
       "query": "care homes",
@@ -35,7 +77,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -49,35 +91,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/guides/when-a-parent-refuses-to-move/"
-    },
-    {
-      "query": "memory care",
-      "normalized_query": "memory care",
-      "source": "gsc_export",
-      "impressions": 6,
-      "clicks": 0,
-      "average_position": 39.3,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 6,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/faq/"
-    },
-    {
-      "query": "parent refuses to go to nursing home",
-      "normalized_query": "parent refuses to go to nursing home",
-      "source": "gsc_export",
-      "impressions": 6,
-      "clicks": 0,
-      "average_position": 58.3,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 6,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
@@ -91,9 +105,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/east-memphis-tn/"
+    },
+    {
+      "query": "assisted living",
+      "normalized_query": "assisted living",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 24,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
     },
     {
       "query": "memory care facilities",
@@ -105,35 +133,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "memory care near me",
-      "normalized_query": "memory care near me",
-      "source": "gsc_export",
-      "impressions": 5,
-      "clicks": 0,
-      "average_position": 28.8,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 5,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "assisted living",
-      "normalized_query": "assisted living",
-      "source": "gsc_export",
-      "impressions": 4,
-      "clicks": 0,
-      "average_position": 21.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 4,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -147,7 +147,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
@@ -161,7 +161,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/memphis-tn/"
     },
@@ -175,7 +175,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -189,7 +189,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/levels-of-care-tennessee/"
     },
@@ -203,9 +203,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/bartlett-tn/"
+    },
+    {
+      "query": "assisted living facility memphis",
+      "normalized_query": "assisted living facility memphis",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 72.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/memphis-tn/"
     },
     {
       "query": "how to move a parent to assisted living when they refuse",
@@ -217,9 +231,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/when-a-parent-refuses-to-move/"
+    },
+    {
+      "query": "memory care facilities memphis",
+      "normalized_query": "memory care facilities memphis",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 72.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
     },
     {
       "query": "memory care facilities memphis tn",
@@ -231,7 +259,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -245,7 +273,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -259,7 +287,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -273,7 +301,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
@@ -287,7 +315,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -301,21 +329,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "assisted living facility memphis",
-      "normalized_query": "assisted living facility memphis",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 75.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -329,9 +343,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
+    },
+    {
+      "query": "assisted living memphis",
+      "normalized_query": "assisted living memphis",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 79.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
     },
     {
       "query": "assisted living olive branch",
@@ -343,7 +371,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/olive-branch-ms/"
     },
@@ -357,7 +385,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/levels-of-care-tennessee/"
     },
@@ -371,7 +399,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/memphis-tn/"
     },
@@ -385,7 +413,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -399,7 +427,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -413,7 +441,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -427,9 +455,51 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
+    },
+    {
+      "query": "dementia care facilities near me",
+      "normalized_query": "dementia care facilities near me",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 29.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "elder care home",
+      "normalized_query": "elder care home",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 29.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "elderly parent refuses to leave home",
+      "normalized_query": "elderly parent refuses to leave home",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 75,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
     {
       "query": "memory care assistance bartlett",
@@ -441,9 +511,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/bartlett-tn/"
+    },
+    {
+      "query": "memory care assisted living",
+      "normalized_query": "memory care assisted living",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 27,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/faq/"
     },
     {
       "query": "memory care collierville tn",
@@ -455,7 +539,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -469,7 +553,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -483,7 +567,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -497,7 +581,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -511,7 +595,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -525,7 +609,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -539,7 +623,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -553,9 +637,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/faq/"
+    },
+    {
+      "query": "memphis senior care",
+      "normalized_query": "memphis senior care",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 50.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
     },
     {
       "query": "moving mom to assisted living against her will",
@@ -567,7 +665,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
@@ -581,7 +679,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -595,7 +693,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -609,7 +707,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -623,7 +721,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "senior living facilities memphis",
+      "normalized_query": "senior living facilities memphis",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 69,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -637,7 +749,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/west-memphis-ar/"
     },
@@ -651,7 +763,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -665,7 +777,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -679,7 +791,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -693,7 +805,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -707,7 +819,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -721,7 +833,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/bartlett-tn/"
     },
@@ -735,7 +847,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -749,7 +861,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/east-memphis-tn/"
     },
@@ -763,7 +875,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/memphis-tn/"
     },
@@ -777,23 +889,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/activities-of-daily-living-care-levels/"
-    },
-    {
-      "query": "assisted living memphis",
-      "normalized_query": "assisted living memphis",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 75,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/"
     },
     {
       "query": "assisted living memphis tennessee",
@@ -805,7 +903,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/memphis-tn/"
     },
@@ -819,7 +917,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/memphis-tn/"
     },
@@ -833,7 +931,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/residency-agreement-fees-and-rules/"
     },
@@ -847,7 +945,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/bartlett-tn/"
     },
@@ -861,7 +959,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/memphis-tn/"
     },
@@ -875,7 +973,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
@@ -889,7 +987,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
@@ -903,7 +1001,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/how-to-choose-a-senior-care-home-memphis/"
     },
@@ -917,7 +1015,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -931,13 +1029,13 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
     {
-      "query": "dementia care facilities near me",
-      "normalized_query": "dementia care facilities near me",
+      "query": "dementia care homes near me",
+      "normalized_query": "dementia care homes near me",
       "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
@@ -945,7 +1043,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -959,7 +1057,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -973,37 +1071,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
-    },
-    {
-      "query": "elder care home",
-      "normalized_query": "elder care home",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 29,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "elderly parent refuses to leave home",
-      "normalized_query": "elderly parent refuses to leave home",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 61,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
     {
       "query": "harborchase of germantown",
@@ -1015,7 +1085,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -1029,7 +1099,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -1043,7 +1113,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -1057,7 +1127,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -1071,7 +1141,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -1085,7 +1155,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -1099,7 +1169,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/hernando-ms/"
     },
@@ -1113,7 +1183,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/memphis-tn/"
     },
@@ -1127,7 +1197,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/bartlett-tn/"
     },
@@ -1141,7 +1211,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -1155,7 +1225,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/tennessee-assisted-living-inspection-records/"
     },
@@ -1169,23 +1239,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/millington-tn/"
-    },
-    {
-      "query": "memory care assisted living",
-      "normalized_query": "memory care assisted living",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 26,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/faq/"
     },
     {
       "query": "memory care bartlett",
@@ -1197,7 +1253,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/bartlett-tn/"
     },
@@ -1211,21 +1267,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "memory care facilities memphis",
-      "normalized_query": "memory care facilities memphis",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 63,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -1239,7 +1281,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -1253,7 +1295,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -1267,7 +1309,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/marion-ar/"
     },
@@ -1281,7 +1323,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/memphis-tn/"
     },
@@ -1295,7 +1337,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/when-a-parent-refuses-to-move/"
     },
@@ -1309,7 +1351,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/bartlett-tn/"
     },
@@ -1323,9 +1365,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
+    },
+    {
+      "query": "nursing homes in cordova tn",
+      "normalized_query": "nursing homes in cordova tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 92,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/cordova-tn/"
     },
     {
       "query": "olive branch assisted living",
@@ -1337,7 +1393,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/olive-branch-ms/"
     },
@@ -1351,9 +1407,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/saint-francis-hospital-park-avenue/"
+    },
+    {
+      "query": "senior care memphis tn",
+      "normalized_query": "senior care memphis tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 77,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/"
     },
     {
       "query": "senior housing options olive branch ms",
@@ -1365,7 +1435,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/olive-branch-ms/"
     },
@@ -1379,7 +1449,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/olive-branch-ms/"
     },
@@ -1393,23 +1463,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/olive-branch-ms/"
-    },
-    {
-      "query": "senior living facilities memphis",
-      "normalized_query": "senior living facilities memphis",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 69,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-21..2026-10-18"
-      },
-      "owner_route": "/"
     },
     {
       "query": "senior living facilities memphis tn",
@@ -1421,9 +1477,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
+    },
+    {
+      "query": "senior living in germantown tn",
+      "normalized_query": "senior living in germantown tn",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 47,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-22..2026-10-19"
+      },
+      "owner_route": "/germantown-tn/"
     },
     {
       "query": "senior living memphis",
@@ -1435,7 +1505,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -1449,7 +1519,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/"
     },
@@ -1463,7 +1533,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/saint-francis-hospital-park-avenue/"
     },
@@ -1477,7 +1547,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/germantown-tn/"
     },
@@ -1491,7 +1561,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/collierville-tn/"
     },
@@ -1505,7 +1575,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/assisted-living-cost-memphis/"
     },
@@ -1519,7 +1589,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-21..2026-10-18"
+        "window": "2026-09-22..2026-10-19"
       },
       "owner_route": "/guides/memory-care-when-is-it-time/"
     }
