@@ -2,17 +2,17 @@
   "schema_version": "1.0",
   "host": "dentistryguides.com",
   "status": "LEDGER_ONLY_NO_REDIRECTS",
-  "gsc_window": "2026-09-22..2026-10-19",
+  "gsc_window": "2026-09-23..2026-10-20",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
   "guide_count": 23,
-  "candidate_count": 9,
+  "candidate_count": 10,
   "candidates": [
     {
       "route": "/guides/clear-aligners/",
       "source": "data/page_sets/examples/dentistry_global_pages/guides_clear-aligners.json",
       "words": 458,
       "impressions_28d": 0,
-      "coverage_state": "Discovered - currently not indexed",
+      "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/dental-implants/",
       "fold_basis": "shares 1 topic words with a guide that has impressions"
     },
@@ -39,7 +39,7 @@
       "source": "data/page_sets/examples/dentistry_global_pages/guides_full-arch-implants.json",
       "words": 457,
       "impressions_28d": 0,
-      "coverage_state": "Discovered - currently not indexed",
+      "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/dental-implants/",
       "fold_basis": "shares 2 topic words with a guide that has impressions"
     },
@@ -87,6 +87,15 @@
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/dental-implants/",
       "fold_basis": "shares 2 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/veneers/",
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_veneers.json",
+      "words": 383,
+      "impressions_28d": 0,
+      "coverage_state": "Submitted and indexed",
+      "fold_into": "/guides/dental-implants/",
+      "fold_basis": "shares 1 topic words with a guide that has impressions"
     }
   ]
 }

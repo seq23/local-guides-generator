@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-22..2026-10-19",
+  "gsc_window": "2026-09-23..2026-10-20",
   "totals": {
     "clicks": 0,
-    "impressions": 44,
+    "impressions": 45,
     "ctr": 0,
-    "position": 64.8
+    "position": 65.3
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 20,
+      "family_impressions": 21,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
-      "impressions": 20,
+      "impressions": 21,
       "clicks": 0,
-      "position": 90.1,
+      "position": 90,
       "strengthened": true
     },
     {
@@ -42,17 +42,17 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 78,
-      "Discovered - currently not indexed": 53,
+      "Discovered - currently not indexed": 49,
       "Duplicate, Google chose different canonical than user": 1,
       "Submitted and indexed": 27,
-      "URL is unknown to Google": 65
+      "URL is unknown to Google": 69
     },
     "buckets": {
       "crawled_not_indexed": 78,
-      "discovered_not_indexed": 53,
+      "discovered_not_indexed": 49,
       "indexed": 27,
       "other": 1,
-      "unknown": 65
+      "unknown": 69
     }
   }
 }

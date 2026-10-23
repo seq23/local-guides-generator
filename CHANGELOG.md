@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-10-23
+
+- Revalidated core contracts and inventories (rotating focus: Memphis Senior Care Homes).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-10-22
 
 - Revalidated core contracts and inventories (rotating focus: USCIS Exam Guides).
