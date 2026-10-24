@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-23..2026-10-20",
-  "gsc_collected_at": "2026-10-23T17:56:07+00:00",
+  "gsc_window": "2026-09-24..2026-10-21",
+  "gsc_collected_at": "2026-10-24T16:51:28+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
   "target_count": 5,
   "targets_by_source": {
@@ -21,7 +21,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-23..2026-10-20"
+        "window": "2026-09-24..2026-10-21"
       },
       "owner_route": "/guides/hospital-vs-private-neuropsych-testing/"
     },
@@ -35,23 +35,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-23..2026-10-20"
+        "window": "2026-09-24..2026-10-21"
       },
       "owner_route": "/contact/"
-    },
-    {
-      "query": "autism testing south dakota",
-      "normalized_query": "autism testing south dakota",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 76,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-23..2026-10-20"
-      },
-      "owner_route": "/states/SD/"
     },
     {
       "query": "brainwise ri",
@@ -63,7 +49,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-23..2026-10-20"
+        "window": "2026-09-24..2026-10-21"
       },
       "owner_route": "/states/RI/"
     },
@@ -77,9 +63,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-23..2026-10-20"
+        "window": "2026-09-24..2026-10-21"
       },
       "owner_route": "/states/SD/"
+    },
+    {
+      "query": "neuropsychological testing cost",
+      "normalized_query": "neuropsychological testing cost",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 94,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-24..2026-10-21"
+      },
+      "owner_route": "/guides/neuropsych-testing-cost-by-state/"
     }
   ]
 }

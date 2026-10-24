@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-09-23..2026-10-20",
-  "gsc_collected_at": "2026-10-23T17:56:07+00:00",
+  "gsc_window": "2026-09-24..2026-10-21",
+  "gsc_collected_at": "2026-10-24T16:51:28+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,30 +12,30 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 29,
+  "family_count": 31,
   "top_families": [
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 54,
+      "impressions": 64,
       "status": "no_page"
     },
     {
       "rank": 2,
       "family": "choose a provider @ /",
-      "impressions": 33,
+      "impressions": 34,
       "status": "no_page"
     },
     {
       "rank": 3,
       "family": "when to call @ /guides/when-a-parent-refuses-to-move/",
-      "impressions": 30,
+      "impressions": 32,
       "status": "strengthened"
     },
     {
       "rank": 4,
       "family": "other @ /memphis-tn/",
-      "impressions": 24,
+      "impressions": 31,
       "status": "no_page"
     },
     {
@@ -53,23 +53,29 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 54,
-      "best_position": 21,
-      "weighted_position": 52.3,
-      "top_query": "care homes",
-      "query_count": 28,
+      "impressions": 64,
+      "best_position": 20.6,
+      "weighted_position": 54.4,
+      "top_query": "memory care",
+      "query_count": 30,
       "queries": [
-        {
-          "query": "care homes",
-          "route": "/",
-          "impressions": 6,
-          "position": 21
-        },
         {
           "query": "memory care",
           "route": "/",
+          "impressions": 8,
+          "position": 50.9
+        },
+        {
+          "query": "care homes",
+          "route": "/",
+          "impressions": 7,
+          "position": 20.6
+        },
+        {
+          "query": "assisted living memphis tn",
+          "route": "/",
           "impressions": 6,
-          "position": 52.8
+          "position": 74.7
         },
         {
           "query": "assisted living",
@@ -78,10 +84,10 @@
           "position": 35.5
         },
         {
-          "query": "assisted living memphis tn",
+          "query": "care homes memphis",
           "route": "/",
           "impressions": 4,
-          "position": 74.5
+          "position": 74.8
         },
         {
           "query": "senior care nursing home",
@@ -150,6 +156,12 @@
           "position": 81
         },
         {
+          "query": "assisted living memphis tennessee",
+          "route": "/",
+          "impressions": 1,
+          "position": 88
+        },
+        {
           "query": "assisted living memphis tn",
           "route": "/",
           "impressions": 1,
@@ -160,12 +172,6 @@
           "route": "/",
           "impressions": 1,
           "position": 67
-        },
-        {
-          "query": "care homes memphis",
-          "route": "/",
-          "impressions": 1,
-          "position": 70
         },
         {
           "query": "dementia care memphis",
@@ -204,6 +210,12 @@
           "position": 71
         },
         {
+          "query": "memphis assisted living facilities",
+          "route": "/",
+          "impressions": 1,
+          "position": 81
+        },
+        {
           "query": "senior care memphis tn",
           "route": "/",
           "impressions": 1,
@@ -231,7 +243,7 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 54,
+          "family_impressions": 64,
           "page_impressions": 6,
           "page_position": 71.3
         }
@@ -252,17 +264,17 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 33,
+      "impressions": 34,
       "best_position": 19,
-      "weighted_position": 29.2,
+      "weighted_position": 29.1,
       "top_query": "memory care near me",
       "query_count": 18,
       "queries": [
         {
           "query": "memory care near me",
           "route": "/",
-          "impressions": 7,
-          "position": 37.6
+          "impressions": 8,
+          "position": 36.5
         },
         {
           "query": "dementia assisted living near me",
@@ -370,7 +382,7 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 33,
+          "family_impressions": 34,
           "page_impressions": 6,
           "page_position": 71.3
         }
@@ -391,23 +403,23 @@
       "page": "/guides/when-a-parent-refuses-to-move/",
       "page_kind": "guide",
       "page_intent": "when_to_call",
-      "impressions": 30,
+      "impressions": 32,
       "best_position": 57.1,
-      "weighted_position": 77,
-      "top_query": "parent refuses to go to nursing home",
+      "weighted_position": 77.8,
+      "top_query": "elderly parent refuses assisted living",
       "query_count": 10,
       "queries": [
+        {
+          "query": "elderly parent refuses assisted living",
+          "route": "/guides/when-a-parent-refuses-to-move/",
+          "impressions": 7,
+          "position": 88.3
+        },
         {
           "query": "parent refuses to go to nursing home",
           "route": "/guides/when-a-parent-refuses-to-move/",
           "impressions": 7,
           "position": 57.1
-        },
-        {
-          "query": "elderly parent refuses assisted living",
-          "route": "/guides/when-a-parent-refuses-to-move/",
-          "impressions": 6,
-          "position": 88.2
         },
         {
           "query": "elderly parent refuses to go to assisted living",
@@ -418,8 +430,8 @@
         {
           "query": "how to move a parent to assisted living when they refuse",
           "route": "/guides/when-a-parent-refuses-to-move/",
-          "impressions": 3,
-          "position": 91.3
+          "impressions": 4,
+          "position": 91
         },
         {
           "query": "what to do if your elderly parent refuses assisted living",
@@ -461,9 +473,9 @@
       "pages": [
         {
           "route": "/guides/when-a-parent-refuses-to-move/",
-          "family_impressions": 30,
-          "page_impressions": 31,
-          "page_position": 74.7
+          "family_impressions": 32,
+          "page_impressions": 34,
+          "page_position": 73.7
         }
       ],
       "rank": 3,
@@ -484,23 +496,35 @@
       "page": "/memphis-tn/",
       "page_kind": "other",
       "page_intent": "other",
-      "impressions": 24,
+      "impressions": 31,
       "best_position": 63,
-      "weighted_position": 75.4,
+      "weighted_position": 76.2,
       "top_query": "assisted living memphis tn",
-      "query_count": 16,
+      "query_count": 18,
       "queries": [
         {
           "query": "assisted living memphis tn",
           "route": "/memphis-tn/",
-          "impressions": 3,
-          "position": 82.3
+          "impressions": 4,
+          "position": 82.8
         },
         {
           "query": "assisted living facilities in memphis tennessee",
           "route": "/memphis-tn/",
-          "impressions": 2,
-          "position": 82.5
+          "impressions": 3,
+          "position": 82
+        },
+        {
+          "query": "assisted living memphis",
+          "route": "/memphis-tn/",
+          "impressions": 3,
+          "position": 82
+        },
+        {
+          "query": "memory care memphis",
+          "route": "/memphis-tn/",
+          "impressions": 3,
+          "position": 73.7
         },
         {
           "query": "assisted living facility memphis",
@@ -509,10 +533,10 @@
           "position": 68.5
         },
         {
-          "query": "assisted living memphis",
+          "query": "assisted living memphis tennessee",
           "route": "/memphis-tn/",
           "impressions": 2,
-          "position": 81.5
+          "position": 81
         },
         {
           "query": "belmont village memphis",
@@ -527,12 +551,6 @@
           "position": 67
         },
         {
-          "query": "memory care memphis",
-          "route": "/memphis-tn/",
-          "impressions": 2,
-          "position": 77
-        },
-        {
           "query": "assisted living facilities in memphis tn",
           "route": "/memphis-tn/",
           "impressions": 1,
@@ -545,16 +563,16 @@
           "position": 76
         },
         {
-          "query": "assisted living memphis tennessee",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 79
-        },
-        {
           "query": "belmont village senior living memphis",
           "route": "/memphis-tn/",
           "impressions": 1,
           "position": 76
+        },
+        {
+          "query": "care homes memphis",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 79
         },
         {
           "query": "independent living and memory care facilities",
@@ -581,6 +599,12 @@
           "position": 76
         },
         {
+          "query": "memphis assisted living facilities",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 75
+        },
+        {
           "query": "memphis memory care",
           "route": "/memphis-tn/",
           "impressions": 1,
@@ -590,9 +614,9 @@
       "pages": [
         {
           "route": "/memphis-tn/",
-          "family_impressions": 24,
-          "page_impressions": 29,
-          "page_position": 67.9
+          "family_impressions": 31,
+          "page_impressions": 36,
+          "page_position": 70
         }
       ],
       "rank": 4,
@@ -712,8 +736,8 @@
         {
           "route": "/germantown-tn/",
           "family_impressions": 20,
-          "page_impressions": 23,
-          "page_position": 51.5
+          "page_impressions": 24,
+          "page_position": 50.6
         }
       ],
       "rank": 5,
@@ -818,7 +842,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 6 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 6 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /faq/",
@@ -865,7 +889,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 7 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 7 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /bartlett-tn/",
@@ -874,9 +898,9 @@
       "page": "/bartlett-tn/",
       "page_kind": "other",
       "page_intent": "other",
-      "impressions": 11,
+      "impressions": 12,
       "best_position": 43.5,
-      "weighted_position": 70.6,
+      "weighted_position": 68.4,
       "top_query": "assisted living bartlett tn",
       "query_count": 7,
       "queries": [
@@ -887,16 +911,16 @@
           "position": 84.3
         },
         {
+          "query": "memory care bartlett",
+          "route": "/bartlett-tn/",
+          "impressions": 3,
+          "position": 48
+        },
+        {
           "query": "memory care assistance bartlett",
           "route": "/bartlett-tn/",
           "impressions": 2,
           "position": 43.5
-        },
-        {
-          "query": "memory care bartlett",
-          "route": "/bartlett-tn/",
-          "impressions": 2,
-          "position": 50
         },
         {
           "query": "assisted living bartlett",
@@ -926,9 +950,9 @@
       "pages": [
         {
           "route": "/bartlett-tn/",
-          "family_impressions": 11,
-          "page_impressions": 13,
-          "page_position": 60.5
+          "family_impressions": 12,
+          "page_impressions": 15,
+          "page_position": 55.6
         }
       ],
       "rank": 8,
@@ -936,7 +960,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 8 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 8 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /saint-francis-hospital-park-avenue/",
@@ -1007,7 +1031,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 9 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 9 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /olive-branch-ms/",
@@ -1072,7 +1096,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 10 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 10 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "topic:tennessee-assisted-living-inspection-records @ /guides/tennessee-assisted-living-inspection-records/",
@@ -1081,23 +1105,23 @@
       "page": "/guides/tennessee-assisted-living-inspection-records/",
       "page_kind": "guide",
       "page_intent": "topic:tennessee-assisted-living-inspection-records",
-      "impressions": 6,
+      "impressions": 9,
       "best_position": 28,
-      "weighted_position": 70.7,
+      "weighted_position": 75,
       "top_query": "tennessee assisted living regulations",
       "query_count": 4,
       "queries": [
         {
           "query": "tennessee assisted living regulations",
           "route": "/guides/tennessee-assisted-living-inspection-records/",
-          "impressions": 3,
-          "position": 79
+          "impressions": 5,
+          "position": 79.8
         },
         {
           "query": "assisted living tennessee state regulations",
           "route": "/guides/tennessee-assisted-living-inspection-records/",
-          "impressions": 1,
-          "position": 65
+          "impressions": 2,
+          "position": 77
         },
         {
           "query": "inspection assisted living",
@@ -1115,9 +1139,9 @@
       "pages": [
         {
           "route": "/guides/tennessee-assisted-living-inspection-records/",
-          "family_impressions": 6,
-          "page_impressions": 16,
-          "page_position": 34
+          "family_impressions": 9,
+          "page_impressions": 22,
+          "page_position": 37.6
         }
       ],
       "rank": 11,
@@ -1125,7 +1149,48 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 11 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 11 of 31 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "licence lookup @ /guides/levels-of-care-tennessee/",
+      "intent": "license_lookup",
+      "head_term": "licence lookup",
+      "page": "/guides/levels-of-care-tennessee/",
+      "page_kind": "guide",
+      "page_intent": "license_lookup",
+      "impressions": 6,
+      "best_position": 71.8,
+      "weighted_position": 72.7,
+      "top_query": "tennessee assisted living regulations",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "tennessee assisted living regulations",
+          "route": "/guides/levels-of-care-tennessee/",
+          "impressions": 4,
+          "position": 71.8
+        },
+        {
+          "query": "assisted living tennessee state regulations",
+          "route": "/guides/levels-of-care-tennessee/",
+          "impressions": 2,
+          "position": 74.5
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/levels-of-care-tennessee/",
+          "family_impressions": 6,
+          "page_impressions": 16,
+          "page_position": 30.4
+        }
+      ],
+      "rank": 12,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 12 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /collierville-tn/",
@@ -1161,53 +1226,12 @@
           "page_position": 57.1
         }
       ],
-      "rank": 12,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 12 of 29 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "licence lookup @ /guides/levels-of-care-tennessee/",
-      "intent": "license_lookup",
-      "head_term": "licence lookup",
-      "page": "/guides/levels-of-care-tennessee/",
-      "page_kind": "guide",
-      "page_intent": "license_lookup",
-      "impressions": 4,
-      "best_position": 71,
-      "weighted_position": 71.8,
-      "top_query": "tennessee assisted living regulations",
-      "query_count": 2,
-      "queries": [
-        {
-          "query": "tennessee assisted living regulations",
-          "route": "/guides/levels-of-care-tennessee/",
-          "impressions": 3,
-          "position": 71
-        },
-        {
-          "query": "assisted living tennessee state regulations",
-          "route": "/guides/levels-of-care-tennessee/",
-          "impressions": 1,
-          "position": 74
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/levels-of-care-tennessee/",
-          "family_impressions": 4,
-          "page_impressions": 13,
-          "page_position": 25.7
-        }
-      ],
       "rank": 13,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 13 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 13 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /east-memphis-tn/",
@@ -1253,6 +1277,119 @@
       "reason": "lands on /east-memphis-tn/ (other); no guide or state hub serves \"other\" there"
     },
     {
+      "family": "other @ /horn-lake-ms/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/horn-lake-ms/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 3,
+      "best_position": 8,
+      "weighted_position": 8,
+      "top_query": "assisted living",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "assisted living",
+          "route": "/horn-lake-ms/",
+          "impressions": 3,
+          "position": 8
+        }
+      ],
+      "pages": [
+        {
+          "route": "/horn-lake-ms/",
+          "family_impressions": 3,
+          "page_impressions": 4,
+          "page_position": 8.2
+        }
+      ],
+      "rank": 15,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on /horn-lake-ms/ (other); no guide or state hub serves \"other\" there"
+    },
+    {
+      "family": "choose a provider @ /guides/tennessee-assisted-living-inspection-records/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/guides/tennessee-assisted-living-inspection-records/",
+      "page_kind": "guide",
+      "page_intent": "topic:tennessee-assisted-living-inspection-records",
+      "impressions": 2,
+      "best_position": 11,
+      "weighted_position": 11,
+      "top_query": "how to find nursing home survey results",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "how to find nursing home survey results",
+          "route": "/guides/tennessee-assisted-living-inspection-records/",
+          "impressions": 2,
+          "position": 11
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/tennessee-assisted-living-inspection-records/",
+          "family_impressions": 2,
+          "page_impressions": 22,
+          "page_position": 37.6
+        }
+      ],
+      "rank": 16,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 16 of 31 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "choose a provider @ /hernando-ms/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/hernando-ms/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 2,
+      "best_position": 10,
+      "weighted_position": 10.5,
+      "top_query": "assisted living medicaid near me",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "assisted living medicaid near me",
+          "route": "/hernando-ms/",
+          "impressions": 1,
+          "position": 10
+        },
+        {
+          "query": "memory care near me",
+          "route": "/hernando-ms/",
+          "impressions": 1,
+          "position": 11
+        }
+      ],
+      "pages": [
+        {
+          "route": "/hernando-ms/",
+          "family_impressions": 2,
+          "page_impressions": 3,
+          "page_position": 31
+        }
+      ],
+      "rank": 17,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 17 of 31 by impressions; no page at position <= 15"
+    },
+    {
       "family": "other @ /baptist-memorial-hospital-memphis/",
       "intent": "other",
       "head_term": "other",
@@ -1280,7 +1417,7 @@
           "page_position": 5.7
         }
       ],
-      "rank": 15,
+      "rank": 18,
       "basis": [
         "ranking_page"
       ],
@@ -1290,41 +1427,45 @@
       "reason": "lands on /baptist-memorial-hospital-memphis/ (other); no guide or state hub serves \"other\" there"
     },
     {
-      "family": "other @ /horn-lake-ms/",
+      "family": "other @ /cordova-tn/",
       "intent": "other",
       "head_term": "other",
-      "page": "/horn-lake-ms/",
+      "page": "/cordova-tn/",
       "page_kind": "other",
       "page_intent": "other",
       "impressions": 2,
-      "best_position": 7,
-      "weighted_position": 7,
-      "top_query": "assisted living",
-      "query_count": 1,
+      "best_position": 71,
+      "weighted_position": 81.5,
+      "top_query": "nursing homes in cordova tn",
+      "query_count": 2,
       "queries": [
         {
-          "query": "assisted living",
-          "route": "/horn-lake-ms/",
-          "impressions": 2,
-          "position": 7
+          "query": "nursing homes in cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 92
+        },
+        {
+          "query": "story point cordova",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 71
         }
       ],
       "pages": [
         {
-          "route": "/horn-lake-ms/",
+          "route": "/cordova-tn/",
           "family_impressions": 2,
-          "page_impressions": 3,
-          "page_position": 7.7
+          "page_impressions": 4,
+          "page_position": 44
         }
       ],
-      "rank": 16,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
+      "rank": 19,
+      "basis": [],
+      "qualifies": false,
       "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "lands on /horn-lake-ms/ (other); no guide or state hub serves \"other\" there"
+      "status": "not_top_family",
+      "reason": "rank 19 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /guides/how-to-choose-a-senior-care-home-memphis/",
@@ -1350,16 +1491,16 @@
         {
           "route": "/guides/how-to-choose-a-senior-care-home-memphis/",
           "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 43
+          "page_impressions": 3,
+          "page_position": 31.3
         }
       ],
-      "rank": 17,
+      "rank": 20,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 17 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 20 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /memphis-tn/",
@@ -1385,16 +1526,16 @@
         {
           "route": "/memphis-tn/",
           "family_impressions": 1,
-          "page_impressions": 29,
-          "page_position": 67.9
+          "page_impressions": 36,
+          "page_position": 70
         }
       ],
-      "rank": 18,
+      "rank": 21,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 18 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 21 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /states/{STATE}/",
@@ -1420,16 +1561,16 @@
         {
           "route": "/states/TN/",
           "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 27
+          "page_impressions": 2,
+          "page_position": 18
         }
       ],
-      "rank": 19,
+      "rank": 22,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 19 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 22 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/activities-of-daily-living-care-levels/",
@@ -1455,16 +1596,16 @@
         {
           "route": "/guides/activities-of-daily-living-care-levels/",
           "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 49.3
+          "page_impressions": 4,
+          "page_position": 59.2
         }
       ],
-      "rank": 20,
+      "rank": 23,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 20 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 23 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/assisted-living-cost-memphis/",
@@ -1494,12 +1635,12 @@
           "page_position": 92
         }
       ],
-      "rank": 21,
+      "rank": 24,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 21 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 24 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/residency-agreement-fees-and-rules/",
@@ -1529,47 +1670,12 @@
           "page_position": 58
         }
       ],
-      "rank": 22,
+      "rank": 25,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 22 of 29 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "other @ /cordova-tn/",
-      "intent": "other",
-      "head_term": "other",
-      "page": "/cordova-tn/",
-      "page_kind": "other",
-      "page_intent": "other",
-      "impressions": 1,
-      "best_position": 92,
-      "weighted_position": 92,
-      "top_query": "nursing homes in cordova tn",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "nursing homes in cordova tn",
-          "route": "/cordova-tn/",
-          "impressions": 1,
-          "position": 92
-        }
-      ],
-      "pages": [
-        {
-          "route": "/cordova-tn/",
-          "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 35
-        }
-      ],
-      "rank": 23,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 23 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 25 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /hernando-ms/",
@@ -1595,16 +1701,16 @@
         {
           "route": "/hernando-ms/",
           "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 72
+          "page_impressions": 3,
+          "page_position": 31
         }
       ],
-      "rank": 24,
+      "rank": 26,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 24 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 26 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /lakeland-tn/",
@@ -1630,11 +1736,11 @@
         {
           "route": "/lakeland-tn/",
           "family_impressions": 1,
-          "page_impressions": 6,
-          "page_position": 9.5
+          "page_impressions": 7,
+          "page_position": 9.7
         }
       ],
-      "rank": 25,
+      "rank": 27,
       "basis": [
         "ranking_page"
       ],
@@ -1667,16 +1773,16 @@
         {
           "route": "/marion-ar/",
           "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 82
+          "page_impressions": 2,
+          "page_position": 44.5
         }
       ],
-      "rank": 26,
+      "rank": 28,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 26 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 28 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /millington-tn/",
@@ -1706,7 +1812,7 @@
           "page_position": 15
         }
       ],
-      "rank": 27,
+      "rank": 29,
       "basis": [
         "ranking_page"
       ],
@@ -1743,12 +1849,12 @@
           "page_position": 69
         }
       ],
-      "rank": 28,
+      "rank": 30,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 28 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 30 of 31 by impressions; no page at position <= 15"
     },
     {
       "family": "when to call @ /guides/memory-care-when-is-it-time/",
@@ -1778,12 +1884,12 @@
           "page_position": 35.7
         }
       ],
-      "rank": 29,
+      "rank": 31,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 29 of 29 by impressions; no page at position <= 15"
+      "reason": "rank 31 of 31 by impressions; no page at position <= 15"
     }
   ]
 }

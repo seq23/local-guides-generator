@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-23..2026-10-20",
-  "gsc_collected_at": "2026-10-23T17:56:07+00:00",
+  "gsc_window": "2026-09-24..2026-10-21",
+  "gsc_collected_at": "2026-10-24T16:51:28+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,87 +12,40 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 4,
+  "family_count": 5,
   "top_families": [
     {
       "rank": 1,
-      "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 3,
-      "status": "below_impression_floor"
-    },
-    {
-      "rank": 2,
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
       "impressions": 3,
       "status": "below_impression_floor"
     },
     {
+      "rank": 2,
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 2,
+      "status": "below_impression_floor"
+    },
+    {
       "rank": 3,
+      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
+      "impressions": 1,
+      "status": "strengthened"
+    },
+    {
+      "rank": 4,
       "family": "other @ /contact/",
       "impressions": 1,
       "status": "below_impression_floor"
     },
     {
-      "rank": 4,
+      "rank": 5,
       "family": "other @ /privacy/",
       "impressions": 1,
       "status": "below_impression_floor"
     }
   ],
   "families": [
-    {
-      "family": "choose a provider @ /states/{STATE}/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/states/{STATE}/",
-      "page_kind": "state_hub",
-      "page_intent": "choose_provider",
-      "impressions": 3,
-      "best_position": 21,
-      "weighted_position": 51.3,
-      "top_query": "autism testing south dakota",
-      "query_count": 3,
-      "queries": [
-        {
-          "query": "autism testing south dakota",
-          "route": "/states/SD/",
-          "impressions": 1,
-          "position": 76
-        },
-        {
-          "query": "brainwise ri",
-          "route": "/states/RI/",
-          "impressions": 1,
-          "position": 57
-        },
-        {
-          "query": "neuropsych testing near me",
-          "route": "/states/SD/",
-          "impressions": 1,
-          "position": 21
-        }
-      ],
-      "pages": [
-        {
-          "route": "/states/SD/",
-          "family_impressions": 2,
-          "page_impressions": 6,
-          "page_position": 28.8
-        },
-        {
-          "route": "/states/RI/",
-          "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 43.3
-        }
-      ],
-      "rank": 1,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "3 impressions < 5"
-    },
     {
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
       "intent": "comparison",
@@ -121,12 +74,98 @@
           "page_position": 15.8
         }
       ],
-      "rank": 2,
+      "rank": 1,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
       "reason": "3 impressions < 5"
+    },
+    {
+      "family": "choose a provider @ /states/{STATE}/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 2,
+      "best_position": 21,
+      "weighted_position": 39,
+      "top_query": "brainwise ri",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "brainwise ri",
+          "route": "/states/RI/",
+          "impressions": 1,
+          "position": 57
+        },
+        {
+          "query": "neuropsych testing near me",
+          "route": "/states/SD/",
+          "impressions": 1,
+          "position": 21
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/RI/",
+          "family_impressions": 1,
+          "page_impressions": 3,
+          "page_position": 43.3
+        },
+        {
+          "route": "/states/SD/",
+          "family_impressions": 1,
+          "page_impressions": 5,
+          "page_position": 19.4
+        }
+      ],
+      "rank": 2,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "2 impressions < 5"
+    },
+    {
+      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/neuropsych-testing-cost-by-state/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 1,
+      "best_position": 94,
+      "weighted_position": 94,
+      "top_query": "neuropsychological testing cost",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "neuropsychological testing cost",
+          "route": "/guides/neuropsych-testing-cost-by-state/",
+          "impressions": 1,
+          "position": 94
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/neuropsych-testing-cost-by-state/",
+          "family_impressions": 1,
+          "page_impressions": 16,
+          "page_position": 12.6
+        }
+      ],
+      "rank": 3,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/neuropsych-testing-cost-by-state/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json search_strengthening"
     },
     {
       "family": "other @ /contact/",
@@ -156,7 +195,7 @@
           "page_position": 34
         }
       ],
-      "rank": 3,
+      "rank": 4,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
@@ -191,7 +230,7 @@
           "page_position": 32.3
         }
       ],
-      "rank": 4,
+      "rank": 5,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],

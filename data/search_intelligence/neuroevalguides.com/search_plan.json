@@ -1,28 +1,42 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-23..2026-10-20",
+  "gsc_window": "2026-09-24..2026-10-21",
   "totals": {
     "clicks": 2,
-    "impressions": 42,
-    "ctr": 0.0476,
+    "impressions": 43,
+    "ctr": 0.0465,
     "position": 18.9
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
-  "strengthening_candidates": [],
+  "strengthening_candidates": [
+    {
+      "route": "/guides/neuropsych-testing-cost-by-state/",
+      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
+      "basis": [
+        "ranking_page"
+      ],
+      "family_impressions": 1,
+      "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
+      "impressions": 16,
+      "clicks": 2,
+      "position": 12.6,
+      "strengthened": true
+    }
+  ],
   "not_yet_strengthened": [],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 76,
-      "Discovered - currently not indexed": 33,
+      "Crawled - currently not indexed": 77,
+      "Discovered - currently not indexed": 37,
       "Submitted and indexed": 32,
-      "URL is unknown to Google": 64
+      "URL is unknown to Google": 59
     },
     "buckets": {
-      "crawled_not_indexed": 76,
-      "discovered_not_indexed": 33,
+      "crawled_not_indexed": 77,
+      "discovered_not_indexed": 37,
       "indexed": 32,
-      "unknown": 64
+      "unknown": 59
     }
   }
 }
