@@ -19,6 +19,10 @@ const fs = require('fs');
 const path = require('path');
 
 const ROUTER = 'scripts/lib/free_llm_router.mjs';
+// Where the zero-paid policy has to be readable. The first is the reasoning and
+// the receipts; the second is the file an agent opens before it does anything.
+const COST_DOC = 'docs/cost/zero-paid-llm.md';
+const AGENT_DOC = 'CLAUDE.md';
 const ROUTING = 'config/llm_routing.json';
 const SELF = 'scripts/lib/zero_paid_llm_check.js';
 // Text that means "this line reaches a model provider".
@@ -150,6 +154,33 @@ function check(io, { reg, now = Date.now() } = {}) {
     if (!/CONFIRM_PAID:\s*\$\{\{\s*inputs\.confirm_paid\s*\}\}/.test(yml)) failures.push(`${rel} does not pass CONFIRM_PAID from inputs.confirm_paid to the probe`);
   }
   if (!probeWorkflows.length) failures.push('no probe workflows registered; the check would govern nothing');
+
+  // ------------------------------------------- (d) the policy is discoverable
+  // A rule no code reads is a wish, and a rule the next agent cannot find is
+  // the same thing. The cost policy was written down in docs/cost/zero-paid-llm.md
+  // and enforced by this contract, but the repo had no CLAUDE.md at all, so an
+  // agent opening the repository was never told. Search Readiness item i10 wants
+  // both: the reasoning in docs/cost/zero-paid-llm.md, and a "nothing paid" line
+  // in CLAUDE.md where an agent actually looks first - with a test that reads it,
+  // which is this block.
+  if (!io.exists(COST_DOC)) {
+    failures.push(`${COST_DOC} missing; the zero-paid policy has nowhere that explains itself`);
+  } else if (!/nothing\s+(should\s+be\s+)?paid/i.test(io.read(COST_DOC))) {
+    failures.push(`${COST_DOC} does not state the "nothing paid" policy it exists to record`);
+  }
+  if (!io.exists(AGENT_DOC)) {
+    failures.push(`${AGENT_DOC} missing; an agent opening this repo is never told the cost policy`);
+  } else {
+    const agentDoc = io.read(AGENT_DOC);
+    if (!/nothing\s+paid/i.test(agentDoc)) {
+      failures.push(`${AGENT_DOC} does not say "nothing paid"; that line is where the next agent reads the policy`);
+    }
+    if (!agentDoc.includes(COST_DOC)) {
+      failures.push(`${AGENT_DOC} does not point at ${COST_DOC}; the rule must name where its reasoning lives`);
+    }
+  }
+  stats.policy_docs = [COST_DOC, AGENT_DOC].filter((f) => io.exists(f)).length;
+
   return { failures, warnings, stats };
 }
 
@@ -173,6 +204,9 @@ function selfTest(root, reg) {
     ['probe workflow regains a schedule', { [pw]: base.read(pw).replace(/^on:\s*\n/m, "on:\n  schedule:\n    - cron: '0 0 * * *'\n") }],
     ['probe workflow loses confirm_paid', { [pw]: base.read(pw).replace(/confirm_paid/g, 'confirm_x') }],
     ['a script calls a model endpoint outside the router', { 'scripts/zz_fixture.mjs': "await fetch('https://openrouter.ai/api/v1/chat/completions')" }],
+    ['CLAUDE.md stops saying "nothing paid"', { [AGENT_DOC]: base.read(AGENT_DOC).replace(/nothing paid/gi, 'costs are reviewed') }],
+    ['CLAUDE.md is deleted', { [AGENT_DOC]: null }],
+    ['the cost policy document is deleted', { [COST_DOC]: null }],
   ];
   const missed = [];
   for (const [name, ov] of cases) if (!check(mk(ov), { reg }).failures.length) missed.push(name);

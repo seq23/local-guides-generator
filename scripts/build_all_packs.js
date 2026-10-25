@@ -49,6 +49,15 @@ function run(cmd, args, envExtras = {}) {
 
 // Canonical packs to build.
 // We keep this explicit (not globbed) to avoid surprising builds.
+// `--refresh-ledger` (npm run lastmod:refresh): build every pack so the lastmod
+// ledger is regenerated for all six sites, with only the ledger-currency
+// contract stood down. Without it a content change could never be committed
+// correctly: that contract fails the first pack (the ledger is not committed
+// yet), the build stops there, and the other five packs' entries are never
+// written. Every other hard-fail validator still runs, and CI never passes
+// the flag (the contract refuses LKG_LEDGER_REFRESH when CI is set).
+const REFRESH_LEDGER = process.argv.includes('--refresh-ledger');
+
 const PACKS = [
   'data/page_sets/examples/trt_v1.json',
   'data/page_sets/examples/pi_v1.json',
@@ -226,6 +235,7 @@ for (const pageSetFile of PACKS) {
     PAGE_SET_FILE: pageSetFile,
     LKG_VALIDATE_DIST: '1',
     LKG_ENV: process.env.LKG_ENV || 'baseline',
+    ...(REFRESH_LEDGER ? { LKG_LEDGER_REFRESH: '1' } : {}),
   });
 
 }

@@ -38,7 +38,10 @@ function run(ctx) {
     const html = fs.readFileSync(fp, 'utf8');
     const exampleSections = html.match(/<section[^>]*data-example-providers="true"[^>]*>[\s\S]*?<\/section>/gi) || [];
     for (const section of exampleSections) {
-      if (/<ul[^>]*class="neutral-list"[^>]*>[\s\S]*?<a\s+href=/i.test(section)) {
+      // <ol> as well as <ul>: the city "How to compare" checklist is an ordered
+      // list (Search Readiness item d2), and a policy that only looked at <ul>
+      // would have quietly stopped governing it.
+      if (/<(?:ul|ol)[^>]*class="neutral-list"[^>]*>[\s\S]*?<a\s+href=/i.test(section)) {
         fail(rel, 'example providers list contains outbound link');
       }
     }

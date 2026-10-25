@@ -70,7 +70,8 @@ const homeV2 = require("./lib/homepage_v2");
 const neuroServices = require("./lib/neuro_services");
 const trtAffiliates = require("./lib/trt_affiliates");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
-const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL } = require("./lib/pack_site_config");
+const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL, getUmbrellaSameAs } = require("./lib/pack_site_config");
+const internalQueryPolicy = require("./lib/internal_query_policy");
 const siteLeadForm = require("./lib/site_lead_form");
 
 const REPO_ROOT = path.join(__dirname, "..");
@@ -677,9 +678,19 @@ function moveInternalQueryToData(html) {
   let out = String(html).replace(/<a\b[^>]*>/gi, (tag) => {
     const m = tag.match(/\bhref=(["'])(\/(?!\/)[^"'?#]*)\?([^"'#]*)(#[^"']*)?\1/i);
     if (!m || /\bdata-attr-qs=/i.test(tag)) return tag;
-    const q = m[3];
-    const clean = 'href=' + m[1] + m[2] + (m[4] || '') + m[1];
-    return tag.replace(m[0], clean + (q ? ' data-attr-qs=' + m[1] + q + m[1] : ''));
+    // Keys the destination is allowed to carry in the href itself stay there;
+    // everything else moves to data-attr-qs as before. The policy is read from
+    // config/internal_query_allowlist.json through scripts/lib/
+    // internal_query_policy.js, which scripts/validation/link_audit.js reads
+    // too - so what is emitted and what is permitted cannot drift apart.
+    //
+    // This exists because the conversion CTA's attribution has to survive
+    // without JavaScript: the guide pages linked to a bare /request-assistance/
+    // and put vertical/page_kind/page_slug in data-attr-qs only, so a crawler
+    // (and Search Readiness item j3) saw a CTA the funnel could not credit.
+    const { keep, carry } = internalQueryPolicy.splitQuery(m[2], m[3], REPO_ROOT);
+    const clean = 'href=' + m[1] + m[2] + (keep ? '?' + keep : '') + (m[4] || '') + m[1];
+    return tag.replace(m[0], clean + (carry ? ' data-attr-qs=' + m[1] + carry + m[1] : ''));
   });
   if (/<head\b/i.test(out) && !out.includes('data-attr-carry="true"')) {
     out = out.replace(/<head\b[^>]*>/i, (h) => h + ATTR_CARRY_TAG);
@@ -1310,7 +1321,15 @@ function renderOptionalCityContentHtml(content) {
     ...(Array.isArray(content.typical_cost_ranges) ? content.typical_cost_ranges.slice(0, 1) : [])
   ].filter(Boolean);
   const leadChecklist = leadChecklistItems.length
-    ? `<section class="city-supplement city-supplement-lead" data-city-local-checklist="true"><h2>${escapeOptionalHtml(content.primary_city_decision_block?.title || content.heading || 'How to compare providers in this city')}</h2>${intro}<ul class="neutral-list">${leadChecklistItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
+    // An ordered list, not a bullet list. Every city page's title is "... : How
+    // to Compare" and this section's own intro says to compare the items "in the
+    // same order", so the steps are a sequence and were marked up as though the
+    // order did not matter. Search Readiness item d2 ("numbered steps for
+    // processes") read that correctly: a how-to page carried no <ol> on
+    // uscisexam.com, dentistryguides.com, neuroevalguides.com and
+    // hormonesivhair.com, and list snippets are extracted from literal ordered
+    // lists, never from prose or bullets.
+    ? `<section class="city-supplement city-supplement-lead" data-city-local-checklist="true"><h2>${escapeOptionalHtml(content.primary_city_decision_block?.title || content.heading || 'How to compare providers in this city')}</h2>${intro}<ol class="neutral-list">${leadChecklistItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ol></section>`
     : '';
   const structured = [
     renderCivilSurgeonLocatorTable(content.civil_surgeon_locator),
@@ -1944,8 +1963,15 @@ function loadCities(pageSet, verticalKey) {
 function applyCityTokens(str, city) {
   let out = String(str || "");
   // senior-living: what the page covers (both, or one care type) for its titles.
-  if (out.includes("%%PAGE_TOPIC") || out.includes("%%NEXT_LABEL%%")) {
-    for (const [tok, val] of Object.entries(senior.pageTopicTokens(city))) out = out.split(tok).join(val);
+  //
+  // The guard used to name two token prefixes, so a third senior token shipped
+  // to the page unreplaced - the literal "%%NEXT_STEPS_META%%" became the meta
+  // description. Ask the token map what it provides instead of restating it
+  // here: one definition, and adding a token cannot miss this call site again.
+  if (out.includes("%%")) {
+    for (const [tok, val] of Object.entries(senior.pageTopicTokens(city))) {
+      if (out.includes(tok)) out = out.split(tok).join(val);
+    }
   }
   return out
     .split("{{city}}").join(city.city)
@@ -1977,13 +2003,31 @@ function buildCanonicalGlobal(siteUrl, route) {
 }
 
 function buildOrganizationSchema(siteUrl, brandName, sameAs) {
+  const base = siteUrl.replace(/\/+$/, "") + "/";
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: brandName,
-    url: siteUrl.replace(/\/+$/, "") + "/"
+    url: base,
+    // The publisher's mark, as an ImageObject so the dimensions travel with it.
+    // scripts/install_site_head_assets.js copies the active host's icon-512.png
+    // to the output root for every pack, so this URL is a real file on every
+    // site rather than a plausible-looking path. Search Readiness item c1 wants
+    // name, url, logo and sameAs; `logo` was simply never emitted.
+    logo: {
+      "@type": "ImageObject",
+      url: base + "icon-512.png",
+      width: 512,
+      height: 512
+    }
   };
-  if (Array.isArray(sameAs)) schema.sameAs = sameAs.filter(Boolean);
+  // A page set may name its own identity references; otherwise fall back to the
+  // umbrella company's hub page for this publication. Explicitly set entries win
+  // so a site that later gains a real profile does not have to touch this file.
+  const declared = (Array.isArray(sameAs) ? sameAs : []).filter(Boolean);
+  const fallback = getUmbrellaSameAs(process.env.PAGE_SET_FILE || "");
+  const resolved = declared.length ? declared : (fallback ? [fallback] : []);
+  if (resolved.length) schema.sameAs = resolved;
   return schema;
 }
 function buildWebSiteSchema(siteUrl, brandName) {
@@ -6313,7 +6357,13 @@ function loadNextStepsSponsor(citySlug) {
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'),
         '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-next-steps', title, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'), brandName, section: 'State next steps', keywords: ['state next steps', stateName, 'personal injury'] }),
-        '%%HEAD_JSON_LD%%': '',
+        // Was ''. A page that ships an empty JSON-LD slot has no Organization,
+        // no WebPage and no BreadcrumbList, which is Search Readiness items c1
+        // and c2 failing on every /states/<ST>/next-steps/ page at once
+        // (theaccidentguides.com, 25 Oct 2026). The state hub one branch up
+        // already renders the global block for its own route; this is the same
+        // call for this route, so the two pages cannot drift apart again.
+        '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'states/' + ab + '/next-steps', title, description, pageSet),
         '%%FOOTER%%': footerHtml,
         '%%CONNECTION_BUBBLE%%': '',
         '%%BRAND_NAME%%': escapeHtml(brandName),

@@ -1,0 +1,98 @@
+name: Weekly Outcome Report
+
+# Week-over-week search performance per site, and one self-closing issue per red
+# site.
+#
+# The repo measures Search Console truth for all six hosts every day
+# (rotating_refresh.yml) and nothing read two snapshots together, so a drop sat
+# in the data until somebody happened to look. This reads the committed
+# measurement - no network, no model, nothing paid - writes the report, commits
+# the week's totals so next week has something to compare against, and opens an
+# issue for each red site that closes itself when the site recovers.
+
+on:
+  schedule:
+    - cron: '0 14 * * 1'   # Mondays 14:00 UTC, after that day's 13:30 refresh closes the prior week
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: weekly-outcome-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Build the weekly outcome report
+        run: node scripts/ops/weekly_outcome_report.mjs | tee "$GITHUB_STEP_SUMMARY"
+
+      - name: One self-closing issue per red site
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('reports/weekly_outcome_report.json', 'utf8'));
+            const LABEL = 'weekly-outcome';
+            const red = new Set(report.red);
+
+            // The label has to exist before it can be used to find issues.
+            try {
+              await github.rest.issues.getLabel({ ...context.repo, name: LABEL });
+            } catch {
+              await github.rest.issues.createLabel({ ...context.repo, name: LABEL, color: 'B60205',
+                description: 'Opened by Weekly Outcome Report; closes itself when the site recovers.' });
+            }
+
+            const existing = await github.paginate(github.rest.issues.listForRepo, {
+              ...context.repo, state: 'open', labels: LABEL, per_page: 100,
+            });
+            const openFor = new Map(existing.map((i) => [i.title, i]));
+
+            for (const row of report.hosts) {
+              const title = `Weekly outcome: ${row.host} needs attention`;
+              const issue = openFor.get(title);
+              if (red.has(row.host)) {
+                const body = [
+                  `Measured ${report.run_at}.`, '',
+                  ...row.why.map((w) => `- ${w}`), '',
+                  `clicks ${row.prev_clicks ?? '—'} → ${row.clicks ?? '—'}, impressions ${row.prev_impressions ?? '—'} → ${row.impressions ?? '—'}, coverage ${row.coverage ?? '—'}.`,
+                  '', 'Thresholds: ' + JSON.stringify(report.thresholds) + '.',
+                  '', 'This issue closes itself on the next weekly run where the site is no longer red.',
+                ].join('\n');
+                if (issue) await github.rest.issues.createComment({ ...context.repo, issue_number: issue.number, body });
+                else await github.rest.issues.create({ ...context.repo, title, body, labels: [LABEL] });
+              } else if (issue) {
+                // Self-closing: the site recovered, so the issue is done.
+                await github.rest.issues.createComment({ ...context.repo, issue_number: issue.number,
+                  body: `Recovered as of ${report.run_at}: clicks ${row.clicks ?? '—'}, impressions ${row.impressions ?? '—'}, coverage ${row.coverage ?? '—'}. Closing.` });
+                await github.rest.issues.update({ ...context.repo, issue_number: issue.number, state: 'closed' });
+              }
+            }
+            core.summary.addRaw(`\n\n${red.size} red site(s); ${existing.length} issue(s) were open.`);
+            await core.summary.write();
+
+      - name: Record this week's totals
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/signals/weekly_outcome_history.json reports/weekly_outcome_report.json reports/weekly_outcome_report.md
+          if git diff --cached --quiet; then
+            echo "No change to record."
+            exit 0
+          fi
+          git commit -m "Weekly outcome report $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

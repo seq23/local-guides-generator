@@ -72,6 +72,7 @@ const TEXT_EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Z
 const RAW_BLOCK_OR_TAG_RE = /(<script\b[\s\S]*?<\/script>|<style\b[\s\S]*?<\/style>|<!--[\s\S]*?-->|<[^>]*>)/i;
 const DEAD_LIST_PATH = path.join('config', 'dead_outbound_urls.json');
 const QUERY_ALLOW_PATH = path.join('config', 'internal_query_allowlist.json');
+const internalQueryPolicy = require('../lib/internal_query_policy');
 const A_TAG_RE = /<a\b[^>]*>/gi;
 
 function normUrl(u) {
@@ -245,11 +246,14 @@ function run(ctx) {
   const dead = loadDeadList(repoRoot);
   let outboundExamined = 0;
   const inbound = new Map(); // pageKey -> count of links from OTHER pages
-  const queryAllow = (() => {
-    const p = path.join(repoRoot, QUERY_ALLOW_PATH);
-    if (!fs.existsSync(p)) throw new Error(`LINK AUDIT FAIL: ${QUERY_ALLOW_PATH} missing.`);
-    return (JSON.parse(fs.readFileSync(p, 'utf8')).prefixes || []).map(String);
-  })();
+  // Which internal paths may carry a query, and which keys. Read through the
+  // shared policy so the renderer (scripts/build_city_sites.js
+  // moveInternalQueryToData) and this audit enforce one list, not two.
+  // Stricter than the prefix test it replaces: a prefix is no longer a blanket
+  // permit, every key has to be named.
+  if (!fs.existsSync(path.join(repoRoot, QUERY_ALLOW_PATH))) {
+    throw new Error(`LINK AUDIT FAIL: ${QUERY_ALLOW_PATH} missing.`);
+  }
   const smForHost = sitemapPaths(distRoot);
   let siteHost = '';
   try {
@@ -366,9 +370,12 @@ function run(ctx) {
       }
       if (pathPart === null) continue;
       internalAnchorsExamined += 1;
-      if (query && !queryAllow.some((pre) => pathPart.startsWith(pre))) {
-        if (!queryHrefs.has(pathPart)) queryHrefs.set(pathPart, []);
-        queryHrefs.get(pathPart).push(`${relPage} -> ${hm[1]}`);
+      if (query) {
+        const offending = internalQueryPolicy.disallowedKeys(pathPart, query, repoRoot);
+        if (offending.length) {
+          if (!queryHrefs.has(pathPart)) queryHrefs.set(pathPart, []);
+          queryHrefs.get(pathPart).push(`${relPage} -> ${hm[1]} (key${offending.length > 1 ? 's' : ''} not allow-listed: ${offending.join(', ')})`);
+        }
       }
     }
 

@@ -54,6 +54,18 @@ const NOTE =
   'recorded anywhere in this repository. Entries are merged, never pruned: dist/ holds ' +
   'one pack at a time.';
 
+// The note once scripts/reseed_lastmod_from_git.js has replaced the seed dates
+// with real commit dates. merged() must carry this (and reseeded_from_git_on)
+// through every build: writing NOTE back over it would make the committed
+// ledger claim that no historical dates were reconstructed when they were.
+const RESEEDED_NOTE =
+  'Per-URL content hash and the date that content last changed. lastmod only advances for a ' +
+  'URL whose hash changed; see scripts/lib/lastmod_ledger.js. Dates were reseeded from real ' +
+  'git history by scripts/reseed_lastmod_from_git.js: lastmod is the newest commit date across ' +
+  'the committed files that page is rendered from, first_seen the oldest commit that added one ' +
+  'of them. A URL whose sources could not be resolved kept its previous entry rather than being ' +
+  'given an invented date. Entries are merged, never pruned: dist/ holds one pack at a time.';
+
 // A build timestamp is not content. Normalising it out is what lets an
 // unchanged page keep its date across a rebuild.
 const BUILD_STAMP = /\d{4}-\d{2}-\d{2}T[\d:.]+Z/g;
@@ -130,13 +142,16 @@ function merged(hashes, ledger, today) {
   }
   const sorted = {};
   for (const url of Object.keys(entries).sort()) sorted[url] = entries[url];
-  return {
+  const reseeded = ledger && ledger.reseeded_from_git_on;
+  const out = {
     schema: SCHEMA,
     hash_basis: HASH_BASIS,
-    note: NOTE,
+    note: reseeded ? RESEEDED_NOTE : NOTE,
     seeded_on: (ledger && ledger.seeded_on) || day,
-    entries: sorted
   };
+  if (reseeded) out.reseeded_from_git_on = reseeded;
+  out.entries = sorted;
+  return out;
 }
 
 function save(ledger, ledgerPath = DEFAULT_PATH) {
@@ -146,4 +161,4 @@ function save(ledger, ledgerPath = DEFAULT_PATH) {
   fs.renameSync(tmp, ledgerPath);
 }
 
-module.exports = { SCHEMA, HASH_BASIS, DEFAULT_PATH, BUILD_STAMP, buildDate, contentHash, hashableBody, load, resolve, merged, save };
+module.exports = { SCHEMA, HASH_BASIS, NOTE, RESEEDED_NOTE, DEFAULT_PATH, BUILD_STAMP, buildDate, contentHash, hashableBody, load, resolve, merged, save };
