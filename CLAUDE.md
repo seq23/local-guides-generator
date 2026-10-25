@@ -37,7 +37,8 @@ overwrites. `REPO_IDENTITY.md` makes this a forbidden action, not a preference.
 **If a build changes that ledger, commit the ledger in the same change.** Every deploy rebuilds
 from the committed ledger and throws the working tree away, so an uncommitted ledger makes each
 deploy restamp the same pages with the deploy date — which is what put a build date on ~95% of
-every sitemap's URLs. `npm run validate:lastmod-ledger-currency` fails the build if the
+every sitemap's URLs. Regenerate it for all six sites with `npm run lastmod:refresh`, commit it, and build again:
+`npm run validate:lastmod-ledger-currency` fails the build if the
 committed ledger no longer matches what the build produced.
 
 ## Validators are the contract

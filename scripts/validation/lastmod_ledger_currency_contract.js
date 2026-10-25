@@ -63,6 +63,11 @@ function committedLedger() {
 }
 
 function main() {
+  if (process.env.LKG_LEDGER_REFRESH === '1') {
+    if (process.env.CI) fail('LKG_LEDGER_REFRESH is set in CI. It exists only for `npm run lastmod:refresh` on a workstation; CI must check the committed ledger.');
+    console.log('ℹ️ LASTMOD LEDGER CURRENCY SKIP — ledger refresh run (npm run lastmod:refresh). Commit data/cadence/lastmod_ledger.json, then build again: this contract runs on that build.');
+    return;
+  }
   if (!fs.existsSync(LEDGER)) fail(`${LEDGER} is missing; scripts/lastmod_apply.js never ran.`);
 
   const working = JSON.parse(fs.readFileSync(LEDGER, 'utf8'));
@@ -113,6 +118,7 @@ function main() {
     lines.push('Every deploy rebuilds from the committed ledger and discards the result, so each of');
     lines.push('these pages would be stamped with the deploy date on every deploy - the uniform');
     lines.push('<lastmod> that Search Readiness item a6 reports. Commit the regenerated ledger:');
+    lines.push('    npm run lastmod:refresh   # every pack, so no site is left half-written');
     lines.push(`    git add ${LEDGER}`);
     fail(lines.join('\n'));
   }
