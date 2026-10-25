@@ -60,6 +60,7 @@ const coverageRuntimeSupportContract = require('./validation/coverage_runtime_su
 const coverageRenderingContract = require('./validation/coverage_rendering_contract');
 const neuroServicesContract = require('./validation/neuro_services_contract');
 const trtAffiliateLinksContract = require('./validation/trt_affiliate_links_contract');
+const requestFormOwnVerticalContract = require('./validation/request_form_own_vertical_contract');
 const fanoutWarning = require('./validation/fanout_warning');
 const fanoutDistributionContract = require('./validation/fanout_distribution_contract');
 const queryCompilerOverridesContract = require('./validation/query_compiler_overrides_contract');
@@ -256,6 +257,7 @@ function main() {
     coverageRenderingContract.run({ site });
     neuroServicesContract.run({ site });
     trtAffiliateLinksContract.run({ site });
+    requestFormOwnVerticalContract.run({ site });
     fanoutWarning.run({ site });
     fanoutDistributionContract.run({ site });
   } else {

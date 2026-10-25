@@ -94,6 +94,7 @@
     "test:site-chrome": "node --test tests/site_chrome/site_chrome_parity.test.mjs",
     "test:neuro-services": "node --test tests/neuro/neuro_services.test.mjs",
     "test:trt-affiliates": "node --test tests/trt/trt_affiliates.test.mjs",
+    "test:request-form-own-vertical": "node --test tests/request_form/own_vertical.test.mjs",
     "validate:sourced-cost-figures": "node scripts/validation/sourced_cost_figures_contract.js",
     "validate:tier:developer": "node scripts/validation/run_validator_tier.js developer",
     "validate:tier:hard-fail": "node scripts/validation/run_validator_tier.js hard_fail",

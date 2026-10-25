@@ -60,6 +60,34 @@ const ALLOWED_PROVIDER_TYPES = new Set([
 const NEURO_PROVIDER_TYPE = 'ADHD / autism evaluation or therapy provider';
 const SERVICE_NEEDED_VALUES = new Set(['evaluation', 'therapy', 'both']);
 
+// Every lead names the site it came from (owner, 25 Oct 2026). The forms carry
+// vertical_key; a form that does not (a cached page, a hand-built link) gets it
+// from the host the request reached. Mirrors PACK_SITE_CONFIG in
+// scripts/lib/pack_site_config.js and the pages projects in
+// config/edge_cache.json (this file runs on Cloudflare and cannot import them);
+// tests/request_form/own_vertical.test.mjs fails if they differ.
+const HOST_VERTICAL = {
+  'theaccidentguides.com': 'pi',
+  'local-guides-generator-pi.pages.dev': 'pi',
+  'dentistryguides.com': 'dentistry',
+  'thedentistryguides.com': 'dentistry',
+  'local-guides-generator-dentistry.pages.dev': 'dentistry',
+  'neuroevalguides.com': 'neuro',
+  'local-guides-generator-neuro.pages.dev': 'neuro',
+  'hormonesivhair.com': 'trt',
+  'local-guides-generator-trt.pages.dev': 'trt',
+  'uscisexam.com': 'uscis_medical',
+  'local-guides-generator-uscis-medical.pages.dev': 'uscis_medical'
+};
+
+function verticalForHost(host) {
+  const h = String(host || '').toLowerCase().replace(/:\d+$/, '').replace(/^www\./, '');
+  if (HOST_VERTICAL[h]) return HOST_VERTICAL[h];
+  // Preview deployments: <hash>.local-guides-generator-<pack>.pages.dev
+  const preview = h.match(/^[a-z0-9-]+\.(local-guides-generator-[a-z-]+\.pages\.dev)$/);
+  return preview && HOST_VERTICAL[preview[1]] ? HOST_VERTICAL[preview[1]] : '';
+}
+
 function json(body, init = {}) {
   return new Response(JSON.stringify(body), {
     status: init.status || 200,
@@ -220,7 +248,9 @@ async function relayLeadByEmail({ env, record, stored, reason }) {
   const from = LEAD_FROM;
   if (!key || !to.length) return { ok: false, reason: 'missing_email_env' };
 
-  const lines = Object.entries(record).map(([k, v]) => `${k}: ${v}`).join('\n');
+  // A blank attribution field reads "(not tagged)" so the email says what the
+  // form failed to send rather than looking like a cut-off line.
+  const lines = Object.entries(record).map(([k, v]) => `${k}: ${String(v == null ? '' : v).trim() === '' ? '(not tagged)' : v}`).join('\n');
   const where = record.market_slug || record.source_domain || '';
   const what = `${record.provider_type || 'request'}${record.service_needed ? ` (${record.service_needed})` : ''}`;
   const subject = stored
@@ -246,6 +276,8 @@ async function relayLeadByEmail({ env, record, stored, reason }) {
   }
   return { ok: true };
 }
+
+
 
 export async function onRequestPost(context) {
   try {
@@ -324,7 +356,7 @@ export async function onRequestPost(context) {
       consent: 'yes',
       intent_type: intent_type || '',
       button_source: button_source || '',
-      vertical_key: vertical_key || '',
+      vertical_key: vertical_key || verticalForHost(host),
       page_kind: page_kind || '',
       page_slug: page_slug || '',
       market_slug: market_slug || '',
