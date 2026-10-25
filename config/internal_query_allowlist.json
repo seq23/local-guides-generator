@@ -1,4 +1,10 @@
 {
-  "_why": "Internal <a href> paths that may carry a query string. Every other internal link must be a clean canonical path (scripts/validation/link_audit.js); attribution travels in data-attr-qs and /assets/attr-carry.js restores it. Add a path prefix here only when the destination page genuinely needs the query in the link itself, with the reason.",
-  "prefixes": []
+  "_why": "Internal <a href> paths that may carry a query string, and exactly which keys. Every other internal link must be a clean canonical path, and every other key travels in data-attr-qs for /assets/attr-carry.js to restore (scripts/validation/link_audit.js enforces both). One definition, read by the renderer and the audit through scripts/lib/internal_query_policy.js. Add an entry only when the destination genuinely needs the key in the link itself, with the reason, and keep the keys low-cardinality: a key whose value varies per source page multiplies crawlable URLs.",
+  "prefixes": [
+    {
+      "prefix": "/request-assistance/",
+      "keys": ["vertical", "page_kind", "page_slug"],
+      "why": "The conversion CTA has to be attributable to the page that produced the lead without JavaScript (Search Readiness item j3, 25 Oct 2026). These three are one combination per page; src, intent, button, market and pt vary per source and stay in data-attr-qs, which is what kept 1,306 crawlable uscisexam URLs out of a 228-URL sitemap."
+    }
+  ]
 }

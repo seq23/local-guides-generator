@@ -112,6 +112,32 @@ function stampDates(html, modifiedIso, publishedIso) {
   const day = String(modifiedIso).slice(0, 10);
   const human = new Date(day + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
   out = out.replace(/<time data-page-modified="true" datetime="[^"]*">[^<]*<\/time>/g, `<time data-page-modified="true" datetime="${day}">${human}</time>`);
+
+  // Make the date the page claims in its metadata visible to a reader.
+  //
+  // Why here. Every page carried datePublished/dateModified in JSON-LD and in
+  // citation_* meta, and showed neither anywhere in its text, so Search
+  // Readiness item d4 ("Published and updated dates visible") failed on all six
+  // sites: a freshness claim only a crawler can see is the sitemap problem in
+  // another place. This function is the one authority that already knows the
+  // real content date, and - decisively - it runs AFTER run() has hashed the
+  // page, so an inserted date can never feed back into the content hash and
+  // advance lastmod on the next build. Emitting it from the renderer instead
+  // would make every page's hash change on the day the date changed, which is
+  // the very churn item a6 is about.
+  //
+  // Skipped when the page already shows the date: the homepage_v2 trust line
+  // has its own `data-page-modified` element, rewritten just above.
+  if (!/data-page-modified="true"/.test(out) && /<\/main>/i.test(out)) {
+    const pubDay = String(publishedIso).slice(0, 10);
+    const pubHuman = new Date(pubDay + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+    const line =
+      '\n    <p class="page-freshness" data-page-freshness="true">' +
+      `Published <time data-page-published="true" datetime="${pubDay}">${pubHuman}</time>` +
+      ` \u00b7 Updated <time data-page-modified="true" datetime="${day}">${human}</time>` +
+      '</p>\n  ';
+    out = out.replace(/<\/main>/i, `${line}</main>`);
+  }
   return out;
 }
 

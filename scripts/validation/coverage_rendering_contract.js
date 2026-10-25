@@ -103,9 +103,38 @@ function run() {
     if (!html.includes('data-example-providers="true"') && !html.includes('data-provider-directory="true"')) fail(`missing example providers block for ${key}`);
     if (!html.includes('data-state-lookup="true"')) fail(`missing state lookup block for ${key}`);
     if (!html.includes('data-faq="true"')) fail(`missing FAQ block for ${key}`);
-    // The CTA href is the clean canonical path; its attribution (pt=, src=...)
-    // rides in data-attr-qs and is restored by /assets/attr-carry.js.
-    if (!/<a\b[^>]*href="\/request-assistance\/"[^>]*data-attr-qs="[^"]*\bpt=[^"&]/.test(html)) fail(`missing request-assistance CTA (clean href + data-attr-qs with pt=) for ${key}`);
+    // The CTA href carries exactly the three low-cardinality attribution keys
+    // that config/internal_query_allowlist.json allows there - vertical,
+    // page_kind and page_slug - so a lead is attributable to its page without
+    // JavaScript (Search Readiness item j3). Everything per-source (pt=, src=,
+    // intent=, button=, market=) still rides in data-attr-qs and is restored by
+    // /assets/attr-carry.js, which is what keeps one crawlable URL per page
+    // instead of one per source (Ahrefs: 1,306 uscisexam URLs in a week).
+    //
+    // Stricter than the clean-href pin it replaces: that one only required the
+    // href and a pt= in data-attr-qs, and would have passed a CTA carrying no
+    // attribution keys at all. This requires all three, by name.
+    // The conversion CTAs are the anchors that carry attribution; the page also
+    // has a plain /request-assistance/ link in its hidden routing-links block,
+    // which is not a CTA and is not held to this.
+    const ctaTags = Array.from(String(html).matchAll(/<a\b[^>]*href="\/request-assistance\/(?:\?[^"]*)?"[^>]*>/gi))
+      .map((m) => m[0])
+      .filter((tag) => /\bdata-attr-qs="/.test(tag));
+    if (!ctaTags.length) fail(`missing request-assistance CTA (an anchor with data-attr-qs) for ${key}`);
+    for (const tag of ctaTags) {
+      for (const k of ['vertical', 'page_kind', 'page_slug']) {
+        if (!new RegExp(`[?&](?:amp;)?${k}=[^"&]`).test(tag)) {
+          fail(`request-assistance CTA href does not carry ${k}= for ${key}: a lead from this page could not be credited to it`);
+        }
+      }
+      if (!/\bdata-attr-qs="[^"]*\bpt=[^"&]/.test(tag)) {
+        fail(`request-assistance CTA for ${key} does not keep pt= in data-attr-qs (per-source keys must not enter the href)`);
+      }
+      const hrefOnly = (tag.match(/href="([^"]*)"/i) || [])[1] || '';
+      if (/[?&](?:amp;)?(?:src|intent|button|market|pt)=/.test(hrefOnly)) {
+        fail(`request-assistance CTA href for ${key} carries a per-source key; those multiply crawlable URLs and belong in data-attr-qs`);
+      }
+    }
     if (!html.includes('data-attr-carry="true"')) fail(`page does not load /assets/attr-carry.js for ${key}: attribution would be lost`);
 
     const allSections = Array.from(String(html).matchAll(/<section[^>]*(?:data-example-providers="true"|data-provider-directory="true")[^>]*>[\s\S]*?<\/section>/gi)).map((m) => m[0]);

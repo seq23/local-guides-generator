@@ -209,13 +209,8 @@ if (APPLY) {
   for (const url of Object.keys(next).sort()) sorted[url] = next[url];
   ledgerLib.save({
     schema: ledger.schema || ledgerLib.SCHEMA,
-    note:
-      'Per-URL content hash and the date that content last changed. lastmod only advances for a ' +
-      'URL whose hash changed; see scripts/lib/lastmod_ledger.js. Dates were reseeded from real ' +
-      'git history by scripts/reseed_lastmod_from_git.js: lastmod is the newest commit date across ' +
-      'the committed files that page is rendered from, first_seen the oldest commit that added one ' +
-      'of them. A URL whose sources could not be resolved kept its previous entry rather than being ' +
-      'given an invented date. Entries are merged, never pruned: dist/ holds one pack at a time.',
+    hash_basis: ledger.hash_basis || ledgerLib.HASH_BASIS,
+    note: ledgerLib.RESEEDED_NOTE,
     seeded_on: ledger.seeded_on,
     reseeded_from_git_on: new Date().toISOString().slice(0, 10),
     entries: sorted,

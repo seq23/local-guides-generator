@@ -1,0 +1,52 @@
+name: Post-Deploy Live Check
+
+# What the edge actually serves, after it serves it.
+#
+# The build can pass every validator and the edge can still be wrong - a Worker
+# that 301'd robots.txt did exactly that, and dist/ looked perfect throughout.
+# This runs scripts/ops/live_check.mjs against the six canonical hosts: crawl
+# files, icons, the og image, the IndexNow key, every sub-sitemap non-empty and
+# on-host, and Organization + WebSite on each homepage.
+#
+# Triggers: after Deploy Distribution finishes on the default branch (the only
+# moment the live state can have changed), and on demand. Nothing paid: it
+# fetches our own URLs and calls no model (see CLAUDE.md).
+
+on:
+  workflow_run:
+    workflows: ["Deploy Distribution"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      host:
+        description: Check one host only (blank = all six)
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: post-deploy-live-check
+  cancel-in-progress: false
+
+jobs:
+  live-check:
+    # The deploy itself may have failed; checking the live site then reports the
+    # previous deploy's state and blames this run for it.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    timeout-minutes: 10  # ~4x the 2.5 min a six-host pass takes; a fault detector, not a budget
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Live check (post-deploy)
+        run: |
+          if [ -n "${{ github.event.inputs.host }}" ]; then
+            node scripts/ops/live_check.mjs --host "${{ github.event.inputs.host }}"
+          else
+            node scripts/ops/live_check.mjs
+          fi

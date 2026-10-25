@@ -34,8 +34,8 @@ LKG UPDATE RUNBOOK → ~/update_lkg_from_zip.sh
 
 ## DOMAINS THIS REPOSITORY OWNS
 
-These are the five canonical hosts this generator builds, taken from `distribution.config.json`
-(`indexnow.hosts`, and the same five again under `gsc.sites`) — not from a name that resembles a
+These are the six canonical hosts this generator builds, taken from `distribution.config.json`
+(`indexnow.hosts`, and the same six again under `gsc.sites`) — not from a name that resembles a
 domain.
 
 - uscisexam.com
@@ -43,6 +43,14 @@ domain.
 - dentistryguides.com
 - hormonesivhair.com
 - neuroevalguides.com
+- memphisseniorcarehomes.com
+
+`memphisseniorcarehomes.com` was the sixth host in `distribution.config.json` and in
+`scripts/lib/pack_site_config.js` (the `senior_living` pack) for weeks while this section still
+said five, so the repair duty's `grep -ril <domain> REPO_IDENTITY.md` found nothing for it and its
+findings could only be recorded as `no_repo` — the exact failure the next section describes, one
+host later. The host list here has to be the same length as `indexnow.hosts`; whoever adds a pack
+adds its host here in the same change.
 
 ### Why this section exists
 

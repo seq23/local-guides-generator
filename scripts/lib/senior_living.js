@@ -596,16 +596,87 @@ function cityFaqItem(city) {
   return { q: 'Which licensed community is closest to the centre of ' + city.city + '?', a: at(near) + '. ' + (own ? city.city + ' has ' + plural(own, 'licensed community', 'licensed communities') + ' of its own.' : 'No licensed assisted living community has ' + aAn(city.city) + ' address, so every one listed is in a nearby town.') + (mc && mc !== near ? ' The nearest with secured memory care is ' + at(mc) + '.' : '') };
 }
 
+// The longest title Google shows in full is about 65 characters (Search
+// Readiness item b1). `%%PAGE_TOPIC%% %%PLACE_PHRASE%%` is the title, so the
+// topic gets whatever the place phrase leaves. Both labels are true of these
+// pages - they list licensed assisted living and memory care - so preferring
+// the specific one and stepping down only when it would not fit loses nothing.
+const TITLE_BUDGET = 65;
+// The phrase the templates render, resolved the same way applyCityTokens
+// resolves %%PLACE_PHRASE%%, so a length budget is computed on the real title.
+function placePhraseFor(city) {
+  if (city && city.placePhrase) return String(city.placePhrase).trim();
+  return city && city.marketLabel ? `in ${String(city.marketLabel).trim()}` : '';
+}
+const TOPIC_FULL = 'Assisted Living & Memory Care';
+const TOPIC_SHORT = 'Senior Care';
+function defaultTopicWithinTitleBudget(city) {
+  const place = placePhraseFor(city);
+  if (!place) return TOPIC_FULL;
+  return `${TOPIC_FULL} ${place}`.length <= TITLE_BUDGET ? TOPIC_FULL : TOPIC_SHORT;
+}
+
+// `Next Steps: %%PAGE_TOPIC_NS%% %%PLACE_PHRASE%%` is the next-steps <title>,
+// and the two longest hospital anchors ("near Saint Francis Hospital-Park
+// Avenue") pushed it to 66-67 characters. Same step-down as the directory
+// title: both labels are true, so prefer the specific one while it fits.
+function nextStepsTopicWithinTitleBudget(city) {
+  const place = placePhraseFor(city);
+  const full = 'Assisted Living';
+  if (!place) return full;
+  return `Next Steps: ${full} ${place}`.length <= TITLE_BUDGET ? full : TOPIC_SHORT;
+}
+
+// The meta description has to sit between 120 and 160 characters (Search
+// Readiness item b2) across place phrases that range from "in Cordova, TN" to
+// "near Baptist Memorial Hospital-Collierville". One fixed sentence cannot do
+// that: the short towns came out at 112 and the hospital anchors at 179. So the
+// tail steps down to the longest true wording that still fits, and up when
+// there is room. Every variant says the same three things the page does.
+const NEXT_STEPS_TAILS = [
+  ': settle care needs and budget, check state licences, and get free introductions to licensed communities.',
+  ': settle care needs and budget, check state licences, and get free introductions to communities.',
+  ': settle care needs and budget, check state licences, and get free introductions.',
+  ': settle care needs and budget, check licences, get free introductions.',
+];
+const META_MIN = 120;
+const META_MAX = 160;
+function nextStepsMetaDescription(city, mcp, alp) {
+  const topic = mcp ? 'memory care' : (alp ? 'assisted living' : 'assisted living or memory care');
+  // Same fallback as the %%PLACE_PHRASE%% token in build_city_sites.js
+  // applyCityTokens: a care-type page carries no placePhrase, and dropping the
+  // town from the description would be a worse defect than the length it fixes.
+  const place = String((city && city.placePhrase) || (city && city.marketLabel ? `in ${city.marketLabel}` : '')).trim();
+  const head = `Next steps for ${topic}${place ? ' ' + place : ''}`;
+  const fitting = NEXT_STEPS_TAILS.filter((t) => (head + t).length <= META_MAX);
+  // The longest tail that fits; if none does the shortest is still the best
+  // available, and the b2 validator reports it rather than this guessing.
+  const chosen = fitting.length ? fitting[0] : NEXT_STEPS_TAILS[NEXT_STEPS_TAILS.length - 1];
+  const out = head + chosen;
+  if (out.length >= META_MIN) return out;
+  // Shorter than the floor even with the longest tail: add the one further true
+  // clause rather than padding with words that say nothing.
+  return `${out.slice(0, -1)}, with no cost to the family.`;
+}
+
 // Title/description tokens for the page templates (senior_living_v1.json).
 function pageTopicTokens(city) {
   const mcp = isMemoryCarePage(city), alp = isAssistedLivingPage(city);
   return {
-    '%%PAGE_TOPIC%%': mcp ? 'Memory Care Communities' : (alp ? 'Assisted Living Communities' : (city.pageTopic || 'Assisted Living & Memory Care')),
+    // Length-aware, because this token is the whole <title> on the directory
+    // pages: senior_living_v1.json renders `%%PAGE_TOPIC%% %%PLACE_PHRASE%%`.
+    // The hospital anchor pages have long place phrases ("near Saint Francis
+    // Hospital-Park Avenue"), so the full topic pushed the title to 68-69
+    // characters and failed Search Readiness item b1 (title 30-65). A title
+    // Google truncates spends the result line on words nobody reads, so the
+    // topic steps down to the shorter true label instead of being cut off.
+    '%%PAGE_TOPIC%%': mcp ? 'Memory Care Communities' : (alp ? 'Assisted Living Communities' : (city.pageTopic || defaultTopicWithinTitleBudget(city))),
     '%%PAGE_TOPIC_LC%%': topicFor(city),
     '%%PAGE_TOPIC_OR%%': mcp ? 'memory care' : (alp ? 'assisted living' : 'assisted living or memory care'),
-    '%%PAGE_TOPIC_NS%%': mcp ? 'Memory Care' : (alp ? 'Licensed Assisted Living' : 'Assisted Living'),
+    '%%PAGE_TOPIC_NS%%': mcp ? 'Memory Care' : (alp ? 'Licensed Assisted Living' : nextStepsTopicWithinTitleBudget(city)),
     '%%PAGE_TOPIC_FACTS%%': mcp ? 'phone numbers, secured beds' : (alp ? 'phone numbers, licensed beds' : 'phone numbers'),
     '%%NEXT_LABEL%%': city.kind === 'care_type' ? topicFor(city) + ' in ' + city.marketLabel : city.marketLabel,
+    '%%NEXT_STEPS_META%%': nextStepsMetaDescription(city, mcp, alp),
   };
 }
 
