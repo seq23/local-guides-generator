@@ -25,18 +25,31 @@ function labelFor(route) {
   return 'Licensed communities';
 }
 
+// A market with its own memory care / assisted living page (kind care_type in
+// the cities file) answers its care-type searches there, not on the town page.
+function careTypeRoutes() {
+  const pages = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'page_sets', 'examples', 'cities_senior_living_v1.json'), 'utf8'));
+  const out = {};
+  for (const p of pages) if (p.kind === 'care_type') (out['/' + p.base_slug + '/'] = out['/' + p.base_slug + '/'] || {})[p.care_type] = '/' + p.slug + '/';
+  return out;
+}
+
 function expandQueries(u = loadUniverse()) {
   const out = [];
   const add = (query, route, topic, locality) => out.push({ query: query.replace(/\s+/g, ' ').trim(), route, topic, locality: locality || '' });
+  const care = careTypeRoutes();
+  const phraseType = {};
+  for (const [type, phrases] of Object.entries(u.care_type_phrases || {})) for (const p of phrases) phraseType[p] = type;
+  const routeFor = (p, route) => (care[route] && care[route][phraseType[p]]) || route;
   for (const loc of u.localities) {
-    for (const p of u.place_phrases) for (const t of u.place_templates) add(t.replace('{p}', p).replace('{l}', loc.name), loc.route, p, loc.name);
+    for (const p of u.place_phrases) for (const t of u.place_templates) add(t.replace('{p}', p).replace('{l}', loc.name), routeFor(p, loc.route), p, loc.name);
     for (const g of u.located_guide_phrases) {
       if (g.only_states && !g.only_states.includes(stateOfRoute(loc.route))) continue;
       add(g.q.replace('{l}', loc.name), g.route, g.q.replace(' {l}', '').replace('{l}', ''), loc.name);
     }
   }
   for (const [zip, route] of Object.entries(u.zips)) {
-    for (const p of [...u.place_phrases, ...u.zip_phrases]) add(`${p} ${zip}`, /nursing home/.test(p) ? '/guides/levels-of-care-tennessee/' : route, p, zip);
+    for (const p of [...u.place_phrases, ...u.zip_phrases]) add(`${p} ${zip}`, /nursing home/.test(p) ? '/guides/levels-of-care-tennessee/' : routeFor(p, route), p, zip);
   }
   for (const p of u.place_phrases) for (const t of u.near_me_templates) add(t.replace('{p}', p), '/', p, 'near me');
   for (const h of u.hospitals) for (const n of h.names) for (const t of u.hospital_templates) add(t.replace('{h}', n), h.route, t.replace(' {h}', ''), n);

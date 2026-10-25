@@ -1942,7 +1942,12 @@ function loadCities(pageSet, verticalKey) {
 }
 
 function applyCityTokens(str, city) {
-  return String(str || "")
+  let out = String(str || "");
+  // senior-living: what the page covers (both, or one care type) for its titles.
+  if (out.includes("%%PAGE_TOPIC") || out.includes("%%NEXT_LABEL%%")) {
+    for (const [tok, val] of Object.entries(senior.pageTopicTokens(city))) out = out.split(tok).join(val);
+  }
+  return out
     .split("{{city}}").join(city.city)
     .split("{{state}}").join(city.state)
     .split("{{stateName}}").join(city.stateName || "")
@@ -2202,7 +2207,7 @@ function buildBreadcrumbs(siteUrl, city, route, title) {
   const base = siteUrl.replace(/\/+$/, "") + "/";
   const items = [
     { name: "Home", item: base },
-    { name: city.marketLabel || `${city.city}, ${city.state}`, item: base + city.slug + "/" }
+    { name: city.linkLabel || city.marketLabel || `${city.city}, ${city.state}`, item: base + city.slug + "/" }
   ];
   const r = (route || "").replace(/^\/+|\/+$/g, "");
   if (r) items.push({ name: title, item: base + city.slug + "/" + r + "/" });
@@ -2667,6 +2672,12 @@ function getCityFaqItems(pageSet, city) {
       a: applyCityTokens(String(x.a || ""), city)
     }))
     .filter((x) => x.q && x.a);
+  // senior-living: the page's own fact-bearing question leads (nearest community,
+  // secured beds, licensed capacity), so no two pages share an FAQ set.
+  if (senior.isSeniorLiving(pageSet && pageSet.vertical)) {
+    const own = senior.cityFaqItem(city);
+    if (own) clean.unshift(own);
+  }
   // HARD LAW: 10–12 only
   return ensureMinFaqItems(clean, 10, { kind: "city", city }).slice(0, 12);
 }
@@ -4510,6 +4521,10 @@ function stripForbiddenInlineBlocks(html) {
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
       requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey)
     });
+    // senior-living: the request form embedded here is the intake slot. The
+    // city tokens were filled before this injection, so /<city>/next-steps/
+    // shipped the literal %%SENIOR_INTAKE%% and no form (live until 25 Oct 2026).
+    if (senior.isSeniorLiving(verticalKey)) mainHtml = mainHtml.split('%%SENIOR_INTAKE%%').join(senior.intakeSlotForCity(city));
     mainHtml += "\n" + renderNextStepsLocalHtml(verticalKey, city);
     if (cityFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) {
       mainHtml += "\n" + cityFanoutHtml;
@@ -4724,6 +4739,9 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   let mainHtml = String(globalPage.main_html || "")
     .split("%%SENIOR_INTAKE%%").join(senior.isSeniorLiving(verticalKey) ? senior.intakeSlotForSite() : "")
     .split("%%SENIOR_PRODUCTS%%").join(senior.isSeniorLiving(verticalKey) ? senior.productsHtml(CONTACT_EMAIL) : "")
+    .split("%%SENIOR_AREA_GRID%%").join(senior.isSeniorLiving(verticalKey) ? senior.areaGridHtml() : "")
+    .split("%%SENIOR_AREA_LINKS%%").join(senior.isSeniorLiving(verticalKey) ? senior.areaLinksHtml() : "")
+    .split("%%SENIOR_HOSPITAL_LIST%%").join(senior.isSeniorLiving(verticalKey) ? senior.hospitalListHtml() : "")
     .split("%%SENIOR_SEARCHES%%").join(senior.isSeniorLiving(verticalKey) ? seniorFanout.searchesHtml((globalPage.route || '/').replace(/^\/*/, '/').replace(/\/*$/, '/')) : "")
     .split("%%BRAND_NAME%%").join(brandName)
     .split("%%PARENT_COMPANY%%").join(escapeHtml(PARENT_COMPANY))
@@ -5163,6 +5181,7 @@ if (route === 'admin') {
       requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey),
       sponsorRouting: sponsorship.getActiveVerticalLeadRouting(verticalKey)
     });
+    if (senior.isSeniorLiving(verticalKey)) mainHtml = mainHtml.split('%%SENIOR_INTAKE%%').join(senior.intakeSlotForSite());
   } else {
     var globalRoutePath = route ? ('/' + route.replace(/^\//, '') + '/') : '/';
     // Inline next-steps hub removed: dedicated /next-steps/ pages are the only full decision-hub surface.
@@ -6156,7 +6175,7 @@ function loadNextStepsSponsor(citySlug) {
       const title = stateStrength ? stateStrength.title : brandName + ' in ' + stateName + ' — state hub';
       const description = 'Use this state hub to narrow into covered cities, provider examples, official verification resources, and next steps in ' + stateName + '.';
       const guideLinks = selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }));
-      const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.marketLabel || c.slug }));
+      const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.linkLabel || c.marketLabel || c.slug }));
       const stateLead = renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, stateName, verticalLabel: verticalLabelFor(verticalKey), hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } });
       const groupedGuides = '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + guideLinks.map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.href) + '">' + escapeHtml(g.label) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>';
       // selectPriorityGuideSummaries fills four fixed topical buckets - cost,

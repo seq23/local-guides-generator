@@ -1,5 +1,5 @@
 {
-  "_why": "The senior-living query universe (owner brief 13 Oct 2026): head phrases people type x every locality the site covers, each routed to the ONE best page. scripts/lib/senior_fanout.js expands it into dist/_fanout_query_clusters.json records and the visible search lists on city pages and guides; scripts/validation/senior_living_fanout_contract.js holds the floor (>= 600 records, every route built, >= 20 records per locality).",
+  "_why": "The senior-living query universe (owner brief 13 Oct 2026): head phrases people type x every locality the site covers, each routed to the ONE best page. scripts/lib/senior_fanout.js expands it into dist/_fanout_query_clusters.json records and the visible search lists on city pages and guides; scripts/validation/senior_living_fanout_contract.js holds the floor (>= 600 records, every route built, >= 20 records per locality). care_type_phrases route a care-type search for a market that has its own memory care or assisted living page (kind care_type in cities_senior_living_v1.json) to that page instead of the town page.",
   "localities": [
     {
       "name": "memphis",
@@ -15,11 +15,11 @@
     },
     {
       "name": "midtown memphis",
-      "route": "/memphis-tn/"
+      "route": "/midtown-memphis-tn/"
     },
     {
       "name": "downtown memphis",
-      "route": "/memphis-tn/"
+      "route": "/downtown-memphis-tn/"
     },
     {
       "name": "germantown",
@@ -104,24 +104,157 @@
     {
       "name": "mid-south",
       "route": "/memphis-tn/"
+    },
+    {
+      "name": "midtown",
+      "route": "/midtown-memphis-tn/"
+    },
+    {
+      "name": "whitehaven",
+      "route": "/whitehaven-memphis-tn/"
+    },
+    {
+      "name": "whitehaven memphis",
+      "route": "/whitehaven-memphis-tn/"
+    },
+    {
+      "name": "raleigh memphis",
+      "route": "/raleigh-memphis-tn/"
+    },
+    {
+      "name": "raleigh tn",
+      "route": "/raleigh-memphis-tn/"
+    },
+    {
+      "name": "frayser",
+      "route": "/frayser-memphis-tn/"
+    },
+    {
+      "name": "frayser memphis",
+      "route": "/frayser-memphis-tn/"
+    },
+    {
+      "name": "hickory hill",
+      "route": "/hickory-hill-memphis-tn/"
+    },
+    {
+      "name": "hickory hill memphis",
+      "route": "/hickory-hill-memphis-tn/"
+    },
+    {
+      "name": "berclair",
+      "route": "/berclair-memphis-tn/"
+    },
+    {
+      "name": "berclair memphis",
+      "route": "/berclair-memphis-tn/"
+    },
+    {
+      "name": "parkway village",
+      "route": "/parkway-village-memphis-tn/"
+    },
+    {
+      "name": "parkway village memphis",
+      "route": "/parkway-village-memphis-tn/"
+    },
+    {
+      "name": "oakland tn",
+      "route": "/oakland-tn/"
+    },
+    {
+      "name": "atoka",
+      "route": "/atoka-tn/"
+    },
+    {
+      "name": "atoka tn",
+      "route": "/atoka-tn/"
+    },
+    {
+      "name": "munford",
+      "route": "/munford-tn/"
+    },
+    {
+      "name": "munford tn",
+      "route": "/munford-tn/"
+    },
+    {
+      "name": "covington tn",
+      "route": "/covington-tn/"
+    },
+    {
+      "name": "tipton county",
+      "route": "/covington-tn/"
+    },
+    {
+      "name": "brighton tn",
+      "route": "/brighton-tn/"
+    },
+    {
+      "name": "somerville tn",
+      "route": "/somerville-tn/"
+    },
+    {
+      "name": "fayette county tn",
+      "route": "/somerville-tn/"
+    },
+    {
+      "name": "rossville tn",
+      "route": "/rossville-tn/"
+    },
+    {
+      "name": "nesbit ms",
+      "route": "/nesbit-ms/"
+    },
+    {
+      "name": "walls ms",
+      "route": "/walls-ms/"
+    },
+    {
+      "name": "byhalia",
+      "route": "/byhalia-ms/"
+    },
+    {
+      "name": "byhalia ms",
+      "route": "/byhalia-ms/"
+    },
+    {
+      "name": "marshall county ms",
+      "route": "/byhalia-ms/"
     }
   ],
   "zips": {
     "38002": "/arlington-tn/",
+    "38004": "/atoka-tn/",
+    "38011": "/brighton-tn/",
     "38016": "/cordova-tn/",
     "38017": "/collierville-tn/",
+    "38019": "/covington-tn/",
     "38053": "/millington-tn/",
-    "38103": "/regional-one-health/",
-    "38104": "/memphis-tn/",
+    "38058": "/munford-tn/",
+    "38060": "/oakland-tn/",
+    "38066": "/rossville-tn/",
+    "38068": "/somerville-tn/",
+    "38103": "/downtown-memphis-tn/",
+    "38104": "/midtown-memphis-tn/",
+    "38115": "/hickory-hill-memphis-tn/",
+    "38116": "/whitehaven-memphis-tn/",
     "38117": "/east-memphis-tn/",
+    "38118": "/parkway-village-memphis-tn/",
     "38119": "/saint-francis-hospital-park-avenue/",
     "38120": "/baptist-memorial-hospital-memphis/",
+    "38122": "/berclair-memphis-tn/",
+    "38127": "/frayser-memphis-tn/",
+    "38128": "/raleigh-memphis-tn/",
     "38134": "/bartlett-tn/",
     "38138": "/germantown-tn/",
+    "38141": "/hickory-hill-memphis-tn/",
+    "38611": "/byhalia-ms/",
     "38632": "/hernando-ms/",
     "38637": "/horn-lake-ms/",
+    "38651": "/nesbit-ms/",
     "38654": "/olive-branch-ms/",
     "38671": "/southaven-ms/",
+    "38680": "/walls-ms/",
     "72301": "/west-memphis-ar/",
     "72364": "/marion-ar/"
   },
@@ -242,6 +375,57 @@
         "the med memphis"
       ],
       "route": "/regional-one-health/"
+    },
+    {
+      "names": [
+        "baptist memorial hospital collierville",
+        "baptist collierville"
+      ],
+      "route": "/baptist-memorial-hospital-collierville/"
+    },
+    {
+      "names": [
+        "baptist memorial hospital desoto",
+        "baptist desoto",
+        "baptist hospital southaven"
+      ],
+      "route": "/baptist-memorial-hospital-desoto/"
+    },
+    {
+      "names": [
+        "methodist le bonheur germantown hospital",
+        "methodist germantown"
+      ],
+      "route": "/methodist-le-bonheur-germantown-hospital/"
+    },
+    {
+      "names": [
+        "methodist north hospital",
+        "methodist north"
+      ],
+      "route": "/methodist-north-hospital/"
+    },
+    {
+      "names": [
+        "methodist south hospital",
+        "methodist south"
+      ],
+      "route": "/methodist-south-hospital/"
+    },
+    {
+      "names": [
+        "memphis va medical center",
+        "memphis va hospital",
+        "luke weathers va medical center"
+      ],
+      "route": "/memphis-va-medical-center/"
+    },
+    {
+      "names": [
+        "delta specialty hospital",
+        "delta medical center memphis"
+      ],
+      "route": "/delta-specialty-hospital/"
     }
   ],
   "hospital_templates": [
@@ -440,5 +624,21 @@
       "q": "senior care homes memphis guide",
       "route": "/"
     }
-  ]
+  ],
+  "care_type_phrases": {
+    "memory_care": [
+      "memory care",
+      "memory care facility",
+      "memory care facilities",
+      "dementia care",
+      "dementia care homes",
+      "alzheimer's care"
+    ],
+    "assisted_living": [
+      "assisted living",
+      "assisted living facility",
+      "assisted living facilities",
+      "assisted living homes"
+    ]
+  }
 }

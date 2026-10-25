@@ -1,9 +1,9 @@
 {
-  "_why": "Every Personal Care Home licensed by the Mississippi State Department of Health in DeSoto County, transcribed from the MSDH Health Facilities Directory (Personal Care Home Facilities section, dated October 12, 2026). The directory marks each home as Assisted Living and/or as holding an Alzheimer's Disease/Dementia Care (AD/D) Unit; it publishes no licence numbers. Websites and emails were found by hand on each facility's or operator's own site. scripts/research/pull_senior_living_facilities.py merges these rows.",
+  "_why": "Every Personal Care Home licensed by the Mississippi State Department of Health in DeSoto County and Marshall County (Byhalia, Holly Springs), transcribed from the MSDH Health Facilities Directory (Personal Care Home Facilities section, dated October 12, 2026). The directory marks each home as Assisted Living and/or as holding an Alzheimer's Disease/Dementia Care (AD/D) Unit; it publishes no licence numbers. Websites and emails were found by hand on each facility's or operator's own site. scripts/research/pull_senior_living_facilities.py merges these rows.",
   "source": "https://msdh.ms.gov/page/resources/7660.pdf",
   "source_index": "https://msdh.ms.gov/page/30,0,83,613.html",
   "directory_date": "2026-10-12",
-  "county": "DeSoto County, MS",
+  "county": "DeSoto County and Marshall County, MS",
   "homes": [
     {
       "name": "Culpepper Place of Olive Branch",
@@ -17,7 +17,8 @@
       "licensee": "Robert Foster",
       "website": "",
       "email": "",
-      "contact_form_url": ""
+      "contact_form_url": "",
+      "county": "DeSoto"
     },
     {
       "name": "Olive Grove Terrace",
@@ -31,7 +32,8 @@
       "licensee": "Olive Branch Residential, LLC",
       "website": "",
       "email": "",
-      "contact_form_url": "https://americareusa.net/contact/"
+      "contact_form_url": "https://americareusa.net/contact/",
+      "county": "DeSoto"
     },
     {
       "name": "Radiance Senior Living of Southaven",
@@ -45,7 +47,8 @@
       "licensee": "Southaven OPCO, LLC",
       "website": "https://www.radianceseniorliving.com/",
       "email": "",
-      "contact_form_url": "https://www.radianceseniorliving.com/contact-us/"
+      "contact_form_url": "https://www.radianceseniorliving.com/contact-us/",
+      "county": "DeSoto"
     },
     {
       "name": "Silvercreek Retirement Communities",
@@ -59,7 +62,8 @@
       "licensee": "Silvercreek Retirement Communities, LLC",
       "website": "https://www.silvercreekseniorliving.com/",
       "email": "greet@silvercreekseniorliving.com",
-      "contact_form_url": ""
+      "contact_form_url": "",
+      "county": "DeSoto"
     },
     {
       "name": "The Goldton at Southaven",
@@ -73,7 +77,8 @@
       "licensee": "Shaven 1818 ALF, LLC",
       "website": "",
       "email": "",
-      "contact_form_url": ""
+      "contact_form_url": "",
+      "county": "DeSoto"
     },
     {
       "name": "Wesley Meadows Personal Care/Assisted Living",
@@ -87,7 +92,23 @@
       "licensee": "Methodist Senior Services of DeSoto County, Inc.",
       "website": "https://www.mss.org/wesleymeadows/",
       "email": "info@mss.org",
-      "contact_form_url": "https://www.mss.org/contact/"
+      "contact_form_url": "https://www.mss.org/contact/",
+      "county": "DeSoto"
+    },
+    {
+      "name": "Christopher's Manor Assisted Living, Inc.",
+      "address": "885 Hwy 178E",
+      "city": "Holly Springs",
+      "zip": "38635",
+      "phone": "662-551-1122",
+      "capacity": 55,
+      "assisted_living": true,
+      "add_unit": false,
+      "licensee": "Kenneth A. Long",
+      "website": "",
+      "email": "",
+      "contact_form_url": "",
+      "county": "Marshall"
     }
   ]
 }

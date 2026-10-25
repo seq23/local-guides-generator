@@ -24,14 +24,12 @@ function run() {
   if (!fs.existsSync(distDir)) return;
 
   const failures = [];
-  const required = [
-    'sitemap.xml',
-    'sitemap-guides.xml',
-    'sitemap-cities.xml',
-    'sitemap-states.xml',
-    'sitemap-core.xml',
-    'sitemap-fresh.xml'
-  ];
+  // sitemap.xml, sitemap-core.xml and sitemap-fresh.xml always exist. The
+  // guides/cities/states buckets exist exactly when they carry URLs (an empty
+  // bucket is not written: scripts/sitemap_emit.js), and the index lists
+  // exactly the sub-sitemaps that exist, no more and no fewer.
+  const required = ['sitemap.xml', 'sitemap-core.xml', 'sitemap-fresh.xml'];
+  const optional = ['sitemap-guides.xml', 'sitemap-cities.xml', 'sitemap-states.xml'];
 
   for (const name of required) {
     if (!fs.existsSync(path.join(distDir, name))) failures.push(`${name}: missing`);
@@ -39,13 +37,17 @@ function run() {
   if (failures.length) throw new Error('SITEMAP DISTRIBUTION CONTRACT FAIL\n' + failures.join('\n'));
 
   const indexXml = read(path.join(distDir, 'sitemap.xml'));
-  for (const name of required.filter((n) => n !== 'sitemap.xml')) {
-    if (!indexXml.includes(`/${name}`)) failures.push(`sitemap.xml: missing ${name} entry`);
+  for (const name of [...required.filter((n) => n !== 'sitemap.xml'), ...optional]) {
+    const exists = fs.existsSync(path.join(distDir, name));
+    const listed = indexXml.includes(`/${name}<`);
+    if (exists && !listed) failures.push(`sitemap.xml: missing ${name} entry`);
+    if (!exists && listed) failures.push(`sitemap.xml: lists ${name}, which the build did not write`);
   }
 
-  const guidesXml = read(path.join(distDir, 'sitemap-guides.xml'));
-  const citiesXml = read(path.join(distDir, 'sitemap-cities.xml'));
-  const statesXml = read(path.join(distDir, 'sitemap-states.xml'));
+  const readOpt = (name) => (fs.existsSync(path.join(distDir, name)) ? read(path.join(distDir, name)) : '');
+  const guidesXml = readOpt('sitemap-guides.xml');
+  const citiesXml = readOpt('sitemap-cities.xml');
+  const statesXml = readOpt('sitemap-states.xml');
   const coreXml = read(path.join(distDir, 'sitemap-core.xml'));
   const freshXml = read(path.join(distDir, 'sitemap-fresh.xml'));
 
