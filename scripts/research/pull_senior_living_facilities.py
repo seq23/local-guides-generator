@@ -6,13 +6,14 @@ Sources (all public, no paid API):
      Bed Report" (xlsx, quarterly): every licensed ACLF with licence number,
      address, county, total beds and secured (memory-care) beds.
      https://www.tn.gov/hfc/publication-and-reports/licensure-reports.html
-  2. HFC Facility Listings search (facility type 0537, county SHELBY) for the
-     registry phone number of each licence.
+  2. HFC Facility Listings search (facility type 0537, each county in COUNTIES)
+     for the registry phone number of each licence.
      https://internet.health.tn.gov/FacilityListings/
   3. Each facility's own website (data/listings/senior-living/websites.json) for a
      public admissions/contact email. Empty when the site shows none.
   4. Mississippi State Department of Health Health Facilities Directory (Personal
-     Care Homes, DeSoto County), transcribed in ms_desoto_personal_care_homes.json.
+     Care Homes, DeSoto and Marshall Counties), transcribed in
+     ms_desoto_personal_care_homes.json.
   5. OpenStreetMap Nominatim for lat/lng (1 request per second, per its policy).
 
 memory_care is true when the registry reports secured beds > 0: in Tennessee a
@@ -31,6 +32,9 @@ MS_FILE = ROOT / 'data/listings/senior-living/ms_desoto_personal_care_homes.json
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36'
 HFC = 'https://internet.health.tn.gov/FacilityListings/'
 DEFAULT_REPORT = 'https://www.tn.gov/content/dam/tn/hfc/documents/HFC-ACLF_Full_Bed_Report_July2026.xlsx'
+# Shelby plus the two Tennessee counties the town pages reach (Tipton: Atoka,
+# Munford, Covington, Brighton; Fayette: Oakland, Somerville, Rossville).
+COUNTIES = ('SHELBY', 'TIPTON', 'FAYETTE')
 EMAIL_SKIP = re.compile(r'(example|sentry|wixpress|godaddy|domain|\.png|\.jpg|privacy|careers|jobs|hr@|accessibility|vendor)', re.I)
 
 
@@ -48,7 +52,7 @@ def registry_rows(url):
     sec = next(i for i, h in enumerate(head) if h.lower().startswith('number of secured'))
     out = []
     for r in rows[1:]:
-        if str(r[idx['county']] or '').strip().upper() != 'SHELBY':
+        if str(r[idx['county']] or '').strip().upper() not in COUNTIES:
             continue
         out.append({
             'license_number': str(r[idx['lic_no']]),
@@ -65,13 +69,20 @@ def registry_rows(url):
 
 
 def hfc_phones():
+    phones = {}
+    for county in COUNTIES:
+        phones.update(hfc_county_phones(county))
+    return phones
+
+
+def hfc_county_phones(county):
     cj = http.cookiejar.CookieJar()
     op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
     page = fetch(HFC, op).decode('utf-8', 'replace')
     tok = re.search(r'__RequestVerificationToken" type="hidden" value="([^"]+)', page).group(1)
     body = urllib.parse.urlencode({
         '__RequestVerificationToken': tok, 'CurrentSearchModel.RadioGroup': 'Curr',
-        'CurrentSearchModel.FacilityType': '0537', 'CurrentSearchModel.County': 'SHELBY',
+        'CurrentSearchModel.FacilityType': '0537', 'CurrentSearchModel.County': county,
         'CurrentSearchModel.Name': '', 'CurrentSearchModel.AffiliateOnly': 'No'}).encode()
     res = fetch(HFC, op, data=body).decode('utf-8', 'replace')
     lines = [html.unescape(l).strip() for l in re.sub(r'<[^>]*>', '\n', res).split('\n')]
@@ -109,8 +120,9 @@ def site_email(url):
 
 
 def geocode(row):
-    q = f"{row['address']}, {row['city']}, TN {row['zip']}"
-    for query in (q, f"{row['name']}, {row['city']}, TN"):
+    st = row.get('state') or 'TN'
+    q = f"{row['address']}, {row['city']}, {st} {row['zip']}"
+    for query in (q, f"{row['name']}, {row['city']}, {st}"):
         url = 'https://nominatim.openstreetmap.org/search?' + urllib.parse.urlencode({'q': query, 'format': 'json', 'limit': 1, 'countrycodes': 'us'})
         time.sleep(1.1)
         try:
@@ -161,7 +173,7 @@ def main():
     for r in out:
         if not r['email']:
             r['email_source'] = ''
-    # DeSoto County, MS: MSDH publishes no licence numbers, so these rows carry a
+    # DeSoto and Marshall Counties, MS: MSDH publishes no licence numbers, so these rows carry a
     # registry key (MS-PCH-<zip>-<slug>) in license_number, which the lead
     # backend uses as the row id; license_number_kind says which it is.
     ms = json.loads(MS_FILE.read_text())
@@ -187,7 +199,7 @@ def main():
         'source': {
             'registry': a.report_url,
             'registry_index': 'https://www.tn.gov/hfc/publication-and-reports/licensure-reports.html',
-            'phones': HFC + ' (facility type 0537 Assisted Care Living Facility, county SHELBY)',
+            'phones': HFC + ' (facility type 0537 Assisted Care Living Facility, counties ' + ', '.join(COUNTIES) + ')',
             'emails': "each facility's own public website (websites.json); empty when none is shown",
             'geocoding': 'OpenStreetMap Nominatim (street address, else ZIP centroid)',
             'memory_care_rule': 'TN: secured_beds > 0 in the HFC bed report; MS: the MSDH directory marks an Alzheimer\'s/Dementia Care (AD/D) Unit',
@@ -195,7 +207,7 @@ def main():
             'ms_directory_date': ms['directory_date'],
         },
         'fetched_at': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
-        'county': 'Shelby County, TN and DeSoto County, MS',
+        'county': 'Shelby, Tipton and Fayette Counties, TN; DeSoto and Marshall Counties, MS',
         'facilities': out,
     }
     OUT.write_text(json.dumps(doc, indent=2) + '\n')

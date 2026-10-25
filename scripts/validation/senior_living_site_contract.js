@@ -3,7 +3,10 @@
 /**
  * Hard-fail: the memphisseniorcarehomes.com build is the site the owner decided.
  *
- * Source (always): the city fence is exactly the 15 cities and 4 hospital pages.
+ * Source (always): the city fence is exactly the owner-approved pages: 15
+ * towns, 8 Memphis neighbourhoods and 10 new towns (25 Oct 2026), 11 hospital
+ * pages, and memory care + assisted living pages for the 7 biggest markets.
+ * Every care-type page sits on its town's ZIP and centre.
  * Build (when dist/ holds the senior-living pack):
  *  - no city page outside the fence (the shared top-10 national cities leaked
  *    into every pack until citiesExclusive);
@@ -16,6 +19,12 @@
  *  - thin-page rule: >= 600 words of page-specific content on every city page
  *    (intro, directory, local section), and a directory ItemList whose
  *    LocalBusiness nodes match the visible rows;
+ *  - hyperlocal (25 Oct 2026): every town, neighbourhood and hospital page
+ *    links to >= 3 nearby area pages and to care-type pages; a memory care
+ *    page lists only memory care rows and an assisted living page carries its
+ *    own licensed-capacity facts; the home page links every fenced page and
+ *    each state page every fenced page of its state; every page carries its
+ *    own lead FAQ (no two pages share a first question and answer);
  *  - WebSite alternateName, robots.txt allows the AI search agents and names
  *    the sitemap, llms.txt explains the site in under 2,000 words, and the
  *    legal pages are noindex.
@@ -25,7 +34,15 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..', '..');
 const DIST = path.join(ROOT, 'dist');
-const FENCE = ['memphis-tn', 'east-memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'arlington-tn', 'lakeland-tn', 'millington-tn', 'southaven-ms', 'olive-branch-ms', 'horn-lake-ms', 'hernando-ms', 'west-memphis-ar', 'marion-ar', 'baptist-memorial-hospital-memphis', 'methodist-university-hospital', 'saint-francis-hospital-park-avenue', 'regional-one-health'];
+const FENCE = [
+  'memphis-tn', 'east-memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'arlington-tn', 'lakeland-tn', 'millington-tn', 'southaven-ms', 'olive-branch-ms', 'horn-lake-ms', 'hernando-ms', 'west-memphis-ar', 'marion-ar',
+  'midtown-memphis-tn', 'downtown-memphis-tn', 'whitehaven-memphis-tn', 'raleigh-memphis-tn', 'frayser-memphis-tn', 'hickory-hill-memphis-tn', 'berclair-memphis-tn', 'parkway-village-memphis-tn',
+  'oakland-tn', 'atoka-tn', 'munford-tn', 'covington-tn', 'brighton-tn', 'somerville-tn', 'rossville-tn', 'nesbit-ms', 'walls-ms', 'byhalia-ms',
+  'baptist-memorial-hospital-memphis', 'methodist-university-hospital', 'saint-francis-hospital-park-avenue', 'regional-one-health',
+  'baptist-memorial-hospital-collierville', 'baptist-memorial-hospital-desoto', 'methodist-le-bonheur-germantown-hospital', 'methodist-north-hospital', 'methodist-south-hospital', 'memphis-va-medical-center', 'delta-specialty-hospital',
+  ...['memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'southaven-ms', 'olive-branch-ms'].flatMap((t) => ['memory-care-' + t, 'assisted-living-' + t]),
+];
+const MIN_NEARBY_AREAS = 3;
 const MIN_CITY_WORDS = 600;
 const PRICES = ['$249/month', '$800', "One month's rent"];
 const AI_AGENTS = ['OAI-SearchBot', 'PerplexityBot', 'ClaudeBot', 'Google-Extended'];
@@ -39,6 +56,12 @@ const section = (html, attr) => { const m = html.match(new RegExp(`<section[^>]*
 const cities = JSON.parse(read(path.join(ROOT, 'data', 'page_sets', 'examples', 'cities_senior_living_v1.json')));
 const slugs = cities.map((c) => c.slug);
 if (JSON.stringify([...slugs].sort()) !== JSON.stringify([...FENCE].sort())) problems.push(`cities_senior_living_v1.json is not the fence: ${slugs.join(', ')}`);
+for (const c of cities.filter((x) => x.kind === 'care_type')) {
+  const base = cities.find((x) => x.slug === c.base_slug);
+  if (!base || base.kind !== 'city') { problems.push(`${c.slug}: base_slug ${c.base_slug} is not a town page`); continue; }
+  if (c.slug !== `${c.care_type === 'memory_care' ? 'memory-care' : 'assisted-living'}-${base.slug}` || !['memory_care', 'assisted_living'].includes(c.care_type)) problems.push(`${c.slug}: slug/care_type do not match its base ${base.slug}`);
+  for (const k of ['lat', 'lng', 'primary_zip', 'state', 'city', 'marketLabel']) if (c[k] !== base[k]) problems.push(`${c.slug}: ${k} ${c[k]} differs from ${base.slug} (${base[k]})`);
+}
 const pageSet = JSON.parse(read(path.join(ROOT, 'data', 'page_sets', 'examples', 'senior_living_v1.json')));
 if (pageSet.citiesExclusive !== true) problems.push('senior_living_v1.json must set citiesExclusive: true');
 
@@ -56,11 +79,35 @@ if (/senior_living_v1\.json$/.test(String(site.pageSetFile || '')) && fs.existsS
   if (!home || !/"alternateName":\s*\[\s*"memphis senior care homes",\s*"memphis senior guide"\s*\]/.test(home)) problems.push('home WebSite schema lacks the alternateName brand spellings');
   const ra = page('request-assistance');
   if (!ra || !ra.includes(slot('memphis-tn', '38104'))) problems.push('/request-assistance/ lacks the exact intake slot');
+  const facilities = JSON.parse(read(path.join(ROOT, 'data', 'listings', 'senior-living', 'facilities.json'))).facilities;
+  const mcByLicence = new Map(facilities.map((f) => [String(f.license_number), f.memory_care]));
+  const areaSlugs = new Set(cities.filter((x) => x.kind === 'city').map((x) => x.slug));
+  const careSlugs = new Set(cities.filter((x) => x.kind === 'care_type').map((x) => x.slug));
+  const firstFaq = new Map();
+  for (const c of FENCE) if (!home || !home.includes(`href="/${c}/"`)) problems.push(`home page does not link /${c}/`);
+  for (const st of ['TN', 'MS', 'AR']) {
+    const sp = page(`states/${st}`) || '';
+    for (const c of cities.filter((x) => x.state === st)) if (!sp.includes(`href="/${c.slug}/"`)) problems.push(`/states/${st}/ does not link /${c.slug}/`);
+  }
   for (const c of cities) {
     const h = page(c.slug);
     if (!h) { problems.push(`/${c.slug}/ not built`); continue; }
     checkedPages += 1;
+    const nearby = section(h, 'data-senior-nearby="true"');
+    const links = [...nearby.matchAll(/href="\/([a-z0-9-]+)\/"/g)].map((m) => m[1]);
+    if (c.kind !== 'care_type' && links.filter((l) => areaSlugs.has(l)).length < MIN_NEARBY_AREAS) problems.push(`/${c.slug}/ links ${links.filter((l) => areaSlugs.has(l)).length} nearby area pages; the floor is ${MIN_NEARBY_AREAS}`);
+    if (!links.some((l) => careSlugs.has(l))) problems.push(`/${c.slug}/ links no care-type page`);
+    if (c.kind === 'care_type' && !links.includes(c.base_slug)) problems.push(`/${c.slug}/ does not link its town page /${c.base_slug}/`);
+    const rowLic = [...h.matchAll(/<tr data-facility-license="([^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, '&'));
+    if (c.kind === 'care_type' && c.care_type === 'memory_care' && rowLic.some((l) => mcByLicence.get(l) !== true)) problems.push(`/${c.slug}/ lists a community without memory care`);
+    if (c.kind === 'care_type' && !h.includes(`data-senior-care-type="${c.care_type}"`)) problems.push(`/${c.slug}/ lacks its ${c.care_type} local section`);
+    const fq = (h.match(/<details class="faq-item">\s*<summary>([\s\S]*?)<\/summary>\s*<div class="faq-answer"><p>([\s\S]*?)<\/p>/) || []).slice(1).join(' | ');
+    if (!fq) problems.push(`/${c.slug}/ has no FAQ`);
+    else if (firstFaq.has(fq)) problems.push(`/${c.slug}/ repeats the lead FAQ of /${firstFaq.get(fq)}/`);
+    else firstFaq.set(fq, c.slug);
     if (!h.includes(slot(c.slug, c.primary_zip))) problems.push(`/${c.slug}/ lacks the exact intake slot`);
+    const ns = page(`${c.slug}/next-steps`);
+    if (!ns || (ns.match(/id="senior-intake"/g) || []).length !== 1 || !ns.includes(slot(c.slug, c.primary_zip))) problems.push(`/${c.slug}/next-steps/ lacks exactly one intake slot for its page`);
     if (!h.includes('data-senior-listing-disclosure="true"')) problems.push(`/${c.slug}/ lacks the disclosure beside the directory`);
     const own = section(h, 'data-senior-city-intro') + section(h, 'data-senior-directory="true"') + section(h, 'data-senior-local="true"');
     const n = words(own);
@@ -81,6 +128,8 @@ if (/senior_living_v1\.json$/.test(String(site.pageSetFile || '')) && fs.existsS
     if (!f.endsWith('.html') || /admin\//.test(f)) continue;
     const h = read(f);
     if (h.includes('<footer') && !h.includes('data-senior-disclosure="true"')) problems.push(`${path.relative(DIST, f)} footer lacks the referral disclosure`);
+    const tok = h.match(/%%[A-Z][A-Z0-9_:]*%%/);
+    if (tok) problems.push(`${path.relative(DIST, f)} ships the unfilled template token ${tok[0]}`);
     if (/http-equiv=["']Content-Security-Policy/i.test(h)) problems.push(`${path.relative(DIST, f)} sets a CSP meta tag that could block /assets/senior-intake.js`);
   }
   const headers = path.join(DIST, '_headers');

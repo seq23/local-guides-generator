@@ -5,8 +5,10 @@
  * is the state licensure list, not a sample.
  *
  * Shelby County, TN had 31 licensed Assisted Care Living Facilities in the
- * Tennessee Health Facilities Commission bed report of July 2026, and DeSoto
- * County, MS 6 licensed Personal Care Homes in the MSDH directory of 12 Oct 2026. Every row must carry what a family needs to act on it (a phone
+ * Tennessee Health Facilities Commission bed report of July 2026 (Tipton 2 and
+ * Fayette 2 more, added 25 Oct 2026 for the Covington-to-Somerville town
+ * pages), and DeSoto County, MS 6 licensed Personal Care Homes in the MSDH
+ * directory of 12 Oct 2026 (Marshall County 1 more, for Byhalia). Every row must carry what a family needs to act on it (a phone
  * number and a ZIP) and the one fact the pages filter on (memory_care, a real
  * boolean, true exactly when the registry reports secured beds). A refresh
  * that silently dropped rows, phones or the memory-care flag fails here
@@ -19,10 +21,11 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..', '..');
 const FILE = path.join(ROOT, 'data', 'listings', 'senior-living', 'facilities.json');
-// Floors are the counts at the 13 Oct 2026 refresh (owner: the floor is the
-// combined count). A licensed facility that closes is a reason to lower a floor
+// Floors are the counts at the 25 Oct 2026 refresh (owner: the floor is the
+// combined count; 13 Oct 2026 was TN 31 + MS 6, before Tipton, Fayette and
+// Marshall Counties joined). A licensed facility that closes is a reason to lower a floor
 // deliberately in the same commit that drops its row, never a silent shrink.
-const MIN_BY_STATE = { TN: 31, MS: 6 };
+const MIN_BY_STATE = { TN: 35, MS: 7 };
 const MIN_FACILITIES = Object.values(MIN_BY_STATE).reduce((a, b) => a + b, 0);
 // The lead backend can only send a teaser to a row with an email.
 const MIN_WITH_EMAIL = 20;

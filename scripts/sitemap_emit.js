@@ -264,11 +264,24 @@ function run() {
     'sitemap-fresh.xml': fresh
   };
 
-  for (const [name, bucketRecords] of Object.entries(outputs)) {
-    fs.writeFileSync(path.join(distDir, name), buildUrlSet(bucketRecords, parsed.origin), 'utf8');
+  // The index lists only sub-sitemaps that carry URLs. When every guide or city
+  // is fresh, sitemap-fresh.xml takes them all and the bucket would be empty:
+  // memphisseniorcarehomes.com shipped an index naming sitemap-guides.xml and
+  // sitemap-cities.xml with 0 URLs each (25 Oct 2026), which Search Console
+  // reads as a broken submission. An empty bucket is neither written nor
+  // listed (a stale file from an earlier build is removed).
+  // Guarded by scripts/validation/sitemap_index_no_empty_contract.js.
+  const ORDER = ['sitemap-core.xml', 'sitemap-guides.xml', 'sitemap-cities.xml', 'sitemap-states.xml', 'sitemap-fresh.xml'];
+  const indexFiles = [];
+  for (const name of ORDER) {
+    const file = path.join(distDir, name);
+    if (outputs[name].length) {
+      fs.writeFileSync(file, buildUrlSet(outputs[name], parsed.origin), 'utf8');
+      indexFiles.push(name);
+    } else if (fs.existsSync(file)) {
+      fs.unlinkSync(file);
+    }
   }
-
-  const indexFiles = ['sitemap-core.xml', 'sitemap-guides.xml', 'sitemap-cities.xml', 'sitemap-states.xml', 'sitemap-fresh.xml'];
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), buildIndex(parsed.origin, indexFiles), 'utf8');
   console.log(`sitemap_emit: wrote sitemap index + ${indexFiles.length} sub-sitemaps (${records.length} urls) base=${parsed.origin}`);
 }
