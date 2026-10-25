@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-24..2026-10-21",
-  "gsc_collected_at": "2026-10-24T16:51:28+00:00",
+  "gsc_window": "2026-09-25..2026-10-22",
+  "gsc_collected_at": "2026-10-25T17:10:42+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 23,
+      "impressions": 27,
       "status": "strengthened"
     },
     {
@@ -53,25 +53,25 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 23,
-      "best_position": 90,
-      "weighted_position": 90,
+      "impressions": 27,
+      "best_position": 89.6,
+      "weighted_position": 89.6,
       "top_query": "am i a candidate for trt",
       "query_count": 1,
       "queries": [
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 23,
-          "position": 90
+          "impressions": 27,
+          "position": 89.6
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 23,
-          "page_impressions": 23,
-          "page_position": 90
+          "family_impressions": 27,
+          "page_impressions": 27,
+          "page_position": 89.6
         }
       ],
       "rank": 1,
@@ -247,8 +247,8 @@
         {
           "route": "/guides/",
           "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 5
+          "page_impressions": 3,
+          "page_position": 6.3
         }
       ],
       "rank": 5,
