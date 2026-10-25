@@ -16,6 +16,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const ns = require('../../scripts/lib/neuro_services.js');
 const homeV2 = require('../../scripts/lib/homepage_v2.js');
 const contract = require('../../scripts/validation/neuro_services_contract.js');
+const siteLeadForm = require('../../scripts/lib/site_lead_form.js');
 
 test('service tag follows the two booleans', () => {
   assert.equal(ns.serviceTag({ offers_evaluation: true, offers_therapy: false }), 'Evaluation');
@@ -133,9 +134,12 @@ test('other sites keep one hero button to the callback band and no service choic
 const sharedRequestPage = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/global_pages/request-assistance.json'), 'utf8')).main_html;
 
 test('the neuro request page asks evaluation / therapy / both first', () => {
-  const neuro = ns.applyToRequestAssistanceHtml(sharedRequestPage);
+  const neuro = siteLeadForm.applyOwnVerticalFirst(ns.applyToRequestAssistanceHtml(sharedRequestPage), 'neuro');
   assert.deepEqual(contract.checkNeuroRequestPage(neuro), []);
   assert.ok(contract.checkNeuroRequestPage(sharedRequestPage).length > 0, 'the unchanged shared page must fail the neuro check');
+  // Relabelled but still opening on "Select one" with Personal Injury first: the
+  // 25 Oct 2026 lead's form. It must fail.
+  assert.ok(contract.checkNeuroRequestPage(ns.applyToRequestAssistanceHtml(sharedRequestPage)).length > 0, 'a neuro page whose first provider type is not neuro must fail');
 });
 
 test('the neuro for-providers page welcomes both kinds of practice', () => {

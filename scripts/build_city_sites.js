@@ -71,6 +71,7 @@ const neuroServices = require("./lib/neuro_services");
 const trtAffiliates = require("./lib/trt_affiliates");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
 const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL } = require("./lib/pack_site_config");
+const siteLeadForm = require("./lib/site_lead_form");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -3212,11 +3213,15 @@ function extractRequestAssistanceHtml(pageSet, verticalKey) {
 // Every other site serves the shared page unchanged.
 // The hormone site's adds a "Menopause / women's HRT clinic" option (owner, 16 Oct 2026;
 // scripts/lib/trt_affiliates.js).
+// Then, on every guide site, its own service goes first and pre-selected, the
+// other services stay listed below, and the hidden vertical_key carries the site
+// (owner, 25 Oct 2026; scripts/lib/site_lead_form.js).
 function applyVerticalRequestAssistanceForm(html, verticalKey) {
   const vk = String(verticalKey || '').toLowerCase();
-  if (vk === 'neuro') return neuroServices.applyToRequestAssistanceHtml(html);
-  if (vk === 'trt') return trtAffiliates.applyToRequestAssistanceHtml(html);
-  return html;
+  let out = html;
+  if (vk === 'neuro') out = neuroServices.applyToRequestAssistanceHtml(out);
+  if (vk === 'trt') out = trtAffiliates.applyToRequestAssistanceHtml(out);
+  return siteLeadForm.applyOwnVerticalFirst(out, vk);
 }
 
 function stripRequestAssistanceHero(requestAssistanceHtml) {
@@ -6274,7 +6279,7 @@ function loadNextStepsSponsor(citySlug) {
         pageTitle: title,
         compareHref: '/guides/?intent=decision_hub&button=next_steps_page_compare&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         toolsHref: '/faq/?intent=self_serve&button=next_steps_page_tools&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
-        requestAssistanceHtml: extractRequestAssistanceHtml(pageSet),
+        requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, 'pi'),
         sponsorRouting: getSponsorRoutingForContext({ pageKind: 'state', route: 'states/' + ab + '/next-steps', verticalKey: 'pi', stateAbbr: ab })
       });
 

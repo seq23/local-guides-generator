@@ -193,3 +193,19 @@ The service schema exists to clarify that this surface functions as a local prov
 
 Validation file:
 - `scripts/validation/schema_citation_routing_contract.js`
+
+## One lead table for every guide site (owner, 25 Oct 2026)
+
+Every guide site writes to the same Airtable base and table (`appDgpv4F5ORCtUU3`
+/ `Lead Requests`): theaccidentguides, dentistryguides, neuroevalguides,
+hormonesivhair, uscisexam and theindustryguides set it on their Pages projects,
+and memphisseniorcarehomes mirrors its D1 leads there (base and table set 25 Oct
+2026; the mirror needs `AIRTABLE_API_TOKEN` as a secret on that project too).
+Leads are told apart by the `source_domain`, `vertical_key` and `provider_type`
+columns, never by separate tables, views or pages.
+
+Each site's forms open on its own service, pre-selected, with the other services
+listed below; the request page stamps the site's `vertical_key` and tags the page
+the visitor came from (link query, else `document.referrer`, else "direct").
+Guard: `scripts/validation/request_form_own_vertical_contract.js` (runs per pack
+from `scripts/validate_core.js`; fixtures in `tests/request_form/own_vertical.test.mjs`).

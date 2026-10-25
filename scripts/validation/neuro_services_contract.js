@@ -30,6 +30,7 @@
 const fs = require('fs');
 const path = require('path');
 const cp = require('child_process');
+const siteLeadForm = require('../lib/site_lead_form');
 const neuroServices = require('../lib/neuro_services');
 
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -80,7 +81,9 @@ function checkNeuroRequestPage(html) {
   const form = (doc.match(/<form[^>]*id="request-assistance-form"[^>]*>[\s\S]*?<\/form>/i) || [])[0];
   if (!form) return ['request page has no request-assistance form'];
   problems.push(...serviceSelectProblems(form, 'request page form'));
-  if (!form.includes('<option>' + neuroServices.NEURO_PROVIDER_TYPE + '</option>')) problems.push(`request page has no "${neuroServices.NEURO_PROVIDER_TYPE}" provider type`);
+  // The neuro label is the first provider type and pre-selected (owner, 25 Oct 2026).
+  const first = ((siteLeadForm.providerOptions(form) || [])[0]) || {};
+  if (first.text !== neuroServices.NEURO_PROVIDER_TYPE || !first.selected || first.disabled) problems.push(`request page's first provider type is not "${neuroServices.NEURO_PROVIDER_TYPE}", pre-selected`);
   if (form.includes('<option>' + neuroServices.LEGACY_NEURO_PROVIDER_TYPE + '</option>')) problems.push('request page still offers the evaluation-only provider type');
   return problems;
 }
