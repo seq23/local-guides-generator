@@ -25,7 +25,7 @@ import { readFileSync } from 'node:fs';
 
 const require = createRequire(import.meta.url);
 const reseed = require('../../scripts/reseed_lastmod_from_git.js');
-const { sourcesFor, sliceDates, cityRow, stateRows, mainContentOf, GUIDE_REGISTRY } = reseed;
+const { sourcesFor, sliceDates, cityRow, stateRows, stateOf, mainContentOf, GUIDE_REGISTRY } = reseed;
 
 const rels = (srcs) => srcs.map((s) => (typeof s === 'string' ? s : s.rel));
 const sliced = (srcs, rel) => srcs.find((s) => typeof s === 'object' && s.rel === rel);
@@ -130,4 +130,48 @@ test('the reseeder carries an entry\'s hash basis through', () => {
   const src = readFileSync(new URL('../../scripts/reseed_lastmod_from_git.js', import.meta.url), 'utf8');
   const block = src.slice(src.indexOf('next[url] = {'), src.indexOf('if (next[url].lastmod'));
   assert.match(block, /basis: entry\.basis/, 'the reseeder no longer carries entry.basis into the rewritten entry');
+});
+
+test('a state hub resolves its own state even when the row carries no state field', () => {
+  // The defect this pins. cities_pi_v1.json - the only pack with /states/ pages -
+  // stores `{slug}` and nothing else, so filtering on a `state` field matched no
+  // row, every /states/<AB>/ URL resolved to an empty slice, and the reseeder
+  // reported all 100 theaccidentguides.com state URLs as "sources have no commit
+  // history". They kept the build date instead, which is what put 49 of the 50
+  // URLs in sitemap-states.xml on 2026-10-25 and failed Search Readiness a6.
+  const piShape = [{ slug: 'anchorage-ak' }, { slug: 'juneau-ak' }, { slug: 'mesa-az' }];
+  assert.deepEqual(stateRows('ak')(piShape), [{ slug: 'anchorage-ak' }, { slug: 'juneau-ak' }]);
+  assert.deepEqual(stateRows('az')(piShape), [{ slug: 'mesa-az' }]);
+  // A state with no city of its own still resolves to nothing, never to a date.
+  assert.deepEqual(stateRows('wy')(piShape), []);
+
+  // The declared field is still preferred where it exists: every other pack
+  // carries it, and it must keep winning over a slug that happens to end in two
+  // letters (a hyphenated city name, say).
+  assert.deepEqual(stateOf({ slug: 'new-york-city-ny', state: 'NY' }), 'ny');
+  assert.deepEqual(stateOf({ slug: 'kansas-city-mo', state: 'KS' }), 'ks');
+  assert.deepEqual(stateOf({ slug: 'atlanta-ga' }), 'ga');
+  assert.deepEqual(stateOf({ slug: 'somewhere' }), '');
+  const declared = [{ slug: 'kansas-city-mo', state: 'KS' }];
+  assert.deepEqual(stateRows('ks')(declared), declared);
+  assert.deepEqual(stateRows('mo')(declared), []);
+});
+
+test('every /states/ URL in the committed ledger has a real content date, not a build date', () => {
+  // Rule 0: the resolver passing its unit test proves nothing if the committed
+  // ledger still carries the build date. a6 fails when 90% of a sitemap's URLs
+  // share a lastmod dated inside two days of the build, so what has to hold is
+  // that no state URL is dated from a build at all - these pages are rendered
+  // from city rows that have not changed since the baseline commit.
+  const ledger = JSON.parse(readFileSync(new URL('../../data/cadence/lastmod_ledger.json', import.meta.url), 'utf8'));
+  const states = Object.entries(ledger.entries).filter(([url]) => /\/states\/[A-Za-z]{2}\//.test(url));
+  assert.ok(states.length >= 100, `expected the 100 state URLs in the ledger, found ${states.length}`);
+  const sources = JSON.parse(readFileSync(new URL('../../data/page_sets/examples/cities_pi_v1.json', import.meta.url), 'utf8'));
+  assert.ok(sources.length > 0, 'cities_pi_v1.json is the source these dates come from');
+  for (const [url, e] of states) {
+    assert.ok(e.lastmod, `${url} has no lastmod`);
+    // The reseeder could not date these at all before the fix; a date equal to
+    // the day the ledger was last reseeded is the fingerprint of that failure.
+    assert.notEqual(e.lastmod, ledger.reseeded_from_git_on, `${url} is dated from the reseed run, not from its content`);
+  }
 });
