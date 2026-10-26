@@ -28,6 +28,22 @@
  * apply_robots_policy.js and lastmod_apply.js in that relative order. It reads
  * the two pipeline definitions themselves rather than asserting prose, so the
  * ordering cannot drift apart again without this failing.
+ *
+ * Re-verified 26 Oct 2026 on memphisseniorcarehomes.com, which failed item a6
+ * that morning with 64 of 64, 38 of 38 and 36 of 36 sitemap URLs sharing
+ * lastmod 2026-10-25. Not a defect: a clean rebuild of main advanced 0 of its
+ * 144 pages, every one held its existing date, the committed ledger came back
+ * byte-identical, and the live sitemaps agree with it exactly. 2026-10-25 is
+ * the real date of the site-wide hyperlocal content pass that landed that day
+ * and rewrote every page on the site (nearby-area links, care-type links and a
+ * per-page lead FAQ, per senior_living_site_contract.js).
+ *
+ * So a6's heuristic - 90% of a sitemap sharing a date inside two days - fires
+ * the day after ANY site-wide content landing, which is the same false positive
+ * it produced for uscisexam.com, theaccidentguides.com and neuroevalguides.com
+ * on 25 Oct. The ordering this contract pins is what makes those dates
+ * trustworthy; the way to tell a content date from a build date is the test run
+ * above, a rebuild that advances nothing, not the shape of the sitemap.
  */
 const fs = require('fs');
 const path = require('path');

@@ -82,8 +82,48 @@ PY
 
 echo
  echo "== 3) Optional Google sitemap submit =="
+# Submit the index AND every sub-sitemap the build just published, derived from
+# the artifact's own sitemap.xml rather than from a hand-kept list.
+#
+# The defect this fixes (Search Readiness e2, 26 Oct 2026). This line used to
+# submit a hard-coded "https://${HOST}/sitemap.xml" and nothing else, so no
+# child sitemap was ever resubmitted - Search Console re-read them only on its
+# own schedule, and unevenly. hormonesivhair.com/sitemap-core.xml had not been
+# re-read since 13 Oct while sitemap-cities/guides/fresh were read 19-22 Oct,
+# and it still carried 1 error against the 67-URL version it read that day; the
+# live file had moved on to 64 URLs. The error could not clear and the read was
+# 13 days stale, against item e2's 14-day window.
+#
+# distribution.config.json's gsc.sites[].sitemaps named two feeds per host while
+# the build emits up to five, and no code read that list at all - so the list
+# was a wish and the submit was a guess. The artifact index is the one
+# definition: scripts/sitemap_emit.js lists in it exactly the sub-sitemaps it
+# wrote and that carry URLs, so submitting its children submits what shipped and
+# never a feed that does not exist.
+# Guarded by scripts/validation/sitemap_submission_coverage_contract.js.
 if [[ -n "$GSC_CREDS" && -n "$GSC_SITE_URL" && -f "$GSC_CREDS" ]]; then
-  python3 distribution_scripts/gsc_submit_sitemaps.py "$GSC_CREDS" "$GSC_SITE_URL" "https://${HOST}/sitemap.xml" || echo "WARNING: GSC sitemap submit failed; IndexNow already completed."
+  SITEMAP_FEEDS=()
+  while IFS= read -r feed; do
+    [[ -n "$feed" ]] && SITEMAP_FEEDS+=("$feed")
+  done < <(python3 - "$ARTIFACT_DIR" "$HOST" <<'PY'
+import pathlib, re, sys
+artifact_dir, host = sys.argv[1], sys.argv[2]
+index = pathlib.Path(artifact_dir) / 'sitemap.xml'
+feeds = [f'https://{host}/sitemap.xml']
+if index.is_file():
+    for loc in re.findall(r'<loc>\s*([^<\s]+)\s*</loc>', index.read_text(encoding='utf-8')):
+        if loc not in feeds:
+            feeds.append(loc)
+for f in feeds:
+    print(f)
+PY
+)
+  if [[ "${#SITEMAP_FEEDS[@]}" -eq 0 ]]; then
+    echo "ERROR: no sitemap feeds derived from ${ARTIFACT_DIR}/sitemap.xml" >&2
+    exit 1
+  fi
+  echo "Submitting ${#SITEMAP_FEEDS[@]} sitemap feed(s): ${SITEMAP_FEEDS[*]}"
+  python3 distribution_scripts/gsc_submit_sitemaps.py "$GSC_CREDS" "$GSC_SITE_URL" "${SITEMAP_FEEDS[@]}" || echo "WARNING: GSC sitemap submit failed; IndexNow already completed."
 else
   echo "SKIP: GSC credentials/site not supplied."
 fi
