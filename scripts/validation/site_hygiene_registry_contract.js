@@ -104,7 +104,13 @@ console.log(`SITE HYGIENE REGISTRY CONTRACT PASS (${reg.build_steps.length} step
       const hit = redirectRows.find((r) => String(r.from || '').replace(/\/+$/, '') === from);
       if (!c.redirect_to || !hit) fail(`${dir}: folded ${c.route} has no legacyRedirects row in any pack`);
       if (hit.to !== c.redirect_to) fail(`${dir}: folded ${c.route} redirects to ${hit.to}, ledger says ${c.redirect_to}`);
-      if (fs.existsSync(path.join(ROOT, c.source))) fail(`${dir}: folded ${c.route} still has its source file ${c.source}`);
+      // A folded list row is recorded as <list file>#<slug>: the row must be gone from that list.
+      const [srcFile, srcRow] = String(c.source || '').split('#');
+      if (srcRow) {
+        const abs = path.join(ROOT, srcFile.split(' ')[0]);
+        if (!fs.existsSync(abs)) fail(`${dir}: folded ${c.route} names a list that does not exist: ${srcFile}`);
+        else if (!/data\/cities\.json$/.test(abs) && JSON.parse(fs.readFileSync(abs, 'utf8')).some((r) => r && r.slug === srcRow.split(' ')[0])) fail(`${dir}: folded ${c.route} is still a row of ${srcFile}`);
+      } else if (fs.existsSync(path.join(ROOT, c.source))) fail(`${dir}: folded ${c.route} still has its source file ${c.source}`);
       foldedTotal += 1;
     }
   }

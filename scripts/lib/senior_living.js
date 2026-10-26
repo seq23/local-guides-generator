@@ -451,6 +451,16 @@ function careTypeLeadHtml(city, list) {
     ? 'a Personal Care Home - Assisted Living licence from the Mississippi State Department of Health'
     : 'an Assisted Care Living Facility licence from the Tennessee Health Facilities Commission';
   const alOnly = inTown.filter((f) => !f.memory_care);
+  if (!inTown.length) {
+    // A town with no licensed community of its own: say so, and give the
+    // nearest ones with their real distances, never a "0 communities" count.
+    const n = list[0];
+    const nearest3 = list.slice(0, 3).map((f) => esc(titleCaseName(f.name)) + ' in ' + esc(f.city) + ' (' + f.miles.toFixed(1) + ' miles)');
+    const states = Array.from(new Set(list.map((f) => f.state)));
+    return '<p>Every community below holds an assisted living licence. No licensed assisted living community has ' + aAn(esc(city.city)) + ' address in the ' + (city.state === 'MS' ? 'Mississippi State Department of Health directory' : 'Tennessee Health Facilities Commission bed report') + ', so families in ' + esc(city.city) + ' choose among the communities in nearby towns. ' +
+      'The nearest is ' + esc(titleCaseName(n.name)) + ' in ' + esc(n.city) + ', ' + n.miles.toFixed(1) + ' miles from the centre of ' + esc(city.city) + ' (ZIP ' + esc(city.primary_zip) + '); the next nearest are ' + nearest3.slice(1).join(' and ') + '. ' +
+      'Below are the ' + list.length + ' licensed communities nearest to ' + esc(city.city) + ', ' + list.filter((f) => !f.memory_care).length + ' of them assisted living only' + (states.length > 1 ? ', across the ' + states.map(stateName).join(' and ') + ' registries' : '') + ', the farthest ' + list[list.length - 1].miles.toFixed(1) + ' miles away.</p>';
+  }
   return '<p>Every community below holds an assisted living licence. ' + esc(city.city) + ' has ' + plural(inTown.length, 'community', 'communities') + ' with ' + lic + ', licensed for ' + sumBeds(inTown, 'total_beds') + ' residents in total. ' +
     (alOnly.length
       ? plural(alOnly.length, 'of them offers', 'of them offer') + ' assisted living only, with no secured memory care unit' + (inTown.length - alOnly.length ? '; the other ' + (inTown.length - alOnly.length) + ' also run' + (inTown.length - alOnly.length === 1 ? 's' : '') + ' one' : '') + '. '
@@ -586,6 +596,7 @@ function cityFaqItem(city) {
   }
   if (isAssistedLivingPage(city)) {
     const inTown = inOwnCity(city, list);
+    if (!inTown.length) return { q: 'Is there a licensed assisted living community in ' + city.city + '?', a: 'No licensed assisted living community has ' + aAn(city.city) + ' address in the state registry. The nearest is ' + at(near) + '.' + (mc && mc !== near ? ' The nearest with secured memory care is ' + at(mc) + '.' : '') };
     return { q: 'How many assisted living communities are licensed in ' + city.city + '?', a: city.city + ' has ' + plural(inTown.length, 'licensed assisted living community', 'licensed assisted living communities') + ', licensed for ' + sumBeds(inTown, 'total_beds') + ' residents in total; ' + inTown.filter((f) => !f.memory_care).length + ' of them have no secured memory care unit. The nearest to the centre is ' + at(near) + '.' };
   }
   if (city.neighborhood_of) {

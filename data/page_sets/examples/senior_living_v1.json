@@ -15,7 +15,138 @@
   },
   "educationOnly": false,
   "globalPagesDir": "data/page_sets/examples/senior_living_global_pages",
-  "legacyRedirects": [],
+  "legacyRedirects": [
+    {
+      "from": "/tunica-ms/assisted-living/",
+      "to": "/assisted-living-hernando-ms/",
+      "basis": "service-town fold 2026-10-26: Tunica, MS is in Tunica County, MS, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a assisted living page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /assisted-living-hernando-ms/ (24.1 miles straight-line)."
+    },
+    {
+      "from": "/tunica-ms/memory-care/",
+      "to": "/memory-care-hernando-ms/",
+      "basis": "service-town fold 2026-10-26: Tunica, MS is in Tunica County, MS, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a memory care page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /memory-care-hernando-ms/ (24.1 miles straight-line)."
+    },
+    {
+      "from": "/senatobia-ms/assisted-living/",
+      "to": "/assisted-living-hernando-ms/",
+      "basis": "service-town fold 2026-10-26: Senatobia, MS is in Tate County, MS, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a assisted living page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /assisted-living-hernando-ms/ (14.3 miles straight-line)."
+    },
+    {
+      "from": "/senatobia-ms/memory-care/",
+      "to": "/memory-care-hernando-ms/",
+      "basis": "service-town fold 2026-10-26: Senatobia, MS is in Tate County, MS, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a memory care page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /memory-care-hernando-ms/ (14.3 miles straight-line)."
+    },
+    {
+      "from": "/west-memphis-ar/assisted-living/",
+      "to": "/assisted-living-memphis-tn/",
+      "basis": "service-town fold 2026-10-26: West Memphis, AR is in Crittenden County, AR, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a assisted living page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /assisted-living-memphis-tn/ (7.5 miles straight-line)."
+    },
+    {
+      "from": "/west-memphis-ar/memory-care/",
+      "to": "/memory-care-memphis-tn/",
+      "basis": "service-town fold 2026-10-26: West Memphis, AR is in Crittenden County, AR, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a memory care page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /memory-care-memphis-tn/ (7.5 miles straight-line)."
+    },
+    {
+      "from": "/marion-ar/assisted-living/",
+      "to": "/assisted-living-memphis-tn/",
+      "basis": "service-town fold 2026-10-26: Marion, AR is in Crittenden County, AR, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a assisted living page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /assisted-living-memphis-tn/ (9.3 miles straight-line)."
+    },
+    {
+      "from": "/marion-ar/memory-care/",
+      "to": "/memory-care-memphis-tn/",
+      "basis": "service-town fold 2026-10-26: Marion, AR is in Crittenden County, AR, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a memory care page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /memory-care-memphis-tn/ (9.3 miles straight-line)."
+    },
+    {
+      "from": "/earle-ar/assisted-living/",
+      "to": "/assisted-living-memphis-tn/",
+      "basis": "service-town fold 2026-10-26: Earle, AR is in Crittenden County, AR, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a assisted living page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /assisted-living-memphis-tn/ (24.9 miles straight-line)."
+    },
+    {
+      "from": "/earle-ar/memory-care/",
+      "to": "/memory-care-memphis-tn/",
+      "basis": "service-town fold 2026-10-26: Earle, AR is in Crittenden County, AR, outside the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette; MSDH: DeSoto, Marshall), so a memory care page there could not honestly say what is licensed in town. Folded into the nearest town with licensed supply of its own, /memory-care-memphis-tn/ (24.9 miles straight-line)."
+    },
+    {
+      "from": "/oakland-tn/assisted-living/",
+      "to": "/assisted-living-somerville-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Oakland, TN has no licensed community of its own, and building its assisted living page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /assisted-living-somerville-tn/ (9.4 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/oakland-tn/memory-care/",
+      "to": "/memory-care-somerville-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Oakland, TN has no licensed community of its own, and building its memory care page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /memory-care-somerville-tn/ (9.4 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/munford-tn/assisted-living/",
+      "to": "/assisted-living-covington-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Munford, TN has no licensed community of its own, and building its assisted living page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /assisted-living-covington-tn/ (12.4 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/munford-tn/memory-care/",
+      "to": "/memory-care-covington-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Munford, TN has no licensed community of its own, and building its memory care page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /memory-care-covington-tn/ (12.4 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/rossville-tn/assisted-living/",
+      "to": "/assisted-living-collierville-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Rossville, TN has no licensed community of its own, and building its assisted living page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /assisted-living-collierville-tn/ (6.9 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/rossville-tn/memory-care/",
+      "to": "/memory-care-collierville-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Rossville, TN has no licensed community of its own, and building its memory care page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /memory-care-collierville-tn/ (6.9 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/eads-tn/assisted-living/",
+      "to": "/assisted-living-arlington-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Eads, TN has no licensed community of its own, and building its assisted living page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /assisted-living-arlington-tn/ (6.4 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/eads-tn/memory-care/",
+      "to": "/memory-care-arlington-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Eads, TN has no licensed community of its own, and building its memory care page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /memory-care-arlington-tn/ (6.4 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/brighton-tn/assisted-living/",
+      "to": "/assisted-living-covington-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Brighton, TN has no licensed community of its own, and building its assisted living page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /assisted-living-covington-tn/ (7.1 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/brighton-tn/memory-care/",
+      "to": "/memory-care-covington-tn/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Brighton, TN has no licensed community of its own, and building its memory care page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /memory-care-covington-tn/ (7.1 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/walls-ms/assisted-living/",
+      "to": "/assisted-living-southaven-ms/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Walls, MS has no licensed community of its own, and building its assisted living page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /assisted-living-southaven-ms/ (8.6 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/walls-ms/memory-care/",
+      "to": "/memory-care-southaven-ms/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Walls, MS has no licensed community of its own, and building its memory care page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /memory-care-southaven-ms/ (8.6 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/nesbit-ms/assisted-living/",
+      "to": "/assisted-living-hernando-ms/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Nesbit, MS has no licensed community of its own, and building its assisted living page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /assisted-living-hernando-ms/ (4.1 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/nesbit-ms/memory-care/",
+      "to": "/memory-care-hernando-ms/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Nesbit, MS has no licensed community of its own, and building its memory care page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /memory-care-hernando-ms/ (4.1 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/byhalia-ms/assisted-living/",
+      "to": "/assisted-living-olive-branch-ms/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Byhalia, MS has no licensed community of its own, and building its assisted living page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /assisted-living-olive-branch-ms/ (10.0 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    },
+    {
+      "from": "/byhalia-ms/memory-care/",
+      "to": "/memory-care-olive-branch-ms/",
+      "basis": "service-town fold 2026-10-26: refresh capacity. Byhalia, MS has no licensed community of its own, and building its memory care page (with its next-steps twin) would take the site past the cadence gate's maintainable ceiling of 195 URLs (refresh_capacity_per_week x 13 weeks, data/cadence/policy.json). The four largest no-supply towns (horn-lake-ms, lakeland-tn, millington-tn, atoka-tn) got their pages; this one is folded into the nearest town with licensed supply, /memory-care-olive-branch-ms/ (10.0 miles straight-line). Way back: raise real refresh capacity or prune, then add the care_type row and drop this redirect."
+    }
+  ],
   "sponsorship": {
     "nextStepsEnabled": false,
     "globalNextStepsEnabled": false

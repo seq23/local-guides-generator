@@ -58,6 +58,18 @@ const FENCE = [
   // is a rule this list can be measured against; "the biggest markets" was not.
   ...['memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'southaven-ms', 'olive-branch-ms',
       'arlington-tn', 'covington-tn', 'hernando-ms', 'somerville-tn'].flatMap((t) => ['memory-care-' + t, 'assisted-living-' + t]),
+  // 26 Oct 2026 (Search Readiness j9, service x town): coverage towns inside
+  // the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette;
+  // MSDH: DeSoto, Marshall) now has both care-type pages, even with no licensed
+  // community of its own: the page names the nearest ones with real distances,
+  // bed counts and licence status. The five coverage towns outside those
+  // registries (tunica-ms, senatobia-ms, west-memphis-ar, marion-ar, earle-ar)
+  // are folded with a 301 instead; the basis is in the pack's legacyRedirects
+  // and data/search_intelligence/memphisseniorcarehomes.com/consolidation_candidates.json.
+  // The four largest no-supply towns only: eight more (oakland, munford,
+  // rossville, eads, brighton, walls, nesbit, byhalia) would take the site past
+  // the cadence gate's maintainable ceiling of 195 URLs, so they are folded too.
+  ...['lakeland-tn', 'millington-tn', 'atoka-tn', 'horn-lake-ms'].flatMap((t) => ['memory-care-' + t, 'assisted-living-' + t]),
 ];
 const MIN_NEARBY_AREAS = 3;
 const MIN_CITY_WORDS = 600;
