@@ -46,11 +46,15 @@ const ENFORCED = ['dentistry_v1.json'];
 //   pi_v1    28 of 35 guides under the floor, lowest 1,173 (product-liability)
 //   neuro_v1 19 of 32 guides under the floor, lowest 1,371
 //            (what-to-expect-after-a-neuro-evaluation)
-// The two guides the 26 Oct queue named are now over it
+//   trt_v1   39 of 50 guides under the floor, lowest 1,088
+//            (peptides-for-hair-loss-explained)
+// The four guides the 26 Oct queue named are now over it
 // (/guides/motorcycle-accidents/ 1,879; /guides/neuropsych-testing-overview/
-// 1,874), which is why those briefs are closed and these packs are not yet
-// enforced: ~45 guides of substantive legal and clinical content remain, and
-// padding them to clear a word count is the failure this floor exists to catch.
+// 1,874; /guides/peptide-program-costs/ 2,020;
+// /guides/what-is-hair-microneedling/ 2,216), which is why those briefs are
+// closed and these packs are not yet enforced: ~84 guides of substantive legal,
+// clinical and treatment content remain, and padding them to clear a word count
+// is the failure this floor exists to catch.
 const PENDING = {
   'uscis_medical_v1.json': 'sr-uscisexam.com-j3',
   'pi_v1.json': 'sr-theaccidentguides.com-j3',
