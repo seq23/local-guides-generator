@@ -26,6 +26,23 @@
  *   3. URLs with no lastmod at all - a crawler gets no freshness signal
  *   4. library larger than refresh capacity can keep inside the window
  *
+ * One bounded exception to condition 1: an approved expansion. Completing a
+ * site's declared coverage is not routine drip publishing, and the weekly cap
+ * exists to serve condition 4 rather than to stand on its own - its whole
+ * rationale is that publishing faster than refresh capacity ages the tail out
+ * of citability. So a host may carry an entry in policy.approved_expansions
+ * naming the host, a URL count, a reason, the brief behind it and the date, and
+ * that run's new URLs are allowed up to that count. It is refused unless the
+ * resulting library still fits inside the maintainable ceiling, which ties the
+ * allowance to the same capacity argument the cap serves; above the ceiling it
+ * blocks exactly as before. It does not change new_pages_per_week, so the
+ * ordinary rate resumes on the next run, and the entry stays in the policy as
+ * the record of what was published and why.
+ *
+ * This is the same distinction the ledger already makes for a host seen for the
+ * first time: launching a site is recorded rather than blocked, then the weekly
+ * cap applies.
+ *
  * It also warns, without blocking, when a very high share of pages carry the
  * same recent lastmod. That is the signature of a date bump rather than a
  * substantive refresh, and it is worth seeing rather than being rewarded by the
@@ -52,6 +69,7 @@ const DEFAULT_POLICY = {
   new_pages_per_week: 2,
   refresh_capacity_per_week: 25,
   require_lastmod: true,
+  approved_expansions: [],
 };
 
 function loadPolicy() {
@@ -124,8 +142,57 @@ const ceiling = policy.refresh_capacity_per_week * Math.floor(policy.refresh_win
 const blocking = [];
 const warnings = [];
 
+// An approved expansion raises the cap for the named hosts on this run only, and
+// only while the resulting library still fits the maintainable ceiling. Anything
+// malformed is ignored rather than trusted, so a half-written entry cannot
+// silently widen the gate.
+const newByHost = {};
+for (const u of newUrls) { const h = hostOf(u); if (h) newByHost[h] = (newByHost[h] || 0) + 1; }
+const expansions = (Array.isArray(policy.approved_expansions) ? policy.approved_expansions : []).filter((e) => (
+  e && typeof e.host === 'string' && Number.isInteger(e.max_new_urls) && e.max_new_urls > 0
+  && typeof e.reason === 'string' && e.reason.length >= 20
+  && typeof e.brief === 'string' && e.brief.length > 0
+  && /^\d{4}-\d{2}-\d{2}$/.test(String(e.approved_on || ''))
+));
+// An allowance is spent, not owned: it is honoured only inside EXPANSION_TTL_DAYS
+// of its approval date, so a one-off coverage completion cannot become a
+// permanently higher cap for that host by being left in the policy. An expired
+// entry is reported, so the record of what was published stays readable.
+const EXPANSION_TTL_DAYS = 14;
+const expansionAge = (e) => Math.floor((today - new Date(`${e.approved_on}T00:00:00Z`)) / 86400000);
+const expired = expansions.filter((e) => expansionAge(e) > EXPANSION_TTL_DAYS || expansionAge(e) < 0);
+const live = expansions.filter((e) => !expired.includes(e));
+expansions.length = 0;
+expansions.push(...live);
+const allowanceFor = (h) => expansions.filter((e) => e.host === h).reduce((n, e) => Math.max(n, e.max_new_urls), 0);
+const expansionsUsed = [];
 if (ledgerExists && newUrls.length > policy.new_pages_per_week) {
-  blocking.push(`weekly_cap: ${newUrls.length} URLs are new since the last run, cap is ${policy.new_pages_per_week} per week`);
+  const overCap = Object.entries(newByHost).filter(([, n]) => n > policy.new_pages_per_week);
+  const refused = [];
+  for (const [h, n] of overCap) {
+    const allowed = allowanceFor(h);
+    if (!allowed || n > allowed) {
+      refused.push(`${h}: ${n} new, cap ${policy.new_pages_per_week}${allowed ? `, approved expansion ${allowed}` : ''}`);
+    } else if (urls.size > ceiling) {
+      refused.push(
+        `${h}: an approved expansion of ${allowed} cannot be used because the library would be ${urls.size} against a ceiling of ${ceiling} - `
+        + 'the expansion exists because the weekly cap serves the ceiling, so it cannot be used to cross it'
+      );
+    } else {
+      const e = expansions.find((x) => x.host === h && x.max_new_urls >= n);
+      expansionsUsed.push(`${h}: ${n} of ${allowed} approved URLs (${e.brief}, approved ${e.approved_on}) - ${e.reason}`);
+    }
+  }
+  if (refused.length) {
+    blocking.push(`weekly_cap: ${newUrls.length} URLs are new since the last run, cap is ${policy.new_pages_per_week} per week - ${refused.join('; ')}`);
+  }
+}
+for (const u of expansionsUsed) warnings.push(`approved_expansion: ${u}`);
+for (const e of expired) {
+  warnings.push(
+    `approved_expansion_expired: ${e.host} ${e.max_new_urls} URLs (${e.brief}, approved ${e.approved_on}) is ${expansionAge(e)} days old, `
+    + `past the ${EXPANSION_TTL_DAYS}-day window, and no longer raises the cap. It can be deleted.`
+  );
 }
 if (stalePct > policy.stale_tolerance_pct) {
   blocking.push(`refresh_debt: ${stale} of ${dated.length} pages (${stalePct.toFixed(0)}%) are older than ${policy.refresh_window_days} days, tolerance is ${policy.stale_tolerance_pct}%`);
@@ -162,6 +229,9 @@ const report = {
   fresh_within_30d: fresh30,
   lastmod_within_7d: publishedThisWeek,
   new_since_last_run: ledgerExists ? newUrls.length : null,
+  new_by_host: newByHost,
+  approved_expansions_used: expansionsUsed,
+  approved_expansions_expired: expired.map((e) => ({ host: e.host, brief: e.brief, approved_on: e.approved_on, age_days: expansionAge(e) })),
   ledger_initialised: ledgerExists,
   hosts_initialised_this_run: initialisedHosts,
   maintainable_ceiling: ceiling,
