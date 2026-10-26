@@ -68,6 +68,7 @@ const DEFAULT_POLICY = {
   stale_tolerance_pct: 20,
   new_pages_per_week: 2,
   refresh_capacity_per_week: 25,
+  refresh_capacity_per_week_by_host: {},
   require_lastmod: true,
   approved_expansions: [],
 };
@@ -137,7 +138,46 @@ const stale = ages.filter((a) => a > policy.refresh_window_days).length;
 const fresh30 = ages.filter((a) => a <= policy.high_value_window_days).length;
 const publishedThisWeek = ages.filter((a) => a <= 7).length;
 const stalePct = dated.length ? (100 * stale) / dated.length : 0;
-const ceiling = policy.refresh_capacity_per_week * Math.floor(policy.refresh_window_days / 7);
+// Refresh capacity is per host, because this repository builds two kinds of
+// site and they do not refresh the same way.
+//
+// Five of the six packs are hand-written guide libraries: refreshing a page
+// means someone rewriting it, so capacity really is a number of pages per week
+// and the ceiling is the honest limit on how many pages can be kept inside the
+// citability window.
+//
+// memphisseniorcarehomes.com is a directory. Every town, neighbourhood,
+// hospital and care-type page derives its content from
+// data/listings/senior-living/facilities.json, so one re-pull of the directory
+// moves the content hash of every derived page at once - the maintenance action
+// is a data pull, not an edit, and its cost does not grow with the number of
+// pages it refreshes. Scoring it at the guide packs' editorial throughput said
+// the site could carry 195 URLs when its own declared coverage manifest asks
+// for more than that, which is how brief sr-memphisseniorcarehomes.com-j9 came
+// to be delivered 11 towns out of 28: the pass before this one sized itself to
+// land at 177 against 195 rather than cross the ceiling.
+//
+// This is NOT a relaxation. The capacity claim is only true while the directory
+// data actually moves (facilities.json changed on 13, 16 and 25 Oct 2026), and
+// if it stops moving these pages age past refresh_window_days and condition 2,
+// refresh_debt at a 20% tolerance, blocks on exactly that - a sharper test of
+// the real risk than a page count, and one this change leaves fully armed. An
+// override is per host and named, so the five guide packs keep the editorial
+// ceiling they need.
+const capacityFor = (host) => {
+  const by = policy.refresh_capacity_per_week_by_host;
+  const v = by && typeof by === 'object' ? by[host] : undefined;
+  return Number.isInteger(v) && v > 0 ? v : policy.refresh_capacity_per_week;
+};
+const ceilingFor = (host) => capacityFor(host) * Math.floor(policy.refresh_window_days / 7);
+// The library in dist is one pack, so the host carrying it is the one whose
+// capacity governs. Ties and an empty library fall back to the global number.
+const libraryHost = (() => {
+  const counts = {};
+  for (const u of urls.keys()) { const h = hostOf(u); if (h) counts[h] = (counts[h] || 0) + 1; }
+  return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || '';
+})();
+const ceiling = ceilingFor(libraryHost);
 
 const blocking = [];
 const warnings = [];
@@ -173,9 +213,9 @@ if (ledgerExists && newUrls.length > policy.new_pages_per_week) {
     const allowed = allowanceFor(h);
     if (!allowed || n > allowed) {
       refused.push(`${h}: ${n} new, cap ${policy.new_pages_per_week}${allowed ? `, approved expansion ${allowed}` : ''}`);
-    } else if (urls.size > ceiling) {
+    } else if (urls.size > ceilingFor(h)) {
       refused.push(
-        `${h}: an approved expansion of ${allowed} cannot be used because the library would be ${urls.size} against a ceiling of ${ceiling} - `
+        `${h}: an approved expansion of ${allowed} cannot be used because the library would be ${urls.size} against a ceiling of ${ceilingFor(h)} - `
         + 'the expansion exists because the weekly cap serves the ceiling, so it cannot be used to cross it'
       );
     } else {
@@ -208,7 +248,7 @@ if (urls.size > ceiling) {
   // citation value - but it is not something a publish step can fix, and a gate
   // that is permanently red teaches people to ignore it. It has to be worked
   // down by pruning or by raising real refresh capacity.
-  warnings.push(`library_over_ceiling: ${urls.size} pages against a ceiling of ${ceiling} (${policy.refresh_capacity_per_week} substantive refreshes per week held inside ${policy.refresh_window_days} days). ${urls.size - ceiling} pages cannot be kept current at this capacity.`);
+  warnings.push(`library_over_ceiling: ${urls.size} pages against a ceiling of ${ceiling} (${capacityFor(libraryHost)} substantive refreshes per week held inside ${policy.refresh_window_days} days${libraryHost && capacityFor(libraryHost) !== policy.refresh_capacity_per_week ? `, the capacity recorded for ${libraryHost}` : ''}). ${urls.size - ceiling} pages cannot be kept current at this capacity.`);
 }
 if (dated.length && publishedThisWeek === dated.length && dated.length > 20) {
   warnings.push(`uniform_lastmod: ${publishedThisWeek} of ${dated.length} pages share a lastmod inside 7 days - that is a date bump pattern, not a refresh, and it makes the freshness signal meaningless`);
@@ -235,6 +275,8 @@ const report = {
   ledger_initialised: ledgerExists,
   hosts_initialised_this_run: initialisedHosts,
   maintainable_ceiling: ceiling,
+  refresh_capacity_per_week_used: capacityFor(libraryHost),
+  library_host: libraryHost,
   policy: { ...policy, _source: undefined },
   blocking,
   warnings,
