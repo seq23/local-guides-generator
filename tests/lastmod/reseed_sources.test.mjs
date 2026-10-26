@@ -62,18 +62,47 @@ test('every route still resolves to something', () => {
 });
 
 test('a city page is sliced to its own row, a state hub to its own state', () => {
-  const city = sourcesFor('dentistry', '/albany-ny/');
   const citiesFile = 'data/page_sets/examples/cities_dentistry_v1.json';
-  assert.ok(sliced(city, citiesFile), 'the cities list is not sliced for a city page');
+  const city = sourcesFor('dentistry', '/albany-ny/');
+  const cityEntry = sliced(city, citiesFile);
+  assert.ok(cityEntry, 'the cities list is not sliced for a city page');
   const state = sourcesFor('dentistry', '/states/oh/');
-  assert.ok(sliced(state, citiesFile), 'the cities list is not sliced for a state hub');
+  const stateEntry = sliced(state, citiesFile);
+  assert.ok(stateEntry, 'the cities list is not sliced for a state hub');
 
-  // Two cities in different states must not share a slice, or one commit moves both.
-  const a = sliceDates(citiesFile, cityRow('albany-ny'));
-  const b = sliceDates(citiesFile, cityRow('memphis-tn'));
-  assert.ok(a && b, 'a city row resolves to no date');
-  const oh = sliceDates(citiesFile, stateRows('oh'));
-  assert.ok(oh, 'a state slice resolves to no date');
+  // The selectors must pick this page's part of the file and nothing else, or
+  // one commit moves every page that reads it.
+  const rows = [
+    { city: 'Albany', state: 'NY', slug: 'albany-ny' },
+    { city: 'Columbus', state: 'OH', slug: 'columbus-oh' },
+    { city: 'Dayton', state: 'OH', slug: 'dayton-oh' },
+  ];
+  assert.deepEqual(cityEntry.slice(rows), rows[0]);
+  assert.deepEqual(stateEntry.slice(rows).map((r) => r.slug), ['columbus-oh', 'dayton-oh']);
+  assert.equal(cityRow('nowhere-zz')(rows), undefined);
+  assert.deepEqual(stateRows('zz')(rows), []);
+});
+
+test('a slice takes the date its own part last changed, not the file\'s', () => {
+  // Newest commit first, as `git log` returns them. Injected, because the merge
+  // gate checks out shallow and real history there is one grafted commit.
+  const rowsFor = (albany) => [{ slug: 'albany-ny', note: albany }, { slug: 'columbus-oh', note: 'fixed' }];
+  const history = [
+    { date: '2026-10-25', json: rowsFor('b') },  // another row changed, not Albany's
+    { date: '2026-10-20', json: rowsFor('b') },  // Albany's row changed here
+    { date: '2026-06-01', json: rowsFor('a') },
+    { date: '2026-02-11', json: rowsFor('a') },
+  ];
+  // Albany's row last changed on the 20th, even though the file changed on the 25th.
+  assert.deepEqual(sliceDates('x', cityRow('albany-ny'), history), { last: '2026-10-20', first: '2026-02-11' });
+  // Columbus never changed: its date is the oldest commit that carried it.
+  assert.deepEqual(sliceDates('x', cityRow('columbus-oh'), history), { last: '2026-02-11', first: '2026-02-11' });
+  // A row that appears partway through dates from the commit that added it.
+  const added = [{ date: '2026-10-25', json: rowsFor('b').concat([{ slug: 'new-tx' }]) }, { date: '2026-02-11', json: rowsFor('a') }];
+  assert.deepEqual(sliceDates('x', cityRow('new-tx'), added), { last: '2026-10-25', first: '2026-10-25' });
+  // A row that is never there resolves to null, never to a date.
+  assert.equal(sliceDates('x', cityRow('nowhere-zz'), history), null);
+  assert.equal(sliceDates('x', cityRow('albany-ny'), []), null);
 });
 
 test('a guide is sliced to its own entry in the enhancement registry', () => {
@@ -93,10 +122,6 @@ test('a head-only key is not content', () => {
   assert.notDeepEqual(mainContentOf(after), mainContentOf(changed));
 });
 
-test('an absent slice resolves to null rather than to an invented date', () => {
-  const citiesFile = 'data/page_sets/examples/cities_dentistry_v1.json';
-  assert.equal(sliceDates(citiesFile, cityRow('nowhere-zz')), null);
-});
 
 test('the reseeder carries an entry\'s hash basis through', () => {
   // Dropping `basis` made scripts/lib/lastmod_ledger.js resolve() treat every

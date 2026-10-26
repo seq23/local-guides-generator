@@ -52,7 +52,12 @@ const AS_JSON = argv.includes('--json');
 
 const git = (args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
 
-if (git(['rev-parse', '--is-shallow-repository']) !== 'false') {
+// Checked inside main(), not here. A module must not exit the process when it is
+// required: tests/lastmod/reseed_sources.test.mjs imports the resolvers, and the
+// merge gate checks out shallow, so an import-time exit(2) failed CI on a file
+// that was never going to reseed anything.
+function refuseShallowClone() {
+  if (git(['rev-parse', '--is-shallow-repository']) === 'false') return;
   console.error(
     'reseed_lastmod: refusing to run against a shallow clone. `git log` returns the graft\n' +
     'boundary for every path there, so every page would be stamped with one wrong date -\n' +
@@ -146,8 +151,11 @@ function fingerprint(json, selector) {
  * slice never appears in the file's history. Never invents a date: a null sends
  * the caller back to the whole-file date, exactly as before.
  */
-function sliceDates(rel, selector) {
-  const rows = historyOf(rel);
+function sliceDates(rel, selector, history) {
+  // `history` is injectable so the resolution rule can be pinned against known
+  // commits: on the shallow clone the merge gate checks out, real git history is
+  // one grafted commit and would prove nothing.
+  const rows = history || historyOf(rel);
   if (!rows.length) return null;
   const prints = rows.map((r) => fingerprint(r.json, selector));
   const present = prints.map((p, i) => i).filter((i) => prints[i] !== EMPTY);
@@ -314,6 +322,8 @@ function datesFor(src) {
 // tests/lastmod/reseed_sources.test.mjs without reseeding anything: requiring a
 // module must not walk the whole git history and rewrite the ledger.
 function main() {
+  refuseShallowClone();
+
   const ledger = ledgerLib.load();
   const entries = ledger.entries || {};
   const before = {};
