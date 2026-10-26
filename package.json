@@ -45,6 +45,7 @@
     "snapshot:baseline:with-git": "bash scripts/make_baseline_snapshot.sh --include-git",
     "snapshot:lkg": "node scripts/snapshot_lkg.js",
     "sync:guides": "node scripts/sync_guides.js",
+    "test:blocked-lead-domains": "node --test tests/request_form/blocked_lead_domains.test.mjs",
     "test:edge-cache": "node --test tests/edge_cache/edge_cache_config.test.mjs",
     "test:homepage-shape": "node --test tests/homepage/homepage_shape.test.mjs",
     "test:indexnow-named-stop": "node --test tests/indexnow/indexnow_named_stop.test.mjs",

@@ -35,7 +35,10 @@
  * - Missing consent
  * - Missing Airtable environment variables
  * - Airtable write failure (falls back to email; only a failure of both is 503)
+ * - Blocked lead domain (BLOCKED_LEAD_DOMAINS): answers ok, stores and sends nothing
  */
+
+import { blockedDomainFor, logBlockedLead } from '../../lib/blocked_lead_domains.mjs';
 
 const ALLOWED_PROVIDER_TYPES = new Set([
   'Personal Injury Attorney',
@@ -343,6 +346,14 @@ export async function onRequestPost(context) {
         return '';
       }
     })();
+
+    // Blocked lead domains (owner, 26 Oct 2026): dropped quietly, with the
+    // same answer the honeypot gets, so the sender learns nothing.
+    const blocked = blockedDomainFor(email, env.BLOCKED_LEAD_DOMAINS);
+    if (blocked) {
+      logBlockedLead(blocked, host);
+      return json({ ok: true });
+    }
 
     const record = {
       provider_type,

@@ -119,7 +119,8 @@ test("the endpoint's host map matches every guide site and pages project", () =>
 
 async function loadEndpoint() {
   const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'ra-fn-')), 'request-assistance.mjs');
-  fs.writeFileSync(tmp, fnSrc);
+  // The endpoint imports from lib/; point those imports at the real files.
+  fs.writeFileSync(tmp, fnSrc.replace(/(['"])\.\.\/\.\.\/lib\//g, `$1${pathToFileURL(path.join(ROOT, 'lib')).href}/`));
   return import(pathToFileURL(tmp).href);
 }
 
