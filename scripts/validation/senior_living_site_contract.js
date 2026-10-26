@@ -6,6 +6,13 @@
  * Source (always): the city fence is exactly the owner-approved pages: 15
  * towns, 8 Memphis neighbourhoods and 10 new towns (25 Oct 2026), 11 hospital
  * pages, and memory care + assisted living pages for the 7 biggest markets.
+ * Extended 26 Oct 2026 by the four towns, three Memphis neighbourhoods and
+ * three hospitals the Search Readiness coverage manifest names and this site
+ * had never built (brief sr-memphisseniorcarehomes.com-j9): eads-tn, tunica-ms,
+ * senatobia-ms, earle-ar; cooper-young, university-district and binghampton;
+ * saint-francis-hospital-bartlett, methodist-olive-branch-hospital and
+ * baptist-memorial-hospital-crittenden. Every one is inside the manifest's
+ * 40-mile radius.
  * Every care-type page sits on its town's ZIP and centre.
  * Build (when dist/ holds the senior-living pack):
  *  - no city page outside the fence (the shared top-10 national cities leaked
@@ -37,10 +44,20 @@ const DIST = path.join(ROOT, 'dist');
 const FENCE = [
   'memphis-tn', 'east-memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'arlington-tn', 'lakeland-tn', 'millington-tn', 'southaven-ms', 'olive-branch-ms', 'horn-lake-ms', 'hernando-ms', 'west-memphis-ar', 'marion-ar',
   'midtown-memphis-tn', 'downtown-memphis-tn', 'whitehaven-memphis-tn', 'raleigh-memphis-tn', 'frayser-memphis-tn', 'hickory-hill-memphis-tn', 'berclair-memphis-tn', 'parkway-village-memphis-tn',
+  'cooper-young-memphis-tn', 'university-district-memphis-tn', 'binghampton-memphis-tn',
   'oakland-tn', 'atoka-tn', 'munford-tn', 'covington-tn', 'brighton-tn', 'somerville-tn', 'rossville-tn', 'nesbit-ms', 'walls-ms', 'byhalia-ms',
+  'eads-tn', 'tunica-ms', 'senatobia-ms', 'earle-ar',
   'baptist-memorial-hospital-memphis', 'methodist-university-hospital', 'saint-francis-hospital-park-avenue', 'regional-one-health',
   'baptist-memorial-hospital-collierville', 'baptist-memorial-hospital-desoto', 'methodist-le-bonheur-germantown-hospital', 'methodist-north-hospital', 'methodist-south-hospital', 'memphis-va-medical-center', 'delta-specialty-hospital',
-  ...['memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'southaven-ms', 'olive-branch-ms'].flatMap((t) => ['memory-care-' + t, 'assisted-living-' + t]),
+  'saint-francis-hospital-bartlett', 'methodist-olive-branch-hospital', 'baptist-memorial-hospital-crittenden',
+  // Care-type pages exist for every town with licensed supply in
+  // data/listings/senior-living/facilities.json - the seven biggest markets the
+  // owner approved on 25 Oct 2026, plus arlington-tn, covington-tn, hernando-ms
+  // and somerville-tn, added 26 Oct 2026 for brief
+  // sr-memphisseniorcarehomes.com-j9. "Every town that has licensed communities"
+  // is a rule this list can be measured against; "the biggest markets" was not.
+  ...['memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'southaven-ms', 'olive-branch-ms',
+      'arlington-tn', 'covington-tn', 'hernando-ms', 'somerville-tn'].flatMap((t) => ['memory-care-' + t, 'assisted-living-' + t]),
 ];
 const MIN_NEARBY_AREAS = 3;
 const MIN_CITY_WORDS = 600;
