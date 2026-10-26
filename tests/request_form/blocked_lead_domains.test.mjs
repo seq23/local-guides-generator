@@ -9,18 +9,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { loadRequestAssistance } from './load_endpoint.mjs';
 import { blockedDomainFor, parseBlockedDomains } from '../../lib/blocked_lead_domains.mjs';
 import { makeWorld } from '../senior/harness.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const LIST = ' Blocked-Example.test , other.test,,';
 
-async function loadEndpoint() {
-  const src = fs.readFileSync(path.join(ROOT, 'functions/api/request-assistance.js'), 'utf8');
-  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'ra-blk-')), 'request-assistance.mjs');
-  fs.writeFileSync(tmp, src.replace(/(['"])\.\.\/\.\.\/lib\//g, `$1${pathToFileURL(path.join(ROOT, 'lib')).href}/`));
-  return import(pathToFileURL(tmp).href);
-}
+const loadEndpoint = () => loadRequestAssistance('ra-blk-');
 
 async function withCapture(fn) {
   const calls = [];

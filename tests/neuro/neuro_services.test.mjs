@@ -10,6 +10,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { loadRequestAssistance } from '../request_form/load_endpoint.mjs';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -163,9 +164,7 @@ test('the endpoint and the build agree on the neuro label and the choices', () =
 });
 
 async function loadEndpoint() {
-  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'neuro-fn-')), 'request-assistance.mjs');
-  fs.writeFileSync(tmp, fnSrc);
-  return import(pathToFileURL(tmp).href);
+  return loadRequestAssistance('neuro-fn-');
 }
 
 async function post(mod, body) {

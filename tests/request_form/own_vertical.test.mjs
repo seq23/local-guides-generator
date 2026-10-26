@@ -10,6 +10,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { loadRequestAssistance } from './load_endpoint.mjs';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -118,10 +119,7 @@ test("the endpoint's host map matches every guide site and pages project", () =>
 });
 
 async function loadEndpoint() {
-  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'ra-fn-')), 'request-assistance.mjs');
-  // The endpoint imports from lib/; point those imports at the real files.
-  fs.writeFileSync(tmp, fnSrc.replace(/(['"])\.\.\/\.\.\/lib\//g, `$1${pathToFileURL(path.join(ROOT, 'lib')).href}/`));
-  return import(pathToFileURL(tmp).href);
+  return loadRequestAssistance('ra-fn-');
 }
 
 async function post(mod, host, body) {
