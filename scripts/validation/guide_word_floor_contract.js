@@ -25,6 +25,15 @@
  * the five unenforced packs would be the same invisible gap in a new place.
  * Adding a pack is the last step of fixing its guides, in the same change.
  *
+ * Why PROVEN exists. A pack is enforced only once ALL of its guides clear the
+ * floor, and these packs are fixed a few guides per weekly brief, so a guide
+ * raised over the floor in an unenforced pack had nothing holding it there: the
+ * pack-level skip meant the next edit could take it back under and no check
+ * would notice until the brief came round again. PROVEN names every guide a
+ * brief has already carried over the floor, and those are measured even when
+ * their pack is skipped. The floor a guide has cleared is a floor it keeps.
+ * Every brief that raises a guide adds it here in the same change.
+ *
  * Usage: LKG_VALIDATE_DIST=1 PAGE_SET_FILE=<pack> node scripts/validation/guide_word_floor_contract.js
  * Runs in the hard_fail tier, which scripts/build_all_packs.js invokes once per
  * pack against that pack's own dist.
@@ -46,21 +55,42 @@ const ENFORCED = ['dentistry_v1.json'];
 //   pi_v1    28 of 35 guides under the floor, lowest 1,173 (product-liability)
 //   neuro_v1 19 of 32 guides under the floor, lowest 1,371
 //            (what-to-expect-after-a-neuro-evaluation)
-//   trt_v1   39 of 50 guides under the floor, lowest 1,088
+//   trt_v1   39 of 50 guides under the floor, lowest 1,059
 //            (peptides-for-hair-loss-explained)
-// The four guides the 26 Oct queue named are now over it
+// The six guides the 26 Oct queue named are now over it
 // (/guides/motorcycle-accidents/ 1,879; /guides/neuropsych-testing-overview/
 // 1,874; /guides/peptide-program-costs/ 2,020;
-// /guides/what-is-hair-microneedling/ 2,216), which is why those briefs are
-// closed and these packs are not yet enforced: ~84 guides of substantive legal,
-// clinical and treatment content remain, and padding them to clear a word count
-// is the failure this floor exists to catch.
+// /guides/what-is-hair-microneedling/ 2,216;
+// /guides/peptide-clinic-near-me/ 2,196; /guides/what-is-hair-botox/ 2,095),
+// which is why those briefs are closed and these packs are not yet enforced:
+// ~82 guides of substantive legal, clinical and treatment content remain, and
+// padding them to clear a word count is the failure this floor exists to catch.
+//
+// Why the trt_v1 count did not fall by two. The two guides the 26 Oct queue
+// named were fixed in this change, which took the pack from 41 under the floor
+// to 39 -- the figure recorded above as 39 was measured before them and was
+// already stale by two. The number here is now a fresh measurement of the
+// rendered pack, taken after the fix, and the lowest page moved with it.
 const PENDING = {
   'uscis_medical_v1.json': 'sr-uscisexam.com-j3',
   'pi_v1.json': 'sr-theaccidentguides.com-j3',
   'neuro_v1.json': 'sr-neuroevalguides.com-j3',
   'trt_v1.json': 'sr-hormonesivhair.com-j3',
   'senior_living_v1.json': 'no j3 brief open',
+};
+
+// Guides already carried over the floor by a Search Readiness brief, per pack.
+// Their packs are still in PENDING because other guides in them are short, but
+// these specific pages are measured on every run and may not fall back under.
+const PROVEN = {
+  'pi_v1.json': ['motorcycle-accidents'],
+  'neuro_v1.json': ['neuropsych-testing-overview'],
+  'trt_v1.json': [
+    'peptide-program-costs',
+    'what-is-hair-microneedling',
+    'peptide-clinic-near-me',
+    'what-is-hair-botox',
+  ],
 };
 
 function fail(lines) {
@@ -85,9 +115,41 @@ function main() {
   const distDir = path.resolve(process.env.PAGES_OUT_DIR || 'dist');
 
   if (!ENFORCED.includes(pack)) {
-    // Rule 0: no stage may exit 0 having done nothing without saying so.
+    // Rule 0: no stage may exit 0 having done nothing without saying so. The
+    // pack is not enforced, but any guide a brief already raised is.
     const why = PENDING[pack] ? `its guides are under the floor (${PENDING[pack]})` : 'it is not a known pack';
-    console.log(`ℹ️ GUIDE WORD FLOOR SKIP — pack "${pack || '(none)'}" is not enforced: ${why}. Enforced: ${ENFORCED.join(', ')}.`);
+    const proven = PROVEN[pack] || [];
+    let checked = 0;
+    if (proven.length && process.env.LKG_VALIDATE_DIST === '1' && fs.existsSync(distDir)) {
+      const regressed = [];
+      const absent = [];
+      for (const slug of proven) {
+        const file = path.join(distDir, 'guides', slug, 'index.html');
+        // A proven guide that stopped rendering is a regression too, not a skip.
+        if (!fs.existsSync(file)) { absent.push(slug); continue; }
+        checked += 1;
+        const words = visibleWordCount(fs.readFileSync(file, 'utf8'));
+        if (words < FLOOR) regressed.push({ slug, words });
+      }
+      if (absent.length) {
+        fail([`${absent.length} guide(s) named in PROVEN for ${pack} are not in the rendered pack: ${absent.map((s) => `/guides/${s}/`).join(', ')}.`,
+          'A guide a brief carried over the floor may not quietly stop being built.']);
+      }
+      if (regressed.length) {
+        const lines = [`${regressed.length} guide(s) in ${pack} fell back under the ${FLOOR}-word floor after a brief had carried them over it:`];
+        for (const r of regressed.sort((a, b) => a.words - b.words)) {
+          lines.push(`    /guides/${r.slug}/  ${r.words} words  (needs ${FLOOR - r.words} more)`);
+        }
+        lines.push('');
+        lines.push('These pages are listed in PROVEN in this file. Restore the substance that was removed;');
+        lines.push('do not remove the page from PROVEN, which is the one edit this gate does not accept.');
+        fail(lines);
+      }
+    }
+    const held = checked
+      ? ` ${checked} guide(s) already carried over the floor were re-measured and still clear it.`
+      : (proven.length ? ' Its proven guides were not measured: no rendered pack here.' : '');
+    console.log(`ℹ️ GUIDE WORD FLOOR SKIP — pack "${pack || '(none)'}" is not enforced: ${why}. Enforced: ${ENFORCED.join(', ')}.${held}`);
     return;
   }
   if (process.env.LKG_VALIDATE_DIST !== '1') {
