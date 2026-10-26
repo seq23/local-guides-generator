@@ -25,6 +25,17 @@
  * the five unenforced packs would be the same invisible gap in a new place.
  * Adding a pack is the last step of fixing its guides, in the same change.
  *
+ * Why PROVEN exists. A pack is enforced only once ALL of its guides clear the
+ * floor, and five of the six are not there yet (~84 guides of substantive legal,
+ * clinical and treatment content remain). Until then the whole pack is skipped --
+ * so a guide a brief has just carried over the floor had nothing holding it
+ * there. Deleting its new sections, or breaking its route so it stops rendering,
+ * would have passed this gate silently and the next weekly audit would have
+ * re-found the same page. PROVEN names every guide a brief has already raised and
+ * measures those pages even when their pack is skipped. It fails both ways: a
+ * named guide back under the floor, and a named guide that has stopped rendering
+ * at all.
+ *
  * Usage: LKG_VALIDATE_DIST=1 PAGE_SET_FILE=<pack> node scripts/validation/guide_word_floor_contract.js
  * Runs in the hard_fail tier, which scripts/build_all_packs.js invokes once per
  * pack against that pack's own dist.
@@ -43,24 +54,40 @@ const ENFORCED = ['dentistry_v1.json'];
 //
 // Measured 26 Oct 2026 with visibleWordCount below, every rendered guide in the
 // pack, so the next pass starts from the real number instead of re-sampling:
-//   pi_v1    28 of 35 guides under the floor, lowest 1,173 (product-liability)
+//   pi_v1    24 of 34 guides under the floor, lowest 1,173 (product-liability)
 //   neuro_v1 19 of 32 guides under the floor, lowest 1,371
 //            (what-to-expect-after-a-neuro-evaluation)
-//   trt_v1   39 of 50 guides under the floor, lowest 1,088
+//   trt_v1   37 of 50 guides under the floor, lowest 1,096
 //            (peptides-for-hair-loss-explained)
-// The four guides the 26 Oct queue named are now over it
-// (/guides/motorcycle-accidents/ 1,879; /guides/neuropsych-testing-overview/
-// 1,874; /guides/peptide-program-costs/ 2,020;
-// /guides/what-is-hair-microneedling/ 2,216), which is why those briefs are
-// closed and these packs are not yet enforced: ~84 guides of substantive legal,
-// clinical and treatment content remain, and padding them to clear a word count
-// is the failure this floor exists to catch.
+// The pi_v1 and trt_v1 figures were re-measured on this branch after the three
+// guides below were raised; re-measure rather than subtract, because the pack's
+// guide list moves too.
+// Every guide a queue brief has named so far is now over the floor and held by
+// PROVEN, which is why those briefs are closed while these packs stay unenforced:
+// ~80 guides of substantive legal, clinical and treatment content remain, and
+// padding them to clear a word count is the failure this floor exists to catch.
 const PENDING = {
   'uscis_medical_v1.json': 'sr-uscisexam.com-j3',
   'pi_v1.json': 'sr-theaccidentguides.com-j3',
   'neuro_v1.json': 'sr-neuroevalguides.com-j3',
   'trt_v1.json': 'sr-hormonesivhair.com-j3',
   'senior_living_v1.json': 'no j3 brief open',
+};
+
+// Guides a Search Readiness brief has already carried over the floor, by pack.
+// Measured on the rendered page with visibleWordCount, the same number the audit
+// reports. Entries are added by the pass that raises a guide; nothing removes
+// them. A pack graduating to ENFORCED makes its entry redundant, not wrong.
+const PROVEN = {
+  'pi_v1.json': [
+    // sr-theaccidentguides.com-j3, 26 Oct 2026: 1,333 -> 2,500 and 1,542 -> 2,296.
+    'vehicle-collisions-near-law-enforcement-activity',
+    'what-a-personal-injury-case-costs-you',
+  ],
+  'trt_v1.json': [
+    // sr-hormonesivhair.com-j3, 26 Oct 2026: 1,145 -> 2,258.
+    'iv-hydration-therapy-overview',
+  ],
 };
 
 function fail(lines) {
@@ -80,11 +107,49 @@ function guidePages(distDir) {
   return out.sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
+// Every PROVEN guide in this pack: still rendered, and still over the floor.
+// Returns how many were measured so the run can say so out loud.
+function checkProven(pack, pages) {
+  const proven = PROVEN[pack] || [];
+  if (!proven.length) return 0;
+  const bySlug = new Map(pages.map((p) => [p.slug, p]));
+  const absent = [];
+  const under = [];
+  for (const slug of proven) {
+    const page = bySlug.get(slug);
+    if (!page) { absent.push(slug); continue; }
+    const words = visibleWordCount(fs.readFileSync(page.file, 'utf8'));
+    if (words < FLOOR) under.push({ slug, words });
+  }
+  if (under.length || absent.length) {
+    const lines = [];
+    if (under.length) {
+      lines.push(`${under.length} guide(s) named in PROVEN for ${pack} fell back under the ${FLOOR}-word floor:`);
+      for (const u of under.sort((a, b) => a.words - b.words)) {
+        lines.push(`    /guides/${u.slug}/  ${u.words} words  (needs ${FLOOR - u.words} more)`);
+      }
+    }
+    if (absent.length) {
+      lines.push(`${absent.length} guide(s) named in PROVEN for ${pack} are not in the rendered pack: ${absent.map((s) => `/guides/${s}/`).join(', ')}.`);
+      lines.push('A page that stops rendering is how a closed brief silently reopens.');
+    }
+    lines.push('');
+    lines.push('These pages were carried over the floor by a Search Readiness brief. Restore the');
+    lines.push('substance that was removed; do not remove the page from PROVEN, which is the one');
+    lines.push('edit this gate does not accept.');
+    fail(lines);
+  }
+  return proven.length;
+}
+
 function main() {
   const pack = path.basename(String(process.env.PAGE_SET_FILE || ''));
   const distDir = path.resolve(process.env.PAGES_OUT_DIR || 'dist');
 
-  if (!ENFORCED.includes(pack)) {
+  const enforced = ENFORCED.includes(pack);
+  const provenCount = (PROVEN[pack] || []).length;
+
+  if (!enforced && !provenCount) {
     // Rule 0: no stage may exit 0 having done nothing without saying so.
     const why = PENDING[pack] ? `its guides are under the floor (${PENDING[pack]})` : 'it is not a known pack';
     console.log(`ℹ️ GUIDE WORD FLOOR SKIP — pack "${pack || '(none)'}" is not enforced: ${why}. Enforced: ${ENFORCED.join(', ')}.`);
@@ -98,7 +163,19 @@ function main() {
 
   const pages = guidePages(distDir);
   // An empty measurement is the "runs but inert" defect, not a pass.
-  if (!pages.length) fail([`no rendered /guides/ pages found under ${distDir}; ${pack} is enforced and must have them.`]);
+  if (!pages.length) {
+    const reason = enforced ? `${pack} is enforced and must have them` : `${provenCount} guide(s) named in PROVEN for ${pack} cannot be measured`;
+    fail([`no rendered /guides/ pages found under ${distDir}; ${reason}.`]);
+  }
+
+  // Runs for every pack, enforced or skipped: this is the gap PROVEN closes.
+  const measured = checkProven(pack, pages);
+
+  if (!enforced) {
+    const why = PENDING[pack] ? `its guides are under the floor (${PENDING[pack]})` : 'it is not a known pack';
+    console.log(`✅ GUIDE WORD FLOOR PARTIAL — pack "${pack}" is not enforced (${why}), but ${measured} guide(s) named in PROVEN are rendered and at or above ${FLOOR} words.`);
+    return;
+  }
 
   const short = [];
   for (const page of pages) {
