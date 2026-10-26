@@ -542,6 +542,18 @@ function linkOrphanChildPages(outDir) {
       if (ph && addRelatedLink(ns, '/states/' + ent.name + '/', ph)) second += 1;
     }
   }
+  // A state hub kept only as the 301 target of folded city pages has no city of
+  // its own to link up to it; the site-wide next-steps hub is its second link.
+  const globalNs = path.join(outDir, 'next-steps', 'index.html');
+  if (fs.existsSync(statesDir) && fs.existsSync(globalNs)) {
+    for (const ent of fs.readdirSync(statesDir, { withFileTypes: true })) {
+      const parent = path.join(statesDir, ent.name, 'index.html');
+      if (!ent.isDirectory() || !fs.existsSync(parent)) continue;
+      if (cityDirs.some((d) => d.endsWith('-' + ent.name.toLowerCase()))) continue;
+      const ph = pageHeading(fs.readFileSync(parent, 'utf8'));
+      if (ph && addRelatedLink(globalNs, '/states/' + ent.name + '/', ph)) second += 1;
+    }
+  }
   // Guides: a guide reachable only from the /guides/ hub gets a second link
   // from the sibling guide whose slug shares the most topic words with it (the
   // closest related guide), never from a hub or footer list.
@@ -4063,6 +4075,7 @@ function buildRequestCityHref(brandName, stateName) {
 }
 
 function renderStateCityGridHtml(stateName, cityLinks) {
+  if (!Array.isArray(cityLinks) || !cityLinks.length) return '';
   const cards = (Array.isArray(cityLinks) ? cityLinks : []).map((item) =>
     '<a class="state-city-card" href="' + escapeHtml(String(item.href || '#')) + '"><span class="state-city-card__name">' + escapeHtml(String(item.label || 'City')) + '</span><span class="state-city-card__meta">City page</span></a>'
   ).join('');
@@ -6024,6 +6037,11 @@ function loadNextStepsSponsor(citySlug) {
       const canonical = (ALL_US_STATES && ALL_US_STATES[ab] && ALL_US_STATES[ab].stateName) || '';
       coveredStates[ab] = { stateName: String(c.stateName || canonical || ab) };
     });
+    // State hubs kept as 301 targets for folded city pages are listed too (see the state-hub loop).
+    for (const row of (Array.isArray(pageSet.legacyRedirects) ? pageSet.legacyRedirects : [])) {
+      const m = /^\/states\/([A-Z]{2})\/$/.exec(String((row && row.to) || ''));
+      if (m && !coveredStates[m[1]]) coveredStates[m[1]] = { stateName: String(ALL_US_STATES[m[1]] || m[1]) };
+    }
     marketsStatusListHtml = buildStatesStatusListHtml(coveredStates);
   }
 
@@ -6205,6 +6223,13 @@ function loadNextStepsSponsor(citySlug) {
       if (!ab) continue;
       if (!stateMap.has(ab)) stateMap.set(ab, { abbr: ab, name: String(city.stateName || ALL_US_STATES[ab] || ab), cities: [] });
       stateMap.get(ab).cities.push(city);
+    }
+    // A state a folded city page 301s to keeps its hub even with no researched
+    // city left in it (dentistry, 26 Oct 2026: unresearched placeholder cities
+    // were folded into /states/<ST>/). The redirect target must stay a page.
+    for (const row of (Array.isArray(pageSet.legacyRedirects) ? pageSet.legacyRedirects : [])) {
+      const m = /^\/states\/([A-Z]{2})\/$/.exec(String((row && row.to) || ''));
+      if (m && !stateMap.has(m[1])) stateMap.set(m[1], { abbr: m[1], name: String(ALL_US_STATES[m[1]] || m[1]), cities: [] });
     }
     function renderGenericStatePageHtml(stateInfo) {
       const ab = String(stateInfo.abbr || '').toUpperCase();
