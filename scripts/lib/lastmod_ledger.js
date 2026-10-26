@@ -41,10 +41,18 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const SCHEMA = 'lastmod-ledger-v2';
+// Bumped to v3 on 26 Oct 2026. The hash point moved, not the content: until then
+// scripts/build_all_packs.js hashed the page BEFORE apply_robots_policy.js rewrote
+// <main>, while the deploy's `npm run build` hashed it after, so the committed
+// ledger could never match what ships. Re-keying those hashes is a re-basing, and
+// resolve() must hold every recorded date through it - advancing them would claim
+// 67 pages changed today when only the measurement did.
+const SCHEMA = 'lastmod-ledger-v3';
 // What the hash is taken over. Bump this when the basis changes so a re-basing
-// can be told apart from a content change.
-const HASH_BASIS = 'main-content';
+// can be told apart from a content change. `after-robots-policy` records that the
+// hash is taken at the end of the mutating pipeline, which is where both pipelines
+// now hash (scripts/validation/lastmod_hash_point_contract.js pins it).
+const HASH_BASIS = 'main-content-after-robots-policy';
 const DEFAULT_PATH = path.join(process.cwd(), 'data', 'cadence', 'lastmod_ledger.json');
 
 const NOTE =
@@ -115,14 +123,22 @@ function load(ledgerPath = DEFAULT_PATH) {
 function resolve(hashes, ledger, today) {
   const day = today || buildDate();
   const entries = (ledger && ledger.entries) || {};
-  // Changing what we hash is not the same as the content changing. On the run
-  // that migrates the basis every stored hash mismatches, and advancing every
-  // date on that basis would publish a library-wide freshness claim that is
-  // false for every page. Keep the recorded dates and only re-key the hashes.
-  const rebasing = Boolean(ledger && ledger.schema && ledger.schema !== SCHEMA);
   const out = {};
   for (const [url, hash] of Object.entries(hashes)) {
     const prev = entries[url];
+    // Changing what we hash is not the same as the content changing. On the run
+    // that migrates the basis every stored hash mismatches, and advancing every
+    // date on that basis would publish a library-wide freshness claim that is
+    // false for every page. Keep the recorded dates and only re-key the hashes.
+    //
+    // The basis is recorded per ENTRY, not once per file, because
+    // scripts/build_all_packs.js saves the ledger between packs: a flag read
+    // once from the file header would be true for the first pack and false for
+    // the remaining five, so only one site would be held and the rest would
+    // advance on a measurement change. A per-entry basis is also self-clearing -
+    // once an entry is re-keyed it carries the current basis and behaves
+    // normally again, with no migration state left anywhere.
+    const rebasing = Boolean(prev && prev.basis !== HASH_BASIS);
     const unchanged = prev && prev.lastmod && (rebasing || prev.hash === hash);
     out[url] = {
       lastmod: unchanged ? prev.lastmod : day,
@@ -138,7 +154,9 @@ function merged(hashes, ledger, today) {
   const resolved = resolve(hashes, ledger, day);
   const entries = Object.assign({}, (ledger && ledger.entries) || {});
   for (const [url, hash] of Object.entries(hashes)) {
-    entries[url] = { hash, lastmod: resolved[url].lastmod, first_seen: resolved[url].first_seen };
+    // `basis` records what this entry's hash was taken over, so resolve() can
+    // tell a re-keying apart from a content change one URL at a time.
+    entries[url] = { hash, basis: HASH_BASIS, lastmod: resolved[url].lastmod, first_seen: resolved[url].first_seen };
   }
   const sorted = {};
   for (const url of Object.keys(entries).sort()) sorted[url] = entries[url];

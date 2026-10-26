@@ -40,6 +40,17 @@ const ENFORCED = ['dentistry_v1.json'];
 
 // Packs not yet enforced, with the Search Readiness brief that covers each.
 // Fixing a pack's guides and leaving it here is an unfinished job, not a pass.
+//
+// Measured 26 Oct 2026 with visibleWordCount below, every rendered guide in the
+// pack, so the next pass starts from the real number instead of re-sampling:
+//   pi_v1    28 of 35 guides under the floor, lowest 1,173 (product-liability)
+//   neuro_v1 19 of 32 guides under the floor, lowest 1,371
+//            (what-to-expect-after-a-neuro-evaluation)
+// The two guides the 26 Oct queue named are now over it
+// (/guides/motorcycle-accidents/ 1,879; /guides/neuropsych-testing-overview/
+// 1,874), which is why those briefs are closed and these packs are not yet
+// enforced: ~45 guides of substantive legal and clinical content remain, and
+// padding them to clear a word count is the failure this floor exists to catch.
 const PENDING = {
   'uscis_medical_v1.json': 'sr-uscisexam.com-j3',
   'pi_v1.json': 'sr-theaccidentguides.com-j3',
