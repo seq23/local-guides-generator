@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-09-25..2026-10-22",
-  "gsc_collected_at": "2026-10-25T17:10:42+00:00",
+  "gsc_window": "2026-09-26..2026-10-23",
+  "gsc_collected_at": "2026-10-26T14:49:34+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 11,
+  "target_count": 10,
   "targets_by_source": {
     "measured_demand": 2,
-    "gsc_export": 9
+    "gsc_export": 8
   },
   "dropped_count": 0,
   "dropped": [],
@@ -46,7 +46,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/states/NV/"
     },
@@ -60,7 +60,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "i-693 exam cost",
+      "normalized_query": "i 693 exam cost",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 100,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/"
     },
@@ -74,23 +88,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/states/ID/"
-    },
-    {
-      "query": "uscis alabama",
-      "normalized_query": "uscis alabama",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 68,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-25..2026-10-22"
-      },
-      "owner_route": "/states/AL/"
     },
     {
       "query": "uscis civil surgeon",
@@ -102,7 +102,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/",
       "other_measurements": [
@@ -114,18 +114,18 @@
       ]
     },
     {
-      "query": "uscis cranston ri",
-      "normalized_query": "uscis cranston ri",
+      "query": "uscis immigration exam",
+      "normalized_query": "uscis immigration exam",
       "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
-      "average_position": 87,
+      "average_position": 77,
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
-      "owner_route": "/states/RI/"
+      "owner_route": "/"
     },
     {
       "query": "uscis manchester nh",
@@ -137,23 +137,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/states/NH/"
-    },
-    {
-      "query": "uscis south carolina",
-      "normalized_query": "uscis south carolina",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 85,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-25..2026-10-22"
-      },
-      "owner_route": "/states/SC/"
     },
     {
       "query": "uscis-designated civil surgeon",
@@ -165,7 +151,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/"
     }

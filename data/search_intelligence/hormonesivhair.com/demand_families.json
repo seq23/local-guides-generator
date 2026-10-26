@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-25..2026-10-22",
-  "gsc_collected_at": "2026-10-25T17:10:42+00:00",
+  "gsc_window": "2026-09-26..2026-10-23",
+  "gsc_collected_at": "2026-10-26T14:49:34+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,13 +17,13 @@
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 27,
+      "impressions": 32,
       "status": "strengthened"
     },
     {
       "rank": 2,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 9,
+      "impressions": 8,
       "status": "no_page"
     },
     {
@@ -53,25 +53,31 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 27,
-      "best_position": 89.6,
-      "weighted_position": 89.6,
+      "impressions": 32,
+      "best_position": 79,
+      "weighted_position": 89,
       "top_query": "am i a candidate for trt",
-      "query_count": 1,
+      "query_count": 2,
       "queries": [
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 27,
-          "position": 89.6
+          "impressions": 31,
+          "position": 89.3
+        },
+        {
+          "query": "suitable candidate for trt",
+          "route": "/guides/who-is-a-good-candidate-for-trt/",
+          "impressions": 1,
+          "position": 79
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 27,
-          "page_impressions": 27,
-          "page_position": 89.6
+          "family_impressions": 32,
+          "page_impressions": 32,
+          "page_position": 89
         }
       ],
       "rank": 1,
@@ -92,17 +98,17 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 9,
+      "impressions": 8,
       "best_position": 77,
-      "weighted_position": 89.4,
+      "weighted_position": 88.9,
       "top_query": "hrt solutions in montana",
       "query_count": 3,
       "queries": [
         {
           "query": "hrt solutions in montana",
           "route": "/states/MT/",
-          "impressions": 7,
-          "position": 89.7
+          "impressions": 6,
+          "position": 89
         },
         {
           "query": "hormone replacement posted vermont",
@@ -120,9 +126,9 @@
       "pages": [
         {
           "route": "/states/MT/",
-          "family_impressions": 7,
-          "page_impressions": 8,
-          "page_position": 79.2
+          "family_impressions": 6,
+          "page_impressions": 7,
+          "page_position": 77.1
         },
         {
           "route": "/states/VT/",
@@ -144,7 +150,7 @@
       "qualifies": true,
       "strengthened_pages": [],
       "status": "no_page",
-      "reason": "no state page in the family has >= 10 impressions (largest 7 on /states/MT/)"
+      "reason": "no state page in the family has >= 10 impressions (largest 6 on /states/MT/)"
     },
     {
       "family": "red flags @ /guides/trt-red-flags/",
@@ -154,8 +160,8 @@
       "page_kind": "guide",
       "page_intent": "red_flags",
       "impressions": 7,
-      "best_position": 2,
-      "weighted_position": 2,
+      "best_position": 2.7,
+      "weighted_position": 2.7,
       "top_query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
       "query_count": 1,
       "queries": [
@@ -163,7 +169,7 @@
           "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
           "route": "/guides/trt-red-flags/",
           "impressions": 7,
-          "position": 2
+          "position": 2.7
         }
       ],
       "pages": [
@@ -171,7 +177,7 @@
           "route": "/guides/trt-red-flags/",
           "family_impressions": 7,
           "page_impressions": 9,
-          "page_position": 3.3
+          "page_position": 3.9
         }
       ],
       "rank": 3,
@@ -211,7 +217,7 @@
           "route": "/guides/trt-red-flags/",
           "family_impressions": 1,
           "page_impressions": 9,
-          "page_position": 3.3
+          "page_position": 3.9
         }
       ],
       "rank": 4,
@@ -284,8 +290,8 @@
         {
           "route": "/guides/trt-telehealth-vs-local-clinic/",
           "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 55.5
+          "page_impressions": 3,
+          "page_position": 52.7
         }
       ],
       "rank": 6,

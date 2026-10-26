@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-25..2026-10-22",
-  "gsc_collected_at": "2026-10-25T17:10:42+00:00",
+  "gsc_window": "2026-09-26..2026-10-23",
+  "gsc_collected_at": "2026-10-26T14:49:34+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 9,
+  "target_count": 10,
   "targets_by_source": {
     "measured_demand": 1,
-    "gsc_export": 8
+    "gsc_export": 9
   },
   "dropped_count": 0,
   "dropped": [],
@@ -28,29 +28,15 @@
       "query": "am i a candidate for trt",
       "normalized_query": "am i a candidate for trt",
       "source": "gsc_export",
-      "impressions": 27,
+      "impressions": 31,
       "clicks": 0,
-      "average_position": 89.6,
+      "average_position": 89.3,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 27,
-        "window": "2026-09-25..2026-10-22"
+        "value": 31,
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/guides/who-is-a-good-candidate-for-trt/"
-    },
-    {
-      "query": "hrt solutions in montana",
-      "normalized_query": "hrt solutions in montana",
-      "source": "gsc_export",
-      "impressions": 7,
-      "clicks": 0,
-      "average_position": 89.7,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 7,
-        "window": "2026-09-25..2026-10-22"
-      },
-      "owner_route": "/states/MT/"
     },
     {
       "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
@@ -58,13 +44,27 @@
       "source": "gsc_export",
       "impressions": 7,
       "clicks": 0,
-      "average_position": 2,
+      "average_position": 2.7,
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/guides/trt-red-flags/"
+    },
+    {
+      "query": "hrt solutions in montana",
+      "normalized_query": "hrt solutions in montana",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 89,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-09-26..2026-10-23"
+      },
+      "owner_route": "/states/MT/"
     },
     {
       "query": "hormone replacement posted vermont",
@@ -76,7 +76,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/states/VT/"
     },
@@ -90,9 +90,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/states/WY/"
+    },
+    {
+      "query": "suitable candidate for trt",
+      "normalized_query": "suitable candidate for trt",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 79,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-26..2026-10-23"
+      },
+      "owner_route": "/guides/who-is-a-good-candidate-for-trt/"
     },
     {
       "query": "trt telehealth consult",
@@ -104,7 +118,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/guides/trt-telehealth-vs-local-clinic/"
     },
@@ -118,7 +132,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/guides/"
     },
@@ -132,7 +146,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/guides/trt-red-flags/"
     }

@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-09-25..2026-10-22",
-  "gsc_collected_at": "2026-10-25T17:10:42+00:00",
+  "gsc_window": "2026-09-26..2026-10-23",
+  "gsc_collected_at": "2026-10-26T14:49:34+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,18 +12,24 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 2,
+  "family_count": 3,
   "top_families": [
     {
       "rank": 1,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 7,
-      "status": "no_page"
+      "impressions": 4,
+      "status": "below_impression_floor"
     },
     {
       "rank": 2,
       "family": "hub @ /",
-      "impressions": 3,
+      "impressions": 4,
+      "status": "below_impression_floor"
+    },
+    {
+      "rank": 3,
+      "family": "cost @ /",
+      "impressions": 1,
       "status": "below_impression_floor"
     }
   ],
@@ -35,11 +41,11 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 7,
-      "best_position": 68,
-      "weighted_position": 83.9,
+      "impressions": 4,
+      "best_position": 73,
+      "weighted_position": 86.8,
       "top_query": "citizenship test preparation las vegas",
-      "query_count": 6,
+      "query_count": 3,
       "queries": [
         {
           "query": "citizenship test preparation las vegas",
@@ -54,28 +60,10 @@
           "position": 73
         },
         {
-          "query": "uscis alabama",
-          "route": "/states/AL/",
-          "impressions": 1,
-          "position": 68
-        },
-        {
-          "query": "uscis cranston ri",
-          "route": "/states/RI/",
-          "impressions": 1,
-          "position": 87
-        },
-        {
           "query": "uscis manchester nh",
           "route": "/states/NH/",
           "impressions": 1,
           "position": 76
-        },
-        {
-          "query": "uscis south carolina",
-          "route": "/states/SC/",
-          "impressions": 1,
-          "position": 85
         }
       ],
       "pages": [
@@ -84,12 +72,6 @@
           "family_impressions": 2,
           "page_impressions": 2,
           "page_position": 99
-        },
-        {
-          "route": "/states/AL/",
-          "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 36.5
         },
         {
           "route": "/states/ID/",
@@ -102,28 +84,14 @@
           "family_impressions": 1,
           "page_impressions": 1,
           "page_position": 76
-        },
-        {
-          "route": "/states/RI/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 87
-        },
-        {
-          "route": "/states/SC/",
-          "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 90.5
         }
       ],
       "rank": 1,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
+      "basis": [],
+      "qualifies": false,
       "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "no state page in the family has >= 10 impressions (largest 2 on /states/NV/)"
+      "status": "below_impression_floor",
+      "reason": "4 impressions < 5"
     },
     {
       "family": "hub @ /",
@@ -132,11 +100,11 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 3,
-      "best_position": 96,
-      "weighted_position": 97,
+      "impressions": 4,
+      "best_position": 77,
+      "weighted_position": 92,
       "top_query": "civil surgeon uscis",
-      "query_count": 3,
+      "query_count": 4,
       "queries": [
         {
           "query": "civil surgeon uscis",
@@ -151,6 +119,12 @@
           "position": 96
         },
         {
+          "query": "uscis immigration exam",
+          "route": "/",
+          "impressions": 1,
+          "position": 77
+        },
+        {
           "query": "uscis-designated civil surgeon",
           "route": "/",
           "impressions": 1,
@@ -160,9 +134,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 3,
-          "page_impressions": 7,
-          "page_position": 65.9
+          "family_impressions": 4,
+          "page_impressions": 9,
+          "page_position": 70.9
         }
       ],
       "rank": 2,
@@ -170,7 +144,42 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "3 impressions < 5"
+      "reason": "4 impressions < 5"
+    },
+    {
+      "family": "cost @ /",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/",
+      "page_kind": "hub",
+      "page_intent": "hub",
+      "impressions": 1,
+      "best_position": 100,
+      "weighted_position": 100,
+      "top_query": "i-693 exam cost",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "i-693 exam cost",
+          "route": "/",
+          "impressions": 1,
+          "position": 100
+        }
+      ],
+      "pages": [
+        {
+          "route": "/",
+          "family_impressions": 1,
+          "page_impressions": 9,
+          "page_position": 70.9
+        }
+      ],
+      "rank": 3,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "1 impressions < 5"
     }
   ]
 }

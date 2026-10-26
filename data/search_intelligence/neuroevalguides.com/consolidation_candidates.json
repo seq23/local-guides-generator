@@ -2,23 +2,11 @@
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
   "status": "LEDGER_ONLY_NO_REDIRECTS",
-  "gsc_window": "2026-09-25..2026-10-22",
+  "gsc_window": "2026-09-26..2026-10-23",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
-  "guide_count": 31,
-  "candidate_count": 1,
-  "candidates": [
-    {
-      "route": "/guides/neuropsych-testing-overview/",
-      "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-overview.json",
-      "words": 544,
-      "impressions_28d": 0,
-      "coverage_state": "Crawled - currently not indexed",
-      "fold_into": "/guides/hospital-vs-private-neuropsych-testing/",
-      "fold_basis": "shares 3 topic words with a guide that has impressions",
-      "action": "kept",
-      "kept_reason": "kept: now 844 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
-    }
-  ],
+  "guide_count": 27,
+  "candidate_count": 0,
+  "candidates": [],
   "folded_note": "Guides already folded and 301d (pack legacyRedirects). Carried forward by build_search_plan.mjs on every regeneration; checked by site_hygiene_registry_contract.js against the pack redirects.",
   "folded": [
     {

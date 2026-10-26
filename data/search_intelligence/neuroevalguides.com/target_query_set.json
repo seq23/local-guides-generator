@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-25..2026-10-22",
-  "gsc_collected_at": "2026-10-25T17:10:42+00:00",
+  "gsc_window": "2026-09-26..2026-10-23",
+  "gsc_collected_at": "2026-10-26T14:49:34+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 4,
+  "target_count": 5,
   "targets_by_source": {
-    "gsc_export": 4
+    "gsc_export": 5
   },
   "dropped_count": 0,
   "dropped": [],
@@ -21,7 +21,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/guides/hospital-vs-private-neuropsych-testing/"
     },
@@ -29,13 +29,13 @@
       "query": "neuropsychological testing cost",
       "normalized_query": "neuropsychological testing cost",
       "source": "gsc_export",
-      "impressions": 2,
+      "impressions": 3,
       "clicks": 0,
-      "average_position": 92,
+      "average_position": 91.3,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-09-25..2026-10-22"
+        "value": 3,
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/guides/neuropsych-testing-cost-by-state/"
     },
@@ -49,9 +49,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/contact/"
+    },
+    {
+      "query": "cost of a neuropsychological evaluation",
+      "normalized_query": "cost of a neuropsychological evaluation",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 92,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-26..2026-10-23"
+      },
+      "owner_route": "/guides/neuropsych-testing-cost-by-state/"
     },
     {
       "query": "neuropsych testing near me",
@@ -63,7 +77,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-25..2026-10-22"
+        "window": "2026-09-26..2026-10-23"
       },
       "owner_route": "/states/SD/"
     }
