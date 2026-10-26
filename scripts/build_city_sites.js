@@ -3798,16 +3798,16 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
           { href: '/guides/personal-injury-lawyer-red-flags/', label: 'Lawyer red flags' }
         ]},
         { heading: 'By case type', items: [
-          { href: '/guides/car-accidents/', label: 'Car accidents' },
+          { href: '/guides/what-to-do-after-an-accident/#car-accidents', label: 'Car accidents' },
           { href: '/guides/truck-accidents/', label: 'Truck accidents' },
-          { href: '/guides/slip-and-fall/', label: 'Slip and fall' },
+          { href: '/guides/premises-liability/#slip-and-fall', label: 'Slip and fall' },
           { href: '/guides/wrongful-death/', label: 'Wrongful death' }
         ]},
         { heading: 'After you know your direction', items: [
           { href: '/guides/recorded-statements-and-insurance-calls/', label: 'Insurance calls' },
           { href: '/guides/personal-injury-fees-explained/', label: 'Fee guide' },
-          { href: '/guides/product-liability/', label: 'Product liability' },
-          { href: '/guides/workplace-injuries/', label: 'Workplace injuries' }
+          { href: '/guides/#product-liability', label: 'Product liability' },
+          { href: '/guides/#workplace-injuries', label: 'Workplace injuries' }
         ]}
       ]
     },
@@ -3848,14 +3848,14 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ],
       groups: [
         { heading: 'Start here first', items: [
-          { href: '/guides/questions-to-ask-before-neuro-testing/', label: 'Questions to ask' },
+          { href: '/guides/neuro-insurance-and-out-of-network/#questions-to-ask-before-neuro-testing', label: 'Questions to ask' },
           { href: '/guides/neuro-provider-red-flags/', label: 'Provider red flags' },
           { href: '/guides/neuro-evaluation-pricing/', label: 'Pricing' }
         ]},
         { heading: 'By evaluation format', items: [
           { href: '/guides/telehealth-vs-in-person-neuro/', label: 'Telehealth vs in person' },
-          { href: '/guides/what-a-neuro-report-includes/', label: 'Report contents' },
-          { href: '/guides/what-to-expect-after-a-neuro-evaluation/', label: 'After the evaluation' }
+          { href: '/guides/using-results-for-school-or-work/#what-a-neuro-report-includes', label: 'Report contents' },
+          { href: '/guides/using-results-for-school-or-work/#what-to-expect-after-a-neuro-evaluation', label: 'After the evaluation' }
         ]},
         { heading: 'After you know your direction', items: [
           { href: '/guides/neuro-insurance-and-out-of-network/', label: 'Insurance / out of network' }
@@ -3873,21 +3873,21 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ],
       groups: [
         { heading: 'Start here first', items: [
-          { href: '/guides/testosterone-replacement-therapy-overview/', label: 'TRT overview' },
+          { href: '/guides/who-is-a-good-candidate-for-trt/#testosterone-replacement-therapy-overview', label: 'TRT overview' },
           { href: '/guides/who-is-a-good-candidate-for-trt/', label: 'TRT candidacy' },
           { href: '/guides/trt-pricing-and-labs/', label: 'TRT pricing' },
           { href: '/guides/trt-red-flags/', label: 'TRT red flags' }
         ]},
         { heading: 'By treatment type', items: [
           { href: '/guides/iv-hydration-therapy-overview/', label: 'IV hydration overview' },
-          { href: '/guides/testosterone-and-hair-loss-explained/', label: 'Hair restoration context' },
-          { href: '/guides/peptides-vs-trt/', label: 'Peptides vs TRT' },
-          { href: '/guides/medical-weight-loss-programs-overview/', label: 'Medical weight loss overview' }
+          { href: '/guides/hair-loss-aesthetic-vs-hormonal/#testosterone-and-hair-loss-explained', label: 'Hair restoration context' },
+          { href: '/guides/ultimate-guide-to-peptides/#peptides-vs-trt', label: 'Peptides vs TRT' },
+          { href: '/guides/medical-weight-loss-pricing/#medical-weight-loss-programs-overview', label: 'Medical weight loss overview' }
         ]},
         { heading: 'After you know your direction', items: [
-          { href: '/guides/trt-side-effects-and-safety/', label: 'TRT side effects and safety' },
+          { href: '/guides/trt-red-flags/#trt-side-effects-and-safety', label: 'TRT side effects and safety' },
           { href: '/guides/peptide-program-costs/', label: 'Peptide program costs' },
-          { href: '/guides/iv-hydration-red-flags/', label: 'IV hydration red flags' }
+          { href: '/guides/iv-hydration-therapy-overview/#iv-hydration-red-flags', label: 'IV hydration red flags' }
         ]}
       ]
     },
@@ -3902,7 +3902,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ],
       groups: [
         { heading: 'Start here first', items: [
-          { href: '/guides/uscis-medical-exam-overview/', label: 'Exam overview' },
+          { href: '/guides/i-693-medical-exam-requirements/#uscis-medical-exam-overview', label: 'Exam overview' },
           { href: '/guides/i-693-medical-exam-requirements/', label: 'I-693 requirements' },
           { href: '/guides/i-693-form-instructions/', label: 'Filling in and filing Form I-693' },
           { href: '/guides/document-checklist/', label: 'Document checklist' },
@@ -3911,7 +3911,7 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
         { heading: 'By situation', items: [
           { href: '/guides/uscis-vaccination-requirements/', label: 'Vaccination requirements' },
           { href: '/guides/costs-and-timeframes/', label: 'Costs and timeframes' },
-          { href: '/guides/uscis-medical-exam-cost/', label: 'What the exam itself costs' }
+          { href: '/guides/costs-and-timeframes/#uscis-medical-exam-cost', label: 'What the exam itself costs' }
         ]},
         // Form I-693 is filed with Form I-485, the green-card application, not
         // with Form N-400. A visitor who lands on a civil surgeon city page
@@ -3919,14 +3919,14 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
         // pages, and until this group existed the site had no route to them
         // from any city or state page - only from inside /guides/ itself.
         { heading: 'If your case is naturalization (Form N-400), not a green card', items: [
-          { href: '/guides/n-400-checklist/', label: 'N-400 checklist' },
+          { href: '/guides/citizenship-test/#n-400-checklist', label: 'N-400 checklist' },
           { href: '/guides/citizenship-test/', label: 'The citizenship test' },
           { href: '/guides/naturalization-test-exemptions/', label: 'Test exemptions on age or medical grounds' },
-          { href: '/guides/n-648-medical-waiver/', label: 'Form N-648, the medical disability exception' },
-          { href: '/guides/uscis-interview-checklist/', label: 'Interview checklist' }
+          { href: '/guides/naturalization-test-exemptions/#n-648-medical-waiver', label: 'Form N-648, the medical disability exception' },
+          { href: '/guides/citizenship-test/#uscis-interview-checklist', label: 'Interview checklist' }
         ]},
         { heading: 'After you know your direction', items: [
-          { href: '/guides/after-your-exam-next-steps/', label: 'After-exam next steps' },
+          { href: '/guides/uscis-fees-timelines-and-what-to-ask/#after-your-exam-next-steps', label: 'After-exam next steps' },
           { href: '/guides/uscis-fees-timelines-and-what-to-ask/', label: 'Fees and timelines across forms' }
         ]}
       ]
@@ -4627,16 +4627,13 @@ function stripForbiddenInlineBlocks(html) {
 }
 
 const LEGACY_GUIDE_ENHANCEMENTS = {
-  '/guides/testosterone-replacement-therapy-overview/': { heading: 'TRT overview', best: 'Use this guide when you are trying to tell the difference between low-testosterone marketing and a real TRT workup.', key: 'TRT works best when the clinic explains why treatment is being considered, what will be tracked, and what would make them slow down.', mistake: 'Treating TRT like a quick energy product instead of a monitored medical decision.', good: 'A good clinic should explain baseline labs, follow-up timing, fertility questions, and what symptoms should trigger a review.', ask: 'Ask which labs are included, how often they repeat them, and what could make the clinic pause or change treatment.' },
   '/guides/trt-red-flags/': { heading: 'TRT red flags', best: 'Use this guide when a clinic sounds fast, easy, or too certain.', key: 'Weak TRT clinics often skip a full workup, rush you into a subscription, or treat side effects like an afterthought.', mistake: 'Mistaking confidence or heavy marketing for careful clinical judgment.', good: 'A good clinic should explain who is not a fit, what they need to rule out first, and how they handle follow-up.', ask: 'Ask what would make them delay treatment, what monitoring schedule they use, and how they handle fertility concerns.' },
   '/guides/trt-pricing-and-labs/': { heading: 'TRT pricing and labs', best: 'Use this guide when cost is the real question behind the TRT decision.', key: 'The total price is not just the medication. The workup, repeat labs, dose changes, and follow-up also matter.', mistake: 'Comparing monthly sticker prices without comparing what the clinic actually monitors.', good: 'A good clinic should break startup costs, refill costs, lab timing, and urgent check-in costs into simple pieces.', ask: 'Ask what is included up front, which labs repeat on schedule, and what services cost extra later.' },
   '/guides/who-is-a-good-candidate-for-trt/': { heading: 'TRT candidacy', best: 'Use this guide when you are trying to decide whether TRT is even the right question.', key: 'Good candidacy depends on symptoms, lab context, risk factors, and whether simpler explanations have been checked first.', mistake: 'Assuming one low lab result automatically means long-term TRT is the answer.', good: 'A good clinic should explain why you are a fit or not a fit in plain language.', ask: 'Ask what else they ruled out, what repeat testing they require, and how fertility goals change the decision.' },
-  '/guides/trt-side-effects-and-safety/': { heading: 'TRT safety', best: 'Use this guide when you need the safety picture, not just the sales page.', key: 'A responsible TRT plan explains common side effects, what is watched in follow-up labs, and which symptoms need quick review.', mistake: 'Thinking every clinic means the same thing when it says treatment is monitored.', good: 'A good clinic should name the main tradeoffs before treatment starts, not after you pay.', ask: 'Ask which labs they repeat, how often they repeat them, and what changes would make them adjust or pause treatment.' },
   '/guides/trt-telehealth-vs-local-clinic/': { heading: 'TRT telehealth vs local care', best: 'Use this guide when you think TRT may fit but you are not sure where the care should happen.', key: 'Telehealth often improves convenience while local care may improve in-person support. The right fit depends on your follow-up needs.', mistake: 'Choosing on convenience alone without asking how problems are handled when something feels off.', good: 'A good provider should make the care process, lab process, and escalation process clear either way.', ask: 'Ask how labs are coordinated, how urgent questions are handled, and whether you can switch formats later.' },
   '/guides/trt-injections-vs-gels/': { heading: 'TRT format choices', best: 'Use this guide when the delivery format is the main decision.', key: 'The right format depends on routine, tolerance, consistency, and how easy it is for you to stay on plan.', mistake: 'Picking the format that sounds easiest without asking how it works in real life.', good: 'A good clinic should explain the tradeoffs of both formats instead of pretending one is always best.', ask: 'Ask how each option affects routine, dose changes, follow-up, and what happens if the first format is not a good fit.' },
   '/guides/how-to-find-a-peptide-provider/': { heading: 'Finding a peptide provider', best: 'Use this guide when peptide interest is real but trust is the bigger issue.', key: 'The safest first move is finding a provider who explains what is being prescribed, why, what is uncertain, and how follow-up works.', mistake: 'Confusing high-energy marketing with medical oversight.', good: 'A good provider should be direct about uncertainty, sourcing, supervision, and what they will not promise.', ask: 'Ask what source they use, what review they perform first, how progress is judged, and what makes them say no.' },
   '/guides/peptide-program-costs/': { heading: 'Peptide costs', best: 'Use this guide when budget and value are the real decision drivers.', key: 'Peptide program pricing usually includes more than the compound itself. Evaluation, follow-up, supplies, and protocol changes can matter just as much.', mistake: 'Comparing monthly prices without comparing what support or supervision comes with them.', good: 'A good provider should break costs into simple parts and say which items repeat.', ask: 'Ask which costs are one-time, which repeat monthly, and what services are included versus extra.' },
-  '/guides/iv-hydration-red-flags/': { heading: 'IV hydration red flags', best: 'Use this guide when the clinic sounds easier to understand than the treatment itself.', key: 'Weak IV hydration businesses often lean on vague promises, weak screening, and menu-heavy upsells instead of clear explanations.', mistake: 'Assuming wellness branding means careful clinical judgment.', good: 'A good clinic should make screening, ingredients, and limits easy to understand.', ask: 'Ask who reviews your situation, what they screen for, and what would make them say IV hydration is not the right next step.' },
   '/guides/how-to-choose-a-personal-injury-lawyer/': { heading: 'Choosing a personal injury lawyer', best: 'Use this guide when you need to sort good case handling from good marketing.', key: 'A strong firm explains process, communication, fee structure, and who will actually work on your case.', mistake: 'Choosing on slogans or billboard familiarity alone.', good: 'A good firm should explain what happens first, what records matter, and how updates are handled.', ask: 'Ask who will be your day-to-day contact, how fees work, and what factors can slow a case down.' },
   '/guides/personal-injury-fees-explained/': { heading: 'Personal injury fees', best: 'Use this guide when the main question is how the law firm gets paid.', key: 'Fees are only part of the money picture. Case costs, expenses, and timing matter too.', mistake: 'Hearing no fee unless we win and assuming every financial detail works the same way.', good: 'A good firm should explain fee percentages, costs, and how money is distributed in plain language.', ask: 'Ask which case costs are advanced, how they are repaid, and what happens if the case does not recover money.' },
   '/guides/personal-injury-lawyer-red-flags/': { heading: 'Personal injury red flags', best: 'Use this guide when the firm sounds polished but you are not sure it sounds careful.', key: 'Red flags often show up as pressure, vagueness, poor communication, or promises no honest lawyer should make.', mistake: 'Mistaking confidence for reliability.', good: 'A good firm should be direct about uncertainty, timelines, and what they still need to review.', ask: 'Ask what they know now, what they do not know yet, and what would change their view of the case.' },
@@ -4658,12 +4655,10 @@ const LEGACY_GUIDE_ENHANCEMENTS = {
   '/guides/neuropsychological-testing-overview/': { heading: 'Neuro testing overview', best: 'Use this guide when the question is what this process is really for.', key: 'A neuropsych evaluation is usually about clearer answers, better documentation, and a more useful plan—not just a long report.', mistake: 'Expecting the testing day to solve everything by itself.', good: 'A good provider should explain what questions the evaluation can answer and what it cannot answer.', ask: 'Ask what the referral question is, how long testing takes, and what the final report is meant to help with.' },
   '/guides/neuro-evaluation-pricing/': { heading: 'Neuro evaluation pricing', best: 'Use this guide when cost is the main source of confusion.', key: 'Pricing can change based on complexity, records review, report depth, and whether insurance is involved.', mistake: 'Comparing one quoted number without asking what the fee includes.', good: 'A good provider should explain the scope of work in plain language.', ask: 'Ask what is included in the quote, what follow-up is included, and whether extra letters or revisions cost more.' },
   '/guides/neuro-provider-red-flags/': { heading: 'Neuro provider red flags', best: 'Use this guide when a provider sounds easy to book but hard to understand.', key: 'Weak providers often sound vague about fit, wait times, report use, or who the evaluation is really for.', mistake: 'Assuming a short wait means a better process.', good: 'A good provider should explain scope, timeline, and next steps clearly.', ask: 'Ask what records they need, what the report will include, and how results are explained.' },
-  '/guides/questions-to-ask-before-neuro-testing/': { heading: 'Questions before neuro testing', best: 'Use this guide when you want the consult to answer the right questions before you spend money or time.', key: 'Good questions uncover scope, timeline, records, cost, and how the report will actually be used.', mistake: 'Not asking whether the evaluation matches the real referral question.', good: 'A good provider should answer directly and explain what the evaluation is designed to do.', ask: 'Ask what the evaluation is designed to answer, what documents to bring, and how results are shared.' },
   '/guides/adhd-evaluations-what-to-expect/': { heading: 'ADHD evaluation expectations', best: 'Use this guide when the process itself feels unclear.', key: 'The value of the evaluation comes from matching the process to the real question, not from checking a box quickly.', mistake: 'Expecting every provider to use the same intake, testing, and follow-up process.', good: 'A good provider should explain scope, timing, and what the final answer may or may not include.', ask: 'Ask what the visit sequence looks like, what records help, and what happens after results are explained.' },
   '/guides/autism-evaluation-adults/': { heading: 'Adult autism evaluations', best: 'Use this guide when the question is whether an adult evaluation is the right next step.', key: 'Adult autism evaluations often turn on history, current function, and what you need the evaluation to help with.', mistake: 'Assuming the goal is only a label instead of clarity, accommodations, or next-step planning.', good: 'A good provider should explain fit, timeline, and what kind of report or explanation you can expect.', ask: 'Ask what records help, how developmental history is handled, and how results are discussed afterward.' },
   '/guides/neuropsych-testing-children-vs-adults/': { heading: 'Children versus adults in neuro testing', best: 'Use this guide when you are deciding whether the age group changes the kind of provider or process you need.', key: 'Children and adults can need different records, different interview structures, and different follow-through planning.', mistake: 'Assuming one provider or one process fits every age group the same way.', good: 'A good provider should explain how age changes scope, records, and result use.', ask: 'Ask how the process differs by age, who needs to participate, and how the report is used afterward.' },
   '/guides/neuro-insurance-and-out-of-network/': { heading: 'Insurance and out-of-network neuro care', best: 'Use this guide when payment structure may change which provider is realistic.', key: 'The key issue is not just whether the provider takes insurance. It is what the fee covers and what paperwork support exists.', mistake: 'Comparing providers on insurance status alone without comparing scope or report depth.', good: 'A good provider should explain payment structure, receipts, and what help they give for reimbursement.', ask: 'Ask what is billed up front, what paperwork is provided, and what parts of the process are not covered.' },
-  '/guides/uscis-medical-exam-overview/': { heading: 'USCIS medical exam overview', best: 'Use this guide when you need the process in plain language before you book.', key: 'The exam is a process step with paperwork, identity checks, vaccine review, and timing questions. It is not the place for promises about immigration outcomes.', mistake: 'Booking without first checking what documents and vaccine records are needed.', good: 'A good civil surgeon office should explain the process clearly and tell you what can delay completion.', ask: 'Ask what to bring, how sealed documents are handled, and what issues can slow the process down.' },
   '/guides/civil-surgeon-near-me/': { heading: 'Choosing a civil surgeon office', best: 'Use this guide when the problem is finding a legitimate office and understanding the booking process.', key: 'A strong office should make identity requirements, vaccine questions, pricing, and paperwork steps easy to follow.', mistake: 'Treating distance or speed as the only thing that matters.', good: 'A good office should explain how appointments work, what documents matter, and which issues may require extra follow-up.', ask: 'Ask what documents to bring, how vaccine records are handled, and how sealed paperwork is returned.' },
   '/guides/uscis-medical-exam-costs/': { heading: 'USCIS medical exam costs', best: 'Use this guide when pricing and included services are the main questions.', key: 'The exam fee may not be the only cost. Vaccines, lab work, or follow-up steps can change the total.', mistake: 'Comparing quoted prices without asking what is included in the visit.', good: 'A good office should separate the exam fee from outside or extra costs.', ask: 'Ask which services are included, which costs are separate, and what could create an extra visit or extra fee.' },
   '/guides/uscis-vaccination-records/': { heading: 'Vaccine record issues', best: 'Use this guide when missing records feel like the main risk in the process.', key: 'Vaccine questions often become simpler when you know what records you have, what may still be needed, and what the office can explain before the visit.', mistake: 'Assuming the office can solve unclear record history without you bringing details.', good: 'A good office should explain what records help and what they can review before the appointment.', ask: 'Ask which records to bring, what happens if records are incomplete, and what may need follow-up.' },
@@ -5452,12 +5447,11 @@ function selectPriorityGuideSummaries(globalPagesDir, limit) {
 // osteopathy, or clinical psychologist licensed to practice in the United
 // States may certify Form N-648" (uscis.gov/n-648). These pages exist and are
 // good; the state pages simply had no route to them.
+// The N-400 checklist, N-648 and interview-checklist guides were folded into
+// these two on 26 Oct 2026 (thin-guide consolidation), so the two cover all five.
 const USCIS_NATURALIZATION_ROUTES = [
-  '/guides/n-400-checklist/',
   '/guides/citizenship-test/',
-  '/guides/naturalization-test-exemptions/',
-  '/guides/n-648-medical-waiver/',
-  '/guides/uscis-interview-checklist/'
+  '/guides/naturalization-test-exemptions/'
 ];
 
 function renderStateNaturalizationGuidesHtml(verticalKey, globalPagesDir) {

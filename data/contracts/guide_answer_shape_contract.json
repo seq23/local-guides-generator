@@ -494,22 +494,6 @@
       ]
     },
     {
-      "route": "/guides/iv-hydration-red-flags/",
-      "primary_query_family": "red_flags",
-      "primary_answer_shape": "checklist",
-      "top_module_type": "top_checklist",
-      "exact_opening_intent": "surface the biggest warning signs before the user books, signs, or commits",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "checklist"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "red_flags",
-        "next_steps"
-      ]
-    },
-    {
       "route": "/guides/medical-bills-behind-a-settlement/",
       "primary_query_family": "cost_financing",
       "primary_answer_shape": "cost_breakdown",
@@ -518,36 +502,6 @@
       "required_above_fold_elements": [
         "quick_answer",
         "cost_table"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "next_steps"
-      ]
-    },
-    {
-      "route": "/guides/n-400-checklist/",
-      "primary_query_family": "requirements_checklist",
-      "primary_answer_shape": "checklist",
-      "top_module_type": "top_checklist",
-      "exact_opening_intent": "reproduce what USCIS itself asks for, and flag the rules people miss",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "checklist"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "next_steps"
-      ]
-    },
-    {
-      "route": "/guides/n-648-medical-waiver/",
-      "primary_query_family": "eligibility",
-      "primary_answer_shape": "checklist",
-      "top_module_type": "top_checklist",
-      "exact_opening_intent": "explain what the form does, who completes it, and which of the two costs is published",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "checklist"
       ],
       "required_supporting_sections": [
         "questions",
@@ -664,21 +618,6 @@
       ]
     },
     {
-      "route": "/guides/neuropsychological-evaluation-cost/",
-      "primary_query_family": "cost_financing",
-      "primary_answer_shape": "cost_breakdown",
-      "top_module_type": "top_cost_table",
-      "exact_opening_intent": "break the evaluation into the billing codes it is actually made of, then price each one",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "cost_table"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "next_steps"
-      ]
-    },
-    {
       "route": "/guides/neuropsychological-testing-overview/",
       "primary_query_family": "yes_no_verdict",
       "primary_answer_shape": "verdict",
@@ -687,21 +626,6 @@
       "required_above_fold_elements": [
         "quick_answer",
         "verdict_block"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "next_steps"
-      ]
-    },
-    {
-      "route": "/guides/peptide-and-compounded-therapy-claims/",
-      "primary_query_family": "red_flags",
-      "primary_answer_shape": "checklist",
-      "top_module_type": "top_checklist",
-      "exact_opening_intent": "separate the claims that have a regulatory basis from the ones that do not",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "checklist"
       ],
       "required_supporting_sections": [
         "questions",
@@ -803,21 +727,6 @@
       ]
     },
     {
-      "route": "/guides/questions-to-ask-before-neuro-testing/",
-      "primary_query_family": "questions_to_ask",
-      "primary_answer_shape": "script",
-      "top_module_type": "top_question_script",
-      "exact_opening_intent": "give the user a short question set they can use on the consult or callback",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "question_script"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "next_steps"
-      ]
-    },
-    {
       "route": "/guides/questions-to-ask/",
       "primary_query_family": "questions_to_ask",
       "primary_answer_shape": "script",
@@ -878,21 +787,6 @@
       ]
     },
     {
-      "route": "/guides/testosterone-replacement-therapy-overview/",
-      "primary_query_family": "yes_no_verdict",
-      "primary_answer_shape": "verdict",
-      "top_module_type": "top_verdict_block",
-      "exact_opening_intent": "give a direct orienting answer first so the user knows what this page is for",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "verdict_block"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "next_steps"
-      ]
-    },
-    {
       "route": "/guides/trt-injections-vs-gels/",
       "primary_query_family": "x_vs_y_comparison",
       "primary_answer_shape": "comparison",
@@ -933,22 +827,6 @@
       "required_above_fold_elements": [
         "quick_answer",
         "checklist"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "red_flags",
-        "next_steps"
-      ]
-    },
-    {
-      "route": "/guides/trt-side-effects-and-safety/",
-      "primary_query_family": "decision_split",
-      "primary_answer_shape": "decision_tree",
-      "top_module_type": "top_decision_tree",
-      "exact_opening_intent": "split the decision into when to slow down, ask more questions, or get care now",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "decision_tree"
       ],
       "required_supporting_sections": [
         "questions",
@@ -1018,36 +896,6 @@
       ]
     },
     {
-      "route": "/guides/uscis-interview-checklist/",
-      "primary_query_family": "requirements_checklist",
-      "primary_answer_shape": "checklist",
-      "top_module_type": "top_checklist",
-      "exact_opening_intent": "give a document checklist and the two or three things that actually derail interviews",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "checklist"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "next_steps"
-      ]
-    },
-    {
-      "route": "/guides/uscis-medical-exam-cost/",
-      "primary_query_family": "cost_financing",
-      "primary_answer_shape": "cost_breakdown",
-      "top_module_type": "top_cost_table",
-      "exact_opening_intent": "separate the government fee, which is published and is zero, from the exam fee, which is not published at all",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "cost_table"
-      ],
-      "required_supporting_sections": [
-        "questions",
-        "next_steps"
-      ]
-    },
-    {
       "route": "/guides/uscis-medical-exam-costs/",
       "primary_query_family": "cost_financing",
       "primary_answer_shape": "cost_breakdown",
@@ -1060,21 +908,6 @@
       "required_supporting_sections": [
         "questions",
         "red_flags",
-        "next_steps"
-      ]
-    },
-    {
-      "route": "/guides/uscis-medical-exam-overview/",
-      "primary_query_family": "yes_no_verdict",
-      "primary_answer_shape": "verdict",
-      "top_module_type": "top_verdict_block",
-      "exact_opening_intent": "give a direct orienting answer first so the user knows what this page is for",
-      "required_above_fold_elements": [
-        "quick_answer",
-        "verdict_block"
-      ],
-      "required_supporting_sections": [
-        "questions",
         "next_steps"
       ]
     },

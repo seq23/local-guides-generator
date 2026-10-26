@@ -5,7 +5,7 @@
   "gsc_window": "2026-09-25..2026-10-22",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
   "guide_count": 31,
-  "candidate_count": 5,
+  "candidate_count": 1,
   "candidates": [
     {
       "route": "/guides/neuropsych-testing-overview/",
@@ -14,8 +14,13 @@
       "impressions_28d": 0,
       "coverage_state": "Crawled - currently not indexed",
       "fold_into": "/guides/hospital-vs-private-neuropsych-testing/",
-      "fold_basis": "shares 3 topic words with a guide that has impressions"
-    },
+      "fold_basis": "shares 3 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 844 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
+    }
+  ],
+  "folded_note": "Guides already folded and 301d (pack legacyRedirects). Carried forward by build_search_plan.mjs on every regeneration; checked by site_hygiene_registry_contract.js against the pack redirects.",
+  "folded": [
     {
       "route": "/guides/neuropsychological-evaluation-cost/",
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsychological-evaluation-cost.json",
@@ -23,7 +28,10 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/hospital-vs-private-neuropsych-testing/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/hospital-vs-private-neuropsych-testing/",
+      "fold_basis_applied": "ledger target is on-topic by title",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/questions-to-ask-before-neuro-testing/",
@@ -32,7 +40,10 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/neuro-insurance-and-out-of-network/",
-      "fold_basis": "shares 3 topic words with a guide that has impressions"
+      "fold_basis": "shares 3 topic words with a guide that has impressions",
+      "redirect_to": "/guides/neuro-insurance-and-out-of-network/",
+      "fold_basis_applied": "ledger target is on-topic by title",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/what-a-neuro-report-includes/",
@@ -41,7 +52,10 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/neuro-insurance-and-out-of-network/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/using-results-for-school-or-work/",
+      "fold_basis_applied": "ledger target /guides/neuro-insurance-and-out-of-network/ is off-topic by title; folded into the on-topic guide /guides/using-results-for-school-or-work/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/what-to-expect-after-a-neuro-evaluation/",
@@ -50,7 +64,17 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/neuro-insurance-and-out-of-network/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/using-results-for-school-or-work/",
+      "fold_basis_applied": "ledger target /guides/neuro-insurance-and-out-of-network/ is off-topic by title; folded into the on-topic guide /guides/using-results-for-school-or-work/",
+      "folded_on": "2026-10-26"
     }
-  ]
+  ],
+  "measurement": {
+    "metric": "indexed URLs in index_coverage.json",
+    "baseline_2026_10_25": 32,
+    "read_on": "2026-11-15",
+    "success": "+5 indexed on at least 3 of the 5 hosts",
+    "fallback": "below that, the thin guides were not the problem; the unindexed bulk is city and state pages and gets its own brief"
+  }
 }

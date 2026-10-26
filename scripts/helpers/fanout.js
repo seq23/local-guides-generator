@@ -223,12 +223,12 @@ function defaultClusterItems(ctx) {
   const isUscis = verticalKey === 'uscis_medical';
   const neuroRoutes = {
     costs: '/guides/neuro-evaluation-pricing/',
-    questions: '/guides/questions-to-ask-before-neuro-testing/',
+    questions: '/guides/neuro-insurance-and-out-of-network/',
     redFlags: '/guides/neuro-provider-red-flags/',
-    after: '/guides/what-to-expect-after-a-neuro-evaluation/',
+    after: '/guides/using-results-for-school-or-work/',
     choose: '/guides/how-to-choose-a-neuro-evaluation-provider/',
     insurance: '/guides/neuro-insurance-and-out-of-network/',
-    report: '/guides/what-a-neuro-report-includes/',
+    report: '/guides/using-results-for-school-or-work/',
     telehealth: '/guides/telehealth-vs-in-person-neuro/',
     nextSteps: '/next-steps/'
   };
@@ -236,7 +236,7 @@ function defaultClusterItems(ctx) {
     costs: '/guides/costs-and-timeframes/',
     questions: '/guides/questions-to-ask-a-civil-surgeon/',
     redFlags: '/guides/questions-to-ask-a-civil-surgeon/',
-    after: '/guides/after-your-exam-next-steps/',
+    after: '/guides/uscis-fees-timelines-and-what-to-ask/',
     choose: '/guides/i-693-medical-exam-requirements/',
     insurance: '/guides/document-checklist/',
     report: '/guides/document-checklist/',
@@ -249,8 +249,8 @@ function defaultClusterItems(ctx) {
     // exemptions and Form N-648 are federal and identical in every state, so
     // they are linked from the state and city guide cards rather than dressed
     // up as location-specific queries here.
-    interview: '/guides/uscis-interview-checklist/',
-    n400: '/guides/n-400-checklist/'
+    interview: '/guides/citizenship-test/',
+    n400: '/guides/citizenship-test/'
   };
   const routeSet = isNeuro ? neuroRoutes : (isUscis ? uscisRoutes : null);
 

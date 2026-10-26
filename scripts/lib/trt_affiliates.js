@@ -69,8 +69,8 @@ const GUIDE_BLOCKS = {
   'guides/hormone-therapy-cost-what-is-published': { labs: ['testosterone', 'mens_panel', 'menopause'], online: true },
   'guides/does-insurance-cover-testosterone-therapy': { labs: ['testosterone', 'mens_panel'], online: true },
   'guides/trt-first-90-days': { labs: ['testosterone', 'mens_panel'], online: false },
-  'guides/trt-sleep-fatigue-checklist': { labs: ['testosterone', 'mens_panel'], online: false },
-  'guides/testosterone-replacement-therapy-overview': { labs: ['testosterone', 'mens_panel'], online: true },
+  // trt-sleep-fatigue-checklist and testosterone-replacement-therapy-overview were
+  // folded into who-is-a-good-candidate-for-trt on 26 Oct 2026; it carries both blocks.
   'guides/trt-telehealth-vs-local-clinic': { labs: null, online: true },
   'guides/trt-injections-vs-gels': { labs: null, online: true },
   'guides/hormone-replacement-therapy-near-me': { labs: ['testosterone', 'mens_panel', 'menopause'], online: true }

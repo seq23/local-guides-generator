@@ -14,7 +14,9 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "fold_basis": "shares 1 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1083 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/cosmetic-dentistry/",
@@ -23,7 +25,9 @@
       "impressions_28d": 0,
       "coverage_state": "Crawled - currently not indexed",
       "fold_into": "/guides/sedation-dentistry/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1108 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/dental-crowns/",
@@ -32,7 +36,9 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1203 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/full-arch-implants/",
@@ -41,7 +47,9 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1250 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/gum-disease-treatment/",
@@ -50,7 +58,9 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "fold_basis": "shares 1 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1148 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/oral-surgery/",
@@ -59,7 +69,9 @@
       "impressions_28d": 0,
       "coverage_state": "Crawled - currently not indexed",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "fold_basis": "shares 1 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1182 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/root-canal-treatment/",
@@ -68,7 +80,9 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "fold_basis": "shares 1 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1045 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/tooth-extractions/",
@@ -77,7 +91,9 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "fold_basis": "shares 1 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1070 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/upfront-dental-pricing-checklist/",
@@ -86,7 +102,9 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 988 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     },
     {
       "route": "/guides/veneers/",
@@ -95,7 +113,18 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "fold_basis": "shares 1 topic words with a guide that has impressions",
+      "action": "kept",
+      "kept_reason": "kept: now 1009 words of source text (raised over the 600-word rule by the 26 Oct Search Readiness passes), so it no longer meets the ledger rule"
     }
-  ]
+  ],
+  "folded_note": "Guides already folded and 301d (pack legacyRedirects). Carried forward by build_search_plan.mjs on every regeneration; checked by site_hygiene_registry_contract.js against the pack redirects.",
+  "folded": [],
+  "measurement": {
+    "metric": "indexed URLs in index_coverage.json",
+    "baseline_2026_10_25": 35,
+    "read_on": "2026-11-15",
+    "success": "+5 indexed on at least 3 of the 5 hosts",
+    "fallback": "below that, the thin guides were not the problem; the unindexed bulk is city and state pages and gets its own brief"
+  }
 }

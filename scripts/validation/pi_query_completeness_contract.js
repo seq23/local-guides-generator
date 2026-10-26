@@ -22,32 +22,32 @@ const REQUIRED_ROUTE_GROUPS = {
     '/guides/when-to-call-a-personal-injury-lawyer/'
   ],
   major_case_types: [
-    '/guides/car-accidents/',
+    '/guides/what-to-do-after-an-accident/#car-accidents',
     '/guides/truck-accidents/',
     '/guides/motorcycle-accidents/',
-    '/guides/slip-and-fall/',
-    '/guides/dog-bites/',
+    '/guides/premises-liability/#slip-and-fall',
+    '/guides/premises-liability/#dog-bites',
     '/guides/wrongful-death/'
   ],
   secondary_case_types: [
-    '/guides/pedestrian-accidents/',
-    '/guides/bicycle-accidents/',
-    '/guides/rideshare-accidents/',
+    '/guides/motorcycle-accidents/#pedestrian-accidents',
+    '/guides/motorcycle-accidents/#bicycle-accidents',
+    '/guides/what-to-do-after-an-accident/#rideshare-accidents',
     '/guides/premises-liability/',
-    '/guides/product-liability/',
-    '/guides/workplace-injuries/'
+    '/guides/#product-liability',
+    '/guides/#workplace-injuries'
   ],
   sensitive_case_types: [
     '/guides/brain-injury/',
     '/guides/spinal-cord-injury/',
     '/guides/medical-malpractice/',
-    '/guides/nursing-home-abuse/'
+    '/guides/medical-malpractice/#nursing-home-abuse'
   ],
   long_tail_case_types: [
     '/guides/burn-injury/',
-    '/guides/bus-accidents/',
-    '/guides/catastrophic-injury/',
-    '/guides/bystander-injuries-near-law-enforcement/',
+    '/guides/what-to-do-after-an-accident/#bus-accidents',
+    '/guides/brain-injury/#catastrophic-injury',
+    '/guides/injuries-during-immigration-enforcement/#bystander-injuries-near-law-enforcement',
     '/guides/injuries-during-immigration-enforcement/',
     '/guides/vehicle-collisions-near-law-enforcement-activity/'
   ]
