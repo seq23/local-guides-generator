@@ -74,10 +74,36 @@ function run() {
   if (homePages.some(p => !p.inFreshSitemap)) fail('home page missing from sitemap-fresh.xml');
   if (guidesHubPages.some(p => !p.inFreshSitemap)) fail('guides hub missing from sitemap-fresh.xml');
 
-  const guideFreshMin = Math.min(15, guidePagesForFresh.length);
-  const cityFreshMin = Math.min(20, cityPagesForFresh.length);
-  if (guidePagesForFresh.filter(p => p.inFreshSitemap).length < guideFreshMin) fail(`guide-detail fresh coverage below expected minimum (${guideFreshMin})`);
-  if (cityPagesForFresh.filter(p => p.inFreshSitemap).length < cityFreshMin) fail(`city-home fresh coverage below expected minimum (${cityFreshMin})`);
+  // Fresh coverage, stated so that it can actually be satisfied.
+  //
+  // This used to require min(15, N) guide pages and min(20, N) city pages to be
+  // in sitemap-fresh.xml. For a site with no more than that many pages it
+  // therefore required ALL of them - and since 25 Oct 2026 a URL is in exactly
+  // one sub-sitemap, so "all of them in the fresh lane" means "sitemap-guides.xml
+  // and sitemap-cities.xml are empty". uscisexam.com (15 guide pages) and
+  // dentistryguides.com (6 indexable city pages) shipped exactly that: both
+  // buckets went out with 0 URLs, both kept answering 200 on the live site after
+  // being deleted from dist/, and Search Console reported one error against each
+  // (Search Readiness item e2, 26 Oct 2026).
+  //
+  // Three things are asserted instead, and together they are stricter than the
+  // rule they replace rather than looser:
+  //   - every indexable page of the family is in EXACTLY one sub-sitemap;
+  //   - the family's own bucket is never empty while the family has a page;
+  //   - the fresh lane still carries all but at most that one page.
+  const BUCKET = { 'guide-detail': 'sitemap-guides.xml', 'city-home': 'sitemap-cities.xml' };
+  const CAP = { 'guide-detail': 15, 'city-home': 20 };
+  for (const [family, famPages] of [['guide-detail', guidePagesForFresh], ['city-home', cityPagesForFresh]]) {
+    const bucket = BUCKET[family];
+    const multi = famPages.filter(p => (p.sitemapFiles || []).length !== 1);
+    if (multi.length) fail(`${family}: ${multi.length} page(s) are in ${(multi[0].sitemapFiles || []).length} sub-sitemaps, not exactly one, e.g. ${multi[0].url}`);
+    if (famPages.length && !famPages.some(p => (p.sitemapFiles || []).includes(bucket))) {
+      fail(`${family}: ${bucket} carries no URL while ${famPages.length} indexable page(s) exist - an empty bucket that Search Console still holds as a submitted sitemap`);
+    }
+    const inFresh = famPages.filter(p => p.inFreshSitemap).length;
+    const min = Math.max(0, Math.min(CAP[family], famPages.length) - 1);
+    if (inFresh < min) fail(`${family} fresh coverage below expected minimum (${min} of ${famPages.length})`);
+  }
 
   const summary = fs.readFileSync(summaryPath, 'utf8');
   if (!/Focus family coverage:/i.test(summary)) fail('distribution-summary.txt missing focus coverage block');

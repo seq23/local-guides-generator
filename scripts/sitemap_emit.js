@@ -255,13 +255,45 @@ function run() {
   // sitemaps". A fresh URL now leaves its bucket for as long as it is fresh.
   // Guarded by scripts/validation/sitemap_distribution_contract.js.
   const freshRoutes = new Set(fresh.map((r) => r.route));
+
+  // A bucket that has URLs must never be emptied by the fresh list.
+  //
+  // What went wrong. sitemap-fresh.xml takes up to 15 guide pages and up to 20
+  // city pages. uscisexam.com has exactly 15 guide pages and dentistryguides.com
+  // has exactly 6 indexable city pages, so the fresh list took every one of them
+  // and sitemap-guides.xml / sitemap-cities.xml went out with 0 URLs. The block
+  // below then deleted both files from dist/ - but a file deleted from dist/ is
+  // not deleted from the deployed site, so both kept answering 200 with an empty
+  // <urlset>, and Search Console - which has each sub-sitemap on record as a
+  // submitted sitemap - reported one error against each (verified live
+  // 26 Oct 2026: https://uscisexam.com/sitemap-guides.xml and
+  // https://dentistryguides.com/sitemap-cities.xml, both 200, both 0 <loc>).
+  // Search Readiness item e2 fails on both sites for that reason.
+  //
+  // Why it is fixed here rather than by deleting harder. Not listing an empty
+  // bucket in the index (below) stops a NEW empty submission; it cannot withdraw
+  // one Search Console already holds. Keeping the bucket non-empty does, and it
+  // is also the truthful shape: a site with guide pages has a guides sitemap.
+  // The least fresh member of a bucket stays behind - the one with the least to
+  // gain from the fresh lane - so freshness still works for everything else.
+  // Guarded by scripts/validation/sitemap_bucket_not_emptied_contract.js.
+  const keepBucketNonEmpty = (items) => {
+    if (!items.length) return;
+    const left = items.filter((r) => !freshRoutes.has(r.route));
+    if (left.length) return;
+    const stay = items.slice().sort(byFreshPriority).pop();
+    freshRoutes.delete(stay.route);
+  };
+  for (const bucket of [guides, cities, states, core]) keepBucketNonEmpty(bucket);
+  const freshFinal = fresh.filter((r) => freshRoutes.has(r.route));
+
   const notFresh = (items) => items.filter((r) => !freshRoutes.has(r.route));
   const outputs = {
     'sitemap-guides.xml': notFresh(guides),
     'sitemap-cities.xml': notFresh(cities),
     'sitemap-states.xml': notFresh(states),
     'sitemap-core.xml': notFresh(core),
-    'sitemap-fresh.xml': fresh
+    'sitemap-fresh.xml': freshFinal
   };
 
   // The index lists only sub-sitemaps that carry URLs. When every guide or city
