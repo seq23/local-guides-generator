@@ -91,6 +91,9 @@ const PROVEN = {
   'trt_v1.json': [
     // sr-hormonesivhair.com-j3, 26 Oct 2026: 1,145 -> 2,258.
     'iv-hydration-therapy-overview',
+    // sr-hormonesivhair.com-j3, 26 Oct 2026 (later brief, a different sampled
+    // page): 1,162 -> 2,116.
+    'medical-weight-loss-pricing',
   ],
 };
 
