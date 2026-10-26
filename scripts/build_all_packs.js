@@ -130,16 +130,21 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 
-  // Freshness dates next. build_city_sites.js stamps the build timestamp into
-  // every page's citation_modified_date, and sitemap_emit.js reads that field
-  // for <lastmod> - so without this step every URL in every sitemap claims to
-  // have been refreshed on the build day. This replaces those stamps with the
-  // date each page's content actually last changed, before anything reads them.
-  run('node', ['scripts/lastmod_apply.js'], {
-    PAGE_SET_FILE: pageSetFile,
-    LKG_ENV: process.env.LKG_ENV || 'baseline',
-  });
-
+  // Order matters, and this is the order `npm run build` uses - the pipeline the
+  // deploy actually runs (.github/workflows/deploy-distribution.yml). Every step
+  // that mutates a rendered page must run BEFORE lastmod_apply.js hashes it, or
+  // the two pipelines hash the same page at different points and disagree about
+  // which pages changed.
+  //
+  // What that cost: apply_robots_policy.js rewrites <main> - it unlinks internal
+  // links pointing at the city pages it noindexes - and it used to run here AFTER
+  // lastmod_apply.js. So `npm run lastmod:refresh` (this file) recorded the hash of
+  // the still-linked page, while the deploy hashed the unlinked one. 67 dentistry
+  // /next-steps/ and /states/ pages could therefore never match the committed
+  // ledger: every deploy advanced them to the deploy date, discarded the result,
+  // and did it again the next day - Search Readiness item a6, uniform <lastmod>,
+  // on all six hosts. scripts/validation/lastmod_hash_point_contract.js now pins
+  // this ordering in both pipelines so it cannot drift apart again.
   // The invariant that makes the robots policy and the coverage contract compatible:
   // a promoted city must have research behind it. Checked before either runs, so the
   // failure names the cause (a city promoted without research) rather than the
@@ -172,6 +177,15 @@ for (const pageSetFile of PACKS) {
     LKG_ENV: process.env.LKG_ENV || 'baseline',
   });
 
+  // Freshness dates next. build_city_sites.js stamps the build timestamp into
+  // every page's citation_modified_date, and sitemap_emit.js reads that field
+  // for <lastmod> - so without this step every URL in every sitemap claims to
+  // have been refreshed on the build day. This replaces those stamps with the
+  // date each page's content actually last changed, before anything reads them.
+  run('node', ['scripts/lastmod_apply.js'], {
+    PAGE_SET_FILE: pageSetFile,
+    LKG_ENV: process.env.LKG_ENV || 'baseline',
+  });
   // Postbuild artifacts required by dist-dependent validators.
   run('node', ['scripts/sitemap_emit.js'], {
     PAGE_SET_FILE: pageSetFile,
