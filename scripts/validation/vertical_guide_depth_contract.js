@@ -1,13 +1,31 @@
 const fs = require('fs');
 const path = require('path');
 
+// minCount is the guide count after the 26 Oct 2026 thin-guide consolidation
+// (trt 50 -> 29, pi 34 -> 22, neuro 31 -> 27, uscis 15 -> 9; dentistry kept all
+// 23), raised to the real floor so losing even one guide fails. A guide may only
+// leave by becoming a legacyRedirects source of its pack whose target is a guide
+// still in this directory; checkRetired() below enforces that both ways.
 const RULES = {
-  dentistry: { dir: 'data/page_sets/examples/dentistry_global_pages', minCount: 16, minWords: 260 },
-  neuro: { dir: 'data/page_sets/examples/neuro_global_pages', minCount: 26, minWords: 220 },
-  trt: { dir: 'data/page_sets/examples/trt_global_pages', minCount: 40, minWords: 220 },
-  pi: { dir: 'data/page_sets/examples/pi_global_pages', minCount: 29, minWords: 260 },
-  uscis_medical: { dir: 'data/page_sets/examples/uscis_medical_global_pages', minCount: 8, minWords: 220 }
+  dentistry: { dir: 'data/page_sets/examples/dentistry_global_pages', pack: 'data/page_sets/examples/dentistry_v1.json', minCount: 23, minWords: 260 },
+  neuro: { dir: 'data/page_sets/examples/neuro_global_pages', pack: 'data/page_sets/examples/neuro_v1.json', minCount: 27, minWords: 220 },
+  trt: { dir: 'data/page_sets/examples/trt_global_pages', pack: 'data/page_sets/examples/trt_v1.json', minCount: 29, minWords: 220 },
+  pi: { dir: 'data/page_sets/examples/pi_global_pages', pack: 'data/page_sets/examples/pi_v1.json', minCount: 22, minWords: 260 },
+  uscis_medical: { dir: 'data/page_sets/examples/uscis_medical_global_pages', pack: 'data/page_sets/examples/uscis_medical_v1.json', minCount: 9, minWords: 220 }
 };
+
+// Every /guides/ redirect source of a pack must have no source file left, and
+// its target must be the guides hub or a guide that still has one.
+function checkRetired(repoRoot, vertical, rule, routes, issues) {
+  const pack = JSON.parse(fs.readFileSync(path.join(repoRoot, rule.pack), 'utf8'));
+  for (const row of pack.legacyRedirects || []) {
+    const from = String(row.from || '').replace(/\/+$/, '') + '/';
+    const to = String(row.to || '');
+    if (!from.startsWith('/guides/')) continue;
+    if (routes.has(from)) issues.push(`${vertical}: ${from} is a redirect source but still has a guide file`);
+    if (to.startsWith('/guides/') && to !== '/guides/' && !routes.has(to)) issues.push(`${vertical}: ${from} redirects to ${to}, which has no guide file`);
+  }
+}
 
 function wordsFromHtml(html) {
   return String(html || '')
@@ -35,6 +53,8 @@ function run() {
     }
     const files = fs.readdirSync(dir).filter((f) => f.endsWith('.json') && !['guides.json', 'home.json'].includes(f));
     if (files.length < rule.minCount) issues.push(`${vertical}: expected at least ${rule.minCount} guide/detail files, found ${files.length}`);
+    const routes = new Set(files.map((file) => String(JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')).route || '')));
+    checkRetired(repoRoot, vertical, rule, routes, issues);
     files.forEach((file) => {
       const fp = path.join(dir, file);
       const json = JSON.parse(fs.readFileSync(fp, 'utf8'));

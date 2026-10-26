@@ -5,8 +5,10 @@
   "gsc_window": "2026-09-25..2026-10-22",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
   "guide_count": 15,
-  "candidate_count": 6,
-  "candidates": [
+  "candidate_count": 0,
+  "candidates": [],
+  "folded_note": "Guides already folded and 301d (pack legacyRedirects). Carried forward by build_search_plan.mjs on every regeneration; checked by site_hygiene_registry_contract.js against the pack redirects.",
+  "folded": [
     {
       "route": "/guides/after-your-exam-next-steps/",
       "source": "data/page_sets/examples/uscis_medical_global_pages/guides_after-your-exam-next-steps.json",
@@ -14,7 +16,10 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/",
-      "fold_basis": "no topical guide with impressions; the guides hub"
+      "fold_basis": "no topical guide with impressions; the guides hub",
+      "redirect_to": "/guides/uscis-fees-timelines-and-what-to-ask/",
+      "fold_basis_applied": "ledger target /guides/ is off-topic by title; folded into the on-topic guide /guides/uscis-fees-timelines-and-what-to-ask/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/n-400-checklist/",
@@ -23,7 +28,10 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/",
-      "fold_basis": "no topical guide with impressions; the guides hub"
+      "fold_basis": "no topical guide with impressions; the guides hub",
+      "redirect_to": "/guides/citizenship-test/",
+      "fold_basis_applied": "ledger target /guides/ is off-topic by title; folded into the on-topic guide /guides/citizenship-test/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/n-648-medical-waiver/",
@@ -32,7 +40,10 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/",
-      "fold_basis": "no topical guide with impressions; the guides hub"
+      "fold_basis": "no topical guide with impressions; the guides hub",
+      "redirect_to": "/guides/naturalization-test-exemptions/",
+      "fold_basis_applied": "ledger target /guides/ is off-topic by title; folded into the on-topic guide /guides/naturalization-test-exemptions/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/uscis-interview-checklist/",
@@ -41,7 +52,10 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/",
-      "fold_basis": "no topical guide with impressions; the guides hub"
+      "fold_basis": "no topical guide with impressions; the guides hub",
+      "redirect_to": "/guides/citizenship-test/",
+      "fold_basis_applied": "ledger target /guides/ is off-topic by title; folded into the on-topic guide /guides/citizenship-test/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/uscis-medical-exam-cost/",
@@ -50,7 +64,10 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/",
-      "fold_basis": "no topical guide with impressions; the guides hub"
+      "fold_basis": "no topical guide with impressions; the guides hub",
+      "redirect_to": "/guides/costs-and-timeframes/",
+      "fold_basis_applied": "ledger target /guides/ is off-topic by title; folded into the on-topic guide /guides/costs-and-timeframes/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/uscis-medical-exam-overview/",
@@ -59,7 +76,17 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/",
-      "fold_basis": "no topical guide with impressions; the guides hub"
+      "fold_basis": "no topical guide with impressions; the guides hub",
+      "redirect_to": "/guides/i-693-medical-exam-requirements/",
+      "fold_basis_applied": "ledger target /guides/ is off-topic by title; folded into the on-topic guide /guides/i-693-medical-exam-requirements/",
+      "folded_on": "2026-10-26"
     }
-  ]
+  ],
+  "measurement": {
+    "metric": "indexed URLs in index_coverage.json",
+    "baseline_2026_10_25": 28,
+    "read_on": "2026-11-15",
+    "success": "+5 indexed on at least 3 of the 5 hosts",
+    "fallback": "below that, the thin guides were not the problem; the unindexed bulk is city and state pages and gets its own brief"
+  }
 }
