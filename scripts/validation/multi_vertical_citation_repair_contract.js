@@ -18,8 +18,8 @@ const guideChecks = [
  ['data/page_sets/examples/uscis_medical_global_pages/guides_i-693-medical-exam-requirements.json',['applicant prep, day of exam, post-exam']],
  ['data/page_sets/examples/uscis_medical_global_pages/guides_costs-and-timeframes.json',['USCIS medical cost comparison table']],
  ['data/page_sets/examples/trt_global_pages/guides_trt_trt-first-90-days.json',['Week-by-week first 90 days TRT timeline']],
- ['data/page_sets/examples/trt_global_pages/guides_trt_testosterone-and-hair-loss-explained.json',['DHT and hair loss explainer']],
- ['data/page_sets/examples/trt_global_pages/guides_trt_peptides-vs-trt.json',['Peptides vs TRT side-by-side decision block']],
+ ['data/page_sets/examples/trt_global_pages/guides_trt_hair-loss-aesthetic-vs-hormonal.json',['DHT and hair loss explainer']],
+ ['data/page_sets/examples/trt_global_pages/guides_trt_ultimate-guide-to-peptides.json',['Peptides vs TRT side-by-side decision block']],
  ['data/page_sets/examples/neuro_global_pages/guides_neuro-evaluation-pricing.json',['CPT and prior authorization checklist']],
  ['data/page_sets/examples/neuro_global_pages/guides_how-to-choose-a-neuro-evaluation-provider.json',['ADHD vs autism symptom-cluster decision tree']],
  ['data/page_sets/examples/neuro_global_pages/guides_using-results-for-school-or-work.json',['IEP/504 meeting script and accommodation request template']]
