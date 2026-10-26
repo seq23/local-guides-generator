@@ -83,6 +83,10 @@ const PROVEN = {
     // sr-theaccidentguides.com-j3, 26 Oct 2026: 1,333 -> 2,500 and 1,542 -> 2,296.
     'vehicle-collisions-near-law-enforcement-activity',
     'what-a-personal-injury-case-costs-you',
+    // sr-theaccidentguides.com-j3, 26 Oct 2026 (second brief, different sampled
+    // pages): 1,309 -> truck-accidents, 1,688 -> settlement costs before/after suit.
+    'truck-accidents',
+    'settlement-costs-before-and-after-filing-suit',
   ],
   'trt_v1.json': [
     // sr-hormonesivhair.com-j3, 26 Oct 2026: 1,145 -> 2,258.
