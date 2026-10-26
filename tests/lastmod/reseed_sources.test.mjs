@@ -168,10 +168,20 @@ test('every /states/ URL in the committed ledger has a real content date, not a 
   assert.ok(states.length >= 100, `expected the 100 state URLs in the ledger, found ${states.length}`);
   const sources = JSON.parse(readFileSync(new URL('../../data/page_sets/examples/cities_pi_v1.json', import.meta.url), 'utf8'));
   assert.ok(sources.length > 0, 'cities_pi_v1.json is the source these dates come from');
+  // The hashes the reseed itself committed. A state page whose content changed
+  // later on the reseed day (26 Oct 2026: the thin-guide consolidation changed
+  // the guide links every state hub renders) is legitimately dated that day;
+  // one whose hash is still the reseed's is not.
+  const atReseed = JSON.parse(readFileSync(new URL('./state_hashes_at_reseed.json', import.meta.url), 'utf8'));
+  assert.ok(Object.keys(atReseed.hashes).length >= 100, 'the reseed-day state hash snapshot is missing');
   for (const [url, e] of states) {
     assert.ok(e.lastmod, `${url} has no lastmod`);
     // The reseeder could not date these at all before the fix; a date equal to
-    // the day the ledger was last reseeded is the fingerprint of that failure.
-    assert.notEqual(e.lastmod, ledger.reseeded_from_git_on, `${url} is dated from the reseed run, not from its content`);
+    // the day the ledger was last reseeded, on content the reseed itself hashed,
+    // is the fingerprint of that failure.
+    if (e.lastmod !== ledger.reseeded_from_git_on) continue;
+    assert.equal(atReseed.reseeded_from_git_on, ledger.reseeded_from_git_on, `${url} is dated from a reseed run the snapshot does not describe`);
+    assert.ok(atReseed.hashes[url], `${url} is dated from the reseed run and was not in the reseed's ledger`);
+    assert.notEqual(e.hash, atReseed.hashes[url], `${url} is dated from the reseed run, not from its content`);
   }
 });
