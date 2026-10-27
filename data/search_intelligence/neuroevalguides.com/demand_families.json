@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-26..2026-10-23",
-  "gsc_collected_at": "2026-10-26T14:49:34+00:00",
+  "gsc_window": "2026-09-27..2026-10-24",
+  "gsc_collected_at": "2026-10-27T13:46:15+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,8 +17,8 @@
     {
       "rank": 1,
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "impressions": 4,
-      "status": "below_impression_floor"
+      "impressions": 5,
+      "status": "strengthened"
     },
     {
       "rank": 2,
@@ -53,17 +53,17 @@
       "page": "/guides/neuropsych-testing-cost-by-state/",
       "page_kind": "guide",
       "page_intent": "cost",
-      "impressions": 4,
-      "best_position": 91.3,
-      "weighted_position": 91.5,
+      "impressions": 5,
+      "best_position": 90.5,
+      "weighted_position": 90.8,
       "top_query": "neuropsychological testing cost",
       "query_count": 2,
       "queries": [
         {
           "query": "neuropsychological testing cost",
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "impressions": 3,
-          "position": 91.3
+          "impressions": 4,
+          "position": 90.5
         },
         {
           "query": "cost of a neuropsychological evaluation",
@@ -75,17 +75,21 @@
       "pages": [
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "family_impressions": 4,
+          "family_impressions": 5,
           "page_impressions": 19,
-          "page_position": 25
+          "page_position": 29.3
         }
       ],
       "rank": 1,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "4 impressions < 5"
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/neuropsych-testing-cost-by-state/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json search_strengthening"
     },
     {
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",

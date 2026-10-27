@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-26..2026-10-23",
-  "gsc_collected_at": "2026-10-26T14:49:34+00:00",
+  "gsc_window": "2026-09-27..2026-10-24",
+  "gsc_collected_at": "2026-10-27T13:46:15+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,12 +12,12 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 6,
+  "family_count": 7,
   "top_families": [
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 32,
+      "impressions": 35,
       "status": "strengthened"
     },
     {
@@ -53,31 +53,31 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 32,
-      "best_position": 79,
-      "weighted_position": 89,
+      "impressions": 35,
+      "best_position": 79.3,
+      "weighted_position": 88.4,
       "top_query": "am i a candidate for trt",
       "query_count": 2,
       "queries": [
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 31,
+          "impressions": 32,
           "position": 89.3
         },
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 1,
-          "position": 79
+          "impressions": 3,
+          "position": 79.3
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 32,
-          "page_impressions": 32,
-          "page_position": 89
+          "family_impressions": 35,
+          "page_impressions": 35,
+          "page_position": 88.5
         }
       ],
       "rank": 1,
@@ -160,8 +160,8 @@
       "page_kind": "guide",
       "page_intent": "red_flags",
       "impressions": 7,
-      "best_position": 2.7,
-      "weighted_position": 2.7,
+      "best_position": 3.1,
+      "weighted_position": 3.1,
       "top_query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
       "query_count": 1,
       "queries": [
@@ -169,7 +169,7 @@
           "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
           "route": "/guides/trt-red-flags/",
           "impressions": 7,
-          "position": 2.7
+          "position": 3.1
         }
       ],
       "pages": [
@@ -177,7 +177,7 @@
           "route": "/guides/trt-red-flags/",
           "family_impressions": 7,
           "page_impressions": 9,
-          "page_position": 3.9
+          "page_position": 4.2
         }
       ],
       "rank": 3,
@@ -217,7 +217,7 @@
           "route": "/guides/trt-red-flags/",
           "family_impressions": 1,
           "page_impressions": 9,
-          "page_position": 3.9
+          "page_position": 4.2
         }
       ],
       "rank": 4,
@@ -299,7 +299,42 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 6 of 6 by impressions; no page at position <= 15"
+      "reason": "rank 6 of 7 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "cost @ /guides/beauty-peptide-costs-and-bundles/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/beauty-peptide-costs-and-bundles/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 1,
+      "best_position": 9,
+      "weighted_position": 9,
+      "top_query": "average cost of peptide serum",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "average cost of peptide serum",
+          "route": "/guides/beauty-peptide-costs-and-bundles/",
+          "impressions": 1,
+          "position": 9
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/beauty-peptide-costs-and-bundles/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 9
+        }
+      ],
+      "rank": 7,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 7 of 7 by impressions; no page at position <= 15"
     }
   ]
 }

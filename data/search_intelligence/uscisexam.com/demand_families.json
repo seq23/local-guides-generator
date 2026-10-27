@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-09-26..2026-10-23",
-  "gsc_collected_at": "2026-10-26T14:49:34+00:00",
+  "gsc_window": "2026-09-27..2026-10-24",
+  "gsc_collected_at": "2026-10-27T13:46:15+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -16,13 +16,13 @@
   "top_families": [
     {
       "rank": 1,
-      "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 4,
-      "status": "below_impression_floor"
+      "family": "hub @ /",
+      "impressions": 5,
+      "status": "no_page"
     },
     {
       "rank": 2,
-      "family": "hub @ /",
+      "family": "choose a provider @ /states/{STATE}/",
       "impressions": 4,
       "status": "below_impression_floor"
     },
@@ -34,6 +34,61 @@
     }
   ],
   "families": [
+    {
+      "family": "hub @ /",
+      "intent": "hub",
+      "head_term": "hub",
+      "page": "/",
+      "page_kind": "hub",
+      "page_intent": "hub",
+      "impressions": 5,
+      "best_position": 77,
+      "weighted_position": 93,
+      "top_query": "uscis civil surgeon",
+      "query_count": 4,
+      "queries": [
+        {
+          "query": "uscis civil surgeon",
+          "route": "/",
+          "impressions": 2,
+          "position": 96.5
+        },
+        {
+          "query": "civil surgeon uscis",
+          "route": "/",
+          "impressions": 1,
+          "position": 96
+        },
+        {
+          "query": "uscis immigration exam",
+          "route": "/",
+          "impressions": 1,
+          "position": 77
+        },
+        {
+          "query": "uscis-designated civil surgeon",
+          "route": "/",
+          "impressions": 1,
+          "position": 99
+        }
+      ],
+      "pages": [
+        {
+          "route": "/",
+          "family_impressions": 5,
+          "page_impressions": 11,
+          "page_position": 71.1
+        }
+      ],
+      "rank": 1,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on / (hub); no guide or state hub serves \"hub\" there"
+    },
     {
       "family": "choose a provider @ /states/{STATE}/",
       "intent": "choose_provider",
@@ -86,59 +141,6 @@
           "page_position": 76
         }
       ],
-      "rank": 1,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "4 impressions < 5"
-    },
-    {
-      "family": "hub @ /",
-      "intent": "hub",
-      "head_term": "hub",
-      "page": "/",
-      "page_kind": "hub",
-      "page_intent": "hub",
-      "impressions": 4,
-      "best_position": 77,
-      "weighted_position": 92,
-      "top_query": "civil surgeon uscis",
-      "query_count": 4,
-      "queries": [
-        {
-          "query": "civil surgeon uscis",
-          "route": "/",
-          "impressions": 1,
-          "position": 96
-        },
-        {
-          "query": "uscis civil surgeon",
-          "route": "/",
-          "impressions": 1,
-          "position": 96
-        },
-        {
-          "query": "uscis immigration exam",
-          "route": "/",
-          "impressions": 1,
-          "position": 77
-        },
-        {
-          "query": "uscis-designated civil surgeon",
-          "route": "/",
-          "impressions": 1,
-          "position": 99
-        }
-      ],
-      "pages": [
-        {
-          "route": "/",
-          "family_impressions": 4,
-          "page_impressions": 9,
-          "page_position": 70.9
-        }
-      ],
       "rank": 2,
       "basis": [],
       "qualifies": false,
@@ -170,8 +172,8 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 9,
-          "page_position": 70.9
+          "page_impressions": 11,
+          "page_position": 71.1
         }
       ],
       "rank": 3,
