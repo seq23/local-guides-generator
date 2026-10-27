@@ -87,6 +87,9 @@ const PROVEN = {
     // pages): 1,309 -> truck-accidents, 1,688 -> settlement costs before/after suit.
     'truck-accidents',
     'settlement-costs-before-and-after-filing-suit',
+    // sr-theaccidentguides.com-j3, 27 Oct 2026: incident and care records,
+    // discharge questions, expense documentation and consultation ownership.
+    'spinal-cord-injury',
   ],
   'trt_v1.json': [
     // sr-hormonesivhair.com-j3, 26 Oct 2026: 1,145 -> 2,258.
