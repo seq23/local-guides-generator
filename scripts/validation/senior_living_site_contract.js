@@ -79,7 +79,7 @@ const problems = [];
 const read = (f) => fs.readFileSync(f, 'utf8');
 const text = (h) => String(h || '').replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ');
 const words = (h) => text(h).split(/\s+/).filter(Boolean).length;
-const slot = (city, zip) => `<div id="senior-intake" data-vertical="senior-living" data-city="${city}" data-zip="${zip}"></div><script src="/assets/senior-intake.js" defer></script>`;
+const slot = (city, zip) => `<form id="senior-intake" aria-label="Senior care matching" data-vertical="senior-living" data-city="${city}" data-zip="${zip}"></form><script src="/assets/senior-intake.js" defer></script>`;
 const section = (html, attr) => { const m = html.match(new RegExp(`<section[^>]*${attr}[^>]*>[\\s\\S]*?</section>`)); return m ? m[0] : ''; };
 
 const cities = JSON.parse(read(path.join(ROOT, 'data', 'page_sets', 'examples', 'cities_senior_living_v1.json')));

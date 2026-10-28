@@ -82,7 +82,9 @@ function facilitiesForPage(city) {
 }
 
 function intakeSlotHtml(citySlug, zip) {
-  return '<div id="senior-intake" data-vertical="senior-living" data-city="' + esc(citySlug) + '" data-zip="' + esc(zip) + '"></div><script src="/assets/senior-intake.js" defer></script>';
+  // The wizard mounts its questions here. Declare the actual form in the
+  // source HTML so recording eligibility can distinguish it from a CTA link.
+  return '<form id="senior-intake" aria-label="Senior care matching" data-vertical="senior-living" data-city="' + esc(citySlug) + '" data-zip="' + esc(zip) + '"></form><script src="/assets/senior-intake.js" defer></script>';
 }
 
 function intakeSlotForCity(city) {

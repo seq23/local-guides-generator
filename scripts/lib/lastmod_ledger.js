@@ -99,7 +99,15 @@ function hashableBody(html) {
   // No <main> is a real possibility (redirect stubs, 404). Falling back to the
   // whole document is correct there - it is the only content those pages have -
   // and it is conservative: at worst such a page keeps the old behaviour.
-  return m ? m[1] : doc;
+  // The senior wizard's empty mount changed from a div to a semantic form.
+  // Its questions still come from senior-intake.js; that wrapper is not an
+  // editorial refresh of 183 pages. Keep the historical representation in the
+  // hash, retaining the city/ZIP attributes and every byte of actual content.
+  // Only this empty mount is equivalent; populated or unrelated forms are not.
+  return (m ? m[1] : doc).replace(
+    /<form id="senior-intake" aria-label="Senior care matching" (data-vertical="senior-living" data-city="[^"]*" data-zip="[^"]*")><\/form>/g,
+    '<div id="senior-intake" $1></div>'
+  );
 }
 
 function contentHash(html) {
