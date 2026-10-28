@@ -4784,7 +4784,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   if (!seoTopic && [globalPage.meta_title, globalPage.meta_description].some((s) => String(s || '').includes('%%TOPIC%%'))) {
     throw new Error('Global page ' + (globalPage.route || '/') + ' uses %%TOPIC%% but the page set has no seoTopic');
   }
-  const headTitle = brandedTitle(globalPage.meta_title ? applyMetaTokens(globalPage.meta_title) : title, siteUrl, brandName);
+  const headTitle = brandedTitle(globalPage.meta_title ? applyMetaTokens(globalPage.meta_title) : title, siteUrl, brandName, route);
   const headDescription = globalPage.meta_description ? applyMetaTokens(globalPage.meta_description) : description;
   const globalPagesDir = loadGlobalPagesDir(pageSet);
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
@@ -6356,6 +6356,7 @@ function loadNextStepsSponsor(citySlug) {
       const st = states[ab] || {};
       const stateName = String(st.stateName || ALL_US_STATES[ab] || ab);
       const title = 'Next steps — ' + stateName + ' personal injury';
+      const headTitle = brandedTitle('Next Steps: ' + stateName, siteUrl, brandName);
       const description = 'Next steps for a personal injury claim in ' + stateName + ': a preparation checklist, the questions to ask a lawyer first, and a sponsor contact route.';
 
       const mainHtml = (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.') : '') + renderDedicatedNextStepsHubHtml({
@@ -6368,7 +6369,7 @@ function loadNextStepsSponsor(citySlug) {
       });
 
       const mapped = replaceAll(baseTemplate, {
-        '%%TITLE%%': title,
+        '%%TITLE%%': headTitle,
         '%%DESCRIPTION%%': description,
         '%%DATA_CITY%%': 'state-' + ab,
         '%%SLUG%%': 'states/' + ab + '/next-steps',
@@ -6377,7 +6378,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%MAIN_HTML%%': mainHtml,
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'),
-        '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-next-steps', title, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'), brandName, section: 'State next steps', keywords: ['state next steps', stateName, 'personal injury'] }),
+        '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-next-steps', title: headTitle, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab + '/next-steps'), brandName, section: 'State next steps', keywords: ['state next steps', stateName, 'personal injury'] }),
         // Was ''. A page that ships an empty JSON-LD slot has no Organization,
         // no WebPage and no BreadcrumbList, which is Search Readiness items c1
         // and c2 failing on every /states/<ST>/next-steps/ page at once
@@ -6413,6 +6414,7 @@ function loadNextStepsSponsor(citySlug) {
       // takes the pack's search_strengthening.state_hub: title, H1, top section, FAQ.
       const stateStrength = searchBlocks.stateHubStrengthening(siteUrl, pageSet, ab, stateName);
       const title = stateStrength ? stateStrength.title : 'Personal Injury Lawyers in ' + stateName + ': State Guide';
+      const headTitle = brandedTitle('Injury Lawyers: ' + stateName, siteUrl, brandName);
       const description = 'Use this state guide to compare firms, check official resources, and understand what to look for before contacting a personal injury lawyer in ' + stateName + '.';
 
       const cityRows = cities.filter(c => String(c.state).toUpperCase() == ab);
@@ -6591,7 +6593,7 @@ function loadNextStepsSponsor(citySlug) {
         : '';
 
       let mapped = replaceAll(baseTemplate, {
-        '%%TITLE%%': title,
+        '%%TITLE%%': headTitle,
         '%%DESCRIPTION%%': description,
         '%%DATA_CITY%%': 'state-' + ab,
         '%%SLUG%%': 'states/' + ab,
@@ -6600,7 +6602,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%MAIN_HTML%%': mainHtml,
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
-        '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-home', title, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab), brandName, section: 'State directory', keywords: [stateName, 'personal injury', 'directory'] }),
+        '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-home', title: headTitle, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab), brandName, section: 'State directory', keywords: [stateName, 'personal injury', 'directory'] }),
         '%%HEAD_JSON_LD%%': searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg), stateStrength && { search_strengthening: stateStrength }),
         '%%FOOTER%%': footerHtml,
         '%%CONNECTION_BUBBLE%%': connectionBubbleHtml,
@@ -6658,7 +6660,7 @@ function loadNextStepsSponsor(citySlug) {
       (piHubFanoutHtml ? ('\n' + piHubFanoutHtml) : '')
     );
     const piHubHtml = replaceAll(baseTemplate, {
-      '%%TITLE%%': 'Personal injury — browse by state',
+      '%%TITLE%%': brandedTitle('Personal Injury by State', siteUrl, brandName),
       '%%DESCRIPTION%%': PI_HUB_DESCRIPTION,
       '%%DATA_CITY%%': '',
       '%%SLUG%%': 'personal-injury',
@@ -6667,7 +6669,7 @@ function loadNextStepsSponsor(citySlug) {
       '%%MAIN_HTML%%': piHubMainHtml,
       '%%INLINE_SCRIPTS%%': '',
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
-      '%%HEAD_META%%': renderHeadMeta({ pageType: 'pi-hub', title: 'Personal injury — browse by state', description: PI_HUB_DESCRIPTION, canonical: buildCanonicalGlobal(siteUrl, 'personal-injury'), brandName, section: 'Personal injury hub', keywords: ['personal injury', 'states', 'browse by state'] }),
+      '%%HEAD_META%%': renderHeadMeta({ pageType: 'pi-hub', title: brandedTitle('Personal Injury by State', siteUrl, brandName), description: PI_HUB_DESCRIPTION, canonical: buildCanonicalGlobal(siteUrl, 'personal-injury'), brandName, section: 'Personal injury hub', keywords: ['personal injury', 'states', 'browse by state'] }),
       '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury — browse by state', 'Browse personal injury by state.', pageSet),
       '%%FOOTER%%': footerHtml,
       '%%CONNECTION_BUBBLE%%': '',

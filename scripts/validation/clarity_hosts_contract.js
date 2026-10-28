@@ -4,7 +4,7 @@
  * Hard-fail: data/clarity_projects.json maps every public host to its Clarity
  * project id, the shipped loader carries the active host's id, and every
  * eligible rendered page outside skip_files loads it, with none on information
- * pages in the two publications scoped by the 28 Oct Search Readiness pass.
+ * pages in the five guide publications scoped by the Search Readiness repairs.
  */
 const fs = require('fs');
 const path = require('path');

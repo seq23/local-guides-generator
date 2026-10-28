@@ -673,7 +673,17 @@ function nextStepsMetaDescription(city, mcp, alp) {
 // Title/description tokens for the page templates (senior_living_v1.json).
 function pageTopicTokens(city) {
   const mcp = isMemoryCarePage(city), alp = isAssistedLivingPage(city);
+  // Search copy reserves space for the publication name. Keep the full place
+  // and topic in the visible heading; use familiar hospital abbreviations here.
+  const label = String(city.marketLabel || '').replace(/Baptist Memorial Hospital-/, 'Baptist ')
+    .replace('Methodist Le Bonheur Germantown Hospital', 'Methodist Germantown')
+    .replace('Saint Francis Hospital-', 'St Francis ').replace('Park Avenue', 'Park Ave')
+    .replace(/ Hospital$/, '').replace('Memphis VA Medical Center', 'Memphis VA');
+  const shortPlace = String(city.city || label).replace(/,\s*(TN|MS|AR)$/, '');
+  const topic = mcp ? 'Memory Care' : (alp ? 'Assisted Living' : 'Care');
   return {
+    '%%SENIOR_SEARCH_TITLE%%': `${topic} ${city.kind === 'hospital' ? 'near' : 'in'} ${label}`,
+    '%%SENIOR_NEXT_SEARCH_TITLE%%': `Next: ${mcp ? 'Memory Care ' : (alp ? 'Assisted Living ' : '')}${city.kind === 'hospital' ? label : shortPlace}`,
     // Length-aware, because this token is the whole <title> on the directory
     // pages: senior_living_v1.json renders `%%PAGE_TOPIC%% %%PLACE_PHRASE%%`.
     // The hospital anchor pages have long place phrases ("near Saint Francis
