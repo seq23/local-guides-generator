@@ -1,10 +1,8 @@
 'use strict';
 
-// All six publications now have a b10 brief repaired at source. The senior
-// site's recording policy is a separate brief and is not part of this pass.
+// All six publications identify themselves and record only form or buy pages.
 const HOSTS = new Set(['uscisexam.com', 'dentistryguides.com', 'theaccidentguides.com',
   'neuroevalguides.com', 'hormonesivhair.com', 'memphisseniorcarehomes.com']);
-const CONVERSION_HOSTS = new Set([...HOSTS].filter((host) => host !== 'memphisseniorcarehomes.com'));
 // Reviewed search copy for long editorial headings. A missing/invalid registry
 // fails before the renderer writes anything; no automatic truncation or slug copy.
 const TITLE_COPY = require('../../data/search_title_copy.json');
@@ -37,6 +35,6 @@ function formOrBuy(html, siteUrl) {
   });
 }
 
-function clarityEligible(html, siteUrl) { return !CONVERSION_HOSTS.has(new URL(siteUrl).hostname) || formOrBuy(html, siteUrl); }
+function clarityEligible(html, siteUrl) { return !scoped(siteUrl) || formOrBuy(html, siteUrl); }
 
 module.exports = { scoped, brandedTitle, clarityEligible };

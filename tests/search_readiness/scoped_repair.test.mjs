@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import vm from 'node:vm';
 const require = createRequire(import.meta.url);
 const { brandedTitle, clarityEligible } = require('../../scripts/lib/search_readiness_policy');
 const PUBLICATIONS = Object.values(require('../../scripts/lib/pack_site_config').PACK_SITE_CONFIG)
@@ -21,7 +22,7 @@ test('all six publications identify themselves; existing branding stays once', (
 
 test('a contact CTA, fake form or prose about checkout is not a conversion page', () => {
   for (const html of ['<a href="/request-assistance/">Ask</a>', '<!-- <form> -->', '<script>const s="<form>"</script>', '<p>Go to /checkout/</p>']) {
-    for (const { siteUrl } of PUBLICATIONS.filter((p) => !p.siteUrl.includes('memphisseniorcarehomes'))) {
+    for (const { siteUrl } of PUBLICATIONS) {
       assert.equal(clarityEligible(html, siteUrl), false);
     }
   }
@@ -31,7 +32,11 @@ test('real forms and buy links retain recording, including relative and quoted l
   for (const html of ['<form action="/api/lead">', '<a href="https://brand.gumroad.com/l/guide">Buy</a>', "<a href='/checkout/'>Buy</a>", '<a href=/booking/>Book</a>']) {
     for (const { siteUrl } of PUBLICATIONS) assert.equal(clarityEligible(html, siteUrl), true);
   }
-  assert.equal(clarityEligible('<p>Existing senior policy</p>', 'https://memphisseniorcarehomes.com'), true);
+  const { intakeSlotForSite } = require('../../scripts/lib/senior_living');
+  const intake = intakeSlotForSite();
+  assert.match(intake, /<form\b[^>]*id="senior-intake"/);
+  assert.match(intake, /<\/form><script src="\/assets\/senior-intake.js"/);
+  assert.equal(clarityEligible(intake, 'https://memphisseniorcarehomes.com'), true);
 });
 
 test('the installer removes old blanket tags, preserves real conversion tags, and is idempotent', (t) => {
@@ -41,8 +46,8 @@ test('the installer removes old blanket tags, preserves real conversion tags, an
   for (const file of ['scripts/install_clarity.js', 'scripts/lib/search_readiness_policy.js', 'data/search_title_copy.json']) {
     fs.copyFileSync(new URL(`../../${file}`, import.meta.url), path.join(root, file));
   }
-  fs.writeFileSync(path.join(root, 'data/clarity_projects.json'), JSON.stringify({ projects: { 'uscisexam.com': 'y7l12fhi6v' } }));
-  fs.writeFileSync(path.join(root, 'data/site.json'), JSON.stringify({ siteUrl: 'https://uscisexam.com' }));
+  fs.writeFileSync(path.join(root, 'data/clarity_projects.json'), JSON.stringify({ projects: { 'memphisseniorcarehomes.com': 'yxahwpnfgl' } }));
+  fs.writeFileSync(path.join(root, 'data/site.json'), JSON.stringify({ siteUrl: 'https://memphisseniorcarehomes.com' }));
   const tag = '<script data-clarity-loader src="/assets/clarity-loader.js" defer></script>';
   const pages = {
     'info.html': `<head>${tag}</head><body><a href="/request-assistance/">Ask</a></body>`,
@@ -63,6 +68,36 @@ test('the installer removes old blanket tags, preserves real conversion tags, an
   const after = Object.keys(pages).map(read);
   run();
   assert.deepEqual(Object.keys(pages).map(read), after);
+});
+
+test('the senior wizard prevents native form submission even if its matcher cannot load', () => {
+  const handlers = {};
+  const root = { addEventListener: (name, fn) => { handlers[name] = fn; } };
+  const document = {
+    readyState: 'complete', currentScript: null,
+    getElementById: () => root,
+    querySelector: () => null,
+    createElement: () => ({ setAttribute() {} }),
+    head: { appendChild: (el) => { if (el.onerror) el.onerror(); } },
+  };
+  const code = fs.readFileSync(new URL('../../assets/senior-intake.js', import.meta.url), 'utf8');
+  vm.runInNewContext(code, { document, window: {} });
+  assert.match(root.textContent, /This form could not load/);
+  let prevented = false;
+  handlers.submit({ preventDefault: () => { prevented = true; } });
+  assert.equal(prevented, true, 'native submission must not put contact fields in the URL');
+});
+
+test('a semantic intake mount keeps editorial dates without hiding content or market changes', () => {
+  const { contentHash } = require('../../scripts/lib/lastmod_ledger');
+  const { intakeSlotForSite } = require('../../scripts/lib/senior_living');
+  const current = '<main><h1>Care options</h1>' + intakeSlotForSite() + '</main>';
+  const previous = current.replace('<form id="senior-intake" aria-label="Senior care matching"', '<div id="senior-intake"').replace('</form>', '</div>');
+  assert.equal(contentHash(current), contentHash(previous));
+  for (const changed of [current.replace('Care options', 'New care options'), current.replace('38104', '38117'),
+    current.replace('</form>', '<p>New form content</p></form>'), '<main><form id="another-form"></form></main>']) {
+    assert.notEqual(contentHash(current), contentHash(changed));
+  }
 });
 
 test('reviewed search titles retain topic and brand within the existing length budget', () => {

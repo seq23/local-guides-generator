@@ -2,8 +2,7 @@
 'use strict';
 /**
  * Install Microsoft Clarity on eligible published pages in dist/.
- * The five guide publications record only form or checkout pages; the senior
- * site's policy belongs to its separate Search Readiness brief.
+ * All six publications record only form or checkout pages.
  *
  * Purpose:
  * - The five domains built from this repo (theaccidentguides.com,
