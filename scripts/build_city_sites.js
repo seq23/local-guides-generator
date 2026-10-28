@@ -73,6 +73,7 @@ const sponsorCatalog = require("./helpers/sponsor_catalog");
 const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL, getUmbrellaSameAs } = require("./lib/pack_site_config");
 const internalQueryPolicy = require("./lib/internal_query_policy");
 const siteLeadForm = require("./lib/site_lead_form");
+const { brandedTitle } = require("./lib/search_readiness_policy");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -4293,7 +4294,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
   // <title> and <meta name="description"> may carry their own search-facing copy (meta_title /
   // meta_description) so the visible heading can stay short. Length and uniqueness are enforced by
   // scripts/validation/meta_length_uniqueness_contract.js (Bing rules 114/118, 25 Sep 2026).
-  const headTitle = page.meta_title ? applyCityTokens(page.meta_title, city).split("%%BRAND_NAME%%").join(brandName) : title;
+  const headTitle = brandedTitle(page.meta_title ? applyCityTokens(page.meta_title, city).split("%%BRAND_NAME%%").join(brandName) : title, siteUrl, brandName);
   const headDescription = page.meta_description ? applyCityTokens(page.meta_description, city).split("%%BRAND_NAME%%").join(brandName) : description;
   const globalPagesDir = loadGlobalPagesDir(pageSet);
 
@@ -4783,7 +4784,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   if (!seoTopic && [globalPage.meta_title, globalPage.meta_description].some((s) => String(s || '').includes('%%TOPIC%%'))) {
     throw new Error('Global page ' + (globalPage.route || '/') + ' uses %%TOPIC%% but the page set has no seoTopic');
   }
-  const headTitle = globalPage.meta_title ? applyMetaTokens(globalPage.meta_title) : title;
+  const headTitle = brandedTitle(globalPage.meta_title ? applyMetaTokens(globalPage.meta_title) : title, siteUrl, brandName);
   const headDescription = globalPage.meta_description ? applyMetaTokens(globalPage.meta_description) : description;
   const globalPagesDir = loadGlobalPagesDir(pageSet);
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
@@ -6236,6 +6237,7 @@ function loadNextStepsSponsor(citySlug) {
       const stateName = String(stateInfo.name || ALL_US_STATES[ab] || ab);
       const stateStrength = searchBlocks.stateHubStrengthening(siteUrl, pageSet, ab, stateName);
       const title = stateStrength ? stateStrength.title : brandName + ' in ' + stateName + ' — state hub';
+      const headTitle = brandedTitle((stateStrength && stateStrength.meta_title) || title, siteUrl, brandName);
       const description = 'Use this state hub to narrow into covered cities, provider examples, official verification resources, and next steps in ' + stateName + '.';
       const guideLinks = selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }));
       const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.linkLabel || c.marketLabel || c.slug }));
@@ -6278,7 +6280,7 @@ function loadNextStepsSponsor(citySlug) {
       if (stateFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) mainHtml += '\n' + stateFanoutHtml;
       const connectionBubbleHtml = shouldRenderConnectionBubble({ pageKind: 'state', route: 'states/' + ab }) ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: '/states/' + ab + '/' }) : '';
       let mapped = replaceAll(baseTemplate, {
-        '%%TITLE%%': title,
+        '%%TITLE%%': headTitle,
         '%%DESCRIPTION%%': description,
         '%%DATA_CITY%%': 'state-' + ab,
         '%%SLUG%%': 'states/' + ab,
@@ -6287,8 +6289,8 @@ function loadNextStepsSponsor(citySlug) {
         '%%MAIN_HTML%%': mainHtml,
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
-        '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-home', title, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab), brandName, section: 'State hub', keywords: [verticalKey, stateName, 'state hub'] }),
-        '%%HEAD_JSON_LD%%': searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdGlobal(siteUrl, brandName, 'states/' + ab, title, description, pageSet), stateStrength && { search_strengthening: stateStrength }),
+        '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-home', title: headTitle, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab), brandName, section: 'State hub', keywords: [verticalKey, stateName, 'state hub'] }),
+        '%%HEAD_JSON_LD%%': searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdGlobal(siteUrl, brandName, 'states/' + ab, headTitle, description, pageSet), stateStrength && { search_strengthening: stateStrength }),
         '%%FOOTER%%': footerHtml,
         '%%CONNECTION_BUBBLE%%': connectionBubbleHtml,
         '%%BRAND_NAME%%': escapeHtml(brandName),

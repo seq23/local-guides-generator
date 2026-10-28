@@ -54,6 +54,7 @@
     "test:llm-router": "node --test tests/llm_router/free_llm_router_403.test.mjs tests/llm_router/free_llm_router_empty.test.mjs",
     "test:neuro-services": "node --test tests/neuro/neuro_services.test.mjs",
     "test:request-form-own-vertical": "node --test tests/request_form/own_vertical.test.mjs",
+    "test:search-readiness": "node --test tests/search_readiness/scoped_repair.test.mjs",
     "test:senior": "node --test tests/senior/senior_lead.test.mjs",
     "test:site-chrome": "node --test tests/site_chrome/site_chrome_parity.test.mjs",
     "test:structured-data": "node --test tests/schema/structured_data_vocab.test.mjs",

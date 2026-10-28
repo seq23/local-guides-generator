@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 /**
- * Install the Microsoft Clarity tag into every published page in dist/.
+ * Install Microsoft Clarity on eligible published pages in dist/.
+ * USCIS Exam and Dentistry Guides record only form or checkout pages.
  *
  * Purpose:
  * - The five domains built from this repo (theaccidentguides.com,
@@ -40,6 +41,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { clarityEligible } = require('./lib/search_readiness_policy');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONFIG = path.join(ROOT, 'data/clarity_projects.json');
@@ -50,6 +52,10 @@ if (!fs.existsSync(CONFIG)) {
   process.exit(1);
 }
 const cfg = JSON.parse(fs.readFileSync(CONFIG, 'utf8'));
+const siteFile = path.join(ROOT, 'data/site.json');
+if (!fs.existsSync(siteFile)) throw new Error('clarity: missing data/site.json; prepare the pack first');
+const siteUrl = JSON.parse(fs.readFileSync(siteFile, 'utf8')).siteUrl;
+new URL(siteUrl); // Refuse an unprepared or malformed site before writing output.
 const projects = cfg.projects || {};
 const outDir = path.resolve(ROOT, process.env.PAGES_OUT_DIR || cfg.public_root || 'dist');
 // The output root holds only rendered pages, so the guard list stays small.
@@ -83,6 +89,7 @@ let upgraded = 0;
 let touched = 0;
 let already = 0;
 let skipped = 0;
+let removed = 0;
 
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -93,6 +100,14 @@ function walk(dir) {
     const rel = path.relative(outDir, abs).split(path.sep).join('/');
     if (skipFiles.has(rel) || skipFiles.has(entry.name)) { skipped += 1; continue; }
     const html = fs.readFileSync(abs, 'utf8');
+    if (!clarityEligible(html, siteUrl)) {
+      // Also clean a previously tagged tree. Re-running the installer must not
+      // leave yesterday's blanket tag on an informational page.
+      const next = html.replace(/<script\b[^>]*\bdata-clarity-loader\b[^>]*>[\s\S]*?<\/script>/gi, '');
+      if (next !== html) { fs.writeFileSync(abs, next); removed += 1; }
+      skipped += 1;
+      continue;
+    }
     // Pages carrying an older inline loader are upgraded rather than skipped.
     // Leaving one would leave a tag a CSP could refuse to execute, which looks
     // exactly like having no tag at all.
@@ -123,4 +138,4 @@ for (const base of new Set([ROOT, outDir])) {
 
 walk(outDir);
 
-console.log(`clarity: installed on ${touched} page(s); upgraded ${upgraded} from the inline loader; ${already} already correct; ${skipped} skipped`);
+console.log(`clarity: installed on ${touched} page(s); upgraded ${upgraded} from the inline loader; ${already} already correct; ${skipped} skipped; ${removed} ineligible tags removed`);
