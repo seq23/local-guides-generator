@@ -42,7 +42,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { visibleWordCount } = require('./lib/visible_words');
+const { decode, visibleWordCount } = require('./lib/visible_words');
 
 const FLOOR = 1800;
 
@@ -92,6 +92,8 @@ const PROVEN = {
     'spinal-cord-injury',
     // sr-theaccidentguides.com-j3, 28 Oct: estimator source worksheet.
     'settlement-calculator-red-flags',
+    // sr-theaccidentguides.com-j3, 28 Oct: insurer call preparation and records.
+    'recorded-statements-and-insurance-calls',
   ],
   'trt_v1.json': [
     // sr-hormonesivhair.com-j3, 26 Oct 2026: 1,145 -> 2,258.
@@ -101,12 +103,41 @@ const PROVEN = {
     'medical-weight-loss-pricing',
     // sr-hormonesivhair.com-j3, 28 Oct: monitoring and review preparation.
     'trt-first-90-days',
+    // sr-hormonesivhair.com-j3, 28 Oct: fertility handoff and bundle comparison.
+    'trt-fertility-and-family-planning',
+    'beauty-peptide-costs-and-bundles',
   ],
   'neuro_v1.json': [
     // sr-neuroevalguides.com-j3, 28 Oct: report-to-therapy handover and goals.
     'adhd-therapy-after-an-evaluation',
   ],
 };
+
+// These j3 repairs also prove the rendered house shape. Keep this scoped until
+// older guides have been reviewed; adding words alone must not close the brief
+// if the Quick answer heading or attributed intake link disappears again.
+const HOUSE_SHAPE = new Set([
+  'recorded-statements-and-insurance-calls',
+  'trt-fertility-and-family-planning',
+  'beauty-peptide-costs-and-bundles',
+]);
+
+function shapeProblems(html, slug) {
+  const problems = [];
+  if (!/<h2\b[^>]*>\s*Quick answer\s*<\/h2>/i.test(html)) problems.push('no Quick answer H2');
+  if ((html.match(/"@type"\s*:\s*"FAQPage"/g) || []).length > 1) problems.push('more than one FAQPage');
+  const hrefs = [...html.matchAll(/<a\b[^>]*\bhref\s*=\s*["']([^"']+)["']/gi)];
+  const hasIntake = hrefs.some((match) => {
+    let url;
+    try { url = new URL(decode(match[1]), 'https://guide.invalid'); } catch { return false; }
+    const params = url.searchParams;
+    return url.pathname === '/request-assistance/' && params.get('vertical') &&
+      (params.get('page_kind') || params.get('kind')) === 'guide' &&
+      (params.get('page_slug') || params.get('slug')) === `guides/${slug}`;
+  });
+  if (!hasIntake) problems.push('no intake CTA with vertical, guide kind and matching slug');
+  return problems;
+}
 
 function fail(lines) {
   console.error(`❌ GUIDE WORD FLOOR FAIL — ${lines.join('\n')}`);
@@ -133,13 +164,18 @@ function checkProven(pack, pages) {
   const bySlug = new Map(pages.map((p) => [p.slug, p]));
   const absent = [];
   const under = [];
+  const malformed = [];
   for (const slug of proven) {
     const page = bySlug.get(slug);
     if (!page) { absent.push(slug); continue; }
-    const words = visibleWordCount(fs.readFileSync(page.file, 'utf8'));
+    const html = fs.readFileSync(page.file, 'utf8');
+    const words = visibleWordCount(html);
     if (words < FLOOR) under.push({ slug, words });
+    if (HOUSE_SHAPE.has(slug)) {
+      for (const problem of shapeProblems(html, slug)) malformed.push(`/guides/${slug}/: ${problem}`);
+    }
   }
-  if (under.length || absent.length) {
+  if (under.length || absent.length || malformed.length) {
     const lines = [];
     if (under.length) {
       lines.push(`${under.length} guide(s) named in PROVEN for ${pack} fell back under the ${FLOOR}-word floor:`);
@@ -151,6 +187,7 @@ function checkProven(pack, pages) {
       lines.push(`${absent.length} guide(s) named in PROVEN for ${pack} are not in the rendered pack: ${absent.map((s) => `/guides/${s}/`).join(', ')}.`);
       lines.push('A page that stops rendering is how a closed brief silently reopens.');
     }
+    if (malformed.length) lines.push(...malformed);
     lines.push('');
     lines.push('These pages were carried over the floor by a Search Readiness brief. Restore the');
     lines.push('substance that was removed; do not remove the page from PROVEN, which is the one');
