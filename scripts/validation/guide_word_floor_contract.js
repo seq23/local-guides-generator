@@ -94,6 +94,8 @@ const PROVEN = {
     'settlement-calculator-red-flags',
     // sr-theaccidentguides.com-j3, 28 Oct: insurer call preparation and records.
     'recorded-statements-and-insurance-calls',
+    // sr-theaccidentguides.com-j3, 28 Oct: consultation comparison worksheet.
+    'questions-to-ask-a-personal-injury-lawyer',
   ],
   'trt_v1.json': [
     // sr-hormonesivhair.com-j3, 26 Oct 2026: 1,145 -> 2,258.
@@ -106,6 +108,8 @@ const PROVEN = {
     // sr-hormonesivhair.com-j3, 28 Oct: fertility handoff and bundle comparison.
     'trt-fertility-and-family-planning',
     'beauty-peptide-costs-and-bundles',
+    // sr-hormonesivhair.com-j3, 28 Oct: product, evidence and bundle comparison.
+    'peptides-vs-iv-therapy',
   ],
   'neuro_v1.json': [
     // sr-neuroevalguides.com-j3, 28 Oct: report-to-therapy handover and goals.
@@ -117,6 +121,8 @@ const PROVEN = {
 // older guides have been reviewed; adding words alone must not close the brief
 // if the Quick answer heading or attributed intake link disappears again.
 const HOUSE_SHAPE = new Set([
+  'questions-to-ask-a-personal-injury-lawyer',
+  'peptides-vs-iv-therapy',
   'recorded-statements-and-insurance-calls',
   'trt-fertility-and-family-planning',
   'beauty-peptide-costs-and-bundles',

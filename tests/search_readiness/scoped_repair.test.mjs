@@ -115,7 +115,13 @@ test('each repaired guide must remain rendered and above the word floor', (t) =>
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'sr-guide-floor-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   const script = new URL('../../scripts/validation/guide_word_floor_contract.js', import.meta.url).pathname;
-  for (const [pack, slug] of [['pi', 'settlement-calculator-red-flags'], ['neuro', 'adhd-therapy-after-an-evaluation'], ['trt', 'trt-first-90-days']]) {
+  for (const [pack, slug] of [
+    ['pi', 'settlement-calculator-red-flags'],
+    ['neuro', 'adhd-therapy-after-an-evaluation'],
+    ['trt', 'trt-first-90-days'],
+    ['pi', 'questions-to-ask-a-personal-injury-lawyer'],
+    ['trt', 'peptides-vs-iv-therapy'],
+  ]) {
     const dir = path.join(root, pack, 'guides', slug);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'index.html'), '<p>Short guide</p>');
@@ -130,7 +136,7 @@ test('each repaired guide must remain rendered and above the word floor', (t) =>
       }
     };
     assert.match(run(), new RegExp(`${slug}/.*2 words`));
-    fs.renameSync(path.join(root, pack, 'guides', slug), path.join(root, pack, 'guides', 'unrelated-guide'));
+    fs.renameSync(path.join(root, pack, 'guides', slug), path.join(root, pack, 'guides', `unrelated-${slug}`));
     assert.match(run(), new RegExp(`not in the rendered pack:.*${slug}`));
   }
 });
