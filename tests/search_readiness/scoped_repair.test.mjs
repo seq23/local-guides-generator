@@ -7,35 +7,38 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 const require = createRequire(import.meta.url);
 const { brandedTitle, clarityEligible } = require('../../scripts/lib/search_readiness_policy');
+const PUBLICATIONS = Object.values(require('../../scripts/lib/pack_site_config').PACK_SITE_CONFIG)
+  .filter((p) => !p.siteUrl.includes('pages.dev'));
 
-test('both scoped publications identify themselves; existing branding stays once', () => {
-  for (const [host, brand] of [['uscisexam.com', 'USCIS Exam Guides'], ['dentistryguides.com', 'The Dentistry Guides']]) {
+test('all six publications identify themselves; existing branding stays once', () => {
+  for (const { siteUrl, brandName: brand } of PUBLICATIONS) {
+    const host = new URL(siteUrl).hostname;
     assert.equal(brandedTitle('What to ask', `https://${host}`, brand), `What to ask | ${brand}`);
     assert.equal(brandedTitle(`${brand}: What to ask`, `https://${host}`, brand), `${brand}: What to ask`);
   }
-  assert.equal(brandedTitle('Existing title', 'https://neuroevalguides.com', 'Neuro Evaluation Guides'), 'Existing title');
+  assert.equal(brandedTitle('Existing title', 'https://local-guides-generator.pages.dev', 'LKG Training Pack'), 'Existing title');
 });
 
 test('a contact CTA, fake form or prose about checkout is not a conversion page', () => {
   for (const html of ['<a href="/request-assistance/">Ask</a>', '<!-- <form> -->', '<script>const s="<form>"</script>', '<p>Go to /checkout/</p>']) {
-    assert.equal(clarityEligible(html, 'https://uscisexam.com'), false);
-    assert.equal(clarityEligible(html, 'https://dentistryguides.com'), false);
+    for (const { siteUrl } of PUBLICATIONS.filter((p) => !p.siteUrl.includes('memphisseniorcarehomes'))) {
+      assert.equal(clarityEligible(html, siteUrl), false);
+    }
   }
 });
 
 test('real forms and buy links retain recording, including relative and quoted links', () => {
   for (const html of ['<form action="/api/lead">', '<a href="https://brand.gumroad.com/l/guide">Buy</a>', "<a href='/checkout/'>Buy</a>", '<a href=/booking/>Book</a>']) {
-    assert.equal(clarityEligible(html, 'https://uscisexam.com'), true);
-    assert.equal(clarityEligible(html, 'https://dentistryguides.com'), true);
+    for (const { siteUrl } of PUBLICATIONS) assert.equal(clarityEligible(html, siteUrl), true);
   }
-  assert.equal(clarityEligible('<p>Existing sibling policy</p>', 'https://neuroevalguides.com'), true);
+  assert.equal(clarityEligible('<p>Existing senior policy</p>', 'https://memphisseniorcarehomes.com'), true);
 });
 
 test('the installer removes old blanket tags, preserves real conversion tags, and is idempotent', (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'sr-clarity-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   for (const dir of ['scripts/lib', 'data', 'dist']) fs.mkdirSync(path.join(root, dir), { recursive: true });
-  for (const file of ['scripts/install_clarity.js', 'scripts/lib/search_readiness_policy.js']) {
+  for (const file of ['scripts/install_clarity.js', 'scripts/lib/search_readiness_policy.js', 'data/search_title_copy.json']) {
     fs.copyFileSync(new URL(`../../${file}`, import.meta.url), path.join(root, file));
   }
   fs.writeFileSync(path.join(root, 'data/clarity_projects.json'), JSON.stringify({ projects: { 'uscisexam.com': 'y7l12fhi6v' } }));
@@ -60,4 +63,39 @@ test('the installer removes old blanket tags, preserves real conversion tags, an
   const after = Object.keys(pages).map(read);
   run();
   assert.deepEqual(Object.keys(pages).map(read), after);
+});
+
+test('reviewed search titles retain topic and brand within the existing length budget', () => {
+  const copy = require('../../data/search_title_copy.json');
+  for (const { siteUrl, brandName } of PUBLICATIONS) {
+    for (const [route, title] of Object.entries(copy[new URL(siteUrl).hostname] || {})) {
+      const result = brandedTitle('Full editorial heading', siteUrl, brandName, route);
+      assert.equal(result, `${title} | ${brandName}`);
+      assert.ok(result.length >= 30 && result.length <= 65, `${route}: ${result}`);
+    }
+  }
+});
+
+test('each repaired guide must remain rendered and above the word floor', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'sr-guide-floor-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const script = new URL('../../scripts/validation/guide_word_floor_contract.js', import.meta.url).pathname;
+  for (const [pack, slug] of [['pi', 'settlement-calculator-red-flags'], ['neuro', 'adhd-therapy-after-an-evaluation'], ['trt', 'trt-first-90-days']]) {
+    const dir = path.join(root, pack, 'guides', slug);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), '<p>Short guide</p>');
+    const run = () => {
+      try {
+        execFileSync(process.execPath, [script], { env: { ...process.env, LKG_VALIDATE_DIST: '1',
+          PAGE_SET_FILE: `data/page_sets/examples/${pack}_v1.json`, PAGES_OUT_DIR: path.join(root, pack) }, stdio: 'pipe' });
+        assert.fail('word-floor gate accepted a broken guide');
+      } catch (error) {
+        assert.equal(error.status, 1);
+        return error.stderr.toString();
+      }
+    };
+    assert.match(run(), new RegExp(`${slug}/.*2 words`));
+    fs.renameSync(path.join(root, pack, 'guides', slug), path.join(root, pack, 'guides', 'unrelated-guide'));
+    assert.match(run(), new RegExp(`not in the rendered pack:.*${slug}`));
+  }
 });

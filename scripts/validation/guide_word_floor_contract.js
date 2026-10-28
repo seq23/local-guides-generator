@@ -90,6 +90,8 @@ const PROVEN = {
     // sr-theaccidentguides.com-j3, 27 Oct 2026: incident and care records,
     // discharge questions, expense documentation and consultation ownership.
     'spinal-cord-injury',
+    // sr-theaccidentguides.com-j3, 28 Oct: estimator source worksheet.
+    'settlement-calculator-red-flags',
   ],
   'trt_v1.json': [
     // sr-hormonesivhair.com-j3, 26 Oct 2026: 1,145 -> 2,258.
@@ -97,6 +99,12 @@ const PROVEN = {
     // sr-hormonesivhair.com-j3, 26 Oct 2026 (later brief, a different sampled
     // page): 1,162 -> 2,116.
     'medical-weight-loss-pricing',
+    // sr-hormonesivhair.com-j3, 28 Oct: monitoring and review preparation.
+    'trt-first-90-days',
+  ],
+  'neuro_v1.json': [
+    // sr-neuroevalguides.com-j3, 28 Oct: report-to-therapy handover and goals.
+    'adhd-therapy-after-an-evaluation',
   ],
 };
 

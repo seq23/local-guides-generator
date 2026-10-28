@@ -2,7 +2,8 @@
 'use strict';
 /**
  * Install Microsoft Clarity on eligible published pages in dist/.
- * USCIS Exam and Dentistry Guides record only form or checkout pages.
+ * The five guide publications record only form or checkout pages; the senior
+ * site's policy belongs to its separate Search Readiness brief.
  *
  * Purpose:
  * - The five domains built from this repo (theaccidentguides.com,
