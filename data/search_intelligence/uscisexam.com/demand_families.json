@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-09-27..2026-10-24",
-  "gsc_collected_at": "2026-10-27T13:46:15+00:00",
+  "gsc_window": "2026-09-28..2026-10-25",
+  "gsc_collected_at": "2026-10-28T13:36:49+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -23,7 +23,7 @@
     {
       "rank": 2,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 4,
+      "impressions": 3,
       "status": "below_impression_floor"
     },
     {
@@ -76,8 +76,8 @@
         {
           "route": "/",
           "family_impressions": 5,
-          "page_impressions": 11,
-          "page_position": 71.1
+          "page_impressions": 13,
+          "page_position": 71
         }
       ],
       "rank": 1,
@@ -96,11 +96,11 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 4,
+      "impressions": 3,
       "best_position": 73,
-      "weighted_position": 86.8,
+      "weighted_position": 90.3,
       "top_query": "citizenship test preparation las vegas",
-      "query_count": 3,
+      "query_count": 2,
       "queries": [
         {
           "query": "citizenship test preparation las vegas",
@@ -113,12 +113,6 @@
           "route": "/states/ID/",
           "impressions": 1,
           "position": 73
-        },
-        {
-          "query": "uscis manchester nh",
-          "route": "/states/NH/",
-          "impressions": 1,
-          "position": 76
         }
       ],
       "pages": [
@@ -133,12 +127,6 @@
           "family_impressions": 1,
           "page_impressions": 1,
           "page_position": 73
-        },
-        {
-          "route": "/states/NH/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 76
         }
       ],
       "rank": 2,
@@ -146,7 +134,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "4 impressions < 5"
+      "reason": "3 impressions < 5"
     },
     {
       "family": "cost @ /",
@@ -172,8 +160,8 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 11,
-          "page_position": 71.1
+          "page_impressions": 13,
+          "page_position": 71
         }
       ],
       "rank": 3,

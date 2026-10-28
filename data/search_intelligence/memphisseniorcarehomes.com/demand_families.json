@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-09-27..2026-10-24",
-  "gsc_collected_at": "2026-10-27T13:46:15+00:00",
+  "gsc_window": "2026-09-28..2026-10-25",
+  "gsc_collected_at": "2026-10-28T13:36:49+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,36 +12,36 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 34,
+  "family_count": 35,
   "top_families": [
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 93,
+      "impressions": 129,
       "status": "no_page"
     },
     {
       "rank": 2,
-      "family": "when to call @ /guides/when-a-parent-refuses-to-move/",
-      "impressions": 47,
-      "status": "strengthened"
+      "family": "choose a provider @ /",
+      "impressions": 76,
+      "status": "no_page"
     },
     {
       "rank": 3,
       "family": "other @ /memphis-tn/",
-      "impressions": 45,
+      "impressions": 60,
       "status": "no_page"
     },
     {
       "rank": 4,
-      "family": "choose a provider @ /",
-      "impressions": 41,
-      "status": "no_page"
+      "family": "when to call @ /guides/when-a-parent-refuses-to-move/",
+      "impressions": 49,
+      "status": "strengthened"
     },
     {
       "rank": 5,
-      "family": "other @ /collierville-tn/",
-      "impressions": 32,
+      "family": "other @ /germantown-tn/",
+      "impressions": 48,
       "status": "no_page"
     }
   ],
@@ -53,41 +53,47 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 93,
-      "best_position": 22.9,
-      "weighted_position": 55.1,
+      "impressions": 129,
+      "best_position": 22.4,
+      "weighted_position": 51.6,
       "top_query": "memory care",
-      "query_count": 33,
+      "query_count": 42,
       "queries": [
         {
           "query": "memory care",
           "route": "/",
-          "impressions": 13,
-          "position": 53.2
+          "impressions": 15,
+          "position": 52.9
         },
         {
           "query": "care homes",
           "route": "/",
-          "impressions": 11,
-          "position": 22.9
+          "impressions": 14,
+          "position": 22.4
         },
         {
           "query": "assisted living memphis tn",
           "route": "/",
-          "impressions": 7,
-          "position": 76.4
+          "impressions": 10,
+          "position": 77.4
         },
         {
           "query": "assisted living",
           "route": "/",
-          "impressions": 6,
-          "position": 34.2
+          "impressions": 9,
+          "position": 35.6
         },
         {
           "query": "assisted living memphis",
           "route": "/",
-          "impressions": 4,
-          "position": 85
+          "impressions": 6,
+          "position": 84.2
+        },
+        {
+          "query": "memory care memphis tn",
+          "route": "/",
+          "impressions": 5,
+          "position": 67.2
         },
         {
           "query": "care homes memphis",
@@ -102,28 +108,46 @@
           "position": 28.5
         },
         {
+          "query": "memory care facilities",
+          "route": "/",
+          "impressions": 4,
+          "position": 26
+        },
+        {
+          "query": "memory care memphis",
+          "route": "/",
+          "impressions": 4,
+          "position": 65.5
+        },
+        {
+          "query": "residential care homes",
+          "route": "/",
+          "impressions": 4,
+          "position": 25.5
+        },
+        {
           "query": "assisted living facility memphis",
           "route": "/",
           "impressions": 3,
           "position": 72.7
         },
         {
+          "query": "assisted living nursing home",
+          "route": "/",
+          "impressions": 3,
+          "position": 28.7
+        },
+        {
+          "query": "homes for the elderly",
+          "route": "/",
+          "impressions": 3,
+          "position": 26.7
+        },
+        {
           "query": "memory care facilities memphis",
           "route": "/",
           "impressions": 3,
           "position": 71.3
-        },
-        {
-          "query": "memory care memphis",
-          "route": "/",
-          "impressions": 3,
-          "position": 68.7
-        },
-        {
-          "query": "memory care memphis tn",
-          "route": "/",
-          "impressions": 3,
-          "position": 71.7
         },
         {
           "query": "senior care nursing home",
@@ -150,10 +174,10 @@
           "position": 87
         },
         {
-          "query": "memory care facilities",
+          "query": "elderly care facility",
           "route": "/",
           "impressions": 2,
-          "position": 26
+          "position": 25.5
         },
         {
           "query": "memory care facilities memphis tn",
@@ -168,16 +192,40 @@
           "position": 50.5
         },
         {
-          "query": "residential care homes",
+          "query": "senior care facilities",
           "route": "/",
           "impressions": 2,
-          "position": 28.5
+          "position": 25
+        },
+        {
+          "query": "small elderly care homes",
+          "route": "/",
+          "impressions": 2,
+          "position": 26
+        },
+        {
+          "query": "assisted living facilities in memphis tennessee",
+          "route": "/",
+          "impressions": 1,
+          "position": 74
         },
         {
           "query": "assisted living facilities in memphis tn",
           "route": "/",
           "impressions": 1,
           "position": 67
+        },
+        {
+          "query": "assisted living homes",
+          "route": "/",
+          "impressions": 1,
+          "position": 42
+        },
+        {
+          "query": "assisted living housing",
+          "route": "/",
+          "impressions": 1,
+          "position": 30
         },
         {
           "query": "assisted living memphis tn",
@@ -192,6 +240,12 @@
           "position": 38
         },
         {
+          "query": "assisting living nursing home",
+          "route": "/",
+          "impressions": 1,
+          "position": 28
+        },
+        {
           "query": "care homes memphis",
           "route": "/",
           "impressions": 1,
@@ -204,10 +258,16 @@
           "position": 95
         },
         {
-          "query": "homes for the elderly",
+          "query": "memory care east memphis",
           "route": "/",
           "impressions": 1,
-          "position": 30
+          "position": 90
+        },
+        {
+          "query": "memory care in memphis",
+          "route": "/",
+          "impressions": 1,
+          "position": 54
         },
         {
           "query": "memory care living",
@@ -250,18 +310,12 @@
           "route": "/",
           "impressions": 1,
           "position": 51
-        },
-        {
-          "query": "small elderly care homes",
-          "route": "/",
-          "impressions": 1,
-          "position": 25
         }
       ],
       "pages": [
         {
           "route": "/",
-          "family_impressions": 93,
+          "family_impressions": 129,
           "page_impressions": 6,
           "page_position": 71.3
         }
@@ -276,23 +330,361 @@
       "reason": "lands on / (hub); no guide or state hub serves \"hub\" there"
     },
     {
+      "family": "choose a provider @ /",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/",
+      "page_kind": "hub",
+      "page_intent": "hub",
+      "impressions": 76,
+      "best_position": 21.8,
+      "weighted_position": 27.2,
+      "top_query": "memory care near me",
+      "query_count": 22,
+      "queries": [
+        {
+          "query": "memory care near me",
+          "route": "/",
+          "impressions": 15,
+          "position": 32.3
+        },
+        {
+          "query": "memory care facility near me",
+          "route": "/",
+          "impressions": 5,
+          "position": 23
+        },
+        {
+          "query": "dementia care facilities near me",
+          "route": "/",
+          "impressions": 4,
+          "position": 28
+        },
+        {
+          "query": "memory care facilities near me",
+          "route": "/",
+          "impressions": 4,
+          "position": 25.5
+        },
+        {
+          "query": "memory care homes near me",
+          "route": "/",
+          "impressions": 4,
+          "position": 21.8
+        },
+        {
+          "query": "memory care nursing homes near me",
+          "route": "/",
+          "impressions": 4,
+          "position": 26
+        },
+        {
+          "query": "nursing homes with memory care near me",
+          "route": "/",
+          "impressions": 4,
+          "position": 27.5
+        },
+        {
+          "query": "nursing homes with memory care units near me",
+          "route": "/",
+          "impressions": 4,
+          "position": 27.2
+        },
+        {
+          "query": "alzheimer's care facilities near me",
+          "route": "/",
+          "impressions": 3,
+          "position": 27.7
+        },
+        {
+          "query": "dementia assisted living near me",
+          "route": "/",
+          "impressions": 3,
+          "position": 27
+        },
+        {
+          "query": "dementia care homes near me",
+          "route": "/",
+          "impressions": 3,
+          "position": 23.7
+        },
+        {
+          "query": "dementia facilities near me",
+          "route": "/",
+          "impressions": 3,
+          "position": 25.3
+        },
+        {
+          "query": "homes for dementia patients near me",
+          "route": "/",
+          "impressions": 3,
+          "position": 27
+        },
+        {
+          "query": "memory care centers near me",
+          "route": "/",
+          "impressions": 3,
+          "position": 25.7
+        },
+        {
+          "query": "memory care units near me",
+          "route": "/",
+          "impressions": 3,
+          "position": 25
+        },
+        {
+          "query": "alzheimer's care near me",
+          "route": "/",
+          "impressions": 2,
+          "position": 29.5
+        },
+        {
+          "query": "dementia assisted living facilities near me",
+          "route": "/",
+          "impressions": 2,
+          "position": 27.5
+        },
+        {
+          "query": "nursing homes for dementia patients near me",
+          "route": "/",
+          "impressions": 2,
+          "position": 22
+        },
+        {
+          "query": "residential care homes near me",
+          "route": "/",
+          "impressions": 2,
+          "position": 25.5
+        },
+        {
+          "query": "dementia care near me",
+          "route": "/",
+          "impressions": 1,
+          "position": 30
+        },
+        {
+          "query": "memory care near me",
+          "route": "/",
+          "impressions": 1,
+          "position": 35
+        },
+        {
+          "query": "memory centers near me",
+          "route": "/",
+          "impressions": 1,
+          "position": 29
+        }
+      ],
+      "pages": [
+        {
+          "route": "/",
+          "family_impressions": 76,
+          "page_impressions": 6,
+          "page_position": 71.3
+        }
+      ],
+      "rank": 2,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on / (hub); no guide or state hub serves \"choose a provider\" there"
+    },
+    {
+      "family": "other @ /memphis-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/memphis-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 60,
+      "best_position": 29,
+      "weighted_position": 75.1,
+      "top_query": "memory care memphis",
+      "query_count": 24,
+      "queries": [
+        {
+          "query": "memory care memphis",
+          "route": "/memphis-tn/",
+          "impressions": 9,
+          "position": 76.6
+        },
+        {
+          "query": "assisted living memphis tn",
+          "route": "/memphis-tn/",
+          "impressions": 8,
+          "position": 85.5
+        },
+        {
+          "query": "assisted living memphis",
+          "route": "/memphis-tn/",
+          "impressions": 5,
+          "position": 83.2
+        },
+        {
+          "query": "assisted living facilities in memphis tennessee",
+          "route": "/memphis-tn/",
+          "impressions": 4,
+          "position": 82.5
+        },
+        {
+          "query": "assisted living memphis tennessee",
+          "route": "/memphis-tn/",
+          "impressions": 4,
+          "position": 82.2
+        },
+        {
+          "query": "assisted living facility memphis",
+          "route": "/memphis-tn/",
+          "impressions": 3,
+          "position": 73.7
+        },
+        {
+          "query": "belmont village memphis",
+          "route": "/memphis-tn/",
+          "impressions": 3,
+          "position": 69.3
+        },
+        {
+          "query": "memory care memphis tn",
+          "route": "/memphis-tn/",
+          "impressions": 3,
+          "position": 71.3
+        },
+        {
+          "query": "assisted living facilities memphis",
+          "route": "/memphis-tn/",
+          "impressions": 2,
+          "position": 75.5
+        },
+        {
+          "query": "care homes memphis",
+          "route": "/memphis-tn/",
+          "impressions": 2,
+          "position": 74
+        },
+        {
+          "query": "memory care east memphis",
+          "route": "/memphis-tn/",
+          "impressions": 2,
+          "position": 81
+        },
+        {
+          "query": "memory care facilities memphis",
+          "route": "/memphis-tn/",
+          "impressions": 2,
+          "position": 64.5
+        },
+        {
+          "query": "memory care facilities memphis tn",
+          "route": "/memphis-tn/",
+          "impressions": 2,
+          "position": 67
+        },
+        {
+          "query": "alzheimer’s care facilities",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 34
+        },
+        {
+          "query": "assisted living facilities in memphis tn",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 79
+        },
+        {
+          "query": "belmont village senior living memphis",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 76
+        },
+        {
+          "query": "house for old people",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 30
+        },
+        {
+          "query": "independent living and memory care facilities",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 67
+        },
+        {
+          "query": "memory care east memphis tn",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 71
+        },
+        {
+          "query": "memory care facility",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 29
+        },
+        {
+          "query": "memory care in memphis",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 69
+        },
+        {
+          "query": "memphis assisted living",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 76
+        },
+        {
+          "query": "memphis assisted living facilities",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 75
+        },
+        {
+          "query": "memphis memory care",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 87
+        }
+      ],
+      "pages": [
+        {
+          "route": "/memphis-tn/",
+          "family_impressions": 60,
+          "page_impressions": 72,
+          "page_position": 69
+        }
+      ],
+      "rank": 3,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on /memphis-tn/ (other); no guide or state hub serves \"other\" there"
+    },
+    {
       "family": "when to call @ /guides/when-a-parent-refuses-to-move/",
       "intent": "when_to_call",
       "head_term": "when to call",
       "page": "/guides/when-a-parent-refuses-to-move/",
       "page_kind": "guide",
       "page_intent": "when_to_call",
-      "impressions": 47,
-      "best_position": 64,
-      "weighted_position": 78.6,
+      "impressions": 49,
+      "best_position": 63.1,
+      "weighted_position": 78.2,
       "top_query": "parent refuses to go to nursing home",
       "query_count": 11,
       "queries": [
         {
           "query": "parent refuses to go to nursing home",
           "route": "/guides/when-a-parent-refuses-to-move/",
-          "impressions": 13,
-          "position": 64.2
+          "impressions": 14,
+          "position": 63.1
         },
         {
           "query": "elderly parent refuses assisted living",
@@ -303,8 +695,8 @@
         {
           "query": "how to move a parent to assisted living when they refuse",
           "route": "/guides/when-a-parent-refuses-to-move/",
-          "impressions": 5,
-          "position": 90.6
+          "impressions": 6,
+          "position": 90.7
         },
         {
           "query": "what to do if your elderly parent refuses assisted living",
@@ -358,12 +750,12 @@
       "pages": [
         {
           "route": "/guides/when-a-parent-refuses-to-move/",
-          "family_impressions": 47,
-          "page_impressions": 49,
-          "page_position": 75.7
+          "family_impressions": 49,
+          "page_impressions": 51,
+          "page_position": 75.5
         }
       ],
-      "rank": 2,
+      "rank": 4,
       "basis": [
         "top_demand"
       ],
@@ -375,434 +767,17 @@
       "reason": "data/page_sets/examples/senior_living_global_pages/guides_when-a-parent-refuses-to-move.json search_strengthening"
     },
     {
-      "family": "other @ /memphis-tn/",
-      "intent": "other",
-      "head_term": "other",
-      "page": "/memphis-tn/",
-      "page_kind": "other",
-      "page_intent": "other",
-      "impressions": 45,
-      "best_position": 30,
-      "weighted_position": 74.7,
-      "top_query": "memory care memphis",
-      "query_count": 20,
-      "queries": [
-        {
-          "query": "memory care memphis",
-          "route": "/memphis-tn/",
-          "impressions": 6,
-          "position": 76
-        },
-        {
-          "query": "assisted living memphis tn",
-          "route": "/memphis-tn/",
-          "impressions": 5,
-          "position": 82.8
-        },
-        {
-          "query": "assisted living memphis",
-          "route": "/memphis-tn/",
-          "impressions": 4,
-          "position": 83.8
-        },
-        {
-          "query": "assisted living memphis tennessee",
-          "route": "/memphis-tn/",
-          "impressions": 4,
-          "position": 82.2
-        },
-        {
-          "query": "assisted living facilities in memphis tennessee",
-          "route": "/memphis-tn/",
-          "impressions": 3,
-          "position": 82
-        },
-        {
-          "query": "assisted living facility memphis",
-          "route": "/memphis-tn/",
-          "impressions": 3,
-          "position": 73.7
-        },
-        {
-          "query": "belmont village memphis",
-          "route": "/memphis-tn/",
-          "impressions": 3,
-          "position": 69.3
-        },
-        {
-          "query": "assisted living facilities memphis",
-          "route": "/memphis-tn/",
-          "impressions": 2,
-          "position": 75.5
-        },
-        {
-          "query": "care homes memphis",
-          "route": "/memphis-tn/",
-          "impressions": 2,
-          "position": 74
-        },
-        {
-          "query": "memory care facilities memphis",
-          "route": "/memphis-tn/",
-          "impressions": 2,
-          "position": 64.5
-        },
-        {
-          "query": "memory care facilities memphis tn",
-          "route": "/memphis-tn/",
-          "impressions": 2,
-          "position": 67
-        },
-        {
-          "query": "alzheimer’s care facilities",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 34
-        },
-        {
-          "query": "assisted living facilities in memphis tn",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 79
-        },
-        {
-          "query": "belmont village senior living memphis",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 76
-        },
-        {
-          "query": "house for old people",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 30
-        },
-        {
-          "query": "independent living and memory care facilities",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 67
-        },
-        {
-          "query": "memory care memphis tn",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 66
-        },
-        {
-          "query": "memphis assisted living",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 76
-        },
-        {
-          "query": "memphis assisted living facilities",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 75
-        },
-        {
-          "query": "memphis memory care",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 87
-        }
-      ],
-      "pages": [
-        {
-          "route": "/memphis-tn/",
-          "family_impressions": 45,
-          "page_impressions": 55,
-          "page_position": 68.4
-        }
-      ],
-      "rank": 3,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "lands on /memphis-tn/ (other); no guide or state hub serves \"other\" there"
-    },
-    {
-      "family": "choose a provider @ /",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/",
-      "page_kind": "hub",
-      "page_intent": "hub",
-      "impressions": 41,
-      "best_position": 19,
-      "weighted_position": 28.7,
-      "top_query": "memory care near me",
-      "query_count": 18,
-      "queries": [
-        {
-          "query": "memory care near me",
-          "route": "/",
-          "impressions": 13,
-          "position": 33.2
-        },
-        {
-          "query": "memory care homes near me",
-          "route": "/",
-          "impressions": 3,
-          "position": 22
-        },
-        {
-          "query": "nursing homes with memory care units near me",
-          "route": "/",
-          "impressions": 3,
-          "position": 27.7
-        },
-        {
-          "query": "dementia assisted living near me",
-          "route": "/",
-          "impressions": 2,
-          "position": 27.5
-        },
-        {
-          "query": "dementia care facilities near me",
-          "route": "/",
-          "impressions": 2,
-          "position": 29.5
-        },
-        {
-          "query": "memory care facilities near me",
-          "route": "/",
-          "impressions": 2,
-          "position": 28
-        },
-        {
-          "query": "memory care facility near me",
-          "route": "/",
-          "impressions": 2,
-          "position": 25
-        },
-        {
-          "query": "memory care nursing homes near me",
-          "route": "/",
-          "impressions": 2,
-          "position": 26.5
-        },
-        {
-          "query": "memory care units near me",
-          "route": "/",
-          "impressions": 2,
-          "position": 23
-        },
-        {
-          "query": "nursing homes with memory care near me",
-          "route": "/",
-          "impressions": 2,
-          "position": 28
-        },
-        {
-          "query": "alzheimer's care facilities near me",
-          "route": "/",
-          "impressions": 1,
-          "position": 30
-        },
-        {
-          "query": "alzheimer's care near me",
-          "route": "/",
-          "impressions": 1,
-          "position": 30
-        },
-        {
-          "query": "dementia care homes near me",
-          "route": "/",
-          "impressions": 1,
-          "position": 29
-        },
-        {
-          "query": "dementia facilities near me",
-          "route": "/",
-          "impressions": 1,
-          "position": 21
-        },
-        {
-          "query": "homes for dementia patients near me",
-          "route": "/",
-          "impressions": 1,
-          "position": 29
-        },
-        {
-          "query": "memory care centers near me",
-          "route": "/",
-          "impressions": 1,
-          "position": 29
-        },
-        {
-          "query": "memory care near me",
-          "route": "/",
-          "impressions": 1,
-          "position": 35
-        },
-        {
-          "query": "nursing homes for dementia patients near me",
-          "route": "/",
-          "impressions": 1,
-          "position": 19
-        }
-      ],
-      "pages": [
-        {
-          "route": "/",
-          "family_impressions": 41,
-          "page_impressions": 6,
-          "page_position": 71.3
-        }
-      ],
-      "rank": 4,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "lands on / (hub); no guide or state hub serves \"choose a provider\" there"
-    },
-    {
-      "family": "other @ /collierville-tn/",
-      "intent": "other",
-      "head_term": "other",
-      "page": "/collierville-tn/",
-      "page_kind": "other",
-      "page_intent": "other",
-      "impressions": 32,
-      "best_position": 36,
-      "weighted_position": 72.5,
-      "top_query": "assisted living collierville tn",
-      "query_count": 16,
-      "queries": [
-        {
-          "query": "assisted living collierville tn",
-          "route": "/collierville-tn/",
-          "impressions": 4,
-          "position": 68
-        },
-        {
-          "query": "care homes collierville",
-          "route": "/collierville-tn/",
-          "impressions": 4,
-          "position": 53.5
-        },
-        {
-          "query": "assisted living collierville",
-          "route": "/collierville-tn/",
-          "impressions": 3,
-          "position": 75.3
-        },
-        {
-          "query": "memory care collierville tn",
-          "route": "/collierville-tn/",
-          "impressions": 3,
-          "position": 78
-        },
-        {
-          "query": "the langford of collierville",
-          "route": "/collierville-tn/",
-          "impressions": 3,
-          "position": 70.7
-        },
-        {
-          "query": "heritage at irene woods",
-          "route": "/collierville-tn/",
-          "impressions": 2,
-          "position": 87.5
-        },
-        {
-          "query": "independent living collierville",
-          "route": "/collierville-tn/",
-          "impressions": 2,
-          "position": 80
-        },
-        {
-          "query": "memory care facilities memphis",
-          "route": "/collierville-tn/",
-          "impressions": 2,
-          "position": 81
-        },
-        {
-          "query": "nursing homes in collierville tn",
-          "route": "/collierville-tn/",
-          "impressions": 2,
-          "position": 80.5
-        },
-        {
-          "query": "collierville assisted living",
-          "route": "/collierville-tn/",
-          "impressions": 1,
-          "position": 76
-        },
-        {
-          "query": "hearthside senior living collierville",
-          "route": "/collierville-tn/",
-          "impressions": 1,
-          "position": 80
-        },
-        {
-          "query": "memory care",
-          "route": "/collierville-tn/",
-          "impressions": 1,
-          "position": 36
-        },
-        {
-          "query": "memory care collierville",
-          "route": "/collierville-tn/",
-          "impressions": 1,
-          "position": 75
-        },
-        {
-          "query": "memory care memphis tn",
-          "route": "/collierville-tn/",
-          "impressions": 1,
-          "position": 86
-        },
-        {
-          "query": "nursing homes collierville",
-          "route": "/collierville-tn/",
-          "impressions": 1,
-          "position": 75
-        },
-        {
-          "query": "twos care in collierville tn",
-          "route": "/collierville-tn/",
-          "impressions": 1,
-          "position": 76
-        }
-      ],
-      "pages": [
-        {
-          "route": "/collierville-tn/",
-          "family_impressions": 32,
-          "page_impressions": 39,
-          "page_position": 62.4
-        }
-      ],
-      "rank": 5,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "lands on /collierville-tn/ (other); no guide or state hub serves \"other\" there"
-    },
-    {
       "family": "other @ /germantown-tn/",
       "intent": "other",
       "head_term": "other",
       "page": "/germantown-tn/",
       "page_kind": "other",
       "page_intent": "other",
-      "impressions": 26,
+      "impressions": 48,
       "best_position": 15.5,
-      "weighted_position": 57.6,
+      "weighted_position": 63.1,
       "top_query": "dementia care facilities",
-      "query_count": 18,
+      "query_count": 27,
       "queries": [
         {
           "query": "dementia care facilities",
@@ -813,20 +788,68 @@
         {
           "query": "memory care germantown",
           "route": "/germantown-tn/",
-          "impressions": 3,
-          "position": 75.3
+          "impressions": 4,
+          "position": 69.2
         },
         {
           "query": "assisted living germantown tn",
           "route": "/germantown-tn/",
-          "impressions": 2,
-          "position": 66.5
+          "impressions": 3,
+          "position": 68.7
+        },
+        {
+          "query": "in-home senior care germantown",
+          "route": "/germantown-tn/",
+          "impressions": 3,
+          "position": 76
+        },
+        {
+          "query": "memory care in germantown tn",
+          "route": "/germantown-tn/",
+          "impressions": 3,
+          "position": 64.3
+        },
+        {
+          "query": "memory care memphis tn",
+          "route": "/germantown-tn/",
+          "impressions": 3,
+          "position": 73
         },
         {
           "query": "brookdale germantown",
           "route": "/germantown-tn/",
           "impressions": 2,
           "position": 84.5
+        },
+        {
+          "query": "germantown assisted living",
+          "route": "/germantown-tn/",
+          "impressions": 2,
+          "position": 76.5
+        },
+        {
+          "query": "memory care germantown tn",
+          "route": "/germantown-tn/",
+          "impressions": 2,
+          "position": 69.5
+        },
+        {
+          "query": "memory care in memphis",
+          "route": "/germantown-tn/",
+          "impressions": 2,
+          "position": 79
+        },
+        {
+          "query": "senior care in germantown tn",
+          "route": "/germantown-tn/",
+          "impressions": 2,
+          "position": 64.5
+        },
+        {
+          "query": "senior living in germantown tn",
+          "route": "/germantown-tn/",
+          "impressions": 2,
+          "position": 60.5
         },
         {
           "query": "the gardens of germantown",
@@ -853,16 +876,28 @@
           "position": 50
         },
         {
+          "query": "assisted living facilities in germantown tn",
+          "route": "/germantown-tn/",
+          "impressions": 1,
+          "position": 61
+        },
+        {
           "query": "assisted living germantown",
           "route": "/germantown-tn/",
           "impressions": 1,
           "position": 81
         },
         {
-          "query": "germantown assisted living",
+          "query": "elder care germantown tn",
           "route": "/germantown-tn/",
           "impressions": 1,
-          "position": 78
+          "position": 52
+        },
+        {
+          "query": "elderly care in germanton tn",
+          "route": "/germantown-tn/",
+          "impressions": 1,
+          "position": 75
         },
         {
           "query": "germantown plantation",
@@ -877,22 +912,10 @@
           "position": 77
         },
         {
-          "query": "in-home senior care germantown",
-          "route": "/germantown-tn/",
-          "impressions": 1,
-          "position": 78
-        },
-        {
           "query": "memory care facility",
           "route": "/germantown-tn/",
           "impressions": 1,
           "position": 22
-        },
-        {
-          "query": "memory care germantown tn",
-          "route": "/germantown-tn/",
-          "impressions": 1,
-          "position": 68
         },
         {
           "query": "memory care living",
@@ -901,24 +924,187 @@
           "position": 27
         },
         {
-          "query": "memory care memphis tn",
+          "query": "retirement living germantown tn",
           "route": "/germantown-tn/",
           "impressions": 1,
           "position": 53
         },
         {
-          "query": "senior living in germantown tn",
+          "query": "senior living germantown tn",
           "route": "/germantown-tn/",
           "impressions": 1,
-          "position": 47
+          "position": 75
+        },
+        {
+          "query": "storypoint germantown",
+          "route": "/germantown-tn/",
+          "impressions": 1,
+          "position": 75
         }
       ],
       "pages": [
         {
           "route": "/germantown-tn/",
-          "family_impressions": 26,
-          "page_impressions": 30,
-          "page_position": 51.7
+          "family_impressions": 48,
+          "page_impressions": 53,
+          "page_position": 59.2
+        }
+      ],
+      "rank": 5,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "lands on /germantown-tn/ (other); no guide or state hub serves \"other\" there"
+    },
+    {
+      "family": "other @ /collierville-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/collierville-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 44,
+      "best_position": 36,
+      "weighted_position": 72.8,
+      "top_query": "assisted living collierville tn",
+      "query_count": 21,
+      "queries": [
+        {
+          "query": "assisted living collierville tn",
+          "route": "/collierville-tn/",
+          "impressions": 5,
+          "position": 66.2
+        },
+        {
+          "query": "care homes collierville",
+          "route": "/collierville-tn/",
+          "impressions": 4,
+          "position": 53.5
+        },
+        {
+          "query": "memory care collierville tn",
+          "route": "/collierville-tn/",
+          "impressions": 4,
+          "position": 76
+        },
+        {
+          "query": "assisted living collierville",
+          "route": "/collierville-tn/",
+          "impressions": 3,
+          "position": 75.3
+        },
+        {
+          "query": "independent living collierville",
+          "route": "/collierville-tn/",
+          "impressions": 3,
+          "position": 81
+        },
+        {
+          "query": "the langford of collierville",
+          "route": "/collierville-tn/",
+          "impressions": 3,
+          "position": 70.7
+        },
+        {
+          "query": "heritage at irene woods",
+          "route": "/collierville-tn/",
+          "impressions": 2,
+          "position": 87.5
+        },
+        {
+          "query": "memory care collierville",
+          "route": "/collierville-tn/",
+          "impressions": 2,
+          "position": 74
+        },
+        {
+          "query": "memory care facilities memphis",
+          "route": "/collierville-tn/",
+          "impressions": 2,
+          "position": 81
+        },
+        {
+          "query": "memory care in memphis",
+          "route": "/collierville-tn/",
+          "impressions": 2,
+          "position": 82.5
+        },
+        {
+          "query": "memory care memphis tn",
+          "route": "/collierville-tn/",
+          "impressions": 2,
+          "position": 87.5
+        },
+        {
+          "query": "nursing homes in collierville tn",
+          "route": "/collierville-tn/",
+          "impressions": 2,
+          "position": 80.5
+        },
+        {
+          "query": "twos care in collierville tn",
+          "route": "/collierville-tn/",
+          "impressions": 2,
+          "position": 78
+        },
+        {
+          "query": "assisted living",
+          "route": "/collierville-tn/",
+          "impressions": 1,
+          "position": 44
+        },
+        {
+          "query": "collierville assisted living",
+          "route": "/collierville-tn/",
+          "impressions": 1,
+          "position": 76
+        },
+        {
+          "query": "elderly care collierville",
+          "route": "/collierville-tn/",
+          "impressions": 1,
+          "position": 69
+        },
+        {
+          "query": "elderly care collierville tn",
+          "route": "/collierville-tn/",
+          "impressions": 1,
+          "position": 67
+        },
+        {
+          "query": "hearthside senior living collierville",
+          "route": "/collierville-tn/",
+          "impressions": 1,
+          "position": 80
+        },
+        {
+          "query": "independent living collierville tn",
+          "route": "/collierville-tn/",
+          "impressions": 1,
+          "position": 83
+        },
+        {
+          "query": "memory care",
+          "route": "/collierville-tn/",
+          "impressions": 1,
+          "position": 36
+        },
+        {
+          "query": "nursing homes collierville",
+          "route": "/collierville-tn/",
+          "impressions": 1,
+          "position": 75
+        }
+      ],
+      "pages": [
+        {
+          "route": "/collierville-tn/",
+          "family_impressions": 44,
+          "page_impressions": 52,
+          "page_position": 64.2
         }
       ],
       "rank": 6,
@@ -926,7 +1112,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 6 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 6 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /bartlett-tn/",
@@ -935,17 +1121,17 @@
       "page": "/bartlett-tn/",
       "page_kind": "other",
       "page_intent": "other",
-      "impressions": 22,
+      "impressions": 27,
       "best_position": 40,
-      "weighted_position": 58.3,
+      "weighted_position": 58.8,
       "top_query": "memory care bartlett",
-      "query_count": 9,
+      "query_count": 11,
       "queries": [
         {
           "query": "memory care bartlett",
           "route": "/bartlett-tn/",
-          "impressions": 9,
-          "position": 45.9
+          "impressions": 10,
+          "position": 46
         },
         {
           "query": "assisted living bartlett tn",
@@ -958,6 +1144,18 @@
           "route": "/bartlett-tn/",
           "impressions": 3,
           "position": 40
+        },
+        {
+          "query": "care homes bartlett",
+          "route": "/bartlett-tn/",
+          "impressions": 2,
+          "position": 48.5
+        },
+        {
+          "query": "independent living bartlett tn",
+          "route": "/bartlett-tn/",
+          "impressions": 2,
+          "position": 88.5
         },
         {
           "query": "affordable assisted living in bartlett",
@@ -978,30 +1176,30 @@
           "position": 94
         },
         {
-          "query": "care homes bartlett",
+          "query": "memory care bartlett tn",
           "route": "/bartlett-tn/",
           "impressions": 1,
-          "position": 49
-        },
-        {
-          "query": "independent living bartlett tn",
-          "route": "/bartlett-tn/",
-          "impressions": 1,
-          "position": 95
+          "position": 56
         },
         {
           "query": "nursing homes bartlett tn",
           "route": "/bartlett-tn/",
           "impressions": 1,
           "position": 100
+        },
+        {
+          "query": "senior living bartlett tn",
+          "route": "/bartlett-tn/",
+          "impressions": 1,
+          "position": 72
         }
       ],
       "pages": [
         {
           "route": "/bartlett-tn/",
-          "family_impressions": 22,
-          "page_impressions": 25,
-          "page_position": 51.8
+          "family_impressions": 27,
+          "page_impressions": 30,
+          "page_position": 53.3
         }
       ],
       "rank": 7,
@@ -1009,7 +1207,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 7 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 7 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /faq/",
@@ -1018,23 +1216,23 @@
       "page": "/faq/",
       "page_kind": "other",
       "page_intent": "other",
-      "impressions": 22,
-      "best_position": 27,
-      "weighted_position": 40,
+      "impressions": 27,
+      "best_position": 21.2,
+      "weighted_position": 36.5,
       "top_query": "memory care",
       "query_count": 4,
       "queries": [
         {
           "query": "memory care",
           "route": "/faq/",
-          "impressions": 18,
-          "position": 37.7
+          "impressions": 21,
+          "position": 35.8
         },
         {
           "query": "memory care assisted living",
           "route": "/faq/",
-          "impressions": 2,
-          "position": 27
+          "impressions": 4,
+          "position": 21.2
         },
         {
           "query": "memory care memphis",
@@ -1052,9 +1250,9 @@
       "pages": [
         {
           "route": "/faq/",
-          "family_impressions": 22,
-          "page_impressions": 24,
-          "page_position": 37.2
+          "family_impressions": 27,
+          "page_impressions": 29,
+          "page_position": 34.3
         }
       ],
       "rank": 8,
@@ -1062,7 +1260,358 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 8 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 8 of 35 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "other @ /east-memphis-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/east-memphis-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 22,
+      "best_position": 1,
+      "weighted_position": 47,
+      "top_query": "\"opus east memphis\"",
+      "query_count": 17,
+      "queries": [
+        {
+          "query": "\"opus east memphis\"",
+          "route": "/east-memphis-tn/",
+          "impressions": 3,
+          "position": 1
+        },
+        {
+          "query": "assisted living east memphis",
+          "route": "/east-memphis-tn/",
+          "impressions": 2,
+          "position": 57
+        },
+        {
+          "query": "memory care east memphis",
+          "route": "/east-memphis-tn/",
+          "impressions": 2,
+          "position": 56
+        },
+        {
+          "query": "memory care in east memphis",
+          "route": "/east-memphis-tn/",
+          "impressions": 2,
+          "position": 54
+        },
+        {
+          "query": "assisted living east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 68
+        },
+        {
+          "query": "assisted living facilities in east memphis tennessee",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 53
+        },
+        {
+          "query": "assisted living in east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 53
+        },
+        {
+          "query": "dementia care east memphis",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 39
+        },
+        {
+          "query": "elder care east memphis",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 51
+        },
+        {
+          "query": "elder care east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 53
+        },
+        {
+          "query": "elderly care in east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 54
+        },
+        {
+          "query": "retirement homes east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 58
+        },
+        {
+          "query": "retirement living east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 56
+        },
+        {
+          "query": "senior care in east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 44
+        },
+        {
+          "query": "senior living east memphis",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 56
+        },
+        {
+          "query": "senior living east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 57
+        },
+        {
+          "query": "senior living in east memphis tn",
+          "route": "/east-memphis-tn/",
+          "impressions": 1,
+          "position": 55
+        }
+      ],
+      "pages": [
+        {
+          "route": "/east-memphis-tn/",
+          "family_impressions": 22,
+          "page_impressions": 26,
+          "page_position": 42.2
+        }
+      ],
+      "rank": 9,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 9 of 35 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "other @ /saint-francis-hospital-park-avenue/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/saint-francis-hospital-park-avenue/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 19,
+      "best_position": 8,
+      "weighted_position": 74.7,
+      "top_query": "memory care facilities memphis",
+      "query_count": 11,
+      "queries": [
+        {
+          "query": "memory care facilities memphis",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 3,
+          "position": 82.3
+        },
+        {
+          "query": "memory care facilities memphis tn",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 3,
+          "position": 78.3
+        },
+        {
+          "query": "memory care memphis",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 3,
+          "position": 81.3
+        },
+        {
+          "query": "memory care memphis tn",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 3,
+          "position": 83
+        },
+        {
+          "query": "\"opus east memphis\"",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 1,
+          "position": 8
+        },
+        {
+          "query": "memory care east memphis",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 1,
+          "position": 92
+        },
+        {
+          "query": "memory care east memphis tn",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 1,
+          "position": 91
+        },
+        {
+          "query": "memory care in memphis",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 1,
+          "position": 74
+        },
+        {
+          "query": "saint francis hospital park",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 1,
+          "position": 75
+        },
+        {
+          "query": "saint francis hospital park avenue",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 1,
+          "position": 60
+        },
+        {
+          "query": "st francis park ave",
+          "route": "/saint-francis-hospital-park-avenue/",
+          "impressions": 1,
+          "position": 45
+        }
+      ],
+      "pages": [
+        {
+          "route": "/saint-francis-hospital-park-avenue/",
+          "family_impressions": 19,
+          "page_impressions": 28,
+          "page_position": 58.8
+        }
+      ],
+      "rank": 10,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 10 of 35 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "other @ /cordova-tn/",
+      "intent": "other",
+      "head_term": "other",
+      "page": "/cordova-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 16,
+      "best_position": 54,
+      "weighted_position": 71.7,
+      "top_query": "assisted living cordova tn",
+      "query_count": 16,
+      "queries": [
+        {
+          "query": "assisted living cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 66
+        },
+        {
+          "query": "assisted living facilities in cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 64
+        },
+        {
+          "query": "assisted living in cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 64
+        },
+        {
+          "query": "elder care cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 62
+        },
+        {
+          "query": "elderly care cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 64
+        },
+        {
+          "query": "memory care in cordova",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 67
+        },
+        {
+          "query": "nursing homes in cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 92
+        },
+        {
+          "query": "respite care cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 83
+        },
+        {
+          "query": "retirement homes cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 83
+        },
+        {
+          "query": "retirement living cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 54
+        },
+        {
+          "query": "senior living communities cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 72
+        },
+        {
+          "query": "senior living cordova",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 83
+        },
+        {
+          "query": "senior living cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 72
+        },
+        {
+          "query": "senior living in cordova tn",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 74
+        },
+        {
+          "query": "shelby gardens place",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 76
+        },
+        {
+          "query": "story point cordova",
+          "route": "/cordova-tn/",
+          "impressions": 1,
+          "position": 71
+        }
+      ],
+      "pages": [
+        {
+          "route": "/cordova-tn/",
+          "family_impressions": 16,
+          "page_impressions": 18,
+          "page_position": 64.4
+        }
+      ],
+      "rank": 11,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 11 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "topic:tennessee-assisted-living-inspection-records @ /guides/tennessee-assisted-living-inspection-records/",
@@ -1110,89 +1659,12 @@
           "page_position": 43.2
         }
       ],
-      "rank": 9,
+      "rank": 12,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 9 of 34 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "other @ /saint-francis-hospital-park-avenue/",
-      "intent": "other",
-      "head_term": "other",
-      "page": "/saint-francis-hospital-park-avenue/",
-      "page_kind": "other",
-      "page_intent": "other",
-      "impressions": 15,
-      "best_position": 8,
-      "weighted_position": 71.8,
-      "top_query": "memory care facilities memphis",
-      "query_count": 8,
-      "queries": [
-        {
-          "query": "memory care facilities memphis",
-          "route": "/saint-francis-hospital-park-avenue/",
-          "impressions": 3,
-          "position": 82.3
-        },
-        {
-          "query": "memory care facilities memphis tn",
-          "route": "/saint-francis-hospital-park-avenue/",
-          "impressions": 3,
-          "position": 78.3
-        },
-        {
-          "query": "memory care memphis",
-          "route": "/saint-francis-hospital-park-avenue/",
-          "impressions": 3,
-          "position": 81.3
-        },
-        {
-          "query": "memory care memphis tn",
-          "route": "/saint-francis-hospital-park-avenue/",
-          "impressions": 2,
-          "position": 81.5
-        },
-        {
-          "query": "\"opus east memphis\"",
-          "route": "/saint-francis-hospital-park-avenue/",
-          "impressions": 1,
-          "position": 8
-        },
-        {
-          "query": "saint francis hospital park",
-          "route": "/saint-francis-hospital-park-avenue/",
-          "impressions": 1,
-          "position": 75
-        },
-        {
-          "query": "saint francis hospital park avenue",
-          "route": "/saint-francis-hospital-park-avenue/",
-          "impressions": 1,
-          "position": 60
-        },
-        {
-          "query": "st francis park ave",
-          "route": "/saint-francis-hospital-park-avenue/",
-          "impressions": 1,
-          "position": 45
-        }
-      ],
-      "pages": [
-        {
-          "route": "/saint-francis-hospital-park-avenue/",
-          "family_impressions": 15,
-          "page_impressions": 24,
-          "page_position": 54.3
-        }
-      ],
-      "rank": 10,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 10 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 12 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /olive-branch-ms/",
@@ -1201,9 +1673,9 @@
       "page": "/olive-branch-ms/",
       "page_kind": "other",
       "page_intent": "other",
-      "impressions": 10,
+      "impressions": 14,
       "best_position": 11.5,
-      "weighted_position": 39,
+      "weighted_position": 45.3,
       "top_query": "memory care facilities",
       "query_count": 6,
       "queries": [
@@ -1216,8 +1688,20 @@
         {
           "query": "assisted living olive branch",
           "route": "/olive-branch-ms/",
+          "impressions": 3,
+          "position": 34.7
+        },
+        {
+          "query": "senior living apartments olive branch ms",
+          "route": "/olive-branch-ms/",
+          "impressions": 3,
+          "position": 76
+        },
+        {
+          "query": "senior living communities olive branch ms",
+          "route": "/olive-branch-ms/",
           "impressions": 2,
-          "position": 34.5
+          "position": 50.5
         },
         {
           "query": "olive branch assisted living",
@@ -1230,34 +1714,22 @@
           "route": "/olive-branch-ms/",
           "impressions": 1,
           "position": 62
-        },
-        {
-          "query": "senior living apartments olive branch ms",
-          "route": "/olive-branch-ms/",
-          "impressions": 1,
-          "position": 67
-        },
-        {
-          "query": "senior living communities olive branch ms",
-          "route": "/olive-branch-ms/",
-          "impressions": 1,
-          "position": 53
         }
       ],
       "pages": [
         {
           "route": "/olive-branch-ms/",
-          "family_impressions": 10,
-          "page_impressions": 12,
-          "page_position": 36.2
+          "family_impressions": 14,
+          "page_impressions": 16,
+          "page_position": 42.4
         }
       ],
-      "rank": 11,
+      "rank": 13,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 11 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 13 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "licence lookup @ /guides/levels-of-care-tennessee/",
@@ -1289,63 +1761,110 @@
         {
           "route": "/guides/levels-of-care-tennessee/",
           "family_impressions": 6,
-          "page_impressions": 16,
-          "page_position": 30.4
+          "page_impressions": 17,
+          "page_position": 30.1
         }
       ],
-      "rank": 12,
+      "rank": 14,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 12 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 14 of 35 by impressions; no page at position <= 15"
     },
     {
-      "family": "other @ /east-memphis-tn/",
-      "intent": "other",
-      "head_term": "other",
-      "page": "/east-memphis-tn/",
+      "family": "choose a provider @ /collierville-tn/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/collierville-tn/",
       "page_kind": "other",
       "page_intent": "other",
       "impressions": 5,
-      "best_position": 1,
-      "weighted_position": 20.4,
-      "top_query": "\"opus east memphis\"",
-      "query_count": 3,
+      "best_position": 22.7,
+      "weighted_position": 23,
+      "top_query": "memory care near me",
+      "query_count": 2,
       "queries": [
         {
-          "query": "\"opus east memphis\"",
-          "route": "/east-memphis-tn/",
+          "query": "memory care near me",
+          "route": "/collierville-tn/",
           "impressions": 3,
-          "position": 1
+          "position": 22.7
         },
         {
-          "query": "assisted living east memphis",
-          "route": "/east-memphis-tn/",
-          "impressions": 1,
-          "position": 60
-        },
-        {
-          "query": "dementia care east memphis",
-          "route": "/east-memphis-tn/",
-          "impressions": 1,
-          "position": 39
+          "query": "assisted living near me",
+          "route": "/collierville-tn/",
+          "impressions": 2,
+          "position": 23.5
         }
       ],
       "pages": [
         {
-          "route": "/east-memphis-tn/",
+          "route": "/collierville-tn/",
           "family_impressions": 5,
-          "page_impressions": 9,
-          "page_position": 18.2
+          "page_impressions": 52,
+          "page_position": 64.2
         }
       ],
-      "rank": 13,
+      "rank": 15,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 13 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 15 of 35 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "choose a provider @ /memphis-tn/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/memphis-tn/",
+      "page_kind": "other",
+      "page_intent": "other",
+      "impressions": 5,
+      "best_position": 26,
+      "weighted_position": 35.8,
+      "top_query": "alzheimers care facilities near me",
+      "query_count": 4,
+      "queries": [
+        {
+          "query": "alzheimers care facilities near me",
+          "route": "/memphis-tn/",
+          "impressions": 2,
+          "position": 29
+        },
+        {
+          "query": "alzheimer's care near me",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 26
+        },
+        {
+          "query": "assisted living residence near me,assisted living options,memory care",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 64
+        },
+        {
+          "query": "memory care near me",
+          "route": "/memphis-tn/",
+          "impressions": 1,
+          "position": 31
+        }
+      ],
+      "pages": [
+        {
+          "route": "/memphis-tn/",
+          "family_impressions": 5,
+          "page_impressions": 72,
+          "page_position": 69
+        }
+      ],
+      "rank": 16,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 16 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /southaven-ms/",
@@ -1393,53 +1912,12 @@
           "page_position": 69
         }
       ],
-      "rank": 14,
+      "rank": 17,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 14 of 34 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "choose a provider @ /collierville-tn/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/collierville-tn/",
-      "page_kind": "other",
-      "page_intent": "other",
-      "impressions": 4,
-      "best_position": 22.7,
-      "weighted_position": 23.5,
-      "top_query": "memory care near me",
-      "query_count": 2,
-      "queries": [
-        {
-          "query": "memory care near me",
-          "route": "/collierville-tn/",
-          "impressions": 3,
-          "position": 22.7
-        },
-        {
-          "query": "assisted living near me",
-          "route": "/collierville-tn/",
-          "impressions": 1,
-          "position": 26
-        }
-      ],
-      "pages": [
-        {
-          "route": "/collierville-tn/",
-          "family_impressions": 4,
-          "page_impressions": 39,
-          "page_position": 62.4
-        }
-      ],
-      "rank": 15,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 15 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 17 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /guides/how-to-choose-a-senior-care-home-memphis/",
@@ -1481,12 +1959,12 @@
           "page_position": 40
         }
       ],
-      "rank": 16,
+      "rank": 18,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 16 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 18 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /horn-lake-ms/",
@@ -1522,7 +2000,7 @@
           "page_position": 8.5
         }
       ],
-      "rank": 17,
+      "rank": 19,
       "basis": [
         "ranking_page"
       ],
@@ -1532,98 +2010,51 @@
       "reason": "lands on /horn-lake-ms/ (other); no guide or state hub serves \"other\" there"
     },
     {
-      "family": "choose a provider @ /memphis-tn/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/memphis-tn/",
-      "page_kind": "other",
-      "page_intent": "other",
-      "impressions": 3,
-      "best_position": 26,
-      "weighted_position": 40.3,
-      "top_query": "alzheimer's care near me",
-      "query_count": 3,
-      "queries": [
-        {
-          "query": "alzheimer's care near me",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 26
-        },
-        {
-          "query": "assisted living residence near me,assisted living options,memory care",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 64
-        },
-        {
-          "query": "memory care near me",
-          "route": "/memphis-tn/",
-          "impressions": 1,
-          "position": 31
-        }
-      ],
-      "pages": [
-        {
-          "route": "/memphis-tn/",
-          "family_impressions": 3,
-          "page_impressions": 55,
-          "page_position": 68.4
-        }
-      ],
-      "rank": 18,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 18 of 34 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "other @ /cordova-tn/",
+      "family": "other @ /hernando-ms/",
       "intent": "other",
       "head_term": "other",
-      "page": "/cordova-tn/",
+      "page": "/hernando-ms/",
       "page_kind": "other",
       "page_intent": "other",
       "impressions": 3,
-      "best_position": 71,
-      "weighted_position": 79.7,
-      "top_query": "nursing homes in cordova tn",
+      "best_position": 57,
+      "weighted_position": 64,
+      "top_query": "hernando assisted living",
       "query_count": 3,
       "queries": [
         {
-          "query": "nursing homes in cordova tn",
-          "route": "/cordova-tn/",
+          "query": "hernando assisted living",
+          "route": "/hernando-ms/",
           "impressions": 1,
-          "position": 92
+          "position": 57
         },
         {
-          "query": "shelby gardens place",
-          "route": "/cordova-tn/",
+          "query": "independent living and assisted living and memory support hernando ms",
+          "route": "/hernando-ms/",
           "impressions": 1,
-          "position": 76
+          "position": 72
         },
         {
-          "query": "story point cordova",
-          "route": "/cordova-tn/",
+          "query": "senior living in hernando",
+          "route": "/hernando-ms/",
           "impressions": 1,
-          "position": 71
+          "position": 63
         }
       ],
       "pages": [
         {
-          "route": "/cordova-tn/",
+          "route": "/hernando-ms/",
           "family_impressions": 3,
           "page_impressions": 5,
-          "page_position": 50.4
+          "page_position": 42.6
         }
       ],
-      "rank": 19,
+      "rank": 20,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 19 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 20 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /millington-tn/",
@@ -1665,12 +2096,12 @@
           "page_position": 19
         }
       ],
-      "rank": 20,
+      "rank": 21,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 20 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 21 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /guides/tennessee-assisted-living-inspection-records/",
@@ -1700,12 +2131,12 @@
           "page_position": 43.2
         }
       ],
-      "rank": 21,
+      "rank": 22,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 21 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 22 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /hernando-ms/",
@@ -1737,16 +2168,16 @@
         {
           "route": "/hernando-ms/",
           "family_impressions": 2,
-          "page_impressions": 3,
-          "page_position": 31
+          "page_impressions": 5,
+          "page_position": 42.6
         }
       ],
-      "rank": 22,
+      "rank": 23,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 22 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 23 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /olive-branch-ms/",
@@ -1772,16 +2203,16 @@
         {
           "route": "/olive-branch-ms/",
           "family_impressions": 2,
-          "page_impressions": 12,
-          "page_position": 36.2
+          "page_impressions": 16,
+          "page_position": 42.4
         }
       ],
-      "rank": 23,
+      "rank": 24,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 23 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 24 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/activities-of-daily-living-care-levels/",
@@ -1817,12 +2248,12 @@
           "page_position": 67.2
         }
       ],
-      "rank": 24,
+      "rank": 25,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 24 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 25 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /baptist-memorial-hospital-memphis/",
@@ -1852,7 +2283,7 @@
           "page_position": 6.4
         }
       ],
-      "rank": 25,
+      "rank": 26,
       "basis": [
         "ranking_page"
       ],
@@ -1860,6 +2291,47 @@
       "strengthened_pages": [],
       "status": "no_page",
       "reason": "lands on /baptist-memorial-hospital-memphis/ (other); no guide or state hub serves \"other\" there"
+    },
+    {
+      "family": "when to call @ /guides/memory-care-when-is-it-time/",
+      "intent": "when_to_call",
+      "head_term": "when to call",
+      "page": "/guides/memory-care-when-is-it-time/",
+      "page_kind": "guide",
+      "page_intent": "when_to_call",
+      "impressions": 2,
+      "best_position": 81,
+      "weighted_position": 90.5,
+      "top_query": "memory care",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "memory care",
+          "route": "/guides/memory-care-when-is-it-time/",
+          "impressions": 1,
+          "position": 81
+        },
+        {
+          "query": "when to put mom in memory care",
+          "route": "/guides/memory-care-when-is-it-time/",
+          "impressions": 1,
+          "position": 100
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/memory-care-when-is-it-time/",
+          "family_impressions": 2,
+          "page_impressions": 4,
+          "page_position": 47
+        }
+      ],
+      "rank": 27,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 27 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /lakeland-tn/",
@@ -1889,7 +2361,7 @@
           "page_position": 9.1
         }
       ],
-      "rank": 26,
+      "rank": 28,
       "basis": [
         "ranking_page"
       ],
@@ -1926,12 +2398,12 @@
           "page_position": 18
         }
       ],
-      "rank": 27,
+      "rank": 29,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 27 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 29 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/assisted-living-cost-memphis/",
@@ -1961,12 +2433,12 @@
           "page_position": 92
         }
       ],
-      "rank": 28,
+      "rank": 30,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 28 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 30 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/residency-agreement-fees-and-rules/",
@@ -1996,47 +2468,47 @@
           "page_position": 58
         }
       ],
-      "rank": 29,
+      "rank": 31,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 29 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 31 of 35 by impressions; no page at position <= 15"
     },
     {
-      "family": "other @ /hernando-ms/",
+      "family": "other @ /east-memphis-tn/next-steps/",
       "intent": "other",
       "head_term": "other",
-      "page": "/hernando-ms/",
+      "page": "/east-memphis-tn/next-steps/",
       "page_kind": "other",
       "page_intent": "other",
       "impressions": 1,
-      "best_position": 72,
-      "weighted_position": 72,
-      "top_query": "independent living and assisted living and memory support hernando ms",
+      "best_position": 27,
+      "weighted_position": 27,
+      "top_query": "senior care in east memphis tn",
       "query_count": 1,
       "queries": [
         {
-          "query": "independent living and assisted living and memory support hernando ms",
-          "route": "/hernando-ms/",
+          "query": "senior care in east memphis tn",
+          "route": "/east-memphis-tn/next-steps/",
           "impressions": 1,
-          "position": 72
+          "position": 27
         }
       ],
       "pages": [
         {
-          "route": "/hernando-ms/",
+          "route": "/east-memphis-tn/next-steps/",
           "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 31
+          "page_impressions": 1,
+          "page_position": 27
         }
       ],
-      "rank": 30,
+      "rank": 32,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 30 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 32 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /lakeland-tn/",
@@ -2066,7 +2538,7 @@
           "page_position": 9.1
         }
       ],
-      "rank": 31,
+      "rank": 33,
       "basis": [
         "ranking_page"
       ],
@@ -2103,12 +2575,12 @@
           "page_position": 44.5
         }
       ],
-      "rank": 32,
+      "rank": 34,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 32 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 34 of 35 by impressions; no page at position <= 15"
     },
     {
       "family": "other @ /west-memphis-ar/",
@@ -2138,47 +2610,12 @@
           "page_position": 69
         }
       ],
-      "rank": 33,
+      "rank": 35,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 33 of 34 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "when to call @ /guides/memory-care-when-is-it-time/",
-      "intent": "when_to_call",
-      "head_term": "when to call",
-      "page": "/guides/memory-care-when-is-it-time/",
-      "page_kind": "guide",
-      "page_intent": "when_to_call",
-      "impressions": 1,
-      "best_position": 100,
-      "weighted_position": 100,
-      "top_query": "when to put mom in memory care",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "when to put mom in memory care",
-          "route": "/guides/memory-care-when-is-it-time/",
-          "impressions": 1,
-          "position": 100
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/memory-care-when-is-it-time/",
-          "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 35.7
-        }
-      ],
-      "rank": 34,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 34 of 34 by impressions; no page at position <= 15"
+      "reason": "rank 35 of 35 by impressions; no page at position <= 15"
     }
   ]
 }

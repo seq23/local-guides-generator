@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-27..2026-10-24",
+  "gsc_window": "2026-09-28..2026-10-25",
   "totals": {
     "clicks": 2,
-    "impressions": 49,
-    "ctr": 0.0408,
-    "position": 23.1
+    "impressions": 53,
+    "ctr": 0.0377,
+    "position": 23.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 5,
+      "family_impressions": 6,
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
-      "impressions": 19,
+      "impressions": 20,
       "clicks": 2,
-      "position": 29.3,
+      "position": 32.2,
       "strengthened": true
     },
     {
@@ -31,25 +31,25 @@
       ],
       "family_impressions": 3,
       "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
-      "impressions": 7,
+      "impressions": 8,
       "clicks": 0,
-      "position": 12,
+      "position": 11.6,
       "strengthened": true
     }
   ],
   "not_yet_strengthened": [],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 84,
-      "Discovered - currently not indexed": 36,
+      "Crawled - currently not indexed": 86,
+      "Discovered - currently not indexed": 37,
       "Submitted and indexed": 32,
-      "URL is unknown to Google": 49
+      "URL is unknown to Google": 46
     },
     "buckets": {
-      "crawled_not_indexed": 84,
-      "discovered_not_indexed": 36,
+      "crawled_not_indexed": 86,
+      "discovered_not_indexed": 37,
       "indexed": 32,
-      "unknown": 49
+      "unknown": 46
     }
   }
 }

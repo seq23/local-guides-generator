@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-09-27..2026-10-24",
+  "gsc_window": "2026-09-28..2026-10-25",
   "totals": {
     "clicks": 0,
-    "impressions": 726,
+    "impressions": 758,
     "ctr": 0,
-    "position": 60.9
+    "position": 60.7
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 214,
+      "family_impressions": 222,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
-      "impressions": 216,
+      "impressions": 225,
       "clicks": 0,
-      "position": 77.5,
+      "position": 76.8,
       "strengthened": true
     },
     {
@@ -29,11 +29,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 109,
+      "family_impressions": 118,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 62,
+      "impressions": 66,
       "clicks": 0,
-      "position": 55.4,
+      "position": 56.6,
       "strengthened": true
     },
     {
@@ -42,11 +42,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 109,
+      "family_impressions": 118,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 32,
+      "impressions": 33,
       "clicks": 0,
-      "position": 52.6,
+      "position": 53.3,
       "strengthened": true
     },
     {
@@ -55,11 +55,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 109,
+      "family_impressions": 118,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 41,
+      "impressions": 42,
       "clicks": 0,
-      "position": 60,
+      "position": 60.6,
       "strengthened": true
     },
     {
@@ -68,11 +68,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 109,
+      "family_impressions": 118,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 23,
+      "impressions": 22,
       "clicks": 0,
-      "position": 59.7,
+      "position": 64.1,
       "strengthened": true
     }
   ],
@@ -80,15 +80,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 12,
-      "Discovered - currently not indexed": 11,
-      "Submitted and indexed": 35,
-      "URL is unknown to Google": 6
+      "Discovered - currently not indexed": 8,
+      "Submitted and indexed": 36,
+      "URL is unknown to Google": 8
     },
     "buckets": {
       "crawled_not_indexed": 12,
-      "discovered_not_indexed": 11,
-      "indexed": 35,
-      "unknown": 6
+      "discovered_not_indexed": 8,
+      "indexed": 36,
+      "unknown": 8
     }
   }
 }

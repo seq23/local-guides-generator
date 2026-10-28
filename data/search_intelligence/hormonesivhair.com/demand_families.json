@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-27..2026-10-24",
-  "gsc_collected_at": "2026-10-27T13:46:15+00:00",
+  "gsc_window": "2026-09-28..2026-10-25",
+  "gsc_collected_at": "2026-10-28T13:36:49+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,20 +17,20 @@
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 35,
+      "impressions": 40,
       "status": "strengthened"
     },
     {
       "rank": 2,
-      "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 8,
-      "status": "no_page"
-    },
-    {
-      "rank": 3,
       "family": "red flags @ /guides/trt-red-flags/",
       "impressions": 7,
       "status": "strengthened"
+    },
+    {
+      "rank": 3,
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 4,
+      "status": "below_impression_floor"
     },
     {
       "rank": 4,
@@ -53,8 +53,8 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 35,
-      "best_position": 79.3,
+      "impressions": 40,
+      "best_position": 79.5,
       "weighted_position": 88.4,
       "top_query": "am i a candidate for trt",
       "query_count": 2,
@@ -62,22 +62,22 @@
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 32,
-          "position": 89.3
+          "impressions": 36,
+          "position": 89.4
         },
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 3,
-          "position": 79.3
+          "impressions": 4,
+          "position": 79.5
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 35,
-          "page_impressions": 35,
-          "page_position": 88.5
+          "family_impressions": 40,
+          "page_impressions": 40,
+          "page_position": 88.4
         }
       ],
       "rank": 1,
@@ -90,67 +90,6 @@
       ],
       "status": "strengthened",
       "reason": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json search_strengthening"
-    },
-    {
-      "family": "choose a provider @ /states/{STATE}/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/states/{STATE}/",
-      "page_kind": "state_hub",
-      "page_intent": "choose_provider",
-      "impressions": 8,
-      "best_position": 77,
-      "weighted_position": 88.9,
-      "top_query": "hrt solutions in montana",
-      "query_count": 3,
-      "queries": [
-        {
-          "query": "hrt solutions in montana",
-          "route": "/states/MT/",
-          "impressions": 6,
-          "position": 89
-        },
-        {
-          "query": "hormone replacement posted vermont",
-          "route": "/states/VT/",
-          "impressions": 1,
-          "position": 77
-        },
-        {
-          "query": "hrt solutions in wyoming",
-          "route": "/states/WY/",
-          "impressions": 1,
-          "position": 100
-        }
-      ],
-      "pages": [
-        {
-          "route": "/states/MT/",
-          "family_impressions": 6,
-          "page_impressions": 7,
-          "page_position": 77.1
-        },
-        {
-          "route": "/states/VT/",
-          "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 42
-        },
-        {
-          "route": "/states/WY/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 100
-        }
-      ],
-      "rank": 2,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "no state page in the family has >= 10 impressions (largest 6 on /states/MT/)"
     },
     {
       "family": "red flags @ /guides/trt-red-flags/",
@@ -180,7 +119,7 @@
           "page_position": 4.2
         }
       ],
-      "rank": 3,
+      "rank": 2,
       "basis": [
         "ranking_page",
         "top_demand"
@@ -191,6 +130,53 @@
       ],
       "status": "strengthened",
       "reason": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json search_strengthening"
+    },
+    {
+      "family": "choose a provider @ /states/{STATE}/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 4,
+      "best_position": 77,
+      "weighted_position": 84.7,
+      "top_query": "hrt solutions in montana",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "hrt solutions in montana",
+          "route": "/states/MT/",
+          "impressions": 3,
+          "position": 87.3
+        },
+        {
+          "query": "hormone replacement posted vermont",
+          "route": "/states/VT/",
+          "impressions": 1,
+          "position": 77
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/MT/",
+          "family_impressions": 3,
+          "page_impressions": 4,
+          "page_position": 67
+        },
+        {
+          "route": "/states/VT/",
+          "family_impressions": 1,
+          "page_impressions": 2,
+          "page_position": 42
+        }
+      ],
+      "rank": 3,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "4 impressions < 5"
     },
     {
       "family": "choose a provider @ /guides/trt-red-flags/",
