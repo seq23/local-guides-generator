@@ -4259,6 +4259,10 @@ function reorderMainSections(html, mode) {
       take(b => /data-short-answer="true"/.test(b) || /data-citation-summary-type="city-home"/.test(b)),
       take(b => /data-city-local-checklist="true"/.test(b)),
       take(b => /data-sponsored-surface="top-cta"/.test(b) || /data-primary-conversion-cta="true"/.test(b)),
+      // Verified local price tables answer the buyer's concrete cost question.
+      // Keep them before the generic educational framework so they are easy
+      // to find and extract, without displacing a contracted sponsor CTA.
+      take(b => /data-city-cost-comparison="true"/.test(b)),
       take(b => /How people typically evaluate/.test(b) || /data-eval-framework="true"/.test(b)),
       take(b => /data-localized-conclusion="true"/.test(b)),
       take(b => /data-city-decision-support="true"/.test(b)),

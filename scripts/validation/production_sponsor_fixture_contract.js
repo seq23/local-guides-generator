@@ -40,6 +40,15 @@ function walkHtml(dir, out = []) {
   return out;
 }
 
+function findFixtureText(html) {
+  const patterns = [
+    /\bACME Law\b/i,
+    /(?:\+?1[-. ]?)?555[-. ]555[-. ]5555/i,
+    /data-training-sponsor\s*=\s*["']true["']/i,
+  ];
+  return patterns.filter((pattern) => pattern.test(html)).map(String);
+}
+
 function run(ctx) {
   const repoRoot = (ctx && ctx.repoRoot) || path.resolve(__dirname, '..', '..');
   const env = String(process.env.LKG_ENV || 'baseline').trim().toLowerCase();
@@ -63,15 +72,14 @@ function run(ctx) {
     if (looksLikeFixtureSponsor(sponsor)) bad.push(`live production buyout ${rec.id || slug} uses fixture-like sponsor data for ${slug}`);
   }
 
-  const fixtureText = [/\bACME Law\b/i, /\+?1?-?555-555-5555/i];
   const pages = walkHtml(path.join(repoRoot, 'dist'));
   let sponsoredSurfaces = 0;
   for (const fp of pages) {
     const html = fs.readFileSync(fp, 'utf8');
-    if (!/data-sponsored-surface=/i.test(html)) continue;
-    sponsoredSurfaces += 1;
-    for (const pattern of fixtureText) {
-      if (pattern.test(html)) bad.push(`${path.relative(repoRoot, fp)} renders fixture sponsor content in a production build`);
+    if (/data-sponsored-surface=/i.test(html)) sponsoredSurfaces += 1;
+    // Scan all published pages, including fixtures outside sponsored markup.
+    if (findFixtureText(html).length) {
+      bad.push(`${path.relative(repoRoot, fp)} renders fixture sponsor content in a production build`);
     }
   }
 
@@ -107,4 +115,4 @@ if (require.main === module) {
   try { run({}); } catch (err) { console.error(err.message); process.exit(1); }
 }
 
-module.exports = { run, collectTrainingFixtureSlugs, looksLikeFixtureSponsor };
+module.exports = { run, collectTrainingFixtureSlugs, looksLikeFixtureSponsor, findFixtureText };
