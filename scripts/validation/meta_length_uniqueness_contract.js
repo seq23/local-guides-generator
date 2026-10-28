@@ -25,6 +25,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { scoped } = require('../lib/search_readiness_policy');
 
 const TITLE_MIN = 30;
 const TITLE_MAX = 70;
@@ -107,6 +108,8 @@ function main() {
   }
   const files = collectHtmlFiles(distRoot);
   const failures = [];
+  const site = JSON.parse(fs.readFileSync(path.join(repoRoot, 'data/site.json'), 'utf8'));
+  const normalizeBrand = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
   const titles = new Map();
   const descs = new Map();
   let examined = 0;
@@ -121,6 +124,9 @@ function main() {
 
     const tm = html.match(/<title>([\s\S]*?)<\/title>/i);
     const title = tm ? decodeEntities(tm[1]).replace(/\s+/g, ' ').trim() : '';
+    if (scoped(site.siteUrl) && !normalizeBrand(title).includes(normalizeBrand(site.brandName))) {
+      failures.push(`${route}: title does not name ${site.brandName}: "${title}"`);
+    }
     const dm = html.match(/<meta\s+name=["']description["']\s+content=(["'])([\s\S]*?)\1/i);
     const desc = dm ? decodeEntities(dm[2]).replace(/\s+/g, ' ').trim() : '';
 

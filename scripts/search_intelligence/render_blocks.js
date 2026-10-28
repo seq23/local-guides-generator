@@ -108,7 +108,7 @@ function stateHubStrengthening(siteUrl, pageSet, stateAbbr, stateName) {
   if (!Array.isArray(t.faq) || t.faq.length < 2 || !Array.isArray(t.criteria) || !t.criteria.length) throw new Error('search_strengthening.state_hub needs >= 2 faq and criteria');
   const fill = (s) => String(s).split('%%STATE%%').join(String(stateName));
   return {
-    query: fill(t.query), title: fill(t.title), h1: fill(t.h1), heading: fill(t.heading), definition: fill(t.definition),
+    query: fill(t.query), title: fill(t.title), meta_title: t.meta_title ? fill(t.meta_title) : undefined, h1: fill(t.h1), heading: fill(t.heading), definition: fill(t.definition),
     criteria: t.criteria.map(fill), cta_label: fill(t.cta_label), cta_href: t.cta_href,
     faq: t.faq.map((x) => ({ q: fill(x.q), a: fill(x.a) }))
   };

@@ -3,11 +3,13 @@
 /**
  * Hard-fail: data/clarity_projects.json maps every public host to its Clarity
  * project id, the shipped loader carries the active host's id, and every
- * rendered page outside skip_files loads it.
+ * eligible rendered page outside skip_files loads it, with none on information
+ * pages in the two publications scoped by the 28 Oct Search Readiness pass.
  */
 const fs = require('fs');
 const path = require('path');
 const { ROOT, DIST, publicHosts, activeHost, pages, head } = require('./lib_site_dist');
+const { clarityEligible } = require('../lib/search_readiness_policy');
 
 function fail(msg) { console.error(`CLARITY HOSTS FAIL: ${msg}`); process.exit(1); }
 
@@ -26,6 +28,9 @@ if (!fs.existsSync(loader)) fail('assets/clarity-loader.js missing from output r
 if (!fs.readFileSync(loader, 'utf8').includes(`"${host}":"${cfg.projects[host]}"`)) fail(`loader does not map ${host} to ${cfg.projects[host]}`);
 const skip = new Set(cfg.skip_files || []);
 const all = pages(fail).filter((p) => !skip.has(p.file));
-const bad = all.filter((p) => !/<script data-clarity-loader src="\/assets\/clarity-loader\.js"/.test(head(p.html)));
-if (bad.length) fail(`${bad.length}/${all.length} pages lack the Clarity loader, e.g. ${bad.slice(0, 3).map((b) => b.file).join(', ')}`);
-console.log(`CLARITY HOSTS CONTRACT PASS (${publicHosts().length} hosts mapped; ${host} ${all.length} pages tagged)`);
+const eligible = all.filter((p) => clarityEligible(p.html, `https://${host}/`));
+const bad = all.filter((p) => clarityEligible(p.html, `https://${host}/`)
+  ? !/<script data-clarity-loader src="\/assets\/clarity-loader\.js"/.test(head(p.html))
+  : /data-clarity-loader|clarity\.ms\/tag\//i.test(p.html));
+if (bad.length) fail(`${bad.length}/${all.length} pages violate Clarity eligibility, e.g. ${bad.slice(0, 3).map((b) => b.file).join(', ')}`);
+console.log(`CLARITY HOSTS CONTRACT PASS (${publicHosts().length} hosts mapped; ${host} ${eligible.length}/${all.length} pages eligible and tagged)`);
