@@ -57,6 +57,9 @@ jobs:
         # failed before 26 Oct 2026, when one commit to a pack manifest put the
         # same lastmod on every city, state and guide URL of four sites.
         run: npm run test:lastmod-sources
+      - name: Lead storage failure and fallback pins
+        run: node --test tests/request_form/storage_failure_paths.test.mjs
+
       - name: Blocked lead domains pins
         # A form email on BLOCKED_LEAD_DOMAINS (Pages env var only) is dropped
         # quietly: no storage, no email, one log line, honeypot answer (26 Oct 2026).
