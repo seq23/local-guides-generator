@@ -65,6 +65,9 @@ jobs:
         # quietly: no storage, no email, one log line, honeypot answer (26 Oct 2026).
         run: npm run test:blocked-lead-domains
 
+      - name: National market evidence gate regression
+        run: node --test tests/operations/evidence_gated_market_queue.test.cjs
+
       - name: Warning tier
         # The tiering policy defines three tiers and the repo ships a runner for
         # each, but only hard_fail was ever invoked: the 8 warning-tier
