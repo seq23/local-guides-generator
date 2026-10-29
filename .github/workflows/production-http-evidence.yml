@@ -1,0 +1,44 @@
+name: Production HTTP Evidence
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 11 * * *'
+  pull_request:
+    paths:
+      - 'scripts/operations/probe_canonical_urls.js'
+      - '.github/workflows/production-http-evidence.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Inspect public URLs without mutating sites
+        id: probe
+        shell: bash
+        run: |
+          set +e
+          node scripts/operations/probe_canonical_urls.js reports/production_http_probe.json > reports/production_http_probe.log 2>&1
+          code=$?
+          cat reports/production_http_probe.log
+          echo "probe_exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Upload evidence even if probes fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-http-evidence
+          path: |
+            reports/production_http_probe.json
+            reports/production_http_probe.log
+          retention-days: 30
+      - name: Fail after preserving evidence
+        if: steps.probe.outputs.probe_exit_code != '0'
+        run: |
+          echo 'Production probe observed failed URLs or network errors. Inspect the artifact; connection errors are not proof of a site outage.'
+          exit 1
