@@ -1,0 +1,26 @@
+name: Historical Metro GSC Evidence
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/operations/build_market_gsc_snapshot.js'
+      - 'data/research/markets/phase2_fifteen_cluster_evidence_2026-10-29.json'
+      - '.github/workflows/market-gsc-evidence.yml'
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Compute observed local query/page matches
+        run: node scripts/operations/build_market_gsc_snapshot.js reports/market_gsc_observations.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fifteen-market-gsc-evidence
+          path: reports/market_gsc_observations.json
+          retention-days: 30
