@@ -10,7 +10,7 @@
     "primary_source_depth": 15,
     "effort_maintenance": 10
   },
-  "score_status": "not_scored_missing_required_inputs",
+  "score_status": "source_evidence_enriched_competition_and_revenue_unscored",
   "rows": [
     {
       "vertical": "trt",
@@ -153,12 +153,13 @@
     {
       "vertical": "uscis_medical",
       "cluster": "Fresno–Clovis–Visalia, CA",
-      "status": "qualified_for_deeper_research",
-      "proof_type": "AFC Fresno directly publishes $750 exam plus itemized labs",
+      "status": "primary_source_fee_schedule_verified_serp_competition_unmeasured",
+      "proof_type": "AFC primary-source I-693 exam $750 for adult and child; RPR $46, gonorrhea $90, TB test $100, chest X-ray $90 if indicated; additional vaccination charges",
       "sources": [
-        "https://www.afcurgentcare.com/fresno/patient-services/immigration-physicals/"
+        "https://www.afcurgentcare.com/fresno/patient-services/immigration-physicals/",
+        "https://www.uscis.gov/tools/find-a-civil-surgeon"
       ],
-      "limits": "clear local pricing but likely stronger competition; independently verify designation",
+      "limits": "Two or more visits described, age/medical applicability varies; these are not universally additive; signed civil-surgeon designation independently unverified",
       "keyword_volume": null,
       "keyword_difficulty": null,
       "local_cpc": null,
@@ -243,12 +244,16 @@
     {
       "vertical": "dentistry",
       "cluster": "Ocala–Belleview, FL",
-      "status": "qualified_for_deeper_research",
-      "proof_type": "multiple clinic-confirmed $99 new patient offers with different inclusions plus lower focused exam",
+      "status": "primary_sources_confirmed_serp_competition_not_quantified",
+      "proof_type": "Four distinct clinic-published offers: LivHealthy $99 full exam + X-rays, Pruitt $99 cleaning/exam/X-rays with eligibility exclusions, Harbour $99 urgent exam/X-ray and temporary pain relief, Advanced Dental Care $99 limited exam/X-rays at one location and $59 at another",
       "sources": [
+        "https://livhealthydental.com/",
+        "https://pruittdentistry.com/",
+        "https://harbourdental.care/ocala/99-new-patient-special/",
+        "https://www.adc-fl.com/dentist-office/ocala-fl-34482/payment-options/special-offers",
         "https://www.adc-fl.com/dentist-office/south-ocala-fl-34471/payment-options/special-offers"
       ],
-      "limits": "compare actual scope and restrictions; strong published offers do not prove low organic competition",
+      "limits": "These differ in urgency, cleaning, X-ray coverage, insurance eligibility and promotional terms; several strong competing clinic webpages exist, so no blue-ocean conclusion",
       "keyword_volume": null,
       "keyword_difficulty": null,
       "local_cpc": null,
@@ -256,7 +261,7 @@
       "provider_partner_count": null,
       "search_console_impressions": null,
       "quantified_roi": null,
-      "decision": "research_and_serp_audit"
+      "decision": "manual_local_serp_and_monetization_audit"
     },
     {
       "vertical": "dentistry",
@@ -274,5 +279,6 @@
       "quantified_roi": null,
       "decision": "hold_until_evidence"
     }
-  ]
+  ],
+  "reviewed_on": "2026-10-29"
 }
