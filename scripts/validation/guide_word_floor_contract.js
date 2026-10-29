@@ -114,6 +114,8 @@ const PROVEN = {
   'neuro_v1.json': [
     // sr-neuroevalguides.com-j3, 28 Oct: report-to-therapy handover and goals.
     'adhd-therapy-after-an-evaluation',
+    // sr-neuroevalguides.com-j3, 29 Oct: records worksheet and feedback handoff.
+    'neuropsych-testing-children-vs-adults',
   ],
 };
 
@@ -121,6 +123,7 @@ const PROVEN = {
 // older guides have been reviewed; adding words alone must not close the brief
 // if the Quick answer heading or attributed intake link disappears again.
 const HOUSE_SHAPE = new Set([
+  'neuropsych-testing-children-vs-adults',
   'questions-to-ask-a-personal-injury-lawyer',
   'peptides-vs-iv-therapy',
   'recorded-statements-and-insurance-calls',

@@ -118,6 +118,7 @@ test('each repaired guide must remain rendered and above the word floor', (t) =>
   for (const [pack, slug] of [
     ['pi', 'settlement-calculator-red-flags'],
     ['neuro', 'adhd-therapy-after-an-evaluation'],
+    ['neuro', 'neuropsych-testing-children-vs-adults'],
     ['trt', 'trt-first-90-days'],
     ['pi', 'questions-to-ask-a-personal-injury-lawyer'],
     ['trt', 'peptides-vs-iv-therapy'],
