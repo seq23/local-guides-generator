@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-28..2026-10-25",
-  "gsc_collected_at": "2026-10-28T13:36:49+00:00",
+  "gsc_window": "2026-09-29..2026-10-26",
+  "gsc_collected_at": "2026-10-29T13:36:35+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 40,
+      "impressions": 41,
       "status": "strengthened"
     },
     {
@@ -53,9 +53,9 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 40,
-      "best_position": 79.5,
-      "weighted_position": 88.4,
+      "impressions": 41,
+      "best_position": 79.8,
+      "weighted_position": 88.2,
       "top_query": "am i a candidate for trt",
       "query_count": 2,
       "queries": [
@@ -68,16 +68,16 @@
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 4,
-          "position": 79.5
+          "impressions": 5,
+          "position": 79.8
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 40,
-          "page_impressions": 40,
-          "page_position": 88.4
+          "family_impressions": 41,
+          "page_impressions": 43,
+          "page_position": 84.6
         }
       ],
       "rank": 1,
@@ -115,8 +115,8 @@
         {
           "route": "/guides/trt-red-flags/",
           "family_impressions": 7,
-          "page_impressions": 9,
-          "page_position": 4.2
+          "page_impressions": 11,
+          "page_position": 5.1
         }
       ],
       "rank": 2,
@@ -161,14 +161,14 @@
         {
           "route": "/states/MT/",
           "family_impressions": 3,
-          "page_impressions": 4,
-          "page_position": 67
+          "page_impressions": 5,
+          "page_position": 54.8
         },
         {
           "route": "/states/VT/",
           "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 42
+          "page_impressions": 3,
+          "page_position": 30.7
         }
       ],
       "rank": 3,
@@ -202,8 +202,8 @@
         {
           "route": "/guides/trt-red-flags/",
           "family_impressions": 1,
-          "page_impressions": 9,
-          "page_position": 4.2
+          "page_impressions": 11,
+          "page_position": 5.1
         }
       ],
       "rank": 4,
@@ -239,8 +239,8 @@
         {
           "route": "/guides/",
           "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 6.3
+          "page_impressions": 4,
+          "page_position": 5.5
         }
       ],
       "rank": 5,

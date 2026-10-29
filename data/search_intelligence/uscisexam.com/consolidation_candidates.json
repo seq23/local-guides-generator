@@ -2,11 +2,21 @@
   "schema_version": "1.0",
   "host": "uscisexam.com",
   "status": "LEDGER_ONLY_NO_REDIRECTS",
-  "gsc_window": "2026-09-28..2026-10-25",
+  "gsc_window": "2026-09-29..2026-10-26",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
-  "guide_count": 9,
-  "candidate_count": 0,
-  "candidates": [],
+  "guide_count": 11,
+  "candidate_count": 1,
+  "candidates": [
+    {
+      "route": "/guides/brooklyn-i693-medical-exam-prices/",
+      "source": "data/page_sets/examples/uscis_medical_global_pages/guides_brooklyn-i693-medical-exam-prices.json",
+      "words": 565,
+      "impressions_28d": 0,
+      "coverage_state": "Discovered - currently not indexed",
+      "fold_into": "/guides/",
+      "fold_basis": "no topical guide with impressions; the guides hub"
+    }
+  ],
   "folded_note": "Guides already folded and 301d (pack legacyRedirects). Carried forward by build_search_plan.mjs on every regeneration; checked by site_hygiene_registry_contract.js against the pack redirects.",
   "folded": [
     {

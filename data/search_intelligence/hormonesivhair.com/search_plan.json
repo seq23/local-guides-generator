@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-28..2026-10-25",
+  "gsc_window": "2026-09-29..2026-10-26",
   "totals": {
     "clicks": 0,
-    "impressions": 61,
+    "impressions": 68,
     "ctr": 0,
-    "position": 67.4
+    "position": 65.2
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 40,
+      "family_impressions": 41,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
-      "impressions": 40,
+      "impressions": 43,
       "clicks": 0,
-      "position": 88.4,
+      "position": 84.6,
       "strengthened": true
     },
     {
@@ -32,9 +32,9 @@
       ],
       "family_impressions": 7,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json",
-      "impressions": 9,
+      "impressions": 11,
       "clicks": 0,
-      "position": 4.2,
+      "position": 5.1,
       "strengthened": true
     }
   ],
@@ -42,17 +42,17 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 76,
-      "Discovered - currently not indexed": 51,
+      "Discovered - currently not indexed": 45,
       "Duplicate, Google chose different canonical than user": 1,
-      "Submitted and indexed": 27,
-      "URL is unknown to Google": 48
+      "Submitted and indexed": 29,
+      "URL is unknown to Google": 54
     },
     "buckets": {
       "crawled_not_indexed": 76,
-      "discovered_not_indexed": 51,
-      "indexed": 27,
+      "discovered_not_indexed": 45,
+      "indexed": 29,
       "other": 1,
-      "unknown": 48
+      "unknown": 54
     }
   }
 }

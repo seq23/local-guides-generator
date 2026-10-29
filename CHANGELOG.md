@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-10-29
+
+- Revalidated core contracts and inventories (rotating focus: USCIS Exam Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-10-28
 
 - Revalidated core contracts and inventories (rotating focus: Neuro Evaluation Guides).
