@@ -29,8 +29,8 @@ for (const file of validators) {
       status: 'fail',
       started_at: started,
       code: error.status || 1,
-      stdout: (error.stdout || '').toString().slice(0, 4000),
-      stderr: (error.stderr || '').toString().slice(0, 4000)
+      stdout: (error.stdout || '').toString().slice(0, 24000),
+      stderr: (error.stderr || '').toString().slice(0, 24000)
     });
   }
 }
