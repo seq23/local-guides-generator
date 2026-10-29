@@ -114,6 +114,10 @@ function main() {
       for (const u of added.slice(0, MAX_LISTED)) lines.push(`    ${u}`);
       if (added.length > MAX_LISTED) lines.push(`    ... and ${added.length - MAX_LISTED} more`);
     }
+    // Include machine-readable hash details for repairing the committed ledger.
+    // This is diagnostic output only: it never relaxes the release guard.
+    for (const { url } of stale) lines.push('LEDGER_DIFF_JSON ' + JSON.stringify({ url, entry: wEntries[url] }));
+    for (const url of added) lines.push('LEDGER_DIFF_JSON ' + JSON.stringify({ url, entry: wEntries[url] }));
     lines.push('');
     lines.push('Every deploy rebuilds from the committed ledger and discards the result, so each of');
     lines.push('these pages would be stamped with the deploy date on every deploy - the uniform');
