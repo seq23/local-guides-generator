@@ -1,0 +1,32 @@
+name: Temporary McAllen PR ledger refresh
+on:
+  push:
+    branches:
+      - feat/mcallen-i693-verified-pathway-20261029
+    paths:
+      - .github/workflows/temporary-mcallen-ledger-refresh.yml
+jobs:
+  refresh:
+    if: github.ref == 'refs/heads/feat/mcallen-i693-verified-pathway-20261029'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feat/mcallen-i693-verified-pathway-20261029
+          persist-credentials: true
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: npm ci
+      - run: npm run lastmod:refresh
+      - name: Commit generated ledger only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/cadence/lastmod_ledger.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh generated page-hash ledger for McAllen guide"
+            git push origin HEAD:feat/mcallen-i693-verified-pathway-20261029
+          fi
