@@ -63,9 +63,10 @@ const ALLOWED_PROVIDER_TYPES = new Set([
 const NEURO_PROVIDER_TYPE = 'ADHD / autism evaluation or therapy provider';
 const SERVICE_NEEDED_VALUES = new Set(['evaluation', 'therapy', 'both']);
 
-// Every lead names the site it came from (owner, 25 Oct 2026). The forms carry
-// vertical_key; a form that does not (a cached page, a hand-built link) gets it
-// from the host the request reached. Mirrors PACK_SITE_CONFIG in
+// Every lead names the site it came from (owner, 25 Oct 2026). The hostname
+// is authoritative for known guides domains and preview projects: a stale or
+// forged form field must not misclassify a lead into another vertical.
+// Unknown/umbrella hosts may still supply their explicit vertical_key. Mirrors PACK_SITE_CONFIG in
 // scripts/lib/pack_site_config.js and the pages projects in
 // config/edge_cache.json (this file runs on Cloudflare and cannot import them);
 // tests/request_form/own_vertical.test.mjs fails if they differ.
@@ -367,7 +368,7 @@ export async function onRequestPost(context) {
       consent: 'yes',
       intent_type: intent_type || '',
       button_source: button_source || '',
-      vertical_key: vertical_key || verticalForHost(host),
+      vertical_key: verticalForHost(host) || vertical_key,
       page_kind: page_kind || '',
       page_slug: page_slug || '',
       market_slug: market_slug || '',
