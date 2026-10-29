@@ -161,3 +161,34 @@ test('a lead with no vertical_key gets the host site; source page fields reach t
   const explicit = await post(mod, 'neuroevalguides.com', { email: 'a@example.com', consent: 'on', provider_type: ns.NEURO_PROVIDER_TYPE, service_needed: 'both', vertical_key: 'neuro' });
   assert.equal(explicit.fields.vertical_key, 'neuro');
 });
+
+
+test('known site hostname overrides a stale or spoofed submitted vertical_key', async () => {
+  const mod = await loadEndpoint();
+  const mcallen = await post(mod, 'uscisexam.com', {
+    email: 'a@example.com', consent: 'on',
+    provider_type: 'USCIS Medical Exam Provider',
+    vertical_key: 'pi',
+    page_slug: '/guides/mcallen-i693-exam-cost-and-civil-surgeons/',
+    market_slug: 'mcallen-tx'
+  });
+  assert.equal(mcallen.status, 200);
+  assert.equal(mcallen.fields.vertical_key, 'uscis_medical');
+  assert.equal(mcallen.fields.page_slug, '/guides/mcallen-i693-exam-cost-and-civil-surgeons/');
+  assert.equal(mcallen.fields.market_slug, 'mcallen-tx');
+  assert.match(mcallen.mail, /^vertical_key: uscis_medical$/m);
+
+  const preview = await post(mod, 'abc123.local-guides-generator-dentistry.pages.dev', {
+    email: 'a@example.com', consent: 'on',
+    provider_type: 'Dentist (Cosmetic, Implant, or General Care)',
+    vertical_key: 'neuro'
+  });
+  assert.equal(preview.fields.vertical_key, 'dentistry');
+
+  const umbrella = await post(mod, 'theindustryguides.com', {
+    email: 'a@example.com', consent: 'on',
+    provider_type: 'Personal Injury Attorney',
+    vertical_key: 'pi'
+  });
+  assert.equal(umbrella.fields.vertical_key, 'pi', 'unknown umbrella domain retains explicit choice');
+});
