@@ -4263,12 +4263,16 @@ function reorderMainSections(html, mode) {
       // Keep them before the generic educational framework so they are easy
       // to find and extract, without displacing a contracted sponsor CTA.
       take(b => /data-city-cost-comparison="true"/.test(b)),
+      // People arriving with local provider intent should see the actual
+      // non-ranked directory alongside the local cost facts, before the
+      // generic educational framework. Keep sponsored calls-to-action
+      // separate and first, and retain all verification disclaimers in cards.
+      ...takeAll(b => /data-provider-directory="true"/.test(b) || /data-pi-home-directory="true"/.test(b) || /data-example-providers="true"/.test(b)),
       take(b => /How people typically evaluate/.test(b) || /data-eval-framework="true"/.test(b)),
       take(b => /data-localized-conclusion="true"/.test(b)),
       take(b => /data-city-decision-support="true"/.test(b)),
       take(b => /data-llm-bait="question"/.test(b)),
       take(b => /data-sponsored-surface="mid-cta"/.test(b) || /data-inline-conversion-cta="true"/.test(b)),
-      ...takeAll(b => /data-provider-directory="true"/.test(b) || /data-pi-home-directory="true"/.test(b) || /data-example-providers="true"/.test(b)),
       take(b => /data-guide-groups="true"/.test(b)),
       ...takeAll(b => /Verify a provider/.test(b) || /guides-compact/.test(b) || /data-start-here="true"/.test(b) || /data-faq="true"/.test(b)),
       take(b => /data-sponsored-surface="bottom-cta"/.test(b) || /data-connection-bubble="true"/.test(b)),
@@ -4468,7 +4472,10 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
         if (String(verticalKey || '').toLowerCase() === 'neuro' && entry.subKey === neuroServices.THERAPY_SUBKEY) {
           return renderExampleProvidersSectionHtml(verticalKey, city, entry.providers, { heading: hl.heading, lead: hl.lead, subKey: entry.subKey, sectionAttrs: ' id="' + neuroServices.THERAPY_SECTION_ID + '" data-neuro-therapy-practices="true"' });
         }
-        return renderExampleProvidersSectionHtml(verticalKey, city, entry.providers, { heading: hl.heading, lead: hl.lead });
+        // Preserve the list's service subkey all the way to each card. Without
+        // it, IV hydration and hair-restoration providers were mislabeled as
+        // hormone clinics, and autism practices as generic ADHD providers.
+        return renderExampleProvidersSectionHtml(verticalKey, city, entry.providers, { heading: hl.heading, lead: hl.lead, subKey: entry.subKey });
       }).join('\n');
 
       if (mainHtml.includes(insertToken)) {
