@@ -49,7 +49,7 @@
     "test:edge-cache": "node --test tests/edge_cache/edge_cache_config.test.mjs",
     "test:homepage-shape": "node --test tests/homepage/homepage_shape.test.mjs",
     "test:indexnow-named-stop": "node --test tests/indexnow/indexnow_named_stop.test.mjs",
-    "test:lastmod-sources": "node --test tests/lastmod/reseed_sources.test.mjs",
+    "test:lastmod-sources": "node --test tests/lastmod/*.test.mjs",
     "test:link-audit": "node --test tests/links/link_audit.test.mjs",
     "test:llm-router": "node --test tests/llm_router/free_llm_router_403.test.mjs tests/llm_router/free_llm_router_empty.test.mjs",
     "test:neuro-services": "node --test tests/neuro/neuro_services.test.mjs",
