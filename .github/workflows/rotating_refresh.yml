@@ -86,4 +86,16 @@ jobs:
           fi
           git commit -m "Record search truth and citation probe observations $(date -u +%Y-%m-%d)"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          # The recorded data renders into pages (each homepage links its strengthened
+          # pages), so the lastmod ledger moves with it. Pushing data without the ledger
+          # left main red with no run to show it: a GITHUB_TOKEN push triggers no
+          # workflow, so the next merge inherited it (30 Oct 2026, #92). Refresh the
+          # ledger on the rebased tree, commit it, then prove the commit with a plain
+          # build - the currency contract against the committed ledger - before pushing.
+          node scripts/build_all_packs.js --refresh-ledger
+          git add data/cadence/lastmod_ledger.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record page freshness for the $(date -u +%Y-%m-%d) search observations"
+          fi
+          node scripts/build_all_packs.js
           git push origin "HEAD:${GITHUB_REF_NAME}"

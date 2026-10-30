@@ -64,7 +64,13 @@ function committedLedger() {
 
 function main() {
   if (process.env.LKG_LEDGER_REFRESH === '1') {
-    if (process.env.CI) fail('LKG_LEDGER_REFRESH is set in CI. It exists only for `npm run lastmod:refresh` on a workstation; CI must check the committed ledger.');
+    // One CI producer may refresh: Rotating Refresh commits search data that renders into
+    // pages (strengthened-page links on each homepage), so it must commit the ledger with it
+    // and then prove it with a plain build before pushing (workflow_integrity_contract.js
+    // pins that order). Every gate - Validate, Integrity Build - still checks the committed
+    // ledger. 30 Oct 2026: the 13:48 data commit moved hormonesivhair.com/ without its ledger
+    // entry, triggered no workflow, and main went red on the next merge (#92).
+    if (process.env.CI && process.env.GITHUB_WORKFLOW !== 'Rotating Refresh') fail('LKG_LEDGER_REFRESH is set in CI. It exists only for `npm run lastmod:refresh` on a workstation and for the Rotating Refresh record step; every other CI run must check the committed ledger.');
     console.log('ℹ️ LASTMOD LEDGER CURRENCY SKIP — ledger refresh run (npm run lastmod:refresh). Commit data/cadence/lastmod_ledger.json, then build again: this contract runs on that build.');
     return;
   }

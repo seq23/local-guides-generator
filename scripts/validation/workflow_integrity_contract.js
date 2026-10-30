@@ -65,6 +65,25 @@ function run() {
     fail('rotating_refresh.yml must invoke rotate_vertical_refresh.js');
   }
 
+  // The record step commits search data that renders into pages, so it must commit the
+  // lastmod ledger with it and prove that commit before pushing: refresh, stage the ledger,
+  // plain build, push - in that order, after the rebase. 30 Oct 2026, #92.
+  {
+    const order = [
+      ['git pull --rebase', /git pull --rebase/],
+      ['ledger refresh build', /node scripts\/build_all_packs\.js --refresh-ledger/],
+      ['ledger staged', /git add data\/cadence\/lastmod_ledger\.json/],
+      ['plain build (ledger currency proof)', /node scripts\/build_all_packs\.js\s*\n/],
+      ['push', /git push origin/],
+    ];
+    let at = 0;
+    for (const [label, re] of order) {
+      const m = re.exec(rotatingWorkflow.slice(at));
+      if (!m) fail(`rotating_refresh.yml record step: "${label}" missing or out of order (want rebase -> --refresh-ledger build -> git add ledger -> plain build -> push)`);
+      at += m.index + m[0].length;
+    }
+  }
+
   // rotate script must not call the raw refresh script directly
   if (/node scripts\/automation\/refresh_verification_page\.js/.test(rotateScript)) {
     fail('rotate_vertical_refresh.js must not call refresh_verification_page.js directly; use npm run refresh:verification');
