@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-09-25..2026-10-22",
+  "gsc_window": "2026-09-29..2026-10-26",
   "totals": {
     "clicks": 1,
-    "impressions": 419,
-    "ctr": 0.0024,
-    "position": 47.9
+    "impressions": 708,
+    "ctr": 0.0014,
+    "position": 47.7
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,25 +16,27 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 34,
+      "family_impressions": 51,
       "source": "data/page_sets/examples/senior_living_global_pages/guides_when-a-parent-refuses-to-move.json",
-      "impressions": 36,
+      "impressions": 53,
       "clicks": 0,
-      "position": 73.8,
+      "position": 76.1,
       "strengthened": true
     }
   ],
   "not_yet_strengthened": [],
   "coverage": {
     "by_coverage_state": {
+      "Crawled - currently not indexed": 1,
       "Discovered - currently not indexed": 2,
-      "Submitted and indexed": 61,
-      "URL is unknown to Google": 78
+      "Submitted and indexed": 188,
+      "URL is unknown to Google": 2
     },
     "buckets": {
+      "crawled_not_indexed": 1,
       "discovered_not_indexed": 2,
-      "indexed": 61,
-      "unknown": 78
+      "indexed": 188,
+      "unknown": 2
     }
   }
 }

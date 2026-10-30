@@ -1,7 +1,7 @@
 /**
  * Memphis Senior Care Homes - intake wizard.
  *
- * Mounts into <div id="senior-intake" data-vertical data-city data-zip> (rendered by the
+ * Mounts into <form id="senior-intake" data-vertical data-city data-zip> (rendered by the
  * page templates on home, city and /request-assistance/ pages). One <script
  * src="/assets/senior-intake.js" defer> is enough: this file loads its stylesheet,
  * /assets/senior-match.js (the one matcher, shared with the lead backend) and
@@ -428,6 +428,9 @@
   ready(function () {
     var root = document.getElementById(ROOT_ID);
     if (!root) return;
+    // Each screen advances explicitly and the final button posts JSON. Enter
+    // must never perform the form's native GET with contact details in the URL.
+    root.addEventListener('submit', function (event) { event.preventDefault(); });
     loadCss();
     loadMatch(function (err) {
       if (err || !window.SeniorMatch) {

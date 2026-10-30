@@ -29,8 +29,8 @@ for (const file of validators) {
       status: 'fail',
       started_at: started,
       code: error.status || 1,
-      stdout: (error.stdout || '').toString().slice(0, 4000),
-      stderr: (error.stderr || '').toString().slice(0, 4000)
+      stdout: (error.stdout || '').toString().slice(0, 24000),
+      stderr: (error.stderr || '').toString().slice(0, 24000)
     });
   }
 }
@@ -38,4 +38,9 @@ for (const file of validators) {
 const summary = { tier, total: validators.length, passed: validators.length - failed, failed };
 fs.writeFileSync(path.join(reportsDir, `phase8_${tier}_run.json`), JSON.stringify({ summary, results }, null, 2));
 console.log(JSON.stringify(summary, null, 2));
+for (const result of results.filter((entry) => entry.status === 'fail')) {
+  console.error(`VALIDATOR FAILED: ${result.file} (exit ${result.code})`);
+  if (result.stderr) console.error(result.stderr);
+  if (result.stdout) console.error(result.stdout);
+}
 if (tier === 'hard_fail' && failed > 0) process.exit(1);

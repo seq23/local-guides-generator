@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-25..2026-10-22",
-  "gsc_collected_at": "2026-10-25T17:10:42+00:00",
+  "gsc_window": "2026-09-29..2026-10-26",
+  "gsc_collected_at": "2026-10-29T13:36:35+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,25 +12,25 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 6,
+  "family_count": 7,
   "top_families": [
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 27,
+      "impressions": 41,
       "status": "strengthened"
     },
     {
       "rank": 2,
-      "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 9,
-      "status": "no_page"
-    },
-    {
-      "rank": 3,
       "family": "red flags @ /guides/trt-red-flags/",
       "impressions": 7,
       "status": "strengthened"
+    },
+    {
+      "rank": 3,
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 4,
+      "status": "below_impression_floor"
     },
     {
       "rank": 4,
@@ -53,25 +53,31 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 27,
-      "best_position": 89.6,
-      "weighted_position": 89.6,
+      "impressions": 41,
+      "best_position": 79.8,
+      "weighted_position": 88.2,
       "top_query": "am i a candidate for trt",
-      "query_count": 1,
+      "query_count": 2,
       "queries": [
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 27,
-          "position": 89.6
+          "impressions": 36,
+          "position": 89.4
+        },
+        {
+          "query": "suitable candidate for trt",
+          "route": "/guides/who-is-a-good-candidate-for-trt/",
+          "impressions": 5,
+          "position": 79.8
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 27,
-          "page_impressions": 27,
-          "page_position": 89.6
+          "family_impressions": 41,
+          "page_impressions": 43,
+          "page_position": 84.6
         }
       ],
       "rank": 1,
@@ -86,67 +92,6 @@
       "reason": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json search_strengthening"
     },
     {
-      "family": "choose a provider @ /states/{STATE}/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/states/{STATE}/",
-      "page_kind": "state_hub",
-      "page_intent": "choose_provider",
-      "impressions": 9,
-      "best_position": 77,
-      "weighted_position": 89.4,
-      "top_query": "hrt solutions in montana",
-      "query_count": 3,
-      "queries": [
-        {
-          "query": "hrt solutions in montana",
-          "route": "/states/MT/",
-          "impressions": 7,
-          "position": 89.7
-        },
-        {
-          "query": "hormone replacement posted vermont",
-          "route": "/states/VT/",
-          "impressions": 1,
-          "position": 77
-        },
-        {
-          "query": "hrt solutions in wyoming",
-          "route": "/states/WY/",
-          "impressions": 1,
-          "position": 100
-        }
-      ],
-      "pages": [
-        {
-          "route": "/states/MT/",
-          "family_impressions": 7,
-          "page_impressions": 8,
-          "page_position": 79.2
-        },
-        {
-          "route": "/states/VT/",
-          "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 42
-        },
-        {
-          "route": "/states/WY/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 100
-        }
-      ],
-      "rank": 2,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "no state page in the family has >= 10 impressions (largest 7 on /states/MT/)"
-    },
-    {
       "family": "red flags @ /guides/trt-red-flags/",
       "intent": "red_flags",
       "head_term": "red flags",
@@ -154,8 +99,8 @@
       "page_kind": "guide",
       "page_intent": "red_flags",
       "impressions": 7,
-      "best_position": 2,
-      "weighted_position": 2,
+      "best_position": 3.1,
+      "weighted_position": 3.1,
       "top_query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
       "query_count": 1,
       "queries": [
@@ -163,18 +108,18 @@
           "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
           "route": "/guides/trt-red-flags/",
           "impressions": 7,
-          "position": 2
+          "position": 3.1
         }
       ],
       "pages": [
         {
           "route": "/guides/trt-red-flags/",
           "family_impressions": 7,
-          "page_impressions": 9,
-          "page_position": 3.3
+          "page_impressions": 11,
+          "page_position": 5.1
         }
       ],
-      "rank": 3,
+      "rank": 2,
       "basis": [
         "ranking_page",
         "top_demand"
@@ -185,6 +130,53 @@
       ],
       "status": "strengthened",
       "reason": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json search_strengthening"
+    },
+    {
+      "family": "choose a provider @ /states/{STATE}/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 4,
+      "best_position": 77,
+      "weighted_position": 84.7,
+      "top_query": "hrt solutions in montana",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "hrt solutions in montana",
+          "route": "/states/MT/",
+          "impressions": 3,
+          "position": 87.3
+        },
+        {
+          "query": "hormone replacement posted vermont",
+          "route": "/states/VT/",
+          "impressions": 1,
+          "position": 77
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/MT/",
+          "family_impressions": 3,
+          "page_impressions": 5,
+          "page_position": 54.8
+        },
+        {
+          "route": "/states/VT/",
+          "family_impressions": 1,
+          "page_impressions": 3,
+          "page_position": 30.7
+        }
+      ],
+      "rank": 3,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "4 impressions < 5"
     },
     {
       "family": "choose a provider @ /guides/trt-red-flags/",
@@ -210,8 +202,8 @@
         {
           "route": "/guides/trt-red-flags/",
           "family_impressions": 1,
-          "page_impressions": 9,
-          "page_position": 3.3
+          "page_impressions": 11,
+          "page_position": 5.1
         }
       ],
       "rank": 4,
@@ -247,8 +239,8 @@
         {
           "route": "/guides/",
           "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 6.3
+          "page_impressions": 4,
+          "page_position": 5.5
         }
       ],
       "rank": 5,
@@ -284,8 +276,8 @@
         {
           "route": "/guides/trt-telehealth-vs-local-clinic/",
           "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 55.5
+          "page_impressions": 3,
+          "page_position": 52.7
         }
       ],
       "rank": 6,
@@ -293,7 +285,42 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 6 of 6 by impressions; no page at position <= 15"
+      "reason": "rank 6 of 7 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "cost @ /guides/beauty-peptide-costs-and-bundles/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/beauty-peptide-costs-and-bundles/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 1,
+      "best_position": 9,
+      "weighted_position": 9,
+      "top_query": "average cost of peptide serum",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "average cost of peptide serum",
+          "route": "/guides/beauty-peptide-costs-and-bundles/",
+          "impressions": 1,
+          "position": 9
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/beauty-peptide-costs-and-bundles/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 9
+        }
+      ],
+      "rank": 7,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 7 of 7 by impressions; no page at position <= 15"
     }
   ]
 }

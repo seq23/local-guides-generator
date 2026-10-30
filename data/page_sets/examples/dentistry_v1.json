@@ -107,7 +107,7 @@
       "title": "%%MARKET_LABEL%% Local Guides",
       "description": "Frameworks for %%MARKET_LABEL%%. No rankings. No endorsements.",
       "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Market</p>\n  <h1>%%MARKET_LABEL%%</h1>\n  <p class=\"muted\">Published by %%BRAND_NAME%%. Educational only. No rankings or endorsements. Use this page to compare treatment clarity, cost transparency, follow-up expectations, and official license lookup before you book.</p>\n</section>\n%%AD:city_hub_top%%\n\n%%EVAL_FRAMEWORK%%\n\n%%MID_NEXT_STEPS%%\n\n<section class=\"section micro-guides\" data-start-here=\"true\">\n  <p><strong>Start here:</strong> <a href=\"/guides/#costs\">Costs</a> • <a href=\"/guides/#timeline\">Timeline</a> • <a href=\"/guides/#questions\">Questions to ask</a> • <a href=\"/guides/#red-flags\">Red flags</a> <span class=\"muted\">(educational)</span></p>\n</section>\n\n%%AD:city_hub_mid%%\n\n%%EXAMPLE_PROVIDERS%%\n\n<section class=\"section\">\n  <details class=\"accordion\" id=\"state-lookup\" open>\n    <summary>\n      <span>Verify provider license</span>\n      <span class=\"accordion-meta\">Opens the official state database</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      %%AD:state_lookup_cta%%\n    </div>\n  </details>\n\n  <details class=\"accordion\" id=\"city-faq\">\n    <summary>\n      <span>FAQ</span>\n      <span class=\"accordion-meta\">Optional quick answers</span>\n    </summary>\n    <div class=\"accordion-panel\">\n      <div class=\"faq-accordion\">\n        %%FAQ_ITEMS_CITY%%\n      </div>\n    </div>\n  </details>\n</section>\n\n<section class=\"section guides-compact\">\n  <h2>Guides</h2>\n  <p class=\"muted\">Educational guides. Not professional advice.</p>\n  %%CITY_GUIDE_BLOCK%%\n</section>\n\n%%AD:city_hub_bottom%%\n",
-      "meta_title": "Dentists in %%MARKET_LABEL%%: How to Compare Care",
+      "meta_title": "Dentists: %%MARKET_LABEL%%",
       "meta_description": "How to compare dentists in %%MARKET_LABEL%%: treatment-plan questions, written pricing and insurance checks, licensing lookups and red flags before booking."
     },
     {
@@ -127,7 +127,7 @@
       "title": "%%MARKET_LABEL%% — Next steps",
       "description": "Decision hub for %%MARKET_LABEL%% with a full provider callback form, comparison path, and lookup tools.",
       "main_html": "<section class=\"hero\">\n  <p class=\"kicker\">Next steps</p>\n  <h1>Optional next steps for %%MARKET_LABEL%%</h1>\n  <p class=\"muted\">If enabled, you will be taken to a sponsor’s official intake/contact flow. This site does not receive your information.</p>\n</section>\n\n<section class=\"section\">\n  <div class=\"card\" data-next-steps-card=\"true\">\n    <h2>%%SPONSOR_FIRM_NAME%%</h2>\n    <p class=\"muted\">You’ll be taken to the sponsor’s official site to continue.</p>\n    <div class=\"actions\">\n      <a class=\"button button-primary\" data-next-steps-intake=\"true\" href=\"%%SPONSOR_INTAKE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Continue</a>\n      <a class=\"button button-secondary\" href=\"%%SPONSOR_OFFICIAL_SITE_URL%%\" rel=\"sponsored noopener noreferrer\" target=\"_blank\">Visit official site</a>\n    </div>\n    <p class=\"fineprint\">Official site: <span class=\"mono\">%%SPONSOR_OFFICIAL_SITE_URL%%</span></p>\n  </div>\n\n  <div class=\"card\">\n    <h2>What to verify before you contact a provider</h2>\n    <ul>\n      <li>Licensing and disciplinary history via official state sources</li>\n      <li>Scope of services offered and consultation process</li>\n      <li>Written estimate and follow-up policy</li>\n    </ul>\n    <p class=\"muted\">Educational only. No endorsements. No rankings.</p>\n  </div>\n</section>",
-      "meta_title": "Next Steps for Dental Care in %%MARKET_LABEL%%",
+      "meta_title": "Dental Next Steps: %%MARKET_LABEL%%",
       "meta_description": "Next steps for dental treatment in %%MARKET_LABEL%%: questions to ask before you book, how to compare written quotes, and a free provider callback form."
     }
   ],
@@ -141,6 +141,7 @@
     "state_hub": {
       "query": "local dental guide",
       "title": "Local Dental Guide for %%STATE%%: How to Choose a Dentist",
+      "meta_title": "Dentists in %%STATE%%: How to Choose",
       "h1": "Local dental guide: how to choose a dentist in %%STATE%%",
       "heading": "How to choose a dentist in %%STATE%%",
       "definition": "This local dental guide helps you choose a dentist in %%STATE%%: pick a city we cover, shortlist two or three practices, then check each one's licence with the %%STATE%% dental board, its insurance participation, a written estimate before major work, and how quickly it sees new and emergency patients.",
@@ -172,5 +173,528 @@
         }
       ]
     }
-  }
+  },
+  "citiesExclusive": true,
+  "legacyRedirects": [
+    {
+      "from": "/chandler-az/",
+      "to": "/states/AZ/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/chandler-az/next-steps/",
+      "to": "/states/AZ/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/mesa-az/",
+      "to": "/states/AZ/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/mesa-az/next-steps/",
+      "to": "/states/AZ/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/phoenix-az/",
+      "to": "/states/AZ/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/phoenix-az/next-steps/",
+      "to": "/states/AZ/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/elk-grove-ca/",
+      "to": "/states/CA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/elk-grove-ca/next-steps/",
+      "to": "/states/CA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fresno-ca/",
+      "to": "/states/CA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fresno-ca/next-steps/",
+      "to": "/states/CA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/modesto-ca/",
+      "to": "/states/CA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/modesto-ca/next-steps/",
+      "to": "/states/CA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/sacramento-ca/",
+      "to": "/states/CA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/sacramento-ca/next-steps/",
+      "to": "/states/CA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/colorado-springs-co/",
+      "to": "/states/CO/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/colorado-springs-co/next-steps/",
+      "to": "/states/CO/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fort-collins-co/",
+      "to": "/states/CO/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fort-collins-co/next-steps/",
+      "to": "/states/CO/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/lakewood-co/",
+      "to": "/states/CO/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/lakewood-co/next-steps/",
+      "to": "/states/CO/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/boca-raton-fl/",
+      "to": "/states/FL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/boca-raton-fl/next-steps/",
+      "to": "/states/FL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fort-lauderdale-fl/",
+      "to": "/states/FL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fort-lauderdale-fl/next-steps/",
+      "to": "/states/FL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/tampa-fl/",
+      "to": "/states/FL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/tampa-fl/next-steps/",
+      "to": "/states/FL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/athens-ga/",
+      "to": "/states/GA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/athens-ga/next-steps/",
+      "to": "/states/GA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/augusta-ga/",
+      "to": "/states/GA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/augusta-ga/next-steps/",
+      "to": "/states/GA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/bloomington-il/",
+      "to": "/states/IL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/bloomington-il/next-steps/",
+      "to": "/states/IL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/champaign-il/",
+      "to": "/states/IL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/champaign-il/next-steps/",
+      "to": "/states/IL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/evansville-in/",
+      "to": "/states/IN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/evansville-in/next-steps/",
+      "to": "/states/IN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fort-wayne-in/",
+      "to": "/states/IN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fort-wayne-in/next-steps/",
+      "to": "/states/IN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/indianapolis-in/",
+      "to": "/states/IN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/indianapolis-in/next-steps/",
+      "to": "/states/IN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/olathe-ks/",
+      "to": "/states/KS/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/olathe-ks/next-steps/",
+      "to": "/states/KS/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/overland-park-ks/",
+      "to": "/states/KS/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/overland-park-ks/next-steps/",
+      "to": "/states/KS/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/wichita-ks/",
+      "to": "/states/KS/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/wichita-ks/next-steps/",
+      "to": "/states/KS/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/detroit-mi/",
+      "to": "/states/MI/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/detroit-mi/next-steps/",
+      "to": "/states/MI/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/grand-rapids-mi/",
+      "to": "/states/MI/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/grand-rapids-mi/next-steps/",
+      "to": "/states/MI/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/lansing-mi/",
+      "to": "/states/MI/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/lansing-mi/next-steps/",
+      "to": "/states/MI/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/asheville-nc/",
+      "to": "/states/NC/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/asheville-nc/next-steps/",
+      "to": "/states/NC/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/charlotte-nc/",
+      "to": "/states/NC/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/charlotte-nc/next-steps/",
+      "to": "/states/NC/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/raleigh-nc/",
+      "to": "/states/NC/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/raleigh-nc/next-steps/",
+      "to": "/states/NC/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/albany-ny/",
+      "to": "/states/NY/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/albany-ny/next-steps/",
+      "to": "/states/NY/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/buffalo-ny/",
+      "to": "/states/NY/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/buffalo-ny/next-steps/",
+      "to": "/states/NY/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/rochester-ny/",
+      "to": "/states/NY/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/rochester-ny/next-steps/",
+      "to": "/states/NY/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/cincinnati-oh/",
+      "to": "/states/OH/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/cincinnati-oh/next-steps/",
+      "to": "/states/OH/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/columbus-oh/",
+      "to": "/states/OH/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/columbus-oh/next-steps/",
+      "to": "/states/OH/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/dayton-oh/",
+      "to": "/states/OH/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/dayton-oh/next-steps/",
+      "to": "/states/OH/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/allentown-pa/",
+      "to": "/states/PA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/allentown-pa/next-steps/",
+      "to": "/states/PA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/philadelphia-pa/",
+      "to": "/states/PA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/philadelphia-pa/next-steps/",
+      "to": "/states/PA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/pittsburgh-pa/",
+      "to": "/states/PA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/pittsburgh-pa/next-steps/",
+      "to": "/states/PA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/chattanooga-tn/",
+      "to": "/states/TN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/chattanooga-tn/next-steps/",
+      "to": "/states/TN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/memphis-tn/",
+      "to": "/states/TN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/memphis-tn/next-steps/",
+      "to": "/states/TN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/nashville-tn/",
+      "to": "/states/TN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/nashville-tn/next-steps/",
+      "to": "/states/TN/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/amarillo-tx/",
+      "to": "/states/TX/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/amarillo-tx/next-steps/",
+      "to": "/states/TX/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/arlington-tx/",
+      "to": "/states/TX/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/arlington-tx/next-steps/",
+      "to": "/states/TX/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/austin-tx/",
+      "to": "/states/TX/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/austin-tx/next-steps/",
+      "to": "/states/TX/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/charlottesville-va/",
+      "to": "/states/VA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/charlottesville-va/next-steps/",
+      "to": "/states/VA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fredericksburg-va/",
+      "to": "/states/VA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/fredericksburg-va/next-steps/",
+      "to": "/states/VA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/virginia-beach-va/",
+      "to": "/states/VA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/virginia-beach-va/next-steps/",
+      "to": "/states/VA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/puyallup-wa/",
+      "to": "/states/WA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/puyallup-wa/next-steps/",
+      "to": "/states/WA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/spokane-wa/",
+      "to": "/states/WA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/spokane-wa/next-steps/",
+      "to": "/states/WA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/vancouver-wa/",
+      "to": "/states/WA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/vancouver-wa/next-steps/",
+      "to": "/states/WA/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/new-york-city-ny/",
+      "to": "/states/NY/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/new-york-city-ny/next-steps/",
+      "to": "/states/NY/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/orlando-fl/",
+      "to": "/states/FL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    },
+    {
+      "from": "/orlando-fl/next-steps/",
+      "to": "/states/FL/",
+      "basis": "placeholder city fold 2026-10-26: no research file (data/city_content/dentistry/<slug>.json), so the page was the slug template, noindexed; the repo holds no sourced local data for it (see data/research/dentistry/vertical_status.json). Folded into its state page."
+    }
+  ]
 }

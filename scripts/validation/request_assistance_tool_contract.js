@@ -34,7 +34,7 @@ function run(ctx) {
   try { pageSetFile = String(JSON.parse(readText(path.join(repoRoot, 'data', 'site.json'))).pageSetFile || ''); } catch (_) {}
   if (/senior_living_v1\.json$/.test(pageSetFile)) {
     for (const n of ['data-request-assistance-tool-intro="true"', 'data-request-assistance-form-primary="true"', 'data-request-assistance-who-its-for="true"', 'data-request-assistance-what-happens-next="true"', 'id="request-assistance-form"', 'data-request-assistance-top-cta="true"', 'data-request-assistance-bottom-cta="true"', `mailto:${CONTACT_EMAIL}`, 'Senior living communities pay us a referral fee',
-      '<div id="senior-intake" data-vertical="senior-living" data-city="memphis-tn" data-zip="38104"></div><script src="/assets/senior-intake.js" defer></script>']) mustContain(html, n, label);
+      '<form id="senior-intake" aria-label="Senior care matching" data-vertical="senior-living" data-city="memphis-tn" data-zip="38104"></form><script src="/assets/senior-intake.js" defer></script>']) mustContain(html, n, label);
     if (html.includes('action="/api/request-assistance"')) throw new Error(`REQUEST ASSISTANCE TOOL CONTRACT FAIL: ${label} renders the shared Airtable form next to the senior intake wizard`);
     const shownS = html.replace(/\splaceholder="[^"]*"/g, '');
     const others = Array.from(new Set((shownS.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || []).map((a) => a.toLowerCase()))).filter((a) => a !== CONTACT_EMAIL.toLowerCase());

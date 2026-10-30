@@ -18,7 +18,12 @@
     ],
     "robots": "Unchanged mechanism, no special case. build_city_sites.js stamps data-template-fallback=\"true\" when a city has no research file; scripts/apply_robots_policy.js noindexes on that stamp; scripts/sitemap_emit.js drops noindex pages. The six researched metros carry no stamp, so they are index,follow and in the sitemap; the rest are not.",
     "business_model": "Researched pages carry the same /for-providers/ link ($249/month featured listing, first two months free) and the same /request-assistance/ lead form and next-steps hub as the uscisexam metros - both come from the shared city template, verified on the built pages. Dentists are the paying side; patients searching the safety-net queries are the traffic.",
-    "promotion": "Still zero dentistry cities promoted (measurements.cities_promoted). Indexing a researched page does not need promotion, and promotion is still not a CSV edit (see two_things_a_later_reader_should_know_before_acting)."
+    "promotion": "Still zero dentistry cities promoted (measurements.cities_promoted). Indexing a researched page does not need promotion, and promotion is still not a CSV edit (see two_things_a_later_reader_should_know_before_acting).",
+    "what_changed_on_2026-10-26": [
+      "Search Readiness (26 Oct 2026, items j9 and a3) counted the 50 templated, noindexed city pages in cities_dentistry_v1.json as missing coverage pages. The repo holds no sourced local data for them (only three bare office names each), so an honest 600-word page could not be written. Per the owner's 26 Oct brief (fold thin towns into the nearest real hub with a 301 rather than publish thin content), all 50, plus new-york-city-ny and orlando-fl that the pack inherited from data/cities.json, were removed from the pack and 301'd (with their /next-steps/) to their state page /states/<ST>/. The pack is now citiesExclusive, so its city list is exactly the six researched metros.",
+      "This supersedes the 2026-10-09 hard rule 'Do not retire ... any page in it' for the unresearched city pages only. The way back is unchanged: write a research file to the safety-net standard, add the row back to cities_dentistry_v1.json, and remove its legacyRedirects row and its folded ledger row.",
+      "Guard: scripts/validation/placeholder_city_pages_contract.js (hard_fail) fails any pack build that ships a page carrying the template-fallback stamp or a noindexed city of its own list."
+    ]
   },
   "the_decision": "Build the safety-net access axis per metro from primary sources, index only the metros where that research exists, and keep every other dentistry city page published-but-noindexed. Extend to a further metro only by writing its research file to the same standard; the contract refuses a researched page with fewer than three sourced entries in either section.",
   "evidence": {
@@ -45,7 +50,7 @@
   "hard_rules": [
     "No dollar figures on the access axis. Where a clinic publishes a fee, the entry points to the source page instead of copying the figure. measurements.dollar_figures_in_dentistry_city_content is the count, and the contract fails on any $ figure that is not inside a sourced entry.",
     "No invented clinics, hours or prices. An entry without a source_url and fetched_on date fails the build.",
-    "Do not retire the dentistry pack or any page in it. Noindexed-and-latent remains the resting state for unresearched cities.",
+    "Do not retire the dentistry pack. Unresearched city pages are not kept as noindexed placeholders (26 Oct 2026): they are folded into their state page with a 301 and recorded in data/search_intelligence/dentistryguides.com/consolidation_candidates.json.",
     "Do not index a dentistry city by any route other than writing its research file to this standard."
   ],
   "guards": {
@@ -74,7 +79,7 @@
   ],
   "measurements": {
     "computed_by": "scripts/research/measure_dentistry_vertical_status.js",
-    "city_pages_built": 58,
+    "city_pages_built": 12,
     "research_files_present": [
       "atlanta-ga",
       "chicago-il",
@@ -85,7 +90,7 @@
     ],
     "research_backed_pages_built": 6,
     "research_files_without_a_page": [],
-    "cities_rendering_the_template": 52,
+    "cities_rendering_the_template": 6,
     "cities_promoted": 0,
     "safety_net_entries_per_metro": {
       "atlanta-ga": {

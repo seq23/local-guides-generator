@@ -1,0 +1,76 @@
+{
+  "schema": "industry-guides-public-serp-observations-v1",
+  "collected_on": "2026-10-29",
+  "scope": "Phase 2 qualitative public web observations, not localized rank tracking or keyword volume measurement",
+  "preservation": "All existing nationwide state/city coverage preserved; no public pages modified",
+  "method": "Public search on service-intent phrases; evidence is provider primary pages surfaced in search, not fixed-geo device-controlled top-ten ranks.",
+  "markets": [
+    {
+      "vertical": "dentistry",
+      "metro": "Ocala–Belleview, FL",
+      "queries": [
+        "Ocala FL new patient dental exam cleaning X rays price",
+        "Ocala emergency dental exam special cost"
+      ],
+      "observed_primary_competitors": [
+        {
+          "name": "Pruitt Dentistry",
+          "url": "https://pruittdentistry.com/",
+          "offer": "$99 cleaning, exam and X-ray for eligible new uninsured patients absent periodontal disease",
+          "comparison_group": "preventive"
+        },
+        {
+          "name": "Harbour Dental Care",
+          "url": "https://harbourdental.care/ocala/99-new-patient-special/",
+          "offer": "$99 emergency exam, digital X-ray and temporary pain relief for new patients",
+          "comparison_group": "urgent"
+        },
+        {
+          "name": "LivHealthy Dental",
+          "url": "https://livhealthydental.com/book-appointment/",
+          "offer": "$99 full exam with free X-rays for uninsured new patients; no cleaning claim in promotion",
+          "comparison_group": "routine_diagnostic"
+        },
+        {
+          "name": "Advanced Dental Care Ocala",
+          "url": "https://www.adc-fl.com/dentist-office/ocala-fl-34482/payment-options/special-offers",
+          "offer": "$99 limited problem-focused exam and necessary X-rays; cleaning excluded",
+          "comparison_group": "problem_focused"
+        }
+      ],
+      "observation": "Multiple clinics already publish location-specific offers; strong source material for a scope-specific comparison, but provider visibility means this is not proven low-competition.",
+      "quantified_keyword_difficulty": null,
+      "actual_local_rank_positions": null,
+      "qualified_lead_buyer": null,
+      "decision": "source_ready_competition_unmeasured"
+    },
+    {
+      "vertical": "uscis_medical",
+      "metro": "Fresno–Clovis, CA",
+      "queries": [
+        "Fresno immigration medical exam I-693 cost civil surgeon",
+        "Fresno immigration physical USCIS lab prices"
+      ],
+      "observed_primary_competitors": [
+        {
+          "name": "AFC Urgent Care Fresno",
+          "url": "https://www.afcurgentcare.com/fresno/patient-services/immigration-physicals/",
+          "offer": "$750 exam price for adults and children; listed RPR $46, gonorrhea $90, TB $100, chest X-ray $90 if indicated, vaccine costs extra",
+          "comparison_group": "base_exam_plus_services"
+        }
+      ],
+      "observation": "A published itemized clinic price exists; other independent provider fees, official civil-surgeon designation and SERP competitiveness remain to be checked.",
+      "quantified_keyword_difficulty": null,
+      "actual_local_rank_positions": null,
+      "qualified_lead_buyer": null,
+      "decision": "source_ready_more_comparators_required"
+    }
+  ],
+  "requirements_for_blue_ocean_decision": [
+    "Five local transactional queries with recorded time, device and search geography",
+    "At least ten organic result domains and their content format for each query",
+    "Independent impressions/keyword volumes with provenance",
+    "Verifiable provider acceptance and economics",
+    "Observed AI-answer attribution and cited destination, not assumed citation potential"
+  ]
+}

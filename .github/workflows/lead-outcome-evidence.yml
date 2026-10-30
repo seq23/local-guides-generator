@@ -1,0 +1,20 @@
+name: Lead Outcome Evidence Contract
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/operations/compile_lead_outcomes.js'
+      - 'tests/operations/lead_outcome_evidence.test.cjs'
+      - '.github/workflows/lead-outcome-evidence.yml'
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: node tests/operations/lead_outcome_evidence.test.cjs

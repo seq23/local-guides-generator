@@ -1,5 +1,21 @@
 # Changelog
 
+# 2026-10-29
+
+- Revalidated core contracts and inventories (rotating focus: USCIS Exam Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
+# 2026-10-28
+
+- Revalidated core contracts and inventories (rotating focus: Neuro Evaluation Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
+# 2026-10-27
+
+- Revalidated core contracts and inventories (rotating focus: Hormone Optimization Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
+# 2026-10-26
+
+- Revalidated core contracts and inventories (rotating focus: The Dentistry Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-10-25
 
 - Revalidated core contracts and inventories (rotating focus: The Accident Guides).

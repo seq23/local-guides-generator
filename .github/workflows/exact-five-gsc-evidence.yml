@@ -1,0 +1,30 @@
+name: Exact Five GSC Evidence
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/operations/compile_exact_five_gsc_evidence.js'
+      - 'tests/operations/exact_five_gsc_evidence.test.cjs'
+      - '.github/workflows/exact-five-gsc-evidence.yml'
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Deterministic exact URL evidence contract
+        run: node tests/operations/exact_five_gsc_evidence.test.cjs
+      - name: Compile checked-in inspection observations
+        run: node scripts/operations/compile_exact_five_gsc_evidence.js reports/exact_five_gsc_evidence.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: exact-five-gsc-evidence
+          path: reports/exact_five_gsc_evidence.json
+          if-no-files-found: warn
+          retention-days: 30

@@ -82,7 +82,9 @@ function facilitiesForPage(city) {
 }
 
 function intakeSlotHtml(citySlug, zip) {
-  return '<div id="senior-intake" data-vertical="senior-living" data-city="' + esc(citySlug) + '" data-zip="' + esc(zip) + '"></div><script src="/assets/senior-intake.js" defer></script>';
+  // The wizard mounts its questions here. Declare the actual form in the
+  // source HTML so recording eligibility can distinguish it from a CTA link.
+  return '<form id="senior-intake" aria-label="Senior care matching" data-vertical="senior-living" data-city="' + esc(citySlug) + '" data-zip="' + esc(zip) + '"></form><script src="/assets/senior-intake.js" defer></script>';
 }
 
 function intakeSlotForCity(city) {
@@ -107,16 +109,6 @@ function topicFor(city) {
   return 'assisted living and memory care';
 }
 function stateName(st) { return st === 'MS' ? 'Mississippi' : (st === 'AR' ? 'Arkansas' : 'Tennessee'); }
-// Which Medicaid programme to ask a community about. Every community in this
-// directory is licensed in Tennessee or Mississippi, so for an Arkansas town -
-// whose nearest options are across the river in both states - the honest
-// phrasing names both and ties the answer to the community, not to the town.
-// It used to name TennCare CHOICES to an Arkansas reader.
-function waiverPhrase(city) {
-  if (city.state === 'MS') return 'Mississippi Medicaid waiver residents';
-  if (city.state === 'AR') return 'TennCare CHOICES in Tennessee or Mississippi Medicaid waiver residents, depending on which state licensed it';
-  return 'TennCare CHOICES';
-}
 function aAn(word) { return (/^[aeiou]/i.test(String(word || '')) ? 'an ' : 'a ') + word; }
 function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
 function sumBeds(list, key) { return list.reduce((a, f) => a + (typeof f[key] === 'number' ? f[key] : 0), 0); }
@@ -263,7 +255,7 @@ function areaLocalHtml(city) {
     '<p><strong>Memory care:</strong> ' + mc.length + ' of the ' + list.length + ' communities listed here report a secured memory care unit to the state' + (mc.length ? ', the nearest being ' + esc(titleCaseName(mc[0].name)) + (mc[0].miles != null ? ' at ' + mc[0].miles.toFixed(1) + ' miles' : '') : '') + '. If your parent wanders or cannot be left alone safely, start with those. <a href="/guides/memory-care-when-is-it-time/">How to tell when it is time</a>.</p>' +
     '<p><strong>Small residences:</strong> ' + (small.length ? small.length + ' of the communities listed are licensed for 30 or fewer residents, which some parents find easier to settle into than a large building.' : 'every community listed here is licensed for more than 30 residents; ask about smaller wings or neighbourhoods inside them if your parent prefers a quieter setting.') + '</p>' +
     (hosp ? '<p><strong>Nearest major hospital with a page here:</strong> ' + esc(hosp.hospital_name) + ', about ' + hosp.miles.toFixed(1) + ' miles away' + (hosp.miles > 15 ? ' (a closer local hospital may serve ' + esc(city.city) + '; this site covers the Memphis-area hospitals)' : '') + '. If your parent is being discharged there, see <a href="/' + hosp.slug + '/">communities near ' + esc(hosp.hospital_name) + '</a> and <a href="/guides/hospital-discharge-to-assisted-living-memphis/">what to have ready in 72 hours</a>.</p>' : '') +
-    '<p><strong>Cost:</strong> no public source publishes a reliable ' + esc(city.city) + '-only price. Ask each community for an all-in monthly figure at your parent\'s assessed care level, and read <a href="/guides/assisted-living-cost-memphis/">what the monthly rate includes</a> before you compare quotes. If money may run out, ask whether the community accepts ' + waiverPhrase(city) + ' and read <a href="/guides/when-the-money-runs-out-tenncare-choices/">when the money runs out</a>.</p>' +
+    '<p><strong>Cost:</strong> no public source publishes a reliable ' + esc(city.city) + '-only price. Ask each community for an all-in monthly figure at your parent\'s assessed care level, and read <a href="/guides/assisted-living-cost-memphis/">what the monthly rate includes</a> before you compare quotes. If money may run out, ask whether the community accepts ' + (city.state === 'MS' ? 'Mississippi Medicaid waiver residents' : 'TennCare CHOICES') + ' and read <a href="/guides/when-the-money-runs-out-tenncare-choices/">when the money runs out</a>.</p>' +
     '<p><strong>Before you tour:</strong> use the <a href="/guides/questions-to-ask-on-a-tour/">40 tour questions</a>, check each licence with the state (<a href="/guides/tennessee-assisted-living-inspection-records/">how</a>), and take the residency agreement home to read (<a href="/guides/residency-agreement-fees-and-rules/">what to look for</a>). Short answers are on the <a href="/faq/">FAQ</a>.</p>' +
     '</section>';
 }
@@ -447,14 +439,6 @@ function careTypeLeadHtml(city, list) {
   if (isMemoryCarePage(city)) {
     if (!inTown.length) {
       const n = list[0];
-      // Arkansas licenses its own communities and this directory covers the
-      // Tennessee and Mississippi registries only, so an Arkansas town has no
-      // in-town row for a reason that has nothing to do with local supply.
-      // Saying "no community reports a secured unit to the state" there would
-      // be a claim about Arkansas this site has not looked at.
-      if (city.state === 'AR') {
-        return '<p>Families in ' + esc(city.marketLabel) + ' often look east across the river for memory care. This directory lists communities licensed in Tennessee and Mississippi; Arkansas licenses its own separately. The nearest secured memory care is ' + esc(titleCaseName(n.name)) + ' in ' + esc(n.city) + ', ' + n.miles.toFixed(1) + ' miles away; below are the ' + list.length + ' memory care communities nearest to ' + esc(city.city) + '.</p>';
-      }
       return '<p>No community with ' + aAn(esc(city.city)) + ' address reports a secured memory care unit to the state. The nearest memory care is ' + esc(titleCaseName(n.name)) + ' in ' + esc(n.city) + ', ' + n.miles.toFixed(1) + ' miles away; below are the ' + list.length + ' memory care communities nearest to ' + esc(city.city) + '.</p>';
     }
     const tn = inTown.filter((f) => f.state === 'TN');
@@ -468,28 +452,22 @@ function careTypeLeadHtml(city, list) {
   const lic = city.state === 'MS'
     ? 'a Personal Care Home - Assisted Living licence from the Mississippi State Department of Health'
     : 'an Assisted Care Living Facility licence from the Tennessee Health Facilities Commission';
-  const nearestAl = list[0];
-  // Arkansas, as above: the directory does not cover its registry.
-  if (city.state === 'AR') {
-    return '<p>Families in ' + esc(city.marketLabel) + ' often look east across the river. This directory lists communities licensed in Tennessee and Mississippi; Arkansas licenses its own separately. Every community below holds an assisted living licence in the state that licensed it. The closest is ' + esc(titleCaseName(nearestAl.name)) + ' in ' + esc(nearestAl.city) + ', ' + nearestAl.miles.toFixed(1) + ' miles away; below are the ' + list.length + ' nearest to ' + esc(city.city) + ', and every row shows its distance.</p>';
-  }
-  // No community of its own. The sentence that used to run here was built for
-  // a town that has some: it read "Millington has 0 communities with an
-  // Assisted Care Living Facility licence, licensed for 0 residents in total.
-  // Every one of them also runs a secured memory care unit. Below the
-  // Millington communities come first" - three claims about a set with nothing
-  // in it. The memory care lead above had always handled its own empty case;
-  // this one had not, because care-type pages used to exist only for towns big
-  // enough that the case never arose.
-  if (!inTown.length) {
-    return '<p>Every community below holds an assisted living licence. The ' + (city.state === 'MS' ? 'Mississippi' : 'Tennessee') + ' registry lists none with ' + aAn(esc(city.city)) + ' address, so there is no assisted living in ' + esc(city.city) + ' itself. The closest is ' + esc(titleCaseName(nearestAl.name)) + ' in ' + esc(nearestAl.city) + ', ' + nearestAl.miles.toFixed(1) + ' miles away; below are the ' + list.length + ' nearest to ' + esc(city.city) + ', and every row shows its distance.</p>';
-  }
   const alOnly = inTown.filter((f) => !f.memory_care);
+  if (!inTown.length) {
+    // A town with no licensed community of its own: say so, and give the
+    // nearest ones with their real distances, never a "0 communities" count.
+    const n = list[0];
+    const nearest3 = list.slice(0, 3).map((f) => esc(titleCaseName(f.name)) + ' in ' + esc(f.city) + ' (' + f.miles.toFixed(1) + ' miles)');
+    const states = Array.from(new Set(list.map((f) => f.state)));
+    return '<p>Every community below holds an assisted living licence. No licensed assisted living community has ' + aAn(esc(city.city)) + ' address in the ' + (city.state === 'MS' ? 'Mississippi State Department of Health directory' : 'Tennessee Health Facilities Commission bed report') + ', so families in ' + esc(city.city) + ' choose among the communities in nearby towns. ' +
+      'The nearest is ' + esc(titleCaseName(n.name)) + ' in ' + esc(n.city) + ', ' + n.miles.toFixed(1) + ' miles from the centre of ' + esc(city.city) + ' (ZIP ' + esc(city.primary_zip) + '); the next nearest are ' + nearest3.slice(1).join(' and ') + '. ' +
+      'Below are the ' + list.length + ' licensed communities nearest to ' + esc(city.city) + ', ' + list.filter((f) => !f.memory_care).length + ' of them assisted living only' + (states.length > 1 ? ', across the ' + states.map(stateName).join(' and ') + ' registries' : '') + ', the farthest ' + list[list.length - 1].miles.toFixed(1) + ' miles away.</p>';
+  }
   return '<p>Every community below holds an assisted living licence. ' + esc(city.city) + ' has ' + plural(inTown.length, 'community', 'communities') + ' with ' + lic + ', licensed for ' + sumBeds(inTown, 'total_beds') + ' residents in total. ' +
     (alOnly.length
       ? plural(alOnly.length, 'of them offers', 'of them offer') + ' assisted living only, with no secured memory care unit' + (inTown.length - alOnly.length ? '; the other ' + (inTown.length - alOnly.length) + ' also run' + (inTown.length - alOnly.length === 1 ? 's' : '') + ' one' : '') + '. '
-      : (inTown.length === 1 ? 'It also runs a secured memory care unit. ' : 'Every one of them also runs a secured memory care unit. ')) +
-    'Below ' + (inTown.length === 1 ? 'it comes' : 'the ' + esc(city.city) + ' communities come') + ' first, then the nearest others, ' + list.length + ' in all.</p>';
+      : 'Every one of them also runs a secured memory care unit. ') +
+    'Below the ' + esc(city.city) + ' communities come first, then the nearest others, ' + list.length + ' in all.</p>';
 }
 
 function careTypeLocalHtml(city) {
@@ -498,7 +476,7 @@ function careTypeLocalHtml(city) {
   const linkBase = '<a href="/' + esc(city.base_slug) + '/">every licensed community near ' + esc(city.marketLabel) + '</a>';
   const sibling = loadPages().find((p) => p.kind === 'care_type' && p.base_slug === city.base_slug && p.care_type !== city.care_type);
   const sibLink = sibling ? '<a href="/' + esc(sibling.slug) + '/">' + esc(sibling.linkLabel) + '</a>' : '';
-  const money = '<p><strong>Paying for it:</strong> no public source publishes a reliable ' + esc(city.city) + '-only price for ' + topicFor(city) + '. Ask each community for an all-in monthly figure at your parent\'s assessed care level and read <a href="/guides/assisted-living-cost-memphis/">what the monthly rate includes</a>. If money may run out, ask whether it accepts ' + waiverPhrase(city) + ' (<a href="/guides/when-the-money-runs-out-tenncare-choices/">when the money runs out</a>).</p>';
+  const money = '<p><strong>Paying for it:</strong> no public source publishes a reliable ' + esc(city.city) + '-only price for ' + topicFor(city) + '. Ask each community for an all-in monthly figure at your parent\'s assessed care level and read <a href="/guides/assisted-living-cost-memphis/">what the monthly rate includes</a>. If money may run out, ask whether it accepts ' + (city.state === 'MS' ? 'Mississippi Medicaid waiver residents' : 'TennCare CHOICES') + ' (<a href="/guides/when-the-money-runs-out-tenncare-choices/">when the money runs out</a>).</p>';
   const hospP = hosp ? '<p><strong>Nearest major hospital with a page here:</strong> ' + esc(hosp.hospital_name) + ', about ' + hosp.miles.toFixed(1) + ' miles away (<a href="/' + esc(hosp.slug) + '/">communities near it</a>).</p>' : '';
   if (isMemoryCarePage(city)) {
     const tn = list.filter((f) => f.state === 'TN' && typeof f.secured_beds === 'number' && f.secured_beds > 0);
@@ -620,6 +598,7 @@ function cityFaqItem(city) {
   }
   if (isAssistedLivingPage(city)) {
     const inTown = inOwnCity(city, list);
+    if (!inTown.length) return { q: 'Is there a licensed assisted living community in ' + city.city + '?', a: 'No licensed assisted living community has ' + aAn(city.city) + ' address in the state registry. The nearest is ' + at(near) + '.' + (mc && mc !== near ? ' The nearest with secured memory care is ' + at(mc) + '.' : '') };
     return { q: 'How many assisted living communities are licensed in ' + city.city + '?', a: city.city + ' has ' + plural(inTown.length, 'licensed assisted living community', 'licensed assisted living communities') + ', licensed for ' + sumBeds(inTown, 'total_beds') + ' residents in total; ' + inTown.filter((f) => !f.memory_care).length + ' of them have no secured memory care unit. The nearest to the centre is ' + at(near) + '.' };
   }
   if (city.neighborhood_of) {
@@ -696,7 +675,17 @@ function nextStepsMetaDescription(city, mcp, alp) {
 // Title/description tokens for the page templates (senior_living_v1.json).
 function pageTopicTokens(city) {
   const mcp = isMemoryCarePage(city), alp = isAssistedLivingPage(city);
+  // Search copy reserves space for the publication name. Keep the full place
+  // and topic in the visible heading; use familiar hospital abbreviations here.
+  const label = String(city.marketLabel || '').replace(/Baptist Memorial Hospital-/, 'Baptist ')
+    .replace('Methodist Le Bonheur Germantown Hospital', 'Methodist Germantown')
+    .replace('Saint Francis Hospital-', 'St Francis ').replace('Park Avenue', 'Park Ave')
+    .replace(/ Hospital$/, '').replace('Memphis VA Medical Center', 'Memphis VA');
+  const shortPlace = String(city.city || label).replace(/,\s*(TN|MS|AR)$/, '');
+  const topic = mcp ? 'Memory Care' : (alp ? 'Assisted Living' : 'Care');
   return {
+    '%%SENIOR_SEARCH_TITLE%%': `${topic} ${city.kind === 'hospital' ? 'near' : 'in'} ${label}`,
+    '%%SENIOR_NEXT_SEARCH_TITLE%%': `Next: ${mcp ? 'Memory Care ' : (alp ? 'Assisted Living ' : '')}${city.kind === 'hospital' ? label : shortPlace}`,
     // Length-aware, because this token is the whole <title> on the directory
     // pages: senior_living_v1.json renders `%%PAGE_TOPIC%% %%PLACE_PHRASE%%`.
     // The hospital anchor pages have long place phrases ("near Saint Francis

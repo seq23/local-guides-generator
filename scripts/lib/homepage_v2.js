@@ -34,14 +34,14 @@ const SITES = {
     accent: '#0A5C66', accentHover: '#073F46',
     providerNoun: 'civil surgeon', providerPlural: 'civil surgeons', findLabel: 'Find a civil surgeon',
     advice: 'medical or legal',
-    nav: [['Costs', '/guides/uscis-medical-exam-cost/'], ['What to bring', '/guides/document-checklist/'], ['Timeline', '/guides/costs-and-timeframes/']],
+    nav: [['Costs', '/guides/costs-and-timeframes/'], ['What to bring', '/guides/document-checklist/'], ['Timeline', '/guides/uscis-fees-timelines-and-what-to-ask/']],
     eyebrow: 'Immigration medical exam · Form I-693',
     h1: 'The USCIS medical exam: what it costs, what to bring, and how long it takes.',
     sub: 'Plain answers to the questions people ask before they book a civil surgeon, with the official source behind each one.',
     sources: 'U.S. Citizenship and Immigration Services, Federation of State Medical Boards',
     tiles: ['How much does an I-693 exam usually cost?', 'What documents are needed for the exam?', 'How long does the exam process take?', 'Who is allowed to perform an I-693 exam?', 'Are vaccinations included in the exam cost?', 'Do clinics provide sealed envelopes?'],
     glance: [
-      ['Exam fee', 'How much does an I-693 exam usually cost?', '/guides/uscis-medical-exam-cost/'],
+      ['Exam fee', 'How much does an I-693 exam usually cost?', '/guides/costs-and-timeframes/'],
       ['Vaccines', 'Are vaccinations included in the exam cost?', '/guides/uscis-vaccination-requirements/'],
       ['How long it takes', 'How long does the exam process take?', '/guides/costs-and-timeframes/'],
       ['Who can sign', 'Who is allowed to perform an I-693 exam?', '/guides/i-693-medical-exam-requirements/'],
@@ -72,7 +72,7 @@ const SITES = {
     accent: '#A16207', accentHover: '#854D0E',
     providerNoun: 'clinic', providerPlural: 'clinics', findLabel: 'Find a clinic',
     advice: 'medical',
-    nav: [['Costs', '/guides/hormone-therapy-cost-what-is-published/'], ['Labs', '/guides/trt-pricing-and-labs/'], ['Treatments', '/guides/testosterone-replacement-therapy-overview/']],
+    nav: [['Costs', '/guides/hormone-therapy-cost-what-is-published/'], ['Labs', '/guides/trt-pricing-and-labs/'], ['Treatments', '/guides/who-is-a-good-candidate-for-trt/']],
     // Women seeking menopause / perimenopause HRT are named alongside TRT
     // (owner, 16 Oct 2026). Copy only; the approved section order is unchanged.
     eyebrow: 'TRT · menopause HRT · peptides · IV therapy · hair restoration',
@@ -88,7 +88,7 @@ const SITES = {
       ['Insurance', 'Is TRT covered by insurance?', '/guides/does-insurance-cover-testosterone-therapy/'],
       ['Labs before starting', 'What tests are required before starting TRT?', '/guides/trt-pricing-and-labs/'],
       ['Peptide programs', 'How much do peptide programs usually cost?', '/guides/peptide-program-costs/'],
-      ['Monitoring', 'Is long-term monitoring required?', '/guides/trt-side-effects-and-safety/']
+      ['Monitoring', 'Is long-term monitoring required?', '/guides/trt-red-flags/']
     ],
     verify: 'Verify the prescriber’s license with the state medical board, then ask: baseline labs, the all-in monthly price, and the monitoring schedule.'
   },
@@ -99,7 +99,7 @@ const SITES = {
     // everywhere (the only search clicks are on testing pages).
     providerNoun: 'provider', providerPlural: 'evaluation and therapy providers', findLabel: 'Find an evaluator',
     advice: 'medical, psychological or legal',
-    nav: [['Costs', '/guides/neuropsychological-evaluation-cost/'], ['Wait times', '/guides/hospital-vs-private-neuropsych-testing/'], ['School vs private', '/guides/school-district-vs-private-vs-ssa-evaluation/']],
+    nav: [['Costs', '/guides/neuro-evaluation-pricing/'], ['Wait times', '/guides/hospital-vs-private-neuropsych-testing/'], ['School vs private', '/guides/school-district-vs-private-vs-ssa-evaluation/']],
     eyebrow: 'ADHD · autism · evaluations and testing · therapy · children and adults',
     h1: 'ADHD and autism: getting evaluated, and finding therapy — with or without a diagnosis.',
     sub: 'Plain answers for parents and adults on school, private and clinical evaluations — what they cost and how long the wait is — and on finding ADHD or autism therapy, with the source behind each one.',
@@ -117,9 +117,9 @@ const SITES = {
     callbackHeading: 'Get a callback from a provider in your area.',
     serviceChoice: true,
     glance: [
-      ['Full evaluation', 'How much does a neuropsychological evaluation usually cost?', '/guides/neuropsychological-evaluation-cost/'],
+      ['Full evaluation', 'How much does a neuropsychological evaluation usually cost?', '/guides/hospital-vs-private-neuropsych-testing/'],
       ['Testing time', 'How long does testing take?', '/guides/neuropsych-testing-overview/'],
-      ['Report', 'When will I receive the final report?', '/guides/what-a-neuro-report-includes/'],
+      ['Report', 'When will I receive the final report?', '/guides/using-results-for-school-or-work/'],
       ['Insurance', 'Does insurance cover evaluations?', '/guides/neuro-insurance-and-out-of-network/'],
       ['Who evaluates', 'Who conducts the evaluation?', '/guides/how-to-choose-a-neuro-evaluation-provider/']
     ],
@@ -298,7 +298,10 @@ function renderFooterHtml(verticalKey, sharedFooterHtml) {
 function routeChecker(knownRoutes, verticalKey) {
   return (href) => {
     if (!/^\/guides\/.+/.test(href)) return href;
-    if (!knownRoutes.has(href)) throw new Error('homepage_v2: ' + verticalKey + ' links to ' + href + ', which is not a page in this pack');
+    // A #fragment points into a section of a page (a folded guide lives on as a
+    // section of its target); the page itself must still be in this pack.
+    const page = href.split('#')[0];
+    if (!knownRoutes.has(page)) throw new Error('homepage_v2: ' + verticalKey + ' links to ' + href + ', which is not a page in this pack');
     return href;
   };
 }

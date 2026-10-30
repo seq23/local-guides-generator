@@ -65,6 +65,10 @@ console.log(`SITE HYGIENE REGISTRY CONTRACT PASS (${reg.build_steps.length} step
   if (!sites.length) fail('sites.json lists no site');
   const maxAge = si.freshness_days * 86400000;
   let targets = 0;
+  let foldedTotal = 0;
+  const packDir = path.join(ROOT, 'data/page_sets/examples');
+  const redirectRows = fs.readdirSync(packDir).filter((f) => /^[a-z_]+_v1\.json$/.test(f) && !f.startsWith('cities_'))
+    .flatMap((f) => JSON.parse(read(`data/page_sets/examples/${f}`)).legacyRedirects || []);
   for (const site of sites) {
     const dir = `data/search_intelligence/${site.host}`;
     // A newly added property is measured from the day Search Console grants the
@@ -94,8 +98,24 @@ console.log(`SITE HYGIENE REGISTRY CONTRACT PASS (${reg.build_steps.length} step
     targets += tq.targets.length;
     const cc = j('consolidation_candidates.json');
     if (cc.status !== 'LEDGER_ONLY_NO_REDIRECTS' || cc.candidates.some((c) => !c.fold_into)) fail(`${dir}/consolidation_candidates.json must be a ledger with a fold_into per candidate`);
+    // A folded guide must really be gone: a 301 in its pack to the recorded target.
+    for (const c of cc.folded || []) {
+      const from = String(c.route || '').replace(/\/+$/, '');
+      const hit = redirectRows.find((r) => String(r.from || '').replace(/\/+$/, '') === from);
+      if (!c.redirect_to || !hit) fail(`${dir}: folded ${c.route} has no legacyRedirects row in any pack`);
+      if (hit.to !== c.redirect_to) fail(`${dir}: folded ${c.route} redirects to ${hit.to}, ledger says ${c.redirect_to}`);
+      // A folded list row is recorded as <list file>#<slug>: the row must be gone from that list.
+      const [srcFile, srcRow] = String(c.source || '').split('#');
+      if (srcRow) {
+        const abs = path.join(ROOT, srcFile.split(' ')[0]);
+        if (!fs.existsSync(abs)) fail(`${dir}: folded ${c.route} names a list that does not exist: ${srcFile}`);
+        else if (!/data\/cities\.json$/.test(abs) && JSON.parse(fs.readFileSync(abs, 'utf8')).some((r) => r && r.slug === srcRow.split(' ')[0])) fail(`${dir}: folded ${c.route} is still a row of ${srcFile}`);
+      } else if (fs.existsSync(path.join(ROOT, c.source))) fail(`${dir}: folded ${c.route} still has its source file ${c.source}`);
+      foldedTotal += 1;
+    }
   }
   if (targets === 0) fail('zero measured targets across all sites');
+  console.log(`search intelligence: ${foldedTotal} folded guide(s) checked against pack redirects`);
   const freeze = JSON.parse(read(si.freeze_flag));
   if (typeof freeze.enabled !== 'boolean') fail(`${si.freeze_flag} enabled must be a boolean`);
   for (const r of si.freeze_readers) if (!read(r).includes('publishing_freeze.json') || !read(r).includes('FREEZE.enabled')) fail(`${r} no longer reads the publishing freeze`);

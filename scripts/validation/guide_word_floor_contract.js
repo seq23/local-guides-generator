@@ -26,13 +26,15 @@
  * Adding a pack is the last step of fixing its guides, in the same change.
  *
  * Why PROVEN exists. A pack is enforced only once ALL of its guides clear the
- * floor, and these packs are fixed a few guides per weekly brief, so a guide
- * raised over the floor in an unenforced pack had nothing holding it there: the
- * pack-level skip meant the next edit could take it back under and no check
- * would notice until the brief came round again. PROVEN names every guide a
- * brief has already carried over the floor, and those are measured even when
- * their pack is skipped. The floor a guide has cleared is a floor it keeps.
- * Every brief that raises a guide adds it here in the same change.
+ * floor, and five of the six are not there yet (~84 guides of substantive legal,
+ * clinical and treatment content remain). Until then the whole pack is skipped --
+ * so a guide a brief has just carried over the floor had nothing holding it
+ * there. Deleting its new sections, or breaking its route so it stops rendering,
+ * would have passed this gate silently and the next weekly audit would have
+ * re-found the same page. PROVEN names every guide a brief has already raised and
+ * measures those pages even when their pack is skipped. It fails both ways: a
+ * named guide back under the floor, and a named guide that has stopped rendering
+ * at all.
  *
  * Usage: LKG_VALIDATE_DIST=1 PAGE_SET_FILE=<pack> node scripts/validation/guide_word_floor_contract.js
  * Runs in the hard_fail tier, which scripts/build_all_packs.js invokes once per
@@ -40,7 +42,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { visibleWordCount } = require('./lib/visible_words');
+const { decode, visibleWordCount } = require('./lib/visible_words');
 
 const FLOOR = 1800;
 
@@ -52,25 +54,18 @@ const ENFORCED = ['dentistry_v1.json'];
 //
 // Measured 26 Oct 2026 with visibleWordCount below, every rendered guide in the
 // pack, so the next pass starts from the real number instead of re-sampling:
-//   pi_v1    28 of 35 guides under the floor, lowest 1,173 (product-liability)
+//   pi_v1    24 of 34 guides under the floor, lowest 1,173 (product-liability)
 //   neuro_v1 19 of 32 guides under the floor, lowest 1,371
 //            (what-to-expect-after-a-neuro-evaluation)
-//   trt_v1   39 of 50 guides under the floor, lowest 1,059
+//   trt_v1   37 of 50 guides under the floor, lowest 1,096
 //            (peptides-for-hair-loss-explained)
-// The six guides the 26 Oct queue named are now over it
-// (/guides/motorcycle-accidents/ 1,879; /guides/neuropsych-testing-overview/
-// 1,874; /guides/peptide-program-costs/ 2,020;
-// /guides/what-is-hair-microneedling/ 2,216;
-// /guides/peptide-clinic-near-me/ 2,196; /guides/what-is-hair-botox/ 2,095),
-// which is why those briefs are closed and these packs are not yet enforced:
-// ~82 guides of substantive legal, clinical and treatment content remain, and
+// The pi_v1 and trt_v1 figures were re-measured on this branch after the three
+// guides below were raised; re-measure rather than subtract, because the pack's
+// guide list moves too.
+// Every guide a queue brief has named so far is now over the floor and held by
+// PROVEN, which is why those briefs are closed while these packs stay unenforced:
+// ~80 guides of substantive legal, clinical and treatment content remain, and
 // padding them to clear a word count is the failure this floor exists to catch.
-//
-// Why the trt_v1 count did not fall by two. The two guides the 26 Oct queue
-// named were fixed in this change, which took the pack from 41 under the floor
-// to 39 -- the figure recorded above as 39 was measured before them and was
-// already stale by two. The number here is now a fresh measurement of the
-// rendered pack, taken after the fix, and the lowest page moved with it.
 const PENDING = {
   'uscis_medical_v1.json': 'sr-uscisexam.com-j3',
   'pi_v1.json': 'sr-theaccidentguides.com-j3',
@@ -79,19 +74,114 @@ const PENDING = {
   'senior_living_v1.json': 'no j3 brief open',
 };
 
-// Guides already carried over the floor by a Search Readiness brief, per pack.
-// Their packs are still in PENDING because other guides in them are short, but
-// these specific pages are measured on every run and may not fall back under.
+// Guides a Search Readiness brief has already carried over the floor, by pack.
+// Measured on the rendered page with visibleWordCount, the same number the audit
+// reports. Entries are added by the pass that raises a guide; nothing removes
+// them. A pack graduating to ENFORCED makes its entry redundant, not wrong.
 const PROVEN = {
-  'pi_v1.json': ['motorcycle-accidents'],
-  'neuro_v1.json': ['neuropsych-testing-overview'],
+  'uscis_medical_v1.json': [
+    // sr-uscisexam.com-j3, 30 Oct: itemized quote, record and payment worksheets.
+    'brooklyn-i693-medical-exam-prices',
+  ],
+  'dentistry_v1.json': [
+    // sr-dentistryguides.com-b3/d2/j3, 30 Oct: one H1, answer and offer table.
+    'ocala-dental-new-patient-specials-compared',
+  ],
+  'pi_v1.json': [
+    // sr-theaccidentguides.com-j3, 26 Oct 2026: 1,333 -> 2,500 and 1,542 -> 2,296.
+    'vehicle-collisions-near-law-enforcement-activity',
+    'what-a-personal-injury-case-costs-you',
+    // sr-theaccidentguides.com-j3, 26 Oct 2026 (second brief, different sampled
+    // pages): 1,309 -> truck-accidents, 1,688 -> settlement costs before/after suit.
+    'truck-accidents',
+    'settlement-costs-before-and-after-filing-suit',
+    // sr-theaccidentguides.com-j3, 27 Oct 2026: incident and care records,
+    // discharge questions, expense documentation and consultation ownership.
+    'spinal-cord-injury',
+    // sr-theaccidentguides.com-j3, 28 Oct: estimator source worksheet.
+    'settlement-calculator-red-flags',
+    // sr-theaccidentguides.com-j3, 28 Oct: insurer call preparation and records.
+    'recorded-statements-and-insurance-calls',
+    // sr-theaccidentguides.com-j3, 28 Oct: consultation comparison worksheet.
+    'questions-to-ask-a-personal-injury-lawyer',
+  ],
   'trt_v1.json': [
-    'peptide-program-costs',
-    'what-is-hair-microneedling',
-    'peptide-clinic-near-me',
-    'what-is-hair-botox',
+    // sr-hormonesivhair.com-j3, 26 Oct 2026: 1,145 -> 2,258.
+    'iv-hydration-therapy-overview',
+    // sr-hormonesivhair.com-j3, 26 Oct 2026 (later brief, a different sampled
+    // page): 1,162 -> 2,116.
+    'medical-weight-loss-pricing',
+    // sr-hormonesivhair.com-j3, 28 Oct: monitoring and review preparation.
+    'trt-first-90-days',
+    // sr-hormonesivhair.com-j3, 28 Oct: fertility handoff and bundle comparison.
+    'trt-fertility-and-family-planning',
+    'beauty-peptide-costs-and-bundles',
+    // sr-hormonesivhair.com-j3, 28 Oct: product, evidence and bundle comparison.
+    'peptides-vs-iv-therapy',
+  ],
+  'neuro_v1.json': [
+    // sr-neuroevalguides.com-j3, 30 Oct: written scope and booking comparison.
+    'neuro-provider-red-flags',
+    // sr-neuroevalguides.com-j3, 30 Oct: explicit answer before the estimator.
+    'neuropsych-evaluation-cost-estimator',
+    // sr-neuroevalguides.com-j3, 28 Oct: report-to-therapy handover and goals.
+    'adhd-therapy-after-an-evaluation',
+    // sr-neuroevalguides.com-j3, 29 Oct: records worksheet and feedback handoff.
+    'neuropsych-testing-children-vs-adults',
   ],
 };
+
+// These j3 repairs also prove the rendered house shape. Keep this scoped until
+// older guides have been reviewed; adding words alone must not close the brief
+// if the Quick answer heading or attributed intake link disappears again.
+const HOUSE_SHAPE = new Set([
+  'neuro-provider-red-flags',
+  'brooklyn-i693-medical-exam-prices',
+  'ocala-dental-new-patient-specials-compared',
+  'neuropsych-evaluation-cost-estimator',
+  'neuropsych-testing-children-vs-adults',
+  'questions-to-ask-a-personal-injury-lawyer',
+  'peptides-vs-iv-therapy',
+  'recorded-statements-and-insurance-calls',
+  'trt-fertility-and-family-planning',
+  'beauty-peptide-costs-and-bundles',
+]);
+
+const VISIBLE_FAQ_GUIDES = new Set([
+  'neuro-provider-red-flags',
+  'brooklyn-i693-medical-exam-prices',
+  'ocala-dental-new-patient-specials-compared',
+  'neuropsych-evaluation-cost-estimator',
+]);
+
+function shapeProblems(html, slug) {
+  const problems = [];
+  // Guide authors supply body content; the renderer adds the hero H1. A body
+  // heading nested inside a section bypassed its leading-heading cleanup and
+  // put two H1s on the Brooklyn and Ocala guides. Check what actually ships.
+  const h1s = (html.match(/<h1\b/gi) || []).length;
+  if (h1s !== 1) problems.push(`expected one H1, found ${h1s}`);
+  if (slug === 'ocala-dental-new-patient-specials-compared' && !/<table\b/i.test(html)) {
+    problems.push('comparison has no table');
+  }
+  if (!/<h2\b[^>]*>\s*Quick answer\s*<\/h2>/i.test(html)) problems.push('no Quick answer H2');
+  if ((html.match(/"@type"\s*:\s*"FAQPage"/g) || []).length > 1) problems.push('more than one FAQPage');
+  if (VISIBLE_FAQ_GUIDES.has(slug)) {
+    if (!/data-search-faq="true"/.test(html)) problems.push('no visible FAQ');
+    if (!(html.match(/"@type"\s*:\s*"FAQPage"/g) || []).length) problems.push('no FAQPage');
+  }
+  const hrefs = [...html.matchAll(/<a\b[^>]*\bhref\s*=\s*["']([^"']+)["']/gi)];
+  const hasIntake = hrefs.some((match) => {
+    let url;
+    try { url = new URL(decode(match[1]), 'https://guide.invalid'); } catch { return false; }
+    const params = url.searchParams;
+    return url.pathname === '/request-assistance/' && params.get('vertical') &&
+      (params.get('page_kind') || params.get('kind')) === 'guide' &&
+      (params.get('page_slug') || params.get('slug')) === `guides/${slug}`;
+  });
+  if (!hasIntake) problems.push('no intake CTA with vertical, guide kind and matching slug');
+  return problems;
+}
 
 function fail(lines) {
   console.error(`❌ GUIDE WORD FLOOR FAIL — ${lines.join('\n')}`);
@@ -110,46 +200,58 @@ function guidePages(distDir) {
   return out.sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
+// Every PROVEN guide in this pack: still rendered, and still over the floor.
+// Returns how many were measured so the run can say so out loud.
+function checkProven(pack, pages) {
+  const proven = PROVEN[pack] || [];
+  if (!proven.length) return 0;
+  const bySlug = new Map(pages.map((p) => [p.slug, p]));
+  const absent = [];
+  const under = [];
+  const malformed = [];
+  for (const slug of proven) {
+    const page = bySlug.get(slug);
+    if (!page) { absent.push(slug); continue; }
+    const html = fs.readFileSync(page.file, 'utf8');
+    const words = visibleWordCount(html);
+    if (words < FLOOR) under.push({ slug, words });
+    if (HOUSE_SHAPE.has(slug)) {
+      for (const problem of shapeProblems(html, slug)) malformed.push(`/guides/${slug}/: ${problem}`);
+    }
+  }
+  if (under.length || absent.length || malformed.length) {
+    const lines = [];
+    if (under.length) {
+      lines.push(`${under.length} guide(s) named in PROVEN for ${pack} fell back under the ${FLOOR}-word floor:`);
+      for (const u of under.sort((a, b) => a.words - b.words)) {
+        lines.push(`    /guides/${u.slug}/  ${u.words} words  (needs ${FLOOR - u.words} more)`);
+      }
+    }
+    if (absent.length) {
+      lines.push(`${absent.length} guide(s) named in PROVEN for ${pack} are not in the rendered pack: ${absent.map((s) => `/guides/${s}/`).join(', ')}.`);
+      lines.push('A page that stops rendering is how a closed brief silently reopens.');
+    }
+    if (malformed.length) lines.push(...malformed);
+    lines.push('');
+    lines.push('These pages were carried over the floor by a Search Readiness brief. Restore the');
+    lines.push('substance that was removed; do not remove the page from PROVEN, which is the one');
+    lines.push('edit this gate does not accept.');
+    fail(lines);
+  }
+  return proven.length;
+}
+
 function main() {
   const pack = path.basename(String(process.env.PAGE_SET_FILE || ''));
   const distDir = path.resolve(process.env.PAGES_OUT_DIR || 'dist');
 
-  if (!ENFORCED.includes(pack)) {
-    // Rule 0: no stage may exit 0 having done nothing without saying so. The
-    // pack is not enforced, but any guide a brief already raised is.
+  const enforced = ENFORCED.includes(pack);
+  const provenCount = (PROVEN[pack] || []).length;
+
+  if (!enforced && !provenCount) {
+    // Rule 0: no stage may exit 0 having done nothing without saying so.
     const why = PENDING[pack] ? `its guides are under the floor (${PENDING[pack]})` : 'it is not a known pack';
-    const proven = PROVEN[pack] || [];
-    let checked = 0;
-    if (proven.length && process.env.LKG_VALIDATE_DIST === '1' && fs.existsSync(distDir)) {
-      const regressed = [];
-      const absent = [];
-      for (const slug of proven) {
-        const file = path.join(distDir, 'guides', slug, 'index.html');
-        // A proven guide that stopped rendering is a regression too, not a skip.
-        if (!fs.existsSync(file)) { absent.push(slug); continue; }
-        checked += 1;
-        const words = visibleWordCount(fs.readFileSync(file, 'utf8'));
-        if (words < FLOOR) regressed.push({ slug, words });
-      }
-      if (absent.length) {
-        fail([`${absent.length} guide(s) named in PROVEN for ${pack} are not in the rendered pack: ${absent.map((s) => `/guides/${s}/`).join(', ')}.`,
-          'A guide a brief carried over the floor may not quietly stop being built.']);
-      }
-      if (regressed.length) {
-        const lines = [`${regressed.length} guide(s) in ${pack} fell back under the ${FLOOR}-word floor after a brief had carried them over it:`];
-        for (const r of regressed.sort((a, b) => a.words - b.words)) {
-          lines.push(`    /guides/${r.slug}/  ${r.words} words  (needs ${FLOOR - r.words} more)`);
-        }
-        lines.push('');
-        lines.push('These pages are listed in PROVEN in this file. Restore the substance that was removed;');
-        lines.push('do not remove the page from PROVEN, which is the one edit this gate does not accept.');
-        fail(lines);
-      }
-    }
-    const held = checked
-      ? ` ${checked} guide(s) already carried over the floor were re-measured and still clear it.`
-      : (proven.length ? ' Its proven guides were not measured: no rendered pack here.' : '');
-    console.log(`ℹ️ GUIDE WORD FLOOR SKIP — pack "${pack || '(none)'}" is not enforced: ${why}. Enforced: ${ENFORCED.join(', ')}.${held}`);
+    console.log(`ℹ️ GUIDE WORD FLOOR SKIP — pack "${pack || '(none)'}" is not enforced: ${why}. Enforced: ${ENFORCED.join(', ')}.`);
     return;
   }
   if (process.env.LKG_VALIDATE_DIST !== '1') {
@@ -160,7 +262,19 @@ function main() {
 
   const pages = guidePages(distDir);
   // An empty measurement is the "runs but inert" defect, not a pass.
-  if (!pages.length) fail([`no rendered /guides/ pages found under ${distDir}; ${pack} is enforced and must have them.`]);
+  if (!pages.length) {
+    const reason = enforced ? `${pack} is enforced and must have them` : `${provenCount} guide(s) named in PROVEN for ${pack} cannot be measured`;
+    fail([`no rendered /guides/ pages found under ${distDir}; ${reason}.`]);
+  }
+
+  // Runs for every pack, enforced or skipped: this is the gap PROVEN closes.
+  const measured = checkProven(pack, pages);
+
+  if (!enforced) {
+    const why = PENDING[pack] ? `its guides are under the floor (${PENDING[pack]})` : 'it is not a known pack';
+    console.log(`✅ GUIDE WORD FLOOR PARTIAL — pack "${pack}" is not enforced (${why}), but ${measured} guide(s) named in PROVEN are rendered and at or above ${FLOOR} words.`);
+    return;
+  }
 
   const short = [];
   for (const page of pages) {
@@ -183,4 +297,6 @@ function main() {
   console.log(`✅ GUIDE WORD FLOOR PASS — ${pages.length} ${pack} guide(s), all at or above ${FLOOR} words (lowest ${lowest}).`);
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = { shapeProblems };

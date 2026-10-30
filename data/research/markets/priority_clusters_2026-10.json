@@ -1,0 +1,306 @@
+{
+  "$schema": "lkg-geographic-market-priorities-v1",
+  "reviewed_on": "2026-10-29",
+  "strategy": "Focused, source-backed metro pilot. Do not mass-publish neighborhood variations, assert measured local ROI, or create fictional advertisers.",
+  "decision_policy": {
+    "status": "research_hypothesis_not_proven_roi",
+    "minimum_publish_evidence": [
+      "A distinct, useful local user question and at least one current primary source for material local claims",
+      "Verified real-world provider/service or official resource; address, service scope and offer limitations checked",
+      "No duplicative local doorway page or recycled place-name substitutions",
+      "Explicit independent editorial disclosure; no implied referral contracts or availability",
+      "Existing indexed pages checked for cannibalization before a new route is created"
+    ],
+    "minimum_scale_evidence": [
+      "Locale-specific search impression, volume and SERP competition analysis",
+      "Actual indexed/clicked pages and usable lead conversions by market",
+      "Verified paying advertiser or other realized revenue and attributable operating costs"
+    ],
+    "without_scale_evidence": "Do not describe the cluster as blue ocean, highest ROI or a proven revenue opportunity. Continue only bounded editorial tests."
+  },
+  "verticals": [
+    {
+      "key": "trt",
+      "domain": "hormonesivhair.com",
+      "intent": "actual local injection, IV, hair and hormone prices; distinguish routes and clinical scope",
+      "clusters": [
+        {
+          "rank": 1,
+          "hub": "Ocala, FL",
+          "nearby": [
+            "Belleview, FL",
+            "Silver Springs, FL"
+          ],
+          "reason": "Direct published NutriDrip vitamin C injection sale and separate DrIVe IM/IV services; regional growth is not proof of search demand.",
+          "proof": [
+            "https://www.nutridripinfusion.org/injection-therapy",
+            "https://drive-iv.com/iv-services/office-iv-services/"
+          ],
+          "next_page": "/guides/ocala-vitamin-c-injection-iv-prices/",
+          "status": "source_implemented_pending_release"
+        },
+        {
+          "rank": 2,
+          "hub": "Spartanburg, SC",
+          "nearby": [
+            "Greer, SC",
+            "Greenville, SC"
+          ],
+          "reason": "Regional growth hypothesis; must check competitor density and distinct provider fees.",
+          "proof": [],
+          "next_page": "Verified cash-pay TRT or vitamin-service cost comparison",
+          "status": "needs_local_proof"
+        },
+        {
+          "rank": 3,
+          "hub": "Huntsville, AL",
+          "nearby": [
+            "Madison, AL",
+            "Decatur, AL"
+          ],
+          "reason": "Cross-vertical regional learning opportunity; no local TRT conversion evidence yet.",
+          "proof": [],
+          "next_page": "Published local men's health pricing or a clinically specific hair treatment comparison",
+          "status": "needs_local_proof"
+        }
+      ]
+    },
+    {
+      "key": "neuro",
+      "domain": "neuroevalguides.com",
+      "intent": "ADHD assessment and neuropsych testing price, scope, age and documentation fit",
+      "clusters": [
+        {
+          "rank": 1,
+          "hub": "Huntsville, AL",
+          "nearby": [
+            "Madison, AL",
+            "Decatur, AL"
+          ],
+          "reason": "Four directly published assessment fees, with different intake, age and test scopes.",
+          "proof": [
+            "https://www.livinglifemadison.com/adhd-testing",
+            "https://www.wellspaceplaytherapy.com/adhd",
+            "https://www.lighthousepsychal.com/services-9",
+            "https://www.honeyvalleycounseling.com/cost"
+          ],
+          "next_page": "/guides/huntsville-adhd-testing-prices/",
+          "status": "source_implemented_pending_release"
+        },
+        {
+          "rank": 2,
+          "hub": "Fayetteville, AR",
+          "nearby": [
+            "Springdale, AR",
+            "Rogers, AR"
+          ],
+          "reason": "Growing multi-city region; actual neuro provider fee and availability verification required.",
+          "proof": [],
+          "next_page": "Local adult ADHD versus child evaluation comparison",
+          "status": "needs_local_proof"
+        },
+        {
+          "rank": 3,
+          "hub": "Spartanburg, SC",
+          "nearby": [
+            "Greer, SC",
+            "Boiling Springs, SC"
+          ],
+          "reason": "Secondary growth corridor; must establish diagnostic supply and SERP gap.",
+          "proof": [],
+          "next_page": "Local testing paths and insurance questions",
+          "status": "needs_local_proof"
+        }
+      ]
+    },
+    {
+      "key": "uscis_medical",
+      "domain": "uscisexam.com",
+      "intent": "I-693 authorized civil surgeons, complete exam quote and extra charge transparency",
+      "clusters": [
+        {
+          "rank": 1,
+          "hub": "McAllen, TX",
+          "nearby": [
+            "Edinburg, TX",
+            "Pharr, TX"
+          ],
+          "reason": "Two local practices advertise I-693 exams but have no confirmed complete online fee; publish designation and total-cost verification pathway, not a fictitious price ranking.",
+          "proof": [
+            "https://www.uscis.gov/tools/find-a-civil-surgeon",
+            "https://www.rioplexmedical.com/",
+            "https://www.drmegoemmanuelclinics.com/"
+          ],
+          "next_page": "/guides/mcallen-i693-exam-cost-and-civil-surgeons/",
+          "status": "clinic_services_verified_prices_unpublished_guide_pending_release"
+        },
+        {
+          "rank": 2,
+          "hub": "Laredo, TX",
+          "nearby": [
+            "Rio Bravo, TX"
+          ],
+          "reason": "Demographic hypothesis only; no locale-specific I-693 keyword or paid-lead data.",
+          "proof": [
+            "https://www.uscis.gov/tools/find-a-civil-surgeon"
+          ],
+          "next_page": "Laredo I-693 total-fee comparison",
+          "status": "needs_local_proof"
+        },
+        {
+          "rank": 3,
+          "hub": "Fresno, CA",
+          "nearby": [
+            "Clovis, CA",
+            "Visalia, CA"
+          ],
+          "reason": "Secondary inland regional cluster; competition and offer evidence pending.",
+          "proof": [
+            "https://www.uscis.gov/tools/find-a-civil-surgeon"
+          ],
+          "next_page": "Fresno civil surgeon exam charges",
+          "status": "needs_local_proof"
+        }
+      ]
+    },
+    {
+      "key": "pi",
+      "domain": "theaccidentguides.com",
+      "intent": "Post-accident practical steps, official data and independent lawyer selection",
+      "clusters": [
+        {
+          "rank": 1,
+          "hub": "St. Louis, MO",
+          "nearby": [
+            "St. Charles, MO",
+            "Chesterfield, MO"
+          ],
+          "reason": "Existing Search Console impression signal for Missouri personal injury queries; official crash report and bar referral sources now linked; no lead-revenue proof.",
+          "proof": [
+            "https://www.moep.uscourts.gov/lawyer-referral-and-information-service",
+            "https://www.stlouiscountypolice.com/resources-services/records-and-permits/central-police-records-services/",
+            "https://www.mshp.dps.missouri.gov/MSHPWeb/PatrolDivisions/PRD/TrafficCrashReports/PRDCrashReports.html"
+          ],
+          "next_page": "/guides/st-louis-accident-reports-lawyer-checklist/",
+          "status": "source_implemented_pending_release"
+        },
+        {
+          "rank": 2,
+          "hub": "Laredo, TX",
+          "nearby": [
+            "Webb County, TX"
+          ],
+          "reason": "TxDOT 2024 commercial motor vehicle crash count is a public crash-volume proxy, not a PI claim or legal lead measure.",
+          "proof": [
+            "https://www.txdot.gov/content/dam/docs/division/trf/crash-records/2024/30.pdf"
+          ],
+          "next_page": "Laredo truck accident document and lawyer-vetting checklist",
+          "status": "needs_local_proof"
+        },
+        {
+          "rank": 3,
+          "hub": "Midland, TX",
+          "nearby": [
+            "Odessa, TX"
+          ],
+          "reason": "TxDOT county crash context only; actual lawyer SERPs and economics remain unmeasured.",
+          "proof": [
+            "https://www.txdot.gov/content/dam/docs/division/trf/crash-records/2024/30.pdf"
+          ],
+          "next_page": "Midland Odessa collision records and injury guidance",
+          "status": "needs_local_proof"
+        }
+      ]
+    },
+    {
+      "key": "dentistry",
+      "domain": "dentistryguides.com",
+      "intent": "Patient-paid first visit, imaging, dental special terms and treatment-estimate transparency",
+      "clusters": [
+        {
+          "rank": 1,
+          "hub": "Billings, MT",
+          "nearby": [
+            "Laurel, MT",
+            "Lockwood, MT"
+          ],
+          "reason": "Published Brewer Dental $99 new uninsured patient special; source-backed guide already merged.",
+          "proof": [
+            "https://brewerdentalcenter.com/"
+          ],
+          "next_page": "/guides/billings-new-patient-dental-exam-prices/",
+          "status": "source_published_verify_deployment"
+        },
+        {
+          "rank": 2,
+          "hub": "Ocala, FL",
+          "nearby": [
+            "Belleview, FL"
+          ],
+          "reason": "Growth plus cross-vertical research logistics; no verified comparable dental pricing yet.",
+          "proof": [],
+          "next_page": "Ocala first-exam cash offers with eligibility",
+          "status": "needs_local_proof"
+        },
+        {
+          "rank": 3,
+          "hub": "Spartanburg, SC",
+          "nearby": [
+            "Greer, SC",
+            "Duncan, SC"
+          ],
+          "reason": "Secondary service corridor hypothesis; no verified local fee differential.",
+          "proof": [],
+          "next_page": "Spartanburg emergency versus routine dental fee breakdown",
+          "status": "needs_local_proof"
+        }
+      ]
+    },
+    {
+      "key": "senior_living",
+      "domain": "memphisseniorcarehomes.com",
+      "intent": "Real assisted living/memory care starting rates, availability process and regulator resources",
+      "clusters": [
+        {
+          "rank": 1,
+          "hub": "East Memphis, TN",
+          "nearby": [
+            "Germantown, TN",
+            "Collierville, TN"
+          ],
+          "reason": "Existing regional content/indexing now supported by published Memphis and Collierville assisted living and memory care starting rates; not comparable all-in resident quotes.",
+          "proof": [
+            "https://americareusa.net/senior-living/south-breeze-memphis-tn/",
+            "https://americareusa.net/senior-living/schilling-gardens-collierville-tn/"
+          ],
+          "next_page": "/guides/assisted-living-cost-memphis/",
+          "status": "source_implemented_pending_release"
+        },
+        {
+          "rank": 2,
+          "hub": "Southaven, MS",
+          "nearby": [
+            "Olive Branch, MS",
+            "Hernando, MS"
+          ],
+          "reason": "Cross-state Memphis care search corridor with existing geo coverage; provider rates still need verification.",
+          "proof": [],
+          "next_page": "Source-backed existing Mississippi-border care guides",
+          "status": "existing_page_upgrade"
+        },
+        {
+          "rank": 3,
+          "hub": "Bartlett, TN",
+          "nearby": [
+            "Cordova, TN",
+            "Arlington, TN"
+          ],
+          "reason": "Memphis-area resident search intent fits the domain; avoid uncontrolled national expansion.",
+          "proof": [],
+          "next_page": "Local care type, regulator and rates upgrade",
+          "status": "existing_page_upgrade"
+        }
+      ]
+    }
+  ]
+}

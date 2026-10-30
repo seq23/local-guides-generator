@@ -41,12 +41,6 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..', '..');
 const DIST = path.join(ROOT, 'dist');
-// The town pages, read from the page set so the fence derives from it rather
-// than restating it. A town is a city page that is not a Memphis neighbourhood.
-const CITIES_FILE = path.join(__dirname, '..', '..', 'data', 'page_sets', 'examples', 'cities_senior_living_v1.json');
-const ALL_PAGES = JSON.parse(fs.readFileSync(CITIES_FILE, 'utf8'));
-const TOWN_SLUGS = ALL_PAGES.filter((c) => c.kind === 'city' && !c.neighborhood_of).map((c) => c.slug);
-
 const FENCE = [
   'memphis-tn', 'east-memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'arlington-tn', 'lakeland-tn', 'millington-tn', 'southaven-ms', 'olive-branch-ms', 'horn-lake-ms', 'hernando-ms', 'west-memphis-ar', 'marion-ar',
   'midtown-memphis-tn', 'downtown-memphis-tn', 'whitehaven-memphis-tn', 'raleigh-memphis-tn', 'frayser-memphis-tn', 'hickory-hill-memphis-tn', 'berclair-memphis-tn', 'parkway-village-memphis-tn',
@@ -56,26 +50,26 @@ const FENCE = [
   'baptist-memorial-hospital-memphis', 'methodist-university-hospital', 'saint-francis-hospital-park-avenue', 'regional-one-health',
   'baptist-memorial-hospital-collierville', 'baptist-memorial-hospital-desoto', 'methodist-le-bonheur-germantown-hospital', 'methodist-north-hospital', 'methodist-south-hospital', 'memphis-va-medical-center', 'delta-specialty-hospital',
   'saint-francis-hospital-bartlett', 'methodist-olive-branch-hospital', 'baptist-memorial-hospital-crittenden',
-  // Care-type pages: both of them for EVERY town page, derived rather than
-  // listed (26 Oct 2026, brief sr-memphisseniorcarehomes.com-j9).
-  //
-  // Why this is derived now. This was a hand-kept list of towns, justified as
-  // "every town with licensed supply". Two things were wrong with it. The rule
-  // did not match its own list - arlington-tn was on it with no community of
-  // its own, while lakeland-tn, oakland-tn, nesbit-ms and byhalia-ms each have
-  // one and were missing - and the rule itself does not match what the site
-  // is for. Someone searching "memory care millington tn" is a family inside
-  // the service area whether or not Millington happens to license a community;
-  // facilitiesForPage() already answers them with the nearest memory care and
-  // says in the first sentence that none sits in their town. Withholding the
-  // page sent that search to a competitor instead. The Search Readiness
-  // coverage manifest asks for every service in every town for the same
-  // reason.
-  //
-  // Deriving it also closes the gap itself: a town added to this file gets its
-  // two care-type pages in the fence automatically, so the fence can no longer
-  // fall behind the town list the way it had for 17 of 28 towns.
-  ...TOWN_SLUGS.flatMap((t) => ['memory-care-' + t, 'assisted-living-' + t]),
+  // Care-type pages exist for every town with licensed supply in
+  // data/listings/senior-living/facilities.json - the seven biggest markets the
+  // owner approved on 25 Oct 2026, plus arlington-tn, covington-tn, hernando-ms
+  // and somerville-tn, added 26 Oct 2026 for brief
+  // sr-memphisseniorcarehomes.com-j9. "Every town that has licensed communities"
+  // is a rule this list can be measured against; "the biggest markets" was not.
+  ...['memphis-tn', 'germantown-tn', 'collierville-tn', 'bartlett-tn', 'cordova-tn', 'southaven-ms', 'olive-branch-ms',
+      'arlington-tn', 'covington-tn', 'hernando-ms', 'somerville-tn'].flatMap((t) => ['memory-care-' + t, 'assisted-living-' + t]),
+  // 26 Oct 2026 (Search Readiness j9, service x town): coverage towns inside
+  // the licence registries this site carries (TN HFC: Shelby, Tipton, Fayette;
+  // MSDH: DeSoto, Marshall) now has both care-type pages, even with no licensed
+  // community of its own: the page names the nearest ones with real distances,
+  // bed counts and licence status. The five coverage towns outside those
+  // registries (tunica-ms, senatobia-ms, west-memphis-ar, marion-ar, earle-ar)
+  // are folded with a 301 instead; the basis is in the pack's legacyRedirects
+  // and data/search_intelligence/memphisseniorcarehomes.com/consolidation_candidates.json.
+  // The four largest no-supply towns only: eight more (oakland, munford,
+  // rossville, eads, brighton, walls, nesbit, byhalia) would take the site past
+  // the cadence gate's maintainable ceiling of 195 URLs, so they are folded too.
+  ...['lakeland-tn', 'millington-tn', 'atoka-tn', 'horn-lake-ms'].flatMap((t) => ['memory-care-' + t, 'assisted-living-' + t]),
 ];
 const MIN_NEARBY_AREAS = 3;
 const MIN_CITY_WORDS = 600;
@@ -85,21 +79,12 @@ const problems = [];
 const read = (f) => fs.readFileSync(f, 'utf8');
 const text = (h) => String(h || '').replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ');
 const words = (h) => text(h).split(/\s+/).filter(Boolean).length;
-const slot = (city, zip) => `<div id="senior-intake" data-vertical="senior-living" data-city="${city}" data-zip="${zip}"></div><script src="/assets/senior-intake.js" defer></script>`;
+const slot = (city, zip) => `<form id="senior-intake" aria-label="Senior care matching" data-vertical="senior-living" data-city="${city}" data-zip="${zip}"></form><script src="/assets/senior-intake.js" defer></script>`;
 const section = (html, attr) => { const m = html.match(new RegExp(`<section[^>]*${attr}[^>]*>[\\s\\S]*?</section>`)); return m ? m[0] : ''; };
 
-const cities = ALL_PAGES;
+const cities = JSON.parse(read(path.join(ROOT, 'data', 'page_sets', 'examples', 'cities_senior_living_v1.json')));
 const slugs = cities.map((c) => c.slug);
 if (JSON.stringify([...slugs].sort()) !== JSON.stringify([...FENCE].sort())) problems.push(`cities_senior_living_v1.json is not the fence: ${slugs.join(', ')}`);
-// Rule 0: a derived fence would also be satisfied by a page set with no
-// care-type pages at all, so require the pair for every town by name.
-for (const t of TOWN_SLUGS) {
-  for (const want of ['memory-care-' + t, 'assisted-living-' + t]) {
-    const e = cities.find((x) => x.slug === want);
-    if (!e) problems.push(`town /${t}/ has no ${want.startsWith('memory') ? 'memory care' : 'assisted living'} page; every town carries both`);
-    else if (e.kind !== 'care_type' || e.status !== 'live') problems.push(`/${want}/ must be a live care_type page (kind ${e.kind}, status ${e.status})`);
-  }
-}
 for (const c of cities.filter((x) => x.kind === 'care_type')) {
   const base = cities.find((x) => x.slug === c.base_slug);
   if (!base || base.kind !== 'city') { problems.push(`${c.slug}: base_slug ${c.base_slug} is not a town page`); continue; }

@@ -39,9 +39,9 @@ function run() {
     '/guides/personal-injury-fees-explained/',
     '/guides/personal-injury-lawyer-red-flags/',
     '/guides/questions-to-ask-a-personal-injury-lawyer/',
-    '/guides/car-accidents/',
+    '/guides/what-to-do-after-an-accident/#car-accidents',
     '/guides/truck-accidents/',
-    '/guides/slip-and-fall/',
+    '/guides/premises-liability/#slip-and-fall',
     '/guides/brain-injury/',
     '/guides/medical-malpractice/'
   ], 'pi guides hub', issues);

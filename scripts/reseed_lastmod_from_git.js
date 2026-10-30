@@ -189,8 +189,25 @@ const mainContentOf = (json) => {
   return out;
 };
 const cityRow = (slug) => (rows) => (Array.isArray(rows) ? rows.find((r) => r && r.slug === slug) : undefined);
+// The state a city row belongs to. Most packs carry it in a `state` field, but
+// cities_pi_v1.json - the one pack that actually has /states/ pages - stores
+// nothing but `{slug}`, and the state is the slug's trailing segment
+// (`atlanta-ga` -> GA). Reading only `state` therefore matched no row on the
+// only pack where it is ever asked, so every /states/<AB>/ URL resolved to an
+// empty slice, `sliceDates` returned null, and all 100 theaccidentguides.com
+// state URLs came out of the reseeder as "sources have no commit history" and
+// kept whatever date they already had - the uniform build date that put 49 of
+// 50 URLs in sitemap-states.xml on 2026-10-25 and failed Search Readiness item
+// a6. The field is still preferred where it exists; the slug is the fallback,
+// not a replacement.
+const stateOf = (row) => {
+  const declared = String((row && row.state) || '').trim();
+  if (declared) return declared.toLowerCase();
+  const m = /-([a-z]{2})$/i.exec(String((row && row.slug) || ''));
+  return m ? m[1].toLowerCase() : '';
+};
 const stateRows = (abbr) => (rows) => (Array.isArray(rows)
-  ? rows.filter((r) => r && String(r.state || '').toLowerCase() === abbr).sort((a, b) => String(a.slug).localeCompare(String(b.slug)))
+  ? rows.filter((r) => r && stateOf(r) === abbr).sort((a, b) => String(a.slug).localeCompare(String(b.slug)))
   : undefined);
 
 const hostToPack = new Map();
@@ -402,5 +419,5 @@ function main() {
 
 if (require.main === module) main();
 
-module.exports = { main, sourcesFor, sliceDates, datesFor, cityRow, stateRows, mainContentOf, HEAD_ONLY_KEYS, GUIDE_REGISTRY };
+module.exports = { main, sourcesFor, sliceDates, datesFor, cityRow, stateRows, stateOf, mainContentOf, HEAD_ONLY_KEYS, GUIDE_REGISTRY };
 

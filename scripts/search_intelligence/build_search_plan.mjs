@@ -104,10 +104,16 @@ for (const site of sites) {
       fold_into: best ? best.route : '/guides/', fold_basis: best ? `shares ${score} topic words with a guide that has impressions` : 'no topical guide with impressions; the guides hub' });
   }
   candidates.sort((a, b) => a.route.localeCompare(b.route));
+  // Guides already folded and 301'd stay on record across regenerations, with the
+  // measurement that judges the fold; their source files are gone, so nothing
+  // above would ever list them again.
+  const prevLedger = read(path.join(dir, 'consolidation_candidates.json'), {});
+  const folded = Array.isArray(prevLedger.folded) ? prevLedger.folded : [];
   write(path.join(dir, 'consolidation_candidates.json'), {
     schema_version: '1.0', host: site.host, status: 'LEDGER_ONLY_NO_REDIRECTS', gsc_window: window,
     rule: `Guide page with 0 impressions in the window and fewer than ${THIN_WORDS} words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.`,
-    guide_count: guides.length, candidate_count: candidates.length, candidates
+    guide_count: guides.length, candidate_count: candidates.length, candidates,
+    ...(folded.length ? { folded_note: prevLedger.folded_note, folded, measurement: prevLedger.measurement } : {})
   });
 
   // Demand families and strengthening candidates (impressions-weighted rule).

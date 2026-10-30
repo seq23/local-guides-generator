@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-25..2026-10-22",
-  "gsc_collected_at": "2026-10-25T17:10:42+00:00",
+  "gsc_window": "2026-09-29..2026-10-26",
+  "gsc_collected_at": "2026-10-29T13:36:35+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -16,21 +16,21 @@
   "top_families": [
     {
       "rank": 1,
+      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
+      "impressions": 8,
+      "status": "strengthened"
+    },
+    {
+      "rank": 2,
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
       "impressions": 3,
       "status": "strengthened"
     },
     {
-      "rank": 2,
-      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "impressions": 2,
-      "status": "below_impression_floor"
-    },
-    {
       "rank": 3,
       "family": "choose a provider @ /states/{STATE}/",
       "impressions": 1,
-      "status": "below_impression_floor"
+      "status": "strengthened"
     },
     {
       "rank": 4,
@@ -46,6 +46,51 @@
     }
   ],
   "families": [
+    {
+      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/neuropsych-testing-cost-by-state/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 8,
+      "best_position": 87.5,
+      "weighted_position": 88.4,
+      "top_query": "neuropsychological testing cost",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "neuropsychological testing cost",
+          "route": "/guides/neuropsych-testing-cost-by-state/",
+          "impressions": 6,
+          "position": 88.7
+        },
+        {
+          "query": "cost of a neuropsychological evaluation",
+          "route": "/guides/neuropsych-testing-cost-by-state/",
+          "impressions": 2,
+          "position": 87.5
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/neuropsych-testing-cost-by-state/",
+          "family_impressions": 8,
+          "page_impressions": 22,
+          "page_position": 36.8
+        }
+      ],
+      "rank": 1,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/neuropsych-testing-cost-by-state/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json search_strengthening"
+    },
     {
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
       "intent": "comparison",
@@ -70,11 +115,11 @@
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "family_impressions": 3,
-          "page_impressions": 7,
-          "page_position": 12
+          "page_impressions": 8,
+          "page_position": 11.6
         }
       ],
-      "rank": 1,
+      "rank": 2,
       "basis": [
         "ranking_page"
       ],
@@ -84,41 +129,6 @@
       ],
       "status": "strengthened",
       "reason": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json search_strengthening"
-    },
-    {
-      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "intent": "cost",
-      "head_term": "cost",
-      "page": "/guides/neuropsych-testing-cost-by-state/",
-      "page_kind": "guide",
-      "page_intent": "cost",
-      "impressions": 2,
-      "best_position": 92,
-      "weighted_position": 92,
-      "top_query": "neuropsychological testing cost",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "neuropsychological testing cost",
-          "route": "/guides/neuropsych-testing-cost-by-state/",
-          "impressions": 2,
-          "position": 92
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/neuropsych-testing-cost-by-state/",
-          "family_impressions": 2,
-          "page_impressions": 18,
-          "page_position": 16.8
-        }
-      ],
-      "rank": 2,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "2 impressions < 5"
     },
     {
       "family": "choose a provider @ /states/{STATE}/",
@@ -144,16 +154,20 @@
         {
           "route": "/states/SD/",
           "family_impressions": 1,
-          "page_impressions": 5,
-          "page_position": 19.4
+          "page_impressions": 10,
+          "page_position": 12.3
         }
       ],
       "rank": 3,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "1 impressions < 5"
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/states/SD/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_v1.json search_strengthening.state_hub"
     },
     {
       "family": "other @ /contact/",
@@ -179,8 +193,8 @@
         {
           "route": "/contact/",
           "family_impressions": 1,
-          "page_impressions": 2,
-          "page_position": 34
+          "page_impressions": 5,
+          "page_position": 17.2
         }
       ],
       "rank": 4,
@@ -214,8 +228,8 @@
         {
           "route": "/privacy/",
           "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 32.3
+          "page_impressions": 6,
+          "page_position": 19.7
         }
       ],
       "rank": 5,

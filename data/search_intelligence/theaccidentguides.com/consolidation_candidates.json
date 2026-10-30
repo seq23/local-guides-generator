@@ -2,11 +2,13 @@
   "schema_version": "1.0",
   "host": "theaccidentguides.com",
   "status": "LEDGER_ONLY_NO_REDIRECTS",
-  "gsc_window": "2026-09-25..2026-10-22",
+  "gsc_window": "2026-09-29..2026-10-26",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
-  "guide_count": 34,
-  "candidate_count": 15,
-  "candidates": [
+  "guide_count": 23,
+  "candidate_count": 0,
+  "candidates": [],
+  "folded_note": "Guides already folded and 301d (pack legacyRedirects). Carried forward by build_search_plan.mjs on every regeneration; checked by site_hygiene_registry_contract.js against the pack redirects.",
+  "folded": [
     {
       "route": "/guides/bicycle-accidents/",
       "source": "data/page_sets/examples/pi_global_pages/bicycle-accidents.json",
@@ -14,7 +16,10 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/motorcycle-accidents/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/motorcycle-accidents/",
+      "fold_basis_applied": "ledger target is on-topic by title",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/bus-accidents/",
@@ -23,7 +28,10 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/motorcycle-accidents/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/what-to-do-after-an-accident/",
+      "fold_basis_applied": "ledger target /guides/motorcycle-accidents/ is off-topic by title; folded into the on-topic guide /guides/what-to-do-after-an-accident/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/bystander-injuries-near-law-enforcement/",
@@ -32,7 +40,10 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/injuries-during-immigration-enforcement/",
-      "fold_basis": "shares 3 topic words with a guide that has impressions"
+      "fold_basis": "shares 3 topic words with a guide that has impressions",
+      "redirect_to": "/guides/injuries-during-immigration-enforcement/",
+      "fold_basis_applied": "ledger target is on-topic by title",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/car-accidents/",
@@ -41,7 +52,10 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/motorcycle-accidents/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/what-to-do-after-an-accident/",
+      "fold_basis_applied": "ledger target /guides/motorcycle-accidents/ is off-topic by title; folded into the on-topic guide /guides/what-to-do-after-an-accident/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/catastrophic-injury/",
@@ -50,7 +64,10 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/burn-injury/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/brain-injury/",
+      "fold_basis_applied": "ledger target /guides/burn-injury/ is off-topic by title; folded into the on-topic guide /guides/brain-injury/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/dog-bites/",
@@ -59,16 +76,10 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/injuries-during-immigration-enforcement/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
-    },
-    {
-      "route": "/guides/medical-malpractice/",
-      "source": "data/page_sets/examples/pi_global_pages/medical-malpractice.json",
-      "words": 560,
-      "impressions_28d": 0,
-      "coverage_state": "Crawled - currently not indexed",
-      "fold_into": "/guides/medical-bills-behind-a-settlement/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/premises-liability/",
+      "fold_basis_applied": "ledger target /guides/injuries-during-immigration-enforcement/ is off-topic by title; folded into the on-topic guide /guides/premises-liability/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/nursing-home-abuse/",
@@ -77,7 +88,10 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/injuries-during-immigration-enforcement/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/medical-malpractice/",
+      "fold_basis_applied": "ledger target /guides/injuries-during-immigration-enforcement/ is off-topic by title; folded into the on-topic guide /guides/medical-malpractice/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/pedestrian-accidents/",
@@ -86,7 +100,10 @@
       "impressions_28d": 0,
       "coverage_state": "URL is unknown to Google",
       "fold_into": "/guides/motorcycle-accidents/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/motorcycle-accidents/",
+      "fold_basis_applied": "ledger target is on-topic by title",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/product-liability/",
@@ -95,7 +112,10 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/premises-liability/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/",
+      "fold_basis_applied": "ledger target /guides/premises-liability/ is off-topic by title and no on-topic guide exists; folded into the guides hub per the brief",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/rideshare-accidents/",
@@ -104,7 +124,10 @@
       "impressions_28d": 0,
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/motorcycle-accidents/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/what-to-do-after-an-accident/",
+      "fold_basis_applied": "ledger target /guides/motorcycle-accidents/ is off-topic by title; folded into the on-topic guide /guides/what-to-do-after-an-accident/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/slip-and-fall/",
@@ -113,25 +136,10 @@
       "impressions_28d": 0,
       "coverage_state": "Crawled - currently not indexed",
       "fold_into": "/guides/burn-injury/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
-    },
-    {
-      "route": "/guides/vehicle-collisions-near-law-enforcement-activity/",
-      "source": "data/page_sets/examples/pi_global_pages/vehicle-collisions-near-law-enforcement-activity.json",
-      "words": 466,
-      "impressions_28d": 0,
-      "coverage_state": "Discovered - currently not indexed",
-      "fold_into": "/guides/injuries-during-immigration-enforcement/",
-      "fold_basis": "shares 3 topic words with a guide that has impressions"
-    },
-    {
-      "route": "/guides/what-a-personal-injury-case-costs-you/",
-      "source": "data/page_sets/examples/pi_global_pages/what-a-personal-injury-case-costs-you.json",
-      "words": 512,
-      "impressions_28d": 0,
-      "coverage_state": "Submitted and indexed",
-      "fold_into": "/guides/personal-injury-fees-explained/",
-      "fold_basis": "shares 4 topic words with a guide that has impressions"
+      "fold_basis": "shares 1 topic words with a guide that has impressions",
+      "redirect_to": "/guides/premises-liability/",
+      "fold_basis_applied": "ledger target /guides/burn-injury/ is off-topic by title; folded into the on-topic guide /guides/premises-liability/",
+      "folded_on": "2026-10-26"
     },
     {
       "route": "/guides/workplace-injuries/",
@@ -140,7 +148,17 @@
       "impressions_28d": 0,
       "coverage_state": "Submitted and indexed",
       "fold_into": "/guides/injuries-during-immigration-enforcement/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "fold_basis": "shares 2 topic words with a guide that has impressions",
+      "redirect_to": "/guides/",
+      "fold_basis_applied": "ledger target /guides/injuries-during-immigration-enforcement/ is off-topic by title and no on-topic guide exists; folded into the guides hub per the brief",
+      "folded_on": "2026-10-26"
     }
-  ]
+  ],
+  "measurement": {
+    "metric": "indexed URLs in index_coverage.json",
+    "baseline_2026_10_25": 66,
+    "read_on": "2026-11-15",
+    "success": "+5 indexed on at least 3 of the 5 hosts",
+    "fallback": "below that, the thin guides were not the problem; the unindexed bulk is city and state pages and gets its own brief"
+  }
 }

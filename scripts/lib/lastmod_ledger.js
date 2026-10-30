@@ -93,13 +93,34 @@ function buildDate() {
 // template tweak is silent and a rewritten page is not.
 const MAIN_REGION = /<main\b[^>]*>([\s\S]*?)<\/main>/i;
 
+// lastmod_apply.js writes these labels AFTER hashing. On reapplication (for
+// example refresh:verification), hashing that generated markup made every page
+// look edited: all 856 pages on the four a6 sites advanced without a content
+// change. Remove only its exact generated line, including the whitespace it
+// inserts, and return the homepage's time element to its pre-stamp form.
+// This preserves existing raw-page hashes; no basis migration or date reset is
+// needed. Ordinary dates in editorial content remain part of the hash.
+const FRESHNESS_LINE = /\n    <p class="page-freshness" data-page-freshness="true">Published <time data-page-published="true" datetime="[^"]*">[^<]*<\/time> · Updated <time data-page-modified="true" datetime="[^"]*">[^<]*<\/time><\/p>\n  /g;
+const MODIFIED_TIME = /<time data-page-modified="true" datetime="[^"]*">[^<]*<\/time>/g;
+
 function hashableBody(html) {
   const doc = String(html);
   const m = doc.match(MAIN_REGION);
   // No <main> is a real possibility (redirect stubs, 404). Falling back to the
   // whole document is correct there - it is the only content those pages have -
   // and it is conservative: at worst such a page keeps the old behaviour.
-  return m ? m[1] : doc;
+  // The senior wizard's empty mount changed from a div to a semantic form.
+  // Its questions still come from senior-intake.js; that wrapper is not an
+  // editorial refresh of 183 pages. Keep the historical representation in the
+  // hash, retaining the city/ZIP attributes and every byte of actual content.
+  // Only this empty mount is equivalent; populated or unrelated forms are not.
+  return (m ? m[1] : doc)
+    .replace(FRESHNESS_LINE, '')
+    .replace(MODIFIED_TIME, '<time data-page-modified="true" datetime="<<BUILD_TIMESTAMP>>"><<BUILD_TIMESTAMP>></time>')
+    .replace(
+      /<form id="senior-intake" aria-label="Senior care matching" (data-vertical="senior-living" data-city="[^"]*" data-zip="[^"]*")><\/form>/g,
+      '<div id="senior-intake" $1></div>'
+    );
 }
 
 function contentHash(html) {

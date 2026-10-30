@@ -2,100 +2,695 @@
   "schema_version": "1.0",
   "host": "dentistryguides.com",
   "status": "LEDGER_ONLY_NO_REDIRECTS",
-  "gsc_window": "2026-09-25..2026-10-22",
+  "gsc_window": "2026-09-29..2026-10-26",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
-  "guide_count": 23,
-  "candidate_count": 10,
-  "candidates": [
+  "guide_count": 24,
+  "candidate_count": 0,
+  "candidates": [],
+  "folded_note": "Pages already folded and 301d (pack legacyRedirects). Carried forward by build_search_plan.mjs on every regeneration; checked by site_hygiene_registry_contract.js against the pack redirects. 2026-10-26: every dentistry city page without a research file (a noindexed slug-template placeholder) folded into its state page.",
+  "folded": [
     {
-      "route": "/guides/clear-aligners/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_clear-aligners.json",
-      "words": 458,
-      "impressions_28d": 0,
-      "coverage_state": "Discovered - currently not indexed",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "route": "/chandler-az/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#chandler-az",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/AZ/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/AZ/",
+      "also_redirected": [
+        "/chandler-az/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/cosmetic-dentistry/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_cosmetic-dentistry.json",
-      "words": 527,
-      "impressions_28d": 0,
-      "coverage_state": "Crawled - currently not indexed",
-      "fold_into": "/guides/sedation-dentistry/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "route": "/mesa-az/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#mesa-az",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/AZ/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/AZ/",
+      "also_redirected": [
+        "/mesa-az/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/dental-crowns/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_dental-crowns.json",
-      "words": 333,
-      "impressions_28d": 0,
-      "coverage_state": "Discovered - currently not indexed",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "route": "/phoenix-az/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#phoenix-az",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/AZ/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/AZ/",
+      "also_redirected": [
+        "/phoenix-az/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/full-arch-implants/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_full-arch-implants.json",
-      "words": 457,
-      "impressions_28d": 0,
-      "coverage_state": "Discovered - currently not indexed",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "route": "/elk-grove-ca/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#elk-grove-ca",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/CA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/CA/",
+      "also_redirected": [
+        "/elk-grove-ca/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/gum-disease-treatment/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_gum-disease-treatment.json",
-      "words": 340,
-      "impressions_28d": 0,
-      "coverage_state": "URL is unknown to Google",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "route": "/fresno-ca/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#fresno-ca",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/CA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/CA/",
+      "also_redirected": [
+        "/fresno-ca/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/oral-surgery/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_oral-surgery.json",
-      "words": 342,
-      "impressions_28d": 0,
-      "coverage_state": "Crawled - currently not indexed",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "route": "/modesto-ca/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#modesto-ca",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/CA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/CA/",
+      "also_redirected": [
+        "/modesto-ca/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/root-canal-treatment/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_root-canal-treatment.json",
-      "words": 402,
-      "impressions_28d": 0,
-      "coverage_state": "URL is unknown to Google",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "route": "/sacramento-ca/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#sacramento-ca",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/CA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/CA/",
+      "also_redirected": [
+        "/sacramento-ca/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/tooth-extractions/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_tooth-extractions.json",
-      "words": 457,
-      "impressions_28d": 0,
-      "coverage_state": "URL is unknown to Google",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "route": "/colorado-springs-co/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#colorado-springs-co",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/CO/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/CO/",
+      "also_redirected": [
+        "/colorado-springs-co/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/upfront-dental-pricing-checklist/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_upfront-dental-pricing-checklist.json",
-      "words": 406,
-      "impressions_28d": 0,
-      "coverage_state": "Submitted and indexed",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 2 topic words with a guide that has impressions"
+      "route": "/fort-collins-co/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#fort-collins-co",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/CO/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/CO/",
+      "also_redirected": [
+        "/fort-collins-co/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     },
     {
-      "route": "/guides/veneers/",
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_veneers.json",
-      "words": 383,
-      "impressions_28d": 0,
-      "coverage_state": "Submitted and indexed",
-      "fold_into": "/guides/dental-implants/",
-      "fold_basis": "shares 1 topic words with a guide that has impressions"
+      "route": "/lakewood-co/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#lakewood-co",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/CO/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/CO/",
+      "also_redirected": [
+        "/lakewood-co/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/boca-raton-fl/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#boca-raton-fl",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/FL/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/FL/",
+      "also_redirected": [
+        "/boca-raton-fl/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/fort-lauderdale-fl/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#fort-lauderdale-fl",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/FL/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/FL/",
+      "also_redirected": [
+        "/fort-lauderdale-fl/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/tampa-fl/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#tampa-fl",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/FL/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/FL/",
+      "also_redirected": [
+        "/tampa-fl/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/athens-ga/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#athens-ga",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/GA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/GA/",
+      "also_redirected": [
+        "/athens-ga/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/augusta-ga/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#augusta-ga",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/GA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/GA/",
+      "also_redirected": [
+        "/augusta-ga/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/bloomington-il/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#bloomington-il",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/IL/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/IL/",
+      "also_redirected": [
+        "/bloomington-il/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/champaign-il/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#champaign-il",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/IL/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/IL/",
+      "also_redirected": [
+        "/champaign-il/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/evansville-in/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#evansville-in",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/IN/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/IN/",
+      "also_redirected": [
+        "/evansville-in/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/fort-wayne-in/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#fort-wayne-in",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/IN/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/IN/",
+      "also_redirected": [
+        "/fort-wayne-in/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/indianapolis-in/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#indianapolis-in",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/IN/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/IN/",
+      "also_redirected": [
+        "/indianapolis-in/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/olathe-ks/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#olathe-ks",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/KS/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/KS/",
+      "also_redirected": [
+        "/olathe-ks/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/overland-park-ks/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#overland-park-ks",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/KS/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/KS/",
+      "also_redirected": [
+        "/overland-park-ks/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/wichita-ks/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#wichita-ks",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/KS/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/KS/",
+      "also_redirected": [
+        "/wichita-ks/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/detroit-mi/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#detroit-mi",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/MI/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/MI/",
+      "also_redirected": [
+        "/detroit-mi/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/grand-rapids-mi/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#grand-rapids-mi",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/MI/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/MI/",
+      "also_redirected": [
+        "/grand-rapids-mi/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/lansing-mi/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#lansing-mi",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/MI/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/MI/",
+      "also_redirected": [
+        "/lansing-mi/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/asheville-nc/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#asheville-nc",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/NC/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/NC/",
+      "also_redirected": [
+        "/asheville-nc/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/charlotte-nc/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#charlotte-nc",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/NC/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/NC/",
+      "also_redirected": [
+        "/charlotte-nc/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/raleigh-nc/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#raleigh-nc",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/NC/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/NC/",
+      "also_redirected": [
+        "/raleigh-nc/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/albany-ny/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#albany-ny",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/NY/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/NY/",
+      "also_redirected": [
+        "/albany-ny/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/buffalo-ny/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#buffalo-ny",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/NY/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/NY/",
+      "also_redirected": [
+        "/buffalo-ny/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/rochester-ny/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#rochester-ny",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/NY/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/NY/",
+      "also_redirected": [
+        "/rochester-ny/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/cincinnati-oh/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#cincinnati-oh",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/OH/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/OH/",
+      "also_redirected": [
+        "/cincinnati-oh/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/columbus-oh/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#columbus-oh",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/OH/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/OH/",
+      "also_redirected": [
+        "/columbus-oh/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/dayton-oh/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#dayton-oh",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/OH/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/OH/",
+      "also_redirected": [
+        "/dayton-oh/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/allentown-pa/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#allentown-pa",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/PA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/PA/",
+      "also_redirected": [
+        "/allentown-pa/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/philadelphia-pa/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#philadelphia-pa",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/PA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/PA/",
+      "also_redirected": [
+        "/philadelphia-pa/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/pittsburgh-pa/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#pittsburgh-pa",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/PA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/PA/",
+      "also_redirected": [
+        "/pittsburgh-pa/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/chattanooga-tn/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#chattanooga-tn",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/TN/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/TN/",
+      "also_redirected": [
+        "/chattanooga-tn/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/memphis-tn/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#memphis-tn",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/TN/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/TN/",
+      "also_redirected": [
+        "/memphis-tn/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/nashville-tn/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#nashville-tn",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/TN/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/TN/",
+      "also_redirected": [
+        "/nashville-tn/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/amarillo-tx/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#amarillo-tx",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/TX/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/TX/",
+      "also_redirected": [
+        "/amarillo-tx/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/arlington-tx/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#arlington-tx",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/TX/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/TX/",
+      "also_redirected": [
+        "/arlington-tx/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/austin-tx/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#austin-tx",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/TX/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/TX/",
+      "also_redirected": [
+        "/austin-tx/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/charlottesville-va/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#charlottesville-va",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/VA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/VA/",
+      "also_redirected": [
+        "/charlottesville-va/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/fredericksburg-va/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#fredericksburg-va",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/VA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/VA/",
+      "also_redirected": [
+        "/fredericksburg-va/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/virginia-beach-va/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#virginia-beach-va",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/VA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/VA/",
+      "also_redirected": [
+        "/virginia-beach-va/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/puyallup-wa/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#puyallup-wa",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/WA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/WA/",
+      "also_redirected": [
+        "/puyallup-wa/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/spokane-wa/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#spokane-wa",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/WA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/WA/",
+      "also_redirected": [
+        "/spokane-wa/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/vancouver-wa/",
+      "source": "data/page_sets/examples/cities_dentistry_v1.json#vancouver-wa",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/WA/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/WA/",
+      "also_redirected": [
+        "/vancouver-wa/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/new-york-city-ny/",
+      "source": "data/cities.json#new-york-city-ny (dentistry pack now citiesExclusive)",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/NY/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/NY/",
+      "also_redirected": [
+        "/new-york-city-ny/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
+    },
+    {
+      "route": "/orlando-fl/",
+      "source": "data/cities.json#orlando-fl (dentistry pack now citiesExclusive)",
+      "words": null,
+      "kind": "city_page",
+      "fold_into": "/states/FL/",
+      "fold_basis": "template placeholder with no research file; no sourced local data in the repo for an honest 600 words",
+      "redirect_to": "/states/FL/",
+      "also_redirected": [
+        "/orlando-fl/next-steps/"
+      ],
+      "folded_on": "2026-10-26"
     }
-  ]
+  ],
+  "measurement": {
+    "metric": "indexed URLs in index_coverage.json",
+    "baseline_2026_10_25": 35,
+    "read_on": "2026-11-15",
+    "success": "+5 indexed on at least 3 of the 5 hosts",
+    "fallback": "below that, the thin guides were not the problem; the unindexed bulk is city and state pages and gets its own brief"
+  }
 }

@@ -23,6 +23,8 @@ jobs:
       - run: npm ci
       - run: node scripts/build_all_packs.js
       - run: LKG_VALIDATE_DIST=1 npm run validate:all
+      - name: Scoped Search Readiness repair pins
+        run: npm run test:search-readiness
       - name: IndexNow named stop pins
         # Deploy Distribution may exit 0 on an IndexNow 403 ONLY as the named
         # stop INDEXNOW_SITE_NOT_YET_VERIFIED (live key file exact). These
@@ -55,10 +57,16 @@ jobs:
         # failed before 26 Oct 2026, when one commit to a pack manifest put the
         # same lastmod on every city, state and guide URL of four sites.
         run: npm run test:lastmod-sources
+      - name: Lead storage failure and fallback pins
+        run: node --test tests/request_form/storage_failure_paths.test.mjs
+
       - name: Blocked lead domains pins
         # A form email on BLOCKED_LEAD_DOMAINS (Pages env var only) is dropped
         # quietly: no storage, no email, one log line, honeypot answer (26 Oct 2026).
         run: npm run test:blocked-lead-domains
+
+      - name: National market evidence gate regression
+        run: node --test tests/operations/evidence_gated_market_queue.test.cjs
 
       - name: Warning tier
         # The tiering policy defines three tiers and the repo ships a runner for

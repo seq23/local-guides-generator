@@ -6,17 +6,20 @@
   "new_pages_per_week": 5,
   "refresh_capacity_per_week": 15,
   "_why": "13 weeks is the point where pages become markedly more likely to lose AI citations, and recency is the strongest single correlate of being cited. The ceiling is refresh capacity times that window: publish faster than the library can be maintained and the tail ages out of citability.",
-  "refresh_capacity_per_week_by_host": {
-    "memphisseniorcarehomes.com": 20
-  },
-  "_why_by_host": "15 a week is editorial throughput: on the five guide packs a refresh is someone rewriting a page, so capacity really is pages per week and the ceiling of 195 is the honest limit. memphisseniorcarehomes.com is a directory - every town, neighbourhood, hospital and care-type page derives its content from data/listings/senior-living/facilities.json, so one re-pull moves the content hash of every derived page at once and the maintenance action does not cost more for having more pages. Scored at the guide packs' rate the site could carry 195 URLs while its own Search Readiness coverage manifest asks for 212 before guides and core, which is why brief sr-memphisseniorcarehomes.com-j9 was first delivered for 11 towns out of 28: the pass before this one sized itself to land at 177 against 195 rather than cross the ceiling. 20 a week gives a ceiling of 260 for a library of 245, which is the declared coverage plus headroom, not an open door. The claim is only true while the directory data moves (facilities.json changed on 13, 16 and 25 Oct 2026); if it stops, these pages age past 91 days and refresh_debt blocks at a 20% tolerance, which is a sharper test of the real risk than a page count and is left fully armed.",
   "approved_expansions": [
     {
       "host": "memphisseniorcarehomes.com",
-      "max_new_urls": 104,
+      "max_new_urls": 40,
       "brief": "sr-memphisseniorcarehomes.com-j9",
       "approved_on": "2026-10-26",
-      "reason": "Completing the site's declared hyperlocal coverage in full, superseding the 40-URL entry for the same brief: the four towns, three Memphis neighbourhoods and three hospitals the coverage manifest names, and both care-type pages for all 28 towns rather than the 11 with licensed communities of their own. 52 pages, 104 URLs with their next-steps twins. The library lands at 245 against the 260 ceiling that this host's own refresh capacity gives, so capacity still covers it, which is the condition this allowance is checked against. The weekly cap of 5 resumes on the next run."
+      "reason": "Completing the site's declared hyperlocal coverage: the four towns, three Memphis neighbourhoods and three hospitals the Search Readiness coverage manifest names and the site had never built, plus care-type pages for the four remaining towns with licensed communities in the facility directory. 18 pages, 36 URLs with their next-steps twins. The library lands at 177 against a ceiling of 195, so refresh capacity still covers it - which is the condition this allowance is checked against. The weekly cap of 5 resumes on the next run."
+    },
+    {
+      "host": "memphisseniorcarehomes.com",
+      "max_new_urls": 60,
+      "brief": "sr-memphisseniorcarehomes.com-j9-service-town",
+      "approved_on": "2026-10-26",
+      "reason": "Completing the manifest's service x town coverage from the licence registries: assisted living + memory care pages for horn-lake-ms, lakeland-tn, millington-tn and atoka-tn (8 pages, 16 URLs with next-steps twins), on top of the 36 URLs of the earlier j9 entry not yet in known_urls (52 new this run). Sized to the ceiling: the library lands at 193 against 195, which is why eight smaller no-supply towns were folded by 301 instead of built. The weekly cap of 5 resumes on the next run."
     }
   ]
 }
