@@ -79,6 +79,14 @@ const PENDING = {
 // reports. Entries are added by the pass that raises a guide; nothing removes
 // them. A pack graduating to ENFORCED makes its entry redundant, not wrong.
 const PROVEN = {
+  'uscis_medical_v1.json': [
+    // sr-uscisexam.com-j3, 30 Oct: itemized quote, record and payment worksheets.
+    'brooklyn-i693-medical-exam-prices',
+  ],
+  'dentistry_v1.json': [
+    // sr-dentistryguides.com-b3/d2/j3, 30 Oct: one H1, answer and offer table.
+    'ocala-dental-new-patient-specials-compared',
+  ],
   'pi_v1.json': [
     // sr-theaccidentguides.com-j3, 26 Oct 2026: 1,333 -> 2,500 and 1,542 -> 2,296.
     'vehicle-collisions-near-law-enforcement-activity',
@@ -112,6 +120,8 @@ const PROVEN = {
     'peptides-vs-iv-therapy',
   ],
   'neuro_v1.json': [
+    // sr-neuroevalguides.com-j3, 30 Oct: explicit answer before the estimator.
+    'neuropsych-evaluation-cost-estimator',
     // sr-neuroevalguides.com-j3, 28 Oct: report-to-therapy handover and goals.
     'adhd-therapy-after-an-evaluation',
     // sr-neuroevalguides.com-j3, 29 Oct: records worksheet and feedback handoff.
@@ -123,6 +133,9 @@ const PROVEN = {
 // older guides have been reviewed; adding words alone must not close the brief
 // if the Quick answer heading or attributed intake link disappears again.
 const HOUSE_SHAPE = new Set([
+  'brooklyn-i693-medical-exam-prices',
+  'ocala-dental-new-patient-specials-compared',
+  'neuropsych-evaluation-cost-estimator',
   'neuropsych-testing-children-vs-adults',
   'questions-to-ask-a-personal-injury-lawyer',
   'peptides-vs-iv-therapy',
@@ -131,10 +144,28 @@ const HOUSE_SHAPE = new Set([
   'beauty-peptide-costs-and-bundles',
 ]);
 
+const LOCAL_GUIDES = new Set([
+  'brooklyn-i693-medical-exam-prices',
+  'ocala-dental-new-patient-specials-compared',
+  'neuropsych-evaluation-cost-estimator',
+]);
+
 function shapeProblems(html, slug) {
   const problems = [];
+  // Guide authors supply body content; the renderer adds the hero H1. A body
+  // heading nested inside a section bypassed its leading-heading cleanup and
+  // put two H1s on the Brooklyn and Ocala guides. Check what actually ships.
+  const h1s = (html.match(/<h1\b/gi) || []).length;
+  if (h1s !== 1) problems.push(`expected one H1, found ${h1s}`);
+  if (slug === 'ocala-dental-new-patient-specials-compared' && !/<table\b/i.test(html)) {
+    problems.push('comparison has no table');
+  }
   if (!/<h2\b[^>]*>\s*Quick answer\s*<\/h2>/i.test(html)) problems.push('no Quick answer H2');
   if ((html.match(/"@type"\s*:\s*"FAQPage"/g) || []).length > 1) problems.push('more than one FAQPage');
+  if (LOCAL_GUIDES.has(slug)) {
+    if (!/data-search-faq="true"/.test(html)) problems.push('no visible FAQ');
+    if (!(html.match(/"@type"\s*:\s*"FAQPage"/g) || []).length) problems.push('no FAQPage');
+  }
   const hrefs = [...html.matchAll(/<a\b[^>]*\bhref\s*=\s*["']([^"']+)["']/gi)];
   const hasIntake = hrefs.some((match) => {
     let url;
@@ -262,4 +293,6 @@ function main() {
   console.log(`✅ GUIDE WORD FLOOR PASS — ${pages.length} ${pack} guide(s), all at or above ${FLOOR} words (lowest ${lowest}).`);
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = { shapeProblems };
