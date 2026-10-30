@@ -6,11 +6,11 @@
 const fs=require('fs'), path=require('path');
 const DEFAULT_HOSTS=['hormonesivhair.com','neuroevalguides.com','uscisexam.com','theaccidentguides.com','dentistryguides.com','memphisseniorcarehomes.com','theindustryguides.com'];
 const routes={
-  'hormonesivhair.com':['/guides/ocala-vitamin-c-injection-iv-prices/'],
-  'neuroevalguides.com':['/guides/huntsville-adhd-testing-prices/'],
-  'uscisexam.com':['/guides/mcallen-i693-exam-cost-and-civil-surgeons/'],
-  'theaccidentguides.com':['/guides/st-louis-accident-reports-lawyer-checklist/'],
-  'dentistryguides.com':['/guides/billings-new-patient-dental-exam-prices/'],
+   'hormonesivhair.com':['/guides/ocala-vitamin-c-injection-iv-prices/','/guides/greenville-testosterone-therapy-costs/'],
+  'neuroevalguides.com':['/guides/huntsville-adhd-testing-prices/','/guides/fayetteville-adhd-evaluation-testing-options/'],
+  'uscisexam.com':['/guides/mcallen-i693-exam-cost-and-civil-surgeons/','/guides/fresno-i693-immigration-medical-exam-cost/'],
+  'theaccidentguides.com':['/guides/st-louis-accident-reports-lawyer-checklist/','/guides/midland-odessa-texas-crash-report-requests/'],
+  'dentistryguides.com':['/guides/billings-new-patient-dental-exam-prices/','/guides/ocala-dental-new-patient-specials-compared/'],
   'memphisseniorcarehomes.com':['/guides/assisted-living-cost-memphis/']
 };
 const hosts=process.env.PROBE_BASE_URLS?process.env.PROBE_BASE_URLS.split(',').map(x=>x.trim()).filter(Boolean):DEFAULT_HOSTS.map(h=>'https://'+h);
