@@ -120,6 +120,8 @@ const PROVEN = {
     'peptides-vs-iv-therapy',
   ],
   'neuro_v1.json': [
+    // sr-neuroevalguides.com-j3, 30 Oct: written scope and booking comparison.
+    'neuro-provider-red-flags',
     // sr-neuroevalguides.com-j3, 30 Oct: explicit answer before the estimator.
     'neuropsych-evaluation-cost-estimator',
     // sr-neuroevalguides.com-j3, 28 Oct: report-to-therapy handover and goals.
@@ -133,6 +135,7 @@ const PROVEN = {
 // older guides have been reviewed; adding words alone must not close the brief
 // if the Quick answer heading or attributed intake link disappears again.
 const HOUSE_SHAPE = new Set([
+  'neuro-provider-red-flags',
   'brooklyn-i693-medical-exam-prices',
   'ocala-dental-new-patient-specials-compared',
   'neuropsych-evaluation-cost-estimator',
@@ -144,7 +147,8 @@ const HOUSE_SHAPE = new Set([
   'beauty-peptide-costs-and-bundles',
 ]);
 
-const LOCAL_GUIDES = new Set([
+const VISIBLE_FAQ_GUIDES = new Set([
+  'neuro-provider-red-flags',
   'brooklyn-i693-medical-exam-prices',
   'ocala-dental-new-patient-specials-compared',
   'neuropsych-evaluation-cost-estimator',
@@ -162,7 +166,7 @@ function shapeProblems(html, slug) {
   }
   if (!/<h2\b[^>]*>\s*Quick answer\s*<\/h2>/i.test(html)) problems.push('no Quick answer H2');
   if ((html.match(/"@type"\s*:\s*"FAQPage"/g) || []).length > 1) problems.push('more than one FAQPage');
-  if (LOCAL_GUIDES.has(slug)) {
+  if (VISIBLE_FAQ_GUIDES.has(slug)) {
     if (!/data-search-faq="true"/.test(html)) problems.push('no visible FAQ');
     if (!(html.match(/"@type"\s*:\s*"FAQPage"/g) || []).length) problems.push('no FAQPage');
   }
