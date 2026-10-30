@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-29..2026-10-26",
-  "gsc_collected_at": "2026-10-29T13:36:35+00:00",
+  "gsc_window": "2026-09-30..2026-10-27",
+  "gsc_collected_at": "2026-10-30T13:36:53+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -139,8 +139,8 @@
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
       "impressions": 4,
-      "best_position": 77,
-      "weighted_position": 84.7,
+      "best_position": 47,
+      "weighted_position": 77.2,
       "top_query": "hrt solutions in montana",
       "query_count": 2,
       "queries": [
@@ -151,10 +151,10 @@
           "position": 87.3
         },
         {
-          "query": "hormone replacement posted vermont",
-          "route": "/states/VT/",
+          "query": "ohio thyroid optimization",
+          "route": "/states/OH/",
           "impressions": 1,
-          "position": 77
+          "position": 47
         }
       ],
       "pages": [
@@ -165,10 +165,10 @@
           "page_position": 54.8
         },
         {
-          "route": "/states/VT/",
+          "route": "/states/OH/",
           "family_impressions": 1,
           "page_impressions": 3,
-          "page_position": 30.7
+          "page_position": 19
         }
       ],
       "rank": 3,

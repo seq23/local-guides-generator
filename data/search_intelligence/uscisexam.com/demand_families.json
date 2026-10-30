@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-09-29..2026-10-26",
-  "gsc_collected_at": "2026-10-29T13:36:35+00:00",
+  "gsc_window": "2026-09-30..2026-10-27",
+  "gsc_collected_at": "2026-10-30T13:36:53+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 5,
+      "impressions": 6,
       "status": "no_page"
     },
     {
@@ -41,11 +41,11 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 5,
+      "impressions": 6,
       "best_position": 77,
-      "weighted_position": 93,
+      "weighted_position": 94.2,
       "top_query": "uscis civil surgeon",
-      "query_count": 4,
+      "query_count": 5,
       "queries": [
         {
           "query": "uscis civil surgeon",
@@ -58,6 +58,12 @@
           "route": "/",
           "impressions": 1,
           "position": 96
+        },
+        {
+          "query": "i-693 exam",
+          "route": "/",
+          "impressions": 1,
+          "position": 100
         },
         {
           "query": "uscis immigration exam",
@@ -75,9 +81,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 5,
-          "page_impressions": 13,
-          "page_position": 71
+          "family_impressions": 6,
+          "page_impressions": 15,
+          "page_position": 68.5
         }
       ],
       "rank": 1,
@@ -160,8 +166,8 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 13,
-          "page_position": 71
+          "page_impressions": 15,
+          "page_position": 68.5
         }
       ],
       "rank": 3,

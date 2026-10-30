@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-09-29..2026-10-26",
-  "gsc_collected_at": "2026-10-29T13:36:35+00:00",
+  "gsc_window": "2026-09-30..2026-10-27",
+  "gsc_collected_at": "2026-10-30T13:36:53+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 9,
+  "target_count": 10,
   "targets_by_source": {
     "measured_demand": 2,
-    "gsc_export": 7
+    "gsc_export": 8
   },
   "dropped_count": 0,
   "dropped": [],
@@ -46,7 +46,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-29..2026-10-26"
+        "window": "2026-09-30..2026-10-27"
       },
       "owner_route": "/states/NV/"
     },
@@ -60,7 +60,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-29..2026-10-26"
+        "window": "2026-09-30..2026-10-27"
       },
       "owner_route": "/",
       "other_measurements": [
@@ -81,7 +81,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-29..2026-10-26"
+        "window": "2026-09-30..2026-10-27"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "i-693 exam",
+      "normalized_query": "i 693 exam",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 100,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-09-30..2026-10-27"
       },
       "owner_route": "/"
     },
@@ -95,7 +109,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-29..2026-10-26"
+        "window": "2026-09-30..2026-10-27"
       },
       "owner_route": "/"
     },
@@ -109,7 +123,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-29..2026-10-26"
+        "window": "2026-09-30..2026-10-27"
       },
       "owner_route": "/states/ID/"
     },
@@ -123,7 +137,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-29..2026-10-26"
+        "window": "2026-09-30..2026-10-27"
       },
       "owner_route": "/"
     },
@@ -137,7 +151,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-29..2026-10-26"
+        "window": "2026-09-30..2026-10-27"
       },
       "owner_route": "/"
     }

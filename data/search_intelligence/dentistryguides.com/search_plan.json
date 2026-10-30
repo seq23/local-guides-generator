@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-09-29..2026-10-26",
+  "gsc_window": "2026-09-30..2026-10-27",
   "totals": {
     "clicks": 0,
-    "impressions": 787,
+    "impressions": 796,
     "ctr": 0,
-    "position": 60.5
+    "position": 60.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 227,
+      "family_impressions": 225,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
-      "impressions": 230,
+      "impressions": 228,
       "clicks": 0,
-      "position": 76.8,
+      "position": 76.6,
       "strengthened": true
     },
     {
@@ -29,11 +29,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 122,
+      "family_impressions": 129,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 68,
+      "impressions": 69,
       "clicks": 0,
-      "position": 57.6,
+      "position": 57.4,
       "strengthened": true
     },
     {
@@ -42,24 +42,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 122,
+      "family_impressions": 129,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 37,
+      "impressions": 41,
       "clicks": 0,
-      "position": 50.5,
-      "strengthened": true
-    },
-    {
-      "route": "/states/AZ/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 122,
-      "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 44,
-      "clicks": 0,
-      "position": 57.3,
+      "position": 48.6,
       "strengthened": true
     },
     {
@@ -68,11 +55,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 122,
+      "family_impressions": 129,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 24,
+      "impressions": 27,
       "clicks": 0,
-      "position": 63.3,
+      "position": 64.3,
+      "strengthened": true
+    },
+    {
+      "route": "/states/AZ/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 129,
+      "source": "data/page_sets/examples/dentistry_v1.json",
+      "impressions": 44,
+      "clicks": 0,
+      "position": 57.3,
       "strengthened": true
     }
   ],
@@ -80,13 +80,13 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 12,
-      "Discovered - currently not indexed": 13,
+      "Discovered - currently not indexed": 14,
       "Submitted and indexed": 37,
       "URL is unknown to Google": 3
     },
     "buckets": {
       "crawled_not_indexed": 12,
-      "discovered_not_indexed": 13,
+      "discovered_not_indexed": 14,
       "indexed": 37,
       "unknown": 3
     }
