@@ -9,19 +9,11 @@ const PARENT_COMPANY = 'The Industry Guides';
 // (owner decision, 12 Oct 2026). Routed by Cloudflare Email Routing on theindustryguides.com.
 const CONTACT_EMAIL = 'hello@theindustryguides.com';
 
-// The umbrella company's own hub page for each publication. These are real,
-// live pages on theindustryguides.com that name and describe the publication
-// (verified 25 Oct 2026: all six answer 200 and reference their canonical
-// host), which is what makes them a legitimate schema.org `sameAs` - "a
-// reference Web page that unambiguously indicates the item's identity".
-//
-// Why this list and not a social profile. Search Readiness item c1 wants an
-// Organization with name, url, logo and sameAs on every page, and the sites
-// had no sameAs at all (`schema.sameAs` is `[]` in every page set). None of
-// these six publications has a social account; inventing one would put a dead
-// URL claiming to identify the publisher on every page of six live sites,
-// which is worse than the empty array it replaced. The umbrella hub is the one
-// identity reference that actually exists and is true.
+// The umbrella company. Each publication's Organization node names it as
+// parentOrganization (data/entity/<pack>/entity.json, read through
+// scripts/lib/entity_graph.js). Its hub page for each publication
+// (`${UMBRELLA_HOST}/${umbrellaPath}/`) was emitted as `sameAs` until 30 Oct
+// 2026; the authority audit moved it: sameAs is for external profiles only.
 const UMBRELLA_HOST = 'https://theindustryguides.com';
 
 const PACK_SITE_CONFIG = {
@@ -87,15 +79,6 @@ function getPackSiteConfig(rawPageSetFile) {
   return key ? { key, ...PACK_SITE_CONFIG[key] } : null;
 }
 
-/**
- * The umbrella hub URL that identifies a pack's publication, or '' for a pack
- * that has none (the starter training pack is not a publication).
- */
-function getUmbrellaSameAs(rawPageSetFile) {
-  const cfg = getPackSiteConfig(rawPageSetFile);
-  return cfg && cfg.umbrellaPath ? `${UMBRELLA_HOST}/${cfg.umbrellaPath}/` : '';
-}
-
 module.exports = {
   PARENT_COMPANY,
   CONTACT_EMAIL,
@@ -103,5 +86,4 @@ module.exports = {
   PACK_SITE_CONFIG,
   getPackKeyFromPageSet,
   getPackSiteConfig,
-  getUmbrellaSameAs,
 };

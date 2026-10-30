@@ -100,6 +100,9 @@ const MAIN_REGION = /<main\b[^>]*>([\s\S]*?)<\/main>/i;
 // inserts, and return the homepage's time element to its pre-stamp form.
 // This preserves existing raw-page hashes; no basis migration or date reset is
 // needed. Ordinary dates in editorial content remain part of the hash.
+// The editorial byline scripts/lib/entity_graph.js seats before </main>
+// (exported from here so this module stays self-contained: tests copy it alone).
+const BYLINE_RE = /\n    <p class="page-byline" data-page-byline="(?:editorial-desk|reviewed)">[\s\S]*?<\/p>/g;
 const FRESHNESS_LINE = /\n    <p class="page-freshness" data-page-freshness="true">Published <time data-page-published="true" datetime="[^"]*">[^<]*<\/time> · Updated <time data-page-modified="true" datetime="[^"]*">[^<]*<\/time><\/p>\n  /g;
 const MODIFIED_TIME = /<time data-page-modified="true" datetime="[^"]*">[^<]*<\/time>/g;
 
@@ -116,6 +119,10 @@ function hashableBody(html) {
   // Only this empty mount is equivalent; populated or unrelated forms are not.
   return (m ? m[1] : doc)
     .replace(FRESHNESS_LINE, '')
+    // The editorial byline (scripts/lib/entity_graph.js) is a generated label
+    // like the freshness line: seating it, or a reviewer later replacing the
+    // editorial-desk wording, is not an editorial change to the page body.
+    .replace(BYLINE_RE, '')
     .replace(MODIFIED_TIME, '<time data-page-modified="true" datetime="<<BUILD_TIMESTAMP>>"><<BUILD_TIMESTAMP>></time>')
     .replace(
       /<form id="senior-intake" aria-label="Senior care matching" (data-vertical="senior-living" data-city="[^"]*" data-zip="[^"]*")><\/form>/g,
@@ -200,4 +207,4 @@ function save(ledger, ledgerPath = DEFAULT_PATH) {
   fs.renameSync(tmp, ledgerPath);
 }
 
-module.exports = { SCHEMA, HASH_BASIS, NOTE, RESEEDED_NOTE, DEFAULT_PATH, BUILD_STAMP, buildDate, contentHash, hashableBody, load, resolve, merged, save };
+module.exports = { BYLINE_RE, SCHEMA, HASH_BASIS, NOTE, RESEEDED_NOTE, DEFAULT_PATH, BUILD_STAMP, buildDate, contentHash, hashableBody, load, resolve, merged, save };

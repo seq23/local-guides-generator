@@ -111,7 +111,10 @@
     "validate:tier:warning": "node scripts/validation/run_validator_tier.js warning",
     "validate:trt-affiliates": "node scripts/validation/trt_affiliate_links_contract.js",
     "validate:velocity-candidate-seam": "node scripts/validation/velocity_candidate_seam_contract.js",
-    "validate:zero-paid-llm": "node scripts/validation/zero_paid_llm_contract.js"
+    "validate:zero-paid-llm": "node scripts/validation/zero_paid_llm_contract.js",
+    "validate:entity-graph": "node scripts/validation/entity_graph_contract.js",
+    "test:entity-graph": "node --test tests/entity/*.test.mjs",
+    "entity:watch": "node scripts/entity_backlink_watch.mjs"
   },
   "dependencies": {},
   "engines": {
