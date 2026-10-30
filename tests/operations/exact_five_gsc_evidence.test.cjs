@@ -1,0 +1,17 @@
+'use strict';
+const assert = require('node:assert/strict');
+const { TARGETS, compile } = require('../../scripts/operations/compile_exact_five_gsc_evidence');
+const hosts = Object.keys(TARGETS);
+assert.equal(hosts.length, 5);
+const empty = compile(host => ({ site_url: 'sc-domain:' + host, truth_source: 'google_search_console_url_inspection', collected_at: '2026-10-29T00:00:00Z', urls: [] }));
+assert.equal(empty.rows.length, 5);
+assert.ok(empty.rows.every(x => x.status === 'NOT_IN_SNAPSHOT' && x.indexed === null));
+const observed = compile(host => ({ site_url: 'sc-domain:' + host, truth_source: 'google_search_console_url_inspection', collected_at: '2026-10-29T00:00:00Z', urls: [{ url: 'https://' + host + TARGETS[host], bucket: host === hosts[0] ? 'indexed' : 'discovered_not_indexed', inspected_at: '2026-10-29T00:00:00Z' }] }));
+assert.equal(observed.rows[0].indexed, true);
+assert.equal(observed.rows[1].indexed, false);
+assert.equal(observed.rows[1].status, 'OBSERVED');
+const invalid = compile(host => ({ site_url: 'incorrect', truth_source: 'google_search_console_url_inspection', urls: [] }));
+assert.ok(invalid.rows.every(x => x.status === 'SOURCE_INVALID' && x.indexed === null));
+const missing = compile(() => { throw Error('missing'); });
+assert.ok(missing.rows.every(x => x.status === 'SOURCE_MISSING' && x.indexed === null));
+console.log('exact-five GSC compiler PASS');
