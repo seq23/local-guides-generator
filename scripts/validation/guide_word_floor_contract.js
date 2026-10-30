@@ -118,6 +118,10 @@ const PROVEN = {
     'beauty-peptide-costs-and-bundles',
     // sr-hormonesivhair.com-j3, 28 Oct: product, evidence and bundle comparison.
     'peptides-vs-iv-therapy',
+    // sr-hormonesivhair.com-j3, 26 Oct (PR #92): 1,491 -> 2,196 and 1,268 -> 2,095;
+    // the hormone-programme template replaced with what each subject needs.
+    'peptide-clinic-near-me',
+    'what-is-hair-botox',
   ],
   'neuro_v1.json': [
     // sr-neuroevalguides.com-j3, 30 Oct: written scope and booking comparison.
