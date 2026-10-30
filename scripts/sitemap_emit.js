@@ -115,10 +115,14 @@ function buildUrlSet(records, baseUrl) {
 }
 
 function buildIndex(baseUrl, files) {
-  const today = new Date().toISOString().slice(0, 10);
+  // An index lastmod describes when the child FEED changed, not when this
+  // build ran or its newest page changed. We do not persist feed-change
+  // history, so omit this optional field rather than restamp unchanged feeds.
+  // Page content dates remain in each child sitemap's <url><lastmod>.
+  // Guarded by scripts/validation/sitemap_freshness_contract.js.
   const items = files.map((name) => {
     const loc = `${baseUrl}/${name}`;
-    return `  <sitemap>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`;
+    return `  <sitemap>\n    <loc>${xmlEscape(loc)}</loc>\n  </sitemap>`;
   }).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${items}\n</sitemapindex>\n`;
 }
