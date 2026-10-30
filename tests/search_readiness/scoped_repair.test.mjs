@@ -125,6 +125,7 @@ test('each repaired guide must remain rendered and above the word floor', (t) =>
     ['uscis_medical', 'brooklyn-i693-medical-exam-prices'],
     ['dentistry', 'ocala-dental-new-patient-specials-compared'],
     ['neuro', 'neuropsych-evaluation-cost-estimator'],
+    ['neuro', 'neuro-provider-red-flags'],
   ]) {
     const dir = path.join(root, pack, 'guides', slug);
     fs.mkdirSync(dir, { recursive: true });
@@ -147,7 +148,7 @@ test('each repaired guide must remain rendered and above the word floor', (t) =>
 
 test('repaired local guides reject duplicate H1s, missing answers, missing tables and broken attribution', () => {
   const { shapeProblems } = require('../../scripts/validation/guide_word_floor_contract');
-  for (const slug of ['brooklyn-i693-medical-exam-prices', 'ocala-dental-new-patient-specials-compared', 'neuropsych-evaluation-cost-estimator']) {
+  for (const slug of ['brooklyn-i693-medical-exam-prices', 'ocala-dental-new-patient-specials-compared', 'neuropsych-evaluation-cost-estimator', 'neuro-provider-red-flags']) {
     const good = `<h1>Guide topic</h1><h2 id="quick-answer">Quick answer</h2><table><tr><td>Comparison</td></tr></table>` +
       `<section data-search-faq="true"><h2>Frequently asked questions</h2><h3>What is included?</h3><p>Ask for itemized scope.</p></section>` +
       `<script type="application/ld+json">{"@type":"FAQPage"}</script>` +
