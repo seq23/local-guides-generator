@@ -70,7 +70,8 @@ const homeV2 = require("./lib/homepage_v2");
 const neuroServices = require("./lib/neuro_services");
 const trtAffiliates = require("./lib/trt_affiliates");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
-const { getPackSiteConfig, PARENT_COMPANY, CONTACT_EMAIL, getUmbrellaSameAs } = require("./lib/pack_site_config");
+const { getPackSiteConfig, getPackKeyFromPageSet, PARENT_COMPANY, CONTACT_EMAIL } = require("./lib/pack_site_config");
+const entityGraph = require("./lib/entity_graph");
 const internalQueryPolicy = require("./lib/internal_query_policy");
 const siteLeadForm = require("./lib/site_lead_form");
 const { brandedTitle } = require("./lib/search_readiness_policy");
@@ -465,6 +466,40 @@ function addRelatedLink(parentFile, target, label) {
   else return false;
   writeFileEnsured(parentFile, out);
   return true;
+}
+
+// Every page of a publication (all six are YMYL: medical, legal, care) says who
+// stands behind it: a consented named reviewer from data/entity/<pack>/
+// reviewers.json, or - while that ships empty - the honest "editorial desk; how
+// we verify" line linking /editorial-policy/ (scripts/lib/entity_graph.js).
+// Seated as the last step of the render, before </main>, because several
+// renderers rewrite the page body after the base template is filled; a byline
+// placed in the template did not survive on the city pages. Pages with their
+// own trust line (the homepage's "Reviewed by ... Editorial Team") keep theirs.
+// scripts/lib/lastmod_ledger.js strips this exact line before hashing, so
+// seating it does not restamp freshness dates. Guarded by
+// scripts/validation/entity_graph_contract.js.
+function seatEditorialBylines(outDir) {
+  const packKey = getPackKeyFromPageSet(process.env.PAGE_SET_FILE || "");
+  const byline = packKey ? entityGraph.bylineHtml(packKey) : '';
+  if (!byline) return 0;
+  let seated = 0;
+  (function walk(dir) {
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, ent.name);
+      if (ent.isDirectory()) { walk(p); continue; }
+      if (ent.name !== 'index.html') continue;
+      const html = fs.readFileSync(p, 'utf8');
+      if (!/<main id="main-content"/.test(html) || /data-page-byline=/.test(html) || /data-home-trust-line="true"/.test(html)) continue;
+      const at = html.lastIndexOf('</main>');
+      if (at < 0) continue;
+      writeFileEnsured(p, html.slice(0, at) + byline + html.slice(at));
+      seated += 1;
+    }
+  })(outDir);
+  if (seated === 0) throw new Error('editorial byline: seated on zero pages - nothing rendered a <main id="main-content">');
+  console.log(`seatEditorialBylines: ${seated} page(s)`);
+  return seated;
 }
 
 function linkOrphanChildPages(outDir) {
@@ -2015,18 +2050,26 @@ function buildCanonicalGlobal(siteUrl, route) {
   return base + r + "/";
 }
 
-function buildOrganizationSchema(siteUrl, brandName, sameAs) {
+function buildOrganizationSchema(siteUrl, brandName) {
+  // A publication's identity comes from data/entity/<pack>/entity.json, the one
+  // list the renderer, scripts/validation/entity_graph_contract.js and the weekly
+  // scripts/entity_backlink_watch.mjs all read (scripts/lib/entity_graph.js):
+  // @id, name, logo, description, parentOrganization (The Industry Guides) and
+  // sameAs = real external profiles only. The umbrella hub used to be emitted as
+  // sameAs; it is the parent company, not a profile of this site (authority
+  // audit, 30 Oct 2026), so it now travels as parentOrganization.
+  const packKey = getPackKeyFromPageSet(process.env.PAGE_SET_FILE || "");
+  const fromEntity = packKey ? entityGraph.organizationNode(packKey) : null;
+  if (fromEntity) return fromEntity;
+  // Not a publication (the starter training pack): name, url and logo only.
   const base = siteUrl.replace(/\/+$/, "") + "/";
-  const schema = {
+  return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: brandName,
     url: base,
-    // The publisher's mark, as an ImageObject so the dimensions travel with it.
     // scripts/install_site_head_assets.js copies the active host's icon-512.png
-    // to the output root for every pack, so this URL is a real file on every
-    // site rather than a plausible-looking path. Search Readiness item c1 wants
-    // name, url, logo and sameAs; `logo` was simply never emitted.
+    // to the output root for every pack, so this URL is a real file.
     logo: {
       "@type": "ImageObject",
       url: base + "icon-512.png",
@@ -2034,14 +2077,6 @@ function buildOrganizationSchema(siteUrl, brandName, sameAs) {
       height: 512
     }
   };
-  // A page set may name its own identity references; otherwise fall back to the
-  // umbrella company's hub page for this publication. Explicitly set entries win
-  // so a site that later gains a real profile does not have to touch this file.
-  const declared = (Array.isArray(sameAs) ? sameAs : []).filter(Boolean);
-  const fallback = getUmbrellaSameAs(process.env.PAGE_SET_FILE || "");
-  const resolved = declared.length ? declared : (fallback ? [fallback] : []);
-  if (resolved.length) schema.sameAs = resolved;
-  return schema;
 }
 function buildWebSiteSchema(siteUrl, brandName) {
   const base = siteUrl.replace(/\/+$/, "") + "/";
@@ -2085,8 +2120,17 @@ function buildWebPageSchema(siteUrl, brandName, city, route, title, description)
     datePublished: BUILD_ISO,
     dateModified: BUILD_ISO,
     url: buildCanonical(siteUrl, city, route),
-    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
+    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...reviewedByForPack()
   };
+}
+// reviewedBy appears only for a reviewer in data/entity/<pack>/reviewers.json
+// with written consent on file. That file ships empty: no person is ever
+// claimed on a page until a real, credentialed one has agreed in writing.
+function reviewedByForPack() {
+  const packKey = getPackKeyFromPageSet(process.env.PAGE_SET_FILE || "");
+  const reviewers = packKey ? entityGraph.consentedReviewers(packKey) : [];
+  return reviewers.length ? { reviewedBy: reviewers.map(entityGraph.personNode) } : {};
 }
 function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description) {
   return {
@@ -2098,6 +2142,7 @@ function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description)
     dateModified: BUILD_ISO,
     url: buildCanonicalGlobal(siteUrl, route),
     isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...reviewedByForPack(),
     // Homepage: the definition paragraph under the H1 and the short-answer FAQ
     // are the read-aloud surface. validate:homepage-definition checks that every
     // selector here resolves on the rendered page.
@@ -2464,7 +2509,7 @@ function buildResourceItemListSchema(opts) {
 function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, pageSet, verticalKey, listings) {
   const cleanRoute = (route || "").replace(/^\/+|\/+$/g, "");
   const ld = [
-    buildOrganizationSchema(siteUrl, brandName, (pageSet && pageSet.schema && pageSet.schema.sameAs) || []),
+    buildOrganizationSchema(siteUrl, brandName),
     buildWebSiteSchema(siteUrl, brandName),
     buildWebPageSchema(siteUrl, brandName, city, route, title, description),
     buildBreadcrumbs(siteUrl, city, route, title)
@@ -2550,7 +2595,7 @@ function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, p
 function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateName, title, description, pageSet, listingsAgg) {
   const route = 'states/' + String(stateAbbr).toUpperCase();
   const ld = [
-    buildOrganizationSchema(siteUrl, brandName, (pageSet && pageSet.schema && pageSet.schema.sameAs) || []),
+    buildOrganizationSchema(siteUrl, brandName),
     buildWebSiteSchema(siteUrl, brandName),
     // PI state pages are collection hubs (not generic WebPage)
     buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description),
@@ -2619,7 +2664,7 @@ function renderHeadJsonLdGlobal(siteUrl, brandName, route, title, description, p
     ? buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description)
     : buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description);
   const ld = [
-    buildOrganizationSchema(siteUrl, brandName, (pageSet && pageSet.schema && pageSet.schema.sameAs) || []),
+    buildOrganizationSchema(siteUrl, brandName),
     buildWebSiteSchema(siteUrl, brandName),
     primaryPageSchema,
     buildBreadcrumbsGlobal(siteUrl, route, title)
@@ -6697,6 +6742,7 @@ function loadNextStepsSponsor(citySlug) {
   fanout.writeFanoutExport(OUT_DIR, fanoutRecords, pageSet, verticalKey);
 
   linkOrphanChildPages(OUT_DIR);
+  seatEditorialBylines(OUT_DIR);
 
   // Write build meta
   const coveragePlanningMeta = loadCoveragePlanningMeta();

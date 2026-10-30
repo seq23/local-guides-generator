@@ -42,6 +42,12 @@ jobs:
         # Static HTML stays edge-cacheable: only /api/* reaches Functions, no
         # middleware, pages.dev noindex via _headers, a cache rule per canonical zone.
         run: npm run test:edge-cache
+      - name: Entity graph and backlink watch pins
+        # sameAs is external profiles only (never this site, the umbrella or a
+        # sibling), the Organization node matches data/entity/<pack>/entity.json,
+        # no Person without written consent, the editorial byline on every content
+        # page, and the weekly watch's dead/promote/named-stop decisions.
+        run: npm run test:entity-graph
       - name: Structured data vocabulary pins
         # Organization-only properties on WebSite, unknown types/properties and
         # zero-node pages each fail a fixture.

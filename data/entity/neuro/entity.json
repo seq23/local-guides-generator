@@ -1,0 +1,17 @@
+{
+  "$comment": "Single source of this publication's identity. scripts/build_city_sites.js emits the Organization JSON-LD from it; scripts/validation/entity_graph_contract.js holds the rendered pages to it; scripts/entity_backlink_watch.mjs (weekly) re-checks sameAs and promotes profiles_pending. sameAs lists ONLY external profiles that exist and resolve now; never this site's own host or the umbrella company (that is parentOrganization).",
+  "@id": "https://neuroevalguides.com/#organization",
+  "name": "Neuro Evaluation Guides",
+  "url": "https://neuroevalguides.com/",
+  "logo": "https://neuroevalguides.com/icon-512.png",
+  "description": "Neuro Evaluation Guides is an independent consumer guide to ADHD and autism evaluations, explaining the process, costs and how to compare local evaluators, published by The Industry Guides.",
+  "sameAs": [],
+  "profiles_pending": [],
+  "parentOrganization": {
+    "@id": "https://theindustryguides.com/#organization",
+    "name": "The Industry Guides",
+    "url": "https://theindustryguides.com/",
+    "hub": "https://theindustryguides.com/neuro/"
+  },
+  "watch_log": []
+}

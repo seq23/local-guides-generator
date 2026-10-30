@@ -1,0 +1,56 @@
+name: Entity Backlink Watch
+
+# Weekly: is each guide's external identity (data/entity/<pack>/entity.json)
+# still true? Every sameAs URL must resolve and, where a fetch can read it, link
+# back to the site. Dead profiles are removed and pending profiles that now
+# resolve and link back are promoted - through a pull request, never a push to
+# main. A missing link-back or a site with no external profile is a NAMED STOP
+# in the run summary naming the exact profile field (owner login).
+# $0: plain HTTP fetches only. Logic and negative proofs:
+# scripts/entity_backlink_watch.mjs, tests/entity/entity_graph.test.mjs.
+
+on:
+  schedule:
+    - cron: '23 12 * * 1'   # Mondays 12:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: entity-backlink-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Watch sameAs and pending profiles (self-heal entity.json)
+        run: node scripts/entity_backlink_watch.mjs --apply --report entity_watch_report.json
+      - name: Open a self-heal pull request when entity.json changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- data/entity; then
+            echo "No self-heal change." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          branch="auto/entity-watch-$(date -u +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add data/entity
+          git commit -m "fix(entity): weekly watch self-heal (dead sameAs removed / pending promoted)"
+          git push -f origin "$branch"
+          body=$(node -e "const r=require('./entity_watch_report.json');console.log(['Weekly entity backlink watch changed data/entity (see watch_log in each entity.json).','',...r.findings.filter(f=>['DEAD','PROMOTED'].includes(f.state)).map(f=>'- '+f.state+' ['+f.key+'] '+f.url+(f.detail?' - '+f.detail:''))].join('\n'))")
+          gh pr view "$branch" >/dev/null 2>&1 || gh pr create --base main --head "$branch" --title "Entity watch self-heal $(date -u +%F)" --body "$body"
+          # A PR opened with the workflow token does not trigger pull_request
+          # workflows; dispatch the merge gate on the branch so it has checks.
+          gh workflow run validate.yml --ref "$branch"

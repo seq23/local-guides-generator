@@ -1,0 +1,17 @@
+{
+  "$comment": "Single source of this publication's identity. scripts/build_city_sites.js emits the Organization JSON-LD from it; scripts/validation/entity_graph_contract.js holds the rendered pages to it; scripts/entity_backlink_watch.mjs (weekly) re-checks sameAs and promotes profiles_pending. sameAs lists ONLY external profiles that exist and resolve now; never this site's own host or the umbrella company (that is parentOrganization).",
+  "@id": "https://uscisexam.com/#organization",
+  "name": "USCIS Exam Guides",
+  "url": "https://uscisexam.com/",
+  "logo": "https://uscisexam.com/icon-512.png",
+  "description": "USCIS Exam Guides is an independent consumer guide to the USCIS immigration medical exam (Form I-693) and how to find a designated civil surgeon, published by The Industry Guides.",
+  "sameAs": [],
+  "profiles_pending": [],
+  "parentOrganization": {
+    "@id": "https://theindustryguides.com/#organization",
+    "name": "The Industry Guides",
+    "url": "https://theindustryguides.com/",
+    "hub": "https://theindustryguides.com/uscis-medical/"
+  },
+  "watch_log": []
+}
