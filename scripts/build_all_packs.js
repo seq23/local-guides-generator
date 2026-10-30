@@ -54,8 +54,9 @@ function run(cmd, args, envExtras = {}) {
 // contract stood down. Without it a content change could never be committed
 // correctly: that contract fails the first pack (the ledger is not committed
 // yet), the build stops there, and the other five packs' entries are never
-// written. Every other hard-fail validator still runs, and CI never passes
-// the flag (the contract refuses LKG_LEDGER_REFRESH when CI is set).
+// written. Every other hard-fail validator still runs. In CI only the Rotating
+// Refresh record step passes the flag (the contract refuses it in any other
+// workflow), and it builds again without it before pushing.
 const REFRESH_LEDGER = process.argv.includes('--refresh-ledger');
 
 const PACKS = [
