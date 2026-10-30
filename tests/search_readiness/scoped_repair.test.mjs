@@ -122,6 +122,9 @@ test('each repaired guide must remain rendered and above the word floor', (t) =>
     ['trt', 'trt-first-90-days'],
     ['pi', 'questions-to-ask-a-personal-injury-lawyer'],
     ['trt', 'peptides-vs-iv-therapy'],
+    ['uscis_medical', 'brooklyn-i693-medical-exam-prices'],
+    ['dentistry', 'ocala-dental-new-patient-specials-compared'],
+    ['neuro', 'neuropsych-evaluation-cost-estimator'],
   ]) {
     const dir = path.join(root, pack, 'guides', slug);
     fs.mkdirSync(dir, { recursive: true });
@@ -139,5 +142,26 @@ test('each repaired guide must remain rendered and above the word floor', (t) =>
     assert.match(run(), new RegExp(`${slug}/.*2 words`));
     fs.renameSync(path.join(root, pack, 'guides', slug), path.join(root, pack, 'guides', `unrelated-${slug}`));
     assert.match(run(), new RegExp(`not in the rendered pack:.*${slug}`));
+  }
+});
+
+test('repaired local guides reject duplicate H1s, missing answers, missing tables and broken attribution', () => {
+  const { shapeProblems } = require('../../scripts/validation/guide_word_floor_contract');
+  for (const slug of ['brooklyn-i693-medical-exam-prices', 'ocala-dental-new-patient-specials-compared', 'neuropsych-evaluation-cost-estimator']) {
+    const good = `<h1>Guide topic</h1><h2 id="quick-answer">Quick answer</h2><table><tr><td>Comparison</td></tr></table>` +
+      `<section data-search-faq="true"><h2>Frequently asked questions</h2><h3>What is included?</h3><p>Ask for itemized scope.</p></section>` +
+      `<script type="application/ld+json">{"@type":"FAQPage"}</script>` +
+      `<a href="/request-assistance/?vertical=example&amp;page_kind=guide&amp;page_slug=guides/${slug}">Ask</a>`;
+    assert.deepEqual(shapeProblems(good, slug), []);
+    assert.match(shapeProblems(good.replace('</h1>', '</h1><section><h1>Nested title</h1></section>'), slug).join(), /expected one H1, found 2/);
+    assert.match(shapeProblems(good.replace(/<h1>.*?<\/h1>/, ''), slug).join(), /expected one H1, found 0/);
+    assert.match(shapeProblems(good.replace('Quick answer', 'More information'), slug).join(), /no Quick answer H2/);
+    assert.match(shapeProblems(good.replace('page_kind=guide', 'page_kind=city'), slug).join(), /no intake CTA/);
+    assert.match(shapeProblems(good.replace(`guides/${slug}`, 'guides/another-guide'), slug).join(), /no intake CTA/);
+    assert.match(shapeProblems(good + '<script>{"@type":"FAQPage"}</script>', slug).join(), /more than one FAQPage/);
+    assert.match(shapeProblems(good.replace('data-search-faq="true"', ''), slug).join(), /no visible FAQ/);
+    assert.match(shapeProblems(good.replace('"FAQPage"', '"WebPage"'), slug).join(), /no FAQPage/);
+    const withoutTable = shapeProblems(good.replace(/<table>.*?<\/table>/, ''), slug);
+    assert.equal(withoutTable.includes('comparison has no table'), slug === 'ocala-dental-new-patient-specials-compared');
   }
 });
