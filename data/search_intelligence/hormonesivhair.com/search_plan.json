@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-09-30..2026-10-27",
+  "gsc_window": "2026-10-01..2026-10-28",
   "totals": {
     "clicks": 0,
-    "impressions": 73,
+    "impressions": 77,
     "ctr": 0,
-    "position": 63.8
+    "position": 61.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -18,9 +18,9 @@
       ],
       "family_impressions": 41,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
-      "impressions": 43,
+      "impressions": 47,
       "clicks": 0,
-      "position": 84.6,
+      "position": 78.8,
       "strengthened": true
     },
     {
@@ -32,9 +32,9 @@
       ],
       "family_impressions": 7,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json",
-      "impressions": 11,
+      "impressions": 10,
       "clicks": 0,
-      "position": 5.1,
+      "position": 5,
       "strengthened": true
     }
   ],
@@ -42,17 +42,17 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 76,
-      "Discovered - currently not indexed": 51,
+      "Discovered - currently not indexed": 49,
       "Duplicate, Google chose different canonical than user": 1,
       "Submitted and indexed": 30,
-      "URL is unknown to Google": 48
+      "URL is unknown to Google": 50
     },
     "buckets": {
       "crawled_not_indexed": 76,
-      "discovered_not_indexed": 51,
+      "discovered_not_indexed": 49,
       "indexed": 30,
       "other": 1,
-      "unknown": 48
+      "unknown": 50
     }
   }
 }

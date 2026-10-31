@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-09-30..2026-10-27",
+  "gsc_window": "2026-10-01..2026-10-28",
   "totals": {
     "clicks": 2,
-    "impressions": 66,
-    "ctr": 0.0303,
-    "position": 22.2
+    "impressions": 65,
+    "ctr": 0.0308,
+    "position": 22.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -18,9 +18,9 @@
       ],
       "family_impressions": 8,
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
-      "impressions": 23,
+      "impressions": 24,
       "clicks": 2,
-      "position": 35.7,
+      "position": 34.5,
       "strengthened": true
     },
     {
@@ -31,9 +31,9 @@
       ],
       "family_impressions": 3,
       "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
-      "impressions": 9,
+      "impressions": 10,
       "clicks": 0,
-      "position": 11.4,
+      "position": 10.4,
       "strengthened": true
     },
     {
@@ -44,9 +44,9 @@
       ],
       "family_impressions": 1,
       "source": "data/page_sets/examples/neuro_v1.json",
-      "impressions": 10,
+      "impressions": 8,
       "clicks": 0,
-      "position": 12.3,
+      "position": 13.9,
       "strengthened": true
     }
   ],
@@ -54,15 +54,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 87,
-      "Discovered - currently not indexed": 41,
+      "Discovered - currently not indexed": 42,
       "Submitted and indexed": 33,
-      "URL is unknown to Google": 42
+      "URL is unknown to Google": 41
     },
     "buckets": {
       "crawled_not_indexed": 87,
-      "discovered_not_indexed": 41,
+      "discovered_not_indexed": 42,
       "indexed": 33,
-      "unknown": 42
+      "unknown": 41
     }
   }
 }

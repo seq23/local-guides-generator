@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "theaccidentguides.com",
-  "gsc_window": "2026-09-30..2026-10-27",
-  "gsc_collected_at": "2026-10-30T13:36:53+00:00",
+  "gsc_window": "2026-10-01..2026-10-28",
+  "gsc_collected_at": "2026-10-31T13:34:47+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
   "target_count": 313,
   "targets_by_source": {
@@ -12,16 +12,30 @@
   "dropped": [],
   "targets": [
     {
+      "query": "how much does a personal injury lawyer cost",
+      "normalized_query": "how much does a personal injury lawyer cost",
+      "source": "gsc_export",
+      "impressions": 69,
+      "clicks": 0,
+      "average_position": 58.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 69,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
       "query": "personal injury attorney",
       "normalized_query": "personal injury attorney",
       "source": "gsc_export",
-      "impressions": 63,
+      "impressions": 62,
       "clicks": 0,
       "average_position": 55.5,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 63,
-        "window": "2026-09-30..2026-10-27"
+        "value": 62,
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -35,37 +49,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 59,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MO/"
-    },
-    {
-      "query": "how much does a personal injury lawyer cost",
-      "normalized_query": "how much does a personal injury lawyer cost",
-      "source": "gsc_export",
-      "impressions": 58,
-      "clicks": 0,
-      "average_position": 57.2,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 58,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
-    },
-    {
-      "query": "louisiana personal injury lawyer",
-      "normalized_query": "louisiana personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 51,
-      "clicks": 0,
-      "average_position": 66.6,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 51,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/LA/"
     },
     {
       "query": "missouri personal injury lawyer",
@@ -77,9 +63,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 51,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MO/"
+    },
+    {
+      "query": "louisiana personal injury lawyer",
+      "normalized_query": "louisiana personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 50,
+      "clicks": 0,
+      "average_position": 66.6,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 50,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/LA/"
     },
     {
       "query": "personal injury lawyer in louisiana",
@@ -91,23 +91,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 36,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "personal injury lawyer",
-      "normalized_query": "personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 35,
-      "clicks": 0,
-      "average_position": 48.3,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 35,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/WV/"
     },
     {
       "query": "personal injury lawyer in missouri",
@@ -119,21 +105,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 35,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MO/"
     },
     {
-      "query": "injury attorney",
-      "normalized_query": "injury attorney",
+      "query": "personal injury lawyer",
+      "normalized_query": "personal injury lawyer",
       "source": "gsc_export",
-      "impressions": 30,
+      "impressions": 33,
       "clicks": 0,
-      "average_position": 49.1,
+      "average_position": 47.5,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 30,
-        "window": "2026-09-30..2026-10-27"
+        "value": 33,
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -143,13 +129,27 @@
       "source": "gsc_export",
       "impressions": 30,
       "clicks": 0,
-      "average_position": 84.3,
+      "average_position": 85,
       "measurement": {
         "metric": "impressions_28d",
         "value": 30,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "injury attorney",
+      "normalized_query": "injury attorney",
+      "source": "gsc_export",
+      "impressions": 29,
+      "clicks": 0,
+      "average_position": 48.6,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 29,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/WV/"
     },
     {
       "query": "indiana personal injury lawyer",
@@ -161,7 +161,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 26,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/IN/"
     },
@@ -175,7 +175,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 24,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -189,7 +189,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 24,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -203,7 +203,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 23,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -217,7 +217,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 22,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -225,13 +225,13 @@
       "query": "how much does personal injury lawyer cost",
       "normalized_query": "how much does personal injury lawyer cost",
       "source": "gsc_export",
-      "impressions": 21,
+      "impressions": 22,
       "clicks": 0,
-      "average_position": 61.3,
+      "average_position": 61.5,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 21,
-        "window": "2026-09-30..2026-10-27"
+        "value": 22,
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -245,51 +245,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 21,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "accident attorney sd",
-      "normalized_query": "accident attorney sd",
-      "source": "gsc_export",
-      "impressions": 20,
-      "clicks": 0,
-      "average_position": 76.3,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 20,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/SD/"
     },
     {
       "query": "injury lawyer fee",
       "normalized_query": "injury lawyer fee",
       "source": "gsc_export",
-      "impressions": 20,
+      "impressions": 21,
       "clicks": 0,
-      "average_position": 68.3,
+      "average_position": 68.8,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 20,
-        "window": "2026-09-30..2026-10-27"
+        "value": 21,
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "kansas personal injury attorney",
-      "normalized_query": "kansas personal injury attorney",
+      "query": "accident attorney sd",
+      "normalized_query": "accident attorney sd",
       "source": "gsc_export",
-      "impressions": 20,
+      "impressions": 19,
       "clicks": 0,
-      "average_position": 68.3,
+      "average_position": 75.9,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 20,
-        "window": "2026-09-30..2026-10-27"
+        "value": 19,
+        "window": "2026-10-01..2026-10-28"
       },
-      "owner_route": "/states/KS/"
+      "owner_route": "/states/SD/"
     },
     {
       "query": "questions to ask personal injury lawyer",
@@ -301,23 +287,79 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 19,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
     {
-      "query": "personal injury lawyer south dakota",
-      "normalized_query": "personal injury lawyer south dakota",
+      "query": "kansas personal injury attorney",
+      "normalized_query": "kansas personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 18,
+      "clicks": 0,
+      "average_position": 69.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 18,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/KS/"
+    },
+    {
+      "query": "personal injury lead cost",
+      "normalized_query": "personal injury lead cost",
+      "source": "gsc_export",
+      "impressions": 18,
+      "clicks": 0,
+      "average_position": 66.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 18,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "delaware personal injury",
+      "normalized_query": "delaware personal injury",
       "source": "gsc_export",
       "impressions": 17,
       "clicks": 0,
-      "average_position": 61.3,
+      "average_position": 80.4,
       "measurement": {
         "metric": "impressions_28d",
         "value": 17,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
-      "owner_route": "/states/SD/"
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "nebraska personal injury lawyer",
+      "normalized_query": "nebraska personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 17,
+      "clicks": 0,
+      "average_position": 58.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 17,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/NE/"
+    },
+    {
+      "query": "personal injury lawyer cost",
+      "normalized_query": "personal injury lawyer cost",
+      "source": "gsc_export",
+      "impressions": 17,
+      "clicks": 0,
+      "average_position": 61.9,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 17,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "when to contact a personal injury lawyer",
@@ -329,23 +371,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 17,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
-    },
-    {
-      "query": "delaware personal injury",
-      "normalized_query": "delaware personal injury",
-      "source": "gsc_export",
-      "impressions": 16,
-      "clicks": 0,
-      "average_position": 80.1,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 16,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/DE/"
     },
     {
       "query": "indiana personal injury attorney",
@@ -357,7 +385,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 16,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/IN/"
     },
@@ -371,37 +399,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 16,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "nebraska personal injury lawyer",
-      "normalized_query": "nebraska personal injury lawyer",
+      "query": "personal injury lawyer fees",
+      "normalized_query": "personal injury lawyer fees",
       "source": "gsc_export",
       "impressions": 16,
       "clicks": 0,
-      "average_position": 58,
+      "average_position": 63.4,
       "measurement": {
         "metric": "impressions_28d",
         "value": 16,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/NE/"
-    },
-    {
-      "query": "personal injury lead cost",
-      "normalized_query": "personal injury lead cost",
-      "source": "gsc_export",
-      "impressions": 16,
-      "clicks": 0,
-      "average_position": 64.8,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 16,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "personal injury lawyer south dakota",
+      "normalized_query": "personal injury lawyer south dakota",
+      "source": "gsc_export",
+      "impressions": 16,
+      "clicks": 0,
+      "average_position": 61.1,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 16,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/SD/"
     },
     {
       "query": "wyoming personal injury lawyer",
@@ -413,7 +441,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 16,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
     },
@@ -427,7 +455,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 15,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -437,27 +465,13 @@
       "source": "gsc_export",
       "impressions": 15,
       "clicks": 0,
-      "average_position": 53.7,
+      "average_position": 54,
       "measurement": {
         "metric": "impressions_28d",
         "value": 15,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
-    },
-    {
-      "query": "personal injury lawyer fees",
-      "normalized_query": "personal injury lawyer fees",
-      "source": "gsc_export",
-      "impressions": 14,
-      "clicks": 0,
-      "average_position": 62,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 14,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "personal injury texas",
@@ -469,7 +483,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 14,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/TX/"
     },
@@ -483,21 +497,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 14,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/TX/"
     },
     {
-      "query": "personal injury lawyer cost",
-      "normalized_query": "personal injury lawyer cost",
+      "query": "how much do personal injury lawyers charge",
+      "normalized_query": "how much do personal injury lawyers charge",
       "source": "gsc_export",
       "impressions": 13,
       "clicks": 0,
-      "average_position": 61.1,
+      "average_position": 65.2,
       "measurement": {
         "metric": "impressions_28d",
         "value": 13,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -511,7 +525,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 13,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -525,23 +539,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 13,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
-    },
-    {
-      "query": "how much do personal injury lawyers charge",
-      "normalized_query": "how much do personal injury lawyers charge",
-      "source": "gsc_export",
-      "impressions": 12,
-      "clicks": 0,
-      "average_position": 64.8,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 12,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "top louisiana accident lawyer",
@@ -553,7 +553,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 12,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -567,7 +567,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 11,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -581,7 +581,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 11,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MI/"
     },
@@ -595,23 +595,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 11,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
-    },
-    {
-      "query": "alaska personal injury laws",
-      "normalized_query": "alaska personal injury laws",
-      "source": "gsc_export",
-      "impressions": 10,
-      "clicks": 0,
-      "average_position": 46.2,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 10,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/AK/"
     },
     {
       "query": "car accident evidence checklist virginia",
@@ -623,9 +609,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 10,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
+    },
+    {
+      "query": "colorado personal injury attorney",
+      "normalized_query": "colorado personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 10,
+      "clicks": 0,
+      "average_position": 87.1,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 10,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/CO/"
+    },
+    {
+      "query": "how much do personal injury attorneys charge",
+      "normalized_query": "how much do personal injury attorneys charge",
+      "source": "gsc_export",
+      "impressions": 10,
+      "clicks": 0,
+      "average_position": 66.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 10,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "alabama personal injury",
@@ -637,23 +651,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
     {
-      "query": "how much do personal injury attorneys charge",
-      "normalized_query": "how much do personal injury attorneys charge",
+      "query": "alaska personal injury laws",
+      "normalized_query": "alaska personal injury laws",
       "source": "gsc_export",
       "impressions": 9,
       "clicks": 0,
-      "average_position": 67,
+      "average_position": 46.6,
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
-      "owner_route": "/guides/personal-injury-fees-explained/"
+      "owner_route": "/states/AK/"
     },
     {
       "query": "injury lawyer louisiana",
@@ -665,7 +679,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -679,7 +693,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -693,7 +707,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -707,7 +721,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -721,7 +735,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/CO/"
     },
@@ -735,7 +749,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -749,23 +763,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "kansas personal injury lawyer",
-      "normalized_query": "kansas personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 8,
-      "clicks": 0,
-      "average_position": 67.4,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 8,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/KS/"
     },
     {
       "query": "questions to ask personal injury attorney",
@@ -777,21 +777,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
-    },
-    {
-      "query": "accident lawyer questions",
-      "normalized_query": "accident lawyer questions",
-      "source": "gsc_export",
-      "impressions": 7,
-      "clicks": 0,
-      "average_position": 96.6,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -805,7 +791,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -819,7 +805,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/faq/"
     },
@@ -833,7 +819,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/KS/"
+    },
+    {
+      "query": "kansas personal injury lawyer",
+      "normalized_query": "kansas personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 7,
+      "clicks": 0,
+      "average_position": 68.4,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 7,
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KS/"
     },
@@ -847,7 +847,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KY/"
     },
@@ -861,7 +861,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -875,9 +875,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
+    },
+    {
+      "query": "personal injury lawyer fee",
+      "normalized_query": "personal injury lawyer fee",
+      "source": "gsc_export",
+      "impressions": 7,
+      "clicks": 0,
+      "average_position": 61.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 7,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "questions for personal injury lawyer",
@@ -889,7 +903,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -903,7 +917,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -917,9 +931,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "accident lawyer questions",
+      "normalized_query": "accident lawyer questions",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 97,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
     {
       "query": "compare new york city personal injury lawyer",
@@ -931,7 +959,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NY/"
     },
@@ -945,7 +973,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KS/"
     },
@@ -955,11 +983,11 @@
       "source": "gsc_export",
       "impressions": 6,
       "clicks": 0,
-      "average_position": 61.8,
+      "average_position": 66.2,
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -973,7 +1001,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NY/"
     },
@@ -987,23 +1015,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "personal injury lawyer fee",
-      "normalized_query": "personal injury lawyer fee",
-      "source": "gsc_export",
-      "impressions": 6,
-      "clicks": 0,
-      "average_position": 62,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 6,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "personal injury south dakota",
@@ -1015,7 +1029,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -1029,23 +1043,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
-    },
-    {
-      "query": "colorado personal injury attorney",
-      "normalized_query": "colorado personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 5,
-      "clicks": 0,
-      "average_position": 93.6,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 5,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/CO/"
     },
     {
       "query": "delaware personal injury law",
@@ -1057,7 +1057,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/DE/"
     },
@@ -1071,7 +1071,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/TX/"
     },
@@ -1085,23 +1085,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
-    },
-    {
-      "query": "injury attorneys",
-      "normalized_query": "injury attorneys",
-      "source": "gsc_export",
-      "impressions": 5,
-      "clicks": 0,
-      "average_position": 38.4,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 5,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/SD/"
     },
     {
       "query": "personal injury attorney in louisiana",
@@ -1113,7 +1099,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -1127,7 +1113,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
     },
@@ -1141,7 +1127,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -1155,23 +1141,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MI/"
-    },
-    {
-      "query": "south dakota personal injury attorney",
-      "normalized_query": "south dakota personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 5,
-      "clicks": 0,
-      "average_position": 66.4,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 5,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/SD/"
     },
     {
       "query": "wyoming personal injury lawyers",
@@ -1183,7 +1155,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
     },
@@ -1197,7 +1169,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -1211,7 +1183,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/motorcycle-accidents/"
     },
@@ -1225,7 +1197,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -1239,7 +1211,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MI/"
     },
@@ -1253,9 +1225,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KS/"
+    },
+    {
+      "query": "injury attorneys",
+      "normalized_query": "injury attorneys",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 36.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/SD/"
     },
     {
       "query": "injury attorneys in louisiana",
@@ -1267,9 +1253,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
+    },
+    {
+      "query": "injury lawyer fees",
+      "normalized_query": "injury lawyer fees",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 59.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "injury lawyer missouri",
@@ -1281,7 +1281,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MO/"
     },
@@ -1295,7 +1295,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -1309,7 +1309,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -1323,7 +1323,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
     },
@@ -1337,21 +1337,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/LA/"
-    },
-    {
-      "query": "personal injury louisiana",
-      "normalized_query": "personal injury louisiana",
-      "source": "gsc_export",
-      "impressions": 4,
-      "clicks": 0,
-      "average_position": 83,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -1365,7 +1351,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MN/"
     },
@@ -1379,9 +1365,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MT/"
+    },
+    {
+      "query": "south dakota personal injury attorney",
+      "normalized_query": "south dakota personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 66.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/SD/"
     },
     {
       "query": "south dakota personal injury lawyer",
@@ -1393,9 +1393,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
+    },
+    {
+      "query": "typical attorney fees for personal injury",
+      "normalized_query": "typical attorney fees for personal injury",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 65.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "what questions should i ask a personal injury lawyer",
@@ -1407,7 +1421,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -1421,7 +1435,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -1435,7 +1449,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -1449,7 +1463,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -1463,7 +1477,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/what-a-fair-settlement-figure-is-made-of/"
     },
@@ -1477,7 +1491,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
     },
@@ -1491,7 +1505,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AK/"
     },
@@ -1505,7 +1519,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -1519,23 +1533,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
-    },
-    {
-      "query": "injury lawyer fees",
-      "normalized_query": "injury lawyer fees",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 55,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "injury representation texas",
@@ -1547,7 +1547,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/TX/"
     },
@@ -1561,7 +1561,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NY/"
     },
@@ -1575,7 +1575,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -1589,7 +1589,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -1603,9 +1603,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
+    },
+    {
+      "query": "personal injury louisiana",
+      "normalized_query": "personal injury louisiana",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 83,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/LA/"
     },
     {
       "query": "personal injury questions",
@@ -1617,7 +1631,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -1631,23 +1645,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
     {
-      "query": "south dakota personal injury laws",
-      "normalized_query": "south dakota personal injury laws",
+      "query": "standard fee for personal injury lawyer",
+      "normalized_query": "standard fee for personal injury lawyer",
       "source": "gsc_export",
       "impressions": 3,
       "clicks": 0,
-      "average_position": 70,
+      "average_position": 77.7,
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
-      "owner_route": "/states/SD/"
+      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "top injury attorneys wv",
@@ -1659,23 +1673,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
-    },
-    {
-      "query": "typical attorney fees for personal injury",
-      "normalized_query": "typical attorney fees for personal injury",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 65,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "west virginia accident attorney",
@@ -1687,7 +1687,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -1701,7 +1701,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
     },
@@ -1715,7 +1715,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
     },
@@ -1729,7 +1729,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
     },
@@ -1743,9 +1743,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
+    },
+    {
+      "query": "attorney fees in personal injury cases",
+      "normalized_query": "attorney fees in personal injury cases",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 100,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "best personal injury lawyer",
@@ -1757,7 +1771,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -1771,7 +1785,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -1785,7 +1799,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MI/"
     },
@@ -1799,7 +1813,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/motorcycle-accidents/"
     },
@@ -1813,7 +1827,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -1827,7 +1841,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1841,7 +1855,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1855,7 +1869,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1869,7 +1883,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1883,7 +1897,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1897,7 +1911,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NY/"
     },
@@ -1911,7 +1925,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/IN/"
     },
@@ -1925,7 +1939,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MD/"
     },
@@ -1939,7 +1953,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NY/"
     },
@@ -1953,7 +1967,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -1967,7 +1981,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/IN/"
     },
@@ -1981,7 +1995,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/IN/"
     },
@@ -1995,7 +2009,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/IN/"
     },
@@ -2009,7 +2023,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2023,7 +2037,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -2037,7 +2051,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2051,7 +2065,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -2065,7 +2079,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/"
     },
@@ -2079,7 +2093,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MN/"
     },
@@ -2093,7 +2107,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/motorcycle-accidents/"
     },
@@ -2107,7 +2121,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -2121,7 +2135,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -2135,7 +2149,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -2149,7 +2163,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -2163,7 +2177,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -2177,7 +2191,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -2191,7 +2205,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2205,7 +2219,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/DE/"
     },
@@ -2219,7 +2233,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KY/"
     },
@@ -2233,7 +2247,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/TX/"
     },
@@ -2247,7 +2261,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MN/"
     },
@@ -2261,7 +2275,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2275,7 +2289,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -2289,7 +2303,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -2303,7 +2317,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
     },
@@ -2317,7 +2331,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2331,7 +2345,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2345,7 +2359,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2359,7 +2373,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -2373,7 +2387,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/RI/"
     },
@@ -2387,7 +2401,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/RI/"
     },
@@ -2401,7 +2415,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/IN/"
     },
@@ -2415,7 +2429,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SC/"
     },
@@ -2429,7 +2443,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2443,7 +2457,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2457,7 +2471,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/SD/"
+    },
+    {
+      "query": "south dakota personal injury laws",
+      "normalized_query": "south dakota personal injury laws",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 68.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2471,7 +2499,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/contact/"
     },
@@ -2485,7 +2513,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/truck-accidents/"
     },
@@ -2499,7 +2527,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -2513,7 +2541,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -2527,7 +2555,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -2541,7 +2569,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -2555,7 +2583,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NV/"
     },
@@ -2569,7 +2597,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -2583,7 +2611,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2597,7 +2625,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2611,7 +2639,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2625,7 +2653,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -2639,21 +2667,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
     {
-      "query": "attorney fees in personal injury cases",
-      "normalized_query": "attorney fees in personal injury cases",
+      "query": "auto accident attorney fees",
+      "normalized_query": "auto accident attorney fees",
       "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
-      "average_position": 99,
+      "average_position": 53,
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2667,7 +2695,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
     },
@@ -2681,7 +2709,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2695,7 +2723,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2709,7 +2737,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2723,7 +2751,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -2737,7 +2765,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -2751,7 +2779,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -2765,7 +2793,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2779,7 +2807,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -2793,7 +2821,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -2807,7 +2835,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/burn-injury/"
     },
@@ -2821,7 +2849,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/burn-injury/"
     },
@@ -2835,7 +2863,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2849,7 +2877,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -2863,7 +2891,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AK/"
     },
@@ -2877,7 +2905,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -2891,7 +2919,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/CO/"
     },
@@ -2905,7 +2933,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/CO/"
     },
@@ -2919,7 +2947,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2933,7 +2961,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/DE/"
     },
@@ -2947,7 +2975,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/DE/"
     },
@@ -2961,7 +2989,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/injuries-during-immigration-enforcement/"
     },
@@ -2975,7 +3003,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2989,7 +3017,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -3003,7 +3031,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/RI/"
     },
@@ -3017,7 +3045,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -3031,7 +3059,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -3045,7 +3073,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -3059,7 +3087,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/TX/"
     },
@@ -3073,7 +3101,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3087,7 +3115,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3101,7 +3129,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3115,7 +3143,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3129,7 +3157,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3143,7 +3171,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3157,7 +3185,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -3171,7 +3199,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -3185,7 +3213,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -3199,7 +3227,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -3213,7 +3241,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -3227,7 +3255,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NY/"
     },
@@ -3241,7 +3269,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NY/"
     },
@@ -3255,7 +3283,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -3269,7 +3297,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -3283,7 +3311,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -3297,7 +3325,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -3311,7 +3339,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3325,7 +3353,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -3339,7 +3367,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -3353,7 +3381,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -3367,7 +3395,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KS/"
     },
@@ -3381,7 +3409,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KY/"
     },
@@ -3395,7 +3423,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/HI/"
     },
@@ -3409,7 +3437,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/HI/"
     },
@@ -3423,7 +3451,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KS/"
     },
@@ -3437,7 +3465,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -3451,7 +3479,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MD/"
     },
@@ -3465,7 +3493,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MN/"
     },
@@ -3479,7 +3507,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MO/"
     },
@@ -3493,7 +3521,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MN/"
     },
@@ -3507,7 +3535,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/motorcycle-accidents/"
     },
@@ -3521,7 +3549,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NE/"
     },
@@ -3535,7 +3563,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NE/"
     },
@@ -3549,7 +3577,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -3563,7 +3591,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -3577,7 +3605,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/ND/"
     },
@@ -3591,7 +3619,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/OR/"
     },
@@ -3605,23 +3633,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
-    },
-    {
-      "query": "personal injury attorney in kansas",
-      "normalized_query": "personal injury attorney in kansas",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 58,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/states/KS/"
     },
     {
       "query": "personal injury attorney maryland statewide",
@@ -3633,7 +3647,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MD/"
     },
@@ -3647,7 +3661,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -3661,7 +3675,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -3675,7 +3689,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KS/"
     },
@@ -3689,7 +3703,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3703,7 +3717,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3717,7 +3731,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3731,7 +3745,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/",
       "other_measurements": [
@@ -3752,7 +3766,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/HI/"
     },
@@ -3766,7 +3780,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3780,7 +3794,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/NV/"
     },
@@ -3794,7 +3808,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/KY/"
     },
@@ -3808,7 +3822,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AK/"
     },
@@ -3822,7 +3836,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -3836,7 +3850,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3850,7 +3864,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -3864,7 +3878,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/DE/"
     },
@@ -3878,7 +3892,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WY/"
     },
@@ -3892,7 +3906,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MD/"
     },
@@ -3906,7 +3920,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3920,7 +3934,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -3934,7 +3948,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/premises-liability/"
     },
@@ -3948,7 +3962,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -3962,7 +3976,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -3976,7 +3990,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -3990,7 +4004,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -4004,7 +4018,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/RI/"
     },
@@ -4018,7 +4032,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/RI/"
     },
@@ -4032,7 +4046,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-lawyer-red-flags/"
     },
@@ -4046,7 +4060,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -4060,7 +4074,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -4074,7 +4088,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -4088,7 +4102,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -4102,7 +4116,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -4116,7 +4130,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -4130,7 +4144,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/SD/"
     },
@@ -4144,23 +4158,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/spinal-cord-injury/"
-    },
-    {
-      "query": "standard fee for personal injury lawyer",
-      "normalized_query": "standard fee for personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 82,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "standard personal injury attorney fee",
@@ -4172,7 +4172,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4186,9 +4186,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
+    },
+    {
+      "query": "tennessee personal injury attorney",
+      "normalized_query": "tennessee personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 59,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-01..2026-10-28"
+      },
+      "owner_route": "/states/TN/"
     },
     {
       "query": "texas personal injury",
@@ -4200,7 +4214,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/TX/"
     },
@@ -4214,7 +4228,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/LA/"
     },
@@ -4228,7 +4242,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/MT/"
     },
@@ -4242,7 +4256,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -4256,7 +4270,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4270,7 +4284,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -4284,7 +4298,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -4298,7 +4312,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     },
@@ -4312,23 +4326,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
-    },
-    {
-      "query": "what do personal injury attorneys charge",
-      "normalized_query": "what do personal injury attorneys charge",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 88,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-09-30..2026-10-27"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "what questions to ask a personal injury lawyer alabama",
@@ -4340,7 +4340,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -4354,7 +4354,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -4368,7 +4368,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/AL/"
     },
@@ -4382,7 +4382,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WI/"
     },
@@ -4396,7 +4396,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-09-30..2026-10-27"
+        "window": "2026-10-01..2026-10-28"
       },
       "owner_route": "/states/WV/"
     }
