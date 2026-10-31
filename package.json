@@ -113,6 +113,7 @@
     "validate:velocity-candidate-seam": "node scripts/validation/velocity_candidate_seam_contract.js",
     "validate:zero-paid-llm": "node scripts/validation/zero_paid_llm_contract.js",
     "validate:entity-graph": "node scripts/validation/entity_graph_contract.js",
+    "validate:entity-watch-lane": "node scripts/validation/entity_watch_lane_contract.js",
     "test:entity-graph": "node --test tests/entity/*.test.mjs",
     "entity:watch": "node scripts/entity_backlink_watch.mjs"
   },
