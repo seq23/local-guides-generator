@@ -175,6 +175,7 @@ Use the structured source files instead of editing generated HTML.
 - TRT → `https://hormonesivhair.com`
 - Neuro → `https://neuroevalguides.com`
 - USCIS → `https://uscisexam.com`
+- Senior living → `https://memphisseniorcarehomes.com`
 
 ## Release flow
 
