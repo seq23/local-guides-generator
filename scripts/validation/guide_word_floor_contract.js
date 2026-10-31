@@ -82,6 +82,10 @@ const PROVEN = {
   'uscis_medical_v1.json': [
     // sr-uscisexam.com-j3, 30 Oct: itemized quote, record and payment worksheets.
     'brooklyn-i693-medical-exam-prices',
+    // sr-uscisexam.com-j3, 31 Oct: the seven-line written estimate, records to
+    // bring, paperwork delivery and when a quote is still incomplete. The body
+    // H1 became the lead and the "Quick answer" heading is now the house form.
+    'fresno-i693-immigration-medical-exam-cost',
   ],
   'dentistry_v1.json': [
     // sr-dentistryguides.com-b3/d2/j3, 30 Oct: one H1, answer and offer table.
@@ -122,6 +126,10 @@ const PROVEN = {
     // the hormone-programme template replaced with what each subject needs.
     'peptide-clinic-near-me',
     'what-is-hair-botox',
+    // sr-hormonesivhair.com-j3, 31 Oct: comparable first-visit totals, screening
+    // history, timing and payment, and when a quote is still incomplete. The body
+    // H1 became the lead and "Quick answer" is now its own heading.
+    'brooklyn-vitamin-c-injections-prices',
   ],
   'neuro_v1.json': [
     // sr-neuroevalguides.com-j3, 30 Oct: written scope and booking comparison.
@@ -149,6 +157,8 @@ const HOUSE_SHAPE = new Set([
   'recorded-statements-and-insurance-calls',
   'trt-fertility-and-family-planning',
   'beauty-peptide-costs-and-bundles',
+  'fresno-i693-immigration-medical-exam-cost',
+  'brooklyn-vitamin-c-injections-prices',
 ]);
 
 const VISIBLE_FAQ_GUIDES = new Set([
