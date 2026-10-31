@@ -7,6 +7,7 @@
  * What it pins (Search Readiness Checklist, owner, 25 Oct 2026):
  *   b1  title 30-65 characters, and no two indexable pages share a title
  *   b2  exactly one meta description, 120-160 characters
+ *   b3  exactly one <h1> per indexable page
  *   d4  a page whose JSON-LD claims a date shows that date in its text
  *
  * Why it is needed. These were drifting silently and in both directions.
@@ -17,6 +18,15 @@
  * hand-written guide title, and one fixed template sentence used for place
  * phrases ranging from "in Cordova, TN" to "near Baptist Memorial
  * Hospital-Collierville". Nothing measured any of it, so nothing said so.
+ *
+ * b3 joined them on 31 Oct 2026 for the same reason. The guide renderer in
+ * scripts/build_city_sites.js prepends a hero carrying the page's h1 and tried
+ * to drop the body's own redundant h1 with a `^`-anchored replace. Newer guide
+ * JSON opens with a wrapper <section> and a kicker <p>, so the anchor never
+ * reached the nested h1 and both survived: two h1 elements, found on
+ * hormonesivhair.com/guides/ocala-vitamin-c-injection-iv-prices/. Two h1s leave
+ * an answer engine no single statement of what the page is about. Nothing
+ * counted h1 elements anywhere in the repository, so nothing said so.
  *
  * d4 is here too because it has the same shape: the renderer put
  * datePublished/dateModified in JSON-LD and citation_* meta on every page and
@@ -72,6 +82,7 @@ function main() {
   const badTitle = [];
   const badDesc = [];
   const badDate = [];
+  const badH1 = [];
   let checked = 0;
 
   for (const file of files) {
@@ -105,6 +116,12 @@ function main() {
       badDesc.push(`${rel}  description is ${descs[0].length} chars (want ${DESC_MIN}-${DESC_MAX})`);
     }
 
+    // b3: exactly one h1. Counted over the whole document rather than <main>
+    // so a stray h1 in a header or footer partial is caught too; the site
+    // chrome carries none by construction, so a second one is always a defect.
+    const h1s = (html.match(/<h1\b[^>]*>/gi) || []).length;
+    if (h1s !== 1) badH1.push(`${rel}  has ${h1s} <h1> (want exactly 1)`);
+
     // d4: a date claimed in JSON-LD has to be visible to a reader.
     const claimed = (html.match(/"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})/) || [])[1];
     if (claimed) {
@@ -128,6 +145,7 @@ function main() {
   section('b1 titles outside the length window', badTitle);
   section('b1 titles used by more than one page', dupes.map(([t, pages]) => `${pages.length} pages share "${t}": ${pages.slice(0, 3).join(', ')}`));
   section('b2 meta descriptions', badDesc);
+  section('b3 pages without exactly one h1', badH1);
   section('d4 dates claimed but not shown', badDate);
 
   if (problems.length) {
@@ -135,7 +153,7 @@ function main() {
     problems.forEach((p) => console.error(` - ${p}`));
     process.exit(1);
   }
-  console.log(`✅ SEARCH READINESS HEAD PASS — ${checked} indexable page(s) of ${files.length}: titles ${TITLE_MIN}-${TITLE_MAX} and unique, one meta description ${DESC_MIN}-${DESC_MAX}, every claimed date visible.`);
+  console.log(`✅ SEARCH READINESS HEAD PASS — ${checked} indexable page(s) of ${files.length}: titles ${TITLE_MIN}-${TITLE_MAX} and unique, one meta description ${DESC_MIN}-${DESC_MAX}, exactly one h1, every claimed date visible.`);
 }
 
 main();

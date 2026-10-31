@@ -4940,6 +4940,21 @@ if (route === 'admin') {
       out = out
         .replace(/^\s*<h1>[^<]*<\/h1>\s*/i, '')
         .replace(/^\s*<h2>[^<]*<\/h2>\s*/i, '');
+      // A redundant body h1 is not always the leading element. Newer guide JSON
+      // opens with its own wrapper <section> and a kicker <p>, so the `^`
+      // anchors above never reach the h1 nested inside and it survived beside
+      // the hero's. That is two h1 elements on one page - Search Readiness item
+      // b3's exact failure, measured 31 Oct 2026 on
+      // hormonesivhair.com/guides/ocala-vitamin-c-injection-iv-prices/ (2 h1).
+      // The hero above supplies the page's single h1, so any h1 left in the body
+      // is a section heading wearing the wrong tag: demote it instead of
+      // deleting it, which keeps the words and the document outline and leaves
+      // exactly one h1. scripts/validation/search_readiness_head_contract.js
+      // pins the result.
+      out = out.replace(
+        /<h1(\s[^>]*)?>([\s\S]*?)<\/h1>/gi,
+        (m, attrs, inner) => `<h2${attrs || ''}>${inner}</h2>`
+      );
       out = hero + out;
     }
 
