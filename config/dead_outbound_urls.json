@@ -8,6 +8,9 @@
     { "match": "host", "url": "https://mcle.wcc.ne.gov", "found": "2026-10-16", "status": "NXDOMAIN", "replaced_by": "https://attorneys.nejudicial.gov/member-search" },
     { "match": "host", "url": "https://directory-kard.kscourts.org", "found": "2026-10-16", "status": "timeout (directory moved to .gov)", "replaced_by": "https://directory-kard.kscourts.gov" },
     { "match": "host", "url": "https://azbar.legalserviceslink.com", "found": "2026-10-16", "status": "timeout", "replaced_by": "https://www.azbar.org/for-legal-professionals/practice-tools-management/member-directory/" },
-    { "match": "url",  "url": "https://www.jeaseniorliving.com/senior-living/tn/bartlett/quail-ridge-alzheimers-special-care-center/memory-care", "found": "2026-10-16", "status": "404 (operator site now sinceriseniorliving.com, no Quail Ridge page)", "replaced_by": "no official site found; listing shows phone only" }
+    { "match": "url",  "url": "https://www.jeaseniorliving.com/senior-living/tn/bartlett/quail-ridge-alzheimers-special-care-center/memory-care", "found": "2026-10-16", "status": "404 (operator site now sinceriseniorliving.com, no Quail Ridge page)", "replaced_by": "no official site found; listing shows phone only" },
+    { "match": "host", "url": "https://www.nutridripinfusion.org/", "found": "2026-10-31", "status": "404 (whole Squarespace site unpublished: / and /injection-therapy both 404 under a browser UA)", "replaced_by": "none: the provider's published menu is gone, so the Ocala comparison page records the price's vintage instead of linking a dead menu" },
+    { "match": "url",  "url": "https://msdh.ms.gov/page/resources/7660.pdf", "found": "2026-10-31", "status": "404 (MSDH retired the printed directory PDFs)", "replaced_by": "https://msdh.ms.gov/resources/facility-locator/health-facility-search" },
+    { "match": "url",  "url": "https://msdh.ms.gov/page/30,0,83,613.html", "found": "2026-10-31", "status": "404 (old page scheme retired; /page/30,0,83.html now redirects to the locator)", "replaced_by": "https://msdh.ms.gov/resources/facility-locator/health-facility-search" }
   ]
 }
