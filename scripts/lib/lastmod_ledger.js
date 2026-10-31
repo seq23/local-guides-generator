@@ -52,7 +52,12 @@ const SCHEMA = 'lastmod-ledger-v3';
 // can be told apart from a content change. `after-robots-policy` records that the
 // hash is taken at the end of the mutating pipeline, which is where both pipelines
 // now hash (scripts/validation/lastmod_hash_point_contract.js pins it).
-const HASH_BASIS = 'main-content-after-robots-policy';
+//
+// Bumped again on 31 Oct 2026 to `-shared-sources-normalised`. Site-wide source
+// attribution inside <main> is not per-page content either - see SHARED_SOURCES
+// below. Re-keying those hashes is a re-basing, so resolve() holds every recorded
+// date through it, exactly as it did for v3.
+const HASH_BASIS = 'main-content-after-robots-policy-shared-sources-normalised';
 const DEFAULT_PATH = path.join(process.cwd(), 'data', 'cadence', 'lastmod_ledger.json');
 
 const NOTE =
@@ -106,6 +111,34 @@ const BYLINE_RE = /\n    <p class="page-byline" data-page-byline="(?:editorial-d
 const FRESHNESS_LINE = /\n    <p class="page-freshness" data-page-freshness="true">Published <time data-page-published="true" datetime="[^"]*">[^<]*<\/time> · Updated <time data-page-modified="true" datetime="[^"]*">[^<]*<\/time><\/p>\n  /g;
 const MODIFIED_TIME = /<time data-page-modified="true" datetime="[^"]*">[^<]*<\/time>/g;
 
+// Site-wide source attribution is not per-page content.
+//
+// What went wrong. commit ce23be88 (31 Oct 2026) swapped one dead Mississippi
+// State Department of Health URL for the live facility locator - in
+// data/listings/senior-living/facilities.json and the DeSoto research file,
+// nothing else. That URL is printed in one "Sources:" paragraph that
+// scripts/lib/senior_living.js renders byte-identically on every city page, so
+// all 84 memphisseniorcarehomes.com city-level pages' hashes moved and every one
+// of them advanced to that day: 64 of 64 URLs in sitemap-cities.xml carrying a
+// single date, Search Readiness item a6's exact failure. No page said anything
+// different to a reader.
+//
+// Why normalising it is right rather than convenient. This is the same defect as
+// the footer partial MAIN_REGION already excludes, one layer in: an element
+// identical on every page by construction cannot distinguish which page changed,
+// so including it can only ever produce a library-wide freshness claim that is
+// false for every page but the ones that really changed. Replacing a dead
+// citation is a repair of the attribution, not an editorial refresh. Anything
+// per-page - the facility table, its rows, the prose - is outside the marked
+// element and still hashes normally, so a real data pull still advances dates.
+//
+// The marker is explicit, not inferred: the renderer declares the element shared
+// and scripts/validation/shared_sources_hash_contract.js proves the declaration
+// is true (byte-identical on every page that carries it) and that the hash really
+// ignores its contents. A pattern guessed from the markup would go silently stale
+// the first time a class name moved.
+const SHARED_SOURCES = /(<(p|div|section|aside)\b[^>]*\bdata-shared-sources="true"[^>]*>)[\s\S]*?(<\/\2>)/gi;
+
 function hashableBody(html) {
   const doc = String(html);
   const m = doc.match(MAIN_REGION);
@@ -118,6 +151,7 @@ function hashableBody(html) {
   // hash, retaining the city/ZIP attributes and every byte of actual content.
   // Only this empty mount is equivalent; populated or unrelated forms are not.
   return (m ? m[1] : doc)
+    .replace(SHARED_SOURCES, '$1<<SHARED_SOURCES>>$3')
     .replace(FRESHNESS_LINE, '')
     // The editorial byline (scripts/lib/entity_graph.js) is a generated label
     // like the freshness line: seating it, or a reviewer later replacing the

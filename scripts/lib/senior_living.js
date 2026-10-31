@@ -181,7 +181,15 @@ function directoryHtml(city) {
     '<p class="muted">Every row is licensed by its state: Tennessee rows are Assisted Care Living Facilities licensed by the Tennessee Health Facilities Commission, Mississippi rows are Personal Care Homes licensed by the Mississippi State Department of Health. Listing is free and is not affected by who pays us. ' +
     'Memory care means the community reports secured beds (Tennessee) or holds a licensed Alzheimer\'s/dementia care unit (Mississippi). Distances are straight-line from ' + (city.kind === 'hospital' ? 'the hospital' : 'the centre of ' + esc(city.city)) + '.</p>' +
     '<div class="table-wrap"><table class="senior-directory-table"><thead><tr><th>Community</th><th>Phone</th><th>Memory care</th><th>Licence</th><th>Website</th><th>Distance</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-    '<p class="muted small">Sources: <a href="' + esc(doc.source && doc.source.registry_index) + '" rel="nofollow noopener" target="_blank">Tennessee Health Facilities Commission licensure reports</a> and the <a href="' + esc(doc.source && doc.source.ms_registry) + '" rel="nofollow noopener" target="_blank">Mississippi State Department of Health facilities directory</a>, fetched ' + esc(fetched) + '. ' +
+    // data-shared-sources marks this paragraph as site-wide attribution, not
+    // per-page content: it is rendered byte-identically on every city page in
+    // the pack (84 of 84 on 31 Oct 2026), so a change to it is a change to
+    // where the directory came from, never a change to what any one page says.
+    // scripts/lib/lastmod_ledger.js normalises marked elements out of the
+    // content hash for that reason - swapping a dead registry URL must not
+    // claim 84 pages were refreshed. scripts/validation/shared_sources_hash_contract.js
+    // proves the marker is honest and the hash really ignores it.
+    '<p class="muted small" data-shared-sources="true">Sources: <a href="' + esc(doc.source && doc.source.registry_index) + '" rel="nofollow noopener" target="_blank">Tennessee Health Facilities Commission licensure reports</a> and the <a href="' + esc(doc.source && doc.source.ms_registry) + '" rel="nofollow noopener" target="_blank">Mississippi State Department of Health facilities directory</a>, fetched ' + esc(fetched) + '. ' +
     'Check a licence and its survey history before you sign anything: <a href="/guides/tennessee-assisted-living-inspection-records/">how to read a Tennessee inspection record</a>.</p>' +
     '<p class="muted small" data-senior-listing-disclosure="true"><strong>How we are paid:</strong> ' + DISCLOSURE + ' Paid or not, every licensed community appears here in distance order.</p>' +
     directoryJsonLd(city, list) +
