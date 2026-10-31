@@ -11,7 +11,16 @@ name: Entity Backlink Watch
 
 on:
   schedule:
-    - cron: '23 12 * * 1'   # Mondays 12:23 UTC
+    # Twice a week, 05:40 UTC, so the newest green run is never more than four
+    # days old. Search Readiness item k6 wants a successful run under eight days
+    # and the Monday grid audit reads it at 11:00-12:00 UTC: a single weekly
+    # firing left under a day of margin, and GitHub delays or drops scheduled
+    # runs under load, which would have turned k6 red for all six publications
+    # on one missed Monday. Two firings three and four days apart survive a miss,
+    # and the Monday run lands before the audit that reads it.
+    # Held by scripts/validation/entity_watch_lane_contract.js (max gap 4 days).
+    - cron: '40 5 * * 1'   # Mondays 05:40 UTC
+    - cron: '40 5 * * 4'   # Thursdays 05:40 UTC
   workflow_dispatch:
 
 permissions:
