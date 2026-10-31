@@ -34,6 +34,11 @@ overwrites. `REPO_IDENTITY.md` makes this a forbidden action, not a preference.
 `data/cadence/lastmod_ledger.json` records the hash and the real change date of every URL, and
 `scripts/lastmod_apply.js` advances a date only when a page's content hash changed.
 
+Site-wide attribution is not per-page content: an element the renderer marks
+`data-shared-sources="true"` is normalised out of the hash, because swapping one dead registry
+URL printed identically on 84 pages is a repair of the citation, not a refresh of 84 pages
+(`npm run validate:shared-sources-hash` proves the marker is honest and the hash ignores it).
+
 **If a build changes that ledger, commit the ledger in the same change.** Every deploy rebuilds
 from the committed ledger and throws the working tree away, so an uncommitted ledger makes each
 deploy restamp the same pages with the deploy date — which is what put a build date on ~95% of
