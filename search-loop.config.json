@@ -1,0 +1,239 @@
+{
+  "schema": "search-loop-canonical-v1",
+  "_what": "The shared search loop (seq23/search-loop @v1) on the CANONICAL side of the Industry Guides. Owner ruling 1 Nov 2026 (spry brain, 'Search growth loop on every selling site'): the velocity repo builds the daily new pages; this repo gets no daily new-page build. It runs MEASURE + CHECK/REPAIR on its guides and a MISSING-GUIDE stage: a topic the velocity repo lists with no canonical guide is built here as a full, sourced, gated guide and published straight away. Runner: scripts/search_loop/canonical_loop.mjs. Each sites[] entry, merged with the shared keys below, must pass the engine's own config check (search-loop-config-v1); tests/search_loop/canonical_loop.test.mjs proves it.",
+  "engine_ref": "v1",
+  "new_pages": "missing_guides_only",
+  "missing_guides": {
+    "source_url": "https://raw.githubusercontent.com/seq23/local-guides-citation-velocity/main/data/search-loop/missing-guides.json",
+    "source_note": "Written by the velocity repo's search loop: topics it covers that have no canonical guide. Accepted shapes: a list, or {items|missing|guides:[...]}, each item {query|topic|title, vertical|site|host}.",
+    "weekly_cap_from": "data/cadence/policy.json#new_pages_per_week",
+    "min_words": 1200,
+    "min_verified_sources": 2,
+    "retry_after_days": 28
+  },
+  "mode": "normal",
+  "pace": {
+    "start_per_day": 10,
+    "step_per_week": 5,
+    "cap": 30,
+    "min_per_day": 2
+  },
+  "menu_pages_need_approval": false,
+  "voice": "neutral, factual and helpful; plain language; shows its sources; educational only; no endorsements, rankings, guarantees or outcome promises",
+  "publisher": {
+    "name": "The Industry Guides",
+    "url": "https://theindustryguides.com"
+  },
+  "conversions": {
+    "source": "cta_clicks"
+  },
+  "ledger_root": "data/search-loop",
+  "protected_paths": [
+    "data/page_sets/examples/pi_v1.json",
+    "data/page_sets/examples/dentistry_v1.json",
+    "data/page_sets/examples/neuro_v1.json",
+    "data/page_sets/examples/trt_v1.json",
+    "data/page_sets/examples/uscis_medical_v1.json",
+    "data/page_sets/examples/senior_living_v1.json",
+    "functions",
+    "templates"
+  ],
+  "sites": [
+    {
+      "site": "theaccidentguides.com",
+      "base_url": "https://theaccidentguides.com",
+      "site_name": "The Accident Guides",
+      "vertical": "personal-injury",
+      "audience": "people hurt in an accident (and their families) deciding what to do next, how fees work and how to compare personal injury lawyers",
+      "topics": [
+        "what to do after an accident",
+        "personal injury lawyer fees",
+        "car accident claim",
+        "statute of limitations personal injury",
+        "how to choose a personal injury lawyer"
+      ],
+      "health_gate": "none",
+      "risk": "pi",
+      "action": {
+        "label": "Ask to hear from a personal injury lawyer",
+        "url": "https://theaccidentguides.com/request-assistance/"
+      },
+      "allowed_link_targets": [
+        "https://theaccidentguides.com"
+      ],
+      "output": {
+        "dir": "data/page_sets/examples/pi_global_pages",
+        "format": "html-file",
+        "url_prefix": "/guides/"
+      },
+      "lead": {
+        "form_marker": "action=\"/api/request-assistance\"",
+        "api": "/api/request-assistance"
+      }
+    },
+    {
+      "site": "dentistryguides.com",
+      "base_url": "https://dentistryguides.com",
+      "site_name": "The Dentistry Guides",
+      "vertical": "dentistry",
+      "audience": "adults comparing dental treatments, costs and dentists before they book",
+      "topics": [
+        "dental implant cost",
+        "dental bridge vs implant",
+        "root canal vs extraction",
+        "emergency dentist",
+        "how to choose a dentist"
+      ],
+      "health_gate": "dental",
+      "action": {
+        "label": "Ask to hear from a dentist",
+        "url": "https://dentistryguides.com/request-assistance/"
+      },
+      "allowed_link_targets": [
+        "https://dentistryguides.com"
+      ],
+      "output": {
+        "dir": "data/page_sets/examples/dentistry_global_pages",
+        "format": "html-file",
+        "url_prefix": "/guides/"
+      },
+      "lead": {
+        "form_marker": "action=\"/api/request-assistance\"",
+        "api": "/api/request-assistance"
+      }
+    },
+    {
+      "site": "neuroevalguides.com",
+      "base_url": "https://neuroevalguides.com",
+      "site_name": "Neuro Evaluation Guides",
+      "vertical": "neuro",
+      "audience": "parents and adults deciding on ADHD, autism or neuropsychological testing, its cost and the right evaluator",
+      "topics": [
+        "neuropsychological testing cost",
+        "adhd testing for adults",
+        "autism evaluation",
+        "neuropsych evaluation what to expect",
+        "school evaluation vs private evaluation"
+      ],
+      "health_gate": "health",
+      "action": {
+        "label": "Ask to hear from an evaluation provider",
+        "url": "https://neuroevalguides.com/request-assistance/"
+      },
+      "allowed_link_targets": [
+        "https://neuroevalguides.com"
+      ],
+      "output": {
+        "dir": "data/page_sets/examples/neuro_global_pages",
+        "format": "html-file",
+        "url_prefix": "/guides/"
+      },
+      "lead": {
+        "form_marker": "action=\"/api/request-assistance\"",
+        "api": "/api/request-assistance"
+      }
+    },
+    {
+      "site": "hormonesivhair.com",
+      "base_url": "https://hormonesivhair.com",
+      "site_name": "Hormone Optimization Guides",
+      "vertical": "trt",
+      "audience": "adults researching testosterone therapy, hormone labs, IV hydration and hair-loss treatment before choosing a clinic",
+      "topics": [
+        "trt cost",
+        "testosterone therapy monitoring",
+        "iv hydration therapy",
+        "hair loss treatment options",
+        "hormone lab tests"
+      ],
+      "health_gate": "health",
+      "action": {
+        "label": "Ask to hear from a clinic",
+        "url": "https://hormonesivhair.com/request-assistance/"
+      },
+      "allowed_link_targets": [
+        "https://hormonesivhair.com"
+      ],
+      "output": {
+        "dir": "data/page_sets/examples/trt_global_pages",
+        "format": "html-file",
+        "url_prefix": "/guides/"
+      },
+      "lead": {
+        "form_marker": "action=\"/api/request-assistance\"",
+        "api": "/api/request-assistance"
+      }
+    },
+    {
+      "site": "uscisexam.com",
+      "base_url": "https://uscisexam.com",
+      "site_name": "USCIS Exam Guides",
+      "vertical": "uscis-medical",
+      "audience": "green card applicants who need the USCIS immigration medical exam (Form I-693) from a civil surgeon",
+      "topics": [
+        "uscis medical exam cost",
+        "civil surgeon near me",
+        "form i-693",
+        "vaccines for green card",
+        "uscis medical exam what to bring"
+      ],
+      "health_gate": "health",
+      "action": {
+        "label": "Ask to hear from a civil surgeon's office",
+        "url": "https://uscisexam.com/request-assistance/"
+      },
+      "allowed_link_targets": [
+        "https://uscisexam.com"
+      ],
+      "output": {
+        "dir": "data/page_sets/examples/uscis_medical_global_pages",
+        "format": "html-file",
+        "url_prefix": "/guides/"
+      },
+      "lead": {
+        "form_marker": "action=\"/api/request-assistance\"",
+        "api": "/api/request-assistance"
+      }
+    },
+    {
+      "site": "memphisseniorcarehomes.com",
+      "base_url": "https://memphisseniorcarehomes.com",
+      "site_name": "Memphis Senior Care Homes",
+      "vertical": "senior-living",
+      "audience": "adult children in the Memphis area choosing assisted living or memory care for a parent",
+      "topics": [
+        "assisted living cost memphis",
+        "memory care memphis",
+        "how to choose a senior care home",
+        "tenncare choices",
+        "levels of care tennessee"
+      ],
+      "health_gate": "health",
+      "local": {
+        "city": "Memphis",
+        "neighbourhoods": [
+          "Germantown",
+          "Collierville",
+          "Bartlett",
+          "Cordova"
+        ]
+      },
+      "action": {
+        "label": "Get help finding a senior care home",
+        "url": "https://memphisseniorcarehomes.com/request-assistance/"
+      },
+      "allowed_link_targets": [
+        "https://memphisseniorcarehomes.com"
+      ],
+      "output": {
+        "dir": "data/page_sets/examples/senior_living_global_pages",
+        "format": "html-file",
+        "url_prefix": "/guides/"
+      },
+      "lead": {
+        "form_marker": "id=\"senior-intake\"",
+        "api": "/api/senior-lead"
+      }
+    }
+  ]
+}

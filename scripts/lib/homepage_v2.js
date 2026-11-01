@@ -143,9 +143,9 @@ const SITES = {
       ['Guarantees', 'Are guarantees or promises of results allowed?', '/guides/personal-injury-lawyer-red-flags/']
     ],
     verify: 'Verify the license and discipline record with the state bar, then ask: the contingency percentage, who pays case costs, and who handles your file.',
-    // There is no single best personal injury lawyer; the honest version of that
+    // No single personal injury lawyer fits every case; the honest version of that
     // query is the comparison this section sets up.
-    providersLead: 'Examples, not rankings. There is no single best personal injury lawyer for every case; each state page lists firms with the same checklist so you can compare fees, experience and communication.'
+    providersLead: 'Examples, not rankings. No single personal injury lawyer is right for every case; each state page lists firms with the same checklist so you can compare fees, experience and communication.'
   },
   senior_living: {
     accent: '#047857', accentHover: '#065F46',

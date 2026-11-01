@@ -17,9 +17,8 @@ function run() {
 
   const requiredWorkflows = [
     '.github/workflows/distribution.yml',
-    '.github/workflows/ingestion_sync.yml',
     '.github/workflows/integrity_build.yml',
-    '.github/workflows/promote_reference.yml',
+    '.github/workflows/search-loop.yml',
     '.github/workflows/refresh-verification-page.yml',
     '.github/workflows/rotating_refresh.yml',
     '.github/workflows/validate.yml',

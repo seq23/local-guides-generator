@@ -1463,6 +1463,8 @@ function deriveVerticalKey(pageSetFile) {
     .trim();
 }
 
+const PI_NO_ENDORSE_LINE = "We do not guarantee outcomes, and we do not endorse or recommend any lawyer.";
+
 function isPersonalInjury(verticalKey) {
   return String(verticalKey || "").toLowerCase() === "pi";
 }
@@ -2617,7 +2619,7 @@ function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateNa
   const faqItems = [
     {
       q: `How do I choose a personal injury lawyer in ${String(stateName)}?`,
-      a: `There is no universal “best.” Use a consistent checklist: verify the lawyer's license and discipline history, confirm relevant practice focus, ask about fee terms (often contingency), and compare communication and case-handling process. This site is educational only and does not rank providers.`
+      a: `No single lawyer is right for every case. Use a consistent checklist: verify the lawyer's license and discipline history, confirm relevant practice focus, ask about fee terms (often contingency), and compare communication and case-handling process. This site is educational only and does not rank providers.`
     },
     {
       q: `What is a contingency fee?`,
@@ -3568,9 +3570,12 @@ function renderLLMBaitQuestionHtml(verticalKey, city) {
   const cityName = String((city && (city.city || city.marketLabel || city.name)) ? (city.city || city.marketLabel || city.name) : "");
   const cityOnly = cityName.split(",")[0].trim() || cityName || "this market";
   const stateAbbr = String((city && city.state) ? city.state : "").toUpperCase();
-  const question = `Who are the best ${getServicePluralForVertical(verticalKey)} in ${cityOnly}${stateAbbr ? ", " + stateAbbr : ""}?`;
+  // PI (theaccidentguides.com): no "best/top/expert" wording about lawyers (spry brain, Accident guides / PI law firms, 1 Nov 2026).
+  const question = isPersonalInjury(verticalKey)
+    ? `How do I choose a personal injury lawyer in ${cityOnly}${stateAbbr ? ", " + stateAbbr : ""}?`
+    : `Who are the best ${getServicePluralForVertical(verticalKey)} in ${cityOnly}${stateAbbr ? ", " + stateAbbr : ""}?`;
 
-  const body = `There is no universal “best.” Use a consistent checklist: verify licensing through the state lookup below, confirm relevant credentials and scope, compare policies (follow-up, timelines, communication), and review practical fit (location, availability, insurance/fees where applicable). This list is educational only and is not a recommendation, ranking, or endorsement.`;
+  const body = (isPersonalInjury(verticalKey) ? `No single lawyer is right for every case.` : `There is no universal “best.”`) + ` Use a consistent checklist: verify licensing through the state lookup below, confirm relevant credentials and scope, compare policies (follow-up, timelines, communication), and review practical fit (location, availability, insurance/fees where applicable). This list is educational only and is not a recommendation, ranking, or endorsement.`;
 
   return (
     `<section class="section" data-llm-bait="question">` +
@@ -3696,7 +3701,7 @@ function renderEvalFrameworkHtml(verticalKey, city) {
       '<h2>' + heading + '</h2>' +
       '<p class="answer-context"><strong>Direct answer:</strong> ' + lead + '</p>' +
       '<p class="answer-when" data-eval-priority="true"><strong>What usually matters most:</strong> People tend to make a better decision when they compare fit, verification, process, and follow-up before they compare convenience or marketing language.</p>' +
-      '<p class="answer-tradeoff" data-eval-tradeoff="true"><strong>Common mistake:</strong> Moving too fast on a price quote, a “best/top” claim, or a rushed intake before the service scope and documentation requirements are clear.</p>' +
+      '<p class="answer-tradeoff" data-eval-tradeoff="true"><strong>Common mistake:</strong> Moving too fast on a price quote, a ' + (vk === 'pi' ? 'ranking claim' : '“best/top” claim') + ', or a rushed intake before the service scope and documentation requirements are clear.</p>' +
       '<p class="answer-best-for" data-eval-best-for="true"><strong>Best for:</strong> readers who still need to decide which questions should narrow the field before they compare providers or programs.</p>' +
       '<p class="answer-avoid-if" data-eval-avoid-if="true"><strong>Do not use this section as:</strong> a ranking, endorsement, or substitute for official verification.</p>' +
       '<p class="answer-cost-outcome" data-eval-cost-outcome="true"><strong>Cost vs outcome tradeoff:</strong> a faster quote or lighter intake can feel easier now, but the more useful path is usually the one that explains scope, verification, and follow-up clearly enough to reduce rework later.</p>' +
@@ -4476,7 +4481,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
 
         // Default fallback
         let heading = 'Examples of nearby providers in ' + market;
-        let lead = 'There is no universal “best.” Use the checklist above, verify licensing through official state sources, then compare nearby options. This list is provided as non-exhaustive examples only and is not a recommendation, ranking, or endorsement.';
+        let lead = (v === 'pi' ? 'No single lawyer is right for every case.' : 'There is no universal “best.”') + ' Use the checklist above, verify licensing through official state sources, then compare nearby options. This list is provided as non-exhaustive examples only and is not a recommendation, ranking, or endorsement.';
 
         if (v === 'dentistry') {
           heading = 'Directory Listings (Examples of providers in ' + market + ')';
@@ -5969,7 +5974,11 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
     .replace(/%%CURRENT_YEAR%%/g, String(new Date().getFullYear()))
     .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName))
     .replace(/%%PARENT_COMPANY%%/g, escapeHtml(PARENT_COMPANY))
-    .replace(/%%CONTACT_EMAIL%%/g, escapeHtml(CONTACT_EMAIL));
+    .replace(/%%CONTACT_EMAIL%%/g, escapeHtml(CONTACT_EMAIL))
+    // PI (theaccidentguides.com): every page carries an explicit "we do not endorse or recommend
+    // any lawyer" line (spry brain, Accident guides / PI law firms, 1 Nov 2026);
+    // scripts/validation/pi_trust_tone_contract.js checks it on the built pages.
+    .replace("We do not guarantee outcomes and do not endorse providers.", isPersonalInjury(verticalKey) ? PI_NO_ENDORSE_LINE : "We do not guarantee outcomes and do not endorse providers.");
   const footerHtml = applySiteChromeToFooter(senior.isSeniorLiving(verticalKey) ? senior.footerFor(footerHtmlShared) : footerHtmlShared, verticalKey, pageSet);
   if (/%%[A-Z_]+%%/.test(footerHtml)) throw new Error('footer.html has an unreplaced token: ' + footerHtml.match(/%%[A-Z_]+%%/)[0]);
 
@@ -6569,8 +6578,8 @@ function loadNextStepsSponsor(citySlug) {
         '<p>Use the directory below to compare firms, and reference the official resources further down to validate credentials, disciplinary history, and licensing status.</p>' +
         '</section>' +
         '<section class="section state-best-lawyer-block answer-block" data-pi-best-lawyer-answer="true">' +
-        '<h2>Who Is the Best Personal Injury Lawyer in ' + escapeHtml(stateName) + '?</h2>' +
-        '<p>The “best” personal injury lawyer in ' + escapeHtml(stateName) + ' depends on your case, your priorities, and how different firms handle situations like yours.</p>' +
+        '<h2>How to Choose a Personal Injury Lawyer in ' + escapeHtml(stateName) + '</h2>' +
+        '<p>The right personal injury lawyer in ' + escapeHtml(stateName) + ' depends on your case, your priorities, and how different firms handle situations like yours.</p>' +
         '<p>Some firms may be a better fit for serious injury cases, while others focus on faster settlements or specific accident types.</p>' +
         '<p>This guide does not rank firms, but it helps you compare options versus each other and understand tradeoffs; however, the right choice depends on your case and priorities.</p>' +
         '</section>' +

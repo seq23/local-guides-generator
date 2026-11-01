@@ -11,7 +11,8 @@
     "This file is the single link between the two lists. Both the generator and the",
     "seam validator read it, so adding a vertical upstream fails loudly here instead",
     "of being dropped on the floor.",
-    "13 Oct 2026: this file is also the single source of canonical vertical ids. `canonical` names each id once with its pack key and guide folder; generate_from_candidates.js and velocity_candidate_seam_contract.js derive their folder tables from it, and scripts/validation/vertical_id_alias_contract.js fails the build when any `vertical` value in data/ or in the generator's input does not resolve through `aliases`."
+    "13 Oct 2026: this file is also the single source of canonical vertical ids. `canonical` names each id once with its pack key and guide folder; generate_from_candidates.js and velocity_candidate_seam_contract.js derive their folder tables from it, and scripts/validation/vertical_id_alias_contract.js fails the build when any `vertical` value in data/ or in the generator's input does not resolve through `aliases`.",
+    "1 Nov 2026: the candidate-promotion lane (pull_velocity_candidates / generate_from_candidates, ingestion_sync.yml, promote_reference.yml, complete_promoted_guides.yml) is retired; the search loop's MISSING-GUIDE stage (scripts/search_loop/canonical_loop.mjs) is the one reader of this table for velocity names."
   ],
   "upstream_verticals": [
     "dentistry",

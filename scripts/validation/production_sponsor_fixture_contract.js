@@ -92,7 +92,7 @@ function run(ctx) {
   //
   // Every lane that runs this validator builds first (build_all_packs.js runs
   // the tier per pack; validate.yml, integrity_build.yml, add_city_request.yml,
-  // complete_promoted_guides.yml and ingestion_sync.yml all build before
+  // and search-loop.yml (when it wrote guides) all build before
   // validating), so an absent dist here means the gate is being asked to vouch
   // for output that does not exist.
   if (!pages.length) {

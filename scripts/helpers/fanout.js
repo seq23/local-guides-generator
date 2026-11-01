@@ -176,6 +176,8 @@ function getOverrideKeyCandidates(ctx) {
   ];
 }
 
+const PI_SUPERLATIVE = /\b(best|top|top-rated|expert|leading|premier|number one|#1)\b/i;
+
 function applyOverrides(items, ctx, pageSet) {
   const overrides = loadFanoutOverrides(pageSet, ctx.verticalKey);
   const candidates = getOverrideKeyCandidates(ctx);
@@ -201,6 +203,13 @@ function applyOverrides(items, ctx, pageSet) {
     label: interpolateTemplate(item.label, ctx),
     groupLabel: interpolateTemplate(item.groupLabel, ctx)
   }));
+
+  // PI (theaccidentguides.com): no "best/top/expert" wording about lawyers, so a
+  // superlative search phrase is never printed as a link (spry brain, Accident
+  // guides / PI law firms, 1 Nov 2026). The phrase is dropped, not reworded:
+  // the same route is reached by the neutral phrases beside it.
+  const isPi = String(ctx.verticalKey || "").toLowerCase() === "pi";
+  if (isPi) current = current.filter((item) => !PI_SUPERLATIVE.test(`${item.query} ${item.label}`));
 
   const seen = new Set();
   return current.filter((item) => {
@@ -440,6 +449,7 @@ function writeFanoutExport(outDir, records, pageSet, verticalKey) {
 }
 
 module.exports = {
+  PI_SUPERLATIVE,
   buildFanoutCluster,
   renderFanoutClusterHtml,
   writeFanoutExport,

@@ -116,9 +116,12 @@ console.log(`SITE HYGIENE REGISTRY CONTRACT PASS (${reg.build_steps.length} step
   }
   if (targets === 0) fail('zero measured targets across all sites');
   console.log(`search intelligence: ${foldedTotal} folded guide(s) checked against pack redirects`);
-  const freeze = JSON.parse(read(si.freeze_flag));
-  if (typeof freeze.enabled !== 'boolean') fail(`${si.freeze_flag} enabled must be a boolean`);
-  for (const r of si.freeze_readers) if (!read(r).includes('publishing_freeze.json') || !read(r).includes('FREEZE.enabled')) fail(`${r} no longer reads the publishing freeze`);
+  // The 11 Oct publishing freeze is retired (owner ruling 1 Nov 2026: new pages publish straight
+  // away). On this canonical side the only new pages are the search loop's missing guides, pinned in
+  // search-loop.config.json (new_pages: missing_guides_only) and tests/search_loop.
+  const loopCfg = JSON.parse(read('search-loop.config.json'));
+  if (loopCfg.new_pages !== 'missing_guides_only') fail('search-loop.config.json new_pages must be missing_guides_only (the canonical side gets no daily new-page build)');
+  if (fs.existsSync(path.join(ROOT, 'data/search_intelligence/publishing_freeze.json'))) fail('publishing_freeze.json is retired; nothing reads it');
   const builder = read(si.builder);
   for (const call of si.builder_calls) if (!builder.includes(call)) fail(`${si.builder} no longer calls ${call}`);
   for (const p of JSON.parse(read('data/search_intelligence/strengthened_pages.json')).pages) {

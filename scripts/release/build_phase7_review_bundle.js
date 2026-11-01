@@ -95,7 +95,7 @@ const criticalReleasePaths = [
   'scripts/validate_core.js',
   'scripts/validate_llm_surface.js',
   'scripts/validate_coverage_parity.js',
-  'scripts/reference/generate_from_candidates.js',
+  'scripts/search_loop/canonical_loop.mjs',
   'scripts/release/build_phase7_review_bundle.js',
   'scripts/release/build_phase7_release_notes.js'
 ].filter(rel => exists(rel));
