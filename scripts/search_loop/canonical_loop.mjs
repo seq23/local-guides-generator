@@ -205,8 +205,10 @@ export function draftPrompt(site, item, problems = []) {
 async function chat(messages, { maxTokens = 6000 } = {}) {
   const router = await import(pathToFileURL(path.join(ROOT, 'scripts/lib/free_llm_router.mjs')).href);
   const cfg = router.loadRouting(ROOT);
-  const r = await router.chatFree(cfg, { messages, max_tokens: maxTokens, temperature: 0.4, timeoutMs: 120000, totalBudgetMs: 360000 });
-  return r.ok ? { ok: true, text: r.content } : { ok: false, reason: r.error || 'no free model answered', refused: Boolean(r.credential_refused) };
+  const r = await router.chatFree(cfg, { messages, max_tokens: maxTokens, temperature: 0.4, timeoutMs: 180000, totalBudgetMs: 540000 });
+  if (r.ok) return { ok: true, text: r.content, model: r.model };
+  const tried = (r.attempts || []).map((a) => `${String(a.model || '').split('/').pop()}:${a.status ?? ''}${a.error ? ' ' + String(a.error).slice(0, 80) : ''}`).join('; ');
+  return { ok: false, reason: `${r.stop || r.error || 'no free model answered'}${tried ? ` (${tried})` : ''}`, refused: /key/i.test(String(r.stop || '')) && !/no free model/i.test(String(r.stop || '')) };
 }
 
 // The guides hub lists every guide (no new guide is an orphan): one card appended, nothing else
@@ -239,7 +241,9 @@ export async function missingGuides(E, sites, raw, { mode, notes, publish, fetch
   const policy = readJson(path.join(ROOT, 'data/cadence/policy.json'), {});
   const weekly = Number(policy.new_pages_per_week) || 0;
   const today = E.util.centralDate(now);
+  let modelDown = false;
   for (const site of sites) {
+    if (modelDown) break;
     const L = E.ledger.ledger(site);
     const book = L.pages();
     const mine = items.filter((i) => siteFor(i, sites) === site);
@@ -261,8 +265,9 @@ export async function missingGuides(E, sites, raw, { mode, notes, publish, fetch
       used++;
       let draft = null; let problems = [];
       for (let attempt = 0; attempt < 2; attempt++) {
-        const r = await chatImpl(draftPrompt({ ...site, min_words: mg.min_words }, item, problems));
-        if (!r.ok) { notes.push(`MISSING-GUIDE ${site.site} "${item.query}": ${r.reason}`); if (r.refused) notes.push('NAMED STOP [FREE_MODEL_KEY_REFUSED] OpenRouter refused the key; no guide can be written'); break; }
+        const r = await chatImpl(draftPrompt({ ...site, min_words: mg.min_words }, item, problems), { maxTokens: 5000 });
+        // A model outage is not the topic's fault: the topic is deferred to the next run, not dropped.
+        if (!r.ok) { notes.push(`NAMED NOTE [FREE_MODEL_UNAVAILABLE] MISSING-GUIDE ${site.site} "${item.query}" deferred to the next run: ${r.reason}`); if (r.refused) notes.push('NAMED STOP [FREE_MODEL_KEY_REFUSED] OpenRouter refused the key; no guide can be written'); modelDown = true; break; }
         const d = E.llm.parseJsonAnswer(r.text);
         if (!d) { problems = ['the answer was not valid JSON']; continue; }
         d.sources = (d.sources || []).filter((s) => { try { const u = new URL(s.url); return u.protocol === 'https:' && SOURCE_HOST.test(u.hostname); } catch { return false; } }).slice(0, 6).map((s) => ({ ...s, claim: s.supports, source_url: s.url }));
@@ -272,6 +277,7 @@ export async function missingGuides(E, sites, raw, { mode, notes, publish, fetch
         problems = gateGuide(E, d, { site: { ...site, min_words: mg.min_words, min_verified_sources: mg.min_verified_sources }, existing });
         if (!problems.length) { draft = d; break; }
       }
+      if (modelDown) { res.deferred = (res.deferred || 0) + 1; break; }
       if (!draft) {
         res.dropped++;
         state.dropped.push({ key, query: item.query, at: today, problems: problems.slice(0, 4) });
@@ -536,7 +542,7 @@ export async function run(opts = {}) {
   if (stage === 'all' || stage === 'check') did.check = await checkRepair(E, sites, { mode: m.mode, notes, fetchImpl: opts.fetchImpl, chatImpl: opts.chatImpl, now });
   const out = path.join(ROOT, opts['report-dir'] || 'reports/search-loop');
   const files = reports(E, sites, { mode: m.mode, notes, did, now, out });
-  const census = `search-loop canonical: mode=${m.mode} missing_listed=${did.missing?.listed ?? 'skipped'} covered=${did.missing?.covered ?? 0} built=${did.missing?.built ?? 0} dropped=${did.missing?.dropped ?? 0} held=${did.missing?.held ?? 0} checked=${did.check?.checked ?? 0} wins=${did.check?.wins ?? 0} strengthened=${did.check?.strengthened ?? 0} undone=${did.check?.undone ?? 0} families_served=${did.check?.families_served ?? 0} lead_paths=${did.check?.lead_paths_ok ?? 0}/${did.check?.lead_paths ?? 0} reports=${files.length}`;
+  const census = `search-loop canonical: mode=${m.mode} missing_listed=${did.missing?.listed ?? 'skipped'} covered=${did.missing?.covered ?? 0} built=${did.missing?.built ?? 0} dropped=${did.missing?.dropped ?? 0} deferred=${did.missing?.deferred ?? 0} held=${did.missing?.held ?? 0} checked=${did.check?.checked ?? 0} wins=${did.check?.wins ?? 0} strengthened=${did.check?.strengthened ?? 0} undone=${did.check?.undone ?? 0} families_served=${did.check?.families_served ?? 0} lead_paths=${did.check?.lead_paths_ok ?? 0}/${did.check?.lead_paths ?? 0} reports=${files.length}`;
   const nothing = !did.missing?.listed && !did.missing?.built && !did.check?.lead_paths && !did.check?.checked;
   return { census, notes, did, files, nothing, written: did.missing?.written || [] };
 }

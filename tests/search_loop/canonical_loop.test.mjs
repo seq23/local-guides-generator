@@ -156,3 +156,16 @@ test('strengthening is refused when the title does not match the search or PI wo
   assert.ok(L.gateStrengthening(E, PI, page, { ...ok, query: 'car accident settlement' }).some((p) => /not aligned/.test(p)));
   assert.ok(L.gateStrengthening(E, PI, page, { ...ok, faq: [...ok.faq, { q: 'Who are the best brain injury lawyers?', a: para(40) }] }).some((p) => /superlative/.test(p)));
 });
+
+test('a free-model outage defers the topic to the next run; it is not dropped', async () => {
+  process.env.MISSING_GUIDES_FILE = path.join(TMP, 'missing3.json');
+  fs.writeFileSync(process.env.MISSING_GUIDES_FILE, JSON.stringify([{ query: 'dentures versus implants for one missing tooth', site: 'dentistryguides.com' }]));
+  const notes = [];
+  const r = await L.missingGuides(E, sites, RAW, { mode: 'normal', notes, publish: false, fetchImpl: okFetch, chatImpl: async () => ({ ok: false, reason: 'no free model answered' }) });
+  assert.equal(r.dropped, 0);
+  assert.equal(r.deferred, 1);
+  assert.ok(notes.some((n) => /FREE_MODEL_UNAVAILABLE/.test(n)));
+  const state = JSON.parse(fs.readFileSync(path.join(TMP, 'data/search-loop/dentistryguides.com/missing-guides.json'), 'utf8'));
+  assert.equal(state.dropped.length, 0);
+  delete process.env.MISSING_GUIDES_FILE;
+});
