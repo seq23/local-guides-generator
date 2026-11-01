@@ -87,6 +87,8 @@ if (/senior_living_v1\.json$/.test(String(site.pageSetFile || '')) && fs.existsS
       }
       const binder = require('../lib/senior_binders').load().binders.find((b) => r === '/resources/binders/' + b.id + '/');
       if (binder && (html.match(/data-binder-sheet=/g) || []).length !== binder.sheets.length) problems.push(`${r}: printable worksheet coverage differs from canonical source`);
+      const noindex = /<meta\b[^>]*name="robots"[^>]*content="[^"]*noindex/.test(html);
+      if (Boolean(binder) !== noindex) problems.push(`${r}: index the landing page and keep blank print views out of search`);
     }
     if (!r.startsWith('/guides/') || r === '/guides/') continue;
     const html = fs.readFileSync(f, 'utf8');

@@ -201,3 +201,10 @@ test('senior search-path actions also lead to the binder while other verticals r
   assert.ok(items('pi').some((x) => x.href === '/guides/what-to-do-after-an-accident/'));
   assert.ok(!items('pi').some((x) => x.href === '/resources/binders/'));
 });
+
+test('only the binder landing page is indexed; both blank print views use the existing noindex policy', () => {
+  const { NOINDEX_ROUTES_BY_PACK } = require('../../scripts/apply_robots_policy');
+  const routes = NOINDEX_ROUTES_BY_PACK['senior_living_v1.json'];
+  for (const id of ['parent', 'move-in']) assert.ok(routes.includes(`resources/binders/${id}`));
+  assert.ok(!routes.includes('resources/binders'));
+});

@@ -47,3 +47,8 @@ static-asset requests are not counted. API responses use `private, no-store` so
 edge caching cannot hide download requests. If event storage fails, the PDF still
 works with `X-Binder-Counted: 0` and a named error in Pages Function logs. Normal
 responses have `X-Binder-Counted: 1`. No Clarity tag is added to binder pages.
+
+The landing page is indexed and sitemapped. The two blank printable worksheet
+views use the existing per-pack noindex policy: they are downloads/print views,
+not extra search articles. This keeps the experiment inside the publishing
+capacity gate; `npm run cadence:gate` is part of the release check.
