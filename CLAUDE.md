@@ -4,6 +4,10 @@ This repository is the **source** for six canonical guide sites. It renders them
 host hand-written pages. The full working agreement is in [AGENTS.md](AGENTS.md) — read it before
 changing anything. This file is the short version of the rules that are easiest to break.
 
+## Company brain
+
+Read `~/Brains/spry.md` before any work (business facts, priorities, voice, settled decisions). New business facts go to the brain via Boss OS, not into this repo or memory. Repo how-tos stay in `docs/`.
+
 ## Nothing paid
 
 **Nothing paid.** No model call, probe, API or scheduled job in this repository may cost money.
