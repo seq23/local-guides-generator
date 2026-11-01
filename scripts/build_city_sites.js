@@ -69,6 +69,7 @@ const fanout = require("./helpers/fanout");
 const searchBlocks = require("./search_intelligence/render_blocks");
 const homeV2 = require("./lib/homepage_v2");
 const neuroServices = require("./lib/neuro_services");
+const piOffer = require("./lib/pi_offer");
 const trtAffiliates = require("./lib/trt_affiliates");
 const sponsorCatalog = require("./helpers/sponsor_catalog");
 const { getPackSiteConfig, getPackKeyFromPageSet, PARENT_COMPANY, CONTACT_EMAIL } = require("./lib/pack_site_config");
@@ -6223,8 +6224,10 @@ function loadNextStepsSponsor(citySlug) {
 
   const globalPages = Array.from(byRoute.values());
 
-  for (const gp of globalPages) {
-    const route = (gp.route || '').replace(/^\/+|\/+$/g, '');
+  for (const sharedGp of globalPages) {
+    const route = (sharedGp.route || '').replace(/^\/+|\/+$/g, '');
+    // The PI site's offer to law firms is statewide, per firm, and never exclusive (scripts/lib/pi_offer.js).
+    const gp = route === 'for-providers' && String(verticalKey || '').toLowerCase() === 'pi' ? piOffer.applyToForProvidersPage(sharedGp) : sharedGp;
     const html = renderGlobalPage(
       baseTemplate,
       footerHtml,
