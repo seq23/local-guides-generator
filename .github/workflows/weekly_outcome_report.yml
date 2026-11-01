@@ -9,10 +9,16 @@ name: Weekly Outcome Report
 # measurement - no network, no model, nothing paid - writes the report, commits
 # the week's totals so next week has something to compare against, and opens an
 # issue for each red site that closes itself when the site recovers.
+#
+# Wednesdays 07:43 America/Chicago (owner's rebalanced week, 1 Nov 2026): a DST
+# pair of UTC crons and a guard that lets only Chicago's current offset run. It
+# sends no email: its summary is uploaded as the artifact `spry-weekly-summary`
+# and Boss OS puts it in the one "Spry Labs weekly" email at 08:15 Central.
 
 on:
   schedule:
-    - cron: '0 14 * * 1'   # Mondays 14:00 UTC, after that day's 13:30 refresh closes the prior week
+    - cron: '43 12 * * 3'   # Wednesday 07:43 Chicago in CDT
+    - cron: '43 13 * * 3'   # Wednesday 07:43 Chicago in CST
   workflow_dispatch:
 
 permissions:
@@ -28,17 +34,32 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
+      - name: Guard Wednesday 07:43 Chicago
+        id: guard
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          offset=$(TZ=America/Chicago date +%z)
+          run=true
+          if [ "$SCHEDULE" = "43 12 * * 3" ] && [ "$offset" != "-0500" ]; then run=false; fi
+          if [ "$SCHEDULE" = "43 13 * * 3" ] && [ "$offset" != "-0600" ]; then run=false; fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+          echo "schedule='${SCHEDULE:-dispatch}' chicago_offset=$offset run=$run"
       - uses: actions/checkout@v6
+        if: steps.guard.outputs.run == 'true'
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
+        if: steps.guard.outputs.run == 'true'
         with:
           node-version: '24'
 
       - name: Build the weekly outcome report
+        if: steps.guard.outputs.run == 'true'
         run: node scripts/ops/weekly_outcome_report.mjs | tee "$GITHUB_STEP_SUMMARY"
 
       - name: One self-closing issue per red site
+        if: steps.guard.outputs.run == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -83,7 +104,25 @@ jobs:
             core.summary.addRaw(`\n\n${red.size} red site(s); ${existing.length} issue(s) were open.`);
             await core.summary.write();
 
+      - name: Hand the week to Boss OS (the Spry Labs weekly email)
+        if: steps.guard.outputs.run == 'true'
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          node scripts/ops/spry_weekly_summary.mjs --self-check
+          node scripts/ops/spry_weekly_summary.mjs reports/weekly_outcome_report.json spry-weekly-summary.json
+
+      - name: Upload the summary for Boss OS
+        if: steps.guard.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spry-weekly-summary
+          path: spry-weekly-summary.json
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Record this week's totals
+        if: steps.guard.outputs.run == 'true'
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
