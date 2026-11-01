@@ -16,10 +16,9 @@ Every model call goes through the free router (`scripts/lib/free_llm_router.mjs`
 dispatch-only behind a `confirm_paid` input that defaults to false.
 
 The reasoning, what used to be paid, and the receipts are in
-[docs/cost/zero-paid-llm.md](docs/cost/zero-paid-llm.md). The policy is not advice: it is
-enforced by `npm run validate:zero-paid-llm`, which reads both that document **and this file**
-and fails if either stops stating the rule. It replays hostile fixtures on every run, so the
-negative proof never goes stale.
+[docs/cost/zero-paid-llm.md](docs/cost/zero-paid-llm.md). The policy is enforced in code and
+config by `npm run validate:zero-paid-llm` (scheduled workflows, the routing file, probe
+gates), which replays hostile fixtures on every run, so the negative proof never goes stale.
 
 ## The sites this repo owns
 
