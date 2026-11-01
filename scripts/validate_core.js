@@ -81,14 +81,12 @@ const citationMetadataContract = require('./validation/citation_metadata_contrac
 const citationManifestContract = require('./validation/citation_manifest_contract');
 const sitemapDistributionContract = require('./validation/sitemap_distribution_contract');
 const distributionArtifactsContract = require('./validation/distribution_artifacts_contract');
-const internalDistributionContract = require('./validation/internal_distribution_contract');
 const distributionDominanceContract = require('./validation/distribution_dominance_contract');
 const sitemapFreshContract = require('./validation/sitemap_fresh_contract');
 const answerBlockStrengthContract = require('./validation/answer_block_strength_contract');
 const evaluationFrameworkContract = require('./validation/evaluation_framework_contract');
 const stateAuthorityContract = require('./validation/state_authority_contract');
 const guideIntroContract = require('./validation/guide_intro_contract');
-const hierarchyReinforcementContract = require('./validation/hierarchy_reinforcement_contract');
 const internalLinkingQualityContract = require('./validation/internal_linking_quality_contract');
 const metadataSchemaStrengthContract = require('./validation/metadata_schema_strength_contract');
 const homepageGuidesHubContract = require('./validation/homepage_guides_hub_contract');
@@ -234,7 +232,6 @@ function main() {
     citationManifestContract.run({ site });
     sitemapDistributionContract.run({ site });
     distributionArtifactsContract.run({ site });
-    internalDistributionContract.run({ site });
     distributionDominanceContract.run({ site });
     sitemapFreshContract.run({ site });
     answerBlockStrengthContract.run({ site });
@@ -245,7 +242,6 @@ function main() {
     ctaAdjacencyContract.run({ site });
     guideQualityScore.run({ site });
     guideComplianceScore.run({ site });
-    hierarchyReinforcementContract.run({ site });
     internalLinkingQualityContract.run({ site });
     metadataSchemaStrengthContract.run({ site });
     homepageGuidesHubContract.run({ site });

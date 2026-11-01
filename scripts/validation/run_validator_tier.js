@@ -13,6 +13,18 @@ const reportsDir = path.join(repoRoot, 'reports');
 fs.mkdirSync(reportsDir, { recursive: true });
 const policy = JSON.parse(fs.readFileSync(path.join(repoRoot, 'data', 'contracts', 'validator_tiering_policy.json'), 'utf8'));
 const validators = policy[tier] || [];
+// The one registry. A registered file that does not exist, or a file registered in two tiers,
+// fails the run in any tier (folded in from phase8_validator_tiering_contract.js, 1 Nov 2026).
+const tiers = ['hard_fail', 'warning', 'developer'];
+const everywhere = tiers.flatMap((t) => policy[t] || []);
+const missing = validators.filter((f) => !fs.existsSync(path.join(repoRoot, f)));
+const twice = [...new Set(everywhere.filter((f, i) => everywhere.indexOf(f) !== i))];
+if (missing.length || twice.length || !validators.length) {
+  for (const f of missing) console.error(`VALIDATOR REGISTRY FAIL: ${f} is registered in ${tier} but does not exist`);
+  for (const f of twice) console.error(`VALIDATOR REGISTRY FAIL: ${f} is registered in more than one tier`);
+  if (!validators.length) console.error(`VALIDATOR REGISTRY FAIL: tier ${tier} lists no validators`);
+  process.exit(1);
+}
 const results = [];
 let failed = 0;
 
