@@ -33,7 +33,7 @@
     "indexnow_key": "scripts/validate_indexnow.js",
     "demand_families": "scripts/validation/demand_families_contract.js",
     "zero_paid_llm": "scripts/validation/zero_paid_llm_contract.js",
-  "redirect_sources_retired": "scripts/validation/redirect_sources_retired_contract.js"
+    "redirect_sources_retired": "scripts/validation/redirect_sources_retired_contract.js"
   },
   "homepage_jsonld_types": [
     "Organization",
@@ -71,7 +71,6 @@
       "data/search_intelligence/measured_demand.json",
       "data/search_intelligence/strengthened_pages.json",
       "data/search_intelligence/audience_ctas.json",
-      "data/search_intelligence/publishing_freeze.json",
       "scripts/search_intelligence/render_blocks.js",
       "functions/api/cta-clicks.js",
       "data/search_intelligence/demand_intents.json",
@@ -87,10 +86,6 @@
     ],
     "freshness_days": 8,
     "inspect_cap_per_site": 150,
-    "freeze_flag": "data/search_intelligence/publishing_freeze.json",
-    "freeze_readers": [
-      "scripts/reference/generate_from_candidates.js"
-    ],
     "builder": "scripts/build_city_sites.js",
     "builder_calls": [
       "searchBlocks.applyStrengthening(",

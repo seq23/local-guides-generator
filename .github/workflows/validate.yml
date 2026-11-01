@@ -23,6 +23,14 @@ jobs:
       - run: npm ci
       - run: node scripts/build_all_packs.js
       - run: LKG_VALIDATE_DIST=1 npm run validate:all
+      - name: Search loop engine (seq23/search-loop@v1) for the canonical loop's tests
+        uses: actions/checkout@v6
+        with:
+          repository: seq23/search-loop
+          ref: v1
+          path: .search-loop-engine
+      - name: Canonical search loop (missing guides, gate, cadence cap, report shape)
+        run: npm run test:search-loop
       - name: Scoped Search Readiness repair pins
         run: npm run test:search-readiness
       - name: IndexNow named stop pins

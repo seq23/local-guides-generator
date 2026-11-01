@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "note": "The properties this repo publishes, one row each. scripts/search_intelligence/collect_gsc.py, build_search_plan.mjs, collect_cta_clicks.mjs and generate_from_candidates.js (publishing freeze) all read this file, so there is one list. Per-site truth lives in data/search_intelligence/<host>/.",
+  "note": "The properties this repo publishes, one row each. scripts/search_intelligence/collect_gsc.py, build_search_plan.mjs, collect_cta_clicks.mjs all read this file, so there is one list. Per-site truth lives in data/search_intelligence/<host>/.",
   "sites": [
     { "pack": "pi", "vertical_key": "pi", "host": "theaccidentguides.com", "gsc_site": "sc-domain:theaccidentguides.com", "global_pages_dir": "data/page_sets/examples/pi_global_pages" },
     { "pack": "dentistry", "vertical_key": "dentistry", "host": "dentistryguides.com", "gsc_site": "sc-domain:dentistryguides.com", "global_pages_dir": "data/page_sets/examples/dentistry_global_pages" },

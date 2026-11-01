@@ -14,6 +14,16 @@ const RULES = {
   uscis_medical: { dir: 'data/page_sets/examples/uscis_medical_global_pages', pack: 'data/page_sets/examples/uscis_medical_v1.json', minCount: 9, minWords: 220 }
 };
 
+// The section ids every guide of a vertical carries: the canonical guide shape. One list, read
+// here and by the search loop's missing-guide builder (scripts/search_loop/canonical_loop.mjs).
+const SECTION_IDS = {
+  dentistry: ['definition', 'cost', 'recovery', 'candidacy', 'questions', 'red-flags', 'next-steps'],
+  neuro: ['definition', 'pricing', 'trust', 'process', 'questions', 'next-steps'],
+  uscis_medical: ['quick-answer', 'cost', 'documents', 'process', 'questions', 'next-steps'],
+  trt: ['definition', 'cost', 'safety', 'candidacy', 'questions', 'red-flags', 'next-steps'],
+  pi: ['definition', 'when-to-call', 'cost', 'evidence', 'questions', 'red-flags', 'next-steps'],
+};
+
 // Every /guides/ redirect source of a pack must have no source file left, and
 // its target must be the guides hub or a guide that still has one.
 function checkRetired(repoRoot, vertical, rule, routes, issues) {
@@ -41,6 +51,32 @@ function wordsFromHtml(html) {
 
 const WORD_WARN_BAND = 20;
 
+// One guide file against its vertical's shape. Used by run() below and by the search loop's
+// missing-guide gate, so a new guide meets the same bar before it is written.
+function checkGuide(vertical, json, file = json.route) {
+  const rule = RULES[vertical];
+  const issues = [];
+  const warnings = [];
+  if (!String(json.route || '').startsWith('/')) issues.push(`${vertical}: ${file} missing route`);
+  if (!String(json.title || '').trim()) issues.push(`${vertical}: ${file} missing title`);
+  const html = String(json.main_html || '');
+  const words = wordsFromHtml(html);
+  if (rule) {
+    const failBelow = rule.minWords - WORD_WARN_BAND;
+    if (words < failBelow) issues.push(`${vertical}: ${file} is below fail floor (${words} < ${failBelow} words)`);
+    else if (words < rule.minWords) warnings.push(`${vertical}: ${file} is below target but within tolerance (${words} < ${rule.minWords} words)`);
+  }
+  (SECTION_IDS[vertical] || []).forEach((sectionId) => {
+    if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
+  });
+  if (vertical === 'pi') {
+    if (!/(timing|24 to 72 hours|24-72|urgent|early)/i.test(html)) issues.push(`${vertical}: ${file} missing timing or urgency language`);
+    if (!/(photo|record|timeline|witness|medical|document)/i.test(html)) issues.push(`${vertical}: ${file} missing evidence-specific language`);
+    if (!/(do not|don't|avoid|be careful|slow down|cautious|pressure)/i.test(html)) issues.push(`${vertical}: ${file} missing what-not-to-do / caution language`);
+  }
+  return { issues, warnings };
+}
+
 function run() {
   const repoRoot = path.join(__dirname, '..', '..');
   const issues = [];
@@ -58,44 +94,9 @@ function run() {
     files.forEach((file) => {
       const fp = path.join(dir, file);
       const json = JSON.parse(fs.readFileSync(fp, 'utf8'));
-      if (!String(json.route || '').startsWith('/')) issues.push(`${vertical}: ${file} missing route`);
-      if (!String(json.title || '').trim()) issues.push(`${vertical}: ${file} missing title`);
-      const html = String(json.main_html || '');
-      const words = wordsFromHtml(html);
-      const failBelow = rule.minWords - WORD_WARN_BAND;
-      if (words < failBelow) {
-        issues.push(`${vertical}: ${file} is below fail floor (${words} < ${failBelow} words)`);
-      } else if (words < rule.minWords) {
-        warnings.push(`${vertical}: ${file} is below target but within tolerance (${words} < ${rule.minWords} words)`);
-      }
-      if (vertical === 'dentistry') {
-        ['definition', 'cost', 'recovery', 'candidacy', 'questions', 'red-flags', 'next-steps'].forEach((sectionId) => {
-          if (!html.includes(`id=\"${sectionId}\"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
-        });
-      }
-      if (vertical === 'neuro') {
-        ['definition', 'pricing', 'trust', 'process', 'questions', 'next-steps'].forEach((sectionId) => {
-          if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
-        });
-      }
-      if (vertical === 'uscis_medical') {
-        ['quick-answer', 'cost', 'documents', 'process', 'questions', 'next-steps'].forEach((sectionId) => {
-          if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
-        });
-      }
-      if (vertical === 'trt') {
-        ['definition', 'cost', 'safety', 'candidacy', 'questions', 'red-flags', 'next-steps'].forEach((sectionId) => {
-          if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
-        });
-      }
-      if (vertical === 'pi') {
-        ['definition', 'when-to-call', 'cost', 'evidence', 'questions', 'red-flags', 'next-steps'].forEach((sectionId) => {
-          if (!html.includes(`id="${sectionId}"`)) issues.push(`${vertical}: ${file} missing #${sectionId}`);
-        });
-        if (!/(timing|24 to 72 hours|24-72|urgent|early)/i.test(html)) issues.push(`${vertical}: ${file} missing timing or urgency language`);
-        if (!/(photo|record|timeline|witness|medical|document)/i.test(html)) issues.push(`${vertical}: ${file} missing evidence-specific language`);
-        if (!/(do not|don't|avoid|be careful|slow down|cautious|pressure)/i.test(html)) issues.push(`${vertical}: ${file} missing what-not-to-do / caution language`);
-      }
+      const r = checkGuide(vertical, json, file);
+      issues.push(...r.issues);
+      warnings.push(...r.warnings);
     });
   });
 
@@ -112,4 +113,4 @@ function run() {
   console.log('✅ VERTICAL GUIDE DEPTH PASS');
 }
 
-module.exports = { run };
+module.exports = { run, checkGuide, SECTION_IDS, RULES };

@@ -1,0 +1,130 @@
+name: Search Loop
+
+# The shared search loop (seq23/search-loop @v1) on the CANONICAL side: MISSING-GUIDE +
+# CHECK/REPAIR + REPORT for the six guide sites (scripts/search_loop/canonical_loop.mjs,
+# search-loop.config.json). No daily new-page build here: the velocity repo builds those
+# (owner ruling 1 Nov 2026). Runs after rotating_refresh.yml (13:30 UTC) has committed the
+# day's Search Console truth. Only the default branch publishes; a pull request touching the
+# loop is a proof run (drafts, gates and builds one fixture topic, commits nothing, uploads
+# the pages). Throttle every site at once: gh variable set SEARCH_LOOP_MODE --body slow -R seq23/search-loop
+on:
+  schedule:
+    - cron: '41 15 * * *'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - search-loop.config.json
+      - scripts/search_loop/**
+      - .github/workflows/search-loop.yml
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: search-loop
+  cancel-in-progress: false
+
+jobs:
+  loop:
+    runs-on: ubuntu-latest
+    # Fault detector, not a budget: up to ~10 free-model drafts (each <= 6 min with retries),
+    # two full builds (~2 min each) and validation.
+    timeout-minutes: 90
+    env:
+      PUBLISH: ${{ github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch && 'true' || 'false' }}
+      SEARCH_LOOP_ENGINE_DIR: .search-loop-engine
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: seq23/search-loop
+          ref: v1
+          path: .search-loop-engine
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - name: Proof list (pull requests only)
+        if: env.PUBLISH != 'true'
+        run: echo "MISSING_GUIDES_FILE=tests/search_loop/fixtures/proof-missing-guides.json" >> "$GITHUB_ENV"
+      - name: Run the loop (missing guides, check + repair, report)
+        id: loop
+        # The key reaches models only through scripts/lib/free_llm_router.mjs ($0 models only),
+        # which the loop imports; the ping proves the free route before any draft (a missing or
+        # refused key is the router's named stop; CHECK, the lead-path probe and the report still run).
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          set +e
+          node scripts/lib/free_llm_router.mjs --ping
+          node scripts/search_loop/canonical_loop.mjs 2>&1 | tee .search-loop-run.log
+          code=${PIPESTATUS[0]}
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          { echo "### search-loop (canonical)"; grep -E '^(search-loop |note: |NAMED )' .search-loop-run.log; } >> "$GITHUB_STEP_SUMMARY" || true
+          exit 0
+      - name: The repo's own build and validators gate what the loop wrote
+        id: gate
+        if: steps.loop.outputs.changed != '0' && steps.loop.outputs.changed != ''
+        run: |
+          set +e
+          node scripts/build_all_packs.js --refresh-ledger > .search-loop-gate.log 2>&1 \
+            && LKG_VALIDATE_DIST=1 npm run validate:all >> .search-loop-gate.log 2>&1 \
+            && node scripts/cadence_gate.js >> .search-loop-gate.log 2>&1
+          code=$?
+          echo "gate_exit=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" != "0" ]; then
+            grep -E 'FAIL|BLOCK|Error' .search-loop-gate.log | head -20
+            reason=$(grep -E 'FAIL|BLOCK' .search-loop-gate.log | head -3 | tr '\n' ' ' | cut -c1-300)
+            git checkout -- data/page_sets data/search_intelligence/strengthened_pages.json data/cadence
+            git clean -fdq data/page_sets
+            node scripts/search_loop/canonical_loop.mjs --stage revert --files "${{ steps.loop.outputs.written }}" --reason "repo gate refused it: $reason"
+            echo "NAMED NOTE [REPO_GATE_REFUSED] the build/validators refused this run's guides; they were reverted and recorded as dropped: $reason" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+          exit 0
+      - name: Upload the weekly report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-loop-week
+          path: reports/search-loop/*.search-loop-week.json
+          if-no-files-found: error
+          overwrite: true
+      - name: Upload the pages (proof runs)
+        if: always() && env.PUBLISH != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-loop-pages
+          path: |
+            data/page_sets/examples/*_global_pages/*.json
+            data/search-loop/**
+            .search-loop-gate.log
+          if-no-files-found: ignore
+      - name: Commit, push and deploy (default branch only)
+        if: env.PUBLISH == 'true' && steps.loop.outputs.exit_code != '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/search-loop data/page_sets/examples data/search_intelligence/strengthened_pages.json data/cadence/lastmod_ledger.json data/cadence/known_urls.json
+          if git diff --cached --quiet; then echo "search-loop: nothing to commit"; exit 0; fi
+          git commit -q -m "search loop (canonical): missing guides, checks and ledger $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4 5; do
+            if git push origin "HEAD:${{ github.event.repository.default_branch }}"; then
+              # A push by GITHUB_TOKEN starts no workflow, so the deploy is dispatched when guides changed.
+              if [ "${{ steps.gate.outputs.gate_exit }}" = "0" ]; then gh workflow run deploy-distribution.yml --ref "${{ github.event.repository.default_branch }}" && echo "deploy dispatched"; fi
+              exit 0
+            fi
+            git pull --rebase --autostash origin "${{ github.event.repository.default_branch }}" || { echo "NAMED STOP [PUSH_CONFLICT] rebase failed; the next run redoes today's work" >&2; exit 9; }
+          done
+          echo "NAMED STOP [PUSH_FAILED] five push attempts failed" >&2; exit 9
+      - name: Loop exit
+        if: always()
+        run: |
+          code="${{ steps.loop.outputs.exit_code }}"
+          [ -n "$code" ] || { echo "NAMED STOP [LOOP_DID_NOT_RUN] the loop step produced no exit code" >&2; exit 9; }
+          exit "$code"

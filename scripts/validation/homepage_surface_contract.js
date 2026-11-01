@@ -60,7 +60,11 @@ function run() {
     ['city-by-city', 'state or city page', 'narrow into city'].forEach((needle) => {
       if (html.includes(needle)) bad.push('PI homepage still contains stale city-page language: ' + needle);
     });
-    if (!/best personal injury lawyer/i.test(html)) bad.push('PI homepage missing best-lawyer query capture');
+    // The lawyer-choice search is still captured, in neutral words: no "best/top/expert" wording
+    // about lawyers on theaccidentguides.com (spry brain, Accident guides / PI law firms, 1 Nov 2026).
+    if (!/personal injury lawyer is right for every case|choos(e|ing) a personal injury lawyer/i.test(html)) bad.push('PI homepage missing the lawyer-choice query capture');
+    const sup = String(html).replace(/<[^>]+>/g, ' ').match(require('./pi_trust_tone_contract').LAWYER_SUPERLATIVE_RE);
+    if (sup) bad.push('PI homepage has superlative wording about lawyers: "' + sup[0] + '"');
   }
   if (bad.length) fail(bad.join('\n'));
   console.log('✅ homepage surface contract pass');

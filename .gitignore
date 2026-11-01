@@ -26,3 +26,9 @@ gsc-service-account.json
 # Validation evidence written by scripts/validation/ on every build.
 # Generated, not authored: keep it out of the tree so a build never dirties it.
 artifacts/
+
+# search loop (shared engine checkout and run log)
+.search-loop-engine/
+.search-loop-run.log
+.search-loop-gate.log
+reports/search-loop/

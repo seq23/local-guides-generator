@@ -50,6 +50,11 @@ every sitemap's URLs. Regenerate it for all six sites with `npm run lastmod:refr
 `npm run validate:lastmod-ledger-currency` fails the build if the
 committed ledger no longer matches what the build produced.
 
+## Search loop
+
+The shared search loop runs here on the canonical side only: missing guides, check + repair,
+report — never a daily new-page build (owner ruling 1 Nov 2026). See [docs/search-loop.md](docs/search-loop.md).
+
 ## Validators are the contract
 
 Add a fix, add a validator, register it in `data/contracts/validator_tiering_policy.json`, and
