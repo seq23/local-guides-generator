@@ -29,7 +29,7 @@ const ROUTES = [
   '/guides/residency-agreement-fees-and-rules/', '/guides/hospital-discharge-to-assisted-living-memphis/',
   '/guides/when-a-parent-refuses-to-move/', '/guides/when-the-money-runs-out-tenncare-choices/',
 ];
-const PINNED = ['/guides/', '/faq/', ...ROUTES];
+const PINNED = ['/guides/', '/faq/', '/resources/binders/', '/resources/binders/parent/', '/resources/binders/move-in/', ...ROUTES];
 const MONEY = /\$\d{1,3}(?:,\d{3})*(?:\.\d{2})?/g;
 const text = (h) => String(h || '').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/%%[A-Z_]+%%/g, ' ');
 const words = (h) => text(h).split(/\s+/).filter(Boolean).length;
@@ -75,10 +75,26 @@ if (/senior_living_v1\.json$/.test(String(site.pageSetFile || '')) && fs.existsS
     const f = path.join(DIST, r.replace(/^\/|\/$/g, ''), 'index.html');
     if (!fs.existsSync(f)) { problems.push(`${r} is not in the build`); continue; }
     built += 1;
+    if (r.startsWith('/resources/binders/')) {
+      const html = fs.readFileSync(f, 'utf8');
+      if (!html.includes('data-binder-page="true"') || /<form\b|data-clarity-loader/.test(html)) problems.push(`${r}: must render the free binder without a form or session recording`);
+      const links = [...html.matchAll(/<a\b[^>]*data-binder-download="([^"]+)"[^>]*href="([^"]+)"[^>]*>/g)];
+      if (!links.length) problems.push(`${r}: no working PDF button`);
+      for (const [, id, href] of links) {
+        const url = new URL(href.replace(/&amp;/g, '&'), 'https://memphisseniorcarehomes.com');
+        if (url.pathname !== '/api/senior-binder-download' || url.searchParams.get('binder') !== id) problems.push(`${r}: PDF button must work without JavaScript`);
+        if (!fs.existsSync(path.join(DIST, 'assets/binders', id + '-binder.pdf'))) problems.push(`${r}: PDF asset missing`);
+      }
+      const binder = require('../lib/senior_binders').load().binders.find((b) => r === '/resources/binders/' + b.id + '/');
+      if (binder && (html.match(/data-binder-sheet=/g) || []).length !== binder.sheets.length) problems.push(`${r}: printable worksheet coverage differs from canonical source`);
+      const noindex = /<meta\b[^>]*name="robots"[^>]*content="[^"]*noindex/.test(html);
+      if (Boolean(binder) !== noindex) problems.push(`${r}: index the landing page and keep blank print views out of search`);
+    }
     if (!r.startsWith('/guides/') || r === '/guides/') continue;
     const html = fs.readFileSync(f, 'utf8');
     if (!html.includes('data-search-faq="true"')) problems.push(`${r}: built page has no visible FAQ section`);
-    if ((html.match(/id="senior-intake"/g) || []).length !== 1) problems.push(`${r}: built page must carry the intake slot exactly once`);
+    if (/<form\b|id="senior-intake"/.test(html)) problems.push(`${r}: guide must lead to the free binder without an intake form`);
+    if (!html.includes('data-senior-binder-cta="true"') || !html.includes(`href="/resources/binders/" data-attr-qs="from=${encodeURIComponent(r)}"`)) problems.push(`${r}: guide must carry its exact source path through the shared attribution handoff`);
     const visible = text(html.replace(/<script[\s\S]*?<\/script>/g, ' ')).replace(/\s+/g, ' ');
     for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       let data; try { data = JSON.parse(m[1]); } catch { continue; }

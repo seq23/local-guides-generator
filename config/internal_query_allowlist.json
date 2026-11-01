@@ -3,8 +3,20 @@
   "prefixes": [
     {
       "prefix": "/request-assistance/",
-      "keys": ["vertical", "page_kind", "page_slug"],
+      "keys": [
+        "vertical",
+        "page_kind",
+        "page_slug"
+      ],
       "why": "The conversion CTA has to be attributable to the page that produced the lead without JavaScript (Search Readiness item j3, 25 Oct 2026). These three are one combination per page; src, intent, button, market and pt vary per source and stay in data-attr-qs, which is what kept 1,306 crawlable uscisexam URLs out of a 228-URL sitemap."
+    },
+    {
+      "prefix": "/api/senior-binder-download",
+      "keys": [
+        "binder",
+        "from"
+      ],
+      "why": "binder selects one of two static PDFs and must reach the Function without JavaScript. from is a public source pathname for the anonymous download count. This endpoint returns noindex PDF attachments, not crawlable HTML."
     }
   ]
 }

@@ -457,7 +457,7 @@ export async function checkRepair(E, sites, { mode, notes, chatImpl = chat, fetc
     // Lead path: the request page and the lead endpoint answer on every site. The probe sends an
     // empty payload, which the function rejects with 400 before storing or sending anything.
     res.lead_paths++;
-    const page = await E.util.fetchText(site.action.url, { fetchImpl, timeoutMs: 15000 });
+    const page = await E.util.fetchText(site.lead.page_url || site.action.url, { fetchImpl, timeoutMs: 15000 });
     const api = await E.util.fetchText(`${site.base_url}${site.lead.api}`, { fetchImpl, method: 'POST', body: '{}', headers: { 'content-type': 'application/json' }, timeoutMs: 15000 });
     const formOk = page.status === 200 && (page.text || '').includes(site.lead.form_marker);
     if (formOk && api.status === 400) { res.lead_paths_ok++; per.lead_path = 'ok'; }

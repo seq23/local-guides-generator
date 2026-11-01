@@ -48,7 +48,8 @@ const NOINDEX_ROUTES = new Set(['admin']);
 // Per-pack additions (Search Readiness Checklist A3: legal and utility pages are
 // not search landing pages). The senior-living site adopts it first; the
 // allowlist is explicit so a content page can never be swept up by a pattern.
-const NOINDEX_ROUTES_BY_PACK = { 'senior_living_v1.json': ['privacy', 'disclaimer'] };
+// Blank print worksheets are delivery views of the indexed binder landing page.
+const NOINDEX_ROUTES_BY_PACK = { 'senior_living_v1.json': ['privacy', 'disclaimer', 'resources/binders/parent', 'resources/binders/move-in'] };
 function noindexRoutesForPack() {
   const ps = path.basename(String(process.env.PAGE_SET_FILE || ''));
   return new Set([...NOINDEX_ROUTES, ...(NOINDEX_ROUTES_BY_PACK[ps] || [])]);

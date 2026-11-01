@@ -169,3 +169,22 @@ test('a free-model outage defers the topic to the next run; it is not dropped', 
   assert.equal(state.dropped.length, 0);
   delete process.env.MISSING_GUIDES_FILE;
 });
+
+test('a download action keeps the lead health probe on its separate form page', async () => {
+  const senior = sites.find((s) => s.vertical === 'senior-living');
+  const fixture = { ...senior, site: 'fixture-download.example', base_url: 'https://fixture-download.example',
+    action: { label: 'Download', url: 'https://fixture-download.example/resources/binders/' },
+    lead: { ...senior.lead, page_url: 'https://fixture-download.example/request-assistance/' },
+    ledger_dir: 'data/search-loop/fixture-download.example' };
+  const seen = [];
+  const fetchImpl = async (url, options = {}) => {
+    seen.push(String(url));
+    const api = options.method === 'POST';
+    return { status: api ? 400 : 200, ok: !api, headers: { get: () => null },
+      text: async () => api ? '{}' : `<form ${senior.lead.form_marker}></form>` };
+  };
+  const r = await L.checkRepair(E, [fixture], { mode: 'normal', notes: [], fetchImpl });
+  assert.equal(r.lead_paths_ok, 1);
+  assert.ok(seen.includes(fixture.lead.page_url));
+  assert.ok(!seen.includes(fixture.action.url));
+});

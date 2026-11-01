@@ -203,7 +203,7 @@ function collectHtmlFiles(root) {
   return out.sort();
 }
 
-function resolvesInDist(distRoot, pageFile, href) {
+function resolvesInDist(distRoot, pageFile, href, repoRoot) {
   const cleaned = decodeHref(href).split('#')[0].split('?')[0];
   if (!cleaned) return true; // pure fragment or query on the current page
   let rel;
@@ -214,6 +214,18 @@ function resolvesInDist(distRoot, pageFile, href) {
     if (rel.startsWith('..')) return false; // escapes dist entirely
   }
   if (!rel) return true; // resolved to site root
+  // Pages Functions are real link targets even though they are not static files.
+  // Require both an actual route module and routing through Functions; an /api/
+  // prefix alone must never make a broken endpoint pass.
+  if (/^api\/[a-z0-9-]+$/.test(rel) && repoRoot) {
+    const route = path.join(repoRoot, 'functions', rel + '.js');
+    const routesFile = path.join(repoRoot, '_routes.json');
+    if (fs.existsSync(route) && fs.existsSync(routesFile)) {
+      const routes = JSON.parse(fs.readFileSync(routesFile, 'utf8'));
+      if ((routes.include || []).includes('/api/*') && !(routes.exclude || []).length
+          && /export\s+(?:const|async\s+function|function)\s+onRequest(?:Get)?\b/.test(fs.readFileSync(route, 'utf8'))) return true;
+    }
+  }
   // Extensions up to 12 chars: .webmanifest is a real file, and a 2-5 char cap
   // misread it as a page route and reported a link to an existing file as broken.
   const looksLikeFile = /\.[a-z0-9]{2,12}$/i.test(rel);
@@ -292,7 +304,7 @@ function run(ctx) {
       // every link to them was a tracked CTA. Only a clean href counts.
       const hasQuery = /\?./.test(decodeHref(href).split('#')[0]);
       if (k !== null && k !== selfKey && !hasQuery) inbound.set(k, (inbound.get(k) || 0) + 1);
-      if (!resolvesInDist(distRoot, file, href)) {
+      if (!resolvesInDist(distRoot, file, href, repoRoot)) {
         const target = decodeHref(href).split('#')[0].split('?')[0];
         if (!brokenByTarget.has(target)) brokenByTarget.set(target, []);
         brokenByTarget.get(target).push(relPage);
