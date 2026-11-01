@@ -149,7 +149,9 @@ const SITES = {
   },
   senior_living: {
     accent: '#047857', accentHover: '#065F46',
-    providerNoun: 'community', providerPlural: 'communities', findLabel: 'Find a community',
+    providerNoun: 'community', providerPlural: 'communities', findLabel: 'Get the free binder',
+    actionHref: '/resources/binders/',
+    heroCtas: [['Get the free binder', '/resources/binders/']],
     advice: 'medical or legal',
     nav: [['Costs', '/guides/assisted-living-cost-memphis/'], ['Who pays', '/guides/how-families-pay-for-assisted-living/'], ['Memory care', '/guides/memory-care-when-is-it-time/']],
     eyebrow: 'Assisted living · memory care · Memphis, Germantown, Collierville, Bartlett, Cordova, DeSoto County',
@@ -273,7 +275,7 @@ function renderHeaderHtml(verticalKey, brandName, opts) {
   return '<header class="site-header hp-header"' + (home ? ' data-home-header="true"' : '') + ' data-site-chrome="header" style="--hp-accent:' + cfg.accent + ';--hp-accent-hover:' + cfg.accentHover + '">' +
     '<div class="hp-wrap hp-header-inner">' +
     '<a class="hp-brand" href="/" aria-label="' + esc(brandName) + ' home"><span class="hp-wordmark">' + esc(brandName) + '</span><span class="hp-parent">Part of The Industry Guides</span></a>' +
-    '<nav class="top-nav hp-nav" aria-label="Primary">' + navHtml(cfg, home ? HOME_CTA_HREF : SITE_CTA_HREF) + '</nav>' +
+    '<nav class="top-nav hp-nav" aria-label="Primary">' + navHtml(cfg, cfg.actionHref || (home ? HOME_CTA_HREF : SITE_CTA_HREF)) + '</nav>' +
     '</div></header>';
 }
 

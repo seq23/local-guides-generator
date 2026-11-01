@@ -25,7 +25,7 @@ function run(ctx) {
 
   const site = JSON.parse(fs.readFileSync(sitePath, 'utf8'));
   const html = fs.readFileSync(homePath, 'utf8');
-  const verticalKey = String(site.verticalKey || '').trim() || String(site.pageSetFile || '').match(/(trt|pi|dentistry|neuro|uscis_medical)_v1\.json$/i)?.[1] || '';
+  const verticalKey = String(site.verticalKey || '').trim() || String(site.pageSetFile || '').match(/(trt|pi|dentistry|neuro|uscis_medical|senior_living)_v1\.json$/i)?.[1] || '';
   const winner = buyouts.resolveWinner(buyouts.loadBuyouts(repoRoot), { verticalKey, pageType: 'home' }, new Date());
   const primaryCount = count(html, /data-primary-conversion-cta="true"/g);
   const sponsoredTopCount = count(html, /data-sponsored-surface="top-cta"/g);
@@ -47,6 +47,10 @@ function run(ctx) {
     const heroCtas = primary ? Array.from(primary[0].matchAll(/<a\b[^>]*data-home-hero-cta="true"[^>]*>/gi)).map((m) => (m[0].match(/href="([^"]*)"/) || [])[1] || '') : [];
     if (!heroCtas.length) bad.push('unsponsored homepage primary CTA has no hero button');
     for (const href of heroCtas) {
+      if (verticalKey === 'senior_living') {
+        if (href !== '/resources/binders/' || !fs.existsSync(path.join(repoRoot, 'dist/resources/binders/index.html'))) bad.push('senior homepage action must reach the built free binder page');
+        continue;
+      }
       const target = href === '#match' ? 'match' : (href === '#states' && verticalKey === 'neuro' ? 'states' : '');
       if (!target) bad.push(`unsponsored homepage hero button leads to "${href}", not the callback band (#match)${verticalKey === 'neuro' ? ' or the state finder (#states)' : ''}`);
       else if (!new RegExp('id="' + target + '"').test(html)) bad.push(`unsponsored homepage hero button target ${href} does not exist on the page`);

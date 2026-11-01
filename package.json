@@ -48,7 +48,7 @@
     "test:neuro-services": "node --test tests/neuro/neuro_services.test.mjs",
     "test:request-form-own-vertical": "node --test tests/request_form/own_vertical.test.mjs",
     "test:search-readiness": "node --test tests/search_readiness/scoped_repair.test.mjs",
-    "test:senior": "node --test tests/senior/senior_lead.test.mjs",
+    "test:senior": "node --test tests/senior/*.test.mjs",
     "test:site-chrome": "node --test tests/site_chrome/site_chrome_parity.test.mjs",
     "test:structured-data": "node --test tests/schema/structured_data_vocab.test.mjs",
     "test:trt-affiliates": "node --test tests/trt/trt_affiliates.test.mjs",
@@ -105,7 +105,9 @@
     "test:entity-graph": "node --test tests/entity/*.test.mjs",
     "entity:watch": "node scripts/entity_backlink_watch.mjs",
     "test:search-loop": "node --test tests/search_loop/canonical_loop.test.mjs",
-    "search-loop": "node scripts/search_loop/canonical_loop.mjs"
+    "search-loop": "node scripts/search_loop/canonical_loop.mjs",
+    "binders:generate": "node scripts/generate_binders.js",
+    "binders:check": "node scripts/generate_binders.js --check"
   },
   "dependencies": {},
   "engines": {

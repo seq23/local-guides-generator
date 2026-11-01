@@ -191,3 +191,22 @@ test('an internal link to a noindex or canonicalised-elsewhere page fails', () =
   fs.writeFileSync(path.join(ctx.repoRoot, 'dist', 'dup', 'index.html'), '<link rel="canonical" href="https://e.com/x-ca/">');
   assert.throws(() => run(ctx), /Internal links to non-indexable pages: 1 [\s\S]*\/dup\/  \(canonical points to \/x-ca\/\)/);
 });
+
+test('a linked Pages Function must exist, accept GET and be routed; api spelling alone never passes', () => {
+  const ctx = fixture('<a href="/api/fixture-download">Download</a>');
+  const root = ctx.repoRoot;
+  fs.mkdirSync(path.join(root, 'functions/api'), { recursive: true });
+  const route = path.join(root, 'functions/api/fixture-download.js');
+  const routes = path.join(root, '_routes.json');
+  assert.throws(() => run(ctx), /Broken internal links/);
+  fs.writeFileSync(route, 'export const onRequestGet = () => new Response("fixture")');
+  assert.throws(() => run(ctx), /Broken internal links/);
+  fs.writeFileSync(routes, JSON.stringify({ include: ['/api/*'], exclude: [] }));
+  assert.doesNotThrow(() => run(ctx));
+  fs.writeFileSync(route, 'export const onRequestPost = () => new Response("fixture")');
+  assert.throws(() => run(ctx), /Broken internal links/);
+  fs.writeFileSync(route, 'export const onRequest = () => new Response("fixture")');
+  fs.writeFileSync(routes, JSON.stringify({ include: ['/api/*'], exclude: ['/api/fixture-download'] }));
+  assert.throws(() => run(ctx), /Broken internal links/);
+  fs.rmSync(root, { recursive: true, force: true });
+});

@@ -369,7 +369,12 @@ function classifyPageKind(ctx) {
 
 function buildFanoutCluster(ctx, pageSet) {
   const enriched = { ...ctx, pageKind: classifyPageKind(ctx) };
-  const items = applyOverrides(defaultClusterItems(enriched), enriched, pageSet);
+  const items = applyOverrides(defaultClusterItems(enriched), enriched, pageSet).map((item) => {
+    if (['senior_living', 'senior-living'].includes(enriched.verticalKey) && item.href === '/request-assistance/') {
+      return { ...item, href: '/resources/binders/', label: 'Get the free binder', query: 'free parent paperwork and move-in binders' };
+    }
+    return item;
+  });
   const groups = [];
   const byGroup = new Map();
   items.forEach((item) => {

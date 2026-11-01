@@ -1,0 +1,54 @@
+/* Hallmark · macrostructure: Catalogue · tone: calm reference · anchor hue: green */
+.binders {
+  --color-paper: oklch(100% 0 0);
+  --color-ink: oklch(24% 0.01 150);
+  --color-muted: oklch(43% 0.01 150);
+  --color-rule: oklch(62% 0.01 150);
+  --color-accent: oklch(39% 0.08 160);
+  --color-hover: oklch(96% 0.01 160);
+  --font-body: Arial, sans-serif;
+  --font-heading: Georgia, serif;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+  max-width: 760px; margin: var(--space-lg) auto; padding: var(--space-md);
+  color: var(--color-ink); background: var(--color-paper); font: 18px/1.55 var(--font-body);
+}
+.binders h1, .binders h2 { font-family: var(--font-heading); line-height: 1.2; }
+.binders h1 { font-size: 32px; }
+.binders h2 { font-size: 26px; margin: 0 0 var(--space-md); }
+.binder-choice { padding: var(--space-lg) 0; }
+.binder-download, .binder-controls button { display: inline-block; min-height: 48px; padding: 12px 20px; border: 2px solid var(--color-accent); border-radius: 4px; color: var(--color-accent); background: var(--color-paper); font: bold 18px/1.4 var(--font-body); text-decoration: none; cursor: pointer; }
+.binder-download:hover, .binder-controls button:hover { background: var(--color-hover); }
+.binders a:focus-visible, .binders button:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+.binder-sheet { padding: var(--space-lg) 0; border-top: 1px solid var(--color-rule); }
+.binder-sheet-label, .binder-sheet-footer { color: var(--color-muted); font: 14px/1.4 var(--font-body); }
+.binder-sheet-footer { margin-top: var(--space-lg); }
+.binder-checklist { list-style: none; padding: 0; }
+.binder-checklist li { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; break-inside: avoid; }
+.binder-box { display: inline-block; flex: 0 0 14px; width: 14px; height: 14px; border: 1px solid var(--color-ink); }
+.binder-field { margin: 0 0 var(--space-md); break-inside: avoid; }
+.binder-line { display: block; height: 26px; border-bottom: 1px solid var(--color-rule); }
+.binder-table { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 16px; }
+.binder-table th, .binder-table td { border: 1px solid var(--color-rule); padding: var(--space-sm); overflow-wrap: anywhere; }
+.binder-table th { text-align: left; }
+.binder-table td { height: 44px; }
+@media print {
+  @page { size: letter; margin: 0.45in; }
+  body { background: white !important; color: black !important; }
+  body > :not(main), main > :not(.binder-print), .binder-controls, .binder-print ~ *, .binder-print > :not(.binder-sheet) { display: none !important; }
+  main, .binders { width: auto !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
+  .binder-print { font: 13pt/1.35 Arial, sans-serif; }
+  .binder-sheet { break-after: page; border: 0; padding: 0; }
+  .binder-sheet:last-child { break-after: auto; }
+  .binders h2 { font: bold 22pt/1.2 Georgia, serif; margin-bottom: 12pt; }
+  .binder-sheet p { margin: 8pt 0; }
+  .binder-sheet-label, .binder-sheet-footer { font-size: 10pt; }
+  .binder-field { margin-bottom: 9pt; }
+  .binder-line { height: 18pt; }
+  .binder-checklist li { margin-bottom: 9pt; }
+  .binder-table { font-size: 11pt; }
+  .binder-table td { height: 27pt; }
+  .binder-sheet-footer { margin-top: 16pt; }
+  a::after { content: none !important; }
+}

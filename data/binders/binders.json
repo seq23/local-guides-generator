@@ -1,0 +1,400 @@
+{
+  "disclaimer": "This is a checklist, not legal or medical advice.",
+  "sources": [
+    {
+      "title": "Organising personal, financial and health records (National Institute on Aging)",
+      "url": "https://www.nia.nih.gov/health/advance-care-planning/getting-your-affairs-order-checklist-documents-prepare-future"
+    },
+    {
+      "title": "Tennessee standards for assisted-care living facilities",
+      "url": "https://publications.tnsosfiles.com/rules/0720/0720-26.20220701.pdf"
+    }
+  ],
+  "binders": [
+    {
+      "id": "parent",
+      "title": "Parent Binder",
+      "description": "A place to gather contacts, medicines, insurance, legal papers, bills, dates and an emergency sheet when you start helping a parent.",
+      "sheets": [
+        {
+          "id": "contacts",
+          "title": "People to contact",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Fill in this page together, with your parent's permission. Keep the binder somewhere private."
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Parent / preferred name",
+                "Main family contact / phone"
+              ]
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Doctor / office / phone",
+                "Other doctor / office / phone",
+                "Pharmacy / phone",
+                "Lawyer / phone",
+                "Bank / contact / phone",
+                "Other trusted contact / phone"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "medications",
+          "title": "Medication list",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Copy the current list from your parent's clinician or pharmacy. Include nonprescription medicines and supplements. Ask them about any differences; do not change medicines using this sheet."
+            },
+            {
+              "type": "fields",
+              "items": [
+                "List checked with / date"
+              ]
+            },
+            {
+              "type": "table",
+              "columns": [
+                "Medicine",
+                "Dose",
+                "When taken",
+                "Prescriber"
+              ],
+              "rows": 7
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Allergies / reactions",
+                "Pharmacy / phone"
+              ]
+            },
+            {
+              "type": "text",
+              "text": "Print another copy of this page if you need more room."
+            }
+          ]
+        },
+        {
+          "id": "insurance",
+          "title": "Insurance cards and records",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Keep copies here or note where they are stored. Leave full policy numbers off shared copies."
+            },
+            {
+              "type": "checklist",
+              "items": [
+                "Medicare card or plan card",
+                "Medicaid / TennCare card, if enrolled",
+                "Supplemental insurance card",
+                "Prescription coverage card",
+                "Long-term care insurance information",
+                "Other insurance cards"
+              ]
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Where cards / copies are kept",
+                "Plan contact / phone",
+                "Questions for the plan",
+                "Next renewal / review date"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "legal",
+          "title": "Legal papers to locate",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Check what already exists and note where the current copy is kept. A checklist does not give anyone permission to act for another person. Ask a qualified professional about missing papers or questions."
+            },
+            {
+              "type": "checklist",
+              "items": [
+                "Power of attorney",
+                "Health care proxy / advance directive",
+                "Will",
+                "HIPAA release / permission to share health information"
+              ]
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Where current copies are kept",
+                "Where originals are kept",
+                "Who holds a copy",
+                "Questions for a qualified professional"
+              ]
+            },
+            {
+              "type": "text",
+              "text": "This binder contains no legal forms and does not replace signed documents."
+            }
+          ]
+        },
+        {
+          "id": "bills",
+          "title": "Bills and accounts",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Note the bill, due date and where its records are kept. Do not write passwords, PINs or full account numbers here."
+            },
+            {
+              "type": "checklist",
+              "items": [
+                "Rent / mortgage / property tax",
+                "Electricity, gas and water",
+                "Phone and internet",
+                "Insurance premiums",
+                "Credit cards / loans",
+                "Subscriptions / recurring payments",
+                "Bank / retirement / benefit records"
+              ]
+            },
+            {
+              "type": "table",
+              "columns": [
+                "Bill / account",
+                "Due date",
+                "How paid",
+                "Record location"
+              ],
+              "rows": 5
+            }
+          ]
+        },
+        {
+          "id": "dates",
+          "title": "Important dates",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Use this page for appointments, renewals and reminders."
+            },
+            {
+              "type": "table",
+              "columns": [
+                "Date",
+                "Appointment / task",
+                "Who will help"
+              ],
+              "rows": 9
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Next binder review date",
+                "Documents still to find"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "emergency",
+          "title": "Emergency sheet",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Keep this one page easy to find. Update it when contacts or health information change. In an emergency, call 911."
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Parent / preferred name / date of birth",
+                "Home address",
+                "Main contact / phone",
+                "Backup contact / phone",
+                "Doctor / phone",
+                "Pharmacy / phone",
+                "Allergies / reactions",
+                "Current medicines / where to find the full list",
+                "Health information to share with responders",
+                "Advance directive / where a copy is kept",
+                "Last updated"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "move-in",
+      "title": "Move-In Binder",
+      "description": "Paperwork, tour questions, a packing list, first-week reminders and address changes for a move into assisted living or a care home.",
+      "sheets": [
+        {
+          "id": "paperwork",
+          "title": "Before move-in: paperwork",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Ask the home for its own admission list and deadlines. Requirements depend on the home and the type of care; this is a place to track what it asks for."
+            },
+            {
+              "type": "checklist",
+              "items": [
+                "Ask whether a TB test / screening record is needed and when",
+                "Get the home's physician report form and completion deadline",
+                "Gather the current medication list / required orders",
+                "Gather photo ID and insurance cards",
+                "Include Medicare, Medicaid / TennCare and supplemental cards if used",
+                "Locate relevant signed legal papers / health care permissions",
+                "Read the residency agreement and ask about unclear fees",
+                "Confirm which documents the home has received"
+              ]
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Home / move-in date",
+                "Admission contact / phone",
+                "Documents still needed / due date",
+                "Where copies are kept"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tour",
+          "title": "Questions to ask on a tour",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Bring the same questions to each home and write down the answers. Ask for written details where available."
+            },
+            {
+              "type": "checklist",
+              "items": [
+                "What help is available during the day and overnight?",
+                "Who helps with medicines, and how are changes handled?",
+                "Which costs are included, and which are extra?",
+                "What happens if care needs or payment options change?",
+                "How does the home respond to an emergency?",
+                "What are the visiting, meal, transport and activity options?",
+                "How does the home handle concerns from families?",
+                "What are the move-out, refund and notice rules?"
+              ]
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Home toured / date",
+                "Answers / follow-up questions",
+                "Who will follow up / when"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "packing",
+          "title": "What to label and pack",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Ask for the home's room measurements, packing rules and list of items to leave at home. Use the name or room label the home requests."
+            },
+            {
+              "type": "checklist",
+              "items": [
+                "Label clothes, shoes, glasses cases and personal items",
+                "Pack comfortable clothes and shoes",
+                "Pack toiletries and everyday personal items",
+                "Bring glasses, hearing aids, mobility aids and their supplies",
+                "Arrange medicine delivery with the home / pharmacy",
+                "Choose familiar photos, bedding or small comfort items",
+                "Check furniture, cords and electrical items with the home",
+                "Record valuable items and agree where they will be kept"
+              ]
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Room / label to use",
+                "Items the home supplies",
+                "Items to bring later",
+                "Packing helper / date"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "first-week",
+          "title": "The first week",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Make a short plan with your parent and the home. Write down who will answer questions."
+            },
+            {
+              "type": "checklist",
+              "items": [
+                "Meet the main staff contact and ask how to reach them",
+                "Confirm the home received the current medicine list",
+                "Review meals, laundry, activities and visiting arrangements",
+                "Check that needed personal items arrived and are labelled",
+                "Agree how the family will receive updates",
+                "Ask your parent what feels comfortable and what needs attention",
+                "Write down concerns and who will follow up",
+                "Set a date to check in with your parent and the home"
+              ]
+            },
+            {
+              "type": "fields",
+              "items": [
+                "Main staff contact / phone",
+                "Family update plan",
+                "Concern / person responsible / date",
+                "Next check-in date"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "address",
+          "title": "Who to notify of the address change",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "With your parent's permission, check each organisation's process. Confirm where important mail should go and who may request the change."
+            },
+            {
+              "type": "checklist",
+              "items": [
+                "Postal service / mail forwarding",
+                "Doctors, specialists and pharmacy",
+                "Medicare / health plan",
+                "Medicaid / TennCare, if enrolled",
+                "Supplemental and other insurers",
+                "Social Security / pension / benefit offices",
+                "Bank, cards and financial accounts",
+                "Lawyer and other authorised contacts",
+                "Utilities, subscriptions and deliveries",
+                "Family and trusted contacts"
+              ]
+            },
+            {
+              "type": "fields",
+              "items": [
+                "New mailing address",
+                "Change requested / date / confirmation",
+                "Still to notify"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

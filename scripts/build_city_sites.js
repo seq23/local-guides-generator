@@ -23,6 +23,7 @@
 const fs = require("fs");
 const path = require("path");
 const senior = require("./lib/senior_living");
+const seniorBinders = require("./lib/senior_binders");
 const seniorFanout = require("./lib/senior_fanout");
 
 
@@ -1759,6 +1760,10 @@ function conversionCopyForContextBase(pageType, verticalKey, ctx) {
 }
 
 function renderConversionCtaHtml(conversionTemplate, verticalKey, ctx) {
+  if (senior.isSeniorLiving(verticalKey)) {
+    const marker = ctx?.marker || 'data-inline-conversion-cta="true"';
+    return seniorBinders.cta(ctx?.src || '/').replace('data-senior-binder-cta="true"', 'data-senior-binder-cta="true" ' + marker);
+  }
   const info = buildRequestAssistanceContext(verticalKey, ctx);
   const copy = conversionCopyForContext(String(ctx?.pageType || ''), verticalKey, ctx);
   let html = String(conversionTemplate || '');
@@ -1815,6 +1820,7 @@ function injectInlineConversionCta(mainHtml, conversionTemplate, verticalKey, ct
 }
 
 function renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, ctx) {
+  if (senior.isSeniorLiving(verticalKey)) return seniorBinders.cta(ctx?.src || '/').replace('<section ', '<section data-connection-bubble="true" ');
   const info = buildRequestAssistanceContext(verticalKey, ctx);
 
   let html = String(connectionBubbleTemplate || '');
@@ -4851,7 +4857,10 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
 
   let mainHtml = String(globalPage.main_html || "")
-    .split("%%SENIOR_INTAKE%%").join(senior.isSeniorLiving(verticalKey) ? senior.intakeSlotForSite() : "")
+    .split("%%SENIOR_BINDERS%%").join(senior.isSeniorLiving(verticalKey) ? seniorBinders.landing() : "")
+    .split("%%SENIOR_BINDER_PARENT%%").join(senior.isSeniorLiving(verticalKey) ? seniorBinders.printable('parent') : "")
+    .split("%%SENIOR_BINDER_MOVE_IN%%").join(senior.isSeniorLiving(verticalKey) ? seniorBinders.printable('move-in') : "")
+    .split("%%SENIOR_INTAKE%%").join(senior.isSeniorLiving(verticalKey) ? (route.startsWith('guides/') ? seniorBinders.cta('/' + route + '/').replace('<section ', '<section data-connection-bubble="true" ') : senior.intakeSlotForSite()) : "")
     .split("%%SENIOR_PRODUCTS%%").join(senior.isSeniorLiving(verticalKey) ? senior.productsHtml(CONTACT_EMAIL) : "")
     .split("%%SENIOR_AREA_GRID%%").join(senior.isSeniorLiving(verticalKey) ? senior.areaGridHtml() : "")
     .split("%%SENIOR_AREA_LINKS%%").join(senior.isSeniorLiving(verticalKey) ? senior.areaLinksHtml() : "")
@@ -5278,7 +5287,7 @@ if (route === 'admin') {
     }));
   }
 
-  if (route !== '' && route !== 'guides' && !route.startsWith('guides/') && !route.endsWith('next-steps') && route !== 'request-assistance' && route !== 'methodology' && route !== 'faq' && !mainHtml.includes('data-decision-routing-block="true"')) {
+  if (!route.startsWith('resources/binders') && route !== '' && route !== 'guides' && !route.startsWith('guides/') && !route.endsWith('next-steps') && route !== 'request-assistance' && route !== 'methodology' && route !== 'faq' && !mainHtml.includes('data-decision-routing-block="true"')) {
     const genericDistributionHtml = renderInternalDistributionZoneHtml({
       kind: 'home',
       title,
@@ -5357,11 +5366,11 @@ if (route === 'admin') {
   // The homepage does not show the "Related search paths" grid (owner-approved
   // layout, 14 Oct 2026); its cluster is still built and recorded by the fanout
   // emitter like every page's.
-  if (globalFanoutHtml && !isHomeV2 && !mainHtml.includes('data-fanout-query-cluster="true"')) {
+  if (globalFanoutHtml && !isHomeV2 && !route.startsWith('resources/binders') && !mainHtml.includes('data-fanout-query-cluster="true"')) {
     mainHtml += "\n" + globalFanoutHtml;
   }
 
-  const connectionBubbleHtml = (!isHomeV2 && shouldRenderConnectionBubble({ pageKind: 'global', route }))
+  const connectionBubbleHtml = (!isHomeV2 && !(senior.isSeniorLiving(verticalKey) && (route.startsWith('guides/') || route.startsWith('resources/binders'))) && shouldRenderConnectionBubble({ pageKind: 'global', route }))
     ? renderConnectionBubbleHtml(connectionBubbleTemplate, verticalKey, { src: route ? ('/' + route + '/') : '/' })
     : '';
 
@@ -5939,6 +5948,8 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   const pageSet = loadPageSet(pageSetFile);
   pageSet.__pageSetFile = pageSetFile;
   const verticalKey = deriveVerticalKey(pageSetFile);
+  // Fail before dist is cleared or any page is written.
+  if (senior.isSeniorLiving(verticalKey)) seniorBinders.verifyPdfs();
 
   // City page feature toggles (future-proof): directory vs state lookup (mutually exclusive).
   pageSet.__cityFeatures = getCityFeatures(pageSet, verticalKey);
