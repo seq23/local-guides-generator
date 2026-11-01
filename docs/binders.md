@@ -52,3 +52,13 @@ The landing page is indexed and sitemapped. The two blank printable worksheet
 views use the existing per-pack noindex policy: they are downloads/print views,
 not extra search articles. This keeps the experiment inside the publishing
 capacity gate; `npm run cadence:gate` is part of the release check.
+
+## Offline HTML print check
+
+The merge gate installs the pinned free renderer in
+`tests/senior/print-requirements.txt` and runs
+`python tests/senior/print_layout_test.py` after building all packs. It checks
+rendered page count against canonical worksheets, one worksheet per page, and
+that screen controls do not appear on paper. It does not pin copy or colors.
+For local use, install those requirements in a Python 3.12 virtual environment;
+WeasyPrint also needs Pango (the workflow installs the Linux packages).

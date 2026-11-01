@@ -21,7 +21,17 @@ jobs:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install offline print test dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libpango-1.0-0 libpangoft2-1.0-0
+          python -m pip install -r tests/senior/print-requirements.txt
       - run: node scripts/build_all_packs.js
+      - name: Binder HTML print layout
+        run: python tests/senior/print_layout_test.py
       - run: LKG_VALIDATE_DIST=1 npm run validate:all
       - name: Search loop engine (seq23/search-loop@v1) for the canonical loop's tests
         uses: actions/checkout@v6
