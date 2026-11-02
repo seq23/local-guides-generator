@@ -9,14 +9,28 @@ const TITLE_COPY = require('../../data/search_title_copy.json');
 function scoped(siteUrl) { return HOSTS.has(new URL(siteUrl).hostname); }
 function normalize(s) { return String(s).toLowerCase().replace(/[^a-z0-9]/g, ''); }
 
+// Over-long head copy is trimmed here, at the source, rather than failed by a
+// validator (owner ruling 2 Nov 2026: over a length limit never fails; the
+// generator trims to fit). Cut at a word boundary and mark the cut.
+const TITLE_MAX = 65;
+const DESC_MAX = 160;
+function fitLength(text, max) {
+  const s = String(text ?? '');
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max - 1);
+  const space = cut.lastIndexOf(' ');
+  return (space > max * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:|\-\u2013\u2014]+$/, '') + '\u2026';
+}
+
 function brandedTitle(title, siteUrl, brandName, route = '') {
   const key = '/' + String(route).replace(/^\/+|\/+$/g, '') + '/';
   const copy = (TITLE_COPY[new URL(siteUrl).hostname] || {})[key];
   if (copy) title = copy;
-  if (!scoped(siteUrl) || normalize(title).includes(normalize(brandName))) return title;
-  // Do not truncate: the existing length/uniqueness contract requires concise
-  // source copy and catches collisions rather than silently cutting off intent.
-  return `${title} | ${brandName}`;
+  if (!scoped(siteUrl) || normalize(title).includes(normalize(brandName))) return fitLength(title, TITLE_MAX);
+  // Reviewed copy fits already; anything longer is trimmed so the brand suffix
+  // survives. The uniqueness contract still catches a collision a trim causes.
+  const suffix = ` | ${brandName}`;
+  return fitLength(title, TITLE_MAX - suffix.length) + suffix;
 }
 
 function formOrBuy(html, siteUrl) {
@@ -37,4 +51,4 @@ function formOrBuy(html, siteUrl) {
 
 function clarityEligible(html, siteUrl) { return !scoped(siteUrl) || formOrBuy(html, siteUrl); }
 
-module.exports = { scoped, brandedTitle, clarityEligible };
+module.exports = { scoped, brandedTitle, clarityEligible, fitLength, TITLE_MAX, DESC_MAX };

@@ -2,15 +2,21 @@ const fs = require('fs');
 const path = require('path');
 
 const REQUIRED_DISCLAIMER = 'Educational only. Not legal advice. No endorsements or rankings.';
+// Legal-risk wording: a promise of an outcome or a dollar figure on a PI page.
+// These block (risk brain; owner ruling 2 Nov 2026 keeps them).
 const BANNED_PHRASES = [
   'guaranteed win',
   'guaranteed outcome',
   'guarantee you',
   'million-dollar',
+  'we win big'
+];
+// Tone only: pushy, but not a legal risk. Reported as a note, never blocking
+// (owner ruling 2 Nov 2026: wording/style checks never block).
+const TONE_PHRASES = [
   'call now',
   'act now',
-  'limited time',
-  'we win big'
+  'limited time'
 ];
 const SENSITIVE_GUIDES = [
   'brain-injury.json',
@@ -75,8 +81,10 @@ function run({ site, distDir } = {}) {
   const isPiBuild = /pi_v1\.json$/.test(String((site && site.pageSetFile) || ""));
   const dist = distDir || path.join(__dirname, "..", "..", "dist");
   const distIssues = isPiBuild && fs.existsSync(dist) ? checkBuiltPiPages(dist) : [];
-  const sourceIssues = runSources();
+  const tone = [];
+  const sourceIssues = runSources(tone);
   const all = [...distIssues, ...sourceIssues];
+  for (const t of tone.slice(0, 20)) console.log(`NOTE (tone, not blocking): ${t}`);
   if (all.length) {
     console.error("PI TRUST / TONE FAIL");
     all.slice(0, 40).forEach((issue) => console.error(` - ${issue}`));
@@ -86,7 +94,7 @@ function run({ site, distDir } = {}) {
   console.log(`✅ PI TRUST / TONE PASS${isPiBuild ? " (built PI pages checked)" : ""}`);
 }
 
-function runSources() {
+function runSources(tone = []) {
   const repoRoot = path.join(__dirname, '..', '..');
   const dir = path.join(repoRoot, 'data', 'page_sets', 'examples', 'pi_global_pages');
   const files = fs.readdirSync(dir).filter((f) => f.endsWith('.json') && !['guides.json', 'home.json'].includes(f));
@@ -103,7 +111,10 @@ function runSources() {
     }
 
     for (const phrase of BANNED_PHRASES) {
-      if (lower.includes(phrase)) issues.push(`${file}: banned hype phrase "${phrase}"`);
+      if (lower.includes(phrase)) issues.push(`${file}: legal-risk phrase "${phrase}"`);
+    }
+    for (const phrase of TONE_PHRASES) {
+      if (lower.includes(phrase)) tone.push(`${file}: pushy phrase "${phrase}"`);
     }
 
     if (SENSITIVE_GUIDES.includes(file)) {
@@ -128,4 +139,4 @@ function runSources() {
   return issues;
 }
 
-module.exports = { run, checkBuiltPiPages, LAWYER_SUPERLATIVE_RE, NO_ENDORSE_RE, REQUIRED_DISCLAIMER, BANNED_PHRASES };
+module.exports = { run, checkBuiltPiPages, LAWYER_SUPERLATIVE_RE, NO_ENDORSE_RE, REQUIRED_DISCLAIMER, BANNED_PHRASES, TONE_PHRASES, runSources };

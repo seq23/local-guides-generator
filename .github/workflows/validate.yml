@@ -102,8 +102,8 @@ jobs:
         continue-on-error: true
         run: LKG_VALIDATE_DIST=1 npm run validate:tier:warning
 
-      - name: Cadence gate
-        # Blocks publishing faster than the library can be kept inside the
-        # 91-day window where pages stay citable. Warnings are reported
-        # without failing the run.
-        run: npm run cadence:gate
+      - name: Cadence gate (merge lane)
+        # Freshness and lastmod rules block here. The weekly new-page cap is
+        # reported only: it limits publishing, so the search loop's publish
+        # lane holds it (owner ruling 2 Nov 2026).
+        run: npm run cadence:gate -- --lane merge

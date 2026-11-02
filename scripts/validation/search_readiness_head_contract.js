@@ -5,8 +5,12 @@
  * the title is unique.
  *
  * What it pins (Search Readiness Checklist, owner, 25 Oct 2026):
- *   b1  title 30-65 characters, and no two indexable pages share a title
- *   b2  exactly one meta description, 120-160 characters
+ *   b1  every page has a title, and no two indexable pages share a title
+ *   b2  exactly one meta description
+ *   Lengths (title 30-65, description 120-160) follow lib/floors.js: under
+ *   75% of the minimum fails; a near miss or anything over the maximum is a
+ *   note (owner ruling 2 Nov 2026). The generator trims over-long copy
+ *   (scripts/lib/search_readiness_policy.js fitLength).
  *   b3  exactly one <h1> per indexable page
  *   d4  a page whose JSON-LD claims a date shows that date in its text
  *
@@ -47,6 +51,7 @@ const TITLE_MAX = 65;
 const DESC_MIN = 120;
 const DESC_MAX = 160;
 const MAX_LISTED = 12;
+const { hardFloor, judgeLength } = require('./lib/floors');
 
 const DIST = path.join(process.cwd(), 'dist');
 
@@ -83,6 +88,7 @@ function main() {
   const badDesc = [];
   const badDate = [];
   const badH1 = [];
+  const notes = [];
   let checked = 0;
 
   for (const file of files) {
@@ -96,8 +102,11 @@ function main() {
     const tm = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
     const title = tm ? unescapeHtml(tm[1]).trim() : '';
     if (!title) badTitle.push(`${rel}  has no <title>`);
-    else if (title.length < TITLE_MIN || title.length > TITLE_MAX) {
-      badTitle.push(`${rel}  title is ${title.length} chars (want ${TITLE_MIN}-${TITLE_MAX}): ${title}`);
+    else {
+      const verdict = judgeLength(title.length, TITLE_MIN, TITLE_MAX);
+      const line = `${rel}  title is ${title.length} chars (target ${TITLE_MIN}-${TITLE_MAX}, fails under ${hardFloor(TITLE_MIN)}): ${title}`;
+      if (verdict === 'fail') badTitle.push(line);
+      else if (verdict === 'note') notes.push(line);
     }
     if (title) {
       if (!titleOwners.has(title)) titleOwners.set(title, []);
@@ -112,8 +121,11 @@ function main() {
       .map((m) => unescapeHtml(m[3]).trim());
     if (descs.length !== 1) {
       badDesc.push(`${rel}  has ${descs.length} meta descriptions (want exactly 1)`);
-    } else if (descs[0].length < DESC_MIN || descs[0].length > DESC_MAX) {
-      badDesc.push(`${rel}  description is ${descs[0].length} chars (want ${DESC_MIN}-${DESC_MAX})`);
+    } else {
+      const verdict = judgeLength(descs[0].length, DESC_MIN, DESC_MAX);
+      const line = `${rel}  description is ${descs[0].length} chars (target ${DESC_MIN}-${DESC_MAX}, fails under ${hardFloor(DESC_MIN)})`;
+      if (verdict === 'fail') badDesc.push(line);
+      else if (verdict === 'note') notes.push(line);
     }
 
     // b3: exactly one h1. Counted over the whole document rather than <main>
@@ -142,18 +154,22 @@ function main() {
     rows.slice(0, MAX_LISTED).forEach((r) => problems.push(`    ${r}`));
     if (rows.length > MAX_LISTED) problems.push(`    ... and ${rows.length - MAX_LISTED} more`);
   };
-  section('b1 titles outside the length window', badTitle);
+  section('b1 titles missing or under 75% of the minimum length', badTitle);
   section('b1 titles used by more than one page', dupes.map(([t, pages]) => `${pages.length} pages share "${t}": ${pages.slice(0, 3).join(', ')}`));
   section('b2 meta descriptions', badDesc);
   section('b3 pages without exactly one h1', badH1);
   section('d4 dates claimed but not shown', badDate);
 
+  if (notes.length) {
+    console.log(`NOTE: ${notes.length} title/description length(s) off target, not blocking:`);
+    notes.slice(0, MAX_LISTED).forEach((n) => console.log(`    ${n}`));
+  }
   if (problems.length) {
     console.error('❌ SEARCH READINESS HEAD FAIL');
     problems.forEach((p) => console.error(` - ${p}`));
     process.exit(1);
   }
-  console.log(`✅ SEARCH READINESS HEAD PASS — ${checked} indexable page(s) of ${files.length}: titles ${TITLE_MIN}-${TITLE_MAX} and unique, one meta description ${DESC_MIN}-${DESC_MAX}, exactly one h1, every claimed date visible.`);
+  console.log(`✅ SEARCH READINESS HEAD PASS — ${checked} indexable page(s) of ${files.length}: titles present and unique (none under ${hardFloor(TITLE_MIN)} chars), one meta description (none under ${hardFloor(DESC_MIN)} chars), exactly one h1, every claimed date visible.`);
 }
 
 main();
