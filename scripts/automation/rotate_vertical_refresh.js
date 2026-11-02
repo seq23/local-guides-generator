@@ -85,11 +85,30 @@ if (!pageSetFile) {
 
 ensureSiteJsonBootstrapped(chosen.key);
 
-run(`node scripts/build_city_sites.js --page-set "${pageSetFile}"`, {
+// Build the chosen pack with `npm run build` - the same page-mutating steps, in
+// the same order, as scripts/build_all_packs.js - so refresh:verification's
+// lastmod_apply.js below hashes the page that ships.
+//
+// What this replaced, and what it cost. This used to run build_city_sites.js
+// alone, skipping retrofit_recommendation_summary, install_clarity,
+// install_site_head_assets and apply_robots_policy (which rewrites <main>). So
+// this step hashed a different page than the ledger's producer did, every page
+// looked changed, and lastmod_apply.js wrote that different hash with today's
+// date. The record step's `build_all_packs.js --refresh-ledger` then put the
+// real hash back but kept today's date: 176 uscisexam.com entries moved lastmod
+// forward on unchanged content (31 Oct and 2 Nov 2026, run 41454308802), which
+// lastmod_date_invariant_contract.js caught. It also passed `--page-set`, a flag
+// build_city_sites.js never read, so the pack built was whatever data/site.json
+// held, not the vertical the rotation chose. PAGE_SET_FILE is what
+// prepare_site.js (the first step of `npm run build`) actually reads.
+// scripts/validation/lastmod_hash_point_contract.js pins this pipeline.
+run('npm run build', {
+  PAGE_SET_FILE: pageSetFile,
   LKG_ENV: 'baseline',
 });
 
 run('npm run refresh:verification', {
+  PAGE_SET_FILE: pageSetFile,
   LKG_VERTICAL: chosen.key,
   LKG_NOTES: notes,
   LKG_CADENCE: 'nightly integrity + rotating vertical refresh',
