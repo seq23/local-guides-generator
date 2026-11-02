@@ -77,6 +77,7 @@ const entityGraph = require("./lib/entity_graph");
 const internalQueryPolicy = require("./lib/internal_query_policy");
 const siteLeadForm = require("./lib/site_lead_form");
 const { brandedTitle, fitLength, DESC_MAX } = require("./lib/search_readiness_policy");
+const { seatAnswerShape, selfContainedFirst } = require("./lib/answer_shape_seat");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -5747,7 +5748,8 @@ function countWords(text) {
 function composeAnswerSpan(sentences, min = 40, max = 60) {
   const parts = [];
   let total = 0;
-  for (const raw of sentences) {
+  // The span opens on a self-contained sentence, never "It is ..." (lib/answer_shape_seat.js).
+  for (const raw of selfContainedFirst(sentences)) {
     const s = String(raw || '').trim();
     if (!s) continue;
     const n = countWords(s);
@@ -6243,7 +6245,7 @@ function loadNextStepsSponsor(citySlug) {
       ads,
       verticalKey
     );
-    writeFileEnsured(outPathForGlobal(route), trtAffiliates.applyToPageHtml(html, { verticalKey, kind: 'global', route }));
+    writeFileEnsured(outPathForGlobal(route), trtAffiliates.applyToPageHtml(seatAnswerShape(html, route), { verticalKey, kind: 'global', route }));
     fanoutRecords.push(fanout.buildFanoutCluster({
       verticalKey,
       pageKind: fanout.classifyPageKind({ route: route ? ('/' + route + '/') : '/' }),
@@ -6295,7 +6297,7 @@ function loadNextStepsSponsor(citySlug) {
         ads,
         verticalKey
       );
-      writeFileEnsured(outPathFor(city, route), trtAffiliates.applyToPageHtml(html, { verticalKey, kind: 'city', route, citySlug: city.slug }));
+      writeFileEnsured(outPathFor(city, route), trtAffiliates.applyToPageHtml(seatAnswerShape(html, route), { verticalKey, kind: 'city', route, citySlug: city.slug }));
       fanoutRecords.push(fanout.buildFanoutCluster({
         verticalKey,
         pageKind: 'city',

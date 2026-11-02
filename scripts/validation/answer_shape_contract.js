@@ -20,6 +20,9 @@
  *      "It is a required immigration medical examination" is a sentence about
  *      nothing once it is quoted on its own.
  *
+ * 1 and 4 are wording, so they are notes (owner ruling 2 Nov 2026); the
+ * generator produces them (scripts/lib/answer_shape_seat.js).
+ *
  * It also checks that the recommendation_summary block reached every page that
  * has an answer surface at all, since the two are seated by the same pass.
  *
@@ -39,7 +42,7 @@ const { hardFloor, judgeLength } = require('./lib/floors');
 const MIN_WORDS = 40;
 const MAX_WORDS = 60;
 const WITHIN_WORDS = 100;
-const DANGLING = /^(it|they|he|she|these|those|here|there|its|their|his|her)\b|^(this|that)\s+(is|was|are|were|can|will|would|should|does|did|has|have|means)\b/i;
+const { DANGLING } = require('../lib/answer_shape_seat');
 
 const text = (h) => String(h || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 const words = (h) => text(h).split(/\s+/).filter(Boolean);
@@ -63,6 +66,7 @@ const files = walk(OUT_DIR).filter((f) => !/(^|[\\/])404\.html$/.test(f)).sort()
 
 let problems = [];
 const notes = [];
+
 let checked = 0;
 let exempt = 0;
 let withSummaryBlock = 0;
@@ -80,7 +84,7 @@ for (const file of files) {
   const heads = [...before.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/gi)];
   const heading = heads.length ? text(heads[heads.length - 1][1]) : '';
   if (!heading) problems.push(`${rel}: answer span has no heading above it`);
-  else if (!heading.endsWith('?')) problems.push(`${rel}: heading is not a question: "${heading}"`);
+  else if (!heading.endsWith('?')) notes.push(`${rel}: heading is not a question: "${heading}"`);
 
   // 2. 40-60 words
   const n = words(m[1]).length;
@@ -97,7 +101,7 @@ for (const file of files) {
 
   // 4. self-contained opening
   const span = text(m[1]);
-  if (DANGLING.test(span)) problems.push(`${rel}: answer span opens with a pronoun pointing outside it: "${span.slice(0, 60)}..."`);
+  if (DANGLING.test(span)) notes.push(`${rel}: answer span opens with a pronoun pointing outside it: "${span.slice(0, 60)}..."`);
 
   if (html.includes('data-content-block="recommendation_summary"')) withSummaryBlock += 1;
   else problems.push(`${rel}: has an answer surface but no recommendation_summary block`);
