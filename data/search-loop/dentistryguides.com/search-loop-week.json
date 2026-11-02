@@ -1,8 +1,8 @@
 {
   "schema": "search-loop-week-v1",
-  "week": "2026-W44",
+  "week": "2026-W45",
   "site": "dentistryguides.com",
-  "generated_at": "2026-11-01T15:44:51.815Z",
+  "generated_at": "2026-11-02T15:45:08.035Z",
   "state": "running",
   "published": 0,
   "indexed": 0,
@@ -15,8 +15,9 @@
   "merged": 0,
   "notes": [
     "canonical side: new pages = missing guides only (velocity builds the daily pages); pace = min(engine pace, cadence 5/week)",
-    "not read: velocity missing-guide list (https://raw.githubusercontent.com/seq23/local-guides-citation-velocity/main/data/search-loop/missing-guides.json answered 404); the velocity repo has not published data/search-loop/missing-guides.json yet — the next run reads it"
+    "NAMED NOTE [FREE_MODEL_UNAVAILABLE] MISSING-GUIDE dentistryguides.com \"why does a tooth implant cost so much\" deferred to the next run: no free model answered; nothing generated (the router never falls back to a paid model) (nemotron-3-ultra-550b-a55b:free:503 Provider returned error; gemma-4-31b-it:free:429 Provider returned error; nemotron-3-super-120b-a12b:free:404 This model is unavailable for free. The paid version is available now - use this; gemma-4-26b-a4b-it:free:429 Provider returned error)",
+    "dentistryguides.com pace: held at 10/day: indexing not read (no loop guide is 14-42 days old yet)"
   ],
-  "run_url": "https://github.com/seq23/local-guides-generator/actions/runs/41322747372",
+  "run_url": "https://github.com/seq23/local-guides-generator/actions/runs/41474446207",
   "lead_path": "ok"
 }
