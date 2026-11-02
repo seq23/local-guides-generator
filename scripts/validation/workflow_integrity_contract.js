@@ -125,9 +125,16 @@ function run() {
     fail('rotate_vertical_refresh.js must call npm run refresh:verification');
   }
 
-  // rotate script must materialize pack context before refresh
-  if (!/node scripts\/build_city_sites\.js --page-set/.test(rotateScript)) {
-    fail('rotate_vertical_refresh.js must build/materialize the chosen page set before refresh:verification');
+  // rotate script must materialize the CHOSEN pack before refresh. It builds with
+  // `npm run build` and PAGE_SET_FILE set to the chosen page set: prepare_site.js
+  // reads PAGE_SET_FILE, while the `--page-set` flag this used to require was never
+  // read by build_city_sites.js, so the old form built whatever data/site.json held.
+  // The ordering of the page mutators inside that build is pinned by
+  // lastmod_hash_point_contract.js.
+  const buildAt = rotateScript.search(/run\('npm run build', \{\s*PAGE_SET_FILE: pageSetFile,/);
+  const refreshAt = rotateScript.indexOf("run('npm run refresh:verification'");
+  if (buildAt === -1 || refreshAt === -1 || buildAt > refreshAt) {
+    fail('rotate_vertical_refresh.js must build the chosen page set (npm run build with PAGE_SET_FILE: pageSetFile) before refresh:verification');
   }
 
   // rotate script must define page-set mappings for rotating verticals

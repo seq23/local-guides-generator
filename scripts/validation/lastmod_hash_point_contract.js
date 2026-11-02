@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 /**
- * Both build pipelines must hash a rendered page at the same point.
+ * Every pipeline that hashes a rendered page must hash it at the same point.
+ * (Three today: `npm run build`, build_all_packs.js, and the Rotating Refresh
+ * rotate step, scripts/automation/rotate_vertical_refresh.js.)
  *
  * The defect this exists to stop. scripts/lastmod_apply.js decides whether a
  * page's content changed by hashing it, so it has to run after every step that
@@ -74,6 +76,20 @@ function orderedSteps(text) {
   return out;
 }
 
+/**
+ * Inline each `npm run <name>` with that package.json script (plus its
+ * pre/post hooks, which npm runs with it), so a pipeline written as npm
+ * invocations is read as the scripts it actually runs, in order.
+ */
+function expandNpmRuns(text, scripts, depth = 0) {
+  if (depth > 4) return text;
+  return text.replace(/npm run ([A-Za-z0-9:_\-]+)/g, (whole, name) => {
+    if (!scripts[name]) return whole;
+    const parts = [scripts[`pre${name}`], scripts[name], scripts[`post${name}`]].filter(Boolean);
+    return expandNpmRuns(parts.join(' && '), scripts, depth + 1);
+  });
+}
+
 function checkPipeline(name, steps) {
   const hashAt = steps.indexOf(HASHER);
   if (hashAt === -1) fail(`${name} never runs ${HASHER}. Freshness dates would stay at the build clock.`);
@@ -107,15 +123,51 @@ function main() {
   const deploySteps = orderedSteps(deployPipeline);
   const packSteps = orderedSteps(allPacks);
 
-  checkPipeline('`npm run build` + postbuild (package.json)', deploySteps);
-  checkPipeline('scripts/build_all_packs.js', packSteps);
+  const rotatePath = path.join('scripts', 'automation', 'rotate_vertical_refresh.js');
+  if (!fs.existsSync(rotatePath)) fail(`${rotatePath} not found.`);
+  // Comments are stripped first: a comment that names `npm run build` must not
+  // count as running it.
+  const rotateCode = fs.readFileSync(rotatePath, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  const rotateSteps = orderedSteps(expandNpmRuns(rotateCode, pkg.scripts));
+
+  const pipelines = [
+    ['`npm run build` + postbuild (package.json)', deploySteps],
+    ['scripts/build_all_packs.js', packSteps],
+    [`${rotatePath} (Rotating Refresh "Rotate one vertical")`, rotateSteps],
+  ];
+  for (const [name, steps] of pipelines) {
+    // Zero steps read means the pipeline definition moved or the parser broke;
+    // that must never read as "nothing out of order".
+    if (!steps.length) fail(`${name}: no script steps could be read from its definition.`);
+    checkPipeline(name, steps);
+  }
+
+  // Every pipeline that hashes must run EVERY mutator the ledger's producer
+  // (build_all_packs.js) runs, before it hashes. "Not running" a mutator is the
+  // same defect as running it late: the page hashed is not the page the
+  // committed ledger recorded. That is the gap the Rotating Refresh rotate step
+  // fell through on 31 Oct and 2 Nov 2026 - it ran build_city_sites.js alone,
+  // then lastmod_apply.js, so it wrote a different hash with today's date, and
+  // the record step's --refresh-ledger restored the real hash but kept the date:
+  // 176 uscisexam.com entries advanced on unchanged content.
+  const packMutators = MUTATORS.filter((m) => packSteps.includes(m) && packSteps.indexOf(m) < packSteps.indexOf(HASHER));
+  if (!packMutators.length) fail('scripts/build_all_packs.js runs no page mutator before hashing: the parser or the pipeline broke.');
+  for (const [name, steps] of pipelines) {
+    const hashAt = steps.indexOf(HASHER);
+    const missing = packMutators.filter((m) => { const at = steps.indexOf(m); return at === -1 || at > hashAt; });
+    if (missing.length) {
+      fail(
+        `${name} hashes pages without first running ${missing.join(', ')}.\n` +
+        `    scripts/build_all_packs.js runs ${missing.length === 1 ? 'it' : 'them'} before ${HASHER}, so this pipeline hashes\n` +
+        `    a page the committed ledger never recorded: every page looks changed and gets today's\n` +
+        `    date, and the next ledger refresh keeps that date on the original hash.`
+      );
+    }
+  }
 
   // The specific pair that broke: both pipelines run these two, and their order
   // relative to each other is what the committed ledger depends on.
-  for (const [name, steps] of [
-    ['`npm run build` + postbuild (package.json)', deploySteps],
-    ['scripts/build_all_packs.js', packSteps],
-  ]) {
+  for (const [name, steps] of pipelines) {
     const robots = steps.indexOf('apply_robots_policy.js');
     const hash = steps.indexOf(HASHER);
     if (robots === -1) {
@@ -129,11 +181,12 @@ function main() {
   }
 
   console.log(
-    `✅ LASTMOD HASH POINT PASS — both pipelines hash after every mutator ` +
+    `✅ LASTMOD HASH POINT PASS — all three pipelines hash after every mutator ` +
     `(deploy: ${deploySteps.filter((s) => MUTATORS.includes(s)).join(' → ')} → ${HASHER}; ` +
-    `build_all_packs: ${packSteps.filter((s) => MUTATORS.includes(s)).join(' → ')} → ${HASHER}).`
+    `build_all_packs: ${packSteps.filter((s) => MUTATORS.includes(s)).join(' → ')} → ${HASHER}; ` +
+    `rotate: ${rotateSteps.filter((s) => MUTATORS.includes(s)).join(' → ')} → ${HASHER}).`
   );
 }
 
 if (require.main === module) main();
-module.exports = { orderedSteps, MUTATORS, HASHER };
+module.exports = { orderedSteps, expandNpmRuns, MUTATORS, HASHER };
