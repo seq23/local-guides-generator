@@ -138,3 +138,24 @@ test('cadence: the weekly cap blocks the publish lane and is a warning in the me
   assert.equal(r.status, 1);
   assert.match(r.stdout, /BLOCK +no_freshness_signal/);
 });
+
+test('answer wording: a label heading or a pronoun opening is a note, and the generator produces the shape', (t) => {
+  const { seatAnswerShape, selfContainedFirst } = require('../../scripts/lib/answer_shape_seat');
+  const dir = tmp(t, 'wording');
+  const page = (heading, span) => `<main><h1>USCIS medical exam: costs</h1><h2>${heading}</h2>` +
+    `<p data-citation-summary-answer="true">${span}</p><div data-content-block="recommendation_summary"></div></main>`;
+  const pronoun = `It is ${words(40, 'exam')}`;
+  fs.writeFileSync(path.join(dir, 'index.html'), page('Short answer', pronoun));
+  const r = node('scripts/validation/answer_shape_contract.js', { env: { PAGES_OUT_DIR: dir } });
+  assert.equal(r.status, 0, r.stdout);
+  assert.match(r.stdout, /NOTE .*heading is not a question/);
+  assert.match(r.stdout, /NOTE .*opens with a pronoun/);
+  // Render-time: the label becomes the house question; a page in shape is untouched.
+  const seated = seatAnswerShape(page('Short answer', 'The exam costs money.'), 'guides/x');
+  assert.match(seated, /<h2>USCIS medical exam: what should you know before you decide\?<\/h2>/);
+  const inShape = page('What does it cost?', 'The exam costs money.');
+  assert.equal(seatAnswerShape(inShape, 'guides/x'), inShape);
+  // Composition: a span never opens on a dangling sentence.
+  assert.deepEqual(selfContainedFirst(['It is required.', 'The I-693 exam is required.', 'Bring records.']),
+    ['The I-693 exam is required.', 'It is required.', 'Bring records.']);
+});

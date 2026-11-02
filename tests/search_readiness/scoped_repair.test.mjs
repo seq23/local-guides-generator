@@ -156,7 +156,13 @@ test('repaired local guides reject duplicate H1s, missing answers, missing table
     assert.deepEqual(shapeProblems(good, slug), []);
     assert.match(shapeProblems(good.replace('</h1>', '</h1><section><h1>Nested title</h1></section>'), slug).join(), /expected one H1, found 2/);
     assert.match(shapeProblems(good.replace(/<h1>.*?<\/h1>/, ''), slug).join(), /expected one H1, found 0/);
-    assert.match(shapeProblems(good.replace('Quick answer', 'More information'), slug).join(), /no Quick answer H2/);
+    // Wording, so a note; the generator seats the H2 (scripts/lib/answer_shape_seat.js).
+    const { shapeNotes } = require('../../scripts/validation/guide_word_floor_contract');
+    const { seatAnswerShape } = require('../../scripts/lib/answer_shape_seat');
+    const h3 = good.replace('<h2 id="quick-answer">Quick answer</h2>', '<h3 id="quick-answer">Quick answer</h3>');
+    assert.deepEqual(shapeProblems(h3, slug), []);
+    assert.deepEqual(shapeNotes(h3), ['no Quick answer H2']);
+    assert.deepEqual(shapeNotes(seatAnswerShape(`<main>${h3}</main>`, `guides/${slug}`)), []);
     assert.match(shapeProblems(good.replace('page_kind=guide', 'page_kind=city'), slug).join(), /no intake CTA/);
     assert.match(shapeProblems(good.replace(`guides/${slug}`, 'guides/another-guide'), slug).join(), /no intake CTA/);
     assert.match(shapeProblems(good + '<script>{"@type":"FAQPage"}</script>', slug).join(), /more than one FAQPage/);
