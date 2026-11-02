@@ -146,7 +146,7 @@ function main() {
   // (build_all_packs.js) runs, before it hashes. "Not running" a mutator is the
   // same defect as running it late: the page hashed is not the page the
   // committed ledger recorded. That is the gap the Rotating Refresh rotate step
-  // fell through on 31 Oct and 2 Nov 2026 - it ran build_city_sites.js alone,
+  // fell through on 1 and 2 Nov 2026 - it ran build_city_sites.js alone,
   // then lastmod_apply.js, so it wrote a different hash with today's date, and
   // the record step's --refresh-ledger restored the real hash but kept the date:
   // 176 uscisexam.com entries advanced on unchanged content.

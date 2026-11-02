@@ -96,7 +96,7 @@ ensureSiteJsonBootstrapped(chosen.key);
 // looked changed, and lastmod_apply.js wrote that different hash with today's
 // date. The record step's `build_all_packs.js --refresh-ledger` then put the
 // real hash back but kept today's date: 176 uscisexam.com entries moved lastmod
-// forward on unchanged content (31 Oct and 2 Nov 2026, run 41454308802), which
+// forward on unchanged content (1 and 2 Nov 2026, runs 41311930760 and 41454308802), which
 // lastmod_date_invariant_contract.js caught. It also passed `--page-set`, a flag
 // build_city_sites.js never read, so the pack built was whatever data/site.json
 // held, not the vertical the rotation chose. PAGE_SET_FILE is what
