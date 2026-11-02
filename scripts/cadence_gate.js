@@ -48,7 +48,15 @@
  * substantive refresh, and it is worth seeing rather than being rewarded by the
  * freshness rules above.
  *
- * Usage: node cadence_gate.js [--json] [--policy path]
+ * Lanes. The weekly cap limits how fast pages are PUBLISHED, so it is held in
+ * the publish lane only (the default; the search loop's gate in
+ * .github/workflows/search-loop.yml runs it that way). In the merge gate
+ * (`--lane merge`, .github/workflows/validate.yml) a weekly_cap breach is a
+ * warning: a pull request that adds pages is not a publishing spree, and the
+ * cap blocked 53 PR "Validate" runs for a reason no reader would notice
+ * (owner ruling 2 Nov 2026). Every other condition blocks in both lanes.
+ *
+ * Usage: node cadence_gate.js [--json] [--policy path] [--lane publish|merge]
  */
 'use strict';
 const fs = require('fs');
@@ -57,6 +65,15 @@ const path = require('path');
 const ROOT = process.cwd();
 const args = process.argv.slice(2);
 const JSON_ONLY = args.includes('--json');
+const LANE = (() => {
+  const i = args.indexOf('--lane');
+  const lane = i >= 0 ? args[i + 1] : 'publish';
+  if (!['publish', 'merge'].includes(lane)) {
+    console.error(`CADENCE GATE: unknown --lane "${lane}" (publish or merge)`);
+    process.exit(2);
+  }
+  return lane;
+})();
 const policyPath = (() => {
   const i = args.indexOf('--policy');
   return i >= 0 ? args[i + 1] : 'data/cadence/policy.json';
@@ -184,7 +201,9 @@ if (ledgerExists && newUrls.length > policy.new_pages_per_week) {
     }
   }
   if (refused.length) {
-    blocking.push(`weekly_cap: ${newUrls.length} URLs are new since the last run, cap is ${policy.new_pages_per_week} per week - ${refused.join('; ')}`);
+    const msg = `weekly_cap: ${newUrls.length} URLs are new since the last run, cap is ${policy.new_pages_per_week} per week - ${refused.join('; ')}`;
+    if (LANE === 'publish') blocking.push(msg);
+    else warnings.push(`${msg} (merge lane: reported only; the publish lane holds the cap)`);
   }
 }
 for (const u of expansionsUsed) warnings.push(`approved_expansion: ${u}`);
@@ -220,6 +239,7 @@ if (dated.length && fresh30 === 0) {
 function report_date() { return today.toISOString().slice(0, 10); }
 const report = {
   generated_at: today.toISOString().slice(0, 10),
+  lane: LANE,
   policy_source: policy._source,
   urls: urls.size,
   dated: dated.length,
@@ -258,7 +278,7 @@ fs.writeFileSync(path.join(ROOT, 'reports/cadence/cadence-gate.json'), JSON.stri
 
 if (JSON_ONLY) console.log(JSON.stringify(report, null, 2));
 else {
-  console.log(`CADENCE GATE ${report.status}: ${urls.size} urls; ${stale} past ${policy.refresh_window_days}d (${report.stale_pct}%); ${fresh30} fresh within ${policy.high_value_window_days}d; ceiling ${ceiling}`);
+  console.log(`CADENCE GATE ${report.status} (${LANE} lane): ${urls.size} urls; ${stale} past ${policy.refresh_window_days}d (${report.stale_pct}%); ${fresh30} fresh within ${policy.high_value_window_days}d; ceiling ${ceiling}`);
   for (const b of blocking) console.log(`  BLOCK  ${b}`);
   for (const w of warnings) console.log(`  WARN   ${w}`);
 }

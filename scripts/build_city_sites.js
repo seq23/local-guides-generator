@@ -76,7 +76,7 @@ const { getPackSiteConfig, getPackKeyFromPageSet, PARENT_COMPANY, CONTACT_EMAIL 
 const entityGraph = require("./lib/entity_graph");
 const internalQueryPolicy = require("./lib/internal_query_policy");
 const siteLeadForm = require("./lib/site_lead_form");
-const { brandedTitle } = require("./lib/search_readiness_policy");
+const { brandedTitle, fitLength, DESC_MAX } = require("./lib/search_readiness_policy");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -4360,7 +4360,7 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
   // meta_description) so the visible heading can stay short. Length and uniqueness are enforced by
   // scripts/validation/meta_length_uniqueness_contract.js (Bing rules 114/118, 25 Sep 2026).
   const headTitle = brandedTitle(page.meta_title ? applyCityTokens(page.meta_title, city).split("%%BRAND_NAME%%").join(brandName) : title, siteUrl, brandName);
-  const headDescription = page.meta_description ? applyCityTokens(page.meta_description, city).split("%%BRAND_NAME%%").join(brandName) : description;
+  const headDescription = fitLength(page.meta_description ? applyCityTokens(page.meta_description, city).split("%%BRAND_NAME%%").join(brandName) : description, DESC_MAX);
   const globalPagesDir = loadGlobalPagesDir(pageSet);
 
   let mainHtml = applyCityTokens(page.main_html, city);
@@ -4853,7 +4853,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     throw new Error('Global page ' + (globalPage.route || '/') + ' uses %%TOPIC%% but the page set has no seoTopic');
   }
   const headTitle = brandedTitle(globalPage.meta_title ? applyMetaTokens(globalPage.meta_title) : title, siteUrl, brandName, route);
-  const headDescription = globalPage.meta_description ? applyMetaTokens(globalPage.meta_description) : description;
+  const headDescription = fitLength(globalPage.meta_description ? applyMetaTokens(globalPage.meta_description) : description, DESC_MAX);
   const globalPagesDir = loadGlobalPagesDir(pageSet);
   const distributionCities = loadCities(pageSet, verticalKey).slice(0, 5);
 

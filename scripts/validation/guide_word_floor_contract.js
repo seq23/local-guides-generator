@@ -36,6 +36,10 @@
  * named guide back under the floor, and a named guide that has stopped rendering
  * at all.
  *
+ * The floor is a target. Per lib/floors.js (owner ruling 2 Nov 2026) a guide
+ * fails only under 75% of it (1,350 words); between that and 1,800 it is a
+ * note, because a guide a few hundred words short is not a stub a reader sees.
+ *
  * Usage: LKG_VALIDATE_DIST=1 PAGE_SET_FILE=<pack> node scripts/validation/guide_word_floor_contract.js
  * Runs in the hard_fail tier, which scripts/build_all_packs.js invokes once per
  * pack against that pack's own dist.
@@ -44,7 +48,16 @@ const fs = require('fs');
 const path = require('path');
 const { decode, visibleWordCount } = require('./lib/visible_words');
 
+const { hardFloor } = require('./lib/floors');
+
 const FLOOR = 1800;
+const FAIL_UNDER = hardFloor(FLOOR);
+const notes = [];
+function noteShort(label, rows) {
+  if (!rows.length) return;
+  console.log(`NOTE: ${rows.length} ${label} under the ${FLOOR}-word target but at or above ${FAIL_UNDER}, not blocking:`);
+  for (const r of rows.sort((a, b) => a.words - b.words)) console.log(`    /guides/${r.slug}/  ${r.words} words`);
+}
 
 // Packs whose /guides/ pages are all over the floor and must stay there.
 const ENFORCED = ['dentistry_v1.json'];
@@ -228,7 +241,8 @@ function checkProven(pack, pages) {
     if (!page) { absent.push(slug); continue; }
     const html = fs.readFileSync(page.file, 'utf8');
     const words = visibleWordCount(html);
-    if (words < FLOOR) under.push({ slug, words });
+    if (words < FAIL_UNDER) under.push({ slug, words });
+    else if (words < FLOOR) notes.push({ slug, words });
     if (HOUSE_SHAPE.has(slug)) {
       for (const problem of shapeProblems(html, slug)) malformed.push(`/guides/${slug}/: ${problem}`);
     }
@@ -236,9 +250,9 @@ function checkProven(pack, pages) {
   if (under.length || absent.length || malformed.length) {
     const lines = [];
     if (under.length) {
-      lines.push(`${under.length} guide(s) named in PROVEN for ${pack} fell back under the ${FLOOR}-word floor:`);
+      lines.push(`${under.length} guide(s) named in PROVEN for ${pack} fell under ${FAIL_UNDER} words (75% of the ${FLOOR}-word floor):`);
       for (const u of under.sort((a, b) => a.words - b.words)) {
-        lines.push(`    /guides/${u.slug}/  ${u.words} words  (needs ${FLOOR - u.words} more)`);
+        lines.push(`    /guides/${u.slug}/  ${u.words} words  (needs ${FAIL_UNDER - u.words} more to stop failing)`);
       }
     }
     if (absent.length) {
@@ -252,6 +266,7 @@ function checkProven(pack, pages) {
     lines.push('edit this gate does not accept.');
     fail(lines);
   }
+  noteShort(`PROVEN guide(s) for ${pack}`, notes.splice(0));
   return proven.length;
 }
 
@@ -286,20 +301,23 @@ function main() {
 
   if (!enforced) {
     const why = PENDING[pack] ? `its guides are under the floor (${PENDING[pack]})` : 'it is not a known pack';
-    console.log(`✅ GUIDE WORD FLOOR PARTIAL — pack "${pack}" is not enforced (${why}), but ${measured} guide(s) named in PROVEN are rendered and at or above ${FLOOR} words.`);
+    console.log(`✅ GUIDE WORD FLOOR PARTIAL — pack "${pack}" is not enforced (${why}), but ${measured} guide(s) named in PROVEN are rendered and at or above ${FAIL_UNDER} words.`);
     return;
   }
 
   const short = [];
+  const near = [];
   for (const page of pages) {
     const words = visibleWordCount(fs.readFileSync(page.file, 'utf8'));
-    if (words < FLOOR) short.push({ slug: page.slug, words });
+    if (words < FAIL_UNDER) short.push({ slug: page.slug, words });
+    else if (words < FLOOR) near.push({ slug: page.slug, words });
   }
+  noteShort(`${pack} guide(s)`, near);
 
   if (short.length) {
-    const lines = [`${short.length} of ${pages.length} ${pack} guide(s) are under the ${FLOOR}-word floor (Search Readiness item j3):`];
+    const lines = [`${short.length} of ${pages.length} ${pack} guide(s) are under ${FAIL_UNDER} words, 75% of the ${FLOOR}-word floor (Search Readiness item j3):`];
     for (const s of short.sort((a, b) => a.words - b.words)) {
-      lines.push(`    /guides/${s.slug}/  ${s.words} words  (needs ${FLOOR - s.words} more)`);
+      lines.push(`    /guides/${s.slug}/  ${s.words} words  (needs ${FAIL_UNDER - s.words} more to stop failing)`);
     }
     lines.push('');
     lines.push('Add the substance the guide is missing to its data/page_sets/examples/<pack>_global_pages/');
@@ -308,9 +326,9 @@ function main() {
   }
 
   const lowest = Math.min(...pages.map((p) => visibleWordCount(fs.readFileSync(p.file, 'utf8'))));
-  console.log(`✅ GUIDE WORD FLOOR PASS — ${pages.length} ${pack} guide(s), all at or above ${FLOOR} words (lowest ${lowest}).`);
+  console.log(`✅ GUIDE WORD FLOOR PASS — ${pages.length} ${pack} guide(s), none under ${FAIL_UNDER} words, ${near.length} under the ${FLOOR} target (lowest ${lowest}).`);
 }
 
 if (require.main === module) main();
 
-module.exports = { shapeProblems };
+module.exports = { shapeProblems, FLOOR, FAIL_UNDER };

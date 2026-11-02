@@ -4,10 +4,12 @@
 //
 // What it guards
 // --------------
-// 1. Every rendered, served HTML page has a <title> of 30-70 characters (Bing
-//    Site Scan flags "Title too long" above 70).
-// 2. Every rendered, served HTML page has a <meta name="description"> of
-//    110-160 characters.
+// 1. Every rendered, served HTML page has a <title> of at least 75% of 30
+//    characters, and a <meta name="description"> of at least 75% of 110
+//    (lib/floors.js, owner ruling 2 Nov 2026). A near miss, or anything over
+//    the 70 / 160 targets, is a note: the generator trims over-long copy
+//    (scripts/lib/search_readiness_policy.js fitLength).
+// 2. Scoped sites name their brand in the title.
 // 3. No two self-canonical pages share a title, and no two share a description.
 //
 // Why it exists
@@ -26,6 +28,7 @@
 const fs = require('fs');
 const path = require('path');
 const { scoped } = require('../lib/search_readiness_policy');
+const { hardFloor, judgeLength } = require('./lib/floors');
 
 const TITLE_MIN = 30;
 const TITLE_MAX = 70;
@@ -113,6 +116,7 @@ function main() {
   const titles = new Map();
   const descs = new Map();
   let examined = 0;
+  const notes = [];
 
   for (const file of files) {
     if (SKIP_FILES.has(path.basename(file)) && path.dirname(file) === distRoot) continue;
@@ -130,11 +134,11 @@ function main() {
     const dm = html.match(/<meta\s+name=["']description["']\s+content=(["'])([\s\S]*?)\1/i);
     const desc = dm ? decodeEntities(dm[2]).replace(/\s+/g, ' ').trim() : '';
 
-    if (title.length < TITLE_MIN || title.length > TITLE_MAX) {
-      failures.push(`${route}: title ${title.length} chars (want ${TITLE_MIN}-${TITLE_MAX}): "${title}"`);
-    }
-    if (desc.length < DESC_MIN || desc.length > DESC_MAX) {
-      failures.push(`${route}: description ${desc.length} chars (want ${DESC_MIN}-${DESC_MAX}): "${desc}"`);
+    for (const [kind, value, min, max] of [['title', title, TITLE_MIN, TITLE_MAX], ['description', desc, DESC_MIN, DESC_MAX]]) {
+      const verdict = judgeLength(value.length, min, max);
+      const line = `${route}: ${kind} ${value.length} chars (target ${min}-${max}, fails under ${hardFloor(min)}): "${value}"`;
+      if (verdict === 'fail') failures.push(line);
+      else if (verdict === 'note') notes.push(line);
     }
 
     const cm = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"'\s>]*)["']/i);
@@ -157,12 +161,16 @@ function main() {
   for (const [t, routes] of titles) if (routes.length > 1) failures.push(`duplicate title x${routes.length} "${t}": ${routes.slice(0, 5).join(', ')}`);
   for (const [d, routes] of descs) if (routes.length > 1) failures.push(`duplicate description x${routes.length} "${d}": ${routes.slice(0, 5).join(', ')}`);
 
+  if (notes.length) {
+    console.log(`NOTE: ${notes.length} title/description length(s) off target, not blocking:`);
+    for (const n of notes.slice(0, 20)) console.log('  ' + n);
+  }
   if (failures.length) {
     console.error(`FAIL: meta length/uniqueness contract - ${failures.length} problem(s) across ${examined} pages`);
     for (const f of failures.slice(0, 400)) console.error('  ' + f);
     process.exit(1);
   }
-  console.log(`OK: meta length/uniqueness contract (${examined} pages; titles ${TITLE_MIN}-${TITLE_MAX}, descriptions ${DESC_MIN}-${DESC_MAX}, all unique).`);
+  console.log(`OK: meta length/uniqueness contract (${examined} pages; no title under ${hardFloor(TITLE_MIN)} or description under ${hardFloor(DESC_MIN)} chars, all unique; ${notes.length} length note(s)).`);
 }
 
 main();
