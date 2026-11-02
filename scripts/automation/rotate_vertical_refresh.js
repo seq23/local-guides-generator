@@ -90,7 +90,7 @@ ensureSiteJsonBootstrapped(chosen.key);
 // lastmod_apply.js below hashes the page that ships.
 //
 // What this replaced, and what it cost. This used to run build_city_sites.js
-// alone, skipping retrofit_recommendation_summary, install_clarity,
+// alone, without retrofit_recommendation_summary, install_clarity,
 // install_site_head_assets and apply_robots_policy (which rewrites <main>). So
 // this step hashed a different page than the ledger's producer did, every page
 // looked changed, and lastmod_apply.js wrote that different hash with today's
