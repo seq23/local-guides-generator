@@ -1,17 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-// minCount is the guide count after the 26 Oct 2026 thin-guide consolidation
-// (trt 50 -> 29, pi 34 -> 22, neuro 31 -> 27, uscis 15 -> 9; dentistry kept all
-// 23), raised to the real floor so losing even one guide fails. A guide may only
-// leave by becoming a legacyRedirects source of its pack whose target is a guide
-// still in this directory; checkRetired() below enforces that both ways.
+// Exact retained routes come from the reviewed kept ledger. Zero routes fail;
+// disappearing and unexpected guides both fail, regardless of the count.
 const RULES = {
-  dentistry: { dir: 'data/page_sets/examples/dentistry_global_pages', pack: 'data/page_sets/examples/dentistry_v1.json', minCount: 23, minWords: 260 },
-  neuro: { dir: 'data/page_sets/examples/neuro_global_pages', pack: 'data/page_sets/examples/neuro_v1.json', minCount: 27, minWords: 220 },
-  trt: { dir: 'data/page_sets/examples/trt_global_pages', pack: 'data/page_sets/examples/trt_v1.json', minCount: 29, minWords: 220 },
-  pi: { dir: 'data/page_sets/examples/pi_global_pages', pack: 'data/page_sets/examples/pi_v1.json', minCount: 22, minWords: 260 },
-  uscis_medical: { dir: 'data/page_sets/examples/uscis_medical_global_pages', pack: 'data/page_sets/examples/uscis_medical_v1.json', minCount: 9, minWords: 220 }
+  dentistry: { dir: 'data/page_sets/examples/dentistry_global_pages', pack: 'data/page_sets/examples/dentistry_v1.json', minWords: 260 },
+  neuro: { dir: 'data/page_sets/examples/neuro_global_pages', pack: 'data/page_sets/examples/neuro_v1.json', minWords: 220 },
+  trt: { dir: 'data/page_sets/examples/trt_global_pages', pack: 'data/page_sets/examples/trt_v1.json', minWords: 220 },
+  pi: { dir: 'data/page_sets/examples/pi_global_pages', pack: 'data/page_sets/examples/pi_v1.json', minWords: 260 },
+  uscis_medical: { dir: 'data/page_sets/examples/uscis_medical_global_pages', pack: 'data/page_sets/examples/uscis_medical_v1.json', minWords: 220 }
 };
 
 // The section ids every guide of a vertical carries: the canonical guide shape. One list, read
@@ -88,8 +85,11 @@ function run() {
       return;
     }
     const files = fs.readdirSync(dir).filter((f) => f.endsWith('.json') && !['guides.json', 'home.json'].includes(f));
-    if (files.length < rule.minCount) issues.push(`${vertical}: expected at least ${rule.minCount} guide/detail files, found ${files.length}`);
+    const kept = JSON.parse(fs.readFileSync(path.join(repoRoot, 'data/page_quality/kept_guides.json'), 'utf8'))[vertical];
+    if (!Array.isArray(kept) || !kept.length) issues.push(`${vertical}: retained guide ledger is empty`);
     const routes = new Set(files.map((file) => String(JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')).route || '')));
+    for (const route of kept || []) if (!routes.has(route)) issues.push(`${vertical}: retained guide missing: ${route}`);
+    for (const route of routes) if (!(kept || []).includes(route)) issues.push(`${vertical}: guide is not in the reviewed kept ledger: ${route}`);
     checkRetired(repoRoot, vertical, rule, routes, issues);
     files.forEach((file) => {
       const fp = path.join(dir, file);

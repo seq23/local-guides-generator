@@ -44,7 +44,7 @@ const SITES = {
       ['Exam fee', 'How much does an I-693 exam usually cost?', '/guides/costs-and-timeframes/'],
       ['Vaccines', 'Are vaccinations included in the exam cost?', '/guides/uscis-vaccination-requirements/'],
       ['How long it takes', 'How long does the exam process take?', '/guides/costs-and-timeframes/'],
-      ['Who can sign', 'Who is allowed to perform an I-693 exam?', '/guides/i-693-medical-exam-requirements/'],
+      ['Who can sign', 'Who is allowed to perform an I-693 exam?', '/guides/document-checklist/'],
       ['How long it stays valid', null, '/guides/i-693-form-instructions/']
     ],
     verify: 'Verify the designation on the USCIS locator, then ask: fee scope, lab handling, and how the sealed form is returned.'

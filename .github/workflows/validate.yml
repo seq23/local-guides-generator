@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: seq23/search-loop
-          ref: v1
+          ref: 569a5be18e851fafedea729b729a4621fd102d46 # compatible pace API; immutable v1.2.6
           path: .search-loop-engine
       - name: Canonical search loop (missing guides, gate, cadence cap, report shape)
         run: npm run test:search-loop

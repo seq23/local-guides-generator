@@ -103,7 +103,7 @@ function bylineHtml(key) {
     const names = reviewers.map((r) => `${escapeHtml(r.name)}, ${escapeHtml(r.credential)}`).join('; ');
     return `\n    <p class="page-byline" data-page-byline="reviewed">Reviewed by ${names} · <a href="/editorial-policy/">How we verify</a></p>`;
   }
-  return `\n    <p class="page-byline" data-page-byline="editorial-desk">By the ${escapeHtml(e.name)} editorial desk · <a href="/editorial-policy/">How we verify</a></p>`;
+  return `\n    <p class="page-byline" data-page-byline="editorial-desk">Published by ${escapeHtml(e.parentOrganization.name)} · ${escapeHtml(e.name)} · <a href="/editorial-policy/">How we verify</a></p>`;
 }
 
 module.exports = {
