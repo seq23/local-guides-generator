@@ -88,6 +88,38 @@ function getTopicLabel(ctx) {
   return explicitTitle || titleCase(slugToWords(ctx.route));
 }
 
+// The SUBJECT of a page, short enough to sit inside a search phrase.
+//
+// getTopicLabel() returns a guide's whole headline, and a guide headline names
+// everything the guide covers: "How Families Pay for Assisted Living: Private
+// Pay, Insurance, VA Benefits, the House, and TennCare CHOICES" is 16 words.
+// Three fan-out entries then printed that headline verbatim inside a query
+// phrase ("questions to ask about <headline>", "red flags for <headline>", and
+// the primary route's own entry), so with the H1 the same 8-word span appeared
+// on the page four times and the Monday quality sample read the page as
+// template filler (memphisseniorcarehomes.com/guides/how-families-pay-for-
+// assisted-living/ "how families pay for assisted living private pay" x4,
+// Search Readiness q1, 3 Nov 2026).
+//
+// Nobody searches a 16-word headline, so the long form was never earning the
+// repetition. The subject is the headline up to its first colon or dash - the
+// part before the enumeration - and then, if that is still long, up to its
+// first comma, capped at MAX_SUBJECT_WORDS. A headline that is already short
+// is returned unchanged, so every other pack's entries read as they did.
+//
+// Guarded by scripts/validation/fanout_subject_length_contract.js.
+const MAX_SUBJECT_WORDS = 8;
+
+function getTopicSubject(ctx) {
+  const topic = getTopicLabel(ctx);
+  const words = (s) => String(s).trim().split(/\s+/).filter(Boolean);
+  if (words(topic).length <= MAX_SUBJECT_WORDS) return topic;
+  let subject = topic.split(/\s*[:–—]\s+|\s+[-]\s+/)[0].trim();
+  if (words(subject).length > MAX_SUBJECT_WORDS) subject = subject.split(/\s*,\s*/)[0].trim();
+  if (words(subject).length > MAX_SUBJECT_WORDS) subject = words(subject).slice(0, MAX_SUBJECT_WORDS).join(' ');
+  return subject || topic;
+}
+
 
 function interpolateTemplate(value, ctx) {
   const raw = String(value || '');
@@ -95,11 +127,16 @@ function interpolateTemplate(value, ctx) {
     market: String(ctx.marketLabel || '').trim(),
     state: String(ctx.stateName || '').trim(),
     topic: getTopicLabel(ctx),
+    // The short form of {topic}, for a query phrase that wraps the subject. See
+    // getTopicSubject(): a guide headline naming everything it covers is not a
+    // search anyone types, and printing it inside three entries made the page
+    // read as template filler.
+    subject: getTopicSubject(ctx),
     route: routeWithSlash(ctx.route),
     verticalNoun: getVerticalNoun(ctx.verticalKey),
     verticalPlural: getVerticalPlural(ctx.verticalKey)
   };
-  return raw.replace(/\{(market|state|topic|route|verticalNoun|verticalPlural)\}/g, (_, key) => replacements[key] || '');
+  return raw.replace(/\{(market|state|topic|subject|route|verticalNoun|verticalPlural)\}/g, (_, key) => replacements[key] || '');
 }
 
 function normalizeOverrideItems(items) {
@@ -226,6 +263,7 @@ function defaultClusterItems(ctx) {
   const noun = getVerticalNoun(ctx.verticalKey);
   const plural = getVerticalPlural(ctx.verticalKey);
   const topic = getTopicLabel(ctx);
+  const subject = getTopicSubject(ctx);
   const route = routeWithSlash(ctx.route);
   const verticalKey = String(ctx.verticalKey || '').trim().toLowerCase();
   const isNeuro = verticalKey === 'neuro';
@@ -322,21 +360,33 @@ function defaultClusterItems(ctx) {
 
   if (ctx.pageKind === 'guide-detail') {
     return [
-      { groupId: 'primary', groupLabel: 'Primary route', query: topic, href: route, label: 'This guide' },
-      { groupId: 'primary', groupLabel: 'Primary route', query: `what to know about ${topic}`, href: route, label: 'This guide' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${topic}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `red flags for ${topic}`, href: routeSet ? routeSet.redFlags : '/guides/#red-flags', label: 'Red-flags cluster' },
-      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${topic}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
+      { groupId: 'primary', groupLabel: 'Primary route', query: subject, href: route, label: 'This guide' },
+      { groupId: 'primary', groupLabel: 'Primary route', query: `what to know about ${subject}`, href: route, label: 'This guide' },
+      // ONE entry prepends the subject, not three. The page's own route has to
+      // stay (see dedupeSelfReferentialItems) and the H1 already names the
+      // subject, so a third and fourth copy is what the quality sample reads as
+      // filler. No destination is dropped to get there: the red-flags entry
+      // keeps its route and asks about the vertical instead of this page's
+      // subject. Dropping the row outright was tried and cost the pi pack its
+      // only entry pointing at /guides/, which its required-destination list
+      // names (fanout_distribution_contract.js).
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${subject}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `red flags when choosing a ${noun}`, href: routeSet ? routeSet.redFlags : '/guides/#red-flags', label: 'Red-flags cluster' },
+      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${subject}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
   if (ctx.pageKind === 'global-detail') {
     return [
-      { groupId: 'primary', groupLabel: 'Primary route', query: topic, href: route, label: 'This page' },
-      { groupId: 'primary', groupLabel: 'Primary route', query: `what should I know about ${topic}`, href: route, label: 'This page' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `how to compare options for ${topic}`, href: routeSet ? routeSet.choose : '/guides/', label: 'Guides hub' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${topic}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
-      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${topic}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
+      { groupId: 'primary', groupLabel: 'Primary route', query: subject, href: route, label: 'This page' },
+      { groupId: 'primary', groupLabel: 'Primary route', query: `what should I know about ${subject}`, href: route, label: 'This page' },
+      // As above: one entry prepends the subject, and the guides-hub entry keeps
+      // its route with a query about the vertical rather than this page's
+      // subject. /guides/ is a required fanout destination for the pi pack and
+      // this is the entry that supplies it.
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `how to compare ${plural}`, href: routeSet ? routeSet.choose : '/guides/', label: 'Guides hub' },
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${subject}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
+      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${subject}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
@@ -350,7 +400,7 @@ function defaultClusterItems(ctx) {
   }
 
   return [
-    { groupId: 'primary', groupLabel: 'Related search paths', query: topic || `${plural} guide`, href: route, label: 'This page' },
+    { groupId: 'primary', groupLabel: 'Related search paths', query: subject || `${plural} guide`, href: route, label: 'This page' },
     { groupId: 'next', groupLabel: 'Related search paths', query: `find a ${noun}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
   ];
 }
@@ -378,6 +428,25 @@ function classifyPageKind(ctx) {
 // (hormonesivhair.com/guides/beauty-peptides-for-skin-hair-and-appearance/ x4,
 // Search Readiness q1, 3 Nov 2026). Keeping the first and dropping the rest leaves
 // the primary route counted exactly once, which is what it is.
+//
+// Keeping one was still one too many on a page whose subject is already short.
+// getTopicSubject() cut the long headlines down, but a guide titled "How to
+// Choose a Senior Care Home in Memphis" is eight words to begin with, so the
+// subject went on reading as the same 8-word phrase in every entry carrying it -
+// the self-referential one, "questions to ask about <subject>" and "red flags
+// for <subject>" - and with the H1 that is four, which the sample reads as
+// filler (memphisseniorcarehomes.com/guides/how-to-choose-a-senior-care-home-
+// memphis/ x4, /guides/questions-to-ask-on-a-tour/ x5, and three more on the
+// same site, all pre-existing and all live).
+//
+// The entry that goes is NOT the self-referential one. Dropping that was tried
+// first and fanout_distribution_contract.js caught it: three trt guides
+// (/guides/ultimate-guide-to-peptides/, /guides/hair-loss-aesthetic-vs-hormonal/
+// and /guides/how-to-find-a-peptide-provider/) appear in the cluster payload
+// ONLY as their own primary route, so removing it removed the only entry that
+// reaches them and the contract failed on three missing required destinations.
+// A page's own route is load-bearing here; defaultClusterItems() drops one of the
+// prepended entries instead.
 function dedupeSelfReferentialItems(items, ownRoute) {
   const self = routeWithSlash(ownRoute);
   let kept = false;

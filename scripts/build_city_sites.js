@@ -3503,15 +3503,26 @@ function renderRequestAssistanceDetailLinkHtml() {
 // the only thing that genuinely differs between these pages.
 // Guarded by scripts/validation/next_steps_definition_contract.js, which counts the
 // words and requires the copula on every rendered next-steps page.
-function renderNextStepsDefinitionHtml(marketScoped, marketLabel) {
+function renderNextStepsDefinitionHtml(marketScoped, marketLabel, subjectTopic) {
   const subject = marketScoped
     ? 'This next-steps page for ' + escapeHtml(marketLabel)
     : 'This next-steps page';
+  // The subject the page is about, from the pack's own seoTopic ("senior care in
+  // Memphis", "USCIS medical exams"). Naming it is what makes the opening answer
+  // the title's question: the title of /<city>/next-steps/ is "Next: <city> |
+  // <brand>", and a definition that named only the town matched the town and
+  // nothing else, so the auditor's d1 check - at least half the title's words
+  // inside the first 100 - failed on every city and hospital next-steps page
+  // (Search Readiness q1, 3 Nov 2026: millington-tn, methodist-university-
+  // hospital and bartlett-tn all "the first 100 words do not answer the title's
+  // question"). A pack with no seoTopic keeps the sentence it had.
+  const topic = String(subjectTopic || '').trim();
+  const forTopic = topic ? ' for ' + escapeHtml(topic) : '';
   return '<p class="muted" data-next-steps-definition="true">' + subject +
-    ' is the decision hub that gathers the three ways out of research and into action:' +
-    ' the provider callback form, the education-first guides on cost and timing, and the' +
-    ' self-serve lookup tools, so you can request contact, keep comparing, or verify the' +
-    ' details yourself.</p>';
+    ' is the decision hub' + forTopic + ': it gathers the three ways out of research and' +
+    ' into action, the provider callback form, the education-first guides on cost and' +
+    ' timing, and the self-serve lookup tools, so you can request contact, keep comparing,' +
+    ' or verify the details yourself.</p>';
 }
 
 function renderDedicatedNextStepsHubHtml(opts) {
@@ -3536,7 +3547,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
     '<section class="hero" data-next-steps-page-hero="true">' +
       '<p class="kicker">Next steps</p>' +
       '<h1>' + escapeHtml(pageTitle) + '</h1>' +
-      renderNextStepsDefinitionHtml(marketScoped, marketLabel) +
+      renderNextStepsDefinitionHtml(marketScoped, marketLabel, opts && opts.subjectTopic) +
     '</section>' +
     '<section class="section next-steps-page-shell" data-next-steps-page-shell="true">' +
       '<div class="card" data-next-steps-page-intro="true">' +
@@ -3574,7 +3585,14 @@ function renderDedicatedNextStepsHubHtml(opts) {
         '<li>Use the comparison path when you still need to review costs, timing, or questions to ask.</li>' +
         '<li>Use the lookup tools path when you want the fastest self-serve route before you submit anything.</li>' +
       '</ul>' +
-      '<p class="muted" data-next-steps-routing="true">The same routing system can capture all three paths while keeping the public experience useful and education-first.</p>' +
+      // The routing explainer, which citation_routing_contract.js and
+      // next_steps_cta_contract.js both require by its marker. It used to read
+      // "The same routing system can capture all three paths while keeping the
+      // public experience useful and education-first" - a sentence about how the
+      // site is built, printed to a family choosing care, on 57 pages per pack.
+      // The marker stays; the words now answer the question a reader actually has
+      // at this point, which is what happens to what they type.
+      '<p class="muted" data-next-steps-routing="true">The form below is the only thing on this page that asks for your details, and only when you submit it; the guides and the lookup tools are free to read without entering anything.</p>' +
     '</section>' +
     requestAssistanceHtml
   );
@@ -3950,9 +3968,40 @@ function renderStateAuthorityBlockHtml(stateName, cityCount) {
 }
 
 
-function renderGuideTopModule(route, contractEntry, enhancement) {
+// A guide's enhancement registry entry holds five curated sentences (best, key,
+// mistake, good, ask) and FOUR blocks were printing from the same five: the
+// citation-summary lede (best + key + mistake), the speakable opening block
+// (best + key), this top module (best + key + mistake + ask) and the custom-core
+// section (key + good + mistake + ask). So one sentence appeared on the page
+// three or four times under four different labels, and the Monday quality sample
+// read the page as template filler
+// (memphisseniorcarehomes.com/guides/how-families-pay-for-assisted-living/:
+// "use this guide when your family is working" x4 and "most families combine
+// several sources income and savings" x4, Search Readiness q1, 3 Nov 2026).
+//
+// The lede is the answer span answer_shape_contract.js measures and
+// .guide-opening-block is a registered speakable selector, so neither can give
+// its sentences up. This module's rows can: a row whose sentence is already on
+// the page is a label change, not information, so it is dropped. The section,
+// its heading and its data-guide-top-module-type marker always stay - that is
+// what phase2_rendered_answer_shapes.js requires - and a module left with no row
+// falls back to the one row whose label the type is named for, so no type
+// renders empty.
+//
+// Guarded by scripts/validation/guide_top_module_dedupe_contract.js.
+function alreadyOnPage(html, sentence) {
+  const norm = (s) => String(s || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim().toLowerCase();
+  const needle = norm(sentence);
+  if (!needle || needle.length < 25) return false;
+  return norm(html).includes(needle);
+}
+
+function renderGuideTopModule(route, contractEntry, enhancement, pageHtml) {
   if (!contractEntry || !contractEntry.top_module_type) return "";
   const topType = contractEntry.top_module_type;
+  // A row is kept when its sentence is not already printed on the page above.
+  const fresh = (sentence) => !alreadyOnPage(String(pageHtml || ''), sentence);
+  const row = (sentence, markup) => (fresh(sentence) ? markup : '');
   const heading = escapeHtml((enhancement && enhancement.heading) || 'Quick decision support');
   const best = escapeHtml((enhancement && enhancement.best) || 'Use this page to get the direct answer first, then decide what to ask or compare next.');
   const key = escapeHtml((enhancement && enhancement.key) || 'The goal is to surface the answer shape that LLMs and real users both look for first.');
@@ -3963,37 +4012,42 @@ function renderGuideTopModule(route, contractEntry, enhancement) {
   let inner = '';
   if (topType === 'top_checklist') {
     inner = '<ul class="top-module-checklist">' +
-      '<li><strong>Use this page when:</strong> ' + best + '</li>' +
-      '<li><strong>Check first:</strong> ' + key + '</li>' +
-      '<li><strong>Slow down if:</strong> ' + mistake + '</li>' +
-      '<li><strong>What to confirm next:</strong> ' + ask + '</li>' +
+      (row(best, '<li><strong>Use this page when:</strong> ' + best + '</li>') ||
+       (!fresh(key) && !fresh(mistake) && !fresh(ask) ? '<li><strong>Use this page when:</strong> ' + best + '</li>' : '')) +
+      row(key, '<li><strong>Check first:</strong> ' + key + '</li>') +
+      row(mistake, '<li><strong>Slow down if:</strong> ' + mistake + '</li>') +
+      row(ask, '<li><strong>What to confirm next:</strong> ' + ask + '</li>') +
       '</ul>';
   } else if (topType === 'top_comparison_table') {
     inner = '<table class="top-module-table"><thead><tr><th>Decision factor</th><th>What to compare</th></tr></thead><tbody>' +
-      '<tr><td>Best use case</td><td>' + best + '</td></tr>' +
-      '<tr><td>Main tradeoff</td><td>' + key + '</td></tr>' +
-      '<tr><td>Common mistake</td><td>' + mistake + '</td></tr>' +
-      '<tr><td>Question to ask</td><td>' + ask + '</td></tr>' +
+      (row(best, '<tr><td>Best use case</td><td>' + best + '</td></tr>') ||
+       (!fresh(key) && !fresh(mistake) && !fresh(ask) ? '<tr><td>Best use case</td><td>' + best + '</td></tr>' : '')) +
+      row(key, '<tr><td>Main tradeoff</td><td>' + key + '</td></tr>') +
+      row(mistake, '<tr><td>Common mistake</td><td>' + mistake + '</td></tr>') +
+      row(ask, '<tr><td>Question to ask</td><td>' + ask + '</td></tr>') +
       '</tbody></table>';
   } else if (topType === 'top_timeline') {
     inner = '<ol class="top-module-timeline">' +
-      '<li><strong>Start:</strong> ' + best + '</li>' +
-      '<li><strong>Then compare:</strong> ' + key + '</li>' +
-      '<li><strong>Watch for:</strong> ' + mistake + '</li>' +
-      '<li><strong>Before you book:</strong> ' + ask + '</li>' +
+      (row(best, '<li><strong>Start:</strong> ' + best + '</li>') ||
+       (!fresh(key) && !fresh(mistake) && !fresh(ask) ? '<li><strong>Start:</strong> ' + best + '</li>' : '')) +
+      row(key, '<li><strong>Then compare:</strong> ' + key + '</li>') +
+      row(mistake, '<li><strong>Watch for:</strong> ' + mistake + '</li>') +
+      row(ask, '<li><strong>Before you book:</strong> ' + ask + '</li>') +
       '</ol>';
   } else if (topType === 'top_cost_table') {
     inner = '<table class="top-module-table"><thead><tr><th>Cost question</th><th>What matters</th></tr></thead><tbody>' +
-      '<tr><td>What are you really comparing?</td><td>' + best + '</td></tr>' +
-      '<tr><td>What changes total cost?</td><td>' + key + '</td></tr>' +
-      '<tr><td>Where people get burned</td><td>' + mistake + '</td></tr>' +
-      '<tr><td>What to ask before paying</td><td>' + ask + '</td></tr>' +
+      (row(best, '<tr><td>What are you really comparing?</td><td>' + best + '</td></tr>') ||
+       (!fresh(key) && !fresh(mistake) && !fresh(ask) ? '<tr><td>What are you really comparing?</td><td>' + best + '</td></tr>' : '')) +
+      row(key, '<tr><td>What changes total cost?</td><td>' + key + '</td></tr>') +
+      row(mistake, '<tr><td>Where people get burned</td><td>' + mistake + '</td></tr>') +
+      row(ask, '<tr><td>What to ask before paying</td><td>' + ask + '</td></tr>') +
       '</tbody></table>';
   } else if (topType === 'top_decision_tree') {
     inner = '<ul class="top-module-decision-tree">' +
-      '<li><strong>If the page still feels too broad:</strong> use the next question path: ' + ask + '</li>' +
-      '<li><strong>If the fit sounds strong:</strong> ' + good + '</li>' +
-      '<li><strong>If the page raises concern:</strong> ' + mistake + '</li>' +
+      (row(ask, '<li><strong>If the page still feels too broad:</strong> use the next question path: ' + ask + '</li>') ||
+       (!fresh(good) && !fresh(mistake) ? '<li><strong>If the page still feels too broad:</strong> use the next question path: ' + ask + '</li>' : '')) +
+      row(good, '<li><strong>If the fit sounds strong:</strong> ' + good + '</li>') +
+      row(mistake, '<li><strong>If the page raises concern:</strong> ' + mistake + '</li>') +
       '</ul>';
   } else if (topType === 'top_question_script') {
     inner = '<div class="top-module-script"><p><strong>Use these questions:</strong></p><ol>' +
@@ -4003,7 +4057,12 @@ function renderGuideTopModule(route, contractEntry, enhancement) {
       '<li>What do people usually misunderstand here?</li>' +
       '</ol></div>';
   } else {
-    inner = '<div class="top-module-verdict"><p><strong>Direct answer:</strong> ' + best + '</p><p><strong>Why:</strong> ' + key + '</p><p><strong>Best next move:</strong> ' + ask + '</p></div>';
+    inner = '<div class="top-module-verdict">' +
+      (row(best, '<p><strong>Direct answer:</strong> ' + best + '</p>') ||
+       (!fresh(key) && !fresh(ask) ? '<p><strong>Direct answer:</strong> ' + best + '</p>' : '')) +
+      row(key, '<p><strong>Why:</strong> ' + key + '</p>') +
+      row(ask, '<p><strong>Best next move:</strong> ' + ask + '</p>') +
+      '</div>';
   }
   return '<section class="section guide-section guide-top-module" data-guide-section="true" data-guide-top-module="true" data-guide-top-module-type="' + escapeHtml(topType) + '">' +
     '<h2>' + heading + '</h2>' +
@@ -4863,6 +4922,7 @@ function stripForbiddenInlineBlocks(html) {
   if (route === 'next-steps') {
     mainHtml = renderDedicatedNextStepsHubHtml({
       marketLabel: city.marketLabel || city.slug,
+      subjectTopic: (pageSet && pageSet.seoTopic) || '',
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
@@ -5323,7 +5383,7 @@ if (route === 'admin') {
     }
 
     if (guideShapeContract && !out.includes('data-guide-top-module="true"')) {
-      const topModule = renderGuideTopModule(route, guideShapeContract, enhancement);
+      const topModule = renderGuideTopModule(route, guideShapeContract, enhancement, out);
       if (topModule) {
         if (out.includes('data-guide-opening="true"')) out = out.replace(/(<section class="section guide-section guide-opening-block[\s\S]*?<\/section>)/i, '$1\n' + topModule + '\n');
         else if (out.includes('<article class="guide-article"')) out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + topModule + '\n');
@@ -5535,6 +5595,7 @@ if (route === 'admin') {
     mainHtml = renderDedicatedNextStepsHubHtml({
       marketLabel: brandName,
       marketScoped: false,
+      subjectTopic: (pageSet && pageSet.seoTopic) || '',
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
@@ -6677,6 +6738,7 @@ function loadNextStepsSponsor(citySlug) {
 
       const mainHtml = (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.') : '') + renderDedicatedNextStepsHubHtml({
         marketLabel: stateName,
+        subjectTopic: (pageSet && pageSet.seoTopic) || '',
         pageTitle: title,
         compareHref: '/guides/?intent=decision_hub&button=next_steps_page_compare&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         toolsHref: '/faq/?intent=self_serve&button=next_steps_page_tools&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
