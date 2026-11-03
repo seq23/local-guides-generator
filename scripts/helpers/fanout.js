@@ -416,8 +416,36 @@ function classifyPageKind(ctx) {
 // (hormonesivhair.com/guides/beauty-peptides-for-skin-hair-and-appearance/ x4,
 // Search Readiness q1, 3 Nov 2026). Keeping the first and dropping the rest leaves
 // the primary route counted exactly once, which is what it is.
-function dedupeSelfReferentialItems(items, ownRoute) {
+//
+// Keeping one was still one too many on a page whose subject is already short.
+// getTopicSubject() cut the long headlines down, but a guide titled "How to
+// Choose a Senior Care Home in Memphis" is eight words to begin with, so the
+// subject went on reading as an 8-word phrase in all three entries that carry it
+// - the self-referential one, "questions to ask about <subject>" and "red flags
+// for <subject>" - and with the H1 that is four, which the sample reads as
+// filler (memphisseniorcarehomes.com/guides/how-to-choose-a-senior-care-home-
+// memphis/ x4, /guides/questions-to-ask-on-a-tour/ x5, and three more on the
+// same site, all pre-existing and all live).
+//
+// The entry that goes is the self-referential one. "Related search paths" is a
+// list of routes OUT of this page, and a row linking the page you are already on,
+// labelled with that page's own title, is the one row in it that can never be a
+// next step for a reader. The two prepended entries are phrases somebody could
+// actually search, so they stay, which leaves the subject on the page three times
+// and under the repeat threshold.
+//
+// The page's route is NOT lost to the contracts: it is still the href of every
+// in-page anchor the distribution manifest reads, and a detail page keeps the
+// entries pointing at the hub, the FAQ and the red-flags cluster, so
+// fanout_distribution_contract.js's generic-destination share is measured over
+// the same routes as before minus one own-route row.
+const SELF_LINK_KINDS = new Set(['guide-detail', 'global-detail']);
+
+function dedupeSelfReferentialItems(items, ownRoute, pageKind) {
   const self = routeWithSlash(ownRoute);
+  if (SELF_LINK_KINDS.has(String(pageKind || ''))) {
+    return items.filter((item) => routeWithSlash(item && item.href) !== self);
+  }
   let kept = false;
   return items.filter((item) => {
     if (routeWithSlash(item && item.href) !== self) return true;
@@ -436,7 +464,8 @@ function buildFanoutCluster(ctx, pageSet) {
       }
       return item;
     }),
-    enriched.route
+    enriched.route,
+    enriched.pageKind
   );
   const groups = [];
   const byGroup = new Map();
