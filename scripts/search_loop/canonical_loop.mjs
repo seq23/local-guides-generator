@@ -27,6 +27,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import * as P from './pace.mjs';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 
@@ -47,7 +48,9 @@ export async function loadEngine(dir = process.env.SEARCH_LOOP_ENGINE_DIR || pat
   const src = path.join(path.resolve(dir), 'src');
   if (!fs.existsSync(path.join(src, 'check.mjs'))) throw Object.assign(new Error(`NAMED STOP [ENGINE_MISSING] the search-loop engine is not checked out at ${dir} (the workflow checks out seq23/search-loop@v1 there; locally set SEARCH_LOOP_ENGINE_DIR)`), { code: 1 });
   const m = async (n) => import(pathToFileURL(path.join(src, n)).href);
-  const [config, check, report, pace, util, mode, build, gate, ledger, llm] = await Promise.all(['config.mjs', 'check.mjs', 'report.mjs', 'pace.mjs', 'util.mjs', 'mode.mjs', 'build.mjs', 'gate.mjs', 'ledger.mjs', 'llm.mjs'].map(m));
+  const [config, check, report, util, mode, build, gate, ledger, llm] = await Promise.all(['config.mjs', 'check.mjs', 'report.mjs', 'util.mjs', 'mode.mjs', 'build.mjs', 'gate.mjs', 'ledger.mjs', 'llm.mjs'].map(m));
+  // The engine retired pace.mjs in v1.3.0; the canonical side keeps its own (./pace.mjs).
+  const pace = { currentPace: P.currentPace, nextPace: (cfg, cur, sample, now) => P.nextPace(cfg, cur, sample, now, util.isoWeek) };
   return { config, check, report, pace, util, mode, build, gate, ledger, llm };
 }
 
@@ -64,7 +67,7 @@ export function siteConfigs(E, raw, root = ROOT) {
   for (const s of raw.sites || []) {
     const c = { ...shared, ...s, schema: E.config.CONFIG_SCHEMA };
     for (const p of E.config.checkConfig(c)) problems.push(`${s.site}: ${p}`);
-    const cfg = { ...E.config.DEFAULTS, ...c, pace: { ...E.config.DEFAULTS.pace, ...(raw.pace || {}) }, root, ledger_dir: path.join(raw.ledger_root || 'data/search-loop', s.site) };
+    const cfg = { ...E.config.DEFAULTS, ...c, pace: { ...P.PACE_DEFAULTS, ...(raw.pace || {}) }, root, ledger_dir: path.join(raw.ledger_root || 'data/search-loop', s.site) };
     out.push(cfg);
   }
   if (!out.length) problems.push('sites: at least one site');
@@ -392,7 +395,7 @@ export async function checkRepair(E, sites, { mode, notes, chatImpl = chat, fetc
     const window = book.pages.filter((p) => p.status === 'live' && E.util.daysBetween(p.published_at, today) >= site.pace.index_window_days && E.util.daysBetween(p.published_at, today) <= 42);
     const sample = window.length && window.every((p) => p.inspected_at) ? { measured: window.length, indexed: window.filter((p) => p.indexed).length, source: 'Search Console URL Inspection (rotating_refresh.yml)' } : { measured: window.length, indexed: null, reason: window.length ? 'not every page 14-42 days old has been inspected yet' : 'no loop guide is 14-42 days old yet' };
     const pace = E.pace.nextPace(site, E.pace.currentPace(site, L), sample, now);
-    if (pace.reason !== 'already evaluated this week') { L.write('pace', pace.pace); notes.push(`${site.site} pace: ${pace.reason}`); }
+    if (pace.reason !== 'already evaluated this week') { P.writePace(L, pace.pace); notes.push(`${site.site} pace: ${pace.reason}`); }
 
     // Checkpoints and decisions: the engine's code.
     for (const p of book.pages.filter((x) => x.status === 'live')) {
