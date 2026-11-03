@@ -88,7 +88,20 @@ function run() {
     });
   });
   if (cardsSeen === 0) {
-    throw new Error('PROVIDER CARD CONTRACT FAIL\n - dist/ has no provider card: nothing was checked, which is not a pass');
+    // Not every pack renders a provider directory - senior_living lists facilities
+    // and binders instead - so zero cards is only a lie if the pack put a directory
+    // section on a page without any cards in it. That is checked; "no directory at
+    // all" is a named skip, the same shape shared_sources_hash_contract.js uses.
+    const emptyDirs = [];
+    for (const fp of files) {
+      const html = fs.readFileSync(fp, 'utf8');
+      if (directorySections(html).length) emptyDirs.push(path.relative(distDir, fp));
+    }
+    if (emptyDirs.length) {
+      throw new Error('PROVIDER CARD CONTRACT FAIL\n' + emptyDirs.map((f) => ` - ${f}: renders a provider directory section with no provider card in it`).join('\n'));
+    }
+    console.log(`\u2139\uFE0F PROVIDER CARD CONTRACT SKIP - the pack in dist/ renders no provider directory across ${files.length} page(s)`);
+    return;
   }
   if (bad.length) throw new Error('PROVIDER CARD CONTRACT FAIL\n' + bad.map((b) => ' - ' + b).join('\n'));
   console.log(`✅ provider card contract pass (${cardsSeen} card(s))`);

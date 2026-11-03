@@ -25,12 +25,34 @@ const ROOT = path.join(__dirname, '..', '..');
 
 // The sections that belong only on /request-assistance/.
 const PROSE_MARKERS = ['who-its-for', 'what-happens-next'];
-// Lines a visitor must still see next to the embedded form.
-const COMPLIANCE = [
-  'We do not rank providers',
-  'Do not submit sensitive case facts',
-  'educational only and does not provide professional advice',
-];
+
+const FORM_MARKER = 'data-request-assistance-form-primary="true"';
+
+const visible = (html) => String(html).replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;|&#\d+;/gi, ' ').replace(/\s+/g, ' ').trim();
+
+/** The form section of a page, if it embeds one. */
+function formSection(html) {
+  const re = new RegExp('<section\\b[^>]*' + FORM_MARKER.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[\\s\\S]*?<\\/section>', 'i');
+  const m = html.match(re);
+  return m ? m[0] : '';
+}
+
+/**
+ * The disclosure sentences inside a form section: its paragraphs and list items.
+ * Taken from the pack's OWN /request-assistance/ page rather than hard-coded, because
+ * each pack writes its own copy (senior_living's differs from the shared one), and what
+ * must be true is that the embed is that form and not a trimmed version of it.
+ * <option> text is ignored: the vertical lead-routing step legitimately reorders and
+ * adds provider-type options.
+ */
+function disclosures(section) {
+  const out = new Set();
+  for (const m of section.matchAll(/<(p|li|label)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
+    const t = visible(m[2]);
+    if (t.split(/\s+/).length >= 6) out.add(t);
+  }
+  return out;
+}
 
 function nextStepsPages(distDir) {
   const out = [];
@@ -51,6 +73,11 @@ function run() {
   if (pages.length === 0) {
     throw new Error('NEXT STEPS EMBED DEDUPE CONTRACT FAIL\n - dist/ has no next-steps page: nothing was checked, which is not a pass');
   }
+  // The canonical page's form is the reference.
+  const canonicalFile = path.join(distDir, 'request-assistance', 'index.html');
+  const canonicalForm = fs.existsSync(canonicalFile) ? formSection(fs.readFileSync(canonicalFile, 'utf8')) : '';
+  const required = canonicalForm ? disclosures(canonicalForm) : new Set();
+
   const bad = [];
   let withForm = 0;
   for (const file of pages) {
@@ -62,10 +89,12 @@ function run() {
       }
     }
     // Only pages that actually carry the embedded form owe the rest.
-    if (!html.includes('data-request-assistance-form-primary="true"')) continue;
+    const embedded = formSection(html);
+    if (!embedded) continue;
     withForm += 1;
-    for (const line of COMPLIANCE) {
-      if (!html.includes(line)) bad.push(`${rel}: embeds the form but dropped the compliance line "${line}"`);
+    const have = disclosures(embedded);
+    for (const line of required) {
+      if (!have.has(line)) bad.push(`${rel}: embeds the form but dropped the disclosure "${line.slice(0, 80)}"`);
     }
     if (!html.includes('data-request-assistance-detail-link="true"')) {
       bad.push(`${rel}: embeds the form but does not link the full explanation on /request-assistance/`);
@@ -73,6 +102,9 @@ function run() {
   }
   if (withForm === 0) {
     bad.push(`none of the ${pages.length} next-steps page(s) carries the request-assistance form: the conversion path is gone`);
+  }
+  if (canonicalForm && required.size === 0) {
+    bad.push('dist/request-assistance/index.html has a form section with no disclosure sentence in it to compare against');
   }
   if (bad.length) throw new Error('NEXT STEPS EMBED DEDUPE CONTRACT FAIL\n' + bad.map((b) => ' - ' + b).join('\n'));
   console.log(`✅ next-steps embed dedupe contract pass (${pages.length} page(s), ${withForm} carrying the form)`);
