@@ -104,6 +104,24 @@ console.log(`SITE HYGIENE REGISTRY CONTRACT PASS (${reg.build_steps.length} step
       const hit = redirectRows.find((r) => String(r.from || '').replace(/\/+$/, '') === from);
       if (!c.redirect_to || !hit) fail(`${dir}: folded ${c.route} has no legacyRedirects row in any pack`);
       if (hit.to !== c.redirect_to) fail(`${dir}: folded ${c.route} redirects to ${hit.to}, ledger says ${c.redirect_to}`);
+      // A folded GENERATED route has no source file to delete - the renderer stopped
+      // producing it (build_city_sites.js isFoldedRoute, reading this same ledger).
+      // What has to be true instead is that the build really does not write it any
+      // more, so a fold cannot be recorded while the page keeps shipping.
+      if (c.generated_route === true) {
+        if (c.source !== null) fail(`${dir}: folded ${c.route} is a generated route, so its source must be null, not ${JSON.stringify(c.source)}`);
+        if (!c.generated_by) fail(`${dir}: folded generated route ${c.route} does not say what used to build it (generated_by)`);
+        const built = path.join(ROOT, 'dist', String(c.route).replace(/^\/+/, ''), 'index.html');
+        // Only meaningful while this host's pack is the one in dist/.
+        const distHost = (() => {
+          try { return String(JSON.parse(read('data/site.json')).siteUrl || '').replace(/^https?:\/\//, '').replace(/\/.*$/, ''); } catch { return ''; }
+        })();
+        if (distHost === site.host && fs.existsSync(built)) {
+          fail(`${dir}: folded ${c.route} is recorded as 301'd away but the build still writes ${path.relative(ROOT, built)}`);
+        }
+        foldedTotal += 1;
+        continue;
+      }
       // A folded list row is recorded as <list file>#<slug>: the row must be gone from that list.
       const [srcFile, srcRow] = String(c.source || '').split('#');
       if (srcRow) {

@@ -1497,6 +1497,47 @@ function packBuildsStateNextStepsPages(verticalKey) {
   return isPersonalInjury(verticalKey);
 }
 
+// Routes this site has folded into a hub: generated pages the consolidation
+// ledger records as 301'd away (`folded[]` with generated_route: true in
+// data/search_intelligence/<host>/consolidation_candidates.json).
+//
+// A folded route must stop being BUILT, stop being LINKED and start being
+// REDIRECTED, all from one list, for the reason the comment on
+// packBuildsStateNextStepsPages() records: when the href and the page are decided
+// separately the build ships CTAs to pages it never wrote. The ledger is that one
+// list, the pack's legacyRedirects carries the 301, and
+// scripts/validation/site_hygiene_registry_contract.js fails the build if a folded
+// row has no matching redirect or is still produced in dist/.
+const _foldedRoutesByHost = new Map();
+function foldedGeneratedRoutes() {
+  // The active pack's host, resolved the same way reviewedByForPack() resolves its
+  // pack, so every caller reads one list without having to carry siteUrl.
+  const cfg = getPackSiteConfig(process.env.PAGE_SET_FILE || '');
+  const host = String((cfg && cfg.siteUrl) || '').replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/^www\./, '');
+  if (!host) return new Set();
+  if (_foldedRoutesByHost.has(host)) return _foldedRoutesByHost.get(host);
+  const out = new Set();
+  const p = path.join(DATA_DIR, 'search_intelligence', host, 'consolidation_candidates.json');
+  try {
+    if (fs.existsSync(p)) {
+      for (const row of (readJson(p).folded || [])) {
+        if (row && row.generated_route === true && row.route) {
+          out.add('/' + String(row.route).replace(/^\/+|\/+$/g, '') + '/');
+        }
+      }
+    }
+  } catch (e) {
+    throw new Error('build_city_sites: ' + host + ' consolidation ledger is unreadable, so folded routes cannot be honoured: ' + e.message);
+  }
+  _foldedRoutesByHost.set(host, out);
+  return out;
+}
+
+function isFoldedRoute(route) {
+  const r = '/' + String(route || '').replace(/^\/+|\/+$/g, '') + '/';
+  return foldedGeneratedRoutes().has(r);
+}
+
 // --- Authority-safe Connection Bubble (conversion layer) ---
 // Provider type labels are contract-locked (must match request page enum exactly).
 function providerTypeLabelForVertical(verticalKey) {
@@ -1613,8 +1654,13 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
   // The base path is now chosen by page kind against what the build actually
   // writes, and scripts/validation/link_audit.js hard-fails the build if any of
   // these resolve to a file the same build did not produce.
-  const stateAbbrForNextSteps = (pageKind === 'state' && packBuildsStateNextStepsPages(verticalKey))
+  const stateAbbrCandidate = (pageKind === 'state' && packBuildsStateNextStepsPages(verticalKey))
     ? ((String(src).match(/^\/states\/([A-Za-z]{2})\//) || [])[1] || '')
+    : '';
+  // A state whose next-steps page has been folded away keeps no link to it: the
+  // CTA falls through to the shared /next-steps/ hub below.
+  const stateAbbrForNextSteps = (stateAbbrCandidate && !isFoldedRoute('states/' + stateAbbrCandidate.toUpperCase() + '/next-steps'))
+    ? stateAbbrCandidate
     : '';
   let nextStepsBasePath;
   if (isTrainingBuild) {
@@ -3430,11 +3476,16 @@ function stripRequestAssistanceDuplicateProse(requestAssistanceHtml) {
 }
 
 // The one link that replaces them, so the copy is still reachable from the hub.
+// Wrapped in a section on purpose: reorderMainSections() rebuilds <main> from its
+// <section> elements, so a loose paragraph appended after the embedded form was
+// dropped from all 48 /states/<ST>/next-steps/ pages while surviving on the city
+// ones (caught by next_steps_embed_dedupe_contract.js, 3 Nov 2026).
 function renderRequestAssistanceDetailLinkHtml() {
-  return '<p class="muted" data-request-assistance-detail-link="true">' +
+  return '<section class="section" data-request-assistance-detail="true">' +
+    '<p class="muted" data-request-assistance-detail-link="true">' +
     'What this routing request is for, who it suits, what happens after you submit it and the' +
     ' limits that apply are set out in full on <a href="/request-assistance/">the request a' +
-    ' provider callback page</a>.</p>';
+    ' provider callback page</a>.</p></section>';
 }
 
 // The definition paragraph under the next-steps H1.
@@ -6908,6 +6959,8 @@ function loadNextStepsSponsor(citySlug) {
     for (const ab of piStateAbbrs) {
       const s = selectPiStateSponsor(ab);
       if (!shouldRenderDeterministicNextSteps(pageSet, { pageType: 'state', route: '/states/' + ab + '/' })) continue;
+      // Folded into the state hub and 301'd there (consolidation ledger).
+      if (isFoldedRoute('states/' + ab + '/next-steps')) continue;
       const html = renderPiStateNextStepsPageHtml(ab, s);
       writeFileEnsured(outPathForPiStateNextSteps(ab), html);
     }
