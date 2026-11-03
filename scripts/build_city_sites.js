@@ -2138,8 +2138,27 @@ function buildWebPageSchema(siteUrl, brandName, city, route, title, description)
     dateModified: BUILD_ISO,
     url: buildCanonical(siteUrl, city, route),
     isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...authorForPack(siteUrl, brandName),
     ...reviewedByForPack()
   };
+}
+
+// The page's AUTHOR is the publication's editorial desk, which is exactly what
+// the visible byline says ("By the <brand> editorial desk", entity_graph.bylineHtml).
+// Guide and city-hub pages already declared it through their Article node, so the
+// Monday quality sample scored them c6 PASS; /<city>/next-steps/ and /states/<ST>/
+// pages carry only a WebPage node, which had no author at all, so the same honest
+// byline read as "no named author or reviewer is visible" (Search Readiness q1,
+// 3 Nov 2026, theaccidentguides + hormonesivhair + uscisexam + neuroevalguides).
+//
+// This names the ORGANISATION, never a person. reviewedByForPack() above is the
+// only thing that may name a human, and only from data/entity/<pack>/reviewers.json
+// with written consent on file - those files ship empty on purpose and a page never
+// claims a credentialed reviewer who has not agreed in writing.
+function authorForPack(siteUrl, brandName) {
+  const name = String(brandName || '').trim();
+  if (!name) return {};
+  return { author: { "@type": "Organization", name, url: String(siteUrl || '').replace(/\/+$/, "") + "/" } };
 }
 // reviewedBy appears only for a reviewer in data/entity/<pack>/reviewers.json
 // with written consent on file. That file ships empty: no person is ever
@@ -2159,12 +2178,24 @@ function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description)
     dateModified: BUILD_ISO,
     url: buildCanonicalGlobal(siteUrl, route),
     isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...authorForPack(siteUrl, brandName),
     ...reviewedByForPack(),
     // Homepage: the definition paragraph under the H1 and the short-answer FAQ
     // are the read-aloud surface. validate:homepage-definition checks that every
     // selector here resolves on the rendered page.
     ...(String(route || "").replace(/^\/+|\/+$/g, "") === "" ? {
       speakable: { "@type": "SpeakableSpecification", cssSelector: HOME_SPEAKABLE_SELECTORS }
+    } : {}),
+    // A guide page's read-aloud surface is its short answer block and its FAQ -
+    // the same two slots the homepage exposes. Every /guides/<slug>/ page carries
+    // both, but none of them declared a speakable node, so an answer engine had
+    // nothing marked to quote and the Monday sample scored every sampled guide
+    // "a guide page with no speakable markup" (Search Readiness q1, 3 Nov 2026:
+    // dentistryguides 4 of 5 sampled guides, plus neuroevalguides, hormonesivhair
+    // and uscisexam). validate:guide-speakable resolves every selector below
+    // against each rendered guide page, so this list cannot drift from the markup.
+    ...(/^guides\/.+/.test(String(route || "").replace(/^\/+|\/+$/g, "")) ? {
+      speakable: { "@type": "SpeakableSpecification", cssSelector: GUIDE_SPEAKABLE_SELECTORS }
     } : {})
   };
 }
@@ -2172,6 +2203,10 @@ function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description)
 // Read from the registry so the selectors the page declares and the selectors
 // scripts/validation/homepage_definition_contract.js resolves are one list.
 const HOME_SPEAKABLE_SELECTORS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'contracts', 'site_hygiene_registry.json'), 'utf8')).speakable_selectors;
+
+// Same contract for guide pages: scripts/validation/guide_speakable_contract.js
+// resolves every selector in this list against each rendered /guides/<slug>/ page.
+const GUIDE_SPEAKABLE_SELECTORS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'contracts', 'site_hygiene_registry.json'), 'utf8')).guide_speakable_selectors;
 
 function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description) {
   return {
@@ -3358,6 +3393,74 @@ function stripRequestAssistanceHero(requestAssistanceHtml) {
   return String(requestAssistanceHtml || '').replace(/<section class="hero ra-hero"[\s\S]*?<\/section>/i, '');
 }
 
+// The two explanatory sections of /request-assistance/ that the next-steps hubs
+// used to embed verbatim: "What this tool does / Who this is for / What this tool
+// is not" and "What happens after submission / What to submit / Important limits".
+//
+// 344 words of them shipped byte-for-byte on all 57 next-steps pages of every
+// pack, which is why two city next-steps pages picked at random came back 77%
+// identical and the Monday sample scored them template filler (Search Readiness
+// q1, 3 Nov 2026: uscisexam des-moines-ia / portland-or / columbia-sc, plus
+// theaccidentguides, neuroevalguides and hormonesivhair). It also pointed 57
+// near-copies of that copy at the canonical /request-assistance/ page, which is
+// the page that actually owns it.
+//
+// What stays is the form itself (data-request-assistance-form-primary), and with
+// it every compliance line a visitor needs before submitting: the consent
+// checkbox and its "educational only and does not provide professional advice"
+// wording, "We do not rank providers, and we do not guarantee outcomes,
+// availability, or response time", "Do not submit sensitive case facts, health
+// history, or legal details on this page", and the fallback contact address.
+// Nothing load-bearing is dropped; the longer explanation now lives once, on the
+// page it belongs to, one click away.
+// Guarded by scripts/validation/next_steps_embed_dedupe_contract.js.
+const REQUEST_ASSISTANCE_PROSE_SECTIONS = ['who-its-for', 'what-happens-next'];
+
+function stripRequestAssistanceDuplicateProse(requestAssistanceHtml) {
+  let out = String(requestAssistanceHtml || '');
+  for (const marker of REQUEST_ASSISTANCE_PROSE_SECTIONS) {
+    out = out.replace(
+      new RegExp('<section\\b[^>]*data-request-assistance-' + marker + '="true"[\\s\\S]*?<\\/section>', 'i'),
+      ''
+    );
+  }
+  return out;
+}
+
+// The one link that replaces them, so the copy is still reachable from the hub.
+function renderRequestAssistanceDetailLinkHtml() {
+  return '<p class="muted" data-request-assistance-detail-link="true">' +
+    'What this routing request is for, who it suits, what happens after you submit it and the' +
+    ' limits that apply are set out in full on <a href="/request-assistance/">the request a' +
+    ' provider callback page</a>.</p>';
+}
+
+// The definition paragraph under the next-steps H1.
+//
+// It used to be a 22-word label ("Use this page when you want everything in one
+// place: ...") that defined nothing, so every /<city>/next-steps/ and
+// /states/<ST>/next-steps/ page failed the page-shape definition check: the one
+// paragraph an answer engine is most likely to lift said what the page was *for*
+// but never what it *is* (Search Readiness q1, 3 Nov 2026 - uscisexam,
+// theaccidentguides, neuroevalguides and hormonesivhair all scored
+// "opening paragraph is 22 words and defines nothing (needs 40-60, 'X is ...')").
+//
+// The replacement is a real "X is ..." definition, sized to the 40-60 word window
+// the checklist asks for so it stays quotable whole, and it names the market -
+// the only thing that genuinely differs between these pages.
+// Guarded by scripts/validation/next_steps_definition_contract.js, which counts the
+// words and requires the copula on every rendered next-steps page.
+function renderNextStepsDefinitionHtml(marketScoped, marketLabel) {
+  const subject = marketScoped
+    ? 'This next-steps page for ' + escapeHtml(marketLabel)
+    : 'This next-steps page';
+  return '<p class="muted" data-next-steps-definition="true">' + subject +
+    ' is the decision hub that gathers the three ways out of research and into action:' +
+    ' the provider callback form, the education-first guides on cost and timing, and the' +
+    ' self-serve lookup tools, so you can request contact, keep comparing, or verify the' +
+    ' details yourself.</p>';
+}
+
 function renderDedicatedNextStepsHubHtml(opts) {
   var compareHref = String(opts && opts.compareHref ? opts.compareHref : '/guides/');
   var trainingBanner = (String(process.env.LKG_ENV || '').toLowerCase() === 'training' && String(process.env.PAGE_SET_FILE || '').endsWith('starter_v1.json'))
@@ -3366,6 +3469,8 @@ function renderDedicatedNextStepsHubHtml(opts) {
   var toolsHref = String(opts && opts.toolsHref ? opts.toolsHref : '/faq/');
   var sponsorRouting = opts && opts.sponsorRouting ? opts.sponsorRouting : null;
   var requestAssistanceHtml = stripRequestAssistanceHero(String(opts && opts.requestAssistanceHtml ? opts.requestAssistanceHtml : ''));
+  requestAssistanceHtml = stripRequestAssistanceDuplicateProse(requestAssistanceHtml);
+  if (requestAssistanceHtml.trim()) requestAssistanceHtml += renderRequestAssistanceDetailLinkHtml();
   requestAssistanceHtml = applyVerticalLeadRoutingToRequestAssistanceHtml(requestAssistanceHtml, sponsorRouting);
   var marketLabel = String(opts && opts.marketLabel ? opts.marketLabel : 'this market');
   // The global /next-steps/ page is not scoped to a market - it passes the brand
@@ -3378,7 +3483,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
     '<section class="hero" data-next-steps-page-hero="true">' +
       '<p class="kicker">Next steps</p>' +
       '<h1>' + escapeHtml(pageTitle) + '</h1>' +
-      '<p class="muted">Use this page when you want everything in one place: the full callback form, the comparison path, and the lookup tools path.</p>' +
+      renderNextStepsDefinitionHtml(marketScoped, marketLabel) +
     '</section>' +
     '<section class="section next-steps-page-shell" data-next-steps-page-shell="true">' +
       '<div class="card" data-next-steps-page-intro="true">' +
@@ -3567,6 +3672,14 @@ function renderNextStepsLocalHtml(verticalKey, city) {
       );
     }
   }
+  // Deliberately NOT repeated here: the city's `local_vetting_points`,
+  // `wait_time_notes` and the rest of data/city_content/<vertical>/<slug>.json.
+  // Those fields read as per-city research but are template prose with the city
+  // name interpolated - des-moines-ia, portland-or and columbia-sc share three of
+  // their four vetting points word for word - so surfacing them here raised the
+  // similarity between two city next-steps pages instead of lowering it (measured
+  // 0.692 -> 0.698, 3 Nov 2026). They are already on the city hub page, which is
+  // the page that should carry them.
   if (!parts.length) return '';
   return '<section class="section" data-next-steps-local="true"><div class="card"><h2>In ' + escapeHtml(market) + '</h2>' + parts.join('') + '</div></section>';
 }

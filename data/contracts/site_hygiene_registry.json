@@ -47,6 +47,11 @@
     ".site-definition",
     "[data-home-questions=\"true\"]"
   ],
+  "guide_speakable_selectors": [
+    ".guide-opening-block",
+    ".citation-summary"
+  ],
+  "guide_speakable_note": "The read-aloud surface of every /guides/<slug>/ page: the opening short-answer block under the H1 and the citation summary. Declared as a SpeakableSpecification by scripts/build_city_sites.js (GUIDE_SPEAKABLE_SELECTORS) and resolved against every rendered guide page by scripts/validation/guide_speakable_contract.js, so the selectors a guide page declares and the selectors that exist in its markup stay one list.",
   "clarity_projects": {
     "theaccidentguides.com": "y7l0ezo9ll",
     "dentistryguides.com": "y7la6o60w8",
