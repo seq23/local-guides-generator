@@ -16,3 +16,14 @@ export function loadRequestAssistance(prefix = 'ra-fn-') {
   fs.writeFileSync(tmp, src.replace(/(['"])\.\.\/\.\.\/lib\//g, `$1${LIB}/`));
   return import(pathToFileURL(tmp).href);
 }
+
+// The lead gate (lib/lead_guard.mjs) needs a Turnstile token on every post. Tests that
+// exercise what happens AFTER the gate send PASS_TOKEN with the fixture secret and wrap
+// their fetch fake with withSiteverify, which answers Cloudflare's siteverify call.
+export { TURNSTILE_SECRET, PASS_TOKEN, makeKV, siteverify } from '../senior/harness.mjs';
+import { TURNSTILE_SECRET, PASS_TOKEN, siteverify } from '../senior/harness.mjs';
+export const GUARD_ENV = { LOCAL_GUIDES_TURNSTILE_SECRET_KEY: TURNSTILE_SECRET };
+export const GUARD_HEADERS = { 'x-turnstile-token': PASS_TOKEN };
+export function withSiteverify(fake) {
+  return async (url, init) => (String(url).startsWith('https://challenges.cloudflare.com/turnstile/v0/siteverify') ? siteverify(init) : fake(url, init));
+}

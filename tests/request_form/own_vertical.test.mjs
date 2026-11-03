@@ -10,7 +10,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadRequestAssistance } from './load_endpoint.mjs';
+import { loadRequestAssistance, GUARD_ENV, GUARD_HEADERS, withSiteverify } from './load_endpoint.mjs';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -125,14 +125,14 @@ async function loadEndpoint() {
 async function post(mod, host, body) {
   const calls = [];
   const realFetch = globalThis.fetch;
-  globalThis.fetch = async (url, init) => {
+  globalThis.fetch = withSiteverify(async (url, init) => {
     calls.push({ url: String(url), body: JSON.parse(init.body) });
     if (String(url).includes('airtable')) return new Response(JSON.stringify({ records: [{ id: 'rec1' }] }), { status: 200 });
     return new Response('{}', { status: 200 });
-  };
+  });
   try {
-    const req = new Request(`https://${host}/api/request-assistance`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-    const res = await mod.onRequestPost({ request: req, env: { AIRTABLE_BASE_ID: 'app', AIRTABLE_TABLE_NAME: 'Leads', AIRTABLE_API_TOKEN: 't', RESEND_API_KEY: 'r', LEAD_TO: 'leads@example.com' } });
+    const req = new Request(`https://${host}/api/request-assistance`, { method: 'POST', headers: { 'content-type': 'application/json', ...GUARD_HEADERS }, body: JSON.stringify(body) });
+    const res = await mod.onRequestPost({ request: req, env: { ...GUARD_ENV, AIRTABLE_BASE_ID: 'app', AIRTABLE_TABLE_NAME: 'Leads', AIRTABLE_API_TOKEN: 't', RESEND_API_KEY: 'r', LEAD_TO: 'leads@example.com' } });
     return { status: res.status, fields: ((calls.find((c) => c.url.includes('airtable')) || {}).body || { records: [{}] }).records[0].fields, mail: ((calls.find((c) => c.url.includes('resend')) || {}).body || {}).text || '' };
   } finally {
     globalThis.fetch = realFetch;
