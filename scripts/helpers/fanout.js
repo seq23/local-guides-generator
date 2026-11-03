@@ -136,7 +136,7 @@ function interpolateTemplate(value, ctx) {
     verticalNoun: getVerticalNoun(ctx.verticalKey),
     verticalPlural: getVerticalPlural(ctx.verticalKey)
   };
-  return raw.replace(/\{(market|state|topic|route|verticalNoun|verticalPlural)\}/g, (_, key) => replacements[key] || '');
+  return raw.replace(/\{(market|state|topic|subject|route|verticalNoun|verticalPlural)\}/g, (_, key) => replacements[key] || '');
 }
 
 function normalizeOverrideItems(items) {
@@ -362,8 +362,16 @@ function defaultClusterItems(ctx) {
     return [
       { groupId: 'primary', groupLabel: 'Primary route', query: subject, href: route, label: 'This guide' },
       { groupId: 'primary', groupLabel: 'Primary route', query: `what to know about ${subject}`, href: route, label: 'This guide' },
+      // ONE entry prepends the subject, not three. The page's own route has to
+      // stay (see dedupeSelfReferentialItems) and the H1 already names the
+      // subject, so a third and fourth copy is what the quality sample reads as
+      // filler. No destination is dropped to get there: the red-flags entry
+      // keeps its route and asks about the vertical instead of this page's
+      // subject. Dropping the row outright was tried and cost the pi pack its
+      // only entry pointing at /guides/, which its required-destination list
+      // names (fanout_distribution_contract.js).
       { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${subject}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `red flags for ${subject}`, href: routeSet ? routeSet.redFlags : '/guides/#red-flags', label: 'Red-flags cluster' },
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `red flags when choosing a ${noun}`, href: routeSet ? routeSet.redFlags : '/guides/#red-flags', label: 'Red-flags cluster' },
       { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${subject}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
@@ -372,7 +380,11 @@ function defaultClusterItems(ctx) {
     return [
       { groupId: 'primary', groupLabel: 'Primary route', query: subject, href: route, label: 'This page' },
       { groupId: 'primary', groupLabel: 'Primary route', query: `what should I know about ${subject}`, href: route, label: 'This page' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `how to compare options for ${subject}`, href: routeSet ? routeSet.choose : '/guides/', label: 'Guides hub' },
+      // As above: one entry prepends the subject, and the guides-hub entry keeps
+      // its route with a query about the vertical rather than this page's
+      // subject. /guides/ is a required fanout destination for the pi pack and
+      // this is the entry that supplies it.
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `how to compare ${plural}`, href: routeSet ? routeSet.choose : '/guides/', label: 'Guides hub' },
       { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${subject}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
       { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${subject}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
     ];
@@ -420,32 +432,23 @@ function classifyPageKind(ctx) {
 // Keeping one was still one too many on a page whose subject is already short.
 // getTopicSubject() cut the long headlines down, but a guide titled "How to
 // Choose a Senior Care Home in Memphis" is eight words to begin with, so the
-// subject went on reading as an 8-word phrase in all three entries that carry it
-// - the self-referential one, "questions to ask about <subject>" and "red flags
+// subject went on reading as the same 8-word phrase in every entry carrying it -
+// the self-referential one, "questions to ask about <subject>" and "red flags
 // for <subject>" - and with the H1 that is four, which the sample reads as
 // filler (memphisseniorcarehomes.com/guides/how-to-choose-a-senior-care-home-
 // memphis/ x4, /guides/questions-to-ask-on-a-tour/ x5, and three more on the
 // same site, all pre-existing and all live).
 //
-// The entry that goes is the self-referential one. "Related search paths" is a
-// list of routes OUT of this page, and a row linking the page you are already on,
-// labelled with that page's own title, is the one row in it that can never be a
-// next step for a reader. The two prepended entries are phrases somebody could
-// actually search, so they stay, which leaves the subject on the page three times
-// and under the repeat threshold.
-//
-// The page's route is NOT lost to the contracts: it is still the href of every
-// in-page anchor the distribution manifest reads, and a detail page keeps the
-// entries pointing at the hub, the FAQ and the red-flags cluster, so
-// fanout_distribution_contract.js's generic-destination share is measured over
-// the same routes as before minus one own-route row.
-const SELF_LINK_KINDS = new Set(['guide-detail', 'global-detail']);
-
-function dedupeSelfReferentialItems(items, ownRoute, pageKind) {
+// The entry that goes is NOT the self-referential one. Dropping that was tried
+// first and fanout_distribution_contract.js caught it: three trt guides
+// (/guides/ultimate-guide-to-peptides/, /guides/hair-loss-aesthetic-vs-hormonal/
+// and /guides/how-to-find-a-peptide-provider/) appear in the cluster payload
+// ONLY as their own primary route, so removing it removed the only entry that
+// reaches them and the contract failed on three missing required destinations.
+// A page's own route is load-bearing here; defaultClusterItems() drops one of the
+// prepended entries instead.
+function dedupeSelfReferentialItems(items, ownRoute) {
   const self = routeWithSlash(ownRoute);
-  if (SELF_LINK_KINDS.has(String(pageKind || ''))) {
-    return items.filter((item) => routeWithSlash(item && item.href) !== self);
-  }
   let kept = false;
   return items.filter((item) => {
     if (routeWithSlash(item && item.href) !== self) return true;
@@ -464,8 +467,7 @@ function buildFanoutCluster(ctx, pageSet) {
       }
       return item;
     }),
-    enriched.route,
-    enriched.pageKind
+    enriched.route
   );
   const groups = [];
   const byGroup = new Map();

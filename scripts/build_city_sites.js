@@ -3503,15 +3503,26 @@ function renderRequestAssistanceDetailLinkHtml() {
 // the only thing that genuinely differs between these pages.
 // Guarded by scripts/validation/next_steps_definition_contract.js, which counts the
 // words and requires the copula on every rendered next-steps page.
-function renderNextStepsDefinitionHtml(marketScoped, marketLabel) {
+function renderNextStepsDefinitionHtml(marketScoped, marketLabel, subjectTopic) {
   const subject = marketScoped
     ? 'This next-steps page for ' + escapeHtml(marketLabel)
     : 'This next-steps page';
+  // The subject the page is about, from the pack's own seoTopic ("senior care in
+  // Memphis", "USCIS medical exams"). Naming it is what makes the opening answer
+  // the title's question: the title of /<city>/next-steps/ is "Next: <city> |
+  // <brand>", and a definition that named only the town matched the town and
+  // nothing else, so the auditor's d1 check - at least half the title's words
+  // inside the first 100 - failed on every city and hospital next-steps page
+  // (Search Readiness q1, 3 Nov 2026: millington-tn, methodist-university-
+  // hospital and bartlett-tn all "the first 100 words do not answer the title's
+  // question"). A pack with no seoTopic keeps the sentence it had.
+  const topic = String(subjectTopic || '').trim();
+  const forTopic = topic ? ' for ' + escapeHtml(topic) : '';
   return '<p class="muted" data-next-steps-definition="true">' + subject +
-    ' is the decision hub that gathers the three ways out of research and into action:' +
-    ' the provider callback form, the education-first guides on cost and timing, and the' +
-    ' self-serve lookup tools, so you can request contact, keep comparing, or verify the' +
-    ' details yourself.</p>';
+    ' is the decision hub' + forTopic + ': it gathers the three ways out of research and' +
+    ' into action, the provider callback form, the education-first guides on cost and' +
+    ' timing, and the self-serve lookup tools, so you can request contact, keep comparing,' +
+    ' or verify the details yourself.</p>';
 }
 
 function renderDedicatedNextStepsHubHtml(opts) {
@@ -3536,7 +3547,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
     '<section class="hero" data-next-steps-page-hero="true">' +
       '<p class="kicker">Next steps</p>' +
       '<h1>' + escapeHtml(pageTitle) + '</h1>' +
-      renderNextStepsDefinitionHtml(marketScoped, marketLabel) +
+      renderNextStepsDefinitionHtml(marketScoped, marketLabel, opts && opts.subjectTopic) +
     '</section>' +
     '<section class="section next-steps-page-shell" data-next-steps-page-shell="true">' +
       '<div class="card" data-next-steps-page-intro="true">' +
@@ -3574,7 +3585,14 @@ function renderDedicatedNextStepsHubHtml(opts) {
         '<li>Use the comparison path when you still need to review costs, timing, or questions to ask.</li>' +
         '<li>Use the lookup tools path when you want the fastest self-serve route before you submit anything.</li>' +
       '</ul>' +
-      '<p class="muted" data-next-steps-routing="true">The same routing system can capture all three paths while keeping the public experience useful and education-first.</p>' +
+      // The routing explainer, which citation_routing_contract.js and
+      // next_steps_cta_contract.js both require by its marker. It used to read
+      // "The same routing system can capture all three paths while keeping the
+      // public experience useful and education-first" - a sentence about how the
+      // site is built, printed to a family choosing care, on 57 pages per pack.
+      // The marker stays; the words now answer the question a reader actually has
+      // at this point, which is what happens to what they type.
+      '<p class="muted" data-next-steps-routing="true">The form below is the only thing on this page that asks for your details, and only when you submit it; the guides and the lookup tools are free to read without entering anything.</p>' +
     '</section>' +
     requestAssistanceHtml
   );
@@ -4904,6 +4922,7 @@ function stripForbiddenInlineBlocks(html) {
   if (route === 'next-steps') {
     mainHtml = renderDedicatedNextStepsHubHtml({
       marketLabel: city.marketLabel || city.slug,
+      subjectTopic: (pageSet && pageSet.seoTopic) || '',
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
@@ -5576,6 +5595,7 @@ if (route === 'admin') {
     mainHtml = renderDedicatedNextStepsHubHtml({
       marketLabel: brandName,
       marketScoped: false,
+      subjectTopic: (pageSet && pageSet.seoTopic) || '',
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
@@ -6718,6 +6738,7 @@ function loadNextStepsSponsor(citySlug) {
 
       const mainHtml = (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.') : '') + renderDedicatedNextStepsHubHtml({
         marketLabel: stateName,
+        subjectTopic: (pageSet && pageSet.seoTopic) || '',
         pageTitle: title,
         compareHref: '/guides/?intent=decision_hub&button=next_steps_page_compare&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         toolsHref: '/faq/?intent=self_serve&button=next_steps_page_tools&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
