@@ -2217,7 +2217,8 @@ function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, descr
     datePublished: BUILD_ISO,
     dateModified: BUILD_ISO,
     url: buildCanonicalGlobal(siteUrl, route),
-    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
+    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...authorForPack(siteUrl, brandName)
   };
 }
 function buildCollectionPageSchemaCity(siteUrl, brandName, city, route, title, description, verticalKey) {
@@ -2240,7 +2241,8 @@ function buildCollectionPageSchemaCity(siteUrl, brandName, city, route, title, d
         name: String(city && (city.marketLabel || city.city || city.slug || ''))
       }
     },
-    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
+    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...authorForPack(siteUrl, brandName)
   };
 }
 
@@ -4161,35 +4163,71 @@ function inferProviderCategory(verticalKey, subKey, provider) {
   return 'Provider';
 }
 
+// What this card says about THIS provider, and nothing that would read the same
+// on the card next to it.
+//
+// Until 3 Nov 2026 this function appended the vertical's generic "how to compare"
+// advice to every card, so a city page listing nine clinics printed the same
+// sentence nine times: "Ask what is included before treatment starts and what is
+// billed separately" ten times on hormonesivhair.com/portland-me/ and
+// /baltimore-md/, "Use this when you are comparing ..." seven times on
+// neuroevalguides.com/wilmington-de/, /philadelphia-pa/ and /newark-nj/. The
+// Monday quality sample reads any 8-word phrase repeated more than three times in
+// one body as template filler, and it was right: the advice is identical whichever
+// provider you are looking at, so it belongs once per directory section, which is
+// where providerDirectoryGuidance() now puts it.
+//
+// A provider with nothing specific on file renders no attribute list at all. That
+// is the honest outcome - 486 of the 537 provider records carry no `attributes` of
+// their own - and the card still shows its name, category, market and the official
+// verification link.
 function defaultProviderAttributes(verticalKey, subKey, provider, city) {
   const attrs = Array.isArray(provider && provider.attributes) ? provider.attributes.map((v) => String(v || '').trim()).filter(Boolean) : [];
   if (provider && provider.offers_peptide_programs === true) attrs.push('May also offer peptide programs');
+  return Array.from(new Set(attrs)).slice(0, 4);
+}
+
+// The generic guidance that used to sit on every card, printed once per provider
+// directory section. Keyed the same way the card copy was, so each section still
+// says what it said - the IV sections still talk about protocols and supervision,
+// the evaluation sections about report and testing scope.
+// Guarded by scripts/validation/provider_card_contract.js, which fails the build if
+// a directory section has no guidance list, if a card's attribute list is empty, or
+// if any 8-word phrase inside a directory section repeats more than three times on
+// one page.
+function providerDirectoryGuidance(verticalKey, subKey) {
   const vk = String(verticalKey || '').toLowerCase();
   const sk = String(subKey || '').toLowerCase();
   if (vk === 'pi') {
-    attrs.push('Use the city page to compare fit, fees, and case handling');
-    attrs.push('Verify license and disciplinary history before you contact any firm');
-  } else if (vk === 'dentistry') {
-    attrs.push('Compare treatment scope, written plan clarity, and follow-up expectations');
-    attrs.push('Verify dental licensing through the official state resource');
-  } else if (vk === 'neuro') {
-    const area = sk === neuroServices.THERAPY_SUBKEY ? neuroServices.therapyFocusLabel(provider && provider.therapy_focus) : (sk === 'autism_eval' ? 'autism' : 'ADHD');
-    const ev = !!(provider && provider.offers_evaluation === true);
-    const th = !!(provider && provider.offers_therapy === true);
-    if (ev) attrs.push(sk === 'autism_eval' ? 'Use this when you are comparing autism evaluation options' : 'Use this when you are comparing ADHD / neuro evaluation options');
-    if (th) attrs.push('Use this when you are comparing ' + area + ' therapy options');
-    if (ev) attrs.push('Ask what the report, testing scope, and feedback session actually include');
-    if (th) attrs.push('Ask how therapy goals are set and how progress is reviewed');
-  } else if (vk === 'trt') {
-    attrs.push(sk === 'iv_hydration' ? 'Compare IV protocols, pricing, and supervision' : 'Compare evaluation steps, monitoring, and follow-up clarity');
-    attrs.push('Ask what is included before treatment starts and what is billed separately');
-  } else if (vk === 'uscis_medical' || vk === 'uscis') {
-    attrs.push('Confirm documents, vaccination records, and sealed-form handling before you book');
-    attrs.push('Verify current civil-surgeon status and ask how paperwork is returned');
-  } else {
-    attrs.push('Use the guide layer before you contact any provider');
+    return ['Use the city page to compare fit, fees, and case handling',
+      'Verify license and disciplinary history before you contact any firm'];
   }
-  return Array.from(new Set(attrs)).slice(0, 4);
+  if (vk === 'dentistry') {
+    return ['Compare treatment scope, written plan clarity, and follow-up expectations',
+      'Verify dental licensing through the official state resource'];
+  }
+  if (vk === 'neuro') {
+    const out = [];
+    if (sk === neuroServices.THERAPY_SUBKEY) {
+      out.push('Use this section when you are comparing therapy options');
+      out.push('Ask how therapy goals are set and how progress is reviewed');
+    } else {
+      out.push(sk === 'autism_eval'
+        ? 'Use this section when you are comparing autism evaluation options'
+        : 'Use this section when you are comparing ADHD / neuro evaluation options');
+      out.push('Ask what the report, testing scope, and feedback session actually include');
+    }
+    return out;
+  }
+  if (vk === 'trt') {
+    return [sk === 'iv_hydration' ? 'Compare IV protocols, pricing, and supervision' : 'Compare evaluation steps, monitoring, and follow-up clarity',
+      'Ask what is included before treatment starts and what is billed separately'];
+  }
+  if (vk === 'uscis_medical' || vk === 'uscis') {
+    return ['Confirm documents, vaccination records, and sealed-form handling before you book',
+      'Verify current civil-surgeon status and ask how paperwork is returned'];
+  }
+  return ['Use the guide layer before you contact any provider'];
 }
 
 function normalizeProviderCard(verticalKey, subKey, provider, city, verifyUrl) {
@@ -4213,20 +4251,30 @@ function renderStructuredProviderCardsSectionHtml(opts) {
   const preview = opts && opts.preview === true;
   const verifyUrl = normalizeUrl((opts && opts.verifyUrl) || '');
   if (!cards.length) return '';
+  // The guidance that applies to every card in this section, printed once.
+  const guidance = Array.isArray(opts && opts.guidance) ? opts.guidance.filter(Boolean) : [];
+  const guidanceHtml = guidance.length
+    ? ('<ul class="provider-directory-guidance" data-provider-directory-guidance="true">' +
+        guidance.map((item) => '<li>' + escapeHtml(String(item)) + '</li>').join('') + '</ul>')
+    : '';
   return (
     '<section class="section provider-directory-section' + (preview ? ' provider-directory-section--preview' : '') + '" data-provider-directory="true"' + (preview ? ' data-home-provider-preview="true"' : '') + String((opts && opts.sectionAttrs) || '') + '>' +
       '<h2>' + heading + '</h2>' +
       (lead ? ('<p class="muted">' + lead + '</p>') : '') +
+      guidanceHtml +
       '<div class="provider-directory-grid">' +
       cards.map((card) => {
-        const attrs = (Array.isArray(card.attributes) ? card.attributes : []).slice(0, 4).map((item) => '<li>' + escapeHtml(item) + '</li>').join('');
+        const list = (Array.isArray(card.attributes) ? card.attributes : []).slice(0, 4);
+        const attrs = list.map((item) => '<li>' + escapeHtml(item) + '</li>').join('');
         const meta = [card.category, [card.city, card.state].filter(Boolean).join(', ')].filter(Boolean).join(' — ');
         return (
           '<article class="provider-card" data-provider-card="true">' +
             '<h3 class="provider-card__name">' + escapeHtml(card.name) + '</h3>' +
             neuroServices.serviceTagHtml(card.serviceTag) +
             '<p class="provider-card__meta" data-provider-card-meta="true">' + escapeHtml(meta) + '</p>' +
-            '<ul class="provider-card__attributes" data-provider-card-attributes="true">' + attrs + '</ul>' +
+            // Only when this provider has something of its own to say. An empty
+            // list is markup that tells a reader nothing.
+            (list.length ? ('<ul class="provider-card__attributes" data-provider-card-attributes="true">' + attrs + '</ul>') : '') +
             (verifyUrl ? ('<p class="provider-card__verify"><a href="' + escapeHtml(verifyUrl) + '" rel="nofollow">Verify license / registry</a></p>') : '') +
           '</article>'
         );
@@ -4293,7 +4341,8 @@ function collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName) {
     lead: leadMap[vk] || 'These are neutral, non-ranked examples to ground the page before you narrow into a state or city page.',
     cards,
     preview: true,
-    verifyUrl: ''
+    verifyUrl: '',
+    guidance: providerDirectoryGuidance(verticalKey, '')
   });
 }
 
@@ -4366,7 +4415,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
   const heading = (opts && opts.heading) ? String(opts.heading) : ('Directory Listings (Examples of providers in ' + marketRaw + ')');
   const lead = (opts && opts.lead) ? String(opts.lead) : 'These are non-ranked, non-sponsored examples of providers that help show what exists locally. Use the guide layer and official verification resources before you contact anyone.';
   const cards = providers.map((provider) => normalizeProviderCard(verticalKey, opts && opts.subKey || '', provider, city, verifyUrl));
-  return renderStructuredProviderCardsSectionHtml({ heading, lead, cards, verifyUrl, sectionAttrs: (opts && opts.sectionAttrs) || '' });
+  return renderStructuredProviderCardsSectionHtml({ heading, lead, cards, verifyUrl, sectionAttrs: (opts && opts.sectionAttrs) || '', guidance: providerDirectoryGuidance(verticalKey, (opts && opts.subKey) || '') });
 }
 
 
@@ -6705,7 +6754,18 @@ function loadNextStepsSponsor(citySlug) {
         '<section class="hero" data-state-hero="true" data-pi-state-page="true">' +
         '<p class="kicker">Personal injury · State guide</p>' +
         '<h1>' + escapeHtml(stateStrength ? stateStrength.h1 : stateName + ' personal injury guide') + '</h1>' +
-        '<p class="muted">Use this state page for neutral decision support, firm comparison, and official verification resources.</p>' +
+        // The opening line was "Use this state page for neutral decision support,
+        // firm comparison, and official verification resources" - 14 words that
+        // named neither the state nor what the page is about, so the first 100
+        // words of /states/<ST>/ did not answer the title and the page-shape check
+        // scored d1 FAIL on every one of them (Search Readiness q1, 3 Nov 2026:
+        // theaccidentguides.com/states/CO/ and /states/AR/). It now opens by
+        // saying what the page is, naming the state and the service it covers.
+        '<p class="muted" data-state-definition="true">This is the ' + escapeHtml(stateName) +
+        ' guide to choosing among personal injury lawyers: it brings the state\'s verified firm' +
+        ' listings, the official licensing and disciplinary lookups for ' + escapeHtml(stateName) +
+        ', and the comparison questions that matter into one place, so you can judge fit before' +
+        ' you contact anyone.</p>' +
         '</section>' +
         searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:pi_state_top%%' +
@@ -6854,11 +6914,11 @@ function loadNextStepsSponsor(citySlug) {
 
     // Optional PI hub route (/personal-injury/)
     const PI_HUB_DESCRIPTION = 'Browse personal injury guides by U.S. state: each state page links its covered cities, official bar and court resources, and a lawyer comparison checklist.';
-    const piHubFanoutCluster = fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury — browse by state' }, pageSet);
+    const piHubFanoutCluster = fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury: browse by state' }, pageSet);
     const piHubFanoutHtml = fanout.renderFanoutClusterHtml(piHubFanoutCluster);
     const piHubRoutingHtml = renderInternalDistributionZoneHtml({
       kind: 'home',
-      title: 'Personal injury — browse by state',
+      title: 'Personal injury: browse by state',
       buildIso: BUILD_ISO,
       guideLinks: selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description })),
       primaryLinks: [
@@ -6869,7 +6929,7 @@ function loadNextStepsSponsor(citySlug) {
       cityLinks: []
     });
     const piHubMainHtml = (
-      '<section class="section answer-block" data-home-answer="true" data-short-answer="true"><p class="kicker">State routing hub</p><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p><h2>Short answer</h2><p>Use this hub when the question is still broad and you need to move into the right state page, guide, or local market before comparing firms.</p><p class="answer-when"><strong>Use this hub when:</strong> you need to move from a broad question into the right state guide or canonical PI guide.</p><p class="answer-tradeoff"><strong>Common mistake:</strong> using a state browse page like a final answer instead of a routing layer.</p></section>' +
+      '<section class="section answer-block" data-home-answer="true" data-short-answer="true"><p class="kicker">State routing hub</p><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p><h2>Short answer</h2><p>This hub is the routing layer for personal injury questions that are still broad: it lists every state guide, the canonical personal injury guides, and the local market pages, so you can move to the right state or topic before you start comparing firms.</p><p class="answer-when"><strong>Use this hub when:</strong> you need to move from a broad question into the right state guide or canonical PI guide.</p><p class="answer-tradeoff"><strong>Common mistake:</strong> using a state browse page like a final answer instead of a routing layer.</p></section>' +
       '<section class="section pi-hub-compare-block" data-pi-hub-compare="true"><h2>How to use this hub</h2><ol><li>Start with your state page if you are comparing firms.</li><li>Use the core PI guides if your question is about fees, evidence, consultations, or insurance calls.</li><li>Use official verification resources before contacting a firm.</li></ol></section>' +
       marketsStatusListHtml +
       piHubRoutingHtml +
@@ -6886,7 +6946,7 @@ function loadNextStepsSponsor(citySlug) {
       '%%INLINE_SCRIPTS%%': '',
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
       '%%HEAD_META%%': renderHeadMeta({ pageType: 'pi-hub', title: brandedTitle('Personal Injury by State', siteUrl, brandName), description: PI_HUB_DESCRIPTION, canonical: buildCanonicalGlobal(siteUrl, 'personal-injury'), brandName, section: 'Personal injury hub', keywords: ['personal injury', 'states', 'browse by state'] }),
-      '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury — browse by state', 'Browse personal injury by state.', pageSet),
+      '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury: browse by state', 'Browse personal injury by state.', pageSet),
       '%%FOOTER%%': footerHtml,
       '%%CONNECTION_BUBBLE%%': '',
       '%%BRAND_NAME%%': escapeHtml(brandName),
