@@ -725,6 +725,10 @@ function linkThinGuidesFromClosestSibling(outDir) {
 // read location.search see the same values. link_audit.js fails the build on
 // any internal <a href> with a query that is not allow-listed.
 const ATTR_CARRY_TAG = '<script src="/assets/attr-carry.js" data-attr-carry="true"></script>';
+// Every lead POST (/api/request-assistance, /api/senior-lead) needs a Turnstile token;
+// /assets/lead-guard.js adds it to the forms' own fetch calls (lib/lead_guard.mjs checks it).
+// Deferred and head-only, so it never changes a page's <main> hash or lastmod.
+const LEAD_GUARD_TAG = '<script src="/assets/lead-guard.js" defer data-lead-guard="true"></script>';
 function moveInternalQueryToData(html) {
   let out = String(html).replace(/<a\b[^>]*>/gi, (tag) => {
     const m = tag.match(/\bhref=(["'])(\/(?!\/)[^"'?#]*)\?([^"'#]*)(#[^"']*)?\1/i);
@@ -745,6 +749,9 @@ function moveInternalQueryToData(html) {
   });
   if (/<head\b/i.test(out) && !out.includes('data-attr-carry="true"')) {
     out = out.replace(/<head\b[^>]*>/i, (h) => h + ATTR_CARRY_TAG);
+  }
+  if (/<head\b/i.test(out) && !out.includes('data-lead-guard="true"')) {
+    out = out.replace(/<head\b[^>]*>/i, (h) => h + LEAD_GUARD_TAG);
   }
   return out;
 }

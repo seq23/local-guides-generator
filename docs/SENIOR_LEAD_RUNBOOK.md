@@ -5,6 +5,12 @@ D1 database `senior-leads` (id `e36cb56a-6d35-400c-b28f-cd0a148d2e83`) is the sy
 Run the queries below with:
 `npx wrangler d1 execute senior-leads --remote --config migrations/senior/wrangler.toml --command "<SQL>"`
 
+## Confirmation (double opt-in) and the lead gate
+- Every lead form post needs a Cloudflare Turnstile token (`assets/lead-guard.js` adds it; `lib/lead_guard.mjs` checks it) and is limited per IP and per site per day (KV `LEAD_LIMITS`). Secret: `LOCAL_GUIDES_TURNSTILE_SECRET_KEY` (vault and Pages); `scripts/bind_lead_guard.sh` re-applies both bindings.
+- A new sellable lead is stored as `pending_confirm`. The family gets one email with a "Confirm my request" link (`/api/senior-confirm`). Nothing goes to any community and no follow-up is scheduled until they press it; then the lead is routed as below and you get a "Senior lead confirmed" email.
+- A phone-only lead cannot be confirmed by email: the lead notice says NOT ROUTED YET and carries the same link. Call the family, then open the link and press Confirm.
+- Waiting leads: `SELECT id, created_at, email <> '' AS has_email FROM leads WHERE status = 'pending_confirm'`. Links expire after 14 days.
+
 ## Switch the exclusive seat on or off
 1. The community pays through `POST /api/senior-seat-checkout {"facility_id":"<id>"}`. That returns a Stripe link for $249/month with 60 free days. When they pay, you get a "Seat paid" email with the exact line to paste, and Stripe ends the subscription after 6 months on its own (`cancel_at`).
 2. Edit `data/senior_seat.json`. To switch it on: `{"active":true,"facility_id":"<id>","start":"YYYY-MM-DD","end":"YYYY-MM-DD"}` (6 months at most; there is no lead cap). To switch it off: `{"active":false}`. Merge the change and the deploy follows on its own. `senior_seat_schema_contract.js` rejects a malformed file or a term longer than 6 months.

@@ -16,6 +16,21 @@ export const ZIPS = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/senior-zi
 export const FAKE_POSTAL = 'PO Box 0000, Testville, TN 00000';
 export const WEBHOOK_SECRET = 'whsec_test_fixture_secret';
 export const TICK = 'tick-fixture-token';
+export const TURNSTILE_SECRET = 'turnstile-fixture-secret';
+export const PASS_TOKEN = 'turnstile-pass-fixture';
+
+/** In-memory stand-in for the LEAD_LIMITS KV namespace. */
+export function makeKV() {
+  const m = new Map();
+  return { map: m, async get(k) { return m.has(k) ? m.get(k) : null; }, async put(k, v) { m.set(k, String(v)); } };
+}
+
+/** Fake Turnstile siteverify: only PASS_TOKEN with the fixture secret succeeds. */
+export function siteverify(init) {
+  const f = new URLSearchParams(String(init.body || ''));
+  const ok = f.get('secret') === TURNSTILE_SECRET && f.get('response') === PASS_TOKEN;
+  return new Response(JSON.stringify(ok ? { success: true } : { success: false, 'error-codes': ['invalid-input-response'] }), { status: 200 });
+}
 
 export function makeD1() {
   const db = new DatabaseSync(':memory:');
@@ -69,12 +84,14 @@ export function makeWorld({ seat = { active: false }, start = '2026-10-13T12:00:
   const world = { sent, stripeCalls, now: start, seat };
   const env = {
     SENIOR_DB: makeD1(), RESEND_API_KEY: 're_test', LEAD_TO: 'owner@example.net', SENIOR_POSTAL_ADDRESS: FAKE_POSTAL,
-    STRIPE_SECRET_KEY: 'sk_test_fixture', STRIPE_WEBHOOK_SECRET: WEBHOOK_SECRET, SENIOR_TICK_TOKEN: TICK, SENIOR_SITE_ORIGIN: 'https://memphisseniorcarehomes.com'
+    STRIPE_SECRET_KEY: 'sk_test_fixture', STRIPE_WEBHOOK_SECRET: WEBHOOK_SECRET, SENIOR_TICK_TOKEN: TICK, SENIOR_SITE_ORIGIN: 'https://memphisseniorcarehomes.com',
+    LOCAL_GUIDES_TURNSTILE_SECRET_KEY: TURNSTILE_SECRET, LEAD_LIMITS: makeKV()
   };
   world.env = env;
   let n = 0;
   world.fetch = async (url, init = {}) => {
     const u = String(url);
+    if (u.startsWith('https://challenges.cloudflare.com/turnstile/v0/siteverify')) return siteverify(init);
     if (u.startsWith('https://api.resend.com/emails')) {
       const p = JSON.parse(init.body);
       sent.push(p);
@@ -94,7 +111,7 @@ export function makeWorld({ seat = { active: false }, start = '2026-10-13T12:00:
   globalThis.fetch = world.fetch;
   world.deps = () => ({ seat: world.seat, zips: ZIPS, facilities: FACILITIES, now: () => world.now });
   world.call = async (handler, method, pathQ, { json, form, headers = {}, raw } = {}) => {
-    const init = { method, headers: { ...headers } };
+    const init = { method, headers: handler === 'handleLead' ? { 'x-turnstile-token': PASS_TOKEN, ...headers } : { ...headers } };
     if (json) { init.body = JSON.stringify(json); init.headers['content-type'] = 'application/json'; }
     if (form) { init.body = new URLSearchParams(form).toString(); init.headers['content-type'] = 'application/x-www-form-urlencoded'; }
     if (raw !== undefined) init.body = raw;
@@ -104,7 +121,22 @@ export function makeWorld({ seat = { active: false }, start = '2026-10-13T12:00:
     try { body = JSON.parse(text); } catch (_) { /* html */ }
     return { status: res.status, body, headers: res.headers };
   };
-  world.lead = (over) => world.call('handleLead', 'POST', '/api/senior-lead', { json: familyBody(over) });
+  // submit: the raw POST, which stores a sellable lead as pending_confirm and routes nothing.
+  world.submit = (over, opts = {}) => world.call('handleLead', 'POST', '/api/senior-lead', { json: familyBody(over), ...opts });
+  // confirm: the family's click on the confirmation link (the POST behind its one button).
+  world.confirm = (leadId) => {
+    const row = env.SENIOR_DB.q('SELECT confirm_token FROM leads WHERE id = ?', leadId)[0];
+    return world.call('handleConfirm', 'POST', `/api/senior-confirm?t=${row.confirm_token}`);
+  };
+  // lead: submit and then confirm, as a real family does; body.status is the status after
+  // confirmation (body.submitted_status is what the POST answered).
+  world.lead = async (over) => {
+    const r = await world.submit(over);
+    if (r.status !== 200 || !r.body.lead_id || r.body.status !== 'pending_confirm') return r;
+    await world.confirm(r.body.lead_id);
+    const st = env.SENIOR_DB.q('SELECT status FROM leads WHERE id = ?', r.body.lead_id)[0].status;
+    return { ...r, body: { ...r.body, submitted_status: r.body.status, status: st } };
+  };
   world.db = env.SENIOR_DB;
   world.to = (addr) => sent.filter((s) => s.to.includes(addr));
   world.teasers = () => sent.filter((s) => /Family looking for senior living/.test(s.subject));
