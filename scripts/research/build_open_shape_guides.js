@@ -557,6 +557,16 @@ ${stateCostTable('96132', states, 'O')}
 <p><strong>Common mistake:</strong> choosing a state figure over a local quote. The figure is context; the quote is the price.</p>
 </section>
 
+<section class="section guide-section" data-guide-section="true">
+<h2 id="state-quote-worksheet">How can you compare a local quote with the state row?</h2>
+<p>Start a worksheet with the state name, the billing code, the office setting and the claims year shown above. Copy both column labels along with their values. A number without its label is easy to mistake for a complete evaluation price. The table describes the first evaluation hour under one code; it does not describe every service your practice may propose.</p>
+<p>Next, leave a separate column for the practice's written estimate. Ask the billing office to identify the services included in that estimate, the units of each service and any separate report or feedback charges. Do not multiply the first-hour figure by every hour on the appointment calendar: ask which code and unit the practice actually plans to bill for each part. Keep unanswered items marked as unknown rather than silently treating them as included.</p>
+<p>If two practices give different totals, compare their scope before comparing their prices. One quote may include record review and a feedback appointment while another lists those separately. Write down whether the amount is a cash quote, a submitted insurance charge or an estimate of your own payment. Those are different questions, and the state table cannot resolve them for a particular insurance plan.</p>
+<h2 id="state-data-limits">What should you do when your location is not represented?</h2>
+<p>The selected state rows are examples from the published dataset, not a directory of every local option. A missing state or practice is not evidence that testing is unavailable there. Likewise, a clinician count in this table cannot tell you whether an office is accepting new patients, sees your age group or answers your referral question. Confirm those details directly before using price to narrow your choices.</p>
+<p>For a comparison across state lines, add travel, repeat visits and the report deadline to your worksheet without assigning invented amounts. Ask each office which visits require attendance and how results are delivered. Keep the original written quotes and the date each office confirmed them. Use this page to understand what a published figure measures; use the practice's answers to decide whether the proposed evaluation fits the question you need answered.</p>
+</section>
+
 ${METHOD}
 
 <h2 id="next-steps">What to do next</h2>
