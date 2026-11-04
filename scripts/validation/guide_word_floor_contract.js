@@ -145,6 +145,9 @@ const PROVEN = {
     'brooklyn-vitamin-c-injections-prices',
   ],
   'neuro_v1.json': [
+    // Scoped j3 repair, 4 Nov: keep both source-driven guides rendered.
+    'neuropsych-testing-cost-by-state',
+    'adhd-therapy-vs-medication-vs-coaching',
     // sr-neuroevalguides.com-j3, 30 Oct: written scope and booking comparison.
     'neuro-provider-red-flags',
     // sr-neuroevalguides.com-j3, 30 Oct: explicit answer before the estimator.
