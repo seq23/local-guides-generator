@@ -2,7 +2,7 @@
   "schema": "search-loop-week-v1",
   "week": "2026-W45",
   "site": "dentistryguides.com",
-  "generated_at": "2026-11-02T15:45:08.035Z",
+  "generated_at": "2026-11-03T15:44:27.941Z",
   "state": "running",
   "published": 0,
   "indexed": 0,
@@ -13,11 +13,46 @@
   "wins": 0,
   "undone": 0,
   "merged": 0,
+  "held_by_cap": 0,
+  "redirected": [],
+  "cap": {
+    "max_live_pages": 20,
+    "live": 0,
+    "room": 20,
+    "why": "started at 20: the site's 0 distinct live engine page(s), raised to the starting floor of 20"
+  },
   "notes": [
     "canonical side: new pages = missing guides only (velocity builds the daily pages); pace = min(engine pace, cadence 5/week)",
-    "NAMED NOTE [FREE_MODEL_UNAVAILABLE] MISSING-GUIDE dentistryguides.com \"why does a tooth implant cost so much\" deferred to the next run: no free model answered; nothing generated (the router never falls back to a paid model) (nemotron-3-ultra-550b-a55b:free:503 Provider returned error; gemma-4-31b-it:free:429 Provider returned error; nemotron-3-super-120b-a12b:free:404 This model is unavailable for free. The paid version is available now - use this; gemma-4-26b-a4b-it:free:429 Provider returned error)",
-    "dentistryguides.com pace: held at 10/day: indexing not read (no loop guide is 14-42 days old yet)"
+    "MISSING-GUIDE dentistryguides.com \"root canal vs tooth extraction\" dropped (retried after 28 days): meta_description length is 162 (120-160); 0 verified sources (2+ answering 200); replace these, which did not answer: https://www.nidcr.nih.gov/health-info/root-canal-treatment, https://www.ada.org/en/member-center/oral-health-topics/tooth-extraction, https://www.mayoclinic.org/tests-procedures/root-canal/about/pac-20384684, https://www.dent.umich.edu/patient-care/treatment-planning; 968 words (1200+)",
+    "MISSING-GUIDE dentistryguides.com \"why does a tooth implant cost so much\" dropped (retried after 28 days): quick answer words is 17 (40-60); FAQ answer \"Can I finance the treatment over time?\" words is 24 (30-70); FAQ answer \"How long do implants typically last?\" words is 28 (30-70)",
+    "NAMED NOTE [FREE_MODEL_UNAVAILABLE] MISSING-GUIDE memphisseniorcarehomes.com \"senior services memphis tn\" deferred to the next run: no free model answered; nothing generated (the router never falls back to a paid model) (nemotron-3-ultra-550b-a55b:free: timeout after 180002 ms reading the response body (HTTP 200 headers arrived; lim; gemma-4-31b-it:free:429 Provider returned error; nemotron-3-super-120b-a12b:free:404 This model is unavailable for free. The paid version is available now - use this; gemma-4-26b-a4b-it:free:429 Provider returned error)"
   ],
-  "run_url": "https://github.com/seq23/local-guides-generator/actions/runs/41474446207",
+  "lanes": {
+    "ratio": {
+      "can_be_one": 2,
+      "striking": 1
+    },
+    "can_be_one": {
+      "pages": 0,
+      "measured": 0,
+      "top3": 0,
+      "hit_rate": "not read: no page in this lane has reached its 2-week check yet"
+    },
+    "striking": {
+      "pages": 0,
+      "measured": 0,
+      "top3": 0,
+      "hit_rate": "not read: no page in this lane has reached its 2-week check yet"
+    },
+    "weights": {
+      "neighbour": 35,
+      "unanswered": 30,
+      "weak_top10": 40,
+      "demand": 10
+    },
+    "weight_changes": [],
+    "competition": "not read: FIND has not run since v1.6.0"
+  },
+  "run_url": "https://github.com/seq23/local-guides-generator/actions/runs/41666960520",
   "lead_path": "ok"
 }

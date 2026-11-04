@@ -36,9 +36,13 @@
  * - Missing Airtable environment variables
  * - Airtable write failure (falls back to email; only a failure of both is 503)
  * - Blocked lead domain (BLOCKED_LEAD_DOMAINS): answers ok, stores and sends nothing
+ * - No Turnstile token (400), a rejected token (403), per-IP or daily ceiling (429),
+ *   no Turnstile secret configured (503): lib/lead_guard.mjs, checked before anything
+ *   is stored or sent.
  */
 
 import { blockedDomainFor, logBlockedLead } from '../../lib/blocked_lead_domains.mjs';
+import { guardLead } from '../../lib/lead_guard.mjs';
 
 const ALLOWED_PROVIDER_TYPES = new Set([
   'Personal Injury Attorney',
@@ -301,6 +305,9 @@ export async function onRequestPost(context) {
       return json({ ok: true });
     }
 
+    const guard = await guardLead({ request: req, env, body, scope: 'request-assistance' });
+    if (!guard.ok) return json(guard.body, { status: guard.status, headers: guard.headers || {} });
+
     const provider_type = String(body.provider_type || '').trim();
     const email = String(body.email || '').trim();
     const intent_type = String(body.intent_type || body.intent || '').trim().slice(0, 64);
@@ -355,6 +362,8 @@ export async function onRequestPost(context) {
       logBlockedLead(blocked, host);
       return json({ ok: true });
     }
+
+    await guard.count();
 
     const record = {
       provider_type,

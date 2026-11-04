@@ -311,7 +311,7 @@
           post(p, function (res) {
             btn.disabled = false;
             if (res && res.ok) { s.result = res; storeClear(); s.history = []; s.step = res.status === 'unsellable' ? 'offramp_done' : 'thanks'; render(); }
-            else err.textContent = ERRORS[res && res.error] || 'Something went wrong. Please try again.';
+            else err.textContent = ERRORS[res && res.error] || (res && res.message) || 'Something went wrong. Please try again.';
           });
         });
         shell('How should they reach you?', 'A phone number or an email is enough.', h('div', null,
@@ -344,7 +344,7 @@
           post(p, function (res) {
             btn.disabled = false;
             if (res && res.ok) { storeClear(); s.step = 'offramp_done'; s.history = []; render(); }
-            else err.textContent = ERRORS[res && res.error] || 'Something went wrong. Please try again.';
+            else err.textContent = ERRORS[res && res.error] || (res && res.message) || 'Something went wrong. Please try again.';
           });
         });
         shell('Here is where to start', why, h('div', null, resourcesList(),
@@ -357,7 +357,13 @@
         shell('Thank you', 'We have your request. These free public services can help right away:', resourcesList(), { noBack: true, noProgress: true });
       },
       thanks: function () {
-        shell('Your request is in', 'Communities that fit will contact you, usually within a day. We will check in with you in 30 days to see how it went. You can still call any community on the list yourself.', h('p', { class: 'si-help' }, 'Reference: ' + ((s.result && s.result.lead_id) || '')), { noBack: true, noProgress: true });
+        var c = s.result && s.result.confirm;
+        var msg = c === 'email'
+          ? 'One last step: we sent you an email. Tap "Confirm my request" in it, and then communities that fit will contact you, usually within a day. You can still call any community on the list yourself.'
+          : c === 'call'
+            ? 'We will call you to confirm the request is yours, then communities that fit will contact you. You can still call any community on the list yourself.'
+            : 'Communities that fit will contact you, usually within a day. We will check in with you in 30 days to see how it went. You can still call any community on the list yourself.';
+        shell(c === 'email' ? 'Check your email' : 'Your request is in', msg, h('p', { class: 'si-help' }, 'Reference: ' + ((s.result && s.result.lead_id) || '')), { noBack: true, noProgress: true });
       },
       pro_tier: function () {
         shell('Care level', 'How many daily tasks (bathing, dressing, transferring, medications, mobility, eating) does the patient need help with?', choices('care_tier', [
@@ -383,7 +389,7 @@
           post({ kind: 'professional', care_tier: s.a.care_tier, memory_care: s.a.memory_care, payer: s.a.payer, discharge_date: s.a.discharge_date || '', email: s.a.email, consent_contact: !!s.a.consent_contact, consent_health: !!s.a.consent_health, zip: root.getAttribute('data-zip') || '' }, function (res) {
             btn.disabled = false;
             if (res && res.ok) { s.result = res; storeClear(); s.history = []; s.step = res.status === 'unsellable' ? 'offramp_done' : 'thanks'; render(); }
-            else err.textContent = ERRORS[res && res.error] || 'Something went wrong. Please try again.';
+            else err.textContent = ERRORS[res && res.error] || (res && res.message) || 'Something went wrong. Please try again.';
           });
         });
         shell('Your work email', 'Communities reply to you. No patient or family details are collected here.', h('div', null,

@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadRequestAssistance } from './load_endpoint.mjs';
+import { loadRequestAssistance, GUARD_ENV, GUARD_HEADERS, withSiteverify } from './load_endpoint.mjs';
 import { blockedDomainFor, parseBlockedDomains } from '../../lib/blocked_lead_domains.mjs';
 import { makeWorld } from '../senior/harness.mjs';
 
@@ -23,11 +23,11 @@ async function withCapture(fn) {
   const logs = [];
   const realFetch = globalThis.fetch;
   const realLog = console.log;
-  globalThis.fetch = async (url, init) => {
+  globalThis.fetch = withSiteverify(async (url, init) => {
     calls.push(String(url));
     if (String(url).includes('airtable')) return new Response(JSON.stringify({ records: [{ id: 'rec1' }] }), { status: 200 });
     return new Response('{}', { status: 200 });
-  };
+  });
   console.log = (...a) => { logs.push(a.join(' ')); };
   try {
     const out = await fn();
@@ -38,11 +38,11 @@ async function withCapture(fn) {
   }
 }
 
-const ENV = { AIRTABLE_BASE_ID: 'app', AIRTABLE_TABLE_NAME: 'Leads', AIRTABLE_API_TOKEN: 't', RESEND_API_KEY: 'r', LEAD_TO: 'leads@example.com' };
+const ENV = { ...GUARD_ENV, AIRTABLE_BASE_ID: 'app', AIRTABLE_TABLE_NAME: 'Leads', AIRTABLE_API_TOKEN: 't', RESEND_API_KEY: 'r', LEAD_TO: 'leads@example.com' };
 const body = (email) => ({ provider_type: 'Personal Injury Attorney', email, consent: 'yes', vertical_key: 'pi' });
 
 async function postRA(mod, email, list) {
-  const req = new Request('https://theaccidentguides.com/api/request-assistance', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body(email)) });
+  const req = new Request('https://theaccidentguides.com/api/request-assistance', { method: 'POST', headers: { 'content-type': 'application/json', ...GUARD_HEADERS }, body: JSON.stringify(body(email)) });
   const res = await mod.onRequestPost({ request: req, env: { ...ENV, ...(list === undefined ? {} : { BLOCKED_LEAD_DOMAINS: list }) } });
   return { status: res.status, json: await res.json() };
 }

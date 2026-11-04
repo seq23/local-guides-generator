@@ -726,6 +726,10 @@ function linkThinGuidesFromClosestSibling(outDir) {
 // read location.search see the same values. link_audit.js fails the build on
 // any internal <a href> with a query that is not allow-listed.
 const ATTR_CARRY_TAG = '<script src="/assets/attr-carry.js" data-attr-carry="true"></script>';
+// Every lead POST (/api/request-assistance, /api/senior-lead) needs a Turnstile token;
+// /assets/lead-guard.js adds it to the forms' own fetch calls (lib/lead_guard.mjs checks it).
+// Deferred and head-only, so it never changes a page's <main> hash or lastmod.
+const LEAD_GUARD_TAG = '<script src="/assets/lead-guard.js" defer data-lead-guard="true"></script>';
 function moveInternalQueryToData(html) {
   let out = String(html).replace(/<a\b[^>]*>/gi, (tag) => {
     const m = tag.match(/\bhref=(["'])(\/(?!\/)[^"'?#]*)\?([^"'#]*)(#[^"']*)?\1/i);
@@ -746,6 +750,9 @@ function moveInternalQueryToData(html) {
   });
   if (/<head\b/i.test(out) && !out.includes('data-attr-carry="true"')) {
     out = out.replace(/<head\b[^>]*>/i, (h) => h + ATTR_CARRY_TAG);
+  }
+  if (/<head\b/i.test(out) && !out.includes('data-lead-guard="true"')) {
+    out = out.replace(/<head\b[^>]*>/i, (h) => h + LEAD_GUARD_TAG);
   }
   return out;
 }
@@ -1491,6 +1498,47 @@ function packBuildsStateNextStepsPages(verticalKey) {
   return isPersonalInjury(verticalKey);
 }
 
+// Routes this site has folded into a hub: generated pages the consolidation
+// ledger records as 301'd away (`folded[]` with generated_route: true in
+// data/search_intelligence/<host>/consolidation_candidates.json).
+//
+// A folded route must stop being BUILT, stop being LINKED and start being
+// REDIRECTED, all from one list, for the reason the comment on
+// packBuildsStateNextStepsPages() records: when the href and the page are decided
+// separately the build ships CTAs to pages it never wrote. The ledger is that one
+// list, the pack's legacyRedirects carries the 301, and
+// scripts/validation/site_hygiene_registry_contract.js fails the build if a folded
+// row has no matching redirect or is still produced in dist/.
+const _foldedRoutesByHost = new Map();
+function foldedGeneratedRoutes() {
+  // The active pack's host, resolved the same way reviewedByForPack() resolves its
+  // pack, so every caller reads one list without having to carry siteUrl.
+  const cfg = getPackSiteConfig(process.env.PAGE_SET_FILE || '');
+  const host = String((cfg && cfg.siteUrl) || '').replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/^www\./, '');
+  if (!host) return new Set();
+  if (_foldedRoutesByHost.has(host)) return _foldedRoutesByHost.get(host);
+  const out = new Set();
+  const p = path.join(DATA_DIR, 'search_intelligence', host, 'consolidation_candidates.json');
+  try {
+    if (fs.existsSync(p)) {
+      for (const row of (readJson(p).folded || [])) {
+        if (row && row.generated_route === true && row.route) {
+          out.add('/' + String(row.route).replace(/^\/+|\/+$/g, '') + '/');
+        }
+      }
+    }
+  } catch (e) {
+    throw new Error('build_city_sites: ' + host + ' consolidation ledger is unreadable, so folded routes cannot be honoured: ' + e.message);
+  }
+  _foldedRoutesByHost.set(host, out);
+  return out;
+}
+
+function isFoldedRoute(route) {
+  const r = '/' + String(route || '').replace(/^\/+|\/+$/g, '') + '/';
+  return foldedGeneratedRoutes().has(r);
+}
+
 // --- Authority-safe Connection Bubble (conversion layer) ---
 // Provider type labels are contract-locked (must match request page enum exactly).
 function providerTypeLabelForVertical(verticalKey) {
@@ -1607,8 +1655,13 @@ function buildRequestAssistanceContext(verticalKey, ctx) {
   // The base path is now chosen by page kind against what the build actually
   // writes, and scripts/validation/link_audit.js hard-fails the build if any of
   // these resolve to a file the same build did not produce.
-  const stateAbbrForNextSteps = (pageKind === 'state' && packBuildsStateNextStepsPages(verticalKey))
+  const stateAbbrCandidate = (pageKind === 'state' && packBuildsStateNextStepsPages(verticalKey))
     ? ((String(src).match(/^\/states\/([A-Za-z]{2})\//) || [])[1] || '')
+    : '';
+  // A state whose next-steps page has been folded away keeps no link to it: the
+  // CTA falls through to the shared /next-steps/ hub below.
+  const stateAbbrForNextSteps = (stateAbbrCandidate && !isFoldedRoute('states/' + stateAbbrCandidate.toUpperCase() + '/next-steps'))
+    ? stateAbbrCandidate
     : '';
   let nextStepsBasePath;
   if (isTrainingBuild) {
@@ -2132,8 +2185,27 @@ function buildWebPageSchema(siteUrl, brandName, city, route, title, description)
     dateModified: BUILD_ISO,
     url: buildCanonical(siteUrl, city, route),
     isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...authorForPack(siteUrl, brandName),
     ...reviewedByForPack()
   };
+}
+
+// The page's AUTHOR is the publication's editorial desk, which is exactly what
+// the visible byline says ("By the <brand> editorial desk", entity_graph.bylineHtml).
+// Guide and city-hub pages already declared it through their Article node, so the
+// Monday quality sample scored them c6 PASS; /<city>/next-steps/ and /states/<ST>/
+// pages carry only a WebPage node, which had no author at all, so the same honest
+// byline read as "no named author or reviewer is visible" (Search Readiness q1,
+// 3 Nov 2026, theaccidentguides + hormonesivhair + uscisexam + neuroevalguides).
+//
+// This names the ORGANISATION, never a person. reviewedByForPack() above is the
+// only thing that may name a human, and only from data/entity/<pack>/reviewers.json
+// with written consent on file - those files ship empty on purpose and a page never
+// claims a credentialed reviewer who has not agreed in writing.
+function authorForPack(siteUrl, brandName) {
+  const name = String(brandName || '').trim();
+  if (!name) return {};
+  return { author: { "@type": "Organization", name, url: String(siteUrl || '').replace(/\/+$/, "") + "/" } };
 }
 // reviewedBy appears only for a reviewer in data/entity/<pack>/reviewers.json
 // with written consent on file. That file ships empty: no person is ever
@@ -2153,12 +2225,24 @@ function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description)
     dateModified: BUILD_ISO,
     url: buildCanonicalGlobal(siteUrl, route),
     isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...authorForPack(siteUrl, brandName),
     ...reviewedByForPack(),
     // Homepage: the definition paragraph under the H1 and the short-answer FAQ
     // are the read-aloud surface. validate:homepage-definition checks that every
     // selector here resolves on the rendered page.
     ...(String(route || "").replace(/^\/+|\/+$/g, "") === "" ? {
       speakable: { "@type": "SpeakableSpecification", cssSelector: HOME_SPEAKABLE_SELECTORS }
+    } : {}),
+    // A guide page's read-aloud surface is its short answer block and its FAQ -
+    // the same two slots the homepage exposes. Every /guides/<slug>/ page carries
+    // both, but none of them declared a speakable node, so an answer engine had
+    // nothing marked to quote and the Monday sample scored every sampled guide
+    // "a guide page with no speakable markup" (Search Readiness q1, 3 Nov 2026:
+    // dentistryguides 4 of 5 sampled guides, plus neuroevalguides, hormonesivhair
+    // and uscisexam). validate:guide-speakable resolves every selector below
+    // against each rendered guide page, so this list cannot drift from the markup.
+    ...(/^guides\/.+/.test(String(route || "").replace(/^\/+|\/+$/g, "")) ? {
+      speakable: { "@type": "SpeakableSpecification", cssSelector: GUIDE_SPEAKABLE_SELECTORS }
     } : {})
   };
 }
@@ -2166,6 +2250,10 @@ function buildWebPageSchemaGlobal(siteUrl, brandName, route, title, description)
 // Read from the registry so the selectors the page declares and the selectors
 // scripts/validation/homepage_definition_contract.js resolves are one list.
 const HOME_SPEAKABLE_SELECTORS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'contracts', 'site_hygiene_registry.json'), 'utf8')).speakable_selectors;
+
+// Same contract for guide pages: scripts/validation/guide_speakable_contract.js
+// resolves every selector in this list against each rendered /guides/<slug>/ page.
+const GUIDE_SPEAKABLE_SELECTORS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'contracts', 'site_hygiene_registry.json'), 'utf8')).guide_speakable_selectors;
 
 function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description) {
   return {
@@ -2176,7 +2264,8 @@ function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, descr
     datePublished: BUILD_ISO,
     dateModified: BUILD_ISO,
     url: buildCanonicalGlobal(siteUrl, route),
-    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
+    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...authorForPack(siteUrl, brandName)
   };
 }
 function buildCollectionPageSchemaCity(siteUrl, brandName, city, route, title, description, verticalKey) {
@@ -2199,7 +2288,8 @@ function buildCollectionPageSchemaCity(siteUrl, brandName, city, route, title, d
         name: String(city && (city.marketLabel || city.city || city.slug || ''))
       }
     },
-    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" }
+    isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
+    ...authorForPack(siteUrl, brandName)
   };
 }
 
@@ -3352,6 +3442,79 @@ function stripRequestAssistanceHero(requestAssistanceHtml) {
   return String(requestAssistanceHtml || '').replace(/<section class="hero ra-hero"[\s\S]*?<\/section>/i, '');
 }
 
+// The two explanatory sections of /request-assistance/ that the next-steps hubs
+// used to embed verbatim: "What this tool does / Who this is for / What this tool
+// is not" and "What happens after submission / What to submit / Important limits".
+//
+// 344 words of them shipped byte-for-byte on all 57 next-steps pages of every
+// pack, which is why two city next-steps pages picked at random came back 77%
+// identical and the Monday sample scored them template filler (Search Readiness
+// q1, 3 Nov 2026: uscisexam des-moines-ia / portland-or / columbia-sc, plus
+// theaccidentguides, neuroevalguides and hormonesivhair). It also pointed 57
+// near-copies of that copy at the canonical /request-assistance/ page, which is
+// the page that actually owns it.
+//
+// What stays is the form itself (data-request-assistance-form-primary), and with
+// it every compliance line a visitor needs before submitting: the consent
+// checkbox and its "educational only and does not provide professional advice"
+// wording, "We do not rank providers, and we do not guarantee outcomes,
+// availability, or response time", "Do not submit sensitive case facts, health
+// history, or legal details on this page", and the fallback contact address.
+// Nothing load-bearing is dropped; the longer explanation now lives once, on the
+// page it belongs to, one click away.
+// Guarded by scripts/validation/next_steps_embed_dedupe_contract.js.
+const REQUEST_ASSISTANCE_PROSE_SECTIONS = ['who-its-for', 'what-happens-next'];
+
+function stripRequestAssistanceDuplicateProse(requestAssistanceHtml) {
+  let out = String(requestAssistanceHtml || '');
+  for (const marker of REQUEST_ASSISTANCE_PROSE_SECTIONS) {
+    out = out.replace(
+      new RegExp('<section\\b[^>]*data-request-assistance-' + marker + '="true"[\\s\\S]*?<\\/section>', 'i'),
+      ''
+    );
+  }
+  return out;
+}
+
+// The one link that replaces them, so the copy is still reachable from the hub.
+// Wrapped in a section on purpose: reorderMainSections() rebuilds <main> from its
+// <section> elements, so a loose paragraph appended after the embedded form was
+// dropped from all 48 /states/<ST>/next-steps/ pages while surviving on the city
+// ones (caught by next_steps_embed_dedupe_contract.js, 3 Nov 2026).
+function renderRequestAssistanceDetailLinkHtml() {
+  return '<section class="section" data-request-assistance-detail="true">' +
+    '<p class="muted" data-request-assistance-detail-link="true">' +
+    'What this routing request is for, who it suits, what happens after you submit it and the' +
+    ' limits that apply are set out in full on <a href="/request-assistance/">the request a' +
+    ' provider callback page</a>.</p></section>';
+}
+
+// The definition paragraph under the next-steps H1.
+//
+// It used to be a 22-word label ("Use this page when you want everything in one
+// place: ...") that defined nothing, so every /<city>/next-steps/ and
+// /states/<ST>/next-steps/ page failed the page-shape definition check: the one
+// paragraph an answer engine is most likely to lift said what the page was *for*
+// but never what it *is* (Search Readiness q1, 3 Nov 2026 - uscisexam,
+// theaccidentguides, neuroevalguides and hormonesivhair all scored
+// "opening paragraph is 22 words and defines nothing (needs 40-60, 'X is ...')").
+//
+// The replacement is a real "X is ..." definition, sized to the 40-60 word window
+// the checklist asks for so it stays quotable whole, and it names the market -
+// the only thing that genuinely differs between these pages.
+// Guarded by scripts/validation/next_steps_definition_contract.js, which counts the
+// words and requires the copula on every rendered next-steps page.
+function renderNextStepsDefinitionHtml(marketScoped, marketLabel) {
+  const subject = marketScoped
+    ? 'This next-steps page for ' + escapeHtml(marketLabel)
+    : 'This next-steps page';
+  return '<p class="muted" data-next-steps-definition="true">' + subject +
+    ' is the decision hub that gathers the three ways out of research and into action:' +
+    ' the provider callback form, the education-first guides on cost and timing, and the' +
+    ' self-serve lookup tools, so you can request contact, keep comparing, or verify the' +
+    ' details yourself.</p>';
+}
+
 function renderDedicatedNextStepsHubHtml(opts) {
   var compareHref = String(opts && opts.compareHref ? opts.compareHref : '/guides/');
   var trainingBanner = (String(process.env.LKG_ENV || '').toLowerCase() === 'training' && String(process.env.PAGE_SET_FILE || '').endsWith('starter_v1.json'))
@@ -3360,6 +3523,8 @@ function renderDedicatedNextStepsHubHtml(opts) {
   var toolsHref = String(opts && opts.toolsHref ? opts.toolsHref : '/faq/');
   var sponsorRouting = opts && opts.sponsorRouting ? opts.sponsorRouting : null;
   var requestAssistanceHtml = stripRequestAssistanceHero(String(opts && opts.requestAssistanceHtml ? opts.requestAssistanceHtml : ''));
+  requestAssistanceHtml = stripRequestAssistanceDuplicateProse(requestAssistanceHtml);
+  if (requestAssistanceHtml.trim()) requestAssistanceHtml += renderRequestAssistanceDetailLinkHtml();
   requestAssistanceHtml = applyVerticalLeadRoutingToRequestAssistanceHtml(requestAssistanceHtml, sponsorRouting);
   var marketLabel = String(opts && opts.marketLabel ? opts.marketLabel : 'this market');
   // The global /next-steps/ page is not scoped to a market - it passes the brand
@@ -3372,7 +3537,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
     '<section class="hero" data-next-steps-page-hero="true">' +
       '<p class="kicker">Next steps</p>' +
       '<h1>' + escapeHtml(pageTitle) + '</h1>' +
-      '<p class="muted">Use this page when you want everything in one place: the full callback form, the comparison path, and the lookup tools path.</p>' +
+      renderNextStepsDefinitionHtml(marketScoped, marketLabel) +
     '</section>' +
     '<section class="section next-steps-page-shell" data-next-steps-page-shell="true">' +
       '<div class="card" data-next-steps-page-intro="true">' +
@@ -3561,6 +3726,14 @@ function renderNextStepsLocalHtml(verticalKey, city) {
       );
     }
   }
+  // Deliberately NOT repeated here: the city's `local_vetting_points`,
+  // `wait_time_notes` and the rest of data/city_content/<vertical>/<slug>.json.
+  // Those fields read as per-city research but are template prose with the city
+  // name interpolated - des-moines-ia, portland-or and columbia-sc share three of
+  // their four vetting points word for word - so surfacing them here raised the
+  // similarity between two city next-steps pages instead of lowering it (measured
+  // 0.692 -> 0.698, 3 Nov 2026). They are already on the city hub page, which is
+  // the page that should carry them.
   if (!parts.length) return '';
   return '<section class="section" data-next-steps-local="true"><div class="card"><h2>In ' + escapeHtml(market) + '</h2>' + parts.join('') + '</div></section>';
 }
@@ -4042,35 +4215,71 @@ function inferProviderCategory(verticalKey, subKey, provider) {
   return 'Provider';
 }
 
+// What this card says about THIS provider, and nothing that would read the same
+// on the card next to it.
+//
+// Until 3 Nov 2026 this function appended the vertical's generic "how to compare"
+// advice to every card, so a city page listing nine clinics printed the same
+// sentence nine times: "Ask what is included before treatment starts and what is
+// billed separately" ten times on hormonesivhair.com/portland-me/ and
+// /baltimore-md/, "Use this when you are comparing ..." seven times on
+// neuroevalguides.com/wilmington-de/, /philadelphia-pa/ and /newark-nj/. The
+// Monday quality sample reads any 8-word phrase repeated more than three times in
+// one body as template filler, and it was right: the advice is identical whichever
+// provider you are looking at, so it belongs once per directory section, which is
+// where providerDirectoryGuidance() now puts it.
+//
+// A provider with nothing specific on file renders no attribute list at all. That
+// is the honest outcome - 486 of the 537 provider records carry no `attributes` of
+// their own - and the card still shows its name, category, market and the official
+// verification link.
 function defaultProviderAttributes(verticalKey, subKey, provider, city) {
   const attrs = Array.isArray(provider && provider.attributes) ? provider.attributes.map((v) => String(v || '').trim()).filter(Boolean) : [];
   if (provider && provider.offers_peptide_programs === true) attrs.push('May also offer peptide programs');
+  return Array.from(new Set(attrs)).slice(0, 4);
+}
+
+// The generic guidance that used to sit on every card, printed once per provider
+// directory section. Keyed the same way the card copy was, so each section still
+// says what it said - the IV sections still talk about protocols and supervision,
+// the evaluation sections about report and testing scope.
+// Guarded by scripts/validation/provider_card_contract.js, which fails the build if
+// a directory section has no guidance list, if a card's attribute list is empty, or
+// if any 8-word phrase inside a directory section repeats more than three times on
+// one page.
+function providerDirectoryGuidance(verticalKey, subKey) {
   const vk = String(verticalKey || '').toLowerCase();
   const sk = String(subKey || '').toLowerCase();
   if (vk === 'pi') {
-    attrs.push('Use the city page to compare fit, fees, and case handling');
-    attrs.push('Verify license and disciplinary history before you contact any firm');
-  } else if (vk === 'dentistry') {
-    attrs.push('Compare treatment scope, written plan clarity, and follow-up expectations');
-    attrs.push('Verify dental licensing through the official state resource');
-  } else if (vk === 'neuro') {
-    const area = sk === neuroServices.THERAPY_SUBKEY ? neuroServices.therapyFocusLabel(provider && provider.therapy_focus) : (sk === 'autism_eval' ? 'autism' : 'ADHD');
-    const ev = !!(provider && provider.offers_evaluation === true);
-    const th = !!(provider && provider.offers_therapy === true);
-    if (ev) attrs.push(sk === 'autism_eval' ? 'Use this when you are comparing autism evaluation options' : 'Use this when you are comparing ADHD / neuro evaluation options');
-    if (th) attrs.push('Use this when you are comparing ' + area + ' therapy options');
-    if (ev) attrs.push('Ask what the report, testing scope, and feedback session actually include');
-    if (th) attrs.push('Ask how therapy goals are set and how progress is reviewed');
-  } else if (vk === 'trt') {
-    attrs.push(sk === 'iv_hydration' ? 'Compare IV protocols, pricing, and supervision' : 'Compare evaluation steps, monitoring, and follow-up clarity');
-    attrs.push('Ask what is included before treatment starts and what is billed separately');
-  } else if (vk === 'uscis_medical' || vk === 'uscis') {
-    attrs.push('Confirm documents, vaccination records, and sealed-form handling before you book');
-    attrs.push('Verify current civil-surgeon status and ask how paperwork is returned');
-  } else {
-    attrs.push('Use the guide layer before you contact any provider');
+    return ['Use the city page to compare fit, fees, and case handling',
+      'Verify license and disciplinary history before you contact any firm'];
   }
-  return Array.from(new Set(attrs)).slice(0, 4);
+  if (vk === 'dentistry') {
+    return ['Compare treatment scope, written plan clarity, and follow-up expectations',
+      'Verify dental licensing through the official state resource'];
+  }
+  if (vk === 'neuro') {
+    const out = [];
+    if (sk === neuroServices.THERAPY_SUBKEY) {
+      out.push('Use this section when you are comparing therapy options');
+      out.push('Ask how therapy goals are set and how progress is reviewed');
+    } else {
+      out.push(sk === 'autism_eval'
+        ? 'Use this section when you are comparing autism evaluation options'
+        : 'Use this section when you are comparing ADHD / neuro evaluation options');
+      out.push('Ask what the report, testing scope, and feedback session actually include');
+    }
+    return out;
+  }
+  if (vk === 'trt') {
+    return [sk === 'iv_hydration' ? 'Compare IV protocols, pricing, and supervision' : 'Compare evaluation steps, monitoring, and follow-up clarity',
+      'Ask what is included before treatment starts and what is billed separately'];
+  }
+  if (vk === 'uscis_medical' || vk === 'uscis') {
+    return ['Confirm documents, vaccination records, and sealed-form handling before you book',
+      'Verify current civil-surgeon status and ask how paperwork is returned'];
+  }
+  return ['Use the guide layer before you contact any provider'];
 }
 
 function normalizeProviderCard(verticalKey, subKey, provider, city, verifyUrl) {
@@ -4094,20 +4303,30 @@ function renderStructuredProviderCardsSectionHtml(opts) {
   const preview = opts && opts.preview === true;
   const verifyUrl = normalizeUrl((opts && opts.verifyUrl) || '');
   if (!cards.length) return '';
+  // The guidance that applies to every card in this section, printed once.
+  const guidance = Array.isArray(opts && opts.guidance) ? opts.guidance.filter(Boolean) : [];
+  const guidanceHtml = guidance.length
+    ? ('<ul class="provider-directory-guidance" data-provider-directory-guidance="true">' +
+        guidance.map((item) => '<li>' + escapeHtml(String(item)) + '</li>').join('') + '</ul>')
+    : '';
   return (
     '<section class="section provider-directory-section' + (preview ? ' provider-directory-section--preview' : '') + '" data-provider-directory="true"' + (preview ? ' data-home-provider-preview="true"' : '') + String((opts && opts.sectionAttrs) || '') + '>' +
       '<h2>' + heading + '</h2>' +
       (lead ? ('<p class="muted">' + lead + '</p>') : '') +
+      guidanceHtml +
       '<div class="provider-directory-grid">' +
       cards.map((card) => {
-        const attrs = (Array.isArray(card.attributes) ? card.attributes : []).slice(0, 4).map((item) => '<li>' + escapeHtml(item) + '</li>').join('');
+        const list = (Array.isArray(card.attributes) ? card.attributes : []).slice(0, 4);
+        const attrs = list.map((item) => '<li>' + escapeHtml(item) + '</li>').join('');
         const meta = [card.category, [card.city, card.state].filter(Boolean).join(', ')].filter(Boolean).join(' — ');
         return (
           '<article class="provider-card" data-provider-card="true">' +
             '<h3 class="provider-card__name">' + escapeHtml(card.name) + '</h3>' +
             neuroServices.serviceTagHtml(card.serviceTag) +
             '<p class="provider-card__meta" data-provider-card-meta="true">' + escapeHtml(meta) + '</p>' +
-            '<ul class="provider-card__attributes" data-provider-card-attributes="true">' + attrs + '</ul>' +
+            // Only when this provider has something of its own to say. An empty
+            // list is markup that tells a reader nothing.
+            (list.length ? ('<ul class="provider-card__attributes" data-provider-card-attributes="true">' + attrs + '</ul>') : '') +
             (verifyUrl ? ('<p class="provider-card__verify"><a href="' + escapeHtml(verifyUrl) + '" rel="nofollow">Verify license / registry</a></p>') : '') +
           '</article>'
         );
@@ -4174,7 +4393,8 @@ function collectHomepageProviderPreviewCards(verticalKey, pageSet, brandName) {
     lead: leadMap[vk] || 'These are neutral, non-ranked examples to ground the page before you narrow into a state or city page.',
     cards,
     preview: true,
-    verifyUrl: ''
+    verifyUrl: '',
+    guidance: providerDirectoryGuidance(verticalKey, '')
   });
 }
 
@@ -4247,7 +4467,7 @@ function renderExampleProvidersSectionHtml(verticalKey, city, providers, opts) {
   const heading = (opts && opts.heading) ? String(opts.heading) : ('Directory Listings (Examples of providers in ' + marketRaw + ')');
   const lead = (opts && opts.lead) ? String(opts.lead) : 'These are non-ranked, non-sponsored examples of providers that help show what exists locally. Use the guide layer and official verification resources before you contact anyone.';
   const cards = providers.map((provider) => normalizeProviderCard(verticalKey, opts && opts.subKey || '', provider, city, verifyUrl));
-  return renderStructuredProviderCardsSectionHtml({ heading, lead, cards, verifyUrl, sectionAttrs: (opts && opts.sectionAttrs) || '' });
+  return renderStructuredProviderCardsSectionHtml({ heading, lead, cards, verifyUrl, sectionAttrs: (opts && opts.sectionAttrs) || '', guidance: providerDirectoryGuidance(verticalKey, (opts && opts.subKey) || '') });
 }
 
 
@@ -5847,7 +6067,7 @@ function renderCitationSummaryZoneHtml(opts) {
     const guideEntry = loadGuideEnhancementRegistry()[String(route || '')] || null;
     const sourceAnswer = guideContent.answerFromSource(opts && opts.sourceHtml);
     return (
-      '<section class="section citation-summary answer-block" data-guide-opening="true" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="guide-detail">' +
+      '<section class="section citation-summary guide-opening-block answer-block" data-guide-opening="true" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="guide-detail">' +
       '<h2 id="citation-summary">' + escapeHtml(guideQuestionHeading(route, String((opts && opts.title) || ''))) + '</h2>' +
       // The curated per-guide sentences in the enhancement registry are the
       // page's own answer, written by a human for this exact guide. Preferring
@@ -6573,7 +6793,18 @@ function loadNextStepsSponsor(citySlug) {
         '<section class="hero" data-state-hero="true" data-pi-state-page="true">' +
         '<p class="kicker">Personal injury · State guide</p>' +
         '<h1>' + escapeHtml(stateStrength ? stateStrength.h1 : stateName + ' personal injury guide') + '</h1>' +
-        '<p class="muted">Use this state page for neutral decision support, firm comparison, and official verification resources.</p>' +
+        // The opening line was "Use this state page for neutral decision support,
+        // firm comparison, and official verification resources" - 14 words that
+        // named neither the state nor what the page is about, so the first 100
+        // words of /states/<ST>/ did not answer the title and the page-shape check
+        // scored d1 FAIL on every one of them (Search Readiness q1, 3 Nov 2026:
+        // theaccidentguides.com/states/CO/ and /states/AR/). It now opens by
+        // saying what the page is, naming the state and the service it covers.
+        '<p class="muted" data-state-definition="true">This is the ' + escapeHtml(stateName) +
+        ' guide to choosing among personal injury lawyers: it brings the state\'s verified firm' +
+        ' listings, the official licensing and disciplinary lookups for ' + escapeHtml(stateName) +
+        ', and the comparison questions that matter into one place, so you can judge fit before' +
+        ' you contact anyone.</p>' +
         '</section>' +
         searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:pi_state_top%%' +
@@ -6716,17 +6947,19 @@ function loadNextStepsSponsor(citySlug) {
     for (const ab of piStateAbbrs) {
       const s = selectPiStateSponsor(ab);
       if (!shouldRenderDeterministicNextSteps(pageSet, { pageType: 'state', route: '/states/' + ab + '/' })) continue;
+      // Folded into the state hub and 301'd there (consolidation ledger).
+      if (isFoldedRoute('states/' + ab + '/next-steps')) continue;
       const html = renderPiStateNextStepsPageHtml(ab, s);
       writeFileEnsured(outPathForPiStateNextSteps(ab), html);
     }
 
     // Optional PI hub route (/personal-injury/)
     const PI_HUB_DESCRIPTION = 'Browse personal injury guides by U.S. state: each state page links its covered cities, official bar and court resources, and a lawyer comparison checklist.';
-    const piHubFanoutCluster = fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury — browse by state' }, pageSet);
+    const piHubFanoutCluster = fanout.buildFanoutCluster({ verticalKey, pageKind: 'global-detail', route: '/personal-injury/', title: 'Personal injury: browse by state' }, pageSet);
     const piHubFanoutHtml = fanout.renderFanoutClusterHtml(piHubFanoutCluster);
     const piHubRoutingHtml = renderInternalDistributionZoneHtml({
       kind: 'home',
-      title: 'Personal injury — browse by state',
+      title: 'Personal injury: browse by state',
       buildIso: BUILD_ISO,
       guideLinks: selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description })),
       primaryLinks: [
@@ -6737,7 +6970,7 @@ function loadNextStepsSponsor(citySlug) {
       cityLinks: []
     });
     const piHubMainHtml = (
-      '<section class="section answer-block" data-home-answer="true" data-short-answer="true"><p class="kicker">State routing hub</p><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p><h2>Short answer</h2><p>Use this hub when the question is still broad and you need to move into the right state page, guide, or local market before comparing firms.</p><p class="answer-when"><strong>Use this hub when:</strong> you need to move from a broad question into the right state guide or canonical PI guide.</p><p class="answer-tradeoff"><strong>Common mistake:</strong> using a state browse page like a final answer instead of a routing layer.</p></section>' +
+      '<section class="section answer-block" data-home-answer="true" data-short-answer="true"><p class="kicker">State routing hub</p><h1>Personal injury: browse by state</h1><p class="muted">Educational only. No rankings. No endorsements.</p><h2>Short answer</h2><p>This hub is the routing layer for personal injury questions that are still broad: it lists every state guide, the canonical personal injury guides, and the local market pages, so you can move to the right state or topic before you start comparing firms.</p><p class="answer-when"><strong>Use this hub when:</strong> you need to move from a broad question into the right state guide or canonical PI guide.</p><p class="answer-tradeoff"><strong>Common mistake:</strong> using a state browse page like a final answer instead of a routing layer.</p></section>' +
       '<section class="section pi-hub-compare-block" data-pi-hub-compare="true"><h2>How to use this hub</h2><ol><li>Start with your state page if you are comparing firms.</li><li>Use the core PI guides if your question is about fees, evidence, consultations, or insurance calls.</li><li>Use official verification resources before contacting a firm.</li></ol></section>' +
       marketsStatusListHtml +
       piHubRoutingHtml +
@@ -6754,7 +6987,7 @@ function loadNextStepsSponsor(citySlug) {
       '%%INLINE_SCRIPTS%%': '',
       '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'personal-injury'),
       '%%HEAD_META%%': renderHeadMeta({ pageType: 'pi-hub', title: brandedTitle('Personal Injury by State', siteUrl, brandName), description: PI_HUB_DESCRIPTION, canonical: buildCanonicalGlobal(siteUrl, 'personal-injury'), brandName, section: 'Personal injury hub', keywords: ['personal injury', 'states', 'browse by state'] }),
-      '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury — browse by state', 'Browse personal injury by state.', pageSet),
+      '%%HEAD_JSON_LD%%': renderHeadJsonLdGlobal(siteUrl, brandName, 'personal-injury', 'Personal injury: browse by state', 'Browse personal injury by state.', pageSet),
       '%%FOOTER%%': footerHtml,
       '%%CONNECTION_BUBBLE%%': '',
       '%%BRAND_NAME%%': escapeHtml(brandName),

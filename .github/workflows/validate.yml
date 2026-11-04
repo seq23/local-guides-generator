@@ -84,6 +84,12 @@ jobs:
       - name: Lead storage failure and fallback pins
         run: node --test tests/request_form/storage_failure_paths.test.mjs
 
+      - name: Lead gate pins
+        # Both public lead endpoints: no Turnstile token 400, rejected token 403, no
+        # secret 503, over the per-IP or per-site daily limit 429; a new senior lead is
+        # routed (follow-ups, seat offer, teasers) only after the family confirms (3 Nov 2026).
+        run: npm run test:lead-guard
+
       - name: Blocked lead domains pins
         # A form email on BLOCKED_LEAD_DOMAINS (Pages env var only) is dropped
         # quietly: no storage, no email, one log line, honeypot answer (26 Oct 2026).

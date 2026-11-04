@@ -381,14 +381,39 @@ function classifyPageKind(ctx) {
   return 'global-detail';
 }
 
+// A page's own route may appear in its cluster once - it is the primary route, and
+// the distribution contract counts it - but not twice.
+//
+// Guide and global-detail pages were emitting two entries that both pointed at the
+// page being rendered and both printed its full title: "<topic> → This guide" and
+// "what to know about <topic> → This guide". With the H1 and the answer heading
+// already naming the page, that put the same 8-word phrase on the page four times
+// and the Monday quality sample read it as template filler
+// (hormonesivhair.com/guides/beauty-peptides-for-skin-hair-and-appearance/ x4,
+// Search Readiness q1, 3 Nov 2026). Keeping the first and dropping the rest leaves
+// the primary route counted exactly once, which is what it is.
+function dedupeSelfReferentialItems(items, ownRoute) {
+  const self = routeWithSlash(ownRoute);
+  let kept = false;
+  return items.filter((item) => {
+    if (routeWithSlash(item && item.href) !== self) return true;
+    if (kept) return false;
+    kept = true;
+    return true;
+  });
+}
+
 function buildFanoutCluster(ctx, pageSet) {
   const enriched = { ...ctx, pageKind: classifyPageKind(ctx) };
-  const items = applyOverrides(defaultClusterItems(enriched), enriched, pageSet).map((item) => {
-    if (['senior_living', 'senior-living'].includes(enriched.verticalKey) && item.href === '/request-assistance/') {
-      return { ...item, href: '/resources/binders/', label: 'Get the free binder', query: 'free parent paperwork and move-in binders' };
-    }
-    return item;
-  });
+  const items = dedupeSelfReferentialItems(
+    applyOverrides(defaultClusterItems(enriched), enriched, pageSet).map((item) => {
+      if (['senior_living', 'senior-living'].includes(enriched.verticalKey) && item.href === '/request-assistance/') {
+        return { ...item, href: '/resources/binders/', label: 'Get the free binder', query: 'free parent paperwork and move-in binders' };
+      }
+      return item;
+    }),
+    enriched.route
+  );
   const groups = [];
   const byGroup = new Map();
   items.forEach((item) => {

@@ -132,7 +132,8 @@ test('seat-active routing sends only to the seat holder', async () => {
   const r = await w.lead();
   assert.equal(r.body.status, 'seat_offered');
   assert.equal(w.teasers().length, 0, 'no teaser while the seat holder has the lead');
-  const nonOwner = w.sent.filter((s) => s.to[0] !== 'owner@example.net');
+  assert.deepEqual(w.to(PII.email).map((s) => s.subject), ['Please confirm your request (Memphis Senior Care Homes)'], 'the family gets only the confirmation email');
+  const nonOwner = w.sent.filter((s) => s.to[0] !== 'owner@example.net' && s.to[0] !== PII.email);
   assert.deepEqual(nonOwner.map((s) => s.to[0]), ['mc-east@example.org']);
   assert.ok(nonOwner[0].text.includes(PII.phone), 'the seat holder gets the full lead');
   assert.match(nonOwner[0].text, /Working it: .*a=working/);
@@ -247,7 +248,10 @@ test('honeypot, consent and contact are enforced', async () => {
   assert.equal((await w.lead({ email: 'not-an-email' })).body.error, 'email');
   assert.equal((await w.call('handleLead', 'POST', '/api/senior-lead', { form: { a: 1 } })).status, 415);
   const pro = await w.call('handleLead', 'POST', '/api/senior-lead', { json: { kind: 'professional', care_tier: 2, memory_care: 'yes', payer: 'savings', discharge_date: '2026-10-20', email: 'planner@hospital.example', consent_contact: true, consent_health: true } });
-  assert.equal(pro.body.status, 'open_round');
+  assert.equal(pro.body.status, 'pending_confirm');
+  assert.equal(pro.body.confirm, 'email');
+  await w.confirm(pro.body.lead_id);
+  assert.equal(w.db.q('SELECT status FROM leads WHERE id = ?', pro.body.lead_id)[0].status, 'open_round');
   const prow = w.db.q('SELECT who_for, name, phone, senior_first_name FROM leads WHERE id = ?', pro.body.lead_id)[0];
   assert.deepEqual(prow, { who_for: 'professional', name: '', phone: '', senior_first_name: '' });
   const off = { ...w.env };
