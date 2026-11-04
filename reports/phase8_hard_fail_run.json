@@ -1,8 +1,8 @@
 {
   "summary": {
     "tier": "hard_fail",
-    "total": 71,
-    "passed": 71,
+    "total": 75,
+    "passed": 75,
     "failed": 0
   },
   "results": [
@@ -10,427 +10,451 @@
       "file": "scripts/validate_core.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:18.851Z"
+      "started_at": "2026-11-04T11:28:57.671Z"
     },
     {
       "file": "scripts/validate_coverage_parity.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:21.545Z"
+      "started_at": "2026-11-04T11:29:03.111Z"
     },
     {
       "file": "scripts/validate_indexnow.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:21.613Z"
+      "started_at": "2026-11-04T11:29:03.398Z"
     },
     {
       "file": "scripts/validate_llm_surface.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:21.674Z"
+      "started_at": "2026-11-04T11:29:03.492Z"
     },
     {
       "file": "scripts/validate_snapshot_package.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:21.771Z"
+      "started_at": "2026-11-04T11:29:03.650Z"
     },
     {
       "file": "scripts/validation/answer_shape_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:21.820Z"
+      "started_at": "2026-11-04T11:29:03.744Z"
     },
     {
       "file": "scripts/validation/citation_probe_lane_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:21.895Z"
+      "started_at": "2026-11-04T11:29:03.922Z"
     },
     {
       "file": "scripts/validation/city_content_location_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:21.947Z"
+      "started_at": "2026-11-04T11:29:04.037Z"
     },
     {
       "file": "scripts/validation/city_content_schema_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:22.008Z"
+      "started_at": "2026-11-04T11:29:04.462Z"
     },
     {
       "file": "scripts/validation/city_market_depth_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:22.069Z"
+      "started_at": "2026-11-04T11:29:04.609Z"
     },
     {
       "file": "scripts/validation/clarity_hosts_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:22.119Z"
+      "started_at": "2026-11-04T11:29:04.708Z"
     },
     {
       "file": "scripts/validation/demand_families_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:22.229Z"
+      "started_at": "2026-11-04T11:29:04.922Z"
     },
     {
       "file": "scripts/validation/dentistry_safety_net_research_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:22.349Z"
+      "started_at": "2026-11-04T11:29:05.210Z"
     },
     {
       "file": "scripts/validation/distribution_workflow_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:22.405Z"
-    },
-    {
-      "file": "scripts/validation/guide_answer_shape_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:22.460Z"
-    },
-    {
-      "file": "scripts/validation/guide_enhancement_registry_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:22.509Z"
-    },
-    {
-      "file": "scripts/validation/guide_family_shape_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:22.560Z"
-    },
-    {
-      "file": "scripts/validation/guide_word_floor_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:22.610Z"
-    },
-    {
-      "file": "scripts/validation/homepage_definition_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:22.658Z"
-    },
-    {
-      "file": "scripts/validation/homepage_schema_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:22.714Z"
-    },
-    {
-      "file": "scripts/validation/homepage_shape_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:22.876Z"
-    },
-    {
-      "file": "scripts/validation/homepage_sponsorship_parity_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:23.169Z"
-    },
-    {
-      "file": "scripts/validation/lastmod_hash_point_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:23.248Z"
-    },
-    {
-      "file": "scripts/validation/lastmod_ledger_currency_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:23.319Z"
-    },
-    {
-      "file": "scripts/validation/lastmod_date_invariant_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:23.482Z"
-    },
-    {
-      "file": "scripts/validation/legacy_redirects_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:23.685Z"
-    },
-    {
-      "file": "scripts/validation/redirect_sources_retired_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:23.741Z"
-    },
-    {
-      "file": "scripts/validation/placeholder_city_pages_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:23.828Z"
-    },
-    {
-      "file": "scripts/validation/link_audit.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:23.922Z"
-    },
-    {
-      "file": "scripts/validation/lkg_citation_agent_fixes_2026_05.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:24.279Z"
-    },
-    {
-      "file": "scripts/validation/meta_length_uniqueness_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:24.369Z"
-    },
-    {
-      "file": "scripts/validation/neuro_city_research_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:24.473Z"
-    },
-    {
-      "file": "scripts/validation/og_image_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:24.647Z"
-    },
-    {
-      "file": "scripts/validation/phase0a_city_content_normalization.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:24.769Z"
-    },
-    {
-      "file": "scripts/validation/phase0b_layer_inventory_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:24.912Z"
-    },
-    {
-      "file": "scripts/validation/phase1_answer_shape_registry.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:24.985Z"
-    },
-    {
-      "file": "scripts/validation/phase2_contracts.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.045Z"
-    },
-    {
-      "file": "scripts/validation/phase2_rendered_answer_shapes.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.119Z"
-    },
-    {
-      "file": "scripts/validation/phase3_city_intelligence_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.179Z"
-    },
-    {
-      "file": "scripts/validation/phase45_multi_vertical_city_enrichment.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.250Z"
-    },
-    {
-      "file": "scripts/validation/phase4_named_city_enrichment.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.312Z"
-    },
-    {
-      "file": "scripts/validation/phase6_recommendation_outputs.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.366Z"
-    },
-    {
-      "file": "scripts/validation/phase9_guide_lock.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.430Z"
-    },
-    {
-      "file": "scripts/validation/production_sponsor_fixture_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.488Z"
-    },
-    {
-      "file": "scripts/validation/promoted_city_research_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.660Z"
-    },
-    {
-      "file": "scripts/validation/property_lists_parity_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.724Z"
-    },
-    {
-      "file": "scripts/validation/research_evidence_paths_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.781Z"
-    },
-    {
-      "file": "scripts/validation/search_readiness_head_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:25.841Z"
-    },
-    {
-      "file": "scripts/validation/senior_lead_flow_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:26.028Z"
-    },
-    {
-      "file": "scripts/validation/senior_living_facilities_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:26.505Z"
-    },
-    {
-      "file": "scripts/validation/senior_living_fanout_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:26.561Z"
-    },
-    {
-      "file": "scripts/validation/senior_living_guides_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:26.668Z"
-    },
-    {
-      "file": "scripts/validation/senior_living_site_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:26.755Z"
-    },
-    {
-      "file": "scripts/validation/senior_seat_schema_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:26.907Z"
-    },
-    {
-      "file": "scripts/validation/senior_static_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:26.962Z"
-    },
-    {
-      "file": "scripts/validation/shared_sources_hash_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:27.030Z"
-    },
-    {
-      "file": "scripts/validation/site_chrome_parity_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:27.118Z"
-    },
-    {
-      "file": "scripts/validation/site_hygiene_registry_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:27.362Z"
-    },
-    {
-      "file": "scripts/validation/site_icons_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:27.440Z"
-    },
-    {
-      "file": "scripts/validation/sitemap_bucket_not_emptied_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:27.530Z"
-    },
-    {
-      "file": "scripts/validation/sitemap_freshness_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:27.586Z"
-    },
-    {
-      "file": "scripts/validation/sitemap_index_no_empty_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:28.208Z"
-    },
-    {
-      "file": "scripts/validation/sitemap_submission_coverage_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:28.261Z"
-    },
-    {
-      "file": "scripts/validation/sourced_cost_figures_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:28.313Z"
-    },
-    {
-      "file": "scripts/validation/sponsor_media_layout_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:28.720Z"
-    },
-    {
-      "file": "scripts/validation/structured_data_vocab_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:28.767Z"
-    },
-    {
-      "file": "scripts/validation/trt_city_research_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:28.862Z"
-    },
-    {
-      "file": "scripts/validation/vertical_id_alias_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:28.955Z"
-    },
-    {
-      "file": "scripts/validation/zero_paid_llm_contract.js",
-      "tier": "hard_fail",
-      "status": "pass",
-      "started_at": "2026-11-03T11:56:29.126Z"
+      "started_at": "2026-11-04T11:29:05.324Z"
     },
     {
       "file": "scripts/validation/entity_graph_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:29.314Z"
+      "started_at": "2026-11-04T11:29:05.413Z"
     },
     {
       "file": "scripts/validation/entity_watch_lane_contract.js",
       "tier": "hard_fail",
       "status": "pass",
-      "started_at": "2026-11-03T11:56:29.437Z"
+      "started_at": "2026-11-04T11:29:05.595Z"
+    },
+    {
+      "file": "scripts/validation/guide_answer_shape_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:05.688Z"
+    },
+    {
+      "file": "scripts/validation/guide_enhancement_registry_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:05.774Z"
+    },
+    {
+      "file": "scripts/validation/guide_family_shape_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:05.949Z"
+    },
+    {
+      "file": "scripts/validation/guide_speakable_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:06.046Z"
+    },
+    {
+      "file": "scripts/validation/guide_word_floor_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:06.141Z"
+    },
+    {
+      "file": "scripts/validation/homepage_definition_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:06.229Z"
+    },
+    {
+      "file": "scripts/validation/homepage_schema_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:06.311Z"
+    },
+    {
+      "file": "scripts/validation/homepage_shape_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:06.398Z"
+    },
+    {
+      "file": "scripts/validation/homepage_sponsorship_parity_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:06.772Z"
+    },
+    {
+      "file": "scripts/validation/lastmod_date_invariant_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:06.862Z"
+    },
+    {
+      "file": "scripts/validation/lastmod_hash_point_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:07.090Z"
+    },
+    {
+      "file": "scripts/validation/lastmod_ledger_currency_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:07.184Z"
+    },
+    {
+      "file": "scripts/validation/legacy_redirects_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:07.319Z"
+    },
+    {
+      "file": "scripts/validation/link_audit.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:07.413Z"
+    },
+    {
+      "file": "scripts/validation/lkg_citation_agent_fixes_2026_05.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:07.951Z"
+    },
+    {
+      "file": "scripts/validation/meta_length_uniqueness_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:08.122Z"
+    },
+    {
+      "file": "scripts/validation/neuro_city_research_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:08.286Z"
+    },
+    {
+      "file": "scripts/validation/next_steps_definition_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:08.524Z"
+    },
+    {
+      "file": "scripts/validation/next_steps_embed_dedupe_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:08.648Z"
+    },
+    {
+      "file": "scripts/validation/og_image_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:08.762Z"
+    },
+    {
+      "file": "scripts/validation/phase0a_city_content_normalization.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:08.922Z"
+    },
+    {
+      "file": "scripts/validation/phase0b_layer_inventory_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.108Z"
+    },
+    {
+      "file": "scripts/validation/phase1_answer_shape_registry.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.208Z"
+    },
+    {
+      "file": "scripts/validation/phase2_contracts.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.293Z"
+    },
+    {
+      "file": "scripts/validation/phase2_rendered_answer_shapes.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.408Z"
+    },
+    {
+      "file": "scripts/validation/phase3_city_intelligence_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.503Z"
+    },
+    {
+      "file": "scripts/validation/phase45_multi_vertical_city_enrichment.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.613Z"
+    },
+    {
+      "file": "scripts/validation/phase4_named_city_enrichment.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.716Z"
+    },
+    {
+      "file": "scripts/validation/phase6_recommendation_outputs.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.811Z"
+    },
+    {
+      "file": "scripts/validation/phase9_guide_lock.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.894Z"
+    },
+    {
+      "file": "scripts/validation/placeholder_city_pages_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:09.980Z"
+    },
+    {
+      "file": "scripts/validation/production_sponsor_fixture_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:10.110Z"
+    },
+    {
+      "file": "scripts/validation/promoted_city_research_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:10.251Z"
+    },
+    {
+      "file": "scripts/validation/property_lists_parity_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:10.350Z"
+    },
+    {
+      "file": "scripts/validation/provider_card_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:10.442Z"
+    },
+    {
+      "file": "scripts/validation/redirect_sources_retired_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:10.601Z"
+    },
+    {
+      "file": "scripts/validation/research_evidence_paths_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:10.733Z"
+    },
+    {
+      "file": "scripts/validation/search_readiness_head_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:10.838Z"
+    },
+    {
+      "file": "scripts/validation/senior_lead_flow_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:11.149Z"
+    },
+    {
+      "file": "scripts/validation/senior_living_facilities_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:11.844Z"
+    },
+    {
+      "file": "scripts/validation/senior_living_fanout_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:11.940Z"
+    },
+    {
+      "file": "scripts/validation/senior_living_guides_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:12.111Z"
+    },
+    {
+      "file": "scripts/validation/senior_living_site_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:12.228Z"
+    },
+    {
+      "file": "scripts/validation/senior_seat_schema_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:12.443Z"
+    },
+    {
+      "file": "scripts/validation/senior_static_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:12.540Z"
+    },
+    {
+      "file": "scripts/validation/shared_sources_hash_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:12.632Z"
+    },
+    {
+      "file": "scripts/validation/site_chrome_parity_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:12.777Z"
+    },
+    {
+      "file": "scripts/validation/site_hygiene_registry_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:13.180Z"
+    },
+    {
+      "file": "scripts/validation/site_icons_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:13.323Z"
+    },
+    {
+      "file": "scripts/validation/sitemap_bucket_not_emptied_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:13.471Z"
+    },
+    {
+      "file": "scripts/validation/sitemap_freshness_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:13.564Z"
+    },
+    {
+      "file": "scripts/validation/sitemap_index_no_empty_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:14.634Z"
+    },
+    {
+      "file": "scripts/validation/sitemap_submission_coverage_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:14.731Z"
+    },
+    {
+      "file": "scripts/validation/sourced_cost_figures_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:14.813Z"
+    },
+    {
+      "file": "scripts/validation/sponsor_media_layout_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:15.527Z"
+    },
+    {
+      "file": "scripts/validation/structured_data_vocab_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:15.631Z"
+    },
+    {
+      "file": "scripts/validation/trt_city_research_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:15.827Z"
+    },
+    {
+      "file": "scripts/validation/vertical_id_alias_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:16.008Z"
+    },
+    {
+      "file": "scripts/validation/zero_paid_llm_contract.js",
+      "tier": "hard_fail",
+      "status": "pass",
+      "started_at": "2026-11-04T11:29:16.746Z"
     }
   ]
 }
