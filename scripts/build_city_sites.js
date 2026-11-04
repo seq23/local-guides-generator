@@ -23,6 +23,7 @@
 const fs = require("fs");
 const path = require("path");
 const senior = require("./lib/senior_living");
+const guideContent = require("./lib/guide_content");
 const seniorBinders = require("./lib/senior_binders");
 const seniorFanout = require("./lib/senior_fanout");
 
@@ -4146,8 +4147,8 @@ function renderCityDecisionSupportHtml(verticalKey, city) {
       ],
       groups: [
         { heading: 'Start here first', items: [
-          { href: '/guides/i-693-medical-exam-requirements/#uscis-medical-exam-overview', label: 'Exam overview' },
-          { href: '/guides/i-693-medical-exam-requirements/', label: 'I-693 requirements' },
+          { href: '/guides/document-checklist/#uscis-medical-exam-overview', label: 'Exam overview' },
+          { href: '/guides/document-checklist/', label: 'I-693 requirements' },
           { href: '/guides/i-693-form-instructions/', label: 'Filling in and filing Form I-693' },
           { href: '/guides/document-checklist/', label: 'Document checklist' },
           { href: '/guides/questions-to-ask-a-civil-surgeon/', label: 'Questions to ask' }
@@ -4959,7 +4960,7 @@ const LEGACY_GUIDE_ENHANCEMENTS = {
   '/guides/neuro-evaluation-pricing/': { heading: 'Neuro evaluation pricing', best: 'Use this guide when cost is the main source of confusion.', key: 'Pricing can change based on complexity, records review, report depth, and whether insurance is involved.', mistake: 'Comparing one quoted number without asking what the fee includes.', good: 'A good provider should explain the scope of work in plain language.', ask: 'Ask what is included in the quote, what follow-up is included, and whether extra letters or revisions cost more.' },
   '/guides/neuro-provider-red-flags/': { heading: 'Neuro provider red flags', best: 'Use this guide when a provider sounds easy to book but hard to understand.', key: 'Weak providers often sound vague about fit, wait times, report use, or who the evaluation is really for.', mistake: 'Assuming a short wait means a better process.', good: 'A good provider should explain scope, timeline, and next steps clearly.', ask: 'Ask what records they need, what the report will include, and how results are explained.' },
   '/guides/adhd-evaluations-what-to-expect/': { heading: 'ADHD evaluation expectations', best: 'Use this guide when the process itself feels unclear.', key: 'The value of the evaluation comes from matching the process to the real question, not from checking a box quickly.', mistake: 'Expecting every provider to use the same intake, testing, and follow-up process.', good: 'A good provider should explain scope, timing, and what the final answer may or may not include.', ask: 'Ask what the visit sequence looks like, what records help, and what happens after results are explained.' },
-  '/guides/autism-evaluation-adults/': { heading: 'Adult autism evaluations', best: 'Use this guide when the question is whether an adult evaluation is the right next step.', key: 'Adult autism evaluations often turn on history, current function, and what you need the evaluation to help with.', mistake: 'Assuming the goal is only a label instead of clarity, accommodations, or next-step planning.', good: 'A good provider should explain fit, timeline, and what kind of report or explanation you can expect.', ask: 'Ask what records help, how developmental history is handled, and how results are discussed afterward.' },
+  '/guides/autism-evaluations-screening-vs-assessment/': { heading: 'Adult autism evaluations', best: 'Use this guide when the question is whether an adult evaluation is the right next step.', key: 'Adult autism evaluations often turn on history, current function, and what you need the evaluation to help with.', mistake: 'Assuming the goal is only a label instead of clarity, accommodations, or next-step planning.', good: 'A good provider should explain fit, timeline, and what kind of report or explanation you can expect.', ask: 'Ask what records help, how developmental history is handled, and how results are discussed afterward.' },
   '/guides/neuropsych-testing-children-vs-adults/': { heading: 'Children versus adults in neuro testing', best: 'Use this guide when you are deciding whether the age group changes the kind of provider or process you need.', key: 'Children and adults can need different records, different interview structures, and different follow-through planning.', mistake: 'Assuming one provider or one process fits every age group the same way.', good: 'A good provider should explain how age changes scope, records, and result use.', ask: 'Ask how the process differs by age, who needs to participate, and how the report is used afterward.' },
   '/guides/neuro-insurance-and-out-of-network/': { heading: 'Insurance and out-of-network neuro care', best: 'Use this guide when payment structure may change which provider is realistic.', key: 'The key issue is not just whether the provider takes insurance. It is what the fee covers and what paperwork support exists.', mistake: 'Comparing providers on insurance status alone without comparing scope or report depth.', good: 'A good provider should explain payment structure, receipts, and what help they give for reimbursement.', ask: 'Ask what is billed up front, what paperwork is provided, and what parts of the process are not covered.' },
   '/guides/civil-surgeon-near-me/': { heading: 'Choosing a civil surgeon office', best: 'Use this guide when the problem is finding a legitimate office and understanding the booking process.', key: 'A strong office should make identity requirements, vaccine questions, pricing, and paperwork steps easy to follow.', mistake: 'Treating distance or speed as the only thing that matters.', good: 'A good office should explain how appointments work, what documents matter, and which issues may require extra follow-up.', ask: 'Ask what documents to bring, how vaccine records are handled, and how sealed paperwork is returned.' },
@@ -5311,17 +5312,7 @@ if (route === 'admin') {
     const enhancement = GUIDE_ENHANCEMENTS['/' + String(route || '').replace(/^\/+|\/+$/g, '') + '/'] || null;
     const normalizedGuideRoute = String(route || '').replace(/^\/+|\/+$/g, '').toLowerCase();
     const guideShapeContract = GUIDE_ANSWER_SHAPE_MAP[normalizedGuideRoute] || null;
-    if (!out.includes('data-guide-opening="true"')) {
-      const guideOpeningBlock =
-        '<section class="section guide-section guide-opening-block answer-block" data-guide-section="true" data-guide-opening="true">' +
-        '<h2>What this guide is best for</h2>' +
-        '<p data-guide-opening-direct="true"><strong>Direct answer:</strong> ' + escapeHtml((enhancement && enhancement.best) || 'Use this guide when you need one clear comparison or caution explained before you contact anyone.') + '</p>' +
-        '<p class="answer-when" data-guide-opening-when="true"><strong>Best used when:</strong> ' + escapeHtml((enhancement && enhancement.key) || 'A city or state page is too broad and you need one cleaner decision path.') + '</p>' +
-        '</section>';
-      if (out.includes('<article class="guide-article"')) out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + guideOpeningBlock + '\n');
-      else out = out.replace(/\s*%%AD:global_guide_top%%\s*/i, '\n%%AD:global_guide_top%%\n' + guideOpeningBlock + '\n');
-    }
-
+    // The citation summary is the single opening; do not repeat it in the article.
     if (guideShapeContract && !out.includes('data-guide-top-module="true"')) {
       const topModule = renderGuideTopModule(route, guideShapeContract, enhancement);
       if (topModule) {
@@ -5329,19 +5320,6 @@ if (route === 'admin') {
         else if (out.includes('<article class="guide-article"')) out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + topModule + '\n');
         else out = out.replace(/\s*%%AD:global_guide_top%%\s*/i, '\n%%AD:global_guide_top%%\n' + topModule + '\n');
       }
-    }
-
-    if (enhancement && !out.includes('data-guide-custom-core="true"')) {
-      const customCore =
-        '<section class="section guide-section" data-guide-section="true" data-guide-custom-core="true">' +
-        '<h2>' + escapeHtml(enhancement.heading) + '</h2>' +
-        '<p><strong>Key point:</strong> ' + escapeHtml(enhancement.key) + '</p>' +
-        '<p><strong>What a good provider should make clear:</strong> ' + escapeHtml(enhancement.good) + '</p>' +
-        '<p><strong>Common mistake:</strong> ' + escapeHtml(enhancement.mistake) + '</p>' +
-        '<p><strong>Questions to ask:</strong> ' + escapeHtml(enhancement.ask) + '</p>' +
-        '</section>';
-      if (out.includes('data-guide-opening="true"')) out = out.replace(/(<section class="section guide-section guide-opening-block[\s\S]*?<\/section>)/i, '$1\n' + customCore + '\n');
-      else out = out.replace(/\s*%%AD:global_guide_top%%\s*/i, '\n%%AD:global_guide_top%%\n' + customCore + '\n');
     }
 
     if (!out.includes('data-guide-comparison="true"')) {
@@ -5477,6 +5455,7 @@ if (route === 'admin') {
     if (!mainHtml.includes('data-citation-summary="true"')) {
       const guideCitationHtml = renderCitationSummaryZoneHtml({
         kind: 'guide-detail',
+        sourceHtml: globalPage.main_html,
         title,
         description,
         route: '/' + route + '/',
@@ -5488,7 +5467,7 @@ if (route === 'admin') {
         }
       });
       if (mainHtml.includes('</section>')) {
-        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, '$1\n' + guideCitationHtml);
+        mainHtml = mainHtml.replace(/(<section class="hero"[\s\S]*?<\/section>)/, (hero) => hero + '\n' + guideCitationHtml);
       } else {
         mainHtml = guideCitationHtml + '\n' + mainHtml;
       }
@@ -6086,15 +6065,16 @@ function renderCitationSummaryZoneHtml(opts) {
   if (kind === 'guide-detail') {
     const guideLabel = escapeHtml(inferGuideLabelFromRoute(route));
     const guideEntry = loadGuideEnhancementRegistry()[String(route || '')] || null;
+    const sourceAnswer = guideContent.answerFromSource(opts && opts.sourceHtml);
     return (
-      '<section class="section citation-summary answer-block" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="guide-detail">' +
+      '<section class="section citation-summary guide-opening-block answer-block" data-guide-opening="true" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="guide-detail">' +
       '<h2 id="citation-summary">' + escapeHtml(guideQuestionHeading(route, String((opts && opts.title) || ''))) + '</h2>' +
       // The curated per-guide sentences in the enhancement registry are the
       // page's own answer, written by a human for this exact guide. Preferring
       // them over the generic template is what makes eight guide answers eight
       // different answers rather than one sentence with the title swapped in.
       '<p data-citation-summary-lede="true" data-citation-summary-answer="true">' + composeAnswerSpan([
-        guideEntry && guideEntry.best ? escapeHtml(guideEntry.best) : '',
+        guideEntry && guideEntry.definition ? escapeHtml(guideEntry.definition) : sourceAnswer || (guideEntry && guideEntry.best ? escapeHtml(guideEntry.best) : ''),
         guideEntry && guideEntry.key ? escapeHtml(guideEntry.key) : '',
         guideEntry && guideEntry.mistake ? 'The common mistake: ' + escapeHtml(guideEntry.mistake) : '',
         // A guide with no curated registry entry falls back to its own
@@ -6104,15 +6084,12 @@ function renderCitationSummaryZoneHtml(opts) {
         '<strong>' + title + '</strong> is a guide for ' + guideLabel + '.',
         'Use it when the question is narrow enough that a city or state hub is too broad.'
       ]) + '</p>' +
-      '<p class="answer-when">Use this guide when the question is narrow enough that you need one cleaner comparison, caution, or next step.</p>' +
-      '<p class="answer-tradeoff">The goal is not reassurance alone; it is to make the next move clearer without pretending the decision is already settled.</p>' +
-      '<p class="answer-boundary">This guide is educational and is designed to help you understand one decision more clearly before you choose what to do next.</p>' +
-      '<ul class="visually-hidden" data-citation-key-points="true">' +
-      '<li>This page is meant to answer one decision question clearly before a person contacts a provider.</li>' +
-      '<li>It should be paired with the guide hub, methodology page, and next-steps page instead of treated like a ranking or endorsement.</li>' +
-      '<li>When local help is needed, use the owned provider-callback route rather than guessing from generic search results.</li>' +
+      '<p class="answer-when">' + (guideEntry && guideEntry.ask ? escapeHtml(guideEntry.ask) : guideContent.recommendationFromSource(opts && opts.sourceHtml)) + '</p>' +
+      '<ul data-citation-key-points="true">' +
+      [guideEntry && guideEntry.good, guideEntry && guideEntry.mistake].filter(Boolean).map((s) => '<li>' + escapeHtml(s) + '</li>').join('') +
       '</ul>' +
-      '<p class="visually-hidden" data-citation-routing-links="true">Related owned routes: <a href="' + escapeHtml(hrefs.guides) + '">guides hub</a>, <a href="' + escapeHtml(hrefs.nextSteps) + '">next steps</a>, <a href="' + escapeHtml(hrefs.requestAssistance) + '">get matched with a provider</a>, and <a href="' + escapeHtml(hrefs.methodology) + '">methodology</a>.</p>' +
+      guideContent.faqFromSource(opts && opts.sourceHtml, guideEntry) +
+      '<p data-citation-routing-links="true"><a href="' + escapeHtml(hrefs.guides) + '">Related guides</a> · <a href="/next-steps/">Next steps</a> · <a href="' + escapeHtml(hrefs.methodology) + '">Sources and method</a></p>' +
       '</section>'
     );
   }
@@ -6171,6 +6148,17 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
   const pageSet = loadPageSet(pageSetFile);
   pageSet.__pageSetFile = pageSetFile;
   const verticalKey = deriveVerticalKey(pageSetFile);
+  const retired = new Set((pageSet.legacyRedirects || []).map((r) => String(r.from).replace(/\/+$/, '')));
+  const candidateDir = loadGlobalPagesDir(pageSet);
+  const candidates = listJsonFiles(candidateDir).map(readJson);
+  if (['trt', 'pi', 'dentistry', 'neuro', 'uscis_medical', 'senior_living'].includes(verticalKey)) guideContent.assertDistinctGuides(candidates);
+  for (const candidate of candidates) {
+    const candidateRoute = '/' + String(candidate.route || '').replace(/^\/+|\/+$/g, '');
+    if (retired.has(candidateRoute)) throw new Error('Retired page source would be recreated: ' + candidateRoute);
+  }
+  for (const row of pageSet.legacyRedirects || []) {
+    if (retired.has(String(row.to).replace(/\/+$/, ''))) throw new Error('Redirect chain: ' + row.from + ' -> ' + row.to);
+  }
   // Fail before dist is cleared or any page is written.
   if (senior.isSeniorLiving(verticalKey)) seniorBinders.verifyPdfs();
 

@@ -162,6 +162,20 @@ function loadFanoutOverrides(pageSet, verticalKey) {
     else mergeOverrideObjects(merged, payload);
   });
 
+  // Query compiler output is derived. Resolve its links through the reviewed
+  // pack redirects so a regenerated map cannot revive a retired destination.
+  const redirects = new Map((pageSet && pageSet.legacyRedirects || []).map((r) => [routeWithSlash(r.from), r.to]));
+  for (const override of Object.values(merged)) {
+    for (const item of [...(override.items || []), ...(override.addItems || [])]) {
+      const seen = new Set();
+      while (redirects.has(routeWithSlash(item.href))) {
+        if (seen.has(item.href)) throw new Error('Fanout redirect cycle: ' + item.href);
+        seen.add(item.href);
+        item.href = redirects.get(routeWithSlash(item.href));
+      }
+    }
+  }
+
   return merged;
 }
 
@@ -246,7 +260,7 @@ function defaultClusterItems(ctx) {
     questions: '/guides/questions-to-ask-a-civil-surgeon/',
     redFlags: '/guides/questions-to-ask-a-civil-surgeon/',
     after: '/guides/uscis-fees-timelines-and-what-to-ask/',
-    choose: '/guides/i-693-medical-exam-requirements/',
+    choose: '/guides/document-checklist/',
     insurance: '/guides/document-checklist/',
     report: '/guides/document-checklist/',
     telehealth: '/guides/uscis-vaccination-requirements/',

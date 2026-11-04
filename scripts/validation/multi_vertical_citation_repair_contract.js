@@ -15,7 +15,7 @@ const guideChecks = [
  ['data/page_sets/examples/dentistry_global_pages/guides_dental-bridge-vs-implant.json',['Side-by-side bridge vs implant comparison table']],
  ['data/page_sets/examples/uscis_medical_global_pages/guides_uscis-fees-timelines-and-what-to-ask.json',['USCIS medical fees by form type and timeline phase']],
  ['data/page_sets/examples/uscis_medical_global_pages/guides_questions-to-ask-a-civil-surgeon.json',['credentials, vaccinations, cost, turnaround']],
- ['data/page_sets/examples/uscis_medical_global_pages/guides_i-693-medical-exam-requirements.json',['applicant prep, day of exam, post-exam']],
+ ['data/page_sets/examples/uscis_medical_global_pages/guides_document-checklist.json',['applicant prep, day of exam, post-exam']],
  ['data/page_sets/examples/uscis_medical_global_pages/guides_costs-and-timeframes.json',['USCIS medical cost comparison table']],
  ['data/page_sets/examples/trt_global_pages/guides_trt_trt-first-90-days.json',['Week-by-week first 90 days TRT timeline']],
  ['data/page_sets/examples/trt_global_pages/guides_trt_hair-loss-aesthetic-vs-hormonal.json',['DHT and hair loss explainer']],

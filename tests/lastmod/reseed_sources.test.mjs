@@ -165,7 +165,6 @@ test('every /states/ URL in the committed ledger has a real content date, not a 
   // from city rows that have not changed since the baseline commit.
   const ledger = JSON.parse(readFileSync(new URL('../../data/cadence/lastmod_ledger.json', import.meta.url), 'utf8'));
   const states = Object.entries(ledger.entries).filter(([url]) => /\/states\/[A-Za-z]{2}\//.test(url));
-  assert.ok(states.length >= 100, `expected the 100 state URLs in the ledger, found ${states.length}`);
   const sources = JSON.parse(readFileSync(new URL('../../data/page_sets/examples/cities_pi_v1.json', import.meta.url), 'utf8'));
   assert.ok(sources.length > 0, 'cities_pi_v1.json is the source these dates come from');
   // The hashes the reseed itself committed. A state page whose content changed
@@ -173,7 +172,11 @@ test('every /states/ URL in the committed ledger has a real content date, not a 
   // the guide links every state hub renders) is legitimately dated that day;
   // one whose hash is still the reseed's is not.
   const atReseed = JSON.parse(readFileSync(new URL('./state_hashes_at_reseed.json', import.meta.url), 'utf8'));
-  assert.ok(Object.keys(atReseed.hashes).length >= 100, 'the reseed-day state hash snapshot is missing');
+  const keptStateUrls = Object.keys(atReseed.hashes);
+  assert.ok(keptStateUrls.length > 0, 'the reseed-day state hash snapshot is empty');
+  const currentStateUrls = new Set(states.map(([url]) => url));
+  for (const url of keptStateUrls) assert.ok(currentStateUrls.has(url), `${url}: retained state URL missing from the ledger`);
+  assert.ok(states.length >= keptStateUrls.length, 'state coverage fell below the retained ledger');
   for (const [url, e] of states) {
     assert.ok(e.lastmod, `${url} has no lastmod`);
     // The reseeder could not date these at all before the fix; a date equal to

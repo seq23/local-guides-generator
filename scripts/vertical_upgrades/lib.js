@@ -54,7 +54,6 @@ function profileConfig(vertical) {
   const configs = {
     dentistry: {
       relDir: 'data/page_sets/examples/dentistry_global_pages',
-      minGuides: 18,
       requiredRoutes: ['/guides/dental-crowns/', '/guides/root-canal-treatment/', '/guides/dental-red-flags/', '/guides/questions-to-ask/'],
       requiredIds: ['definition', 'cost', 'recovery', 'questions', 'red-flags'],
       disclaimer: 'Educational only. Not medical advice. No endorsements or rankings.',
@@ -103,7 +102,6 @@ function profileConfig(vertical) {
     },
     neuro: {
       relDir: 'data/page_sets/examples/neuro_global_pages',
-      minGuides: 26,
       requiredRoutes: ['/guides/neuro-evaluation-pricing/', '/guides/neuro-provider-red-flags/', '/guides/questions-to-ask-before-neuro-testing/', '/guides/what-to-expect-after-a-neuro-evaluation/'],
       requiredIds: ['definition', 'pricing', 'trust', 'process', 'questions', 'next-steps'],
       disclaimer: 'Educational only. Not medical advice. No endorsements or rankings.',
@@ -152,7 +150,6 @@ function profileConfig(vertical) {
     },
     trt: {
       relDir: 'data/page_sets/examples/trt_global_pages',
-      minGuides: 40,
       requiredRoutes: ['/guides/who-is-a-good-candidate-for-trt/', '/guides/trt-pricing-and-labs/', '/guides/trt-red-flags/', '/guides/trt-side-effects-and-safety/', '/guides/trt-telehealth-vs-local-clinic/'],
       requiredIds: ['definition', 'cost', 'safety', 'candidacy', 'questions', 'red-flags', 'next-steps'],
       disclaimer: 'Educational only. Not medical advice. No endorsements or rankings.',
@@ -202,8 +199,7 @@ function profileConfig(vertical) {
 
     uscis_medical: {
       relDir: 'data/page_sets/examples/uscis_medical_global_pages',
-      minGuides: 8,
-      requiredRoutes: ['/guides/uscis-medical-exam-overview/', '/guides/i-693-medical-exam-requirements/', '/guides/document-checklist/', '/guides/costs-and-timeframes/', '/guides/questions-to-ask-a-civil-surgeon/'],
+      requiredRoutes: ['/guides/uscis-medical-exam-overview/', '/guides/document-checklist/', '/guides/document-checklist/', '/guides/costs-and-timeframes/', '/guides/questions-to-ask-a-civil-surgeon/'],
       requiredIds: ['definition', 'documents', 'cost', 'process', 'questions', 'next-steps'],
       disclaimer: 'Educational only. Not legal or medical advice. No endorsements or rankings.',
       sections({ title, description }) {
@@ -246,7 +242,6 @@ function profileConfig(vertical) {
     },
     pi: {
       relDir: 'data/page_sets/examples/pi_global_pages',
-      minGuides: 28,
       requiredRoutes: ['/guides/what-to-do-after-an-accident/', '/guides/evidence-checklist-after-an-accident/', '/guides/personal-injury-fees-explained/', '/guides/personal-injury-lawyer-red-flags/', '/guides/when-to-call-a-personal-injury-lawyer/'],
       requiredIds: ['definition', 'when-to-call', 'cost', 'questions', 'red-flags', 'next-steps'],
       disclaimer: 'Educational only. Not legal advice. No endorsements or rankings.',
@@ -296,22 +291,31 @@ function profileConfig(vertical) {
   return configs[vertical];
 }
 function buildGuideHtml(guide, profile) {
-  const slug = slugFromRoute(guide.route);
-  const topic = topicFromSlug(slug);
-  return `<h2>${escapeHtml(guide.title)}</h2>\n<p>${profile.disclaimer}</p>\n${profile.sections({ title: guide.title, description: guide.description, slug, topic })}`;
+  // Historical upgrade profiles contain editorial instructions and generic
+  // paragraphs. They must never replace reviewed, topic-specific source copy.
+  if (!String(guide.main_html || '').trim()) throw new Error('Author guide content before writing: ' + guide.route);
+  return guide.main_html;
 }
 function upsertGuides(relDir, guides, profile) {
   const root = repoRoot();
   const dir = path.join(root, relDir);
+  const packFile = path.join(root, 'data/page_sets/examples', path.basename(relDir).replace(/_global_pages$/, '_v1.json'));
+  if (!fs.existsSync(packFile)) throw new Error('Missing canonical pack: ' + packFile);
+  const retired = new Set((readJson(packFile).legacyRedirects || []).map((r) => r.from.replace(/\/+$/, '')));
   ensureDir(dir);
+  const pending = [];
   guides.forEach((guide) => {
+    if (retired.has(guide.route.replace(/\/+$/, ''))) {
+      console.log('RETIRED GUIDE: retained the consolidation for ' + guide.route);
+      return;
+    }
     const slug = slugFromRoute(guide.route);
-    const enriched = {
-      ...guide,
-      main_html: buildGuideHtml(guide, profile)
-    };
-    writeJson(path.join(dir, guideFilename(relDir, slug)), enriched);
+    const target = path.join(dir, guideFilename(relDir, slug));
+    if (fs.existsSync(target)) return; // The reviewed source wins over old seed data.
+    const enriched = { ...guide, main_html: buildGuideHtml(guide, profile) };
+    pending.push({ target, enriched });
   });
+  for (const { target, enriched } of pending) writeJson(target, enriched);
 }
 function normalizeAllGuides(relDir, profile) {
   const root = repoRoot();
@@ -357,7 +361,11 @@ function auditVertical(profile) {
       if (!html.includes(`id="${id}"`)) issues.push(`${name}: missing section id ${id}`);
     }
   }
-  if (guideCount < profile.minGuides) issues.push(`guide count ${guideCount} is below minimum ${profile.minGuides}`);
+  const pack = path.basename(profile.relDir).replace(/_global_pages$/, '');
+  const kept = readJson(path.join(root, 'data/page_quality/kept_guides.json'))[pack];
+  if (!Array.isArray(kept) || !kept.length || !guideCount) issues.push('retained guide inventory is empty');
+  for (const route of kept || []) if (!routes.has(route)) issues.push(`retained guide missing ${route}`);
+  for (const route of routes) if (!(kept || []).includes(route)) issues.push(`unreviewed guide ${route}`);
   for (const route of profile.requiredRoutes) {
     if (!routes.has(route)) issues.push(`required route missing ${route}`);
   }
@@ -371,4 +379,4 @@ function auditVertical(profile) {
 function summarize(name, guides, normalizedCount) {
   console.log(`UPDATED ${name}: seeded=${guides.length} normalized=${normalizedCount}`);
 }
-module.exports = { profileConfig, upsertGuides, normalizeAllGuides, writeOverrides, runSyncGuides, auditVertical, summarize };
+module.exports = { profileConfig, buildGuideHtml, upsertGuides, normalizeAllGuides, writeOverrides, runSyncGuides, auditVertical, summarize };

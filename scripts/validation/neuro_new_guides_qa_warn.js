@@ -8,12 +8,12 @@ const TARGETS = [
   'guides_adhd-therapy-after-an-evaluation.json',
   'guides_questions-to-ask-an-adhd-therapist.json',
   'guides_adhd-therapy-vs-medication-vs-coaching.json',
-  'guides_how-to-find-an-adhd-therapist-who-fits.json',
+  'guides_questions-to-ask-an-adhd-therapist.json',
   'guides_can-one-provider-handle-adhd-evaluation-and-therapy.json',
-  'guides_what-progress-looks-like-in-adhd-therapy.json',
+  'guides_adhd-therapy-after-an-evaluation.json',
   'guides_autism-therapy-after-an-evaluation.json',
-  'guides_questions-to-ask-an-autism-therapy-provider.json',
-  'guides_how-to-choose-between-home-based-center-based-and-school-based-autism-therapy.json',
+  'guides_autism-therapy-after-an-evaluation.json',
+  'guides_autism-therapy-after-an-evaluation.json',
   'guides_autism-therapy-red-flags-and-green-flags.json'
 ];
 

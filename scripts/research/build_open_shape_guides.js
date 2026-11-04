@@ -1304,6 +1304,13 @@ let written = 0;
 const byVertical = {};
 
 for (const s of specs) {
+  const packPath = path.join(EX, s.vertical + '_v1.json');
+  if (!fs.existsSync(packPath)) throw new Error('Missing canonical pack: ' + packPath);
+  const retired = readJson(packPath).legacyRedirects || [];
+  if (retired.some((r) => r.from.replace(/\/+$/, '') === s.route.replace(/\/+$/, ''))) {
+    console.log('RETIRED GUIDE: retained the consolidation for ' + s.route);
+    continue;
+  }
   const dir = path.join(EX, VDIR[s.vertical]);
   const html = s.html().replace(/\n{3,}/g, '\n\n').trim() +
     `\n<p class="muted">${DISCLAIMER[s.vertical]}</p>\n`;

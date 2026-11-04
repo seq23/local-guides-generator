@@ -1,7 +1,7 @@
 {
   "schema": "search-loop-canonical-v1",
   "_what": "The shared search loop (seq23/search-loop @v1) on the CANONICAL side of the Industry Guides. Owner ruling 1 Nov 2026 (spry brain, 'Search growth loop on every selling site'): the velocity repo builds the daily new pages; this repo gets no daily new-page build. It runs MEASURE + CHECK/REPAIR on its guides and a MISSING-GUIDE stage: a topic the velocity repo lists with no canonical guide is built here as a full, sourced, gated guide and published straight away. Runner: scripts/search_loop/canonical_loop.mjs. Each sites[] entry, merged with the shared keys below, must pass the engine's own config check (search-loop-config-v1); tests/search_loop/canonical_loop.test.mjs proves it.",
-  "engine_ref": "v1",
+  "engine_ref": "569a5be18e851fafedea729b729a4621fd102d46",
   "new_pages": "missing_guides_only",
   "missing_guides": {
     "source_url": "https://raw.githubusercontent.com/seq23/local-guides-citation-velocity/main/data/search-loop/missing-guides.json",
