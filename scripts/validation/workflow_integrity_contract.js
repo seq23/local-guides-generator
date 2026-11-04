@@ -83,6 +83,20 @@ function run() {
     }
   }
 
+  // Successful measurement must reach a durable push before optional rotation.
+  // Rotation's content validation failed three days in a row while fresh reads
+  // were discarded; collection freshness must not depend on that content lane.
+  {
+    const steps = rotatingWorkflow.split(/^      - /m).slice(1);
+    const measure = steps.findIndex(s => s.includes('name: Measure Search Console truth per site'));
+    const record = steps.findIndex(s => s.includes('name: Record the observation'));
+    const rotate = steps.findIndex(s => s.includes('name: Rotate one vertical'));
+    if (measure < 0 || record <= measure || rotate <= record ||
+        !steps[record].includes('git push origin')) {
+      fail('Search Console measurements must be recorded and pushed before rotation can fail');
+    }
+  }
+
   // rotate script must not call the raw refresh script directly
   if (/node scripts\/automation\/refresh_verification_page\.js/.test(rotateScript)) {
     fail('rotate_vertical_refresh.js must not call refresh_verification_page.js directly; use npm run refresh:verification');
