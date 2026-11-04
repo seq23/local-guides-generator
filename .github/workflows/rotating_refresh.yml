@@ -13,18 +13,38 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: rotating-refresh-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   rotating-refresh:
     timeout-minutes: 25  # ~3x median 5.5m over 8 green runs plus ~3m of Search Console reads; fault detector, not a budget
     runs-on: ubuntu-latest
+    # A newly qualifying family may need an editorial repair. It must fail only
+    # its own site's checkpoint, never discard the other sites' completed reads.
+    # Serial jobs check out the latest branch tip so their commits do not race.
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        host:
+          - theaccidentguides.com
+          - dentistryguides.com
+          - neuroevalguides.com
+          - hormonesivhair.com
+          - uscisexam.com
+          - memphisseniorcarehomes.com
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
-      # Search Console truth for the five sites (registered in
+      # Search Console truth for the six sites (registered in
       # data/contracts/site_hygiene_registry.json#search_intelligence): query+page
       # analytics (rolling 28 days), sitemaps.list (submit only if none listed) and
       # URL Inspection (150 URLs/site/day, 8 parallel, rotating through the
@@ -39,8 +59,9 @@ jobs:
           GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
         run: |
           python -m pip install --disable-pip-version-check google-api-python-client google-auth >/dev/null
-          python3 scripts/search_intelligence/collect_gsc.py
+          python3 scripts/search_intelligence/collect_gsc.py --only "${{ matrix.host }}"
       - name: Record audience CTA clicks
+        if: matrix.host == 'memphisseniorcarehomes.com'
         run: node scripts/search_intelligence/collect_cta_clicks.mjs
       - name: Rebuild measured targets, consolidation ledger and strengthening plan
         run: node scripts/search_intelligence/build_search_plan.mjs
@@ -74,10 +95,10 @@ jobs:
           node scripts/build_all_packs.js
           git push origin "HEAD:${GITHUB_REF_NAME}"
       - name: Rotate one vertical
-        if: ${{ !inputs.search_only }}
+        if: ${{ !inputs.search_only && matrix.host == 'memphisseniorcarehomes.com' }}
         run: node scripts/automation/rotate_vertical_refresh.js
       - name: LLM cost receipt (zero-paid policy)
-        if: ${{ !inputs.search_only }}
+        if: ${{ !inputs.search_only && matrix.host == 'memphisseniorcarehomes.com' }}
         # Owner policy 11 Oct 2026: "nothing should be paid ... cut the probes and
         # make them free." The citation probe that ran here daily (grounded,
         # :online, billed per request) is removed from this schedule; it is
@@ -93,7 +114,7 @@ jobs:
           echo "citation probe: SKIPPED - probe disabled by owner policy (dispatch-only, citation_probe.yml)"
           node scripts/lib/free_llm_router.mjs --ping
       - name: Record the rotation
-        if: ${{ !inputs.search_only }}
+        if: ${{ !inputs.search_only && matrix.host == 'memphisseniorcarehomes.com' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

@@ -91,6 +91,24 @@ function run() {
     const measure = steps.findIndex(s => s.includes('name: Measure Search Console truth per site'));
     const record = steps.findIndex(s => s.includes('name: Record the observation'));
     const rotate = steps.findIndex(s => s.includes('name: Rotate one vertical'));
+    // Each site has a durable checkpoint. An editorial failure on one property
+    // must not cancel other properties or collect the same 150-URL quota six times.
+    if (!/fail-fast:\s*false/.test(rotatingWorkflow) || !/max-parallel:\s*1\b/.test(rotatingWorkflow) ||
+        !steps[measure]?.includes('collect_gsc.py --only "${{ matrix.host }}"') ||
+        !/ref: \$\{\{ github.ref_name \}\}/.test(steps[0])) {
+      fail('Search Console checkpoints must isolate each host, continue after failures, serialize writes and check out the latest branch tip');
+    }
+    const hosts = rotatingWorkflow.match(/matrix:\s*\n\s+host:\s*\n((?:\s+- [a-z0-9.-]+\n)+)/)?.[1].match(/[a-z0-9-]+\.[a-z.]+/g) || [];
+    const expectedHosts = JSON.parse(fs.readFileSync(path.join(root, 'data/search_intelligence/sites.json'), 'utf8')).sites.map(s => s.host);
+    if (hosts.length !== expectedHosts.length || expectedHosts.some(h => !hosts.includes(h))) {
+      fail('Search Console checkpoint matrix must cover every configured host exactly once');
+    }
+    for (const name of ['Rotate one vertical', 'LLM cost receipt (zero-paid policy)', 'Record the rotation']) {
+      const step = steps.find(s => s.includes('name: ' + name));
+      if (!step?.includes("!inputs.search_only && matrix.host == 'memphisseniorcarehomes.com'")) {
+        fail('Optional rotation and its receipt must run once, never once per host');
+      }
+    }
     if (measure < 0 || record <= measure || rotate <= record ||
         !steps[record].includes('git push origin')) {
       fail('Search Console measurements must be recorded and pushed before rotation can fail');
