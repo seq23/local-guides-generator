@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-01..2026-10-28",
-  "gsc_collected_at": "2026-10-31T13:34:47+00:00",
+  "gsc_window": "2026-10-05..2026-11-01",
+  "gsc_collected_at": "2026-11-04T13:47:19+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,24 +12,24 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 7,
+  "family_count": 6,
   "top_families": [
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 41,
+      "impressions": 43,
       "status": "strengthened"
     },
     {
       "rank": 2,
       "family": "red flags @ /guides/trt-red-flags/",
-      "impressions": 7,
+      "impressions": 5,
       "status": "strengthened"
     },
     {
       "rank": 3,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 4,
+      "impressions": 3,
       "status": "below_impression_floor"
     },
     {
@@ -40,9 +40,9 @@
     },
     {
       "rank": 5,
-      "family": "comparison @ /guides/",
+      "family": "cost @ /guides/beauty-peptide-costs-and-bundles/",
       "impressions": 1,
-      "status": "no_page"
+      "status": "below_impression_floor"
     }
   ],
   "families": [
@@ -53,11 +53,11 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 41,
-      "best_position": 79.8,
-      "weighted_position": 88.2,
+      "impressions": 43,
+      "best_position": 10,
+      "weighted_position": 86,
       "top_query": "am i a candidate for trt",
-      "query_count": 2,
+      "query_count": 3,
       "queries": [
         {
           "query": "am i a candidate for trt",
@@ -68,16 +68,22 @@
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 5,
-          "position": 79.8
+          "impressions": 6,
+          "position": 78.2
+        },
+        {
+          "query": "evaluating trt providers online",
+          "route": "/guides/who-is-a-good-candidate-for-trt/",
+          "impressions": 1,
+          "position": 10
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 41,
-          "page_impressions": 47,
-          "page_position": 78.8
+          "family_impressions": 43,
+          "page_impressions": 49,
+          "page_position": 77.2
         }
       ],
       "rank": 1,
@@ -98,25 +104,25 @@
       "page": "/guides/trt-red-flags/",
       "page_kind": "guide",
       "page_intent": "red_flags",
-      "impressions": 7,
-      "best_position": 3.1,
-      "weighted_position": 3.1,
+      "impressions": 5,
+      "best_position": 3.6,
+      "weighted_position": 3.6,
       "top_query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
       "query_count": 1,
       "queries": [
         {
           "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
           "route": "/guides/trt-red-flags/",
-          "impressions": 7,
-          "position": 3.1
+          "impressions": 5,
+          "position": 3.6
         }
       ],
       "pages": [
         {
           "route": "/guides/trt-red-flags/",
-          "family_impressions": 7,
-          "page_impressions": 10,
-          "page_position": 5
+          "family_impressions": 5,
+          "page_impressions": 8,
+          "page_position": 5.8
         }
       ],
       "rank": 2,
@@ -138,17 +144,17 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 4,
+      "impressions": 3,
       "best_position": 47,
-      "weighted_position": 77.2,
+      "weighted_position": 74.3,
       "top_query": "hrt solutions in montana",
       "query_count": 2,
       "queries": [
         {
           "query": "hrt solutions in montana",
           "route": "/states/MT/",
-          "impressions": 3,
-          "position": 87.3
+          "impressions": 2,
+          "position": 88
         },
         {
           "query": "ohio thyroid optimization",
@@ -160,9 +166,9 @@
       "pages": [
         {
           "route": "/states/MT/",
-          "family_impressions": 3,
-          "page_impressions": 5,
-          "page_position": 54.8
+          "family_impressions": 2,
+          "page_impressions": 4,
+          "page_position": 47
         },
         {
           "route": "/states/OH/",
@@ -176,7 +182,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "4 impressions < 5"
+      "reason": "3 impressions < 5"
     },
     {
       "family": "choose a provider @ /guides/trt-red-flags/",
@@ -202,8 +208,8 @@
         {
           "route": "/guides/trt-red-flags/",
           "family_impressions": 1,
-          "page_impressions": 10,
-          "page_position": 5
+          "page_impressions": 8,
+          "page_position": 5.8
         }
       ],
       "rank": 4,
@@ -214,78 +220,6 @@
       "strengthened_pages": [],
       "status": "intent_mismatch",
       "reason": "query intent choose_provider vs page intent red_flags"
-    },
-    {
-      "family": "comparison @ /guides/",
-      "intent": "comparison",
-      "head_term": "comparison",
-      "page": "/guides/",
-      "page_kind": "hub",
-      "page_intent": "hub",
-      "impressions": 1,
-      "best_position": 8,
-      "weighted_position": 8,
-      "top_query": "what's better, a peptide clinic subscription or a one-time purchase plan?",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "what's better, a peptide clinic subscription or a one-time purchase plan?",
-          "route": "/guides/",
-          "impressions": 1,
-          "position": 8
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/",
-          "family_impressions": 1,
-          "page_impressions": 4,
-          "page_position": 5.5
-        }
-      ],
-      "rank": 5,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "lands on /guides/ (hub); no guide or state hub serves \"comparison\" there"
-    },
-    {
-      "family": "comparison @ /guides/trt-telehealth-vs-local-clinic/",
-      "intent": "comparison",
-      "head_term": "comparison",
-      "page": "/guides/trt-telehealth-vs-local-clinic/",
-      "page_kind": "guide",
-      "page_intent": "comparison",
-      "impressions": 1,
-      "best_position": 46,
-      "weighted_position": 46,
-      "top_query": "trt telehealth consult",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "trt telehealth consult",
-          "route": "/guides/trt-telehealth-vs-local-clinic/",
-          "impressions": 1,
-          "position": 46
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/trt-telehealth-vs-local-clinic/",
-          "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 52.7
-        }
-      ],
-      "rank": 6,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 6 of 7 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/beauty-peptide-costs-and-bundles/",
@@ -315,12 +249,47 @@
           "page_position": 9
         }
       ],
-      "rank": 7,
+      "rank": 5,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "1 impressions < 5"
+    },
+    {
+      "family": "cost @ /guides/ocala-vitamin-c-injection-iv-prices/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/ocala-vitamin-c-injection-iv-prices/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 1,
+      "best_position": 34,
+      "weighted_position": 34,
+      "top_query": "vitamin c injection price at clicks",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "vitamin c injection price at clicks",
+          "route": "/guides/ocala-vitamin-c-injection-iv-prices/",
+          "impressions": 1,
+          "position": 34
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/ocala-vitamin-c-injection-iv-prices/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 34
+        }
+      ],
+      "rank": 6,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 7 of 7 by impressions; no page at position <= 15"
+      "reason": "rank 6 of 6 by impressions; no page at position <= 15"
     }
   ]
 }
