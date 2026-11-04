@@ -557,6 +557,14 @@ ${stateCostTable('96132', states, 'O')}
 <p><strong>Common mistake:</strong> choosing a state figure over a local quote. The figure is context; the quote is the price.</p>
 </section>
 
+<section class="section guide-section" data-guide-section="true">
+<h2 id="compare-written-quotes">How can you compare two written evaluation quotes?</h2>
+<p>Make a separate row for each part of the proposed evaluation: the interview, testing, scoring, report preparation and feedback. Copy the practice's description rather than assuming every hour is the first evaluation hour shown in this table. Leave a blank wherever the practice has not supplied a price or an expected quantity. A blank is a question to resolve before booking, not a zero-dollar service.</p>
+<p>Ask whether the estimate is a package price or an hourly estimate. For a package, request the included services and the circumstances that could change the total. For an hourly estimate, request the expected units for each service and ask how the practice handles additional time. Do not multiply every proposed hour by the state row here: that row describes one billing code, not every component of an evaluation.</p>
+<p>Keep the practice's estimate separate from the insurer's explanation of your benefits. Ask which services the practice expects to submit, whether it is in your network, and how to obtain a benefit estimate using those proposed services. Record who supplied each answer and when. Neither a historical Medicare average nor a receptionist's general description establishes what your own plan will pay.</p>
+<p>Finally, compare the same scope on both quotes. If one includes the report and feedback while the other leaves them unspecified, ask for clarification before treating the second quote as less expensive. Keep travel and time away from work in a separate column so you can see the practical difference without presenting those personal expenses as clinical charges. The useful result is a documented comparison of two offers, not a prediction drawn from a state average.</p>
+</section>
+
 ${METHOD}
 
 <h2 id="next-steps">What to do next</h2>

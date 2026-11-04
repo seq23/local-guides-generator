@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-01..2026-10-28",
-  "gsc_collected_at": "2026-10-31T13:34:47+00:00",
+  "gsc_window": "2026-10-05..2026-11-01",
+  "gsc_collected_at": "2026-11-04T22:42:17+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 5,
+  "target_count": 9,
   "targets_by_source": {
-    "gsc_export": 5
+    "gsc_export": 9
   },
   "dropped_count": 0,
   "dropped": [],
@@ -21,9 +21,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-01..2026-10-28"
+        "window": "2026-10-05..2026-11-01"
       },
       "owner_route": "/guides/neuropsych-testing-cost-by-state/"
+    },
+    {
+      "query": "adhd evaluation in fayetteville",
+      "normalized_query": "adhd evaluation in fayetteville",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 36.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-05..2026-11-01"
+      },
+      "owner_route": "/guides/fayetteville-adhd-evaluation-testing-options/"
+    },
+    {
+      "query": "tova testing huntsville",
+      "normalized_query": "tova testing huntsville",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 22.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-05..2026-11-01"
+      },
+      "owner_route": "/guides/huntsville-adhd-testing-prices/"
     },
     {
       "query": "hospital vs private neuropsych testing",
@@ -31,11 +59,11 @@
       "source": "gsc_export",
       "impressions": 3,
       "clicks": 0,
-      "average_position": 25.7,
+      "average_position": 16.7,
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-01..2026-10-28"
+        "window": "2026-10-05..2026-11-01"
       },
       "owner_route": "/guides/hospital-vs-private-neuropsych-testing/"
     },
@@ -49,37 +77,65 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-01..2026-10-28"
+        "window": "2026-10-05..2026-11-01"
       },
       "owner_route": "/guides/neuropsych-testing-cost-by-state/"
     },
     {
-      "query": "sprylabs",
-      "normalized_query": "sprylabs",
+      "query": "neuropsych assessment cost",
+      "normalized_query": "neuropsych assessment cost",
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 73.5,
+      "average_position": 84,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-01..2026-10-28"
+        "window": "2026-10-05..2026-11-01"
       },
-      "owner_route": "/contact/"
+      "owner_route": "/guides/neuropsych-testing-cost-by-state/"
     },
     {
       "query": "neuropsych testing near me",
       "normalized_query": "neuropsych testing near me",
       "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 25.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-05..2026-11-01"
+      },
+      "owner_route": "/states/SD/"
+    },
+    {
+      "query": "qbtest adhd cost",
+      "normalized_query": "qbtest adhd cost",
+      "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
-      "average_position": 21,
+      "average_position": 93,
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-01..2026-10-28"
+        "window": "2026-10-05..2026-11-01"
       },
-      "owner_route": "/states/SD/"
+      "owner_route": "/guides/huntsville-adhd-testing-prices/"
+    },
+    {
+      "query": "sprylabs",
+      "normalized_query": "sprylabs",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 62,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-05..2026-11-01"
+      },
+      "owner_route": "/contact/"
     }
   ]
 }
