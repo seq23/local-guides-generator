@@ -42,6 +42,7 @@ const QUICK_ANSWER_GUIDES = new Set([
   'recorded-statements-and-insurance-calls',
   'trt-fertility-and-family-planning',
   'beauty-peptide-costs-and-bundles',
+  'beauty-peptides-after-35',
   'fresno-i693-immigration-medical-exam-cost',
   'brooklyn-vitamin-c-injections-prices',
 ]);
