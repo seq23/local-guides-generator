@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-01..2026-10-28",
-  "gsc_collected_at": "2026-10-31T13:34:47+00:00",
+  "gsc_window": "2026-10-05..2026-11-01",
+  "gsc_collected_at": "2026-11-04T22:42:17+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,36 +12,36 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 5,
+  "family_count": 6,
   "top_families": [
     {
       "rank": 1,
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "impressions": 8,
+      "impressions": 10,
       "status": "strengthened"
     },
     {
       "rank": 2,
+      "family": "cost @ /guides/huntsville-adhd-testing-prices/",
+      "impressions": 5,
+      "status": "strengthened"
+    },
+    {
+      "rank": 3,
+      "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
+      "impressions": 4,
+      "status": "below_impression_floor"
+    },
+    {
+      "rank": 4,
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
       "impressions": 3,
       "status": "strengthened"
     },
     {
-      "rank": 3,
-      "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 1,
-      "status": "strengthened"
-    },
-    {
-      "rank": 4,
-      "family": "other @ /contact/",
-      "impressions": 1,
-      "status": "below_impression_floor"
-    },
-    {
       "rank": 5,
-      "family": "other @ /privacy/",
-      "impressions": 1,
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 2,
       "status": "below_impression_floor"
     }
   ],
@@ -53,11 +53,11 @@
       "page": "/guides/neuropsych-testing-cost-by-state/",
       "page_kind": "guide",
       "page_intent": "cost",
-      "impressions": 8,
-      "best_position": 87.5,
-      "weighted_position": 88.4,
+      "impressions": 10,
+      "best_position": 84,
+      "weighted_position": 87.5,
       "top_query": "neuropsychological testing cost",
-      "query_count": 2,
+      "query_count": 3,
       "queries": [
         {
           "query": "neuropsychological testing cost",
@@ -70,14 +70,20 @@
           "route": "/guides/neuropsych-testing-cost-by-state/",
           "impressions": 2,
           "position": 87.5
+        },
+        {
+          "query": "neuropsych assessment cost",
+          "route": "/guides/neuropsych-testing-cost-by-state/",
+          "impressions": 2,
+          "position": 84
         }
       ],
       "pages": [
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "family_impressions": 8,
-          "page_impressions": 24,
-          "page_position": 34.5
+          "family_impressions": 10,
+          "page_impressions": 28,
+          "page_position": 37
         }
       ],
       "rank": 1,
@@ -92,6 +98,86 @@
       "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json search_strengthening"
     },
     {
+      "family": "cost @ /guides/huntsville-adhd-testing-prices/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/huntsville-adhd-testing-prices/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 5,
+      "best_position": 22.8,
+      "weighted_position": 36.8,
+      "top_query": "tova testing huntsville",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "tova testing huntsville",
+          "route": "/guides/huntsville-adhd-testing-prices/",
+          "impressions": 4,
+          "position": 22.8
+        },
+        {
+          "query": "qbtest adhd cost",
+          "route": "/guides/huntsville-adhd-testing-prices/",
+          "impressions": 1,
+          "position": 93
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/huntsville-adhd-testing-prices/",
+          "family_impressions": 5,
+          "page_impressions": 7,
+          "page_position": 26.9
+        }
+      ],
+      "rank": 2,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/huntsville-adhd-testing-prices/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_huntsville-adhd-testing-prices.json search_strengthening"
+    },
+    {
+      "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
+      "intent": "questions_to_ask",
+      "head_term": "questions to ask",
+      "page": "/guides/fayetteville-adhd-evaluation-testing-options/",
+      "page_kind": "guide",
+      "page_intent": "questions_to_ask",
+      "impressions": 4,
+      "best_position": 36.8,
+      "weighted_position": 36.8,
+      "top_query": "adhd evaluation in fayetteville",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "adhd evaluation in fayetteville",
+          "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
+          "impressions": 4,
+          "position": 36.8
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
+          "family_impressions": 4,
+          "page_impressions": 5,
+          "page_position": 31
+        }
+      ],
+      "rank": 3,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "4 impressions < 5"
+    },
+    {
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
       "intent": "comparison",
       "head_term": "comparison",
@@ -99,8 +185,8 @@
       "page_kind": "guide",
       "page_intent": "comparison",
       "impressions": 3,
-      "best_position": 25.7,
-      "weighted_position": 25.7,
+      "best_position": 16.7,
+      "weighted_position": 16.7,
       "top_query": "hospital vs private neuropsych testing",
       "query_count": 1,
       "queries": [
@@ -108,18 +194,18 @@
           "query": "hospital vs private neuropsych testing",
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "impressions": 3,
-          "position": 25.7
+          "position": 16.7
         }
       ],
       "pages": [
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "family_impressions": 3,
-          "page_impressions": 10,
-          "page_position": 10.4
+          "page_impressions": 15,
+          "page_position": 6.8
         }
       ],
-      "rank": 2,
+      "rank": 4,
       "basis": [
         "ranking_page"
       ],
@@ -137,37 +223,33 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 1,
-      "best_position": 21,
-      "weighted_position": 21,
+      "impressions": 2,
+      "best_position": 25.5,
+      "weighted_position": 25.5,
       "top_query": "neuropsych testing near me",
       "query_count": 1,
       "queries": [
         {
           "query": "neuropsych testing near me",
           "route": "/states/SD/",
-          "impressions": 1,
-          "position": 21
+          "impressions": 2,
+          "position": 25.5
         }
       ],
       "pages": [
         {
           "route": "/states/SD/",
-          "family_impressions": 1,
-          "page_impressions": 8,
-          "page_position": 13.9
+          "family_impressions": 2,
+          "page_impressions": 9,
+          "page_position": 15.7
         }
       ],
-      "rank": 3,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [
-        "/states/SD/"
-      ],
-      "status": "strengthened",
-      "reason": "data/page_sets/examples/neuro_v1.json search_strengthening.state_hub"
+      "rank": 5,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "2 impressions < 5"
     },
     {
       "family": "other @ /contact/",
@@ -197,47 +279,12 @@
           "page_position": 17.2
         }
       ],
-      "rank": 4,
+      "rank": 6,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "1 impressions < 5"
-    },
-    {
-      "family": "other @ /privacy/",
-      "intent": "other",
-      "head_term": "other",
-      "page": "/privacy/",
-      "page_kind": "other",
-      "page_intent": "other",
-      "impressions": 1,
-      "best_position": 85,
-      "weighted_position": 85,
-      "top_query": "sprylabs",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "sprylabs",
-          "route": "/privacy/",
-          "impressions": 1,
-          "position": 85
-        }
-      ],
-      "pages": [
-        {
-          "route": "/privacy/",
-          "family_impressions": 1,
-          "page_impressions": 6,
-          "page_position": 19.7
-        }
-      ],
-      "rank": 5,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "1 impressions < 5"
+      "status": "not_top_family",
+      "reason": "rank 6 of 6 by impressions; no page at position <= 15"
     }
   ]
 }
