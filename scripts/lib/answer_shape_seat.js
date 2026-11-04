@@ -15,7 +15,8 @@
  *     ("<topic>: what should you know before you decide?", the same fallback
  *     guideQuestionHeading uses in scripts/build_city_sites.js).
  *   - repaired guides carry a "Quick answer" H2: an H3 of that label is
- *     promoted, on the guides named in QUICK_ANSWER_GUIDES.
+ *     promoted, or the existing citation-summary heading is relabelled, on
+ *     the guides named in QUICK_ANSWER_GUIDES.
  *
  * Each rewrite fires only on a page that is out of shape, so a page already in
  * shape renders byte-identical and its freshness date does not move.
@@ -28,6 +29,9 @@ const DANGLING = /^(it|they|he|she|these|those|here|there|its|their|his|her)\b|^
 // answer" H2 and an attributed intake link); guide_word_floor_contract.js reads
 // the same set.
 const QUICK_ANSWER_GUIDES = new Set([
+  'settlement-calculator-red-flags',
+  'neuropsych-testing-cost-by-state',
+  'adhd-therapy-vs-medication-vs-coaching',
   'neuro-provider-red-flags',
   'brooklyn-i693-medical-exam-prices',
   'ocala-dental-new-patient-specials-compared',
@@ -78,7 +82,11 @@ function questionHeading(main) {
 
 function quickAnswerH2(main) {
   if (/<h2\b[^>]*>\s*Quick answer\s*<\/h2>/i.test(main)) return main;
-  return main.replace(/<h3(\b[^>]*)>\s*Quick answer\s*<\/h3>/i, '<h2$1>Quick answer</h2>');
+  const promoted = main.replace(/<h3(\b[^>]*)>\s*Quick answer\s*<\/h3>/i, '<h2$1>Quick answer</h2>');
+  if (promoted !== main) return promoted;
+  // Source-driven guides may have no Quick answer H3. Their authored answer
+  // already sits in the citation summary; seat the label above that answer.
+  return main.replace(/<h2(\b[^>]*\bid="citation-summary"[^>]*)>[\s\S]*?<\/h2>/i, '<h2$1>Quick answer</h2>');
 }
 
 // html: a whole rendered page. route: its route without slashes ("guides/x").

@@ -191,3 +191,15 @@ assert merge(h, [a, b]) == h
 assert merge(h, [a]) == h
 `], { stdio: 'pipe' });
 });
+
+test('source-driven scoped guides seat their existing answer without duplicating it', () => {
+  const { seatAnswerShape } = require('../../scripts/lib/answer_shape_seat');
+  for (const slug of ['settlement-calculator-red-flags', 'neuropsych-testing-cost-by-state', 'adhd-therapy-vs-medication-vs-coaching']) {
+    const html = '<main><h1>Topic</h1><h2 id="citation-summary">What should you know?</h2>' +
+      '<p data-citation-summary-answer="true">An authored answer with its source.</p></main>';
+    const result = seatAnswerShape(html, `guides/${slug}`);
+    assert.match(result, /<h2 id="citation-summary">Quick answer<\/h2>/);
+    assert.equal((result.match(/An authored answer/g) || []).length, 1);
+    assert.equal(seatAnswerShape(result, `guides/${slug}`), result);
+  }
+});
