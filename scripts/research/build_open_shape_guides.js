@@ -263,6 +263,10 @@ addSpec({
 </ul>
 </section>
 
+<h2 id="quote-record">Keep a record of each estimate</h2>
+<p>Write the clinic name, estimate date and contact person beside each quote. Mark unanswered questions instead of treating a blank as an included service.</p>
+<p>Keep revised estimates alongside the original so you can identify which procedure, stage or exclusion changed before agreeing to treatment.</p>
+
 <h2 id="red-flags">Red flags</h2>
 <p>Refusal to put codes in writing. A quote that expires today. Pressure that increases the moment you mention budget.</p>
 <p><strong>Common mistake:</strong> accepting a verbal number and discovering the crown was quoted separately.</p>

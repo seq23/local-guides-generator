@@ -172,3 +172,22 @@ test('repaired local guides reject duplicate H1s, missing answers, missing table
     assert.equal(withoutTable.includes('comparison has no table'), slug === 'ocala-dental-new-patient-specials-compared');
   }
 });
+
+test('Search Console query history retains dropped queries without summing overlapping windows', () => {
+  const script = new URL('../../scripts/search_intelligence/collect_gsc.py', import.meta.url).pathname;
+  execFileSync('python3', ['-c', `
+import runpy
+merge = runpy.run_path(${JSON.stringify(script)})['query_history']
+def export(at, rows):
+    return dict(collected_at=at, start_date='2026-10-01', end_date='2026-10-28', by_query=rows)
+a = export('2026-10-31', [dict(query='dropped', impressions=5), dict(query='stays', impressions=7)])
+b = export('2026-11-04', [dict(query='stays', impressions=3)])
+h = merge(None, [a, b])
+r = {x['query']: x for x in h['queries']}
+assert len(r) == 2
+assert r['dropped']['impressions'] == 5 and r['dropped']['last_seen'] == '2026-10-31'
+assert r['stays']['impressions'] == 3 and r['stays']['first_seen'] == '2026-10-31'
+assert merge(h, [a, b]) == h
+assert merge(h, [a]) == h
+`], { stdio: 'pipe' });
+});
