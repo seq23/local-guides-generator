@@ -1,15 +1,15 @@
-# Weekly outcome report — 2026-10-26
+# Weekly outcome report — 2026-11-04
 
-First run: no previous week to compare against yet.
+Week over week against 2026-10-26.
 
 | Site | Clicks | Δ | Impressions | Δ | Avg position | Coverage |
 |---|---:|---:|---:|---:|---:|---|
-| uscisexam.com | 0 | — | 15 | — | 78.6 | OK |
-| theaccidentguides.com | 0 | — | 1572 | — | 63.3 | OK |
-| dentistryguides.com | 0 | — | 701 | — | 60.9 | OK |
-| hormonesivhair.com | 0 | — | 56 | — | 67.5 | OK |
-| neuroevalguides.com | 2 | — | 49 | — | 21.4 | OK |
-| memphisseniorcarehomes.com | 1 | — | 461 | — | 47.8 | OK |
+| uscisexam.com | 0 | — | 23 | +53% | 77.7 | OK |
+| theaccidentguides.com | 1 | — | 1721 | +9% | 65.3 | OK |
+| dentistryguides.com | 0 | — | 799 | +14% | 59.0 | OK |
+| hormonesivhair.com | 0 | — | 77 | +38% | 61.4 | OK |
+| neuroevalguides.com | 2 | +0% | 65 | +33% | 22.4 | OK |
+| memphisseniorcarehomes.com | 1 | +0% | 826 | +79% | 46.0 | OK |
 
 ## No site is red this week
 
