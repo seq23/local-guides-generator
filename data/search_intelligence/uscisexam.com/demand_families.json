@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-01..2026-10-28",
-  "gsc_collected_at": "2026-10-31T13:34:47+00:00",
+  "gsc_window": "2026-10-05..2026-11-01",
+  "gsc_collected_at": "2026-11-04T05:59:18+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,13 +17,13 @@
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 6,
+      "impressions": 8,
       "status": "no_page"
     },
     {
       "rank": 2,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 3,
+      "impressions": 2,
       "status": "below_impression_floor"
     },
     {
@@ -41,12 +41,18 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 6,
-      "best_position": 77,
-      "weighted_position": 94.2,
-      "top_query": "uscis civil surgeon",
+      "impressions": 8,
+      "best_position": 80.7,
+      "weighted_position": 91.3,
+      "top_query": "uscis immigration exam",
       "query_count": 5,
       "queries": [
+        {
+          "query": "uscis immigration exam",
+          "route": "/",
+          "impressions": 3,
+          "position": 80.7
+        },
         {
           "query": "uscis civil surgeon",
           "route": "/",
@@ -66,12 +72,6 @@
           "position": 100
         },
         {
-          "query": "uscis immigration exam",
-          "route": "/",
-          "impressions": 1,
-          "position": 77
-        },
-        {
           "query": "uscis-designated civil surgeon",
           "route": "/",
           "impressions": 1,
@@ -81,9 +81,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 6,
-          "page_impressions": 15,
-          "page_position": 68.5
+          "family_impressions": 8,
+          "page_impressions": 19,
+          "page_position": 73.4
         }
       ],
       "rank": 1,
@@ -102,23 +102,17 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 3,
-      "best_position": 73,
-      "weighted_position": 90.3,
+      "impressions": 2,
+      "best_position": 99,
+      "weighted_position": 99,
       "top_query": "citizenship test preparation las vegas",
-      "query_count": 2,
+      "query_count": 1,
       "queries": [
         {
           "query": "citizenship test preparation las vegas",
           "route": "/states/NV/",
           "impressions": 2,
           "position": 99
-        },
-        {
-          "query": "idaho civics test",
-          "route": "/states/ID/",
-          "impressions": 1,
-          "position": 73
         }
       ],
       "pages": [
@@ -127,12 +121,6 @@
           "family_impressions": 2,
           "page_impressions": 2,
           "page_position": 99
-        },
-        {
-          "route": "/states/ID/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 73
         }
       ],
       "rank": 2,
@@ -140,7 +128,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "3 impressions < 5"
+      "reason": "2 impressions < 5"
     },
     {
       "family": "cost @ /",
@@ -166,8 +154,8 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 15,
-          "page_position": 68.5
+          "page_impressions": 19,
+          "page_position": 73.4
         }
       ],
       "rank": 3,

@@ -7,6 +7,9 @@ Per site, into data/search_intelligence/<host>/:
                                     plus per-query and per-page rollups.
   gsc_sitemaps.json                 sitemaps.list; the live sitemaps are submitted
                                     ONLY when the property lists none.
+  query_history.json               latest observed window for every query ever
+                                    collected, including queries that left the
+                                    rolling export (never summed across windows).
   index_coverage.json               urlInspection.index.inspect, 8 requests in
                                     parallel, at most 150 URLs per site per day
                                     (5 x 150 = 750 of the 2,000/day quota, leaving
@@ -167,6 +170,33 @@ def analytics(svc, site, now):
             "rows": rows, "by_query": by_query, "by_page": by_page}
 
 
+def query_history(previous, exports):
+    """Retain observed queries when they leave the overlapping 28-day window.
+
+    Metrics belong to their latest observed window; summing overlapping windows
+    would invent impressions. Absence in a new export never deletes a query.
+    """
+    rows = {r["query"]: dict(r) for r in (previous or {}).get("queries", [])}
+    latest = (previous or {}).get("collected_at")
+    for export in exports:
+        if not export:
+            continue
+        observed = export["collected_at"]
+        latest = max(latest or observed, observed)
+        for row in export.get("by_query", []):
+            query = row["query"]
+            prior = rows.get(query, {})
+            if prior.get("last_seen", "") > observed:
+                continue
+            rows[query] = {**row, "first_seen": min(prior.get("first_seen", observed), observed),
+                           "last_seen": observed, "start_date": export["start_date"],
+                           "end_date": export["end_date"]}
+    return {"schema_version": "1.0", "collected_at": latest,
+            "truth_source": "google_search_console_search_analytics",
+            "metric_rule": "Latest observed rolling window per query; overlapping windows are never summed.",
+            "queries": [rows[q] for q in sorted(rows)]}
+
+
 def sitemap_state(entries):
     return {e["path"]: {"lastSubmitted": e.get("lastSubmitted"), "lastDownloaded": e.get("lastDownloaded"),
                         "isPending": e.get("isPending"), "errors": int(e.get("errors", 0) or 0),
@@ -258,6 +288,9 @@ def main():
             print(f"NAMED STOP: {site} search analytics unreadable as {account}: {str(exc)[:300]}")
             continue
         read_ok += 1
+        history_path = os.path.join(out, "query_history.json")
+        old_export = read_json(os.path.join(out, "gsc_search_analytics_export.json"))
+        write_json(history_path, query_history(read_json(history_path), [old_export, a]))
         write_json(os.path.join(out, "gsc_search_analytics_export.json"), a)
         live, pages, notes = discover(site)
         try:
