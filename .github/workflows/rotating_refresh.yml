@@ -44,6 +44,35 @@ jobs:
         run: node scripts/search_intelligence/collect_cta_clicks.mjs
       - name: Rebuild measured targets, consolidation ledger and strengthening plan
         run: node scripts/search_intelligence/build_search_plan.mjs
+      # Save completed measurements before rotation: a content validation failure
+      # must not discard successful Search Console reads (e4/e5).
+      - name: Record the observation
+        # Stage before testing for changes so newly collected files are included.
+        # Search-plan data renders into pages: rebase, refresh and commit the
+        # content-date ledger, then prove its currency before pushing.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/signals/ CHANGELOG.md data/search_intelligence/
+          if git diff --cached --quiet; then
+            echo "no observation or rotation entry to record"
+            exit 0
+          fi
+          git commit -m "Record search truth and citation probe observations $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          # The recorded data renders into pages (each homepage links its strengthened
+          # pages), so the lastmod ledger moves with it. Pushing data without the ledger
+          # left main red with no run to show it: a GITHUB_TOKEN push triggers no
+          # workflow, so the next merge inherited it (30 Oct 2026, #92). Refresh the
+          # ledger on the rebased tree, commit it, then prove the commit with a plain
+          # build - the currency contract against the committed ledger - before pushing.
+          node scripts/build_all_packs.js --refresh-ledger
+          git add data/cadence/lastmod_ledger.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record page freshness for the $(date -u +%Y-%m-%d) search observations"
+          fi
+          node scripts/build_all_packs.js
+          git push origin "HEAD:${GITHUB_REF_NAME}"
       - name: Rotate one vertical
         if: ${{ !inputs.search_only }}
         run: node scripts/automation/rotate_vertical_refresh.js
@@ -63,19 +92,8 @@ jobs:
         run: |
           echo "citation probe: SKIPPED - probe disabled by owner policy (dispatch-only, citation_probe.yml)"
           node scripts/lib/free_llm_router.mjs --ping
-      - name: Record the observation
-        # Stage FIRST, then ask the index whether anything changed. The old
-        # guard asked `git diff --quiet -- data/signals/` before staging, and
-        # `git diff` is blind to untracked files: the brand-new observations
-        # file always read as "no change", so the lane could never take its
-        # first commit and four paid grounded runs were thrown away. The probe
-        # also writes citation_probe_status.json on every path, including a
-        # credential-less named stop, so an empty-handed lane leaves a receipt.
-        # CHANGELOG.md carries the rotation entry from the step above and was
-        # likewise never staged. data/site.json is deliberately NOT committed:
-        # it is transient materialized pack state, so the rebase autostashes it:
-        # without --autostash an unstaged site.json made "git pull --rebase"
-        # refuse whenever main had moved during the run (run of 11 Oct 2026).
+      - name: Record the rotation
+        if: ${{ !inputs.search_only }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
