@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-05..2026-11-01",
+  "gsc_window": "2026-10-06..2026-11-02",
   "totals": {
     "clicks": 0,
     "impressions": 75,
     "ctr": 0,
-    "position": 62.6
+    "position": 61.5
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -18,41 +18,40 @@
       ],
       "family_impressions": 43,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
-      "impressions": 49,
+      "impressions": 50,
       "clicks": 0,
-      "position": 77.2,
+      "position": 75.7,
       "strengthened": true
     },
     {
       "route": "/guides/trt-red-flags/",
       "family": "red flags @ /guides/trt-red-flags/",
       "basis": [
-        "ranking_page",
-        "top_demand"
+        "ranking_page"
       ],
-      "family_impressions": 5,
+      "family_impressions": 4,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json",
-      "impressions": 8,
+      "impressions": 7,
       "clicks": 0,
-      "position": 5.8,
+      "position": 6.3,
       "strengthened": true
     }
   ],
   "not_yet_strengthened": [],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 75,
-      "Discovered - currently not indexed": 46,
+      "Crawled - currently not indexed": 76,
+      "Discovered - currently not indexed": 43,
       "Duplicate, Google chose different canonical than user": 1,
       "Submitted and indexed": 29,
-      "URL is unknown to Google": 53
+      "URL is unknown to Google": 55
     },
     "buckets": {
-      "crawled_not_indexed": 75,
-      "discovered_not_indexed": 46,
+      "crawled_not_indexed": 76,
+      "discovered_not_indexed": 43,
       "indexed": 29,
       "other": 1,
-      "unknown": 53
+      "unknown": 55
     }
   }
 }

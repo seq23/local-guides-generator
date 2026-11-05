@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-05..2026-11-01",
-  "gsc_collected_at": "2026-11-04T13:47:19+00:00",
+  "gsc_window": "2026-10-06..2026-11-02",
+  "gsc_collected_at": "2026-11-05T13:44:57+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -23,13 +23,13 @@
     {
       "rank": 2,
       "family": "red flags @ /guides/trt-red-flags/",
-      "impressions": 5,
+      "impressions": 4,
       "status": "strengthened"
     },
     {
       "rank": 3,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 3,
+      "impressions": 2,
       "status": "below_impression_floor"
     },
     {
@@ -82,8 +82,8 @@
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
           "family_impressions": 43,
-          "page_impressions": 49,
-          "page_position": 77.2
+          "page_impressions": 50,
+          "page_position": 75.7
         }
       ],
       "rank": 1,
@@ -104,31 +104,30 @@
       "page": "/guides/trt-red-flags/",
       "page_kind": "guide",
       "page_intent": "red_flags",
-      "impressions": 5,
-      "best_position": 3.6,
-      "weighted_position": 3.6,
+      "impressions": 4,
+      "best_position": 4,
+      "weighted_position": 4,
       "top_query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
       "query_count": 1,
       "queries": [
         {
           "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
           "route": "/guides/trt-red-flags/",
-          "impressions": 5,
-          "position": 3.6
+          "impressions": 4,
+          "position": 4
         }
       ],
       "pages": [
         {
           "route": "/guides/trt-red-flags/",
-          "family_impressions": 5,
-          "page_impressions": 8,
-          "page_position": 5.8
+          "family_impressions": 4,
+          "page_impressions": 7,
+          "page_position": 6.3
         }
       ],
       "rank": 2,
       "basis": [
-        "ranking_page",
-        "top_demand"
+        "ranking_page"
       ],
       "qualifies": true,
       "strengthened_pages": [
@@ -144,17 +143,17 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 3,
+      "impressions": 2,
       "best_position": 47,
-      "weighted_position": 74.3,
+      "weighted_position": 68,
       "top_query": "hrt solutions in montana",
       "query_count": 2,
       "queries": [
         {
           "query": "hrt solutions in montana",
           "route": "/states/MT/",
-          "impressions": 2,
-          "position": 88
+          "impressions": 1,
+          "position": 89
         },
         {
           "query": "ohio thyroid optimization",
@@ -166,9 +165,9 @@
       "pages": [
         {
           "route": "/states/MT/",
-          "family_impressions": 2,
-          "page_impressions": 4,
-          "page_position": 47
+          "family_impressions": 1,
+          "page_impressions": 3,
+          "page_position": 33.7
         },
         {
           "route": "/states/OH/",
@@ -182,7 +181,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
-      "reason": "3 impressions < 5"
+      "reason": "2 impressions < 5"
     },
     {
       "family": "choose a provider @ /guides/trt-red-flags/",
@@ -208,8 +207,8 @@
         {
           "route": "/guides/trt-red-flags/",
           "family_impressions": 1,
-          "page_impressions": 8,
-          "page_position": 5.8
+          "page_impressions": 7,
+          "page_position": 6.3
         }
       ],
       "rank": 4,
