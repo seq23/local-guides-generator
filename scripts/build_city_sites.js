@@ -6788,82 +6788,27 @@ function loadNextStepsSponsor(citySlug) {
         '</div>' +
         '</details>'
       );
+      // State directories own local listings and verification; the national guides
+      // own the shared fee/checklist advice. Repeating that advice in several
+      // blocks made unrelated states more than half identical (q1, Nov 2026).
       let mainHtml = (
-        (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and inventory checks.') : '') +
         '<section class="hero" data-state-hero="true" data-pi-state-page="true">' +
-        '<p class="kicker">Personal injury · State guide</p>' +
-        '<h1>' + escapeHtml(stateStrength ? stateStrength.h1 : stateName + ' personal injury guide') + '</h1>' +
-        // The opening line was "Use this state page for neutral decision support,
-        // firm comparison, and official verification resources" - 14 words that
-        // named neither the state nor what the page is about, so the first 100
-        // words of /states/<ST>/ did not answer the title and the page-shape check
-        // scored d1 FAIL on every one of them (Search Readiness q1, 3 Nov 2026:
-        // theaccidentguides.com/states/CO/ and /states/AR/). It now opens by
-        // saying what the page is, naming the state and the service it covers.
-        '<p class="muted" data-state-definition="true">This is the ' + escapeHtml(stateName) +
-        ' guide to choosing among personal injury lawyers: it brings the state\'s verified firm' +
-        ' listings, the official licensing and disciplinary lookups for ' + escapeHtml(stateName) +
-        ', and the comparison questions that matter into one place, so you can judge fit before' +
-        ' you contact anyone.</p>' +
-        '</section>' +
+        '<p class="kicker">' + escapeHtml(brandName) + '</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : stateName + ' personal injury guide') + '</h1>' +
+        '<p data-state-definition="true">This is the ' + escapeHtml(stateName) +
+        ' directory for personal injury lawyers. It brings together firms listed in ' + escapeHtml(stateName) +
+        ', covered cities and the state licensing lookup. Listings are alphabetical, not recommendations; use the official record to check a lawyer before discussing your case or signing an agreement.</p></section>' +
         searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:pi_state_top%%' +
-        '<section class="state-authority-block" data-state-authority-block="true" data-state-authority-strength="true" data-state-authority-dominance="true">' +
-        '<p>This page brings together verified firm listings and official resources for this state so you can compare firms and evaluate your options in one place.</p>' +
-        '<p>Use the directory below to compare firms, and reference the official resources further down to validate credentials, disciplinary history, and licensing status.</p>' +
-        '</section>' +
-        '<section class="section state-best-lawyer-block answer-block" data-pi-best-lawyer-answer="true">' +
-        '<h2>How to Choose a Personal Injury Lawyer in ' + escapeHtml(stateName) + '</h2>' +
-        '<p>The right personal injury lawyer in ' + escapeHtml(stateName) + ' depends on your case, your priorities, and how different firms handle situations like yours.</p>' +
-        '<p>Some firms may be a better fit for serious injury cases, while others focus on faster settlements or specific accident types.</p>' +
-        '<p>This guide does not rank firms, but it helps you compare options versus each other and understand tradeoffs; however, the right choice depends on your case and priorities.</p>' +
-        '</section>' +
-        '<section class="section state-how-to-choose" data-pi-how-to-choose="true">' +
-        '<h2>How to Choose a Personal Injury Lawyer in ' + escapeHtml(stateName) + '</h2>' +
-        '<p>Use the directory below and the official resources further down to compare firms on:</p>' +
-        '<ol>' +
-        '<li>experience with your type of case</li>' +
-        '<li>communication and responsiveness</li>' +
-        '<li>fee structure and case costs</li>' +
-        '<li>who will actually handle the case</li>' +
-        '<li>disciplinary history and licensing</li>' +
-        '<li>whether the firm\'s approach fits your priorities</li>' +
-        '</ol>' +
-        '<table class="comparison-table" data-pi-comparison-table="true"><thead><tr><th>Factor</th><th>What to compare</th></tr></thead><tbody>' +
-        '<tr><td>Case fit</td><td>Has the firm handled claims like yours?</td></tr>' +
-        '<tr><td>Fees</td><td>What percentage and what expenses are separate?</td></tr>' +
-        '<tr><td>Communication</td><td>Who will call you back and how often?</td></tr>' +
-        '<tr><td>Verification</td><td>What do licensing and discipline records show?</td></tr>' +
-        '<tr><td>Strategy fit</td><td>Trial posture versus settlement focus.</td></tr>' +
-        '</tbody></table>' +
-        '</section>' +
-        '<section class="section micro-guides" data-guides-micro="true">' +
-        '<p><strong>Start here:</strong> ' +
-        '<a href="/guides/personal-injury-fees-explained/">Costs</a> • ' +
-        '<a href="/guides/what-to-do-after-an-accident/">Timeline</a> • ' +
-        '<a href="/guides/questions-to-ask-a-personal-injury-lawyer/">Questions to ask</a> • ' +
-        '<a href="/guides/personal-injury-lawyer-red-flags/">Red flags</a> ' +
-        '<span class="muted">(educational)</span></p>' +
-        '</section>' +
-        '%%AD:pi_state_mid%%' +
-        renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, stateName, verticalLabel: verticalLabelFor(verticalKey), hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) +
+        '<section class="section state-authority-block" data-state-authority-block="true" data-state-authority-dominance="true" data-state-authority-strength="true">' +
+        '<h2>Where can you verify a lawyer in ' + escapeHtml(stateName) + '?</h2>' +
+        '<p data-disciplinary-lookup="true"><a href="' + escapeHtml(disciplineUrl) + '" rel="nofollow">Official ' + escapeHtml(stateName) + ' licensing and discipline lookup</a></p></section>' +
+        '<section class="section answer-block" data-pi-best-lawyer-answer="true" data-pi-how-to-choose="true" data-citation-summary-type="state-home">' +
+        '<h2>How should you compare ' + escapeHtml(stateName) + ' firms?</h2>' +
+        '<p>Check the license first, then compare <a href="/guides/personal-injury-fees-explained/">written fees</a> and <a href="/guides/questions-to-ask-a-personal-injury-lawyer/">who handles the case</a>. No firm is ranked or endorsed.</p></section>' +
         renderStateCityGridHtml(stateName, cityLinks) +
-        '<section class="section state-guides-support" data-state-guides-support="true"><h2>State-level guides and support</h2><div class="grid">' + selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => '<div class="card"><h3><a href="' + escapeHtml(g.route) + '">' + escapeHtml(g.title) + '</a></h3><p>' + escapeHtml(g.description || 'Guide') + '</p></div>').join('') + '</div></section>' +
-        '<section class="section" id="state-directory" data-pi-state-directory="true">' +
-        '<h2>Directory Listings (Firms listed for ' + escapeHtml(stateName) + ')</h2>' +
-        '<p class="muted">This is a neutral, non-ranked state directory. Use it with the checklist above and the official verification tools below.</p>' +
-        '<div class="grid">' + directoryCards + '</div>' +
-        '</section>' +
-        '<section class="section" data-disciplinary-lookup="true">' +
-        '<h2>Attorney discipline & license lookup</h2>' +
-        '<p class="muted">If you are checking a license or disciplinary history, use the official state resource:</p>' +
-        (disciplineUrl ? ('<p><a href="' + escapeHtml(disciplineUrl) + '" rel="nofollow">Open official ' + escapeHtml(stateName) + ' lookup</a></p>') : '<p class="muted">(Missing link — pack config required.)</p>') +
-        '</section>' +
-        '<section class="section" data-pi-state-faq="true">' +
-        '<h2>FAQs</h2>' +
-        '<p class="muted">This is a quick explainer layer. It is not legal advice. We do not rank providers.</p>' +
-        stateFaqAccordion +
-        '</section>'
+        '%%AD:pi_state_mid%%' +
+        '<section class="section" id="state-directory" data-pi-state-directory="true"><h2>Directory Listings (Firms listed for ' + escapeHtml(stateName) + ')</h2><div class="grid">' + directoryCards + '</div></section>' +
+        '<section class="section" data-pi-state-faq="true"><h2>What should you check before contacting a firm?</h2>' + stateFaqAccordion + '</section>'
       );
 
       mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
@@ -6880,13 +6825,6 @@ function loadNextStepsSponsor(citySlug) {
         intentType: 'direct_match',
         buttonSource: 'inline_conversion_cta'
       });
-      mainHtml = injectRecentlyRefreshedBlock(mainHtml, renderRecentlyRefreshedHtml({
-        kind: 'state-home',
-        buildIso: BUILD_ISO,
-        guideLinks: selectPriorityGuideSummaries(globalPagesDir, 3).map((g) => ({ href: g.route, label: g.title, description: g.description })),
-        primaryLinks: [{ href: '/states/' + ab + '/', label: stateName }].concat(selectPriorityGuideSummaries(globalPagesDir, 2).map((g) => ({ href: g.route, label: g.title, description: g.description }))),
-        cityLinks: []
-      }));
 
       const stateSponsor = selectPiStateSponsor(ab);
       // Inline next-steps hub removed from state pages; dedicated state /next-steps/ pages own the full experience.
