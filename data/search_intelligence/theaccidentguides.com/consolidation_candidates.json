@@ -2,11 +2,21 @@
   "schema_version": "1.0",
   "host": "theaccidentguides.com",
   "status": "LEDGER_ONLY_NO_REDIRECTS",
-  "gsc_window": "2026-10-05..2026-11-01",
+  "gsc_window": "2026-10-06..2026-11-02",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
   "guide_count": 23,
-  "candidate_count": 0,
-  "candidates": [],
+  "candidate_count": 1,
+  "candidates": [
+    {
+      "route": "/guides/burn-injury/",
+      "source": "data/page_sets/examples/pi_global_pages/burn-injury.json",
+      "words": 538,
+      "impressions_28d": 0,
+      "coverage_state": "Submitted and indexed",
+      "fold_into": "/guides/personal-injury-fees-explained/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
+    }
+  ],
   "folded_note": "Guides already folded and 301d (pack legacyRedirects). Carried forward by build_search_plan.mjs on every regeneration; checked by site_hygiene_registry_contract.js against the pack redirects.",
   "folded": [
     {
