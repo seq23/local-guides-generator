@@ -226,8 +226,17 @@ test('newly measured demand is a named note, never a block on the daily Search C
   fs.cpSync(path.join(repo, 'data'), path.join(dir, 'data'), { recursive: true });
   // A host with no search site, so the run checks sources and skips dist.
   fs.writeFileSync(path.join(dir, 'data/site.json'), JSON.stringify({ siteUrl: 'https://example.invalid' }));
-  const host = 'memphisseniorcarehomes.com';
-  const route = '/guides/when-a-parent-refuses-to-move/';
+  // Any guide family the committed data serves today; the daily measurement
+  // moves the families, so the test picks one rather than naming it.
+  const siDir = path.join(dir, 'data/search_intelligence');
+  let host = null; let route = null;
+  for (const h of fs.readdirSync(siDir)) {
+    const f = path.join(siDir, h, 'demand_families.json');
+    if (!fs.existsSync(f)) continue;
+    const fam = JSON.parse(fs.readFileSync(f, 'utf8')).families.find((x) => x.status === 'strengthened' && x.page_kind === 'guide');
+    if (fam) { host = h; route = fam.page; break; }
+  }
+  assert.ok(host, 'no served guide family in the committed data to unserve');
   const spFile = path.join(dir, 'data/search_intelligence/strengthened_pages.json');
   const sp = JSON.parse(fs.readFileSync(spFile, 'utf8'));
   sp.pages = sp.pages.filter((p) => !(p.host === host && p.route === route));
@@ -244,7 +253,7 @@ test('newly measured demand is a named note, never a block on the daily Search C
   assert.equal(built.stdout.trim(), 'not_strengthened', built.stderr);
   const ok = run(['scripts/validation/demand_families_contract.js']);
   assert.equal(ok.status, 0, ok.stderr);
-  assert.match(ok.stdout, /NAMED NOTE \[FAMILY_NOT_SERVED\] memphisseniorcarehomes\.com family .*when-a-parent-refuses-to-move/);
+  assert.ok(ok.stdout.split('\n').some((l) => l.startsWith(`NAMED NOTE [FAMILY_NOT_SERVED] ${host} family`) && l.includes(route)), ok.stdout);
   // Still strict on everything else: a hand-edited families file fails.
   const famFile = path.join(dir, 'data/search_intelligence', host, 'demand_families.json');
   const fam = JSON.parse(fs.readFileSync(famFile, 'utf8'));
