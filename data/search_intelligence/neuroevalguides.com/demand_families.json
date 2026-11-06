@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-05..2026-11-01",
-  "gsc_collected_at": "2026-11-04T22:42:17+00:00",
+  "gsc_window": "2026-10-07..2026-11-03",
+  "gsc_collected_at": "2026-11-06T14:47:40+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -16,21 +16,21 @@
   "top_families": [
     {
       "rank": 1,
+      "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
+      "impressions": 11,
+      "status": "not_strengthened"
+    },
+    {
+      "rank": 2,
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
       "impressions": 10,
       "status": "strengthened"
     },
     {
-      "rank": 2,
+      "rank": 3,
       "family": "cost @ /guides/huntsville-adhd-testing-prices/",
       "impressions": 5,
       "status": "strengthened"
-    },
-    {
-      "rank": 3,
-      "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
-      "impressions": 4,
-      "status": "below_impression_floor"
     },
     {
       "rank": 4,
@@ -46,6 +46,51 @@
     }
   ],
   "families": [
+    {
+      "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
+      "intent": "questions_to_ask",
+      "head_term": "questions to ask",
+      "page": "/guides/fayetteville-adhd-evaluation-testing-options/",
+      "page_kind": "guide",
+      "page_intent": "questions_to_ask",
+      "impressions": 11,
+      "best_position": 44,
+      "weighted_position": 54,
+      "top_query": "adhd evaluation in fayetteville",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "adhd evaluation in fayetteville",
+          "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
+          "impressions": 8,
+          "position": 44
+        },
+        {
+          "query": "adhd testing fayetteville ar",
+          "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
+          "impressions": 3,
+          "position": 80.7
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
+          "family_impressions": 11,
+          "page_impressions": 12,
+          "page_position": 50.2
+        }
+      ],
+      "rank": 1,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/fayetteville-adhd-evaluation-testing-options/"
+      ],
+      "status": "not_strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_fayetteville-adhd-evaluation-testing-options.json has no search_strengthening listed in strengthened_pages.json"
+    },
     {
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
       "intent": "cost",
@@ -82,11 +127,11 @@
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
           "family_impressions": 10,
-          "page_impressions": 28,
-          "page_position": 37
+          "page_impressions": 27,
+          "page_position": 37.8
         }
       ],
-      "rank": 1,
+      "rank": 2,
       "basis": [
         "top_demand"
       ],
@@ -131,7 +176,7 @@
           "page_position": 26.9
         }
       ],
-      "rank": 2,
+      "rank": 3,
       "basis": [
         "top_demand"
       ],
@@ -141,41 +186,6 @@
       ],
       "status": "strengthened",
       "reason": "data/page_sets/examples/neuro_global_pages/guides_huntsville-adhd-testing-prices.json search_strengthening"
-    },
-    {
-      "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
-      "intent": "questions_to_ask",
-      "head_term": "questions to ask",
-      "page": "/guides/fayetteville-adhd-evaluation-testing-options/",
-      "page_kind": "guide",
-      "page_intent": "questions_to_ask",
-      "impressions": 4,
-      "best_position": 36.8,
-      "weighted_position": 36.8,
-      "top_query": "adhd evaluation in fayetteville",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "adhd evaluation in fayetteville",
-          "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
-          "impressions": 4,
-          "position": 36.8
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
-          "family_impressions": 4,
-          "page_impressions": 5,
-          "page_position": 31
-        }
-      ],
-      "rank": 3,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "4 impressions < 5"
     },
     {
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
@@ -201,8 +211,8 @@
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "family_impressions": 3,
-          "page_impressions": 15,
-          "page_position": 6.8
+          "page_impressions": 17,
+          "page_position": 7.1
         }
       ],
       "rank": 4,

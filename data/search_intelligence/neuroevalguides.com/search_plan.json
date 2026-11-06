@@ -1,15 +1,28 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-05..2026-11-01",
+  "gsc_window": "2026-10-07..2026-11-03",
   "totals": {
     "clicks": 2,
-    "impressions": 90,
-    "ctr": 0.0222,
-    "position": 22.3
+    "impressions": 98,
+    "ctr": 0.0204,
+    "position": 25.1
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
+    {
+      "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
+      "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 11,
+      "source": "data/page_sets/examples/neuro_global_pages/guides_fayetteville-adhd-evaluation-testing-options.json",
+      "impressions": 12,
+      "clicks": 0,
+      "position": 50.2,
+      "strengthened": false
+    },
     {
       "route": "/guides/neuropsych-testing-cost-by-state/",
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
@@ -18,9 +31,9 @@
       ],
       "family_impressions": 10,
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
-      "impressions": 28,
+      "impressions": 27,
       "clicks": 1,
-      "position": 37,
+      "position": 37.8,
       "strengthened": true
     },
     {
@@ -44,25 +57,27 @@
       ],
       "family_impressions": 3,
       "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
-      "impressions": 15,
+      "impressions": 17,
       "clicks": 0,
-      "position": 6.8,
+      "position": 7.1,
       "strengthened": true
     }
   ],
-  "not_yet_strengthened": [],
+  "not_yet_strengthened": [
+    "/guides/fayetteville-adhd-evaluation-testing-options/"
+  ],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 83,
-      "Discovered - currently not indexed": 39,
+      "Crawled - currently not indexed": 80,
+      "Discovered - currently not indexed": 37,
       "Submitted and indexed": 33,
-      "URL is unknown to Google": 41
+      "URL is unknown to Google": 46
     },
     "buckets": {
-      "crawled_not_indexed": 83,
-      "discovered_not_indexed": 39,
+      "crawled_not_indexed": 80,
+      "discovered_not_indexed": 37,
       "indexed": 33,
-      "unknown": 41
+      "unknown": 46
     }
   }
 }
