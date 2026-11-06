@@ -175,8 +175,11 @@ const RANKED = Object.entries(GEO.codes['96132'].states || {})
 const RANK_OF = new Map(RANKED.map(([s], i) => [s, i + 1]));
 const RANK_TOTAL = RANKED.length;
 
-const SRC_CITY = 'Source: CMS, Medicare Physician & Other Practitioners by Provider and Service, CY2024.';
-const SRC_GEO = 'Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, CY2024.';
+// Short per-paragraph tags; the full dataset names are printed once, under the
+// figures table. The full name after every paragraph was the same 8+ words five
+// times on one page (Search Readiness q1, 5 Nov 2026: wilmington-de, newark-nj).
+const SRC_CITY = '(CMS by-provider data, CY2024.)';
+const SRC_GEO = '(CMS state data, CY2024.)';
 const ADDRESS_LIMIT =
   'That count is by practice address on the claim, not by catchment, so clinicians serving the metro from a ' +
   'suburban office are not in it. Treat it as a floor, never as the number of providers available to you.';

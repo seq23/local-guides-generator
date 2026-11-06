@@ -240,6 +240,12 @@ function defaultClusterItems(ctx) {
   const noun = getVerticalNoun(ctx.verticalKey);
   const plural = getVerticalPlural(ctx.verticalKey);
   const topic = getTopicLabel(ctx);
+  // The derived labels ("red flags for ...", "questions to ask about ...") use
+  // the title's head, not the whole title: a long guide title printed in three
+  // more labels was the same 8 words four times on the page with the H1
+  // (memphisseniorcarehomes.com/guides/how-families-pay-for-assisted-living/,
+  // Search Readiness q1, 5 Nov 2026).
+  const short = String(topic || '').split(/\s*[:—|]\s*/)[0].trim() || topic;
   const route = routeWithSlash(ctx.route);
   const verticalKey = String(ctx.verticalKey || '').trim().toLowerCase();
   const isNeuro = verticalKey === 'neuro';
@@ -338,9 +344,9 @@ function defaultClusterItems(ctx) {
     return [
       { groupId: 'primary', groupLabel: 'Primary route', query: topic, href: route, label: 'This guide' },
       { groupId: 'primary', groupLabel: 'Primary route', query: `what to know about ${topic}`, href: route, label: 'This guide' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${topic}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `red flags for ${topic}`, href: routeSet ? routeSet.redFlags : '/guides/#red-flags', label: 'Red-flags cluster' },
-      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${topic}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${short}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `red flags for ${short}`, href: routeSet ? routeSet.redFlags : '/guides/#red-flags', label: 'Red-flags cluster' },
+      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${short}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 
@@ -348,9 +354,9 @@ function defaultClusterItems(ctx) {
     return [
       { groupId: 'primary', groupLabel: 'Primary route', query: topic, href: route, label: 'This page' },
       { groupId: 'primary', groupLabel: 'Primary route', query: `what should I know about ${topic}`, href: route, label: 'This page' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `how to compare options for ${topic}`, href: routeSet ? routeSet.choose : '/guides/', label: 'Guides hub' },
-      { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${topic}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
-      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${topic}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `how to compare options for ${short}`, href: routeSet ? routeSet.choose : '/guides/', label: 'Guides hub' },
+      { groupId: 'compare', groupLabel: 'Related decision paths', query: `questions to ask about ${short}`, href: isNeuro ? neuroRoutes.questions : '/faq/', label: 'FAQ' },
+      { groupId: 'next', groupLabel: 'Related decision paths', query: `find help with ${short}`, href: routeSet ? routeSet.nextSteps : '/request-assistance/', label: 'Get matched with a provider' }
     ];
   }
 

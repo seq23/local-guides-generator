@@ -11,8 +11,9 @@
  *     change without a rebuild all fail).
  *  2. Every top-5 family (and every family that qualifies) is either
  *     strengthened or carries a recorded reason (intent_mismatch, no_page,
- *     position_beyond_max, below_impression_floor). "not_strengthened" fails:
- *     demand that qualifies is served, not listed.
+ *     position_beyond_max, below_impression_floor). "not_strengthened" is a
+ *     NAMED NOTE [FAMILY_NOT_SERVED], served by the search loop: new demand in
+ *     a daily measurement must never stop that measurement being committed.
  *  3. Each strengthening source has a 40-60 word definition, >= 2 FAQ, and a
  *     title that shares >= 2 words with its query.
  *  4. In dist/ (the active pack's host): every strengthened page exists, its H1
@@ -35,6 +36,7 @@ const sites = read('data/search_intelligence/sites.json').sites;
 if (!sites.length) fail('sites.json lists no site');
 const strengthenedGuides = read('data/search_intelligence/strengthened_pages.json').pages;
 let families = 0; let served = 0;
+const unserved = [];
 const expectByHost = new Map();
 
 for (const site of sites) {
@@ -58,6 +60,15 @@ for (const site of sites) {
   const expect = [];
   for (const f of doc.families) {
     if (!(f.rank <= DF.RULE.top_n || f.qualifies)) continue;
+    if (f.status === 'not_strengthened') {
+      // Newly measured demand is work for the search loop (canonical_loop.mjs
+      // serves every not_strengthened guide family), not a broken build: a hard
+      // fail here stopped the daily Search Console commit, so the site's
+      // gsc_truth / index_coverage went stale for days (memphisseniorcarehomes,
+      // 31 Oct - 6 Nov 2026, Search Readiness e4/e5).
+      unserved.push(`${site.host} family "${f.family}" (rank ${f.rank}, ${f.impressions} impressions): strengthen ${f.strengthened_pages.join(', ') || f.page} or record why not`);
+      continue;
+    }
     if (!DF.SERVED.has(f.status) || !f.reason) fail(`${site.host} family "${f.family}" (rank ${f.rank}, ${f.impressions} impressions) is ${f.status}: strengthen ${f.strengthened_pages.join(', ') || f.page} or record why not`);
     served++;
     if (f.status !== 'strengthened') continue;
@@ -85,6 +96,7 @@ for (const site of sites) {
 }
 
 // Rendered output for the active pack.
+for (const u of unserved) console.log(`NAMED NOTE [FAMILY_NOT_SERVED] ${u} (the search loop serves it)`);
 const host = activeHost();
 const expect = expectByHost.get(host);
 if (!expect) { console.log(`DEMAND FAMILIES PASS (${sites.length} sites, ${families} families, ${served} top/qualifying served); dist: NAMED SKIP - ${host} is not a search site`); process.exit(0); }

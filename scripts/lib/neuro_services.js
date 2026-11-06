@@ -129,7 +129,7 @@ function therapyFocusLabel(focus) {
 function therapySectionCopy(market) {
   return {
     heading: 'Therapy practices in ' + market,
-    lead: 'Practices offering ADHD or autism therapy for people who already have a diagnosis or are working toward one. Each card says whether the practice offers evaluation, therapy, or both. Confirm age range, insurance, wait times, and therapy goals directly with the practice. This list is non-exhaustive and is not a recommendation, ranking, or endorsement.'
+    lead: 'Practices offering ADHD or autism therapy for people who already have a diagnosis or are working toward one. Each card says whether the practice offers evaluation, therapy, or both. Confirm age range, insurance, wait times, and therapy goals directly with the practice. This list is provided for educational context only and is not a recommendation, ranking, or endorsement.'
   };
 }
 

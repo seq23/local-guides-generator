@@ -3504,10 +3504,22 @@ function renderRequestAssistanceDetailLinkHtml() {
 // the only thing that genuinely differs between these pages.
 // Guarded by scripts/validation/next_steps_definition_contract.js, which counts the
 // words and requires the copula on every rendered next-steps page.
-function renderNextStepsDefinitionHtml(marketScoped, marketLabel) {
+function renderNextStepsDefinitionHtml(marketScoped, marketLabel, seniorLiving) {
   const subject = marketScoped
     ? 'This next-steps page for ' + escapeHtml(marketLabel)
     : 'This next-steps page';
+  // Senior living: the page is about finding a care home for a parent, and its
+  // title is "Next: <place> | Memphis Senior Care Homes". The generic wording
+  // never said what the page was about, so its first 100 words answered nothing
+  // in the title (Search Readiness q1 d1, 5 Nov 2026: millington-tn,
+  // bartlett-tn, methodist-university-hospital next steps).
+  if (seniorLiving) {
+    return '<p class="muted" data-next-steps-definition="true">' + subject +
+      ' is where a family choosing senior care homes for a parent takes the next step:' +
+      ' a short care-needs request so licensed assisted living or memory care communities can call back,' +
+      ' the guides on cost and TennCare, and the licensed communities listed for ' +
+      (marketScoped ? escapeHtml(marketLabel) : 'the Memphis area') + '.</p>';
+  }
   return '<p class="muted" data-next-steps-definition="true">' + subject +
     ' is the decision hub that gathers the three ways out of research and into action:' +
     ' the provider callback form, the education-first guides on cost and timing, and the' +
@@ -3537,7 +3549,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
     '<section class="hero" data-next-steps-page-hero="true">' +
       '<p class="kicker">Next steps</p>' +
       '<h1>' + escapeHtml(pageTitle) + '</h1>' +
-      renderNextStepsDefinitionHtml(marketScoped, marketLabel) +
+      renderNextStepsDefinitionHtml(marketScoped, marketLabel, Boolean(opts && opts.seniorLiving)) +
     '</section>' +
     '<section class="section next-steps-page-shell" data-next-steps-page-shell="true">' +
       '<div class="card" data-next-steps-page-intro="true">' +
@@ -3548,34 +3560,33 @@ function renderDedicatedNextStepsHubHtml(opts) {
         // them, and the answer is sized to be quotable whole.
         '<h2>' + (marketScoped ? 'What should you do next in ' + escapeHtml(marketLabel) + '?' : 'What should you do next?') + '</h2>' +
         '<p data-next-steps-answer="true" data-citation-summary-answer="true">' + composeAnswerSpan([
-          (marketScoped ? 'In ' + escapeHtml(marketLabel) + ', three' : 'Three') + ' paths lead out of this page: send the callback form below if you already want a provider to contact you, open the education-first guides if cost, timing, or questions to ask are still unsettled, or use the lookup tools if you would rather verify things yourself first.',
-          'This page is the only place the full decision hub appears.'
+          (marketScoped ? 'In ' + escapeHtml(marketLabel) + ', three' : 'Three') + ' paths lead out of this page: send the callback form below if you already want a provider to contact you, open the education-first guides if cost, timing, or questions to ask are still unsettled, or use the lookup tools if you would rather verify things yourself first.'
         ]) + '</p>' +
       '</div>' +
+      // The page's own facts (providers listed for this market, the USCIS field
+      // office) sit right under the answer, before the shared form.
+      String(opts && opts.localHtml ? opts.localHtml : '') +
+      // Each card is a heading and its one action. The explanatory paragraphs,
+      // the three-line checklist restating the cards and the "routing system"
+      // line were the same ~110 words on every city's page, which made any two
+      // /<city>/next-steps/ pages more than half identical (Search Readiness q1,
+      // 5 Nov 2026: des-moines-ia vs portland-or 0.69, 5-word shingles) and is
+      // why Google left most of them "Crawled - currently not indexed".
       '<div class="grid" data-next-steps-cards="true">' +
         '<div class="card" data-next-steps-card="direct-match">' +
           '<h3>Get matched with a provider</h3>' +
-          '<p>The full callback form lives directly on this page below. Use it when you want a provider call back without leaving the decision hub.</p>' +
           '<p class="actions"><a class="button button-primary" data-next-steps-primary="true" href="#request-assistance-form">Jump to the full form</a></p>' +
         (sponsorRouting && sponsorRouting.sponsor_slug ? ('<p class="muted" data-next-steps-sponsor-routing="true">' + escapeHtml(buildSponsorDisclosureLine()) + ' • Routed to ' + escapeHtml(String(sponsorRouting.sponsor_name || sponsorRouting.sponsor_slug || 'the active sponsor')) + '.</p>' + (getSurfaceAsset(sponsorRouting, 'mid') ? '<p class="next-steps-sponsor-media"><img src="/' + escapeHtml(String(getSurfaceAsset(sponsorRouting, 'mid')).replace(/^data\//,'')) + '" alt="' + escapeHtml(String(sponsorRouting.sponsor_name || sponsorRouting.sponsor_slug || 'Sponsor')) + ' sponsor creative" loading="lazy" decoding="async" /></p>' : '')) : '') +
         '</div>' +
         '<div class="card" data-next-steps-card="compare">' +
           '<h3>Compare your options</h3>' +
-          '<p>Review the education-first guides before you decide which provider type, market, or program structure fits.</p>' +
           '<p class="actions"><a class="button button-secondary" data-next-steps-compare="true" href="' + escapeHtml(compareHref) + '">Compare Options</a></p>' +
         '</div>' +
         '<div class="card" data-next-steps-card="tools">' +
           '<h3>Use lookup tools</h3>' +
-          '<p>Start with the FAQ and verification-style lookup surfaces when you want the fastest self-serve path.</p>' +
           '<p class="actions"><a class="button button-secondary" data-next-steps-tools="true" href="' + escapeHtml(toolsHref) + '">Use Lookup Tools</a></p>' +
         '</div>' +
       '</div>' +
-      '<ul class="neutral-list" data-next-steps-checklist="true">' +
-        '<li>Use the full form on this page when you want a provider call back.</li>' +
-        '<li>Use the comparison path when you still need to review costs, timing, or questions to ask.</li>' +
-        '<li>Use the lookup tools path when you want the fastest self-serve route before you submit anything.</li>' +
-      '</ul>' +
-      '<p class="muted" data-next-steps-routing="true">The same routing system can capture all three paths while keeping the public experience useful and education-first.</p>' +
     '</section>' +
     requestAssistanceHtml
   );
@@ -4743,9 +4754,20 @@ function renderPage(baseTemplate, footerHtml, connectionBubbleTemplate, primaryC
         return { heading, lead };
       }
 
-      // Render in the deterministic order returned by loadExampleProviderLists
+      // Render in the deterministic order returned by loadExampleProviderLists.
+      // A lead sentence already printed above an earlier list is not printed
+      // again: the "not a recommendation, ranking, or endorsement" line under
+      // each of three or four lists was the same 8 words four times on one page
+      // (Search Readiness q1, 5 Nov 2026: neuro wilmington-de, philadelphia-pa).
+      const leadSeen = new Set();
       const blocks = lists.map((entry) => {
-        const hl = getSubHeadingAndLead(verticalKey, entry.subKey);
+        const hl0 = getSubHeadingAndLead(verticalKey, entry.subKey);
+        const leadParts = String(hl0.lead || '').split(/(?<=[.!?])\s+(?=[A-Z])/).filter((x) => {
+          const k = x.trim().toLowerCase().replace(/\s+/g, ' ');
+          if (!k || leadSeen.has(k)) return false;
+          leadSeen.add(k); return true;
+        });
+        const hl = { heading: hl0.heading, lead: leadParts.join(' ') };
         // The therapy list keeps its sub key (category and attributes name the
         // therapy) and its anchor, which the hero's therapy link targets.
         if (String(verticalKey || '').toLowerCase() === 'neuro' && entry.subKey === neuroServices.THERAPY_SUBKEY) {
@@ -4867,13 +4889,14 @@ function stripForbiddenInlineBlocks(html) {
       pageTitle: title,
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
-      requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey)
+      requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey),
+      localHtml: renderNextStepsLocalHtml(verticalKey, city),
+      seniorLiving: senior.isSeniorLiving(verticalKey)
     });
     // senior-living: the request form embedded here is the intake slot. The
     // city tokens were filled before this injection, so /<city>/next-steps/
     // shipped the literal %%SENIOR_INTAKE%% and no form (live until 25 Oct 2026).
     if (senior.isSeniorLiving(verticalKey)) mainHtml = mainHtml.split('%%SENIOR_INTAKE%%').join(senior.intakeSlotForCity(city));
-    mainHtml += "\n" + renderNextStepsLocalHtml(verticalKey, city);
     if (cityFanoutHtml && !mainHtml.includes('data-fanout-query-cluster="true"')) {
       mainHtml += "\n" + cityFanoutHtml;
     }
@@ -5518,7 +5541,8 @@ if (route === 'admin') {
       compareHref: buildTrackedHref('/guides/', { intent: 'decision_hub', button: 'next_steps_page_compare', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: 'next-steps' }),
       requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey),
-      sponsorRouting: sponsorship.getActiveVerticalLeadRouting(verticalKey)
+      sponsorRouting: sponsorship.getActiveVerticalLeadRouting(verticalKey),
+      seniorLiving: senior.isSeniorLiving(verticalKey)
     });
     if (senior.isSeniorLiving(verticalKey)) mainHtml = mainHtml.split('%%SENIOR_INTAKE%%').join(senior.intakeSlotForSite());
   } else {

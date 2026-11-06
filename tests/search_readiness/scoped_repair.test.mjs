@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import vm from 'node:vm';
 const require = createRequire(import.meta.url);
 const { brandedTitle, clarityEligible } = require('../../scripts/lib/search_readiness_policy');
@@ -202,4 +202,55 @@ test('source-driven scoped guides seat their existing answer without duplicating
     assert.equal((result.match(/An authored answer/g) || []).length, 1);
     assert.equal(seatAnswerShape(result, `guides/${slug}`), result);
   }
+});
+
+test('every guide gets the Quick answer H2, not only the ones a brief named', () => {
+  const { seatAnswerShape, QUICK_ANSWER_GUIDES } = require('../../scripts/lib/answer_shape_seat');
+  const slug = 'beauty-peptides-after-35';
+  assert.equal(QUICK_ANSWER_GUIDES.has(slug), false);
+  const html = '<main><h1>Beauty peptides after 35</h1><h2 id="citation-summary">Beauty peptides after 35: what should you know before you decide?</h2>' +
+    '<p data-citation-summary-answer="true">An authored answer.</p></main>';
+  const result = seatAnswerShape(html, `guides/${slug}`);
+  assert.match(result, /<h2 id="citation-summary">Quick answer<\/h2>/);
+  assert.equal(seatAnswerShape(result, `guides/${slug}`), result);
+  // Not a guide: untouched.
+  assert.equal(seatAnswerShape(html, 'memphis-tn'), html);
+});
+
+test('newly measured demand is a named note, never a block on the daily Search Console commit', (t) => {
+  const repo = new URL('../..', import.meta.url).pathname;
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lgg-families-'));
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  // Copied, not linked: a validator resolves its ROOT from its real path.
+  fs.cpSync(path.join(repo, 'scripts'), path.join(dir, 'scripts'), { recursive: true });
+  fs.cpSync(path.join(repo, 'data'), path.join(dir, 'data'), { recursive: true });
+  // A host with no search site, so the run checks sources and skips dist.
+  fs.writeFileSync(path.join(dir, 'data/site.json'), JSON.stringify({ siteUrl: 'https://example.invalid' }));
+  const host = 'memphisseniorcarehomes.com';
+  const route = '/guides/when-a-parent-refuses-to-move/';
+  const spFile = path.join(dir, 'data/search_intelligence/strengthened_pages.json');
+  const sp = JSON.parse(fs.readFileSync(spFile, 'utf8'));
+  sp.pages = sp.pages.filter((p) => !(p.host === host && p.route === route));
+  fs.writeFileSync(spFile, JSON.stringify(sp, null, 2));
+  // Rebuild that site's families the way build_search_plan does, from the copied tree.
+  const rebuild = `const DF=require(${JSON.stringify(path.join(dir, 'scripts/search_intelligence/demand_families.js'))});` +
+    `const fs=require('fs');const sites=require(${JSON.stringify(path.join(dir, 'data/search_intelligence/sites.json'))}).sites;` +
+    `const s=sites.find(x=>x.host===${JSON.stringify(host)});const d=${JSON.stringify(path.join(dir, 'data/search_intelligence', host))};` +
+    `const doc=DF.buildDocument(s,JSON.parse(fs.readFileSync(d+'/gsc_search_analytics_export.json','utf8')));` +
+    `fs.writeFileSync(d+'/demand_families.json',JSON.stringify(doc,null,2)+'\\n');` +
+    `console.log(doc.families.find(f=>f.page===${JSON.stringify(route)}).status);`;
+  const run = (args) => spawnSync(process.execPath, args, { cwd: dir, encoding: 'utf8' });
+  const built = run(['-e', rebuild]);
+  assert.equal(built.stdout.trim(), 'not_strengthened', built.stderr);
+  const ok = run(['scripts/validation/demand_families_contract.js']);
+  assert.equal(ok.status, 0, ok.stderr);
+  assert.match(ok.stdout, /NAMED NOTE \[FAMILY_NOT_SERVED\] memphisseniorcarehomes\.com family .*when-a-parent-refuses-to-move/);
+  // Still strict on everything else: a hand-edited families file fails.
+  const famFile = path.join(dir, 'data/search_intelligence', host, 'demand_families.json');
+  const fam = JSON.parse(fs.readFileSync(famFile, 'utf8'));
+  fam.families[0].impressions += 1;
+  fs.writeFileSync(famFile, JSON.stringify(fam, null, 2));
+  const bad = run(['scripts/validation/demand_families_contract.js']);
+  assert.equal(bad.status, 1);
+  assert.match(bad.stderr, /DEMAND FAMILIES FAIL: .*differs from what demand_families\.js computes/);
 });
