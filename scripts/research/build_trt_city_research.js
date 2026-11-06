@@ -70,7 +70,11 @@ function nat(hcpcs) {
   return (e && e.present && e.national && e.national.O) || null;
 }
 
-const SOURCE_TAG = 'Source: CMS, Medicare Physician & Other Practitioners by Geography and Service, calendar year 2024.';
+// A short per-paragraph tag; the dataset is named in full once on the page (the
+// "CMS publishes the billing figures ..." line). The full name after every
+// paragraph repeated the same 8+ words six to eight times on one page (Search
+// Readiness q1, 5 Nov 2026: portland-me, baltimore-md).
+const SOURCE_TAG = '(CMS state data, 2024.)';
 
 function costLines(stateName) {
   const lines = [];
@@ -81,7 +85,7 @@ function costLines(stateName) {
       lines.push(`${stateName} figures for ${label} (code ${hcpcs}) are not published: CMS suppresses any cell covering fewer than 11 beneficiaries. We would rather leave this blank than estimate it.`);
       continue;
     }
-    const vsNat = n ? ` The national average submitted charge for the same code was ${usd(n.avg_submitted_charge)}.` : '';
+    const vsNat = n ? ` Nationally: ${usd(n.avg_submitted_charge)}.` : '';
     lines.push(
       `In ${stateName}, clinicians billed an average of ${usd(r.avg_submitted_charge)} for ${label} (code ${hcpcs}) and Medicare allowed an average of ${usd(r.avg_medicare_allowed)}.${vsNat} ${SOURCE_TAG}`
     );

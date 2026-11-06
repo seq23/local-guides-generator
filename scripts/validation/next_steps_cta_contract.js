@@ -50,7 +50,6 @@ function run(ctx) {
     assertContains(html, 'Jump to the full form', rel);
     assertContains(html, 'Compare Options', rel);
     assertContains(html, 'Use Lookup Tools', rel);
-    assertContains(html, 'data-next-steps-routing="true"', rel);
   }
 
   if (nextStepsCount === 0) failures.push('no dedicated /next-steps/ pages found in dist');

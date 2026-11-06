@@ -14,9 +14,10 @@
  *     or a statement heading is rewritten into the house question shape
  *     ("<topic>: what should you know before you decide?", the same fallback
  *     guideQuestionHeading uses in scripts/build_city_sites.js).
- *   - repaired guides carry a "Quick answer" H2: an H3 of that label is
- *     promoted, or the existing citation-summary heading is relabelled, on
- *     the guides named in QUICK_ANSWER_GUIDES.
+ *   - every guide carries a "Quick answer" H2: an H3 of that label is
+ *     promoted, or the existing citation-summary heading is relabelled.
+ *     QUICK_ANSWER_GUIDES is now only the set whose full house shape
+ *     guide_word_floor_contract.js proves (words, intake link, FAQ).
  *
  * Each rewrite fires only on a page that is out of shape, so a page already in
  * shape renders byte-identical and its freshness date does not move.
@@ -25,9 +26,9 @@
 // An opening that only means something next to the rest of the page.
 const DANGLING = /^(it|they|he|she|these|those|here|there|its|their|his|her)\b|^(this|that)\s+(is|was|are|were|can|will|would|should|does|did|has|have|means)\b/i;
 
-// Guides a Search Readiness brief repaired into the house shape (a "Quick
-// answer" H2 and an attributed intake link); guide_word_floor_contract.js reads
-// the same set.
+// Guides a Search Readiness brief repaired into the full house shape (a
+// "Quick answer" H2 and an attributed intake link); guide_word_floor_contract.js
+// proves this set. The Quick answer H2 itself is seated on every guide.
 const QUICK_ANSWER_GUIDES = new Set([
   'settlement-calculator-red-flags',
   'neuropsych-testing-cost-by-state',
@@ -95,7 +96,11 @@ function seatAnswerShape(html, route = '') {
   if (!mm) return html;
   let main = questionHeading(mm[1]);
   const slug = (String(route).match(/^guides\/([^/]+)\/?$/) || [])[1];
-  if (slug && QUICK_ANSWER_GUIDES.has(slug)) main = quickAnswerH2(main);
+  // Every guide carries the Quick answer H2 (j3), not only the ones a brief
+  // named: a list made each new guide wait for its own failed audit
+  // (beauty-peptides-after-35, 5 Nov 2026). quickAnswerH2 is a no-op on a
+  // guide with neither a Quick answer H3 nor a citation-summary heading.
+  if (slug) main = quickAnswerH2(main);
   if (main === mm[1]) return html;
   return html.replace(mm[1], () => main);
 }

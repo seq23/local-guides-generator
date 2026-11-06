@@ -21,8 +21,9 @@ jobs:
   rotating-refresh:
     timeout-minutes: 25  # ~3x median 5.5m over 8 green runs plus ~3m of Search Console reads; fault detector, not a budget
     runs-on: ubuntu-latest
-    # A newly qualifying family may need an editorial repair. It must fail only
-    # its own site's checkpoint, never discard the other sites' completed reads.
+    # A newly qualifying family is a note for the search loop, never a failure
+    # (demand_families_contract.js). A real failure fails only its own site's
+    # checkpoint, never discards the other sites' completed reads.
     # Serial jobs check out the latest branch tip so their commits do not race.
     strategy:
       fail-fast: false
