@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-06..2026-11-02",
-  "gsc_collected_at": "2026-11-05T13:44:57+00:00",
+  "gsc_window": "2026-10-07..2026-11-03",
+  "gsc_collected_at": "2026-11-06T13:44:30+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 43,
+      "impressions": 44,
       "status": "strengthened"
     },
     {
@@ -53,9 +53,9 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 43,
-      "best_position": 10,
-      "weighted_position": 86,
+      "impressions": 44,
+      "best_position": 6.5,
+      "weighted_position": 84.1,
       "top_query": "am i a candidate for trt",
       "query_count": 3,
       "queries": [
@@ -74,16 +74,16 @@
         {
           "query": "evaluating trt providers online",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 1,
-          "position": 10
+          "impressions": 2,
+          "position": 6.5
         }
       ],
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 43,
-          "page_impressions": 50,
-          "page_position": 75.7
+          "family_impressions": 44,
+          "page_impressions": 51,
+          "page_position": 74.3
         }
       ],
       "rank": 1,
