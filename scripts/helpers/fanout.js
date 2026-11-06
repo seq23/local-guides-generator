@@ -457,7 +457,6 @@ function renderFanoutClusterHtml(cluster) {
       return (
         '<li class="fanout-query-item">' +
           '<a href="' + escapeHtml(item.href) + '"><strong>' + escapeHtml(item.query) + '</strong></a>' +
-          '<span class="fanout-query-path"> → ' + escapeHtml(item.label) + '</span>' +
         '</li>'
       );
     }).join('\n');
@@ -471,9 +470,11 @@ function renderFanoutClusterHtml(cluster) {
 
   return (
     '<details class="section fanout-query-cluster fanout-query-cluster--tertiary accordion" data-fanout-query-cluster="true">' +
-      '<summary><span>Related search paths</span><span class="accordion-meta">Additional owned routes for this topic</span></summary>' +
+      // Links only: the explanatory line, the summary meta and the "→ <label>"
+      // after each link were the same prose on every page, and the block was
+      // ~22-29% of a city or next-steps page (Search Readiness q1, 6 Nov 2026).
+      '<summary><span>Related search paths</span></summary>' +
       '<div class="accordion-panel">' +
-        '<p class="muted">These routes support fanout/query coverage and keep owned paths visible, but they are intentionally secondary to the main framework and next-step flow.</p>' +
         groupHtml +
       '</div>' +
     '</details>'
