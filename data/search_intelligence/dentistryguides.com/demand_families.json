@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-10-05..2026-11-01",
-  "gsc_collected_at": "2026-11-04T13:41:00+00:00",
+  "gsc_window": "2026-10-07..2026-11-03",
+  "gsc_collected_at": "2026-11-06T14:44:19+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,36 +12,36 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 13,
+  "family_count": 15,
   "top_families": [
     {
       "rank": 1,
       "family": "licence lookup @ /states/{STATE}/",
-      "impressions": 247,
+      "impressions": 233,
       "status": "intent_mismatch"
     },
     {
       "rank": 2,
       "family": "choose a provider @ /guides/how-to-choose/",
-      "impressions": 201,
+      "impressions": 162,
       "status": "strengthened"
     },
     {
       "rank": 3,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 133,
+      "impressions": 131,
       "status": "strengthened"
     },
     {
       "rank": 4,
       "family": "provider business @ /states/{STATE}/",
-      "impressions": 48,
+      "impressions": 46,
       "status": "intent_mismatch"
     },
     {
       "rank": 5,
       "family": "hub @ /guides/",
-      "impressions": 29,
+      "impressions": 28,
       "status": "no_page"
     }
   ],
@@ -53,47 +53,35 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 247,
+      "impressions": 233,
       "best_position": 21,
-      "weighted_position": 50.2,
+      "weighted_position": 50,
       "top_query": "colorado dental license renewal",
-      "query_count": 81,
+      "query_count": 80,
       "queries": [
         {
           "query": "colorado dental license renewal",
           "route": "/states/CO/",
-          "impressions": 22,
-          "position": 54.2
-        },
-        {
-          "query": "michigan dental license",
-          "route": "/states/MI/",
-          "impressions": 18,
-          "position": 60.4
+          "impressions": 20,
+          "position": 54.6
         },
         {
           "query": "tennessee dental license",
           "route": "/states/TN/",
-          "impressions": 18,
-          "position": 51.3
+          "impressions": 17,
+          "position": 51
+        },
+        {
+          "query": "michigan dental license",
+          "route": "/states/MI/",
+          "impressions": 16,
+          "position": 60.4
         },
         {
           "query": "tn dental license",
           "route": "/states/TN/",
-          "impressions": 18,
-          "position": 51.1
-        },
-        {
-          "query": "ohio dental license",
-          "route": "/states/OH/",
           "impressions": 16,
-          "position": 59.2
-        },
-        {
-          "query": "colorado dental license requirements",
-          "route": "/states/CO/",
-          "impressions": 15,
-          "position": 56.3
+          "position": 50.5
         },
         {
           "query": "pa dental board",
@@ -102,22 +90,34 @@
           "position": 52.2
         },
         {
-          "query": "illinois dental license reciprocity",
-          "route": "/states/IL/",
+          "query": "colorado dental license requirements",
+          "route": "/states/CO/",
           "impressions": 14,
-          "position": 58.7
+          "position": 56.1
         },
         {
-          "query": "arizona dental license",
-          "route": "/states/AZ/",
+          "query": "ohio dental license",
+          "route": "/states/OH/",
+          "impressions": 14,
+          "position": 59.6
+        },
+        {
+          "query": "illinois dental license reciprocity",
+          "route": "/states/IL/",
           "impressions": 13,
-          "position": 53.2
+          "position": 59.1
         },
         {
           "query": "pennsylvania dental credentialing",
           "route": "/states/PA/",
-          "impressions": 11,
-          "position": 28.1
+          "impressions": 13,
+          "position": 30.8
+        },
+        {
+          "query": "arizona dental license",
+          "route": "/states/AZ/",
+          "impressions": 10,
+          "position": 53.5
         },
         {
           "query": "indiana dental license requirements",
@@ -156,12 +156,6 @@
           "position": 60
         },
         {
-          "query": "indiana board of dentistry",
-          "route": "/states/IN/",
-          "impressions": 2,
-          "position": 57
-        },
-        {
           "query": "indiana dental license search",
           "route": "/states/IN/",
           "impressions": 2,
@@ -196,12 +190,6 @@
           "route": "/states/CO/",
           "impressions": 1,
           "position": 35
-        },
-        {
-          "query": "colorado dentist license lookup",
-          "route": "/states/CO/",
-          "impressions": 1,
-          "position": 45
         },
         {
           "query": "dental board illinois",
@@ -336,6 +324,12 @@
           "position": 28
         },
         {
+          "query": "indiana board of dentistry",
+          "route": "/states/IN/",
+          "impressions": 1,
+          "position": 34
+        },
+        {
           "query": "indiana dental credentialing",
           "route": "/states/IN/",
           "impressions": 1,
@@ -364,6 +358,12 @@
           "route": "/states/IN/",
           "impressions": 1,
           "position": 35
+        },
+        {
+          "query": "kansas dental license verification",
+          "route": "/states/KS/",
+          "impressions": 1,
+          "position": 77
         },
         {
           "query": "mi dental license verification",
@@ -412,12 +412,6 @@
           "route": "/states/NY/",
           "impressions": 1,
           "position": 26
-        },
-        {
-          "query": "ohio board of dentistry",
-          "route": "/states/OH/",
-          "impressions": 1,
-          "position": 57
         },
         {
           "query": "ohio dental board license lookup",
@@ -510,16 +504,16 @@
           "position": 29
         },
         {
+          "query": "tennessee dentist license verification",
+          "route": "/states/TN/",
+          "impressions": 1,
+          "position": 95
+        },
+        {
           "query": "virginia dental license",
           "route": "/states/VA/",
           "impressions": 1,
           "position": 47
-        },
-        {
-          "query": "washington dental license verification",
-          "route": "/states/WA/",
-          "impressions": 1,
-          "position": 39
         },
         {
           "query": "washington state dental board",
@@ -549,57 +543,51 @@
       "pages": [
         {
           "route": "/states/CO/",
-          "family_impressions": 45,
-          "page_impressions": 68,
-          "page_position": 55.5
+          "family_impressions": 41,
+          "page_impressions": 65,
+          "page_position": 56.3
         },
         {
           "route": "/states/PA/",
-          "family_impressions": 38,
-          "page_impressions": 84,
-          "page_position": 40.6
+          "family_impressions": 40,
+          "page_impressions": 86,
+          "page_position": 40.7
         },
         {
           "route": "/states/TN/",
-          "family_impressions": 38,
-          "page_impressions": 46,
-          "page_position": 51.2
+          "family_impressions": 36,
+          "page_impressions": 42,
+          "page_position": 50.3
         },
         {
           "route": "/states/IL/",
-          "family_impressions": 24,
-          "page_impressions": 30,
-          "page_position": 48.7
+          "family_impressions": 23,
+          "page_impressions": 29,
+          "page_position": 48.5
         },
         {
           "route": "/states/OH/",
-          "family_impressions": 23,
-          "page_impressions": 68,
-          "page_position": 58.7
+          "family_impressions": 20,
+          "page_impressions": 64,
+          "page_position": 59.2
         },
         {
           "route": "/states/MI/",
-          "family_impressions": 21,
-          "page_impressions": 26,
-          "page_position": 59.3
+          "family_impressions": 19,
+          "page_impressions": 24,
+          "page_position": 59.2
         },
         {
           "route": "/states/IN/",
-          "family_impressions": 18,
-          "page_impressions": 26,
-          "page_position": 52.7
+          "family_impressions": 17,
+          "page_impressions": 25,
+          "page_position": 51.6
         },
         {
           "route": "/states/AZ/",
-          "family_impressions": 14,
-          "page_impressions": 40,
-          "page_position": 56.5
-        },
-        {
-          "route": "/states/WA/",
-          "family_impressions": 8,
-          "page_impressions": 17,
-          "page_position": 45.9
+          "family_impressions": 11,
+          "page_impressions": 35,
+          "page_position": 55.3
         },
         {
           "route": "/states/NY/",
@@ -608,16 +596,22 @@
           "page_position": 37
         },
         {
+          "route": "/states/WA/",
+          "family_impressions": 7,
+          "page_impressions": 13,
+          "page_position": 43.3
+        },
+        {
           "route": "/states/GA/",
           "family_impressions": 6,
-          "page_impressions": 14,
-          "page_position": 37.6
+          "page_impressions": 13,
+          "page_position": 33
         },
         {
           "route": "/states/KS/",
-          "family_impressions": 2,
-          "page_impressions": 14,
-          "page_position": 38.5
+          "family_impressions": 3,
+          "page_impressions": 13,
+          "page_position": 38.2
         },
         {
           "route": "/states/VA/",
@@ -628,8 +622,8 @@
         {
           "route": "/states/CA/",
           "family_impressions": 1,
-          "page_impressions": 39,
-          "page_position": 51.2
+          "page_impressions": 36,
+          "page_position": 51.5
         }
       ],
       "rank": 1,
@@ -648,65 +642,53 @@
       "page": "/guides/how-to-choose/",
       "page_kind": "guide",
       "page_intent": "choose_provider",
-      "impressions": 201,
+      "impressions": 162,
       "best_position": 71.5,
-      "weighted_position": 77.2,
+      "weighted_position": 76.7,
       "top_query": "choosing it for dentists",
-      "query_count": 12,
+      "query_count": 10,
       "queries": [
         {
           "query": "choosing it for dentists",
           "route": "/guides/how-to-choose/",
-          "impressions": 66,
-          "position": 76.1
+          "impressions": 60,
+          "position": 77.8
         },
         {
           "query": "dentist selection guide",
           "route": "/guides/how-to-choose/",
-          "impressions": 62,
+          "impressions": 51,
           "position": 71.5
         },
         {
           "query": "best dental practice selection guide",
           "route": "/guides/how-to-choose/",
-          "impressions": 17,
-          "position": 77.8
+          "impressions": 15,
+          "position": 77.6
         },
         {
           "query": "dentist selection tips",
           "route": "/guides/how-to-choose/",
-          "impressions": 14,
-          "position": 82.9
-        },
-        {
-          "query": "how to choose a dentist",
-          "route": "/guides/how-to-choose/",
           "impressions": 12,
-          "position": 90.5
+          "position": 79.3
         },
         {
           "query": "dental care selection tips",
           "route": "/guides/how-to-choose/",
-          "impressions": 11,
-          "position": 76.5
+          "impressions": 8,
+          "position": 76.6
         },
         {
           "query": "choose right dentist guide",
           "route": "/guides/how-to-choose/",
-          "impressions": 10,
-          "position": 83.4
+          "impressions": 7,
+          "position": 83.7
         },
         {
-          "query": "how do i choose the right dental provider",
+          "query": "how to choose a dentist",
           "route": "/guides/how-to-choose/",
-          "impressions": 3,
-          "position": 92.3
-        },
-        {
-          "query": "choosing the right dentist",
-          "route": "/guides/how-to-choose/",
-          "impressions": 2,
-          "position": 95
+          "impressions": 5,
+          "position": 89.6
         },
         {
           "query": "tips choosing your dentist",
@@ -715,24 +697,24 @@
           "position": 88.5
         },
         {
+          "query": "how do i choose the right dental provider",
+          "route": "/guides/how-to-choose/",
+          "impressions": 1,
+          "position": 94
+        },
+        {
           "query": "how to choose a dental clinic",
           "route": "/guides/how-to-choose/",
           "impressions": 1,
           "position": 80
-        },
-        {
-          "query": "how to choose a good dentist",
-          "route": "/guides/how-to-choose/",
-          "impressions": 1,
-          "position": 84
         }
       ],
       "pages": [
         {
           "route": "/guides/how-to-choose/",
-          "family_impressions": 201,
-          "page_impressions": 203,
-          "page_position": 76.9
+          "family_impressions": 162,
+          "page_impressions": 163,
+          "page_position": 76.3
         }
       ],
       "rank": 2,
@@ -753,12 +735,18 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 133,
+      "impressions": 131,
       "best_position": 8,
-      "weighted_position": 63.8,
-      "top_query": "dental checkup process ohio",
-      "query_count": 36,
+      "weighted_position": 61.8,
+      "top_query": "texas dental",
+      "query_count": 34,
       "queries": [
+        {
+          "query": "texas dental",
+          "route": "/states/TX/",
+          "impressions": 16,
+          "position": 59.1
+        },
         {
           "query": "dental checkup process ohio",
           "route": "/states/OH/",
@@ -766,22 +754,10 @@
           "position": 83
         },
         {
-          "query": "local dental guide",
-          "route": "/states/CA/",
-          "impressions": 12,
-          "position": 54.2
-        },
-        {
-          "query": "texas dental",
-          "route": "/states/TX/",
-          "impressions": 12,
-          "position": 61.8
-        },
-        {
           "query": "dental texas",
           "route": "/states/TX/",
-          "impressions": 10,
-          "position": 49.8
+          "impressions": 11,
+          "position": 48.9
         },
         {
           "query": "dentists in ohio",
@@ -790,22 +766,16 @@
           "position": 46.7
         },
         {
+          "query": "local dental guide",
+          "route": "/states/CA/",
+          "impressions": 9,
+          "position": 54.7
+        },
+        {
           "query": "dentist finder guide",
           "route": "/states/AZ/",
           "impressions": 8,
           "position": 80.4
-        },
-        {
-          "query": "local dental guide",
-          "route": "/states/AZ/",
-          "impressions": 8,
-          "position": 85.6
-        },
-        {
-          "query": "dentistry in california",
-          "route": "/states/CA/",
-          "impressions": 7,
-          "position": 40.1
         },
         {
           "query": "dentist finder guide",
@@ -814,16 +784,28 @@
           "position": 78.3
         },
         {
+          "query": "dentist finder guide",
+          "route": "/states/FL/",
+          "impressions": 6,
+          "position": 19
+        },
+        {
+          "query": "dentistry in california",
+          "route": "/states/CA/",
+          "impressions": 6,
+          "position": 38.7
+        },
+        {
+          "query": "local dental guide",
+          "route": "/states/AZ/",
+          "impressions": 6,
+          "position": 86.5
+        },
+        {
           "query": "ohio dental",
           "route": "/states/OH/",
           "impressions": 5,
           "position": 64.6
-        },
-        {
-          "query": "dentist finder guide",
-          "route": "/states/FL/",
-          "impressions": 4,
-          "position": 19.5
         },
         {
           "query": "dentistry in virginia",
@@ -844,12 +826,6 @@
           "position": 58.3
         },
         {
-          "query": "local dental guide",
-          "route": "/states/CO/",
-          "impressions": 3,
-          "position": 98.7
-        },
-        {
           "query": "dental options ohio",
           "route": "/states/OH/",
           "impressions": 2,
@@ -862,6 +838,12 @@
           "position": 72.5
         },
         {
+          "query": "evaluating dental services",
+          "route": "/states/CO/",
+          "impressions": 2,
+          "position": 96.5
+        },
+        {
           "query": "indiana dentist",
           "route": "/states/IN/",
           "impressions": 2,
@@ -869,15 +851,21 @@
         },
         {
           "query": "local dental guide",
-          "route": "/states/TN/",
+          "route": "/states/CO/",
           "impressions": 2,
-          "position": 84
+          "position": 98.5
         },
         {
           "query": "pennsylvania dental licensure",
           "route": "/states/PA/",
           "impressions": 2,
           "position": 46.5
+        },
+        {
+          "query": "best dentist california",
+          "route": "/states/CA/",
+          "impressions": 1,
+          "position": 67
         },
         {
           "query": "dds texas",
@@ -928,24 +916,6 @@
           "position": 83
         },
         {
-          "query": "local dental guide",
-          "route": "/states/GA/",
-          "impressions": 1,
-          "position": 98
-        },
-        {
-          "query": "local dental guide",
-          "route": "/states/TX/",
-          "impressions": 1,
-          "position": 97
-        },
-        {
-          "query": "local dental guide",
-          "route": "/states/WA/",
-          "impressions": 1,
-          "position": 95
-        },
-        {
           "query": "ohio dentistry",
           "route": "/states/OH/",
           "impressions": 1,
@@ -980,44 +950,44 @@
         {
           "route": "/states/OH/",
           "family_impressions": 33,
-          "page_impressions": 68,
-          "page_position": 58.7
-        },
-        {
-          "route": "/states/CA/",
-          "family_impressions": 27,
-          "page_impressions": 39,
-          "page_position": 51.2
+          "page_impressions": 64,
+          "page_position": 59.2
         },
         {
           "route": "/states/TX/",
-          "family_impressions": 26,
-          "page_impressions": 32,
-          "page_position": 57.1
+          "family_impressions": 30,
+          "page_impressions": 36,
+          "page_position": 54.8
+        },
+        {
+          "route": "/states/CA/",
+          "family_impressions": 24,
+          "page_impressions": 36,
+          "page_position": 51.5
         },
         {
           "route": "/states/AZ/",
-          "family_impressions": 16,
-          "page_impressions": 40,
-          "page_position": 56.5
+          "family_impressions": 14,
+          "page_impressions": 35,
+          "page_position": 55.3
         },
         {
           "route": "/states/CO/",
-          "family_impressions": 7,
-          "page_impressions": 68,
-          "page_position": 55.5
+          "family_impressions": 8,
+          "page_impressions": 65,
+          "page_position": 56.3
         },
         {
           "route": "/states/FL/",
-          "family_impressions": 5,
-          "page_impressions": 5,
-          "page_position": 17.2
+          "family_impressions": 7,
+          "page_impressions": 7,
+          "page_position": 17.4
         },
         {
           "route": "/states/PA/",
           "family_impressions": 5,
-          "page_impressions": 84,
-          "page_position": 40.6
+          "page_impressions": 86,
+          "page_position": 40.7
         },
         {
           "route": "/states/VA/",
@@ -1028,32 +998,26 @@
         {
           "route": "/states/IN/",
           "family_impressions": 3,
-          "page_impressions": 26,
-          "page_position": 52.7
-        },
-        {
-          "route": "/states/TN/",
-          "family_impressions": 3,
-          "page_impressions": 46,
-          "page_position": 51.2
-        },
-        {
-          "route": "/states/WA/",
-          "family_impressions": 2,
-          "page_impressions": 17,
-          "page_position": 45.9
-        },
-        {
-          "route": "/states/GA/",
-          "family_impressions": 1,
-          "page_impressions": 14,
-          "page_position": 37.6
+          "page_impressions": 25,
+          "page_position": 51.6
         },
         {
           "route": "/states/IL/",
           "family_impressions": 1,
-          "page_impressions": 30,
-          "page_position": 48.7
+          "page_impressions": 29,
+          "page_position": 48.5
+        },
+        {
+          "route": "/states/TN/",
+          "family_impressions": 1,
+          "page_impressions": 42,
+          "page_position": 50.3
+        },
+        {
+          "route": "/states/WA/",
+          "family_impressions": 1,
+          "page_impressions": 13,
+          "page_position": 43.3
         }
       ],
       "rank": 3,
@@ -1063,8 +1027,8 @@
       "qualifies": true,
       "strengthened_pages": [
         "/states/OH/",
-        "/states/CA/",
         "/states/TX/",
+        "/states/CA/",
         "/states/AZ/"
       ],
       "status": "strengthened",
@@ -1077,9 +1041,9 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 48,
+      "impressions": 46,
       "best_position": 20.8,
-      "weighted_position": 48.4,
+      "weighted_position": 47.7,
       "top_query": "dental practice evaluations pennsylvania",
       "query_count": 13,
       "queries": [
@@ -1102,16 +1066,16 @@
           "position": 34.5
         },
         {
-          "query": "ddsmatch kansas",
-          "route": "/states/KS/",
-          "impressions": 5,
-          "position": 61.2
-        },
-        {
           "query": "dental practice risk assessments pennsylvania",
           "route": "/states/PA/",
           "impressions": 5,
           "position": 20.8
+        },
+        {
+          "query": "ddsmatch kansas",
+          "route": "/states/KS/",
+          "impressions": 3,
+          "position": 62
         },
         {
           "query": "dental consulting colorado",
@@ -1159,39 +1123,39 @@
           "query": "wa dental listing",
           "route": "/states/WA/",
           "impressions": 1,
-          "position": 58
+          "position": 46
         }
       ],
       "pages": [
         {
           "route": "/states/PA/",
           "family_impressions": 22,
-          "page_impressions": 84,
-          "page_position": 40.6
+          "page_impressions": 86,
+          "page_position": 40.7
         },
         {
           "route": "/states/CO/",
           "family_impressions": 10,
-          "page_impressions": 68,
-          "page_position": 55.5
-        },
-        {
-          "route": "/states/KS/",
-          "family_impressions": 5,
-          "page_impressions": 14,
-          "page_position": 38.5
+          "page_impressions": 65,
+          "page_position": 56.3
         },
         {
           "route": "/states/IN/",
           "family_impressions": 3,
-          "page_impressions": 26,
-          "page_position": 52.7
+          "page_impressions": 25,
+          "page_position": 51.6
+        },
+        {
+          "route": "/states/KS/",
+          "family_impressions": 3,
+          "page_impressions": 13,
+          "page_position": 38.2
         },
         {
           "route": "/states/MI/",
           "family_impressions": 2,
-          "page_impressions": 26,
-          "page_position": 59.3
+          "page_impressions": 24,
+          "page_position": 59.2
         },
         {
           "route": "/states/NY/",
@@ -1202,20 +1166,20 @@
         {
           "route": "/states/OH/",
           "family_impressions": 2,
-          "page_impressions": 68,
-          "page_position": 58.7
+          "page_impressions": 64,
+          "page_position": 59.2
         },
         {
           "route": "/states/TX/",
           "family_impressions": 1,
-          "page_impressions": 32,
-          "page_position": 57.1
+          "page_impressions": 36,
+          "page_position": 54.8
         },
         {
           "route": "/states/WA/",
           "family_impressions": 1,
-          "page_impressions": 17,
-          "page_position": 45.9
+          "page_impressions": 13,
+          "page_position": 43.3
         }
       ],
       "rank": 4,
@@ -1234,23 +1198,23 @@
       "page": "/guides/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 29,
+      "impressions": 28,
       "best_position": 73,
-      "weighted_position": 84.8,
+      "weighted_position": 85.6,
       "top_query": "dental reconstruction guide",
       "query_count": 4,
       "queries": [
         {
           "query": "dental reconstruction guide",
           "route": "/guides/",
-          "impressions": 16,
-          "position": 82.2
+          "impressions": 14,
+          "position": 82.4
         },
         {
           "query": "dental treatment guide",
           "route": "/guides/",
-          "impressions": 10,
-          "position": 91.2
+          "impressions": 11,
+          "position": 92
         },
         {
           "query": "comprehensive dental guide",
@@ -1268,9 +1232,9 @@
       "pages": [
         {
           "route": "/guides/",
-          "family_impressions": 29,
-          "page_impressions": 39,
-          "page_position": 69.4
+          "family_impressions": 28,
+          "page_impressions": 38,
+          "page_position": 69.6
         }
       ],
       "rank": 5,
@@ -1289,9 +1253,9 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 18,
+      "impressions": 20,
       "best_position": 16.3,
-      "weighted_position": 55.4,
+      "weighted_position": 55,
       "top_query": "dental guides",
       "query_count": 4,
       "queries": [
@@ -1308,24 +1272,24 @@
           "position": 63.2
         },
         {
+          "query": "detailed dental pricing guide",
+          "route": "/",
+          "impressions": 5,
+          "position": 52
+        },
+        {
           "query": "\"cheap dental gold coast\" comparison guide -filetype:pdf",
           "route": "/",
           "impressions": 3,
           "position": 16.3
-        },
-        {
-          "query": "detailed dental pricing guide",
-          "route": "/",
-          "impressions": 3,
-          "position": 52.3
         }
       ],
       "pages": [
         {
           "route": "/",
-          "family_impressions": 18,
-          "page_impressions": 44,
-          "page_position": 33.6
+          "family_impressions": 20,
+          "page_impressions": 47,
+          "page_position": 34.6
         }
       ],
       "rank": 6,
@@ -1333,7 +1297,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 6 of 13 by impressions; no page at position <= 15"
+      "reason": "rank 6 of 15 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/dental-implant-and-oral-surgery-cost/",
@@ -1342,12 +1306,18 @@
       "page": "/guides/dental-implant-and-oral-surgery-cost/",
       "page_kind": "guide",
       "page_intent": "cost",
-      "impressions": 7,
-      "best_position": 45.7,
-      "weighted_position": 60,
-      "top_query": "american dental association dental implant cost range",
-      "query_count": 4,
+      "impressions": 19,
+      "best_position": 32.5,
+      "weighted_position": 63.5,
+      "top_query": "cost breakdown laser implant",
+      "query_count": 10,
       "queries": [
+        {
+          "query": "cost breakdown laser implant",
+          "route": "/guides/dental-implant-and-oral-surgery-cost/",
+          "impressions": 4,
+          "position": 54
+        },
         {
           "query": "american dental association dental implant cost range",
           "route": "/guides/dental-implant-and-oral-surgery-cost/",
@@ -1355,10 +1325,28 @@
           "position": 45.7
         },
         {
-          "query": "cost breakdown laser implant",
+          "query": "oral surgery costs",
+          "route": "/guides/dental-implant-and-oral-surgery-cost/",
+          "impressions": 3,
+          "position": 74
+        },
+        {
+          "query": "cost for oral surgery",
           "route": "/guides/dental-implant-and-oral-surgery-cost/",
           "impressions": 2,
-          "position": 55
+          "position": 74
+        },
+        {
+          "query": "oral surgery prices",
+          "route": "/guides/dental-implant-and-oral-surgery-cost/",
+          "impressions": 2,
+          "position": 32.5
+        },
+        {
+          "query": "cost of dental implant surgery",
+          "route": "/guides/dental-implant-and-oral-surgery-cost/",
+          "impressions": 1,
+          "position": 90
         },
         {
           "query": "dental implant pricing guide",
@@ -1367,18 +1355,30 @@
           "position": 96
         },
         {
-          "query": "oral surgery costs",
+          "query": "implant pricing guide",
           "route": "/guides/dental-implant-and-oral-surgery-cost/",
           "impressions": 1,
-          "position": 77
+          "position": 100
+        },
+        {
+          "query": "laser dental implant cost comparison",
+          "route": "/guides/dental-implant-and-oral-surgery-cost/",
+          "impressions": 1,
+          "position": 48
+        },
+        {
+          "query": "oral surgeon cost",
+          "route": "/guides/dental-implant-and-oral-surgery-cost/",
+          "impressions": 1,
+          "position": 85
         }
       ],
       "pages": [
         {
           "route": "/guides/dental-implant-and-oral-surgery-cost/",
-          "family_impressions": 7,
-          "page_impressions": 7,
-          "page_position": 60
+          "family_impressions": 19,
+          "page_impressions": 19,
+          "page_position": 63.5
         }
       ],
       "rank": 7,
@@ -1386,42 +1386,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 7 of 13 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "cost @ /guides/dental-procedure-cost-comparison/",
-      "intent": "cost",
-      "head_term": "cost",
-      "page": "/guides/dental-procedure-cost-comparison/",
-      "page_kind": "guide",
-      "page_intent": "cost",
-      "impressions": 5,
-      "best_position": 59.8,
-      "weighted_position": 59.8,
-      "top_query": "dental procedure cost comparison",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "dental procedure cost comparison",
-          "route": "/guides/dental-procedure-cost-comparison/",
-          "impressions": 5,
-          "position": 59.8
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/dental-procedure-cost-comparison/",
-          "family_impressions": 5,
-          "page_impressions": 5,
-          "page_position": 59.8
-        }
-      ],
-      "rank": 8,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 8 of 13 by impressions; no page at position <= 15"
+      "reason": "rank 7 of 15 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /",
@@ -1430,74 +1395,33 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 4,
-      "best_position": 33.5,
-      "weighted_position": 33.5,
+      "impressions": 5,
+      "best_position": 32.4,
+      "weighted_position": 32.4,
       "top_query": "comprehensive dentistry guide",
       "query_count": 1,
       "queries": [
         {
           "query": "comprehensive dentistry guide",
           "route": "/",
-          "impressions": 4,
-          "position": 33.5
+          "impressions": 5,
+          "position": 32.4
         }
       ],
       "pages": [
         {
           "route": "/",
-          "family_impressions": 4,
-          "page_impressions": 44,
-          "page_position": 33.6
+          "family_impressions": 5,
+          "page_impressions": 47,
+          "page_position": 34.6
         }
       ],
-      "rank": 9,
+      "rank": 8,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 9 of 13 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "choose a provider @ /guides/sedation-dentistry/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/guides/sedation-dentistry/",
-      "page_kind": "guide",
-      "page_intent": "choose_provider",
-      "impressions": 4,
-      "best_position": 97,
-      "weighted_position": 97.5,
-      "top_query": "sedation dentistry guide",
-      "query_count": 2,
-      "queries": [
-        {
-          "query": "sedation dentistry guide",
-          "route": "/guides/sedation-dentistry/",
-          "impressions": 3,
-          "position": 97.7
-        },
-        {
-          "query": "sedation dentistry services",
-          "route": "/guides/sedation-dentistry/",
-          "impressions": 1,
-          "position": 97
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/sedation-dentistry/",
-          "family_impressions": 4,
-          "page_impressions": 5,
-          "page_position": 87.8
-        }
-      ],
-      "rank": 10,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 10 of 13 by impressions; no page at position <= 15"
+      "reason": "rank 8 of 15 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /",
@@ -1506,11 +1430,11 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 4,
+      "impressions": 5,
       "best_position": 17,
-      "weighted_position": 41.5,
+      "weighted_position": 36.8,
       "top_query": "dental price guide",
-      "query_count": 3,
+      "query_count": 4,
       "queries": [
         {
           "query": "dental price guide",
@@ -1529,14 +1453,96 @@
           "route": "/",
           "impressions": 1,
           "position": 17
+        },
+        {
+          "query": "average \"estimated dental costs\" guide -filetype:pdf",
+          "route": "/",
+          "impressions": 1,
+          "position": 18
         }
       ],
       "pages": [
         {
           "route": "/",
-          "family_impressions": 4,
-          "page_impressions": 44,
-          "page_position": 33.6
+          "family_impressions": 5,
+          "page_impressions": 47,
+          "page_position": 34.6
+        }
+      ],
+      "rank": 9,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 9 of 15 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "cost @ /guides/dental-procedure-cost-comparison/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/dental-procedure-cost-comparison/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 5,
+      "best_position": 65.4,
+      "weighted_position": 65.4,
+      "top_query": "dental procedure cost comparison",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "dental procedure cost comparison",
+          "route": "/guides/dental-procedure-cost-comparison/",
+          "impressions": 5,
+          "position": 65.4
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/dental-procedure-cost-comparison/",
+          "family_impressions": 5,
+          "page_impressions": 5,
+          "page_position": 65.4
+        }
+      ],
+      "rank": 10,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 10 of 15 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "choose a provider @ /guides/sedation-dentistry/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/guides/sedation-dentistry/",
+      "page_kind": "guide",
+      "page_intent": "choose_provider",
+      "impressions": 3,
+      "best_position": 96.5,
+      "weighted_position": 96.7,
+      "top_query": "sedation dentistry guide",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "sedation dentistry guide",
+          "route": "/guides/sedation-dentistry/",
+          "impressions": 2,
+          "position": 96.5
+        },
+        {
+          "query": "sedation dentistry services",
+          "route": "/guides/sedation-dentistry/",
+          "impressions": 1,
+          "position": 97
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/sedation-dentistry/",
+          "family_impressions": 3,
+          "page_impressions": 4,
+          "page_position": 84.8
         }
       ],
       "rank": 11,
@@ -1544,7 +1550,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 11 of 13 by impressions; no page at position <= 15"
+      "reason": "rank 11 of 15 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/",
@@ -1570,8 +1576,8 @@
         {
           "route": "/guides/",
           "family_impressions": 2,
-          "page_impressions": 39,
-          "page_position": 69.4
+          "page_impressions": 38,
+          "page_position": 69.6
         }
       ],
       "rank": 12,
@@ -1579,7 +1585,83 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 12 of 13 by impressions; no page at position <= 15"
+      "reason": "rank 12 of 15 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "topic:ocala-dental-new-patient-specials-compared @ /guides/ocala-dental-new-patient-specials-compared/",
+      "intent": "topic:ocala-dental-new-patient-specials-compared",
+      "head_term": "topic:ocala-dental-new-patient-specials-compared",
+      "page": "/guides/ocala-dental-new-patient-specials-compared/",
+      "page_kind": "guide",
+      "page_intent": "topic:ocala-dental-new-patient-specials-compared",
+      "impressions": 2,
+      "best_position": 9,
+      "weighted_position": 9,
+      "top_query": "new patient dental specials",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "new patient dental specials",
+          "route": "/guides/ocala-dental-new-patient-specials-compared/",
+          "impressions": 2,
+          "position": 9
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/ocala-dental-new-patient-specials-compared/",
+          "family_impressions": 2,
+          "page_impressions": 7,
+          "page_position": 8
+        }
+      ],
+      "rank": 13,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/ocala-dental-new-patient-specials-compared/"
+      ],
+      "status": "not_strengthened",
+      "reason": "data/page_sets/examples/dentistry_global_pages/guides_ocala-dental-new-patient-specials-compared.json has no search_strengthening listed in strengthened_pages.json"
+    },
+    {
+      "family": "choose a provider @ /guides/ocala-dental-new-patient-specials-compared/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/guides/ocala-dental-new-patient-specials-compared/",
+      "page_kind": "guide",
+      "page_intent": "topic:ocala-dental-new-patient-specials-compared",
+      "impressions": 1,
+      "best_position": 8,
+      "weighted_position": 8,
+      "top_query": "$99 dental special near me",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "$99 dental special near me",
+          "route": "/guides/ocala-dental-new-patient-specials-compared/",
+          "impressions": 1,
+          "position": 8
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/ocala-dental-new-patient-specials-compared/",
+          "family_impressions": 1,
+          "page_impressions": 7,
+          "page_position": 8
+        }
+      ],
+      "rank": 14,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "intent_mismatch",
+      "reason": "query intent choose_provider vs page intent topic:ocala-dental-new-patient-specials-compared"
     },
     {
       "family": "questions to ask @ /guides/questions-to-ask/",
@@ -1605,16 +1687,16 @@
         {
           "route": "/guides/questions-to-ask/",
           "family_impressions": 1,
-          "page_impressions": 10,
-          "page_position": 96.8
+          "page_impressions": 11,
+          "page_position": 95.9
         }
       ],
-      "rank": 13,
+      "rank": 15,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 13 of 13 by impressions; no page at position <= 15"
+      "reason": "rank 15 of 15 by impressions; no page at position <= 15"
     }
   ]
 }

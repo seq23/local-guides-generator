@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-10-05..2026-11-01",
+  "gsc_window": "2026-10-07..2026-11-03",
   "totals": {
     "clicks": 0,
-    "impressions": 799,
+    "impressions": 767,
     "ctr": 0,
-    "position": 59
+    "position": 57.7
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 201,
+      "family_impressions": 162,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
-      "impressions": 203,
+      "impressions": 163,
       "clicks": 0,
-      "position": 76.9,
+      "position": 76.3,
       "strengthened": true
     },
     {
@@ -29,24 +29,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 133,
+      "family_impressions": 131,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 68,
+      "impressions": 64,
       "clicks": 0,
-      "position": 58.7,
-      "strengthened": true
-    },
-    {
-      "route": "/states/CA/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 133,
-      "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 39,
-      "clicks": 0,
-      "position": 51.2,
+      "position": 59.2,
       "strengthened": true
     },
     {
@@ -55,11 +42,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 133,
+      "family_impressions": 131,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 32,
+      "impressions": 36,
       "clicks": 0,
-      "position": 57.1,
+      "position": 54.8,
+      "strengthened": true
+    },
+    {
+      "route": "/states/CA/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 131,
+      "source": "data/page_sets/examples/dentistry_v1.json",
+      "impressions": 36,
+      "clicks": 0,
+      "position": 51.5,
       "strengthened": true
     },
     {
@@ -68,27 +68,42 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 133,
+      "family_impressions": 131,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 40,
+      "impressions": 35,
       "clicks": 0,
-      "position": 56.5,
+      "position": 55.3,
       "strengthened": true
+    },
+    {
+      "route": "/guides/ocala-dental-new-patient-specials-compared/",
+      "family": "topic:ocala-dental-new-patient-specials-compared @ /guides/ocala-dental-new-patient-specials-compared/",
+      "basis": [
+        "ranking_page"
+      ],
+      "family_impressions": 2,
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_ocala-dental-new-patient-specials-compared.json",
+      "impressions": 7,
+      "clicks": 0,
+      "position": 8,
+      "strengthened": false
     }
   ],
-  "not_yet_strengthened": [],
+  "not_yet_strengthened": [
+    "/guides/ocala-dental-new-patient-specials-compared/"
+  ],
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 12,
-      "Discovered - currently not indexed": 11,
-      "Submitted and indexed": 39,
-      "URL is unknown to Google": 4
+      "Discovered - currently not indexed": 8,
+      "Submitted and indexed": 40,
+      "URL is unknown to Google": 6
     },
     "buckets": {
       "crawled_not_indexed": 12,
-      "discovered_not_indexed": 11,
-      "indexed": 39,
-      "unknown": 4
+      "discovered_not_indexed": 8,
+      "indexed": 40,
+      "unknown": 6
     }
   }
 }
