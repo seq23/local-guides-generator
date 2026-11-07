@@ -3425,6 +3425,25 @@ function renderPiDirectoryTableHtml(listings, sponsorUiEnabled) {
   return '<div class="provider-directory-grid">' + cards + '</div>';
 }
 
+// The accident site's directory lists law firms only. data/listings/<city>.json
+// is shared across sites, and 13 of its city files hold the USCIS site's clinics
+// ("uscis-medical"), which the accident site printed as "Personal injury law
+// firm" - AFC Urgent Care and Passport Health on /denver-co/ (found 7 Nov 2026).
+// Entries tagged for another vertical are dropped; a city left with none lists
+// the firms the state directory files under it (data/pi_state_firms/<st>.json).
+function piFirmListings(listings, city) {
+  const isPi = (l) => {
+    const areas = Array.isArray(l && l.practice_areas) ? l.practice_areas.map(String) : [];
+    return !areas.length || areas.some((a) => /injur|accident|personal/i.test(a));
+  };
+  const own = (Array.isArray(listings) ? listings : []).filter((l) => l && isPi(l));
+  if (own.length) return own;
+  const st = String((city && city.state) || '').toLowerCase();
+  const sf = readJsonIfExistsSafe(path.join(DATA_DIR, 'pi_state_firms', st + '.json'));
+  return ((sf && sf.firms) || []).filter((f) => f && f.name && f.source_city_slug === (city && city.slug))
+    .map((f) => ({ firm_name: f.name, practice_focus: f.practice_focus || '' }));
+}
+
 function injectListings(html, listings, city, sponsor, pageSet) {
   var sponsorLive = sponsorship.isSponsorLive(sponsor);
 
@@ -3441,7 +3460,7 @@ function injectListings(html, listings, city, sponsor, pageSet) {
   if (sponsorUiEnabled) {
     directoryHtml += renderPiSponsoredModuleHtml(city, sponsor);
   }
-  directoryHtml += renderPiDirectoryTableHtml(Array.isArray(listings) ? listings : [], sponsorUiEnabled);
+  directoryHtml += renderPiDirectoryTableHtml(piFirmListings(listings, city), sponsorUiEnabled);
 
   html = html.replace('<div id="verified-listings"></div>', '<div id="verified-listings">' + directoryHtml + '</div>');
   html = html.replace('<div id="other-listings"></div>', '<div id="other-listings"></div>');
