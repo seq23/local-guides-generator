@@ -206,7 +206,7 @@ function pointsOf(html) {
  * detector matched the header nav's "Contact" link on every page, because a nav
  * link is an <a> with a label that starts with "contact".
  */
-function primaryCta(html) {
+function primaryCta(html, { inPage = false } = {}) {
   const main = (html.match(/<main[^>]*>([\s\S]*?)<\/main>/i) || [, ''])[1] || html;
   const scopes = [
     (main.match(/<section[^>]*data-primary-conversion-cta="true"[^>]*>[\s\S]*?<\/section>/i) || [])[0],
@@ -219,7 +219,10 @@ function primaryCta(html) {
     const attrs = a[1];
     const label = strip(a[2]);
     const href = (attrs.match(/href="([^"]+)"/i) || [])[1];
-    if (!href || !label || href.startsWith('#')) continue;
+    // An in-page anchor is the next step only when the block has nothing else to
+    // say and the anchor's target is on this page (a next-steps page's own form).
+    const anchorOk = inPage && /^#[\w-]+$/.test(href || '') && new RegExp('id="' + href.slice(1) + '"').test(html);
+    if (!href || !label || (href.startsWith('#') && !anchorOk)) continue;
     // Carry the original link's rel. Copying a link into a summary block without
     // its rel silently drops a disclosure the repo requires.
     const rel = (attrs.match(/rel="([^"]+)"/i) || [])[1];
@@ -229,9 +232,8 @@ function primaryCta(html) {
 }
 
 function buildBlock(html, rec) {
-  if (!rec) return null;
   const { best, not } = pointsOf(html);
-  const cta = primaryCta(html);
+  const cta = primaryCta(html, { inPage: !rec });
   const points = [];
   if (best) points.push(`<li><strong>Best for:</strong> ${esc(best)}</li>`);
   if (not) points.push(`<li><strong>Not for:</strong> ${esc(not)}</li>`);
@@ -242,9 +244,12 @@ function buildBlock(html, rec) {
     // tracking parameters stop parsing.
     points.push(`<li><strong>Next step:</strong> <a href="${cta.href}"${relAttr}>${esc(cta.label)}</a></li>`);
   }
+  // No sentence of its own to quote (see run()): the block is its next step, or
+  // nothing - never a placeholder.
+  if (!rec && !points.length) return null;
   return `<div class="section info-panel recommendation-summary" ${MARK} id="recommendation-summary">`
     + `<h2>What this page recommends</h2>`
-    + `<p class="recommendation-summary__answer">${esc(rec)}</p>`
+    + (rec ? `<p class="recommendation-summary__answer">${esc(rec)}</p>` : '')
     + (points.length ? `<ul class="recommendation-summary__points">${points.join('')}</ul>` : '')
     + `</div>`;
 }
@@ -311,8 +316,20 @@ function run() {
     // the page offers nothing else.
     const span = answerSpanOf(page.source);
     const echo = (c) => Boolean(span) && (c === span || span.startsWith(c));
-    const rec = usable.find((c) => !echo(c)) || usable[0] || null;
-    if (!rec) { skipped.push(path.relative(OUT_DIR, page.file)); continue; }
+    // Every candidate is lifted from the page, so each is already printed on it
+    // once. The block may quote one a second time - that is what a summary is -
+    // but never a sentence the page already prints twice or more, and never the
+    // answer span directly above it. Quoting either made the block the third or
+    // fourth copy of one sentence, which the Monday quality sample reads as
+    // template filler (Search Readiness q1, 7 Nov 2026:
+    // uscisexam.com/guides/mcallen-i693-exam-cost-and-civil-surgeons/ "ask an
+    // office to quote the physical examination" x4, and every /<city>/next-steps/
+    // page printing its own 45-word answer twice in a row). A page whose only
+    // candidates are echoes still gets the block, carrying its next step alone.
+    const mainText = strip((page.source.match(/<main\b[\s\S]*?<\/main>/i) || [page.source])[0]);
+    const timesOnPage = (c) => mainText.split(c).length - 1;
+    const rec = usable.find((c) => !echo(c) && timesOnPage(c) < 2) || null;
+    if (!rec && !usable.length) { skipped.push(path.relative(OUT_DIR, page.file)); continue; }
     const block = buildBlock(page.source, rec);
     const next = block ? insert(page.html, block) : null;
     if (!next) { skipped.push(path.relative(OUT_DIR, page.file)); continue; }

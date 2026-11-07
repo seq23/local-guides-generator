@@ -3560,7 +3560,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
         // them, and the answer is sized to be quotable whole.
         '<h2>' + (marketScoped ? 'What should you do next in ' + escapeHtml(marketLabel) + '?' : 'What should you do next?') + '</h2>' +
         '<p data-next-steps-answer="true" data-citation-summary-answer="true">' + composeAnswerSpan([
-          (marketScoped ? 'In ' + escapeHtml(marketLabel) + ', three' : 'Three') + ' paths lead out of this page: send the callback form below if you already want a provider to contact you, open the education-first guides if cost, timing, or questions to ask are still unsettled, or use the lookup tools if you would rather verify things yourself first.'
+          composeNextStepsAnswer(marketScoped, marketLabel, String(opts && opts.localLead ? opts.localLead : ''))
         ]) + '</p>' +
       '</div>' +
       // The page's own facts (providers listed for this market, the USCIS field
@@ -3709,11 +3709,99 @@ function uscisFieldOffices(citySlug) {
   return row && Array.isArray(row.field_offices) ? { row, source: _fieldOfficeAssignments.source || {} } : null;
 }
 
+// The local clause a /<city>/next-steps/ answer opens with, from the same data
+// as the page's local block: the nearest licensed community (senior), the civil
+// surgeons listed and the USCIS field office (USCIS), the firms the state
+// directory lists (personal injury). '' when the city has none, and the answer
+// keeps its generic wording. The answer was the same 45 words on every city's
+// page, which with the form made two cities' pages read as one (Search
+// Readiness q1, 7 Nov 2026).
+function joinNames(names) {
+  if (names.length <= 1) return names.join('');
+  return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+}
+function nextStepsLocalLead(verticalKey, city) {
+  const slug = String((city && city.slug) || '');
+  const vk = String(verticalKey || '').toLowerCase();
+  if (vk === 'senior_living' || vk === 'senior-living') return senior.nextStepsLead(city);
+  if (vk.includes('uscis')) {
+    const lists = loadExampleProviderLists(verticalKey, slug) || [];
+    const names = [...new Set(lists.flatMap((l) => l.providers.map((p) => p.name)))]
+      .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' })).slice(0, 3);
+    const fo = uscisFieldOffices(slug);
+    const office = fo && fo.row.field_offices[0] ? fo.row.field_offices[0].office_name + ' Field Office' : '';
+    const bits = [];
+    if (names.length) bits.push('the civil surgeons on our list are ' + joinNames(names));
+    if (office) bits.push('green card interviews for these ZIP codes are held at the ' + office);
+    return bits.join(', and ');
+  }
+  if (isPersonalInjury(verticalKey)) {
+    const st = String((city && city.state) || slug.split('-').pop() || '').toLowerCase();
+    const sf = readJsonIfExistsSafe(path.join(DATA_DIR, 'pi_state_firms', st + '.json'));
+    const firms = [...new Set(((sf && sf.firms) || []).filter((f) => f && f.name && f.source_city_slug === slug).map((f) => String(f.name)))]
+      .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' }));
+    if (!firms.length) return '';
+    return 'our ' + String((sf && sf.state_name) || st.toUpperCase()) + ' directory lists ' + firms.length + ' personal injury firm' + (firms.length === 1 ? '' : 's') +
+      ' here, among them ' + joinNames(firms.slice(0, 2)) + ', and every lawyer can be checked in the state licence and discipline records';
+  }
+  return '';
+}
+
+// The next-steps answer: the local clause, then as much of the three paths as
+// keeps it inside the 40-60 words answer_shape_contract.js measures.
+function composeNextStepsAnswer(marketScoped, marketLabel, lead) {
+  const generic = (marketScoped ? 'In ' + escapeHtml(marketLabel) + ', three' : 'Three') + ' paths lead out of this page: send the callback form below if you already want a provider to contact you, open the education-first guides if cost, timing, or questions to ask are still unsettled, or use the lookup tools if you would rather verify things yourself first.';
+  if (!marketScoped || !lead) return generic;
+  const count = (t) => (String(t).replace(/<[^>]+>/g, ' ').match(/[A-Za-z0-9][\w'’-]*/g) || []).length;
+  const head = 'In ' + escapeHtml(marketLabel) + ', ' + escapeHtml(lead) + '.';
+  const tails = [
+    ' Send the callback form below if you want a provider to contact you, or open the guides if cost, timing, or questions to ask are still unsettled.',
+    ' Send the callback form below if you want a provider to contact you, or open the guides first.',
+    ' Send the callback form below to be contacted.',
+  ];
+  for (const t of tails) { const n = count(head + t); if (n >= 40 && n <= 60) return head + t; }
+  return generic;
+}
+
+function readJsonIfExistsSafe(fp) {
+  try { return fs.existsSync(fp) ? JSON.parse(fs.readFileSync(fp, 'utf8')) : null; } catch (_) { return null; }
+}
+
 function renderNextStepsLocalHtml(verticalKey, city) {
   const slug = String((city && city.slug) || '');
   const market = String((city && (city.marketLabel || city.city)) || slug);
   const vk = String(verticalKey || '').toLowerCase();
   const parts = [];
+  if (senior.isSeniorLiving && (vk === 'senior_living' || vk === 'senior-living')) return senior.nextStepsLocalHtml(city);
+  // The city's own researched lead (USCIS: which local office is itself a civil
+  // surgeon, what the county health department charges). It is the one paragraph
+  // that differs city to city; without it two /<city>/next-steps/ pages were
+  // 0.60-0.62 alike and read as template filler (Search Readiness q1, 7 Nov 2026,
+  // uscisexam.com des-moines-ia / portland-or / columbia-sc). Template-fallback
+  // content is never shown: it is the city name in a fixed sentence.
+  if (vk.includes('uscis')) {
+    const cc = loadOptionalCityContent(verticalKey, slug);
+    if (cc && !cc.is_template_fallback && cc.city_intro_override) {
+      parts.push((cc.heading ? '<p><strong>' + escapeHtml(String(cc.heading)) + '.</strong></p>' : '') +
+        '<p data-next-steps-local-lead="true">' + escapeHtml(String(cc.city_intro_override)) + '</p>');
+    }
+  }
+  // Personal injury: the firms our state directory lists for this city, in the
+  // same neutral alphabetical form as the providers below, and the state's own
+  // lawyer licence lookup. No "best" or "top" wording (spry brain, 1 Nov 2026).
+  if (isPersonalInjury(verticalKey)) {
+    const st = String((city && city.state) || slug.split('-').pop() || '').toLowerCase();
+    const sf = readJsonIfExistsSafe(path.join(DATA_DIR, 'pi_state_firms', st + '.json'));
+    const firms = [...new Set(((sf && sf.firms) || []).filter((f) => f && f.name && f.source_city_slug === slug).map((f) => String(f.name)))]
+      .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' })).slice(0, 9);
+    if (firms.length) {
+      parts.push('<p>Personal injury firms our ' + escapeHtml(String((sf && sf.state_name) || st.toUpperCase())) + ' directory lists in ' + escapeHtml(market) + ' (alphabetical, not ranked or endorsed):</p>' +
+        '<ul data-next-steps-local-providers="true">' + firms.map((n) => '<li>' + escapeHtml(n) + '</li>').join('') + '</ul>');
+    }
+    const links = readJsonIfExistsSafe(path.join(DATA_DIR, 'pi_state_disciplinary_links.json')) || {};
+    const bar = links[st.toUpperCase()];
+    if (bar) parts.push('<p>Before you sign anything, look the lawyer up in the ' + escapeHtml(String((sf && sf.state_name) || st.toUpperCase())) + ' attorney licence and discipline records: <a href="' + escapeHtml(String(bar)) + '" rel="nofollow noopener">' + escapeHtml(String(bar).replace(/^https?:\/\//, '').replace(/\/.*$/, '')) + '</a>.</p>');
+  }
   const lists = loadExampleProviderLists(verticalKey, slug) || [];
   const names = [...new Set(lists.flatMap((l) => l.providers.map((p) => p.name)))]
     .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' }))
@@ -4891,6 +4979,7 @@ function stripForbiddenInlineBlocks(html) {
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
       requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey),
       localHtml: renderNextStepsLocalHtml(verticalKey, city),
+      localLead: nextStepsLocalLead(verticalKey, city),
       seniorLiving: senior.isSeniorLiving(verticalKey)
     });
     // senior-living: the request form embedded here is the intake slot. The
