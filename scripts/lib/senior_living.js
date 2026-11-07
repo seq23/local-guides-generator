@@ -166,7 +166,13 @@ function directoryHtml(city) {
       '<td><strong>' + esc(titleCaseName(f.name)) + '</strong><br><span class="muted">' + esc(f.address) + ', ' + esc(f.city) + ', ' + esc(f.state) + ' ' + esc(f.zip) + '</span></td>' +
       '<td><a href="' + telHref(f.phone) + '">' + esc(f.phone) + '</a></td>' +
       '<td>' + (f.memory_care ? (typeof f.secured_beds === 'number' ? 'Yes (' + esc(f.secured_beds) + ' secured beds)' : 'Yes (licensed dementia unit)') : 'No') + '</td>' +
-      '<td>' + esc(f.license_type) + '<br><span class="muted">' + (f.license_number_kind === 'registry_key' ? 'Licensed by MSDH' : 'Licence ' + esc(f.license_number)) + '</span></td>' +
+      // A Mississippi row has no licence number, so its cell was the same
+      // "Personal Care Home - Assisted Living, Licensed by MSDH" on every row and,
+      // with "No" beside it, the same 8-word run five times a page (Search
+      // Readiness q1 slot test). The type is named once, under the table.
+      (f.license_number_kind === 'registry_key'
+        ? '<td>MSDH</td>'
+        : '<td>' + esc(f.license_type) + '<br><span class="muted">Licence ' + esc(f.license_number) + '</span></td>') +
       '<td>' + site + '</td>' +
       '<td>' + esc(dist) + '</td>' +
       '</tr>';
@@ -178,8 +184,9 @@ function directoryHtml(city) {
     : '';
   return '<section class="section senior-directory" id="directory" data-senior-directory="true" data-directory-count="' + list.length + '">' +
     '<h2>Licensed ' + topicFor(city) + ' ' + where + '</h2>' + scope +
-    '<p class="muted">Every row is licensed by its state: Tennessee rows are Assisted Care Living Facilities licensed by the Tennessee Health Facilities Commission, Mississippi rows are Personal Care Homes licensed by the Mississippi State Department of Health. Listing is free and is not affected by who pays us. ' +
-    'Memory care means the community reports secured beds (Tennessee) or holds a licensed Alzheimer\'s/dementia care unit (Mississippi). Distances are straight-line from ' + (city.kind === 'hospital' ? 'the hospital' : 'the centre of ' + esc(city.city)) + '.</p>' +
+    // One line: the licensing explanation was the same ~70 words on every page
+    // and lives on /methodology/ (Search Readiness q1, 7 Nov 2026).
+    '<p class="muted">Every row is state-licensed (Mississippi rows marked MSDH are personal care homes licensed by the Mississippi State Department of Health); distances are straight-line from ' + (city.kind === 'hospital' ? 'the hospital' : 'the centre of ' + esc(city.city)) + '. <a href="/methodology/">How we list</a>.</p>' +
     '<div class="table-wrap"><table class="senior-directory-table"><thead><tr><th>Community</th><th>Phone</th><th>Memory care</th><th>Licence</th><th>Website</th><th>Distance</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
     // data-shared-sources marks this paragraph as site-wide attribution, not
     // per-page content: it is rendered byte-identically on every city page in
@@ -263,8 +270,9 @@ function areaLocalHtml(city) {
     '<p><strong>Memory care:</strong> ' + mc.length + ' of the ' + list.length + ' communities listed here report a secured memory care unit to the state' + (mc.length ? ', the nearest being ' + esc(titleCaseName(mc[0].name)) + (mc[0].miles != null ? ' at ' + mc[0].miles.toFixed(1) + ' miles' : '') : '') + '. If your parent wanders or cannot be left alone safely, start with those. <a href="/guides/memory-care-when-is-it-time/">How to tell when it is time</a>.</p>' +
     '<p><strong>Small residences:</strong> ' + (small.length ? small.length + ' of the communities listed are licensed for 30 or fewer residents, which some parents find easier to settle into than a large building.' : 'every community listed here is licensed for more than 30 residents; ask about smaller wings or neighbourhoods inside them if your parent prefers a quieter setting.') + '</p>' +
     (hosp ? '<p><strong>Nearest major hospital with a page here:</strong> ' + esc(hosp.hospital_name) + ', about ' + hosp.miles.toFixed(1) + ' miles away' + (hosp.miles > 15 ? ' (a closer local hospital may serve ' + esc(city.city) + '; this site covers the Memphis-area hospitals)' : '') + '. If your parent is being discharged there, see <a href="/' + hosp.slug + '/">communities near ' + esc(hosp.hospital_name) + '</a> and <a href="/guides/hospital-discharge-to-assisted-living-memphis/">what to have ready in 72 hours</a>.</p>' : '') +
-    '<p><strong>Cost:</strong> no public source publishes a reliable ' + esc(city.city) + '-only price. Ask each community for an all-in monthly figure at your parent\'s assessed care level, and read <a href="/guides/assisted-living-cost-memphis/">what the monthly rate includes</a> before you compare quotes. If money may run out, ask whether the community accepts ' + (city.state === 'MS' ? 'Mississippi Medicaid waiver residents' : 'TennCare CHOICES') + ' and read <a href="/guides/when-the-money-runs-out-tenncare-choices/">when the money runs out</a>.</p>' +
-    '<p><strong>Before you tour:</strong> use the <a href="/guides/questions-to-ask-on-a-tour/">40 tour questions</a>, check each licence with the state (<a href="/guides/tennessee-assisted-living-inspection-records/">how</a>), and take the residency agreement home to read (<a href="/guides/residency-agreement-fees-and-rules/">what to look for</a>). Short answers are on the <a href="/faq/">FAQ</a>.</p>' +
+    // Cost and touring advice is the same for every town; it lives in the
+    // guides these links open (Search Readiness q1, 7 Nov 2026).
+    '<p><strong>Before you tour:</strong> <a href="/guides/assisted-living-cost-memphis/">cost</a>, <a href="/guides/' + (city.state === 'MS' ? 'how-families-pay-for-assisted-living' : 'when-the-money-runs-out-tenncare-choices') + '/">' + (city.state === 'MS' ? 'paying for care' : 'TennCare CHOICES') + '</a>, <a href="/guides/questions-to-ask-on-a-tour/">tour questions</a>.</p>' +
     '</section>';
 }
 
@@ -276,9 +284,34 @@ function areaLocalHtml(city) {
 // the town's name changed - Millington, Bartlett, Covington and the Methodist
 // University Hospital page were 0.58-0.71 alike (5-word shingles) and the Monday
 // quality sample read them as template filler (Search Readiness q1, 7 Nov 2026).
+// The assisted living and memory care pages of a town each call a different
+// list: memory care the communities with a secured unit, assisted living the
+// ones without one. Before, /assisted-living-<town>/next-steps/ printed the same
+// five communities as /<town>/next-steps/ and the two pages were 0.96 alike
+// (Search Readiness q1, 7 Nov 2026). The town page keeps the nearest of all.
+function careTypeKeep(city) {
+  if (isMemoryCarePage(city)) return (f) => Boolean(f.memory_care);
+  if (isAssistedLivingPage(city)) return (f) => !f.memory_care;
+  return () => true;
+}
 function nextStepsLocalHtml(city) {
   if (!city || city.lat == null || city.lng == null) return '';
-  const list = facilitiesForPage(city).filter((f) => f.miles != null).sort((a, b) => a.miles - b.miles).slice(0, 5);
+  const keep = careTypeKeep(city);
+  const pool = isAssistedLivingPage(city)
+    ? (loadFacilities().facilities || []).map((f) => ({ ...f, miles: milesBetween(city.lat, city.lng, f.lat, f.lng) }))
+    : facilitiesForPage(city);
+  // Memory care: the largest secured units within 15 miles, largest first, so a
+  // family that needs a locked unit with room sees capacity, not the same five
+  // nearest communities the town's page lists (both pages were 0.85 alike).
+  const list = isMemoryCarePage(city)
+    ? (() => {
+      const near = pool.filter((f) => f.miles != null && keep(f) && f.miles <= 15);
+      const ranked = near.filter((f) => typeof f.secured_beds === 'number').sort((a, b) => b.secured_beds - a.secured_beds || a.miles - b.miles);
+      const rest = near.filter((f) => typeof f.secured_beds !== 'number').sort((a, b) => a.miles - b.miles);
+      const out = ranked.concat(rest).slice(0, 5);
+      return out.length ? out : pool.filter((f) => f.miles != null && keep(f)).sort((a, b) => a.miles - b.miles).slice(0, 5);
+    })()
+    : pool.filter((f) => f.miles != null && keep(f)).sort((a, b) => a.miles - b.miles).slice(0, 5);
   if (!list.length) return '';
   const place = city.kind === 'hospital' ? esc(city.hospital_name || city.city) : esc(city.city);
   const rows = list.map((f) => '<li>' + esc(titleCaseName(f.name)) + ', ' + esc(titleCaseName(String(f.city || ''))) +
@@ -289,7 +322,7 @@ function nextStepsLocalHtml(city) {
   // What is inside ten miles, counted from the same rows: the numbers are this
   // place's own, which is the point of the block.
   const doc = loadFacilities();
-  const all = (doc.facilities || []).map((f) => ({ ...f, miles: milesBetween(city.lat, city.lng, f.lat, f.lng) })).filter((f) => f.miles != null && f.miles <= 10);
+  const all = (doc.facilities || []).map((f) => ({ ...f, miles: milesBetween(city.lat, city.lng, f.lat, f.lng) })).filter((f) => f.miles != null && f.miles <= 10 && keep(f));
   const ownTown = String(city.licensed_city || city.city || '').toLowerCase();
   const inTown = city.kind === 'hospital' ? [] : all.filter((f) => String(f.city || '').toLowerCase() === ownTown);
   const beds = all.reduce((n, f) => n + (typeof f.total_beds === 'number' ? f.total_beds : 0), 0);
@@ -300,12 +333,15 @@ function nextStepsLocalHtml(city) {
       (city.kind === 'hospital' ? '' : (inTown.length ? '; ' + inTown.length + ' of the communities are in ' + esc(city.city) + ' itself' : '; none is in ' + esc(city.city) + ' itself')) + '.</p>'
     : '<p data-next-steps-local-count="true">No licensed community in our directory is within 10 miles of ' + place + '; the nearest are listed above.</p>';
   const src = doc.source && doc.source.registry_index
-    ? '<p class="muted" data-next-steps-local-source="true">Source: <a href="' + esc(doc.source.registry_index) + '">Tennessee Health Facilities Commission licensure reports</a>' +
-      (doc.source.ms_registry ? ' and the <a href="' + esc(doc.source.ms_registry) + '">Mississippi State Department of Health facility search</a>' : '') +
-      (doc.fetched_at ? ', read ' + esc(String(doc.fetched_at).slice(0, 10)) : '') + '. Distances are straight-line from the centre of ' + place + '.</p>'
+    ? '<p class="muted" data-next-steps-local-source="true">Source: <a href="' + esc(doc.source.registry_index) + '">Tennessee licensure reports</a>' +
+      (doc.source.ms_registry ? ', <a href="' + esc(doc.source.ms_registry) + '">Mississippi facility search</a>' : '') +
+      (doc.fetched_at ? ', read ' + esc(String(doc.fetched_at).slice(0, 10)) : '') + '; straight-line miles.</p>'
     : '';
+  const intro = isMemoryCarePage(city)
+    ? 'The ' + list.length + ' largest secured memory care units within 15 miles of ' + place + ', most secured beds first, with the phone number each filed with the state:'
+    : 'The ' + list.length + ' licensed communities' + (isAssistedLivingPage(city) ? ' without a secured memory care unit (assisted living only)' : '') + ' closest to ' + place + ', nearest first, with the phone number each filed with the state:';
   return '<section class="section" data-next-steps-local="true"><div class="card"><h2>Who to call first near ' + place + '</h2>' +
-    '<p>The ' + list.length + ' licensed communities closest to ' + place + ', nearest first, with the phone number each filed with the state:</p>' +
+    '<p>' + intro + '</p>' +
     '<ul data-next-steps-local-providers="true">' + rows + '</ul>' +
     within +
     (hosp ? '<p>Nearest hospital with a page here: <a href="/' + esc(hosp.slug) + '/">' + esc(hosp.hospital_name) + '</a>, ' + hosp.miles.toFixed(1) + ' miles.</p>' : '') +
@@ -316,6 +352,11 @@ function nextStepsLocalHtml(city) {
 // One clause naming the nearest licensed community, for the next-steps answer.
 function nextStepsLead(city) {
   if (!city || city.lat == null || city.lng == null) return '';
+  if (isAssistedLivingPage(city)) {
+    const al = (loadFacilities().facilities || []).map((f) => ({ ...f, miles: milesBetween(city.lat, city.lng, f.lat, f.lng) }))
+      .filter((f) => f.miles != null && !f.memory_care).sort((a, b) => a.miles - b.miles);
+    if (al.length) return 'the closest licensed assisted living community without a secured memory unit is ' + titleCaseName(al[0].name) + ', ' + al[0].miles.toFixed(1) + ' miles away';
+  }
   const list = facilitiesForPage(city).filter((f) => f.miles != null).sort((a, b) => a.miles - b.miles);
   if (!list.length) return '';
   const f = list[0];

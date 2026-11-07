@@ -1,0 +1,91 @@
+{
+  "_why": "Per pack and page kind: pairs of city / next-steps pages more than 0.5 alike (Jaccard of 5-word shingles over <main>, the Monday Search Readiness filler test) and the worst pair, when the generator was last fixed. scripts/validation/cross_page_similarity_contract.js fails the build if either gets worse. Lower a ceiling whenever a fix lowers the measure; never raise one.",
+  "measured_on": "2026-11-07",
+  "packs": {
+    "trt": {
+      "city": {
+        "pairs_over": 2,
+        "worst": 0.507,
+        "worst_pair": "sacramento-ca / san-diego-ca",
+        "pages": 56
+      },
+      "next-steps": {
+        "pairs_over": 53,
+        "worst": 0.602,
+        "worst_pair": "miami-fl / tampa-fl",
+        "pages": 56
+      }
+    },
+    "pi": {
+      "city": {
+        "pairs_over": 0,
+        "worst": 0.449,
+        "worst_pair": "augusta-me / portland-me",
+        "pages": 63
+      },
+      "next-steps": {
+        "pairs_over": 2,
+        "worst": 0.503,
+        "worst_pair": "augusta-me / portland-me",
+        "pages": 63
+      }
+    },
+    "dentistry": {
+      "city": {
+        "pairs_over": 0,
+        "worst": 0.215,
+        "worst_pair": "dallas-tx / houston-tx",
+        "pages": 6
+      },
+      "next-steps": {
+        "pairs_over": 15,
+        "worst": 0.679,
+        "worst_pair": "dallas-tx / houston-tx",
+        "pages": 6
+      }
+    },
+    "neuro": {
+      "city": {
+        "pairs_over": 6,
+        "worst": 0.569,
+        "worst_pair": "san-diego-ca / san-francisco-ca",
+        "pages": 56
+      },
+      "next-steps": {
+        "pairs_over": 174,
+        "worst": 0.674,
+        "worst_pair": "san-diego-ca / san-francisco-ca",
+        "pages": 56
+      }
+    },
+    "uscis_medical": {
+      "city": {
+        "pairs_over": 0,
+        "worst": 0.395,
+        "worst_pair": "orlando-fl / tampa-fl",
+        "pages": 56
+      },
+      "next-steps": {
+        "pairs_over": 2,
+        "worst": 0.519,
+        "worst_pair": "atlanta-ga / miami-fl",
+        "pages": 56
+      }
+    },
+    "senior_living": {
+      "city": {
+        "pairs_over": 50,
+        "worst": 0.62,
+        "worst_pair": "methodist-university-hospital / regional-one-health",
+        "pages": 84
+      },
+      "next-steps": {
+        "pairs_over": 100,
+        "worst": 0.731,
+        "worst_pair": "arlington-tn / memory-care-arlington-tn",
+        "pages": 84
+      }
+    }
+  },
+  "before_this_fix": "Measured on origin/main 41c1a0e (7 Nov 2026), pairs over 0.5 among next-steps pages: uscis_medical 242, pi 1787, neuro 1540, trt 1540, senior_living 128 (worst 0.96); among top-level pages: uscis_medical 868, pi 2016, neuro 1540, trt 1540, senior_living 581."
+}

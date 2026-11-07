@@ -1,0 +1,9276 @@
+{
+ "source": {
+  "publisher": "National Highway Traffic Safety Administration",
+  "dataset": "Fatality Analysis Reporting System (FARS), national CSV files (accident.csv)",
+  "landing_page": "https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars",
+  "files": {
+   "2024": "https://static.nhtsa.gov/nhtsa/downloads/FARS/2024/National/FARS2024NationalCSV.zip",
+   "2023": "https://static.nhtsa.gov/nhtsa/downloads/FARS/2023/National/FARS2023NationalCSV.zip"
+  }
+ },
+ "limits": [
+  "Fatal crashes only: a crash on a public road in which someone died within 30 days. Injury-only and property-damage crashes are not in FARS.",
+  "The city is the place FARS coded the crash to; a crash just outside the city limit counts for the county, so the county figure is given beside it.",
+  "Counts, not rates: no population or traffic denominator is applied."
+ ],
+ "years": [
+  2024,
+  2023
+ ],
+ "cities": {
+  "atlanta-ga": {
+   "city": "Atlanta",
+   "state": "Georgia",
+   "state_abbr": "GA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 55,
+      "deaths": 56,
+      "pedestrian_first_harmful_event": 24,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 41,
+      "on_weekends": 18,
+      "top_trafficways": [
+       [
+        "I-75",
+        5
+       ],
+       [
+        "I-20",
+        3
+       ],
+       [
+        "SR-400",
+        3
+       ]
+      ],
+      "top_month": [
+       "May",
+       8
+      ]
+     },
+     "county": {
+      "fatal_crashes": 91,
+      "deaths": 95,
+      "pedestrian_first_harmful_event": 31,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 60,
+      "on_weekends": 22,
+      "top_trafficways": [
+       [
+        "I-75",
+        5
+       ],
+       [
+        "SR-400",
+        5
+       ],
+       [
+        "I-85",
+        4
+       ]
+      ],
+      "top_month": [
+       "April",
+       11
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 80,
+      "deaths": 84,
+      "pedestrian_first_harmful_event": 23,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 57,
+      "on_weekends": 34,
+      "top_trafficways": [
+       [
+        "I-75",
+        7
+       ],
+       [
+        "I-20",
+        6
+       ],
+       [
+        "I-85",
+        5
+       ]
+      ],
+      "top_month": [
+       "March",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 103,
+      "deaths": 112,
+      "pedestrian_first_harmful_event": 31,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 74,
+      "on_weekends": 43,
+      "top_trafficways": [
+       [
+        "I-75",
+        7
+       ],
+       [
+        "I-20",
+        5
+       ],
+       [
+        "I-285",
+        5
+       ]
+      ],
+      "top_month": [
+       "March",
+       11
+      ]
+     }
+    }
+   },
+   "county": "Fulton County"
+  },
+  "chicago-il": {
+   "city": "Chicago",
+   "state": "Illinois",
+   "state_abbr": "IL",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 156,
+      "deaths": 167,
+      "pedestrian_first_harmful_event": 52,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 97,
+      "on_weekends": 75,
+      "top_trafficways": [
+       [
+        "MU-ASHLAND AVE",
+        5
+       ],
+       [
+        "MU-PULASKI RD",
+        5
+       ],
+       [
+        "US-41/LAKE SHORE DR",
+        5
+       ]
+      ],
+      "top_month": [
+       "May",
+       17
+      ]
+     },
+     "county": {
+      "fatal_crashes": 333,
+      "deaths": 362,
+      "pedestrian_first_harmful_event": 100,
+      "pedalcyclist_first_harmful_event": 14,
+      "in_dark_conditions": 204,
+      "on_weekends": 129,
+      "top_trafficways": [
+       [
+        "SR-50/CICERO AVE",
+        8
+       ],
+       [
+        "I-57",
+        7
+       ],
+       [
+        "SR-43/HARLEM AVE",
+        6
+       ]
+      ],
+      "top_month": [
+       "July",
+       38
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 159,
+      "deaths": 167,
+      "pedestrian_first_harmful_event": 50,
+      "pedalcyclist_first_harmful_event": 7,
+      "in_dark_conditions": 106,
+      "on_weekends": 57,
+      "top_trafficways": [
+       [
+        "I-94",
+        8
+       ],
+       [
+        "S PULASKI RD",
+        6
+       ],
+       [
+        "I-90",
+        4
+       ]
+      ],
+      "top_month": [
+       "October",
+       21
+      ]
+     },
+     "county": {
+      "fatal_crashes": 357,
+      "deaths": 377,
+      "pedestrian_first_harmful_event": 96,
+      "pedalcyclist_first_harmful_event": 14,
+      "in_dark_conditions": 216,
+      "on_weekends": 130,
+      "top_trafficways": [
+       [
+        "I-94",
+        15
+       ],
+       [
+        "I-57",
+        9
+       ],
+       [
+        "I-90",
+        9
+       ]
+      ],
+      "top_month": [
+       "February",
+       36
+      ]
+     }
+    }
+   },
+   "county": "Cook County"
+  },
+  "cleveland-oh": {
+   "city": "Cleveland",
+   "state": "Ohio",
+   "state_abbr": "OH",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 68,
+      "deaths": 72,
+      "pedestrian_first_harmful_event": 10,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 42,
+      "on_weekends": 28,
+      "top_trafficways": [
+       [
+        "I-90",
+        6
+       ],
+       [
+        "US-422 KINSMAN RD",
+        4
+       ],
+       [
+        "MU-14553 ST CLAIR AV",
+        2
+       ]
+      ],
+      "top_month": [
+       "April",
+       9
+      ]
+     },
+     "county": {
+      "fatal_crashes": 111,
+      "deaths": 118,
+      "pedestrian_first_harmful_event": 14,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 65,
+      "on_weekends": 41,
+      "top_trafficways": [
+       [
+        "I-90",
+        7
+       ],
+       [
+        "I-480",
+        6
+       ],
+       [
+        "US-422 KINSMAN RD",
+        4
+       ]
+      ],
+      "top_month": [
+       "April",
+       13
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 58,
+      "deaths": 59,
+      "pedestrian_first_harmful_event": 10,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 34,
+      "on_weekends": 24,
+      "top_trafficways": [
+       [
+        "I-90",
+        4
+       ],
+       [
+        "US-422 KINSMAN RD",
+        3
+       ],
+       [
+        "MU-ST CLAIR AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "August",
+       9
+      ]
+     },
+     "county": {
+      "fatal_crashes": 100,
+      "deaths": 104,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 55,
+      "on_weekends": 39,
+      "top_trafficways": [
+       [
+        "I-90",
+        7
+       ],
+       [
+        "I-480",
+        7
+       ],
+       [
+        "I-271",
+        3
+       ]
+      ],
+      "top_month": [
+       "July",
+       17
+      ]
+     }
+    }
+   },
+   "county": "Cuyahoga County"
+  },
+  "columbus-oh": {
+   "city": "Columbus",
+   "state": "Ohio",
+   "state_abbr": "OH",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 61,
+      "deaths": 66,
+      "pedestrian_first_harmful_event": 17,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 36,
+      "on_weekends": 18,
+      "top_trafficways": [
+       [
+        "SR-161 DUBLIN GRANVILLE RD",
+        4
+       ],
+       [
+        "CR-17 MORSE RD",
+        3
+       ],
+       [
+        "US-40 BROAD ST",
+        3
+       ]
+      ],
+      "top_month": [
+       "August",
+       8
+      ]
+     },
+     "county": {
+      "fatal_crashes": 83,
+      "deaths": 89,
+      "pedestrian_first_harmful_event": 19,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 47,
+      "on_weekends": 24,
+      "top_trafficways": [
+       [
+        "CR-17 MORSE RD",
+        4
+       ],
+       [
+        "SR-161 DUBLIN GRANVILLE RD",
+        4
+       ],
+       [
+        "I-270",
+        4
+       ]
+      ],
+      "top_month": [
+       "April",
+       10
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 89,
+      "deaths": 98,
+      "pedestrian_first_harmful_event": 19,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 46,
+      "on_weekends": 26,
+      "top_trafficways": [
+       [
+        "I-270",
+        5
+       ],
+       [
+        "SR-3 CLEVELAND AVE",
+        4
+       ],
+       [
+        "I-70",
+        4
+       ]
+      ],
+      "top_month": [
+       "July",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 118,
+      "deaths": 129,
+      "pedestrian_first_harmful_event": 22,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 59,
+      "on_weekends": 37,
+      "top_trafficways": [
+       [
+        "I-270",
+        8
+       ],
+       [
+        "SR-3 CLEVELAND AVE",
+        4
+       ],
+       [
+        "I-70",
+        4
+       ]
+      ],
+      "top_month": [
+       "May",
+       16
+      ]
+     }
+    }
+   },
+   "county": "Franklin County"
+  },
+  "dallas-tx": {
+   "city": "Dallas",
+   "state": "Texas",
+   "state_abbr": "TX",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 206,
+      "deaths": 227,
+      "pedestrian_first_harmful_event": 64,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 129,
+      "on_weekends": 89,
+      "top_trafficways": [
+       [
+        "SR-12",
+        9
+       ],
+       [
+        "I-30/RL THORNTON FWY",
+        8
+       ],
+       [
+        "I-35 E",
+        5
+       ]
+      ],
+      "top_month": [
+       "January",
+       20
+      ]
+     },
+     "county": {
+      "fatal_crashes": 304,
+      "deaths": 330,
+      "pedestrian_first_harmful_event": 84,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 185,
+      "on_weekends": 137,
+      "top_trafficways": [
+       [
+        "SR-12",
+        10
+       ],
+       [
+        "I-30/RL THORNTON FWY",
+        8
+       ],
+       [
+        "I-45",
+        7
+       ]
+      ],
+      "top_month": [
+       "October",
+       34
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 198,
+      "deaths": 207,
+      "pedestrian_first_harmful_event": 59,
+      "pedalcyclist_first_harmful_event": 5,
+      "in_dark_conditions": 126,
+      "on_weekends": 71,
+      "top_trafficways": [
+       [
+        "I-35/STEMMONS FWY",
+        8
+       ],
+       [
+        "SR-12",
+        7
+       ],
+       [
+        "I-35 E",
+        6
+       ]
+      ],
+      "top_month": [
+       "September",
+       25
+      ]
+     },
+     "county": {
+      "fatal_crashes": 316,
+      "deaths": 336,
+      "pedestrian_first_harmful_event": 78,
+      "pedalcyclist_first_harmful_event": 7,
+      "in_dark_conditions": 203,
+      "on_weekends": 111,
+      "top_trafficways": [
+       [
+        "I-35 E",
+        9
+       ],
+       [
+        "I-20",
+        9
+       ],
+       [
+        "I-35/STEMMONS FWY",
+        8
+       ]
+      ],
+      "top_month": [
+       "June",
+       38
+      ]
+     }
+    }
+   },
+   "county": "Dallas County"
+  },
+  "denver-co": {
+   "city": "Denver",
+   "state": "Colorado",
+   "state_abbr": "CO",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 62,
+      "deaths": 63,
+      "pedestrian_first_harmful_event": 15,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 41,
+      "on_weekends": 28,
+      "top_trafficways": [
+       [
+        "SR-2   N COLORADO BLVD",
+        4
+       ],
+       [
+        "US-40   E COLFAX AVE",
+        4
+       ],
+       [
+        "US-40   W COLFAX AVE",
+        3
+       ]
+      ],
+      "top_month": [
+       "October",
+       13
+      ]
+     },
+     "county": {
+      "fatal_crashes": 62,
+      "deaths": 63,
+      "pedestrian_first_harmful_event": 15,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 41,
+      "on_weekends": 28,
+      "top_trafficways": [
+       [
+        "SR-2   N COLORADO BLVD",
+        4
+       ],
+       [
+        "US-40   E COLFAX AVE",
+        4
+       ],
+       [
+        "US-40   W COLFAX AVE",
+        3
+       ]
+      ],
+      "top_month": [
+       "October",
+       13
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 71,
+      "deaths": 76,
+      "pedestrian_first_harmful_event": 27,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 47,
+      "on_weekends": 31,
+      "top_trafficways": [
+       [
+        "I-70",
+        6
+       ],
+       [
+        "SR-2 N COLORADO BLVD",
+        4
+       ],
+       [
+        "SR-88   N FEDERAL BLVD",
+        4
+       ]
+      ],
+      "top_month": [
+       "June",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 71,
+      "deaths": 76,
+      "pedestrian_first_harmful_event": 27,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 47,
+      "on_weekends": 31,
+      "top_trafficways": [
+       [
+        "I-70",
+        6
+       ],
+       [
+        "SR-2 N COLORADO BLVD",
+        4
+       ],
+       [
+        "SR-88   N FEDERAL BLVD",
+        4
+       ]
+      ],
+      "top_month": [
+       "June",
+       11
+      ]
+     }
+    }
+   },
+   "county": "Denver County"
+  },
+  "detroit-mi": {
+   "city": "Detroit",
+   "state": "Michigan",
+   "state_abbr": "MI",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 99,
+      "deaths": 105,
+      "pedestrian_first_harmful_event": 22,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 64,
+      "on_weekends": 35,
+      "top_trafficways": [
+       [
+        "SR-3 GRATIOT AVE",
+        7
+       ],
+       [
+        "SR-10",
+        7
+       ],
+       [
+        "7 MILE RD",
+        4
+       ]
+      ],
+      "top_month": [
+       "August",
+       15
+      ]
+     },
+     "county": {
+      "fatal_crashes": 166,
+      "deaths": 177,
+      "pedestrian_first_harmful_event": 36,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 97,
+      "on_weekends": 56,
+      "top_trafficways": [
+       [
+        "US-12 MICHIGAN AVE",
+        7
+       ],
+       [
+        "SR-3 GRATIOT AVE",
+        7
+       ],
+       [
+        "SR-10",
+        7
+       ]
+      ],
+      "top_month": [
+       "August",
+       22
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 124,
+      "deaths": 132,
+      "pedestrian_first_harmful_event": 34,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 77,
+      "on_weekends": 45,
+      "top_trafficways": [
+       [
+        "I-75",
+        6
+       ],
+       [
+        "I-94",
+        5
+       ],
+       [
+        "I-96",
+        4
+       ]
+      ],
+      "top_month": [
+       "August",
+       21
+      ]
+     },
+     "county": {
+      "fatal_crashes": 190,
+      "deaths": 201,
+      "pedestrian_first_harmful_event": 55,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 105,
+      "on_weekends": 69,
+      "top_trafficways": [
+       [
+        "I-75",
+        9
+       ],
+       [
+        "I-94",
+        8
+       ],
+       [
+        "I-96",
+        6
+       ]
+      ],
+      "top_month": [
+       "August",
+       30
+      ]
+     }
+    }
+   },
+   "county": "Wayne County"
+  },
+  "houston-tx": {
+   "city": "Houston",
+   "state": "Texas",
+   "state_abbr": "TX",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 331,
+      "deaths": 351,
+      "pedestrian_first_harmful_event": 107,
+      "pedalcyclist_first_harmful_event": 9,
+      "in_dark_conditions": 226,
+      "on_weekends": 132,
+      "top_trafficways": [
+       [
+        "I-45/NORTH FWY",
+        12
+       ],
+       [
+        "I-45",
+        10
+       ],
+       [
+        "I-10",
+        9
+       ]
+      ],
+      "top_month": [
+       "May",
+       36
+      ]
+     },
+     "county": {
+      "fatal_crashes": 551,
+      "deaths": 583,
+      "pedestrian_first_harmful_event": 155,
+      "pedalcyclist_first_harmful_event": 17,
+      "in_dark_conditions": 372,
+      "on_weekends": 230,
+      "top_trafficways": [
+       [
+        "I-45",
+        15
+       ],
+       [
+        "FM 1960",
+        13
+       ],
+       [
+        "I-45/NORTH FWY",
+        12
+       ]
+      ],
+      "top_month": [
+       "December",
+       54
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 279,
+      "deaths": 297,
+      "pedestrian_first_harmful_event": 86,
+      "pedalcyclist_first_harmful_event": 15,
+      "in_dark_conditions": 194,
+      "on_weekends": 107,
+      "top_trafficways": [
+       [
+        "I-45/NORTH FWY",
+        10
+       ],
+       [
+        "I-10",
+        10
+       ],
+       [
+        "I-45",
+        9
+       ]
+      ],
+      "top_month": [
+       "June",
+       31
+      ]
+     },
+     "county": {
+      "fatal_crashes": 505,
+      "deaths": 537,
+      "pedestrian_first_harmful_event": 150,
+      "pedalcyclist_first_harmful_event": 25,
+      "in_dark_conditions": 344,
+      "on_weekends": 193,
+      "top_trafficways": [
+       [
+        "I-10",
+        17
+       ],
+       [
+        "I-45",
+        13
+       ],
+       [
+        "I-45/NORTH FWY",
+        13
+       ]
+      ],
+      "top_month": [
+       "October",
+       48
+      ]
+     }
+    }
+   },
+   "county": "Harris County"
+  },
+  "indianapolis-in": {
+   "city": "Indianapolis",
+   "state": "Indiana",
+   "state_abbr": "IN",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 107,
+      "deaths": 109,
+      "pedestrian_first_harmful_event": 31,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 63,
+      "on_weekends": 34,
+      "top_trafficways": [
+       [
+        "MU-MICHIGAN RD",
+        6
+       ],
+       [
+        "I-65",
+        5
+       ],
+       [
+        "I-70",
+        5
+       ]
+      ],
+      "top_month": [
+       "May",
+       12
+      ]
+     },
+     "county": {
+      "fatal_crashes": 125,
+      "deaths": 128,
+      "pedestrian_first_harmful_event": 31,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 68,
+      "on_weekends": 40,
+      "top_trafficways": [
+       [
+        "I-465",
+        7
+       ],
+       [
+        "I-65",
+        6
+       ],
+       [
+        "MU-MICHIGAN RD",
+        6
+       ]
+      ],
+      "top_month": [
+       "May",
+       13
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 114,
+      "deaths": 120,
+      "pedestrian_first_harmful_event": 30,
+      "pedalcyclist_first_harmful_event": 6,
+      "in_dark_conditions": 62,
+      "on_weekends": 48,
+      "top_trafficways": [
+       [
+        "I-465",
+        9
+       ],
+       [
+        "MU-MADISON AVE",
+        4
+       ],
+       [
+        "MU-10TH ST",
+        4
+       ]
+      ],
+      "top_month": [
+       "January",
+       14
+      ]
+     },
+     "county": {
+      "fatal_crashes": 125,
+      "deaths": 131,
+      "pedestrian_first_harmful_event": 35,
+      "pedalcyclist_first_harmful_event": 6,
+      "in_dark_conditions": 71,
+      "on_weekends": 55,
+      "top_trafficways": [
+       [
+        "I-465",
+        9
+       ],
+       [
+        "MU-MADISON AVE",
+        4
+       ],
+       [
+        "MU-SHADELAND AVE",
+        4
+       ]
+      ],
+      "top_month": [
+       "October",
+       16
+      ]
+     }
+    }
+   },
+   "county": "Marion County"
+  },
+  "kansas-city-ks": {
+   "city": "Kansas City",
+   "state": "Kansas",
+   "state_abbr": "KS",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 18,
+      "deaths": 19,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 12,
+      "on_weekends": 2,
+      "top_trafficways": [
+       [
+        "I-70",
+        3
+       ],
+       [
+        "I-635",
+        2
+       ],
+       [
+        "CENTRAL AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "March",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 20,
+      "deaths": 21,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 12,
+      "on_weekends": 2,
+      "top_trafficways": [
+       [
+        "I-70",
+        3
+       ],
+       [
+        "I-635",
+        2
+       ],
+       [
+        "CENTRAL AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "March",
+       3
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 25,
+      "deaths": 26,
+      "pedestrian_first_harmful_event": 6,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 12,
+      "on_weekends": 14,
+      "top_trafficways": [
+       [
+        "I-70",
+        6
+       ],
+       [
+        "I-35",
+        2
+       ],
+       [
+        "US-69",
+        2
+       ]
+      ],
+      "top_month": [
+       "June",
+       5
+      ]
+     },
+     "county": {
+      "fatal_crashes": 25,
+      "deaths": 26,
+      "pedestrian_first_harmful_event": 6,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 12,
+      "on_weekends": 14,
+      "top_trafficways": [
+       [
+        "I-70",
+        6
+       ],
+       [
+        "I-35",
+        2
+       ],
+       [
+        "US-69",
+        2
+       ]
+      ],
+      "top_month": [
+       "June",
+       5
+      ]
+     }
+    }
+   },
+   "county": "Wyandotte County"
+  },
+  "miami-fl": {
+   "city": "Miami",
+   "state": "Florida",
+   "state_abbr": "FL",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 63,
+      "deaths": 65,
+      "pedestrian_first_harmful_event": 20,
+      "pedalcyclist_first_harmful_event": 5,
+      "in_dark_conditions": 39,
+      "on_weekends": 16,
+      "top_trafficways": [
+       [
+        "I-95",
+        4
+       ],
+       [
+        "SR-836",
+        3
+       ],
+       [
+        "SR-821",
+        3
+       ]
+      ],
+      "top_month": [
+       "March",
+       9
+      ]
+     },
+     "county": {
+      "fatal_crashes": 265,
+      "deaths": 279,
+      "pedestrian_first_harmful_event": 73,
+      "pedalcyclist_first_harmful_event": 19,
+      "in_dark_conditions": 158,
+      "on_weekends": 82,
+      "top_trafficways": [
+       [
+        "US-1",
+        14
+       ],
+       [
+        "I-95",
+        10
+       ],
+       [
+        "SR-826",
+        9
+       ]
+      ],
+      "top_month": [
+       "March",
+       29
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 66,
+      "deaths": 66,
+      "pedestrian_first_harmful_event": 29,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 36,
+      "on_weekends": 23,
+      "top_trafficways": [
+       [
+        "US-41",
+        4
+       ],
+       [
+        "US-27",
+        4
+       ],
+       [
+        "SR-9",
+        3
+       ]
+      ],
+      "top_month": [
+       "May",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 310,
+      "deaths": 325,
+      "pedestrian_first_harmful_event": 97,
+      "pedalcyclist_first_harmful_event": 19,
+      "in_dark_conditions": 189,
+      "on_weekends": 109,
+      "top_trafficways": [
+       [
+        "US-1",
+        12
+       ],
+       [
+        "I-95",
+        10
+       ],
+       [
+        "SR-821",
+        9
+       ]
+      ],
+      "top_month": [
+       "January",
+       34
+      ]
+     }
+    }
+   },
+   "county": "Miami-dade County"
+  },
+  "orlando-fl": {
+   "city": "Orlando",
+   "state": "Florida",
+   "state_abbr": "FL",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 32,
+      "deaths": 32,
+      "pedestrian_first_harmful_event": 7,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 18,
+      "on_weekends": 8,
+      "top_trafficways": [
+       [
+        "MU-COLONIAL DR",
+        2
+       ],
+       [
+        "I-4 RAMP",
+        2
+       ],
+       [
+        "I-4",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 152,
+      "deaths": 158,
+      "pedestrian_first_harmful_event": 37,
+      "pedalcyclist_first_harmful_event": 10,
+      "in_dark_conditions": 98,
+      "on_weekends": 54,
+      "top_trafficways": [
+       [
+        "SR-50",
+        13
+       ],
+       [
+        "US-441",
+        11
+       ],
+       [
+        "I-4",
+        5
+       ]
+      ],
+      "top_month": [
+       "December",
+       20
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 38,
+      "deaths": 38,
+      "pedestrian_first_harmful_event": 15,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 22,
+      "on_weekends": 15,
+      "top_trafficways": [
+       [
+        "I-4",
+        2
+       ],
+       [
+        "S KIRKMAN RD",
+        2
+       ],
+       [
+        "SR-50 W COLONIAL DR",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       5
+      ]
+     },
+     "county": {
+      "fatal_crashes": 169,
+      "deaths": 172,
+      "pedestrian_first_harmful_event": 54,
+      "pedalcyclist_first_harmful_event": 12,
+      "in_dark_conditions": 110,
+      "on_weekends": 58,
+      "top_trafficways": [
+       [
+        "SR-50",
+        13
+       ],
+       [
+        "US-441",
+        9
+       ],
+       [
+        "I-4",
+        7
+       ]
+      ],
+      "top_month": [
+       "January",
+       20
+      ]
+     }
+    }
+   },
+   "county": "Orange County"
+  },
+  "richmond-va": {
+   "city": "Richmond",
+   "state": "Virginia",
+   "state_abbr": "VA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 18,
+      "deaths": 18,
+      "pedestrian_first_harmful_event": 5,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 15,
+      "on_weekends": 6,
+      "top_trafficways": [],
+      "top_month": [
+       "August",
+       5
+      ]
+     },
+     "county": null
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 29,
+      "deaths": 29,
+      "pedestrian_first_harmful_event": 7,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 8,
+      "on_weekends": 5,
+      "top_trafficways": [
+       [
+        "US-1",
+        4
+       ],
+       [
+        "US-360",
+        4
+       ],
+       [
+        "US-250",
+        3
+       ]
+      ],
+      "top_month": [
+       "May",
+       5
+      ]
+     },
+     "county": null
+    }
+   }
+  },
+  "san-diego-ca": {
+   "city": "San Diego",
+   "state": "California",
+   "state_abbr": "CA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 102,
+      "deaths": 109,
+      "pedestrian_first_harmful_event": 40,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 75,
+      "on_weekends": 39,
+      "top_trafficways": [
+       [
+        "I-5",
+        16
+       ],
+       [
+        "SR-94",
+        9
+       ],
+       [
+        "I-8",
+        7
+       ]
+      ],
+      "top_month": [
+       "August",
+       16
+      ]
+     },
+     "county": {
+      "fatal_crashes": 282,
+      "deaths": 303,
+      "pedestrian_first_harmful_event": 93,
+      "pedalcyclist_first_harmful_event": 11,
+      "in_dark_conditions": 171,
+      "on_weekends": 101,
+      "top_trafficways": [
+       [
+        "I-5",
+        27
+       ],
+       [
+        "SR-78",
+        15
+       ],
+       [
+        "SR-94",
+        14
+       ]
+      ],
+      "top_month": [
+       "April",
+       33
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 93,
+      "deaths": 97,
+      "pedestrian_first_harmful_event": 38,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 68,
+      "on_weekends": 29,
+      "top_trafficways": [
+       [
+        "I-805",
+        11
+       ],
+       [
+        "I-5",
+        7
+       ],
+       [
+        "I-15",
+        4
+       ]
+      ],
+      "top_month": [
+       "September",
+       12
+      ]
+     },
+     "county": {
+      "fatal_crashes": 271,
+      "deaths": 288,
+      "pedestrian_first_harmful_event": 79,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 161,
+      "on_weekends": 94,
+      "top_trafficways": [
+       [
+        "I-5",
+        20
+       ],
+       [
+        "I-805",
+        14
+       ],
+       [
+        "SR-94",
+        12
+       ]
+      ],
+      "top_month": [
+       "December",
+       32
+      ]
+     }
+    }
+   },
+   "county": "San Diego County"
+  },
+  "seattle-wa": {
+   "city": "Seattle",
+   "state": "Washington",
+   "state_abbr": "WA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 40,
+      "deaths": 43,
+      "pedestrian_first_harmful_event": 18,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 26,
+      "on_weekends": 12,
+      "top_trafficways": [
+       [
+        "I-5",
+        7
+       ],
+       [
+        "SR-99",
+        6
+       ],
+       [
+        "MU-ELLIOTT AVE W",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 140,
+      "deaths": 152,
+      "pedestrian_first_harmful_event": 48,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 82,
+      "on_weekends": 44,
+      "top_trafficways": [
+       [
+        "SR-99",
+        14
+       ],
+       [
+        "I-5",
+        12
+       ],
+       [
+        "I-90",
+        4
+       ]
+      ],
+      "top_month": [
+       "May",
+       19
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 33,
+      "deaths": 35,
+      "pedestrian_first_harmful_event": 11,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 18,
+      "on_weekends": 12,
+      "top_trafficways": [
+       [
+        "I-5",
+        5
+       ],
+       [
+        "MU-4TH AVE S",
+        2
+       ],
+       [
+        "MU-AIRPORT WAY S",
+        2
+       ]
+      ],
+      "top_month": [
+       "February",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 151,
+      "deaths": 168,
+      "pedestrian_first_harmful_event": 45,
+      "pedalcyclist_first_harmful_event": 6,
+      "in_dark_conditions": 90,
+      "on_weekends": 53,
+      "top_trafficways": [
+       [
+        "I-5",
+        11
+       ],
+       [
+        "SR-516",
+        9
+       ],
+       [
+        "SR-99",
+        7
+       ]
+      ],
+      "top_month": [
+       "August",
+       17
+      ]
+     }
+    }
+   },
+   "county": "King County"
+  },
+  "anchorage-ak": {
+   "city": "Anchorage",
+   "state": "Alaska",
+   "state_abbr": "AK",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 27,
+      "deaths": 27,
+      "pedestrian_first_harmful_event": 14,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 16,
+      "on_weekends": 9,
+      "top_trafficways": [
+       [
+        "C ST",
+        4
+       ],
+       [
+        "SEWARD HWY",
+        4
+       ],
+       [
+        "TUDOR RD",
+        2
+       ]
+      ],
+      "top_month": [
+       "September",
+       10
+      ]
+     },
+     "county": null
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 15,
+      "deaths": 15,
+      "pedestrian_first_harmful_event": 6,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 5,
+      "on_weekends": 7,
+      "top_trafficways": [
+       [
+        "GLENN HWY",
+        2
+       ],
+       [
+        "SEWARD HWY",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       3
+      ]
+     },
+     "county": null
+    }
+   }
+  },
+  "birmingham-al": {
+   "city": "Birmingham",
+   "state": "Alabama",
+   "state_abbr": "AL",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 37,
+      "deaths": 39,
+      "pedestrian_first_harmful_event": 8,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 19,
+      "on_weekends": 9,
+      "top_trafficways": [
+       [
+        "I-59",
+        3
+       ],
+       [
+        "MU-CRESTWOOD BLVD",
+        2
+       ],
+       [
+        "MU-BANKHEAD HWY",
+        2
+       ]
+      ],
+      "top_month": [
+       "February",
+       6
+      ]
+     },
+     "county": {
+      "fatal_crashes": 95,
+      "deaths": 101,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 45,
+      "on_weekends": 29,
+      "top_trafficways": [
+       [
+        "I-59",
+        9
+       ],
+       [
+        "SR-5",
+        8
+       ],
+       [
+        "I-65",
+        7
+       ]
+      ],
+      "top_month": [
+       "February",
+       12
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 43,
+      "deaths": 49,
+      "pedestrian_first_harmful_event": 11,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 32,
+      "on_weekends": 24,
+      "top_trafficways": [
+       [
+        "I-59",
+        4
+       ],
+       [
+        "I-65",
+        3
+       ],
+       [
+        "MU-3RD AVE W",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       8
+      ]
+     },
+     "county": {
+      "fatal_crashes": 103,
+      "deaths": 112,
+      "pedestrian_first_harmful_event": 17,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 64,
+      "on_weekends": 39,
+      "top_trafficways": [
+       [
+        "I-65",
+        10
+       ],
+       [
+        "I-59",
+        7
+       ],
+       [
+        "I-459",
+        6
+       ]
+      ],
+      "top_month": [
+       "July",
+       14
+      ]
+     }
+    }
+   },
+   "county": "Jefferson County"
+  },
+  "little-rock-ar": {
+   "city": "Little Rock",
+   "state": "Arkansas",
+   "state_abbr": "AR",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 44,
+      "deaths": 45,
+      "pedestrian_first_harmful_event": 15,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 31,
+      "on_weekends": 11,
+      "top_trafficways": [
+       [
+        "US-70",
+        8
+       ],
+       [
+        "I-30",
+        4
+       ],
+       [
+        "SR-5",
+        4
+       ]
+      ],
+      "top_month": [
+       "September",
+       7
+      ]
+     },
+     "county": {
+      "fatal_crashes": 89,
+      "deaths": 91,
+      "pedestrian_first_harmful_event": 22,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 56,
+      "on_weekends": 29,
+      "top_trafficways": [
+       [
+        "US-70",
+        10
+       ],
+       [
+        "I-30",
+        6
+       ],
+       [
+        "US-67",
+        4
+       ]
+      ],
+      "top_month": [
+       "September",
+       13
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 51,
+      "deaths": 53,
+      "pedestrian_first_harmful_event": 18,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 32,
+      "on_weekends": 18,
+      "top_trafficways": [
+       [
+        "I-430-21",
+        4
+       ],
+       [
+        "SR-338",
+        3
+       ],
+       [
+        "I-430",
+        3
+       ]
+      ],
+      "top_month": [
+       "October",
+       9
+      ]
+     },
+     "county": {
+      "fatal_crashes": 85,
+      "deaths": 88,
+      "pedestrian_first_harmful_event": 28,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 52,
+      "on_weekends": 29,
+      "top_trafficways": [
+       [
+        "I-430-21",
+        6
+       ],
+       [
+        "I-530",
+        5
+       ],
+       [
+        "I-40",
+        4
+       ]
+      ],
+      "top_month": [
+       "February",
+       12
+      ]
+     }
+    }
+   },
+   "county": "Pulaski County"
+  },
+  "phoenix-az": {
+   "city": "Phoenix",
+   "state": "Arizona",
+   "state_abbr": "AZ",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 267,
+      "deaths": 279,
+      "pedestrian_first_harmful_event": 88,
+      "pedalcyclist_first_harmful_event": 15,
+      "in_dark_conditions": 162,
+      "on_weekends": 85,
+      "top_trafficways": [
+       [
+        "W THOMAS RD",
+        12
+       ],
+       [
+        "N CAVE CREEK RD",
+        11
+       ],
+       [
+        "N 35TH AVE",
+        10
+       ]
+      ],
+      "top_month": [
+       "April",
+       28
+      ]
+     },
+     "county": {
+      "fatal_crashes": 560,
+      "deaths": 596,
+      "pedestrian_first_harmful_event": 138,
+      "pedalcyclist_first_harmful_event": 26,
+      "in_dark_conditions": 300,
+      "on_weekends": 164,
+      "top_trafficways": [
+       [
+        "I-10",
+        20
+       ],
+       [
+        "SR-202",
+        19
+       ],
+       [
+        "US-60",
+        14
+       ]
+      ],
+      "top_month": [
+       "April",
+       62
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 302,
+      "deaths": 311,
+      "pedestrian_first_harmful_event": 104,
+      "pedalcyclist_first_harmful_event": 7,
+      "in_dark_conditions": 177,
+      "on_weekends": 114,
+      "top_trafficways": [
+       [
+        "N 19TH AVE",
+        14
+       ],
+       [
+        "I-10",
+        11
+       ],
+       [
+        "I-17",
+        10
+       ]
+      ],
+      "top_month": [
+       "October",
+       35
+      ]
+     },
+     "county": {
+      "fatal_crashes": 646,
+      "deaths": 680,
+      "pedestrian_first_harmful_event": 167,
+      "pedalcyclist_first_harmful_event": 28,
+      "in_dark_conditions": 335,
+      "on_weekends": 240,
+      "top_trafficways": [
+       [
+        "I-10",
+        33
+       ],
+       [
+        "SR-101",
+        23
+       ],
+       [
+        "SR-202",
+        17
+       ]
+      ],
+      "top_month": [
+       "March",
+       65
+      ]
+     }
+    }
+   },
+   "county": "Maricopa County"
+  },
+  "los-angeles-ca": {
+   "city": "Los Angeles",
+   "state": "California",
+   "state_abbr": "CA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 295,
+      "deaths": 308,
+      "pedestrian_first_harmful_event": 145,
+      "pedalcyclist_first_harmful_event": 13,
+      "in_dark_conditions": 221,
+      "on_weekends": 107,
+      "top_trafficways": [
+       [
+        "I-110",
+        15
+       ],
+       [
+        "I-5",
+        12
+       ],
+       [
+        "US-101",
+        9
+       ]
+      ],
+      "top_month": [
+       "July",
+       32
+      ]
+     },
+     "county": {
+      "fatal_crashes": 726,
+      "deaths": 778,
+      "pedestrian_first_harmful_event": 290,
+      "pedalcyclist_first_harmful_event": 26,
+      "in_dark_conditions": 515,
+      "on_weekends": 250,
+      "top_trafficways": [
+       [
+        "I-5",
+        17
+       ],
+       [
+        "I-110",
+        16
+       ],
+       [
+        "US-101",
+        10
+       ]
+      ],
+      "top_month": [
+       "April",
+       75
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 321,
+      "deaths": 341,
+      "pedestrian_first_harmful_event": 143,
+      "pedalcyclist_first_harmful_event": 11,
+      "in_dark_conditions": 242,
+      "on_weekends": 109,
+      "top_trafficways": [
+       [
+        "US-101",
+        11
+       ],
+       [
+        "WESTERN AVE",
+        8
+       ],
+       [
+        "VERMONT AVE",
+        7
+       ]
+      ],
+      "top_month": [
+       "December",
+       36
+      ]
+     },
+     "county": {
+      "fatal_crashes": 777,
+      "deaths": 840,
+      "pedestrian_first_harmful_event": 264,
+      "pedalcyclist_first_harmful_event": 30,
+      "in_dark_conditions": 538,
+      "on_weekends": 282,
+      "top_trafficways": [
+       [
+        "I-5",
+        14
+       ],
+       [
+        "I-10",
+        12
+       ],
+       [
+        "US-101",
+        12
+       ]
+      ],
+      "top_month": [
+       "December",
+       82
+      ]
+     }
+    }
+   },
+   "county": "Los Angeles County"
+  },
+  "sacramento-ca": {
+   "city": "Sacramento",
+   "state": "California",
+   "state_abbr": "CA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 49,
+      "deaths": 49,
+      "pedestrian_first_harmful_event": 19,
+      "pedalcyclist_first_harmful_event": 6,
+      "in_dark_conditions": 37,
+      "on_weekends": 20,
+      "top_trafficways": [
+       [
+        "SR-99",
+        6
+       ],
+       [
+        "US-50",
+        5
+       ],
+       [
+        "I-5",
+        4
+       ]
+      ],
+      "top_month": [
+       "March",
+       7
+      ]
+     },
+     "county": {
+      "fatal_crashes": 154,
+      "deaths": 156,
+      "pedestrian_first_harmful_event": 49,
+      "pedalcyclist_first_harmful_event": 12,
+      "in_dark_conditions": 95,
+      "on_weekends": 52,
+      "top_trafficways": [
+       [
+        "SR-99",
+        11
+       ],
+       [
+        "I-5",
+        11
+       ],
+       [
+        "SR-160",
+        6
+       ]
+      ],
+      "top_month": [
+       "September",
+       19
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 65,
+      "deaths": 71,
+      "pedestrian_first_harmful_event": 23,
+      "pedalcyclist_first_harmful_event": 9,
+      "in_dark_conditions": 38,
+      "on_weekends": 25,
+      "top_trafficways": [
+       [
+        "I-5",
+        5
+       ],
+       [
+        "SR-99",
+        3
+       ],
+       [
+        "SR-51",
+        3
+       ]
+      ],
+      "top_month": [
+       "August",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 193,
+      "deaths": 209,
+      "pedestrian_first_harmful_event": 62,
+      "pedalcyclist_first_harmful_event": 18,
+      "in_dark_conditions": 108,
+      "on_weekends": 66,
+      "top_trafficways": [
+       [
+        "US-50",
+        10
+       ],
+       [
+        "SR-99",
+        8
+       ],
+       [
+        "SR-160",
+        7
+       ]
+      ],
+      "top_month": [
+       "August",
+       26
+      ]
+     }
+    }
+   },
+   "county": "Sacramento County"
+  },
+  "san-francisco-ca": {
+   "city": "San Francisco",
+   "state": "California",
+   "state_abbr": "CA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 41,
+      "deaths": 47,
+      "pedestrian_first_harmful_event": 20,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 26,
+      "on_weekends": 13,
+      "top_trafficways": [
+       [
+        "I-80",
+        3
+       ],
+       [
+        "DIAMOND ST",
+        2
+       ],
+       [
+        "MISSION ST",
+        2
+       ]
+      ],
+      "top_month": [
+       "March",
+       6
+      ]
+     },
+     "county": {
+      "fatal_crashes": 42,
+      "deaths": 48,
+      "pedestrian_first_harmful_event": 21,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 27,
+      "on_weekends": 13,
+      "top_trafficways": [
+       [
+        "I-80",
+        3
+       ],
+       [
+        "DIAMOND ST",
+        2
+       ],
+       [
+        "MISSION ST",
+        2
+       ]
+      ],
+      "top_month": [
+       "March",
+       6
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 33,
+      "deaths": 34,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 21,
+      "on_weekends": 11,
+      "top_trafficways": [
+       [
+        "I-280",
+        3
+       ],
+       [
+        "16TH ST",
+        3
+       ],
+       [
+        "I-80",
+        2
+       ]
+      ],
+      "top_month": [
+       "August",
+       8
+      ]
+     },
+     "county": {
+      "fatal_crashes": 34,
+      "deaths": 35,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 21,
+      "on_weekends": 11,
+      "top_trafficways": [
+       [
+        "I-280",
+        3
+       ],
+       [
+        "16TH ST",
+        3
+       ],
+       [
+        "I-80",
+        2
+       ]
+      ],
+      "top_month": [
+       "August",
+       8
+      ]
+     }
+    }
+   },
+   "county": "San Francisco County"
+  },
+  "hartford-ct": {
+   "city": "Hartford",
+   "state": "Connecticut",
+   "state_abbr": "CT",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 16,
+      "deaths": 18,
+      "pedestrian_first_harmful_event": 5,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 8,
+      "on_weekends": 6,
+      "top_trafficways": [
+       [
+        "I-91",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 81,
+      "deaths": 88,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 40,
+      "on_weekends": 30,
+      "top_trafficways": [
+       [
+        "I-91",
+        9
+       ],
+       [
+        "I-84",
+        6
+       ],
+       [
+        "SR-9",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       11
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 12,
+      "deaths": 12,
+      "pedestrian_first_harmful_event": 5,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 8,
+      "on_weekends": 3,
+      "top_trafficways": [
+       [
+        "I-84",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 64,
+      "deaths": 70,
+      "pedestrian_first_harmful_event": 13,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 37,
+      "on_weekends": 22,
+      "top_trafficways": [
+       [
+        "I-84",
+        10
+       ],
+       [
+        "I-91",
+        4
+       ],
+       [
+        "SR-15",
+        4
+       ]
+      ],
+      "top_month": [
+       "September",
+       9
+      ]
+     }
+    }
+   },
+   "county": "Hartford County"
+  },
+  "wilmington-de": {
+   "city": "Wilmington",
+   "state": "Delaware",
+   "state_abbr": "DE",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 8,
+      "deaths": 8,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 4,
+      "on_weekends": 1,
+      "top_trafficways": [],
+      "top_month": [
+       "December",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 58,
+      "deaths": 61,
+      "pedestrian_first_harmful_event": 18,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 38,
+      "on_weekends": 17,
+      "top_trafficways": [
+       [
+        "CR-72 WRANGLE HILL RD",
+        2
+       ],
+       [
+        "SALEM CHURCH RD",
+        2
+       ],
+       [
+        "US-13 DUPONT PKWY",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       7
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 5,
+      "deaths": 5,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 4,
+      "on_weekends": 2,
+      "top_trafficways": [],
+      "top_month": [
+       "January",
+       1
+      ]
+     },
+     "county": {
+      "fatal_crashes": 57,
+      "deaths": 59,
+      "pedestrian_first_harmful_event": 18,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 41,
+      "on_weekends": 12,
+      "top_trafficways": [
+       [
+        "US-40 PULASKI HWY",
+        4
+       ],
+       [
+        "I-495",
+        3
+       ],
+       [
+        "I-95",
+        3
+       ]
+      ],
+      "top_month": [
+       "April",
+       12
+      ]
+     }
+    }
+   },
+   "county": "New Castle County"
+  },
+  "tampa-fl": {
+   "city": "Tampa",
+   "state": "Florida",
+   "state_abbr": "FL",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 55,
+      "deaths": 58,
+      "pedestrian_first_harmful_event": 19,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 36,
+      "on_weekends": 12,
+      "top_trafficways": [
+       [
+        "US-92",
+        5
+       ],
+       [
+        "US-41",
+        3
+       ],
+       [
+        "SR-580",
+        2
+       ]
+      ],
+      "top_month": [
+       "June",
+       9
+      ]
+     },
+     "county": {
+      "fatal_crashes": 174,
+      "deaths": 181,
+      "pedestrian_first_harmful_event": 45,
+      "pedalcyclist_first_harmful_event": 16,
+      "in_dark_conditions": 104,
+      "on_weekends": 51,
+      "top_trafficways": [
+       [
+        "US-301",
+        13
+       ],
+       [
+        "US-41",
+        10
+       ],
+       [
+        "US-92",
+        9
+       ]
+      ],
+      "top_month": [
+       "December",
+       22
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 47,
+      "deaths": 49,
+      "pedestrian_first_harmful_event": 18,
+      "pedalcyclist_first_harmful_event": 6,
+      "in_dark_conditions": 29,
+      "on_weekends": 17,
+      "top_trafficways": [
+       [
+        "US-41",
+        6
+       ],
+       [
+        "SR-582",
+        5
+       ],
+       [
+        "I-275",
+        3
+       ]
+      ],
+      "top_month": [
+       "October",
+       7
+      ]
+     },
+     "county": {
+      "fatal_crashes": 209,
+      "deaths": 230,
+      "pedestrian_first_harmful_event": 62,
+      "pedalcyclist_first_harmful_event": 16,
+      "in_dark_conditions": 119,
+      "on_weekends": 78,
+      "top_trafficways": [
+       [
+        "US-41",
+        24
+       ],
+       [
+        "US-301",
+        16
+       ],
+       [
+        "I-75",
+        13
+       ]
+      ],
+      "top_month": [
+       "December",
+       28
+      ]
+     }
+    }
+   },
+   "county": "Hillsborough County"
+  },
+  "honolulu-hi": {
+   "city": "Honolulu",
+   "state": "Hawaii",
+   "state_abbr": "HI",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 25,
+      "deaths": 26,
+      "pedestrian_first_harmful_event": 9,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 13,
+      "on_weekends": 8,
+      "top_trafficways": [
+       [
+        "CR-KAPIOLANI BLVD",
+        3
+       ],
+       [
+        "I-H1",
+        3
+       ],
+       [
+        "CR-SOUTH KING STREET",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 49,
+      "deaths": 51,
+      "pedestrian_first_harmful_event": 19,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 27,
+      "on_weekends": 19,
+      "top_trafficways": [
+       [
+        "SR-83",
+        6
+       ],
+       [
+        "I-H1",
+        6
+       ],
+       [
+        "SR-93",
+        4
+       ]
+      ],
+      "top_month": [
+       "July",
+       8
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 19,
+      "deaths": 19,
+      "pedestrian_first_harmful_event": 7,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 12,
+      "on_weekends": 7,
+      "top_trafficways": [
+       [
+        "I-H1",
+        3
+       ],
+       [
+        "SR-92",
+        3
+       ],
+       [
+        "CR-KAPIOLANI BLVD",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 56,
+      "deaths": 58,
+      "pedestrian_first_harmful_event": 10,
+      "pedalcyclist_first_harmful_event": 5,
+      "in_dark_conditions": 36,
+      "on_weekends": 22,
+      "top_trafficways": [
+       [
+        "I-H1",
+        8
+       ],
+       [
+        "SR-83",
+        6
+       ],
+       [
+        "SR-93",
+        5
+       ]
+      ],
+      "top_month": [
+       "April",
+       9
+      ]
+     }
+    }
+   },
+   "county": "Honolulu County"
+  },
+  "des-moines-ia": {
+   "city": "Des Moines",
+   "state": "Iowa",
+   "state_abbr": "IA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 17,
+      "deaths": 20,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 9,
+      "on_weekends": 8,
+      "top_trafficways": [
+       [
+        "MU-ARMY POST RD",
+        3
+       ],
+       [
+        "MU-SE 5TH ST",
+        2
+       ],
+       [
+        "MU-2ND AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "March",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 40,
+      "deaths": 47,
+      "pedestrian_first_harmful_event": 7,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 20,
+      "on_weekends": 15,
+      "top_trafficways": [
+       [
+        "MU-ARMY POST RD",
+        3
+       ],
+       [
+        "MU-SE 5TH ST",
+        2
+       ],
+       [
+        "I-35/I-80",
+        2
+       ]
+      ],
+      "top_month": [
+       "March",
+       6
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 17,
+      "deaths": 18,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 10,
+      "on_weekends": 5,
+      "top_trafficways": [
+       [
+        "I-235",
+        3
+       ],
+       [
+        "US-69/SE 14TH ST",
+        2
+       ]
+      ],
+      "top_month": [
+       "September",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 37,
+      "deaths": 39,
+      "pedestrian_first_harmful_event": 5,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 22,
+      "on_weekends": 15,
+      "top_trafficways": [
+       [
+        "I-80",
+        4
+       ],
+       [
+        "I-235",
+        3
+       ],
+       [
+        "US-69/SE 14TH ST",
+        2
+       ]
+      ],
+      "top_month": [
+       "June",
+       5
+      ]
+     }
+    }
+   },
+   "county": "Polk County"
+  },
+  "boise-id": {
+   "city": "Boise",
+   "state": "Idaho",
+   "state_abbr": "ID",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 11,
+      "deaths": 11,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 9,
+      "on_weekends": 5,
+      "top_trafficways": [],
+      "top_month": [
+       "June",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 29,
+      "deaths": 29,
+      "pedestrian_first_harmful_event": 5,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 19,
+      "on_weekends": 16,
+      "top_trafficways": [
+       [
+        "I-84",
+        3
+       ],
+       [
+        "US-20",
+        3
+       ],
+       [
+        "SR-44",
+        2
+       ]
+      ],
+      "top_month": [
+       "September",
+       7
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 15,
+      "deaths": 15,
+      "pedestrian_first_harmful_event": 7,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 6,
+      "on_weekends": 4,
+      "top_trafficways": [
+       [
+        "CLOVERDALE RD",
+        3
+       ],
+       [
+        "16TH ST",
+        2
+       ],
+       [
+        "I-84",
+        2
+       ]
+      ],
+      "top_month": [
+       "December",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 31,
+      "deaths": 31,
+      "pedestrian_first_harmful_event": 11,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 11,
+      "on_weekends": 11,
+      "top_trafficways": [
+       [
+        "I-84",
+        6
+       ],
+       [
+        "SR-55",
+        3
+       ],
+       [
+        "CLOVERDALE RD",
+        3
+       ]
+      ],
+      "top_month": [
+       "October",
+       5
+      ]
+     }
+    }
+   },
+   "county": "Ada County"
+  },
+  "louisville-ky": {
+   "city": "Louisville",
+   "state": "Kentucky",
+   "state_abbr": "KY",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 102,
+      "deaths": 106,
+      "pedestrian_first_harmful_event": 37,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 66,
+      "on_weekends": 27,
+      "top_trafficways": [
+       [
+        "US-31W DIXIE HWY",
+        6
+       ],
+       [
+        "US-31E BARDSTOWN RD",
+        5
+       ],
+       [
+        "SR-61 PRESTON HWY",
+        5
+       ]
+      ],
+      "top_month": [
+       "March",
+       16
+      ]
+     },
+     "county": {
+      "fatal_crashes": 109,
+      "deaths": 113,
+      "pedestrian_first_harmful_event": 39,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 69,
+      "on_weekends": 29,
+      "top_trafficways": [
+       [
+        "US-31W DIXIE HWY",
+        7
+       ],
+       [
+        "US-31E BARDSTOWN RD",
+        5
+       ],
+       [
+        "SR-61 PRESTON HWY",
+        5
+       ]
+      ],
+      "top_month": [
+       "March",
+       17
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 114,
+      "deaths": 118,
+      "pedestrian_first_harmful_event": 27,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 70,
+      "on_weekends": 32,
+      "top_trafficways": [
+       [
+        "US-31 DIXIE HWY",
+        9
+       ],
+       [
+        "I-264",
+        8
+       ],
+       [
+        "SR-1065 OUTER LOOP",
+        6
+       ]
+      ],
+      "top_month": [
+       "August",
+       17
+      ]
+     },
+     "county": {
+      "fatal_crashes": 130,
+      "deaths": 134,
+      "pedestrian_first_harmful_event": 33,
+      "pedalcyclist_first_harmful_event": 5,
+      "in_dark_conditions": 81,
+      "on_weekends": 35,
+      "top_trafficways": [
+       [
+        "US-31 DIXIE HWY",
+        9
+       ],
+       [
+        "I-264",
+        9
+       ],
+       [
+        "SR-1065 OUTER LOOP",
+        6
+       ]
+      ],
+      "top_month": [
+       "August",
+       18
+      ]
+     }
+    }
+   },
+   "county": "Jefferson County"
+  },
+  "new-orleans-la": {
+   "city": "New Orleans",
+   "state": "Louisiana",
+   "state_abbr": "LA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 57,
+      "deaths": 59,
+      "pedestrian_first_harmful_event": 25,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 41,
+      "on_weekends": 23,
+      "top_trafficways": [
+       [
+        "US-90",
+        17
+       ],
+       [
+        "I-10",
+        9
+       ],
+       [
+        "I-610",
+        3
+       ]
+      ],
+      "top_month": [
+       "May",
+       7
+      ]
+     },
+     "county": {
+      "fatal_crashes": 58,
+      "deaths": 60,
+      "pedestrian_first_harmful_event": 26,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 42,
+      "on_weekends": 23,
+      "top_trafficways": [
+       [
+        "US-90",
+        17
+       ],
+       [
+        "I-10",
+        10
+       ],
+       [
+        "I-610",
+        3
+       ]
+      ],
+      "top_month": [
+       "May",
+       7
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 59,
+      "deaths": 60,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 7,
+      "in_dark_conditions": 34,
+      "on_weekends": 22,
+      "top_trafficways": [
+       [
+        "I-10",
+        14
+       ],
+       [
+        "US-90",
+        10
+       ],
+       [
+        "US-61",
+        2
+       ]
+      ],
+      "top_month": [
+       "April",
+       8
+      ]
+     },
+     "county": {
+      "fatal_crashes": 59,
+      "deaths": 60,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 7,
+      "in_dark_conditions": 34,
+      "on_weekends": 22,
+      "top_trafficways": [
+       [
+        "I-10",
+        14
+       ],
+       [
+        "US-90",
+        10
+       ],
+       [
+        "US-61",
+        2
+       ]
+      ],
+      "top_month": [
+       "April",
+       8
+      ]
+     }
+    }
+   },
+   "county": "Orleans Parish"
+  },
+  "boston-ma": {
+   "city": "Boston",
+   "state": "Massachusetts",
+   "state_abbr": "MA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 25,
+      "deaths": 27,
+      "pedestrian_first_harmful_event": 12,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 16,
+      "on_weekends": 8,
+      "top_trafficways": [
+       [
+        "WASHINGTON ST",
+        4
+       ],
+       [
+        "MASSACHUSETTS AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "December",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 31,
+      "deaths": 33,
+      "pedestrian_first_harmful_event": 14,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 19,
+      "on_weekends": 9,
+      "top_trafficways": [
+       [
+        "WASHINGTON ST",
+        4
+       ],
+       [
+        "MASSACHUSETTS AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "January",
+       5
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 17,
+      "deaths": 18,
+      "pedestrian_first_harmful_event": 6,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 11,
+      "on_weekends": 6,
+      "top_trafficways": [
+       [
+        "I-90",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 21,
+      "deaths": 22,
+      "pedestrian_first_harmful_event": 8,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 14,
+      "on_weekends": 7,
+      "top_trafficways": [
+       [
+        "I-90",
+        2
+       ]
+      ],
+      "top_month": [
+       "March",
+       4
+      ]
+     }
+    }
+   },
+   "county": "Suffolk County"
+  },
+  "baltimore-md": {
+   "city": "Baltimore",
+   "state": "Maryland",
+   "state_abbr": "MD",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 57,
+      "deaths": 60,
+      "pedestrian_first_harmful_event": 23,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 39,
+      "on_weekends": 18,
+      "top_trafficways": [
+       [
+        "US-1 BELAIR RD",
+        5
+       ],
+       [
+        "US-40 PULASKI HWY",
+        2
+       ],
+       [
+        "I-95 FT MCHENRY TUNNEL",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       8
+      ]
+     },
+     "county": null
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 40,
+      "deaths": 41,
+      "pedestrian_first_harmful_event": 19,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 21,
+      "on_weekends": 11,
+      "top_trafficways": [
+       [
+        "SR-140 REISTERSTOWN RD",
+        2
+       ],
+       [
+        "US-1 NORTH AVE",
+        2
+       ],
+       [
+        "MU-467 THE ALAMEDA",
+        2
+       ]
+      ],
+      "top_month": [
+       "March",
+       5
+      ]
+     },
+     "county": null
+    }
+   }
+  },
+  "augusta-me": {
+   "city": "Augusta",
+   "state": "Maine",
+   "state_abbr": "ME",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 4,
+      "deaths": 4,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 1,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": [
+       "September",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 20,
+      "deaths": 20,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 7,
+      "on_weekends": 6,
+      "top_trafficways": [
+       [
+        "I-95",
+        4
+       ]
+      ],
+      "top_month": [
+       "September",
+       6
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 1,
+      "deaths": 1,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 1,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": [
+       "December",
+       1
+      ]
+     },
+     "county": {
+      "fatal_crashes": 12,
+      "deaths": 12,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 4,
+      "on_weekends": 0,
+      "top_trafficways": [
+       [
+        "US-202",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       4
+      ]
+     }
+    }
+   },
+   "county": "Kennebec County"
+  },
+  "portland-me": {
+   "city": "Portland",
+   "state": "Maine",
+   "state_abbr": "ME",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 4,
+      "deaths": 4,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 2,
+      "on_weekends": 0,
+      "top_trafficways": [
+       [
+        "US-302 FOREST AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "November",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 21,
+      "deaths": 23,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 8,
+      "on_weekends": 6,
+      "top_trafficways": [
+       [
+        "US-302 FOREST AVE",
+        2
+       ],
+       [
+        "PLEASANT HILL RD",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       4
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 2,
+      "deaths": 3,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 0,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": [
+       "June",
+       1
+      ]
+     },
+     "county": {
+      "fatal_crashes": 17,
+      "deaths": 20,
+      "pedestrian_first_harmful_event": 5,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 7,
+      "on_weekends": 6,
+      "top_trafficways": [
+       [
+        "I-95",
+        3
+       ],
+       [
+        "PAYNE RD",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       3
+      ]
+     }
+    }
+   },
+   "county": "Cumberland County"
+  },
+  "minneapolis-mn": {
+   "city": "Minneapolis",
+   "state": "Minnesota",
+   "state_abbr": "MN",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 17,
+      "deaths": 18,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 11,
+      "on_weekends": 5,
+      "top_trafficways": [
+       [
+        "I-35W",
+        3
+       ],
+       [
+        "SR-55 HIAWATHA AVE",
+        2
+       ],
+       [
+        "CR-153 LOWRY AVE N",
+        2
+       ]
+      ],
+      "top_month": [
+       "September",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 53,
+      "deaths": 55,
+      "pedestrian_first_harmful_event": 14,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 26,
+      "on_weekends": 15,
+      "top_trafficways": [
+       [
+        "SR-7",
+        5
+       ],
+       [
+        "I-35W",
+        4
+       ],
+       [
+        "I-94",
+        3
+       ]
+      ],
+      "top_month": [
+       "September",
+       10
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 23,
+      "deaths": 28,
+      "pedestrian_first_harmful_event": 7,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 14,
+      "on_weekends": 12,
+      "top_trafficways": [
+       [
+        "SR-55 HIAWATHA AVE",
+        4
+       ],
+       [
+        "CR-152 CEDAR AVE S",
+        2
+       ],
+       [
+        "CR-22 LYNDALE AVE S",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 48,
+      "deaths": 55,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 22,
+      "on_weekends": 23,
+      "top_trafficways": [
+       [
+        "SR-55 HIAWATHA AVE",
+        4
+       ],
+       [
+        "I-94",
+        3
+       ],
+       [
+        "CR-152 CEDAR AVE S",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       8
+      ]
+     }
+    }
+   },
+   "county": "Hennepin County"
+  },
+  "st-louis-mo": {
+   "city": "St. Louis",
+   "state": "Missouri",
+   "state_abbr": "MO",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 46,
+      "deaths": 48,
+      "pedestrian_first_harmful_event": 20,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 30,
+      "on_weekends": 16,
+      "top_trafficways": [
+       [
+        "I-70",
+        5
+       ],
+       [
+        "MU-PAGE BLVD",
+        4
+       ],
+       [
+        "SR-30",
+        3
+       ]
+      ],
+      "top_month": [
+       "August",
+       6
+      ]
+     },
+     "county": null
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 49,
+      "deaths": 52,
+      "pedestrian_first_harmful_event": 8,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 32,
+      "on_weekends": 17,
+      "top_trafficways": [
+       [
+        "MU-BROADWAY ST",
+        4
+       ],
+       [
+        "I-70",
+        4
+       ],
+       [
+        "MU-CHIPPEWA ST",
+        3
+       ]
+      ],
+      "top_month": [
+       "October",
+       8
+      ]
+     },
+     "county": null
+    }
+   }
+  },
+  "jackson-ms": {
+   "city": "Jackson",
+   "state": "Mississippi",
+   "state_abbr": "MS",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 29,
+      "deaths": 35,
+      "pedestrian_first_harmful_event": 10,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 21,
+      "on_weekends": 10,
+      "top_trafficways": [
+       [
+        "I-55",
+        4
+       ],
+       [
+        "I-220",
+        3
+       ],
+       [
+        "US-80",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       5
+      ]
+     },
+     "county": {
+      "fatal_crashes": 53,
+      "deaths": 59,
+      "pedestrian_first_harmful_event": 15,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 36,
+      "on_weekends": 21,
+      "top_trafficways": [
+       [
+        "I-55",
+        8
+       ],
+       [
+        "US-80",
+        5
+       ],
+       [
+        "SR-18",
+        4
+       ]
+      ],
+      "top_month": [
+       "September",
+       8
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 41,
+      "deaths": 45,
+      "pedestrian_first_harmful_event": 18,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 31,
+      "on_weekends": 14,
+      "top_trafficways": [
+       [
+        "MU-I-55 FRONTAGE RD",
+        6
+       ],
+       [
+        "SR-18",
+        6
+       ],
+       [
+        "I-55",
+        3
+       ]
+      ],
+      "top_month": [
+       "February",
+       6
+      ]
+     },
+     "county": {
+      "fatal_crashes": 54,
+      "deaths": 60,
+      "pedestrian_first_harmful_event": 20,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 39,
+      "on_weekends": 16,
+      "top_trafficways": [
+       [
+        "MU-I-55 FRONTAGE RD",
+        6
+       ],
+       [
+        "SR-18",
+        6
+       ],
+       [
+        "I-55",
+        5
+       ]
+      ],
+      "top_month": [
+       "December",
+       9
+      ]
+     }
+    }
+   },
+   "county": "Hinds County"
+  },
+  "billings-mt": {
+   "city": "Billings",
+   "state": "Montana",
+   "state_abbr": "MT",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 13,
+      "deaths": 14,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 7,
+      "on_weekends": 1,
+      "top_trafficways": [
+       [
+        "CENTRAL AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "September",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 23,
+      "deaths": 24,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 10,
+      "on_weekends": 5,
+      "top_trafficways": [
+       [
+        "I-94",
+        3
+       ],
+       [
+        "I-90",
+        2
+       ],
+       [
+        "CENTRAL AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "September",
+       4
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 11,
+      "deaths": 15,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 7,
+      "on_weekends": 4,
+      "top_trafficways": [
+       [
+        "GRAND AVE",
+        3
+       ],
+       [
+        "4TH AVE N",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 23,
+      "deaths": 27,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 11,
+      "on_weekends": 7,
+      "top_trafficways": [
+       [
+        "GRAND AVE",
+        3
+       ],
+       [
+        "SR-3",
+        2
+       ],
+       [
+        "4TH AVE N",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       4
+      ]
+     }
+    }
+   },
+   "county": "Yellowstone County"
+  },
+  "charlotte-nc": {
+   "city": "Charlotte",
+   "state": "North Carolina",
+   "state_abbr": "NC",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 107,
+      "deaths": 113,
+      "pedestrian_first_harmful_event": 33,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 64,
+      "on_weekends": 44,
+      "top_trafficways": [
+       [
+        "I-485",
+        9
+       ],
+       [
+        "I-77",
+        6
+       ],
+       [
+        "I-85",
+        4
+       ]
+      ],
+      "top_month": [
+       "August",
+       13
+      ]
+     },
+     "county": {
+      "fatal_crashes": 115,
+      "deaths": 121,
+      "pedestrian_first_harmful_event": 35,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 67,
+      "on_weekends": 45,
+      "top_trafficways": [
+       [
+        "I-485",
+        11
+       ],
+       [
+        "I-77",
+        6
+       ],
+       [
+        "I-85",
+        4
+       ]
+      ],
+      "top_month": [
+       "August",
+       14
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 84,
+      "deaths": 89,
+      "pedestrian_first_harmful_event": 22,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 54,
+      "on_weekends": 33,
+      "top_trafficways": [
+       [
+        "I-485",
+        10
+       ],
+       [
+        "I-85",
+        6
+       ],
+       [
+        "US-29 N TRYON ST",
+        5
+       ]
+      ],
+      "top_month": [
+       "September",
+       13
+      ]
+     },
+     "county": {
+      "fatal_crashes": 92,
+      "deaths": 97,
+      "pedestrian_first_harmful_event": 23,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 58,
+      "on_weekends": 36,
+      "top_trafficways": [
+       [
+        "I-485",
+        10
+       ],
+       [
+        "I-85",
+        6
+       ],
+       [
+        "I-77",
+        5
+       ]
+      ],
+      "top_month": [
+       "September",
+       13
+      ]
+     }
+    }
+   },
+   "county": "Mecklenburg County"
+  },
+  "fargo-nd": {
+   "city": "Fargo",
+   "state": "North Dakota",
+   "state_abbr": "ND",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 5,
+      "deaths": 5,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 3,
+      "on_weekends": 2,
+      "top_trafficways": [],
+      "top_month": [
+       "September",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 7,
+      "deaths": 7,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 4,
+      "on_weekends": 2,
+      "top_trafficways": [],
+      "top_month": [
+       "June",
+       2
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 2,
+      "deaths": 2,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 1,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": [
+       "April",
+       1
+      ]
+     },
+     "county": {
+      "fatal_crashes": 11,
+      "deaths": 11,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 5,
+      "on_weekends": 6,
+      "top_trafficways": [
+       [
+        "I-29",
+        2
+       ],
+       [
+        "MU-13TH AVE S",
+        2
+       ]
+      ],
+      "top_month": [
+       "April",
+       2
+      ]
+     }
+    }
+   },
+   "county": "Cass County"
+  },
+  "omaha-ne": {
+   "city": "Omaha",
+   "state": "Nebraska",
+   "state_abbr": "NE",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 50,
+      "deaths": 54,
+      "pedestrian_first_harmful_event": 11,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 26,
+      "on_weekends": 13,
+      "top_trafficways": [
+       [
+        "US-6",
+        7
+       ],
+       [
+        "US-275",
+        4
+       ],
+       [
+        "I-I-680",
+        3
+       ]
+      ],
+      "top_month": [
+       "October",
+       8
+      ]
+     },
+     "county": {
+      "fatal_crashes": 58,
+      "deaths": 63,
+      "pedestrian_first_harmful_event": 11,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 31,
+      "on_weekends": 15,
+      "top_trafficways": [
+       [
+        "US-6",
+        7
+       ],
+       [
+        "US-275",
+        6
+       ],
+       [
+        "I-I-680",
+        3
+       ]
+      ],
+      "top_month": [
+       "June",
+       8
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 33,
+      "deaths": 33,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 22,
+      "on_weekends": 10,
+      "top_trafficways": [
+       [
+        "US-275",
+        3
+       ],
+       [
+        "SR-64",
+        3
+       ],
+       [
+        "I-680",
+        3
+       ]
+      ],
+      "top_month": [
+       "March",
+       5
+      ]
+     },
+     "county": {
+      "fatal_crashes": 39,
+      "deaths": 40,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 23,
+      "on_weekends": 12,
+      "top_trafficways": [
+       [
+        "US-275",
+        3
+       ],
+       [
+        "SR-64",
+        3
+       ],
+       [
+        "I-680",
+        3
+       ]
+      ],
+      "top_month": [
+       "March",
+       6
+      ]
+     }
+    }
+   },
+   "county": "Douglas County"
+  },
+  "concord-nh": {
+   "city": "Concord",
+   "state": "New Hampshire",
+   "state_abbr": "NH",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 6,
+      "deaths": 6,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 0,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": [
+       "February",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 20,
+      "deaths": 20,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 3,
+      "on_weekends": 3,
+      "top_trafficways": [
+       [
+        "SR-3A",
+        3
+       ],
+       [
+        "US-3",
+        2
+       ],
+       [
+        "I-93",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       4
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 5,
+      "deaths": 5,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 2,
+      "on_weekends": 2,
+      "top_trafficways": [],
+      "top_month": [
+       "November",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 18,
+      "deaths": 20,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 7,
+      "on_weekends": 7,
+      "top_trafficways": [
+       [
+        "I-93",
+        3
+       ]
+      ],
+      "top_month": [
+       "June",
+       3
+      ]
+     }
+    }
+   },
+   "county": "Merrimack County"
+  },
+  "manchester-nh": {
+   "city": "Manchester",
+   "state": "New Hampshire",
+   "state_abbr": "NH",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 9,
+      "deaths": 10,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 3,
+      "on_weekends": 1,
+      "top_trafficways": [
+       [
+        "I-293",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 29,
+      "deaths": 32,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 9,
+      "on_weekends": 8,
+      "top_trafficways": [
+       [
+        "SR-31",
+        3
+       ],
+       [
+        "I-293",
+        2
+       ],
+       [
+        "SR-101A",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       5
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 7,
+      "deaths": 7,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 6,
+      "on_weekends": 2,
+      "top_trafficways": [],
+      "top_month": [
+       "February",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 22,
+      "deaths": 23,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 12,
+      "on_weekends": 6,
+      "top_trafficways": [
+       [
+        "SR-101",
+        2
+       ]
+      ],
+      "top_month": [
+       "January",
+       3
+      ]
+     }
+    }
+   },
+   "county": "Hillsborough County"
+  },
+  "newark-nj": {
+   "city": "Newark",
+   "state": "New Jersey",
+   "state_abbr": "NJ",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 24,
+      "deaths": 25,
+      "pedestrian_first_harmful_event": 11,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 16,
+      "on_weekends": 10,
+      "top_trafficways": [
+       [
+        "I-78",
+        2
+       ],
+       [
+        "I-78 RAMP",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       5
+      ]
+     },
+     "county": {
+      "fatal_crashes": 46,
+      "deaths": 47,
+      "pedestrian_first_harmful_event": 20,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 27,
+      "on_weekends": 16,
+      "top_trafficways": [
+       [
+        "CR-647 UNION AVE",
+        3
+       ],
+       [
+        "I-78",
+        2
+       ],
+       [
+        "CR-603 SPRINGFIELD AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       8
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 28,
+      "deaths": 31,
+      "pedestrian_first_harmful_event": 10,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 16,
+      "on_weekends": 8,
+      "top_trafficways": [
+       [
+        "6TH AVE",
+        2
+       ],
+       [
+        "CR-27 FRELINGHUYSEN AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "June",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 49,
+      "deaths": 53,
+      "pedestrian_first_harmful_event": 21,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 28,
+      "on_weekends": 14,
+      "top_trafficways": [
+       [
+        "CR-506 BLOOMFIELD AVE",
+        4
+       ],
+       [
+        "CR-508 CENTRAL AVE",
+        4
+       ],
+       [
+        "I-280",
+        3
+       ]
+      ],
+      "top_month": [
+       "June",
+       7
+      ]
+     }
+    }
+   },
+   "county": "Essex County"
+  },
+  "albuquerque-nm": {
+   "city": "Albuquerque",
+   "state": "New Mexico",
+   "state_abbr": "NM",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 107,
+      "deaths": 111,
+      "pedestrian_first_harmful_event": 46,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 72,
+      "on_weekends": 31,
+      "top_trafficways": [
+       [
+        "MU-4016 CENTRAL AVE",
+        6
+       ],
+       [
+        "SR-45",
+        5
+       ],
+       [
+        "I-40",
+        5
+       ]
+      ],
+      "top_month": [
+       "August",
+       12
+      ]
+     },
+     "county": {
+      "fatal_crashes": 112,
+      "deaths": 117,
+      "pedestrian_first_harmful_event": 47,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 75,
+      "on_weekends": 32,
+      "top_trafficways": [
+       [
+        "SR-45",
+        6
+       ],
+       [
+        "I-40",
+        6
+       ],
+       [
+        "MU-4016 CENTRAL AVE",
+        6
+       ]
+      ],
+      "top_month": [
+       "March",
+       12
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 106,
+      "deaths": 109,
+      "pedestrian_first_harmful_event": 50,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 67,
+      "on_weekends": 35,
+      "top_trafficways": [
+       [
+        "I-40",
+        15
+       ],
+       [
+        "I-25",
+        15
+       ],
+       [
+        "MU-CENTRAL AVE",
+        12
+       ]
+      ],
+      "top_month": [
+       "August",
+       12
+      ]
+     },
+     "county": {
+      "fatal_crashes": 112,
+      "deaths": 115,
+      "pedestrian_first_harmful_event": 50,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 70,
+      "on_weekends": 38,
+      "top_trafficways": [
+       [
+        "I-40",
+        17
+       ],
+       [
+        "I-25",
+        16
+       ],
+       [
+        "MU-CENTRAL AVE",
+        12
+       ]
+      ],
+      "top_month": [
+       "August",
+       13
+      ]
+     }
+    }
+   },
+   "county": "Bernalillo County"
+  },
+  "las-vegas-nv": {
+   "city": "Las Vegas",
+   "state": "Nevada",
+   "state_abbr": "NV",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 55,
+      "deaths": 58,
+      "pedestrian_first_harmful_event": 19,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 38,
+      "on_weekends": 23,
+      "top_trafficways": [
+       [
+        "W LAKE MEAD BLVD",
+        3
+       ],
+       [
+        "N EASTERN AVE",
+        2
+       ],
+       [
+        "N LAMB BLVD",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       7
+      ]
+     },
+     "county": {
+      "fatal_crashes": 267,
+      "deaths": 293,
+      "pedestrian_first_harmful_event": 85,
+      "pedalcyclist_first_harmful_event": 11,
+      "in_dark_conditions": 166,
+      "on_weekends": 84,
+      "top_trafficways": [
+       [
+        "I-15",
+        19
+       ],
+       [
+        "US-95",
+        9
+       ],
+       [
+        "SR-612 S NELLIS BLVD",
+        5
+       ]
+      ],
+      "top_month": [
+       "January",
+       32
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 40,
+      "deaths": 43,
+      "pedestrian_first_harmful_event": 12,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 19,
+      "on_weekends": 14,
+      "top_trafficways": [
+       [
+        "SR-159",
+        3
+       ],
+       [
+        "CHARLESTON BLVD",
+        3
+       ],
+       [
+        "N DURANGO DR",
+        2
+       ]
+      ],
+      "top_month": [
+       "August",
+       6
+      ]
+     },
+     "county": {
+      "fatal_crashes": 243,
+      "deaths": 262,
+      "pedestrian_first_harmful_event": 72,
+      "pedalcyclist_first_harmful_event": 10,
+      "in_dark_conditions": 141,
+      "on_weekends": 85,
+      "top_trafficways": [
+       [
+        "I-15",
+        13
+       ],
+       [
+        "SR-612",
+        7
+       ],
+       [
+        "SR-592",
+        6
+       ]
+      ],
+      "top_month": [
+       "November",
+       26
+      ]
+     }
+    }
+   },
+   "county": "Clark County"
+  },
+  "albany-ny": {
+   "city": "Albany",
+   "state": "New York",
+   "state_abbr": "NY",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 5,
+      "deaths": 6,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 1,
+      "on_weekends": 1,
+      "top_trafficways": [],
+      "top_month": [
+       "May",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 16,
+      "deaths": 17,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 3,
+      "on_weekends": 4,
+      "top_trafficways": [
+       [
+        "I-87",
+        2
+       ],
+       [
+        "KRUMKILL RD",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       5
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 7,
+      "deaths": 7,
+      "pedestrian_first_harmful_event": 6,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 6,
+      "on_weekends": 1,
+      "top_trafficways": [
+       [
+        "I-787",
+        2
+       ]
+      ],
+      "top_month": [
+       "December",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 24,
+      "deaths": 24,
+      "pedestrian_first_harmful_event": 10,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 18,
+      "on_weekends": 9,
+      "top_trafficways": [
+       [
+        "I-787",
+        2
+       ],
+       [
+        "SR-5 CENTRAL AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       5
+      ]
+     }
+    }
+   },
+   "county": "Albany County"
+  },
+  "new-york-ny": {
+   "city": "New York",
+   "state": "New York",
+   "state_abbr": "NY",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 226,
+      "deaths": 242,
+      "pedestrian_first_harmful_event": 102,
+      "pedalcyclist_first_harmful_event": 19,
+      "in_dark_conditions": 131,
+      "on_weekends": 75,
+      "top_trafficways": [
+       [
+        "WASHINGTON BRIDGE",
+        3
+       ],
+       [
+        "I-678 VAN WYCK EXPY",
+        3
+       ],
+       [
+        "SR-907A CROSS ISLAND PKWY",
+        3
+       ]
+      ],
+      "top_month": [
+       "June",
+       28
+      ]
+     },
+     "county": null
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 221,
+      "deaths": 231,
+      "pedestrian_first_harmful_event": 83,
+      "pedalcyclist_first_harmful_event": 23,
+      "in_dark_conditions": 131,
+      "on_weekends": 75,
+      "top_trafficways": [
+       [
+        "3RD AVE",
+        5
+       ],
+       [
+        "BROADWAY",
+        5
+       ],
+       [
+        "ATLANTIC AVE",
+        5
+       ]
+      ],
+      "top_month": [
+       "October",
+       26
+      ]
+     },
+     "county": null
+    }
+   },
+   "county": "the five boroughs (New York, Kings, Queens, Bronx and Richmond counties)"
+  },
+  "new-york-city-ny": {
+   "city": "New York City",
+   "state": "New York",
+   "state_abbr": "NY",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 226,
+      "deaths": 242,
+      "pedestrian_first_harmful_event": 102,
+      "pedalcyclist_first_harmful_event": 19,
+      "in_dark_conditions": 131,
+      "on_weekends": 75,
+      "top_trafficways": [
+       [
+        "WASHINGTON BRIDGE",
+        3
+       ],
+       [
+        "I-678 VAN WYCK EXPY",
+        3
+       ],
+       [
+        "SR-907A CROSS ISLAND PKWY",
+        3
+       ]
+      ],
+      "top_month": [
+       "June",
+       28
+      ]
+     },
+     "county": null
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 221,
+      "deaths": 231,
+      "pedestrian_first_harmful_event": 83,
+      "pedalcyclist_first_harmful_event": 23,
+      "in_dark_conditions": 131,
+      "on_weekends": 75,
+      "top_trafficways": [
+       [
+        "3RD AVE",
+        5
+       ],
+       [
+        "BROADWAY",
+        5
+       ],
+       [
+        "ATLANTIC AVE",
+        5
+       ]
+      ],
+      "top_month": [
+       "October",
+       26
+      ]
+     },
+     "county": null
+    }
+   },
+   "county": "the five boroughs (New York, Kings, Queens, Bronx and Richmond counties)"
+  },
+  "oklahoma-city-ok": {
+   "city": "Oklahoma City",
+   "state": "Oklahoma",
+   "state_abbr": "OK",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 91,
+      "deaths": 97,
+      "pedestrian_first_harmful_event": 22,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 56,
+      "on_weekends": 32,
+      "top_trafficways": [
+       [
+        "S WESTERN AVE",
+        5
+       ],
+       [
+        "SE 44TH ST",
+        4
+       ],
+       [
+        "I-44",
+        4
+       ]
+      ],
+      "top_month": [
+       "June",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 96,
+      "deaths": 102,
+      "pedestrian_first_harmful_event": 24,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 59,
+      "on_weekends": 34,
+      "top_trafficways": [
+       [
+        "S WESTERN AVE",
+        5
+       ],
+       [
+        "I-44",
+        5
+       ],
+       [
+        "SE 44TH ST",
+        4
+       ]
+      ],
+      "top_month": [
+       "November",
+       12
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 93,
+      "deaths": 99,
+      "pedestrian_first_harmful_event": 23,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 58,
+      "on_weekends": 34,
+      "top_trafficways": [
+       [
+        "I-44",
+        12
+       ],
+       [
+        "I-40",
+        8
+       ],
+       [
+        "US-77 BROADWAY EXTENSION",
+        3
+       ]
+      ],
+      "top_month": [
+       "August",
+       15
+      ]
+     },
+     "county": {
+      "fatal_crashes": 104,
+      "deaths": 110,
+      "pedestrian_first_harmful_event": 27,
+      "pedalcyclist_first_harmful_event": 4,
+      "in_dark_conditions": 59,
+      "on_weekends": 38,
+      "top_trafficways": [
+       [
+        "I-44",
+        11
+       ],
+       [
+        "I-40",
+        9
+       ],
+       [
+        "I-35",
+        5
+       ]
+      ],
+      "top_month": [
+       "August",
+       18
+      ]
+     }
+    }
+   },
+   "county": "Oklahoma County"
+  },
+  "portland-or": {
+   "city": "Portland",
+   "state": "Oregon",
+   "state_abbr": "OR",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 53,
+      "deaths": 60,
+      "pedestrian_first_harmful_event": 24,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 40,
+      "on_weekends": 9,
+      "top_trafficways": [
+       [
+        "US-30 ODOT 123",
+        3
+       ],
+       [
+        "N MARINE DR",
+        3
+       ],
+       [
+        "SE DIVISION ST",
+        3
+       ]
+      ],
+      "top_month": [
+       "February",
+       9
+      ]
+     },
+     "county": {
+      "fatal_crashes": 71,
+      "deaths": 78,
+      "pedestrian_first_harmful_event": 28,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 52,
+      "on_weekends": 19,
+      "top_trafficways": [
+       [
+        "I-84",
+        6
+       ],
+       [
+        "US-30 ODOT 123",
+        3
+       ],
+       [
+        "N MARINE DR",
+        3
+       ]
+      ],
+      "top_month": [
+       "February",
+       11
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 64,
+      "deaths": 69,
+      "pedestrian_first_harmful_event": 22,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 43,
+      "on_weekends": 24,
+      "top_trafficways": [
+       [
+        "US-30 ODOT 123",
+        4
+       ],
+       [
+        "SE STARK ST",
+        4
+       ],
+       [
+        "SE 122ND AVE",
+        4
+       ]
+      ],
+      "top_month": [
+       "July",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 85,
+      "deaths": 90,
+      "pedestrian_first_harmful_event": 32,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 58,
+      "on_weekends": 29,
+      "top_trafficways": [
+       [
+        "SE STARK ST",
+        9
+       ],
+       [
+        "SE DIVISION ST",
+        4
+       ],
+       [
+        "US-30 ODOT 123",
+        4
+       ]
+      ],
+      "top_month": [
+       "July",
+       11
+      ]
+     }
+    }
+   },
+   "county": "Multnomah County"
+  },
+  "philadelphia-pa": {
+   "city": "Philadelphia",
+   "state": "Pennsylvania",
+   "state_abbr": "PA",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 132,
+      "deaths": 136,
+      "pedestrian_first_harmful_event": 47,
+      "pedalcyclist_first_harmful_event": 5,
+      "in_dark_conditions": 81,
+      "on_weekends": 50,
+      "top_trafficways": [
+       [
+        "SR-611 BROAD ST",
+        10
+       ],
+       [
+        "I-95 DELAWARE EXPY",
+        5
+       ],
+       [
+        "SSR-2007 FRANKFORD AVE",
+        4
+       ]
+      ],
+      "top_month": [
+       "June",
+       16
+      ]
+     },
+     "county": {
+      "fatal_crashes": 133,
+      "deaths": 137,
+      "pedestrian_first_harmful_event": 47,
+      "pedalcyclist_first_harmful_event": 5,
+      "in_dark_conditions": 82,
+      "on_weekends": 50,
+      "top_trafficways": [
+       [
+        "SR-611 BROAD ST",
+        10
+       ],
+       [
+        "I-95 DELAWARE EXPY",
+        5
+       ],
+       [
+        "SSR-2007 FRANKFORD AVE",
+        4
+       ]
+      ],
+      "top_month": [
+       "June",
+       16
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 128,
+      "deaths": 135,
+      "pedestrian_first_harmful_event": 54,
+      "pedalcyclist_first_harmful_event": 9,
+      "in_dark_conditions": 86,
+      "on_weekends": 42,
+      "top_trafficways": [
+       [
+        "US-1 ROOSEVELT BLVD",
+        9
+       ],
+       [
+        "SSR-2014 LEHIGH AVE",
+        8
+       ],
+       [
+        "SR-611 BROAD ST",
+        7
+       ]
+      ],
+      "top_month": [
+       "July",
+       18
+      ]
+     },
+     "county": {
+      "fatal_crashes": 128,
+      "deaths": 135,
+      "pedestrian_first_harmful_event": 54,
+      "pedalcyclist_first_harmful_event": 9,
+      "in_dark_conditions": 86,
+      "on_weekends": 42,
+      "top_trafficways": [
+       [
+        "US-1 ROOSEVELT BLVD",
+        9
+       ],
+       [
+        "SSR-2014 LEHIGH AVE",
+        8
+       ],
+       [
+        "SR-611 BROAD ST",
+        7
+       ]
+      ],
+      "top_month": [
+       "July",
+       18
+      ]
+     }
+    }
+   },
+   "county": "Philadelphia County"
+  },
+  "providence-ri": {
+   "city": "Providence",
+   "state": "Rhode Island",
+   "state_abbr": "RI",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 6,
+      "deaths": 6,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 4,
+      "on_weekends": 2,
+      "top_trafficways": [],
+      "top_month": [
+       "July",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 28,
+      "deaths": 30,
+      "pedestrian_first_harmful_event": 6,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 12,
+      "on_weekends": 7,
+      "top_trafficways": [
+       [
+        "SR-5/ FARNUM PIKE",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       6
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 9,
+      "deaths": 10,
+      "pedestrian_first_harmful_event": 4,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 7,
+      "on_weekends": 5,
+      "top_trafficways": [
+       [
+        "US-1 NORTH MAIN ST",
+        3
+       ]
+      ],
+      "top_month": [
+       "February",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 48,
+      "deaths": 52,
+      "pedestrian_first_harmful_event": 10,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 26,
+      "on_weekends": 18,
+      "top_trafficways": [
+       [
+        "US-1 NORTH MAIN ST",
+        3
+       ],
+       [
+        "SR-146",
+        2
+       ],
+       [
+        "SR-114 PAWTUCKET AV",
+        2
+       ]
+      ],
+      "top_month": [
+       "February",
+       6
+      ]
+     }
+    }
+   },
+   "county": "Providence County"
+  },
+  "columbia-sc": {
+   "city": "Columbia",
+   "state": "South Carolina",
+   "state_abbr": "SC",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 27,
+      "deaths": 29,
+      "pedestrian_first_harmful_event": 8,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 15,
+      "on_weekends": 7,
+      "top_trafficways": [
+       [
+        "I-77",
+        3
+       ],
+       [
+        "SR-555 FARROW RD",
+        3
+       ],
+       [
+        "I-20",
+        2
+       ]
+      ],
+      "top_month": [
+       "June",
+       6
+      ]
+     },
+     "county": {
+      "fatal_crashes": 59,
+      "deaths": 63,
+      "pedestrian_first_harmful_event": 11,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 34,
+      "on_weekends": 19,
+      "top_trafficways": [
+       [
+        "I-77",
+        7
+       ],
+       [
+        "I-20",
+        5
+       ],
+       [
+        "US-76 GARNERS FERRY RD",
+        5
+       ]
+      ],
+      "top_month": [
+       "December",
+       11
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 23,
+      "deaths": 23,
+      "pedestrian_first_harmful_event": 9,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 18,
+      "on_weekends": 9,
+      "top_trafficways": [
+       [
+        "SR-555 FARROW RD",
+        3
+       ],
+       [
+        "US-1 TWO NOTCH RD",
+        2
+       ],
+       [
+        "I-126",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 58,
+      "deaths": 60,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 34,
+      "on_weekends": 20,
+      "top_trafficways": [
+       [
+        "I-77",
+        5
+       ],
+       [
+        "US-1 TWO NOTCH RD",
+        5
+       ],
+       [
+        "I-20",
+        4
+       ]
+      ],
+      "top_month": [
+       "May",
+       9
+      ]
+     }
+    }
+   },
+   "county": "Richland County"
+  },
+  "sioux-falls-sd": {
+   "city": "Sioux Falls",
+   "state": "South Dakota",
+   "state_abbr": "SD",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 9,
+      "deaths": 11,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 6,
+      "on_weekends": 7,
+      "top_trafficways": [],
+      "top_month": [
+       "July",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 14,
+      "deaths": 16,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 8,
+      "on_weekends": 5,
+      "top_trafficways": [
+       [
+        "I-29 S",
+        2
+       ],
+       [
+        "482ND AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "July",
+       3
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 12,
+      "deaths": 12,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 5,
+      "on_weekends": 7,
+      "top_trafficways": [],
+      "top_month": [
+       "February",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 16,
+      "deaths": 18,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 6,
+      "on_weekends": 8,
+      "top_trafficways": [],
+      "top_month": [
+       "July",
+       4
+      ]
+     }
+    }
+   },
+   "county": "Minnehaha County"
+  },
+  "memphis-tn": {
+   "city": "Memphis",
+   "state": "Tennessee",
+   "state_abbr": "TN",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 169,
+      "deaths": 188,
+      "pedestrian_first_harmful_event": 39,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 102,
+      "on_weekends": 61,
+      "top_trafficways": [
+       [
+        "I-240",
+        11
+       ],
+       [
+        "MU-WINCHESTER RD",
+        10
+       ],
+       [
+        "I-40",
+        10
+       ]
+      ],
+      "top_month": [
+       "April",
+       20
+      ]
+     },
+     "county": {
+      "fatal_crashes": 195,
+      "deaths": 218,
+      "pedestrian_first_harmful_event": 43,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 114,
+      "on_weekends": 69,
+      "top_trafficways": [
+       [
+        "I-240",
+        11
+       ],
+       [
+        "MU-WINCHESTER RD",
+        10
+       ],
+       [
+        "I-40",
+        10
+       ]
+      ],
+      "top_month": [
+       "June",
+       21
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 220,
+      "deaths": 244,
+      "pedestrian_first_harmful_event": 50,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 141,
+      "on_weekends": 79,
+      "top_trafficways": [
+       [
+        "US-61 SR-14 S THIRD ST",
+        18
+       ],
+       [
+        "US-78 SR-4 LAMAR AVE",
+        11
+       ],
+       [
+        "I-240",
+        10
+       ]
+      ],
+      "top_month": [
+       "July",
+       25
+      ]
+     },
+     "county": {
+      "fatal_crashes": 234,
+      "deaths": 259,
+      "pedestrian_first_harmful_event": 51,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 149,
+      "on_weekends": 84,
+      "top_trafficways": [
+       [
+        "US-61 SR-14 S THIRD ST",
+        18
+       ],
+       [
+        "SR-175 SHELBY DR",
+        11
+       ],
+       [
+        "US-78 SR-4 LAMAR AVE",
+        11
+       ]
+      ],
+      "top_month": [
+       "July",
+       26
+      ]
+     }
+    }
+   },
+   "county": "Shelby County"
+  },
+  "nashville-tn": {
+   "city": "Nashville",
+   "state": "Tennessee",
+   "state_abbr": "TN",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 95,
+      "deaths": 100,
+      "pedestrian_first_harmful_event": 24,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 62,
+      "on_weekends": 35,
+      "top_trafficways": [
+       [
+        "I-24",
+        9
+       ],
+       [
+        "I-40",
+        8
+       ],
+       [
+        "US-41/70S SR-1 MURFREESBORO PK",
+        5
+       ]
+      ],
+      "top_month": [
+       "September",
+       15
+      ]
+     },
+     "county": {
+      "fatal_crashes": 106,
+      "deaths": 114,
+      "pedestrian_first_harmful_event": 27,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 69,
+      "on_weekends": 40,
+      "top_trafficways": [
+       [
+        "I-24",
+        9
+       ],
+       [
+        "I-40",
+        8
+       ],
+       [
+        "I-65",
+        5
+       ]
+      ],
+      "top_month": [
+       "September",
+       15
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 100,
+      "deaths": 110,
+      "pedestrian_first_harmful_event": 31,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 72,
+      "on_weekends": 50,
+      "top_trafficways": [
+       [
+        "US-31A/41A SR-11 NOLENSVILLE P",
+        7
+       ],
+       [
+        "US-31W/41 SR-11 DICKERSON PK",
+        6
+       ],
+       [
+        "US-41/70S SR-1 MURFREESBORO RD",
+        5
+       ]
+      ],
+      "top_month": [
+       "June",
+       12
+      ]
+     },
+     "county": {
+      "fatal_crashes": 126,
+      "deaths": 138,
+      "pedestrian_first_harmful_event": 37,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 88,
+      "on_weekends": 56,
+      "top_trafficways": [
+       [
+        "US-31W/41 SR-11 DICKERSON PK",
+        7
+       ],
+       [
+        "US-31A/41A SR-11 NOLENSVILLE P",
+        7
+       ],
+       [
+        "I-24",
+        6
+       ]
+      ],
+      "top_month": [
+       "September",
+       15
+      ]
+     }
+    }
+   },
+   "county": "Davidson County"
+  },
+  "austin-tx": {
+   "city": "Austin",
+   "state": "Texas",
+   "state_abbr": "TX",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 93,
+      "deaths": 100,
+      "pedestrian_first_harmful_event": 38,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 71,
+      "on_weekends": 29,
+      "top_trafficways": [
+       [
+        "I-35",
+        10
+       ],
+       [
+        "US-290",
+        3
+       ],
+       [
+        "SR-1",
+        3
+       ]
+      ],
+      "top_month": [
+       "August",
+       12
+      ]
+     },
+     "county": {
+      "fatal_crashes": 137,
+      "deaths": 153,
+      "pedestrian_first_harmful_event": 40,
+      "pedalcyclist_first_harmful_event": 3,
+      "in_dark_conditions": 91,
+      "on_weekends": 46,
+      "top_trafficways": [
+       [
+        "I-35",
+        11
+       ],
+       [
+        "US-290",
+        10
+       ],
+       [
+        "SR-130",
+        5
+       ]
+      ],
+      "top_month": [
+       "August",
+       19
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 90,
+      "deaths": 94,
+      "pedestrian_first_harmful_event": 36,
+      "pedalcyclist_first_harmful_event": 5,
+      "in_dark_conditions": 58,
+      "on_weekends": 39,
+      "top_trafficways": [
+       [
+        "I-35",
+        6
+       ],
+       [
+        "I35 FRONTAGE",
+        6
+       ],
+       [
+        "US-183",
+        4
+       ]
+      ],
+      "top_month": [
+       "May",
+       11
+      ]
+     },
+     "county": {
+      "fatal_crashes": 148,
+      "deaths": 159,
+      "pedestrian_first_harmful_event": 45,
+      "pedalcyclist_first_harmful_event": 5,
+      "in_dark_conditions": 91,
+      "on_weekends": 64,
+      "top_trafficways": [
+       [
+        "SR-71",
+        11
+       ],
+       [
+        "US-183",
+        7
+       ],
+       [
+        "I-35",
+        7
+       ]
+      ],
+      "top_month": [
+       "December",
+       16
+      ]
+     }
+    }
+   },
+   "county": "Travis County"
+  },
+  "salt-lake-city-ut": {
+   "city": "Salt Lake City",
+   "state": "Utah",
+   "state_abbr": "UT",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 18,
+      "deaths": 18,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 9,
+      "on_weekends": 7,
+      "top_trafficways": [
+       [
+        "I-80",
+        5
+       ],
+       [
+        "I-15",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       3
+      ]
+     },
+     "county": {
+      "fatal_crashes": 69,
+      "deaths": 73,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 38,
+      "on_weekends": 24,
+      "top_trafficways": [
+       [
+        "I-80",
+        5
+       ],
+       [
+        "I-215",
+        4
+       ],
+       [
+        "I-15",
+        3
+       ]
+      ],
+      "top_month": [
+       "July",
+       12
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 21,
+      "deaths": 23,
+      "pedestrian_first_harmful_event": 7,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 15,
+      "on_weekends": 5,
+      "top_trafficways": [
+       [
+        "SR-68",
+        5
+       ],
+       [
+        "I-80",
+        3
+       ]
+      ],
+      "top_month": [
+       "July",
+       4
+      ]
+     },
+     "county": {
+      "fatal_crashes": 61,
+      "deaths": 68,
+      "pedestrian_first_harmful_event": 17,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 34,
+      "on_weekends": 17,
+      "top_trafficways": [
+       [
+        "US-89",
+        6
+       ],
+       [
+        "SR-68",
+        5
+       ],
+       [
+        "SR-71",
+        3
+       ]
+      ],
+      "top_month": [
+       "July",
+       8
+      ]
+     }
+    }
+   },
+   "county": "Salt Lake County"
+  },
+  "burlington-vt": {
+   "city": "Burlington",
+   "state": "Vermont",
+   "state_abbr": "VT",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 1,
+      "deaths": 1,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 1,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": [
+       "October",
+       1
+      ]
+     },
+     "county": {
+      "fatal_crashes": 8,
+      "deaths": 9,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 5,
+      "on_weekends": 2,
+      "top_trafficways": [
+       [
+        "SR- 2A",
+        2
+       ],
+       [
+        "US- 7",
+        2
+       ]
+      ],
+      "top_month": [
+       "May",
+       2
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 0,
+      "deaths": 0,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 0,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": null
+     },
+     "county": null
+    }
+   },
+   "county": "Chittenden County"
+  },
+  "montpelier-vt": {
+   "city": "Montpelier",
+   "state": "Vermont",
+   "state_abbr": "VT",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 0,
+      "deaths": 0,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 0,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": null
+     },
+     "county": null
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 0,
+      "deaths": 0,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 0,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": null
+     },
+     "county": null
+    }
+   }
+  },
+  "milwaukee-wi": {
+   "city": "Milwaukee",
+   "state": "Wisconsin",
+   "state_abbr": "WI",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 64,
+      "deaths": 73,
+      "pedestrian_first_harmful_event": 16,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 47,
+      "on_weekends": 21,
+      "top_trafficways": [
+       [
+        "N 60TH ST",
+        4
+       ],
+       [
+        "SR-190  W CAPITOL DR",
+        2
+       ],
+       [
+        "N 27TH ST",
+        2
+       ]
+      ],
+      "top_month": [
+       "April",
+       10
+      ]
+     },
+     "county": {
+      "fatal_crashes": 84,
+      "deaths": 93,
+      "pedestrian_first_harmful_event": 20,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 52,
+      "on_weekends": 28,
+      "top_trafficways": [
+       [
+        "N 60TH ST",
+        4
+       ],
+       [
+        "SR-100",
+        3
+       ],
+       [
+        "W WISCONSIN AVE",
+        2
+       ]
+      ],
+      "top_month": [
+       "April",
+       12
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 71,
+      "deaths": 80,
+      "pedestrian_first_harmful_event": 18,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 43,
+      "on_weekends": 24,
+      "top_trafficways": [
+       [
+        "SR-190",
+        5
+       ],
+       [
+        "SR-145",
+        5
+       ],
+       [
+        "I-94",
+        3
+       ]
+      ],
+      "top_month": [
+       "June",
+       10
+      ]
+     },
+     "county": {
+      "fatal_crashes": 83,
+      "deaths": 92,
+      "pedestrian_first_harmful_event": 21,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 49,
+      "on_weekends": 29,
+      "top_trafficways": [
+       [
+        "SR-190",
+        5
+       ],
+       [
+        "SR-145",
+        5
+       ],
+       [
+        "I-94",
+        3
+       ]
+      ],
+      "top_month": [
+       "June",
+       11
+      ]
+     }
+    }
+   },
+   "county": "Milwaukee County"
+  },
+  "charleston-wv": {
+   "city": "Charleston",
+   "state": "West Virginia",
+   "state_abbr": "WV",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 6,
+      "deaths": 6,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 3,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": [
+       "October",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 27,
+      "deaths": 28,
+      "pedestrian_first_harmful_event": 7,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 14,
+      "on_weekends": 9,
+      "top_trafficways": [
+       [
+        "US-119",
+        2
+       ]
+      ],
+      "top_month": [
+       "January",
+       4
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 4,
+      "deaths": 4,
+      "pedestrian_first_harmful_event": 0,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 1,
+      "on_weekends": 0,
+      "top_trafficways": [],
+      "top_month": [
+       "November",
+       1
+      ]
+     },
+     "county": {
+      "fatal_crashes": 23,
+      "deaths": 26,
+      "pedestrian_first_harmful_event": 3,
+      "pedalcyclist_first_harmful_event": 2,
+      "in_dark_conditions": 9,
+      "on_weekends": 5,
+      "top_trafficways": [
+       [
+        "US-119 CORRIDOR G",
+        3
+       ],
+       [
+        "US-60",
+        3
+       ],
+       [
+        "I-77",
+        2
+       ]
+      ],
+      "top_month": [
+       "October",
+       5
+      ]
+     }
+    }
+   },
+   "county": "Kanawha County"
+  },
+  "cheyenne-wy": {
+   "city": "Cheyenne",
+   "state": "Wyoming",
+   "state_abbr": "WY",
+   "years": {
+    "2024": {
+     "city": {
+      "fatal_crashes": 10,
+      "deaths": 10,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 3,
+      "on_weekends": 4,
+      "top_trafficways": [],
+      "top_month": [
+       "August",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 16,
+      "deaths": 16,
+      "pedestrian_first_harmful_event": 1,
+      "pedalcyclist_first_harmful_event": 0,
+      "in_dark_conditions": 7,
+      "on_weekends": 6,
+      "top_trafficways": [
+       [
+        "I-25/US-87",
+        2
+       ]
+      ],
+      "top_month": [
+       "August",
+       3
+      ]
+     }
+    },
+    "2023": {
+     "city": {
+      "fatal_crashes": 6,
+      "deaths": 6,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 4,
+      "on_weekends": 2,
+      "top_trafficways": [
+       [
+        "SR-212/COLLEGE DR",
+        2
+       ]
+      ],
+      "top_month": [
+       "December",
+       2
+      ]
+     },
+     "county": {
+      "fatal_crashes": 8,
+      "deaths": 8,
+      "pedestrian_first_harmful_event": 2,
+      "pedalcyclist_first_harmful_event": 1,
+      "in_dark_conditions": 5,
+      "on_weekends": 2,
+      "top_trafficways": [
+       [
+        "SR-212/COLLEGE DR",
+        2
+       ]
+      ],
+      "top_month": [
+       "August",
+       2
+      ]
+     }
+    }
+   },
+   "county": "Laramie County"
+  }
+ },
+ "states": {
+  "Alabama": {
+   "2024": {
+    "fatal_crashes": 895,
+    "deaths": 962,
+    "pedestrian_first_harmful_event": 119,
+    "pedalcyclist_first_harmful_event": 10,
+    "in_dark_conditions": 437,
+    "on_weekends": 288,
+    "top_trafficways": [
+     [
+      "I-65",
+      38
+     ],
+     [
+      "I-59",
+      20
+     ],
+     [
+      "US-431 SR-1",
+      19
+     ]
+    ],
+    "top_month": [
+     "September",
+     81
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 893,
+    "deaths": 974,
+    "pedestrian_first_harmful_event": 111,
+    "pedalcyclist_first_harmful_event": 9,
+    "in_dark_conditions": 449,
+    "on_weekends": 311,
+    "top_trafficways": [
+     [
+      "I-65",
+      42
+     ],
+     [
+      "US-431 SR-1",
+      20
+     ],
+     [
+      "I-59",
+      20
+     ]
+    ],
+    "top_month": [
+     "December",
+     88
+    ]
+   }
+  },
+  "Alaska": {
+   "2024": {
+    "fatal_crashes": 63,
+    "deaths": 70,
+    "pedestrian_first_harmful_event": 14,
+    "pedalcyclist_first_harmful_event": 1,
+    "in_dark_conditions": 27,
+    "on_weekends": 20,
+    "top_trafficways": [
+     [
+      "SEWARD HWY",
+      6
+     ],
+     [
+      "C ST",
+      4
+     ],
+     [
+      "PARKS HWY",
+      4
+     ]
+    ],
+    "top_month": [
+     "September",
+     14
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 57,
+    "deaths": 61,
+    "pedestrian_first_harmful_event": 13,
+    "pedalcyclist_first_harmful_event": 0,
+    "in_dark_conditions": 19,
+    "on_weekends": 21,
+    "top_trafficways": [
+     [
+      "STERLING HWY",
+      6
+     ],
+     [
+      "GLENN HWY",
+      4
+     ],
+     [
+      "PARKS HWY",
+      3
+     ]
+    ],
+    "top_month": [
+     "June",
+     9
+    ]
+   }
+  },
+  "Arizona": {
+   "2024": {
+    "fatal_crashes": 1118,
+    "deaths": 1229,
+    "pedestrian_first_harmful_event": 236,
+    "pedalcyclist_first_harmful_event": 42,
+    "in_dark_conditions": 544,
+    "on_weekends": 338,
+    "top_trafficways": [
+     [
+      "I-10",
+      45
+     ],
+     [
+      "I-40",
+      26
+     ],
+     [
+      "US-60",
+      25
+     ]
+    ],
+    "top_month": [
+     "April",
+     120
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1198,
+    "deaths": 1308,
+    "pedestrian_first_harmful_event": 255,
+    "pedalcyclist_first_harmful_event": 41,
+    "in_dark_conditions": 556,
+    "on_weekends": 423,
+    "top_trafficways": [
+     [
+      "I-10",
+      66
+     ],
+     [
+      "I-17",
+      31
+     ],
+     [
+      "US-60",
+      29
+     ]
+    ],
+    "top_month": [
+     "October",
+     121
+    ]
+   }
+  },
+  "Arkansas": {
+   "2024": {
+    "fatal_crashes": 547,
+    "deaths": 603,
+    "pedestrian_first_harmful_event": 63,
+    "pedalcyclist_first_harmful_event": 4,
+    "in_dark_conditions": 231,
+    "on_weekends": 162,
+    "top_trafficways": [
+     [
+      "US-70",
+      22
+     ],
+     [
+      "I-30",
+      22
+     ],
+     [
+      "I-40",
+      21
+     ]
+    ],
+    "top_month": [
+     "August",
+     58
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 542,
+    "deaths": 596,
+    "pedestrian_first_harmful_event": 68,
+    "pedalcyclist_first_harmful_event": 11,
+    "in_dark_conditions": 225,
+    "on_weekends": 174,
+    "top_trafficways": [
+     [
+      "US-71",
+      14
+     ],
+     [
+      "I-30",
+      13
+     ],
+     [
+      "I-40",
+      13
+     ]
+    ],
+    "top_month": [
+     "October",
+     55
+    ]
+   }
+  },
+  "California": {
+   "2024": {
+    "fatal_crashes": 3583,
+    "deaths": 3876,
+    "pedestrian_first_harmful_event": 1024,
+    "pedalcyclist_first_harmful_event": 158,
+    "in_dark_conditions": 2162,
+    "on_weekends": 1231,
+    "top_trafficways": [
+     [
+      "I-5",
+      109
+     ],
+     [
+      "US-101",
+      76
+     ],
+     [
+      "SR-99",
+      62
+     ]
+    ],
+    "top_month": [
+     "September",
+     332
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 3826,
+    "deaths": 4169,
+    "pedestrian_first_harmful_event": 1051,
+    "pedalcyclist_first_harmful_event": 148,
+    "in_dark_conditions": 2298,
+    "on_weekends": 1347,
+    "top_trafficways": [
+     [
+      "I-5",
+      88
+     ],
+     [
+      "US-101",
+      83
+     ],
+     [
+      "SR-99",
+      79
+     ]
+    ],
+    "top_month": [
+     "October",
+     376
+    ]
+   }
+  },
+  "Colorado": {
+   "2024": {
+    "fatal_crashes": 642,
+    "deaths": 689,
+    "pedestrian_first_harmful_event": 103,
+    "pedalcyclist_first_harmful_event": 15,
+    "in_dark_conditions": 304,
+    "on_weekends": 231,
+    "top_trafficways": [
+     [
+      "I-25",
+      35
+     ],
+     [
+      "I-70",
+      28
+     ],
+     [
+      "US-85",
+      18
+     ]
+    ],
+    "top_month": [
+     "September",
+     77
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 666,
+    "deaths": 720,
+    "pedestrian_first_harmful_event": 120,
+    "pedalcyclist_first_harmful_event": 20,
+    "in_dark_conditions": 321,
+    "on_weekends": 238,
+    "top_trafficways": [
+     [
+      "I-70",
+      31
+     ],
+     [
+      "I-25",
+      28
+     ],
+     [
+      "US-160",
+      15
+     ]
+    ],
+    "top_month": [
+     "July",
+     81
+    ]
+   }
+  },
+  "Connecticut": {
+   "2024": {
+    "fatal_crashes": 285,
+    "deaths": 310,
+    "pedestrian_first_harmful_event": 56,
+    "pedalcyclist_first_harmful_event": 4,
+    "in_dark_conditions": 144,
+    "on_weekends": 99,
+    "top_trafficways": [
+     [
+      "I-91",
+      18
+     ],
+     [
+      "I-84",
+      10
+     ],
+     [
+      "I-95",
+      9
+     ]
+    ],
+    "top_month": [
+     "June",
+     35
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 289,
+    "deaths": 308,
+    "pedestrian_first_harmful_event": 41,
+    "pedalcyclist_first_harmful_event": 4,
+    "in_dark_conditions": 148,
+    "on_weekends": 96,
+    "top_trafficways": [
+     [
+      "I-95",
+      18
+     ],
+     [
+      "I-84",
+      15
+     ],
+     [
+      "I-91",
+      8
+     ]
+    ],
+    "top_month": [
+     "July",
+     39
+    ]
+   }
+  },
+  "Delaware": {
+   "2024": {
+    "fatal_crashes": 121,
+    "deaths": 126,
+    "pedestrian_first_harmful_event": 27,
+    "pedalcyclist_first_harmful_event": 5,
+    "in_dark_conditions": 73,
+    "on_weekends": 36,
+    "top_trafficways": [
+     [
+      "US-13 S DUPONT HWY",
+      4
+     ],
+     [
+      "US-113 DUPONT BLVD",
+      3
+     ],
+     [
+      "US-13 N DUPONT HWY",
+      3
+     ]
+    ],
+    "top_month": [
+     "May",
+     16
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 128,
+    "deaths": 135,
+    "pedestrian_first_harmful_event": 27,
+    "pedalcyclist_first_harmful_event": 5,
+    "in_dark_conditions": 76,
+    "on_weekends": 41,
+    "top_trafficways": [
+     [
+      "US-13 SUSSEX HWY",
+      6
+     ],
+     [
+      "SR-1 COASTAL HWY",
+      4
+     ],
+     [
+      "US-13 N DUPONT HWY",
+      4
+     ]
+    ],
+    "top_month": [
+     "April",
+     20
+    ]
+   }
+  },
+  "District of Columbia": {
+   "2024": {
+    "fatal_crashes": 46,
+    "deaths": 47,
+    "pedestrian_first_harmful_event": 17,
+    "pedalcyclist_first_harmful_event": 1,
+    "in_dark_conditions": 33,
+    "on_weekends": 15,
+    "top_trafficways": [
+     [
+      "16TH ST NW",
+      2
+     ],
+     [
+      "FOXHALL RD NW",
+      2
+     ],
+     [
+      "SOUTHERN AVE SE",
+      2
+     ]
+    ],
+    "top_month": [
+     "June",
+     9
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 39,
+    "deaths": 44,
+    "pedestrian_first_harmful_event": 13,
+    "pedalcyclist_first_harmful_event": 3,
+    "in_dark_conditions": 27,
+    "on_weekends": 10,
+    "top_trafficways": [
+     [
+      "I-295",
+      3
+     ],
+     [
+      "BENNING RD NE",
+      3
+     ],
+     [
+      "US-29 GEORGIA AVE NW",
+      2
+     ]
+    ],
+    "top_month": [
+     "February",
+     5
+    ]
+   }
+  },
+  "Florida": {
+   "2024": {
+    "fatal_crashes": 2931,
+    "deaths": 3138,
+    "pedestrian_first_harmful_event": 632,
+    "pedalcyclist_first_harmful_event": 206,
+    "in_dark_conditions": 1649,
+    "on_weekends": 953,
+    "top_trafficways": [
+     [
+      "I-95",
+      100
+     ],
+     [
+      "US-41",
+      71
+     ],
+     [
+      "US-1",
+      70
+     ]
+    ],
+    "top_month": [
+     "March",
+     292
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 3163,
+    "deaths": 3375,
+    "pedestrian_first_harmful_event": 734,
+    "pedalcyclist_first_harmful_event": 231,
+    "in_dark_conditions": 1762,
+    "on_weekends": 1061,
+    "top_trafficways": [
+     [
+      "US-1",
+      113
+     ],
+     [
+      "I-95",
+      100
+     ],
+     [
+      "US-41",
+      84
+     ]
+    ],
+    "top_month": [
+     "March",
+     307
+    ]
+   }
+  },
+  "Georgia": {
+   "2024": {
+    "fatal_crashes": 1312,
+    "deaths": 1403,
+    "pedestrian_first_harmful_event": 269,
+    "pedalcyclist_first_harmful_event": 25,
+    "in_dark_conditions": 667,
+    "on_weekends": 395,
+    "top_trafficways": [
+     [
+      "I-75",
+      38
+     ],
+     [
+      "I-20",
+      25
+     ],
+     [
+      "I-85",
+      19
+     ]
+    ],
+    "top_month": [
+     "April",
+     141
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1486,
+    "deaths": 1610,
+    "pedestrian_first_harmful_event": 292,
+    "pedalcyclist_first_harmful_event": 23,
+    "in_dark_conditions": 793,
+    "on_weekends": 508,
+    "top_trafficways": [
+     [
+      "I-75",
+      54
+     ],
+     [
+      "I-20",
+      35
+     ],
+     [
+      "I-85",
+      26
+     ]
+    ],
+    "top_month": [
+     "October",
+     138
+    ]
+   }
+  },
+  "Hawaii": {
+   "2024": {
+    "fatal_crashes": 97,
+    "deaths": 102,
+    "pedestrian_first_harmful_event": 35,
+    "pedalcyclist_first_harmful_event": 5,
+    "in_dark_conditions": 52,
+    "on_weekends": 32,
+    "top_trafficways": [
+     [
+      "SR-83",
+      6
+     ],
+     [
+      "I-H1",
+      6
+     ],
+     [
+      "SR-190",
+      5
+     ]
+    ],
+    "top_month": [
+     "July",
+     12
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 88,
+    "deaths": 93,
+    "pedestrian_first_harmful_event": 21,
+    "pedalcyclist_first_harmful_event": 8,
+    "in_dark_conditions": 60,
+    "on_weekends": 34,
+    "top_trafficways": [
+     [
+      "I-H1",
+      8
+     ],
+     [
+      "SR-83",
+      6
+     ],
+     [
+      "SR-93",
+      5
+     ]
+    ],
+    "top_month": [
+     "April",
+     15
+    ]
+   }
+  },
+  "Idaho": {
+   "2024": {
+    "fatal_crashes": 219,
+    "deaths": 238,
+    "pedestrian_first_harmful_event": 14,
+    "pedalcyclist_first_harmful_event": 3,
+    "in_dark_conditions": 81,
+    "on_weekends": 85,
+    "top_trafficways": [
+     [
+      "US-95",
+      20
+     ],
+     [
+      "I-84",
+      15
+     ],
+     [
+      "US-20",
+      14
+     ]
+    ],
+    "top_month": [
+     "August",
+     26
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 242,
+    "deaths": 275,
+    "pedestrian_first_harmful_event": 30,
+    "pedalcyclist_first_harmful_event": 7,
+    "in_dark_conditions": 84,
+    "on_weekends": 85,
+    "top_trafficways": [
+     [
+      "I-84",
+      18
+     ],
+     [
+      "US-20",
+      15
+     ],
+     [
+      "US-95",
+      15
+     ]
+    ],
+    "top_month": [
+     "July",
+     34
+    ]
+   }
+  },
+  "Illinois": {
+   "2024": {
+    "fatal_crashes": 1085,
+    "deaths": 1177,
+    "pedestrian_first_harmful_event": 199,
+    "pedalcyclist_first_harmful_event": 37,
+    "in_dark_conditions": 536,
+    "on_weekends": 386,
+    "top_trafficways": [
+     [
+      "I-57",
+      12
+     ],
+     [
+      "I-74",
+      9
+     ],
+     [
+      "SR-50/CICERO AVE",
+      8
+     ]
+    ],
+    "top_month": [
+     "May",
+     119
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1143,
+    "deaths": 1241,
+    "pedestrian_first_harmful_event": 185,
+    "pedalcyclist_first_harmful_event": 42,
+    "in_dark_conditions": 568,
+    "on_weekends": 385,
+    "top_trafficways": [
+     [
+      "I-55",
+      24
+     ],
+     [
+      "I-57",
+      21
+     ],
+     [
+      "I-94",
+      16
+     ]
+    ],
+    "top_month": [
+     "September",
+     121
+    ]
+   }
+  },
+  "Indiana": {
+   "2024": {
+    "fatal_crashes": 785,
+    "deaths": 832,
+    "pedestrian_first_harmful_event": 94,
+    "pedalcyclist_first_harmful_event": 18,
+    "in_dark_conditions": 323,
+    "on_weekends": 239,
+    "top_trafficways": [
+     [
+      "I-65",
+      21
+     ],
+     [
+      "I-69",
+      19
+     ],
+     [
+      "I-70",
+      12
+     ]
+    ],
+    "top_month": [
+     "June",
+     88
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 848,
+    "deaths": 904,
+    "pedestrian_first_harmful_event": 88,
+    "pedalcyclist_first_harmful_event": 31,
+    "in_dark_conditions": 371,
+    "on_weekends": 273,
+    "top_trafficways": [
+     [
+      "I-69",
+      21
+     ],
+     [
+      "I-65",
+      18
+     ],
+     [
+      "US-31",
+      17
+     ]
+    ],
+    "top_month": [
+     "October",
+     90
+    ]
+   }
+  },
+  "Iowa": {
+   "2024": {
+    "fatal_crashes": 324,
+    "deaths": 356,
+    "pedestrian_first_harmful_event": 27,
+    "pedalcyclist_first_harmful_event": 4,
+    "in_dark_conditions": 129,
+    "on_weekends": 103,
+    "top_trafficways": [
+     [
+      "I-80",
+      8
+     ],
+     [
+      "I-35",
+      6
+     ],
+     [
+      "US-6",
+      5
+     ]
+    ],
+    "top_month": [
+     "August",
+     41
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 330,
+    "deaths": 379,
+    "pedestrian_first_harmful_event": 24,
+    "pedalcyclist_first_harmful_event": 5,
+    "in_dark_conditions": 135,
+    "on_weekends": 120,
+    "top_trafficways": [
+     [
+      "I-80",
+      20
+     ],
+     [
+      "US-34",
+      8
+     ],
+     [
+      "I-380",
+      6
+     ]
+    ],
+    "top_month": [
+     "August",
+     43
+    ]
+   }
+  },
+  "Kansas": {
+   "2024": {
+    "fatal_crashes": 314,
+    "deaths": 339,
+    "pedestrian_first_harmful_event": 31,
+    "pedalcyclist_first_harmful_event": 7,
+    "in_dark_conditions": 142,
+    "on_weekends": 102,
+    "top_trafficways": [
+     [
+      "I-70",
+      14
+     ],
+     [
+      "I-35",
+      10
+     ],
+     [
+      "US-169",
+      9
+     ]
+    ],
+    "top_month": [
+     "September",
+     34
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 353,
+    "deaths": 387,
+    "pedestrian_first_harmful_event": 36,
+    "pedalcyclist_first_harmful_event": 6,
+    "in_dark_conditions": 144,
+    "on_weekends": 107,
+    "top_trafficways": [
+     [
+      "I-70",
+      15
+     ],
+     [
+      "I-35",
+      14
+     ],
+     [
+      "US-56",
+      11
+     ]
+    ],
+    "top_month": [
+     "September",
+     39
+    ]
+   }
+  },
+  "Kentucky": {
+   "2024": {
+    "fatal_crashes": 663,
+    "deaths": 707,
+    "pedestrian_first_harmful_event": 90,
+    "pedalcyclist_first_harmful_event": 11,
+    "in_dark_conditions": 290,
+    "on_weekends": 212,
+    "top_trafficways": [
+     [
+      "I-75",
+      18
+     ],
+     [
+      "I-65",
+      15
+     ],
+     [
+      "US-27",
+      14
+     ]
+    ],
+    "top_month": [
+     "May",
+     71
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 767,
+    "deaths": 814,
+    "pedestrian_first_harmful_event": 111,
+    "pedalcyclist_first_harmful_event": 16,
+    "in_dark_conditions": 331,
+    "on_weekends": 230,
+    "top_trafficways": [
+     [
+      "US-60",
+      13
+     ],
+     [
+      "I-65",
+      11
+     ],
+     [
+      "US-23",
+      10
+     ]
+    ],
+    "top_month": [
+     "August",
+     89
+    ]
+   }
+  },
+  "Louisiana": {
+   "2024": {
+    "fatal_crashes": 705,
+    "deaths": 752,
+    "pedestrian_first_harmful_event": 150,
+    "pedalcyclist_first_harmful_event": 44,
+    "in_dark_conditions": 393,
+    "on_weekends": 232,
+    "top_trafficways": [
+     [
+      "US-90",
+      40
+     ],
+     [
+      "I-10",
+      37
+     ],
+     [
+      "US-190",
+      16
+     ]
+    ],
+    "top_month": [
+     "October",
+     68
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 755,
+    "deaths": 811,
+    "pedestrian_first_harmful_event": 138,
+    "pedalcyclist_first_harmful_event": 34,
+    "in_dark_conditions": 400,
+    "on_weekends": 249,
+    "top_trafficways": [
+     [
+      "I-10",
+      58
+     ],
+     [
+      "US-90",
+      29
+     ],
+     [
+      "US-61",
+      25
+     ]
+    ],
+    "top_month": [
+     "December",
+     81
+    ]
+   }
+  },
+  "Maine": {
+   "2024": {
+    "fatal_crashes": 167,
+    "deaths": 177,
+    "pedestrian_first_harmful_event": 13,
+    "pedalcyclist_first_harmful_event": 1,
+    "in_dark_conditions": 51,
+    "on_weekends": 42,
+    "top_trafficways": [
+     [
+      "I-95",
+      16
+     ],
+     [
+      "US-1",
+      6
+     ],
+     [
+      "US-201",
+      4
+     ]
+    ],
+    "top_month": [
+     "September",
+     22
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 127,
+    "deaths": 135,
+    "pedestrian_first_harmful_event": 18,
+    "pedalcyclist_first_harmful_event": 0,
+    "in_dark_conditions": 41,
+    "on_weekends": 33,
+    "top_trafficways": [
+     [
+      "I-95",
+      9
+     ],
+     [
+      "US-1",
+      3
+     ],
+     [
+      "SR-4 TURNER RD",
+      2
+     ]
+    ],
+    "top_month": [
+     "September",
+     19
+    ]
+   }
+  },
+  "Maryland": {
+   "2024": {
+    "fatal_crashes": 552,
+    "deaths": 578,
+    "pedestrian_first_harmful_event": 144,
+    "pedalcyclist_first_harmful_event": 11,
+    "in_dark_conditions": 312,
+    "on_weekends": 195,
+    "top_trafficways": [
+     [
+      "I-95",
+      12
+     ],
+     [
+      "US-40 PULASKI HWY",
+      11
+     ],
+     [
+      "US-50 OCEAN GATEWAY",
+      8
+     ]
+    ],
+    "top_month": [
+     "April",
+     58
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 577,
+    "deaths": 621,
+    "pedestrian_first_harmful_event": 140,
+    "pedalcyclist_first_harmful_event": 15,
+    "in_dark_conditions": 312,
+    "on_weekends": 204,
+    "top_trafficways": [
+     [
+      "I-95",
+      17
+     ],
+     [
+      "US-301 CRAIN HWY",
+      15
+     ],
+     [
+      "US-40 PULASKI HWY",
+      8
+     ]
+    ],
+    "top_month": [
+     "June",
+     58
+    ]
+   }
+  },
+  "Massachusetts": {
+   "2024": {
+    "fatal_crashes": 349,
+    "deaths": 363,
+    "pedestrian_first_harmful_event": 73,
+    "pedalcyclist_first_harmful_event": 9,
+    "in_dark_conditions": 157,
+    "on_weekends": 120,
+    "top_trafficways": [
+     [
+      "I-495",
+      9
+     ],
+     [
+      "WASHINGTON ST",
+      6
+     ],
+     [
+      "I-95",
+      5
+     ]
+    ],
+    "top_month": [
+     "September",
+     42
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 324,
+    "deaths": 342,
+    "pedestrian_first_harmful_event": 58,
+    "pedalcyclist_first_harmful_event": 8,
+    "in_dark_conditions": 167,
+    "on_weekends": 104,
+    "top_trafficways": [
+     [
+      "I-495",
+      11
+     ],
+     [
+      "I-90",
+      9
+     ],
+     [
+      "SR-24",
+      9
+     ]
+    ],
+    "top_month": [
+     "May",
+     32
+    ]
+   }
+  },
+  "Michigan": {
+   "2024": {
+    "fatal_crashes": 1011,
+    "deaths": 1098,
+    "pedestrian_first_harmful_event": 140,
+    "pedalcyclist_first_harmful_event": 29,
+    "in_dark_conditions": 438,
+    "on_weekends": 315,
+    "top_trafficways": [
+     [
+      "I-75",
+      22
+     ],
+     [
+      "I-94",
+      17
+     ],
+     [
+      "SR-3 GRATIOT AVE",
+      13
+     ]
+    ],
+    "top_month": [
+     "August",
+     115
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1022,
+    "deaths": 1096,
+    "pedestrian_first_harmful_event": 165,
+    "pedalcyclist_first_harmful_event": 24,
+    "in_dark_conditions": 459,
+    "on_weekends": 331,
+    "top_trafficways": [
+     [
+      "I-75",
+      27
+     ],
+     [
+      "I-94",
+      21
+     ],
+     [
+      "US-131",
+      17
+     ]
+    ],
+    "top_month": [
+     "August",
+     113
+    ]
+   }
+  },
+  "Minnesota": {
+   "2024": {
+    "fatal_crashes": 431,
+    "deaths": 477,
+    "pedestrian_first_harmful_event": 55,
+    "pedalcyclist_first_harmful_event": 7,
+    "in_dark_conditions": 156,
+    "on_weekends": 142,
+    "top_trafficways": [
+     [
+      "US-169",
+      13
+     ],
+     [
+      "US-10",
+      11
+     ],
+     [
+      "I-94",
+      10
+     ]
+    ],
+    "top_month": [
+     "October",
+     51
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 364,
+    "deaths": 402,
+    "pedestrian_first_harmful_event": 37,
+    "pedalcyclist_first_harmful_event": 6,
+    "in_dark_conditions": 126,
+    "on_weekends": 137,
+    "top_trafficways": [
+     [
+      "US-169",
+      13
+     ],
+     [
+      "I-94",
+      11
+     ],
+     [
+      "US-10",
+      7
+     ]
+    ],
+    "top_month": [
+     "July",
+     50
+    ]
+   }
+  },
+  "Mississippi": {
+   "2024": {
+    "fatal_crashes": 678,
+    "deaths": 753,
+    "pedestrian_first_harmful_event": 98,
+    "pedalcyclist_first_harmful_event": 9,
+    "in_dark_conditions": 322,
+    "on_weekends": 217,
+    "top_trafficways": [
+     [
+      "US-49",
+      39
+     ],
+     [
+      "I-55",
+      34
+     ],
+     [
+      "US-82",
+      21
+     ]
+    ],
+    "top_month": [
+     "June",
+     65
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 667,
+    "deaths": 733,
+    "pedestrian_first_harmful_event": 84,
+    "pedalcyclist_first_harmful_event": 13,
+    "in_dark_conditions": 317,
+    "on_weekends": 229,
+    "top_trafficways": [
+     [
+      "I-55",
+      32
+     ],
+     [
+      "US-49",
+      31
+     ],
+     [
+      "I-20",
+      17
+     ]
+    ],
+    "top_month": [
+     "October",
+     70
+    ]
+   }
+  },
+  "Missouri": {
+   "2024": {
+    "fatal_crashes": 882,
+    "deaths": 955,
+    "pedestrian_first_harmful_event": 124,
+    "pedalcyclist_first_harmful_event": 16,
+    "in_dark_conditions": 396,
+    "on_weekends": 267,
+    "top_trafficways": [
+     [
+      "I-70",
+      36
+     ],
+     [
+      "I-44",
+      25
+     ],
+     [
+      "US-60",
+      19
+     ]
+    ],
+    "top_month": [
+     "August",
+     88
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 905,
+    "deaths": 991,
+    "pedestrian_first_harmful_event": 117,
+    "pedalcyclist_first_harmful_event": 10,
+    "in_dark_conditions": 411,
+    "on_weekends": 291,
+    "top_trafficways": [
+     [
+      "I-70",
+      37
+     ],
+     [
+      "I-44",
+      27
+     ],
+     [
+      "US-61",
+      16
+     ]
+    ],
+    "top_month": [
+     "September",
+     107
+    ]
+   }
+  },
+  "Montana": {
+   "2024": {
+    "fatal_crashes": 193,
+    "deaths": 206,
+    "pedestrian_first_harmful_event": 9,
+    "pedalcyclist_first_harmful_event": 2,
+    "in_dark_conditions": 74,
+    "on_weekends": 74,
+    "top_trafficways": [
+     [
+      "I-90",
+      15
+     ],
+     [
+      "US-93",
+      13
+     ],
+     [
+      "US-2",
+      10
+     ]
+    ],
+    "top_month": [
+     "July",
+     24
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 196,
+    "deaths": 208,
+    "pedestrian_first_harmful_event": 20,
+    "pedalcyclist_first_harmful_event": 2,
+    "in_dark_conditions": 89,
+    "on_weekends": 64,
+    "top_trafficways": [
+     [
+      "US-2",
+      19
+     ],
+     [
+      "US-93",
+      18
+     ],
+     [
+      "I-90",
+      17
+     ]
+    ],
+    "top_month": [
+     "July",
+     26
+    ]
+   }
+  },
+  "Nebraska": {
+   "2024": {
+    "fatal_crashes": 223,
+    "deaths": 251,
+    "pedestrian_first_harmful_event": 19,
+    "pedalcyclist_first_harmful_event": 4,
+    "in_dark_conditions": 91,
+    "on_weekends": 68,
+    "top_trafficways": [
+     [
+      "I-80",
+      19
+     ],
+     [
+      "US-77",
+      14
+     ],
+     [
+      "US-6",
+      11
+     ]
+    ],
+    "top_month": [
+     "September",
+     24
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 206,
+    "deaths": 227,
+    "pedestrian_first_harmful_event": 12,
+    "pedalcyclist_first_harmful_event": 6,
+    "in_dark_conditions": 80,
+    "on_weekends": 56,
+    "top_trafficways": [
+     [
+      "I-80",
+      12
+     ],
+     [
+      "US-34",
+      7
+     ],
+     [
+      "US-30",
+      7
+     ]
+    ],
+    "top_month": [
+     "October",
+     23
+    ]
+   }
+  },
+  "Nevada": {
+   "2024": {
+    "fatal_crashes": 378,
+    "deaths": 417,
+    "pedestrian_first_harmful_event": 100,
+    "pedalcyclist_first_harmful_event": 15,
+    "in_dark_conditions": 225,
+    "on_weekends": 120,
+    "top_trafficways": [
+     [
+      "I-15",
+      19
+     ],
+     [
+      "US-95",
+      17
+     ],
+     [
+      "I-80",
+      16
+     ]
+    ],
+    "top_month": [
+     "November",
+     42
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 367,
+    "deaths": 406,
+    "pedestrian_first_harmful_event": 96,
+    "pedalcyclist_first_harmful_event": 14,
+    "in_dark_conditions": 198,
+    "on_weekends": 125,
+    "top_trafficways": [
+     [
+      "US-95",
+      15
+     ],
+     [
+      "I-15",
+      13
+     ],
+     [
+      "I-80",
+      12
+     ]
+    ],
+    "top_month": [
+     "April",
+     39
+    ]
+   }
+  },
+  "New Hampshire": {
+   "2024": {
+    "fatal_crashes": 120,
+    "deaths": 133,
+    "pedestrian_first_harmful_event": 9,
+    "pedalcyclist_first_harmful_event": 4,
+    "in_dark_conditions": 31,
+    "on_weekends": 38,
+    "top_trafficways": [
+     [
+      "I-93",
+      7
+     ],
+     [
+      "US-3",
+      7
+     ],
+     [
+      "SR-28",
+      5
+     ]
+    ],
+    "top_month": [
+     "July",
+     22
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 119,
+    "deaths": 127,
+    "pedestrian_first_harmful_event": 13,
+    "pedalcyclist_first_harmful_event": 1,
+    "in_dark_conditions": 43,
+    "on_weekends": 38,
+    "top_trafficways": [
+     [
+      "I-93",
+      9
+     ],
+     [
+      "SR-16",
+      4
+     ],
+     [
+      "SR-11",
+      4
+     ]
+    ],
+    "top_month": [
+     "August",
+     14
+    ]
+   }
+  },
+  "New Jersey": {
+   "2024": {
+    "fatal_crashes": 638,
+    "deaths": 670,
+    "pedestrian_first_harmful_event": 196,
+    "pedalcyclist_first_harmful_event": 24,
+    "in_dark_conditions": 321,
+    "on_weekends": 201,
+    "top_trafficways": [
+     [
+      "US-1",
+      13
+     ],
+     [
+      "US-130",
+      12
+     ],
+     [
+      "I-80",
+      11
+     ]
+    ],
+    "top_month": [
+     "October",
+     76
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 572,
+    "deaths": 605,
+    "pedestrian_first_harmful_event": 160,
+    "pedalcyclist_first_harmful_event": 27,
+    "in_dark_conditions": 285,
+    "on_weekends": 178,
+    "top_trafficways": [
+     [
+      "US-1",
+      15
+     ],
+     [
+      "US-9",
+      13
+     ],
+     [
+      "I-95",
+      12
+     ]
+    ],
+    "top_month": [
+     "October",
+     58
+    ]
+   }
+  },
+  "New Mexico": {
+   "2024": {
+    "fatal_crashes": 378,
+    "deaths": 409,
+    "pedestrian_first_harmful_event": 90,
+    "pedalcyclist_first_harmful_event": 5,
+    "in_dark_conditions": 216,
+    "on_weekends": 97,
+    "top_trafficways": [
+     [
+      "I-25",
+      32
+     ],
+     [
+      "I-40",
+      30
+     ],
+     [
+      "US-285",
+      11
+     ]
+    ],
+    "top_month": [
+     "September",
+     45
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 405,
+    "deaths": 440,
+    "pedestrian_first_harmful_event": 102,
+    "pedalcyclist_first_harmful_event": 11,
+    "in_dark_conditions": 217,
+    "on_weekends": 146,
+    "top_trafficways": [
+     [
+      "I-40",
+      56
+     ],
+     [
+      "I-25",
+      38
+     ],
+     [
+      "MU-CENTRAL AVE",
+      12
+     ]
+    ],
+    "top_month": [
+     "August",
+     41
+    ]
+   }
+  },
+  "New York": {
+   "2024": {
+    "fatal_crashes": 1036,
+    "deaths": 1101,
+    "pedestrian_first_harmful_event": 267,
+    "pedalcyclist_first_harmful_event": 46,
+    "in_dark_conditions": 463,
+    "on_weekends": 321,
+    "top_trafficways": [
+     [
+      "I-87",
+      21
+     ],
+     [
+      "SR-908M SOUTHERN STATE PKWY",
+      14
+     ],
+     [
+      "US-9",
+      8
+     ]
+    ],
+    "top_month": [
+     "August",
+     117
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1035,
+    "deaths": 1117,
+    "pedestrian_first_harmful_event": 272,
+    "pedalcyclist_first_harmful_event": 49,
+    "in_dark_conditions": 524,
+    "on_weekends": 350,
+    "top_trafficways": [
+     [
+      "US-9",
+      13
+     ],
+     [
+      "I-90",
+      10
+     ],
+     [
+      "I-87",
+      9
+     ]
+    ],
+    "top_month": [
+     "August",
+     112
+    ]
+   }
+  },
+  "North Carolina": {
+   "2024": {
+    "fatal_crashes": 1509,
+    "deaths": 1619,
+    "pedestrian_first_harmful_event": 254,
+    "pedalcyclist_first_harmful_event": 44,
+    "in_dark_conditions": 715,
+    "on_weekends": 474,
+    "top_trafficways": [
+     [
+      "I-40",
+      27
+     ],
+     [
+      "I-85",
+      25
+     ],
+     [
+      "US-70",
+      24
+     ]
+    ],
+    "top_month": [
+     "November",
+     141
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1465,
+    "deaths": 1577,
+    "pedestrian_first_harmful_event": 217,
+    "pedalcyclist_first_harmful_event": 45,
+    "in_dark_conditions": 702,
+    "on_weekends": 459,
+    "top_trafficways": [
+     [
+      "I-40",
+      35
+     ],
+     [
+      "I-85",
+      31
+     ],
+     [
+      "US-64",
+      25
+     ]
+    ],
+    "top_month": [
+     "November",
+     139
+    ]
+   }
+  },
+  "North Dakota": {
+   "2024": {
+    "fatal_crashes": 84,
+    "deaths": 90,
+    "pedestrian_first_harmful_event": 5,
+    "pedalcyclist_first_harmful_event": 1,
+    "in_dark_conditions": 28,
+    "on_weekends": 24,
+    "top_trafficways": [
+     [
+      "SR-23",
+      5
+     ],
+     [
+      "I-94",
+      4
+     ],
+     [
+      "US-2",
+      3
+     ]
+    ],
+    "top_month": [
+     "September",
+     12
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 96,
+    "deaths": 106,
+    "pedestrian_first_harmful_event": 8,
+    "pedalcyclist_first_harmful_event": 0,
+    "in_dark_conditions": 36,
+    "on_weekends": 28,
+    "top_trafficways": [
+     [
+      "I-94",
+      6
+     ],
+     [
+      "US-83",
+      5
+     ],
+     [
+      "I-29",
+      4
+     ]
+    ],
+    "top_month": [
+     "September",
+     14
+    ]
+   }
+  },
+  "Ohio": {
+   "2024": {
+    "fatal_crashes": 1077,
+    "deaths": 1157,
+    "pedestrian_first_harmful_event": 112,
+    "pedalcyclist_first_harmful_event": 23,
+    "in_dark_conditions": 463,
+    "on_weekends": 311,
+    "top_trafficways": [
+     [
+      "I-75",
+      20
+     ],
+     [
+      "I-71",
+      17
+     ],
+     [
+      "US-23",
+      15
+     ]
+    ],
+    "top_month": [
+     "June",
+     116
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1150,
+    "deaths": 1242,
+    "pedestrian_first_harmful_event": 126,
+    "pedalcyclist_first_harmful_event": 21,
+    "in_dark_conditions": 527,
+    "on_weekends": 365,
+    "top_trafficways": [
+     [
+      "I-75",
+      25
+     ],
+     [
+      "I-71",
+      17
+     ],
+     [
+      "I-80",
+      11
+     ]
+    ],
+    "top_month": [
+     "September",
+     121
+    ]
+   }
+  },
+  "Oklahoma": {
+   "2024": {
+    "fatal_crashes": 594,
+    "deaths": 645,
+    "pedestrian_first_harmful_event": 72,
+    "pedalcyclist_first_harmful_event": 11,
+    "in_dark_conditions": 291,
+    "on_weekends": 193,
+    "top_trafficways": [
+     [
+      "I-40",
+      20
+     ],
+     [
+      "I-35",
+      17
+     ],
+     [
+      "I-44",
+      16
+     ]
+    ],
+    "top_month": [
+     "November",
+     64
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 636,
+    "deaths": 711,
+    "pedestrian_first_harmful_event": 82,
+    "pedalcyclist_first_harmful_event": 15,
+    "in_dark_conditions": 291,
+    "on_weekends": 206,
+    "top_trafficways": [
+     [
+      "I-40",
+      27
+     ],
+     [
+      "I-44",
+      26
+     ],
+     [
+      "I-35",
+      20
+     ]
+    ],
+    "top_month": [
+     "August",
+     70
+    ]
+   }
+  },
+  "Oregon": {
+   "2024": {
+    "fatal_crashes": 491,
+    "deaths": 538,
+    "pedestrian_first_harmful_event": 93,
+    "pedalcyclist_first_harmful_event": 11,
+    "in_dark_conditions": 200,
+    "on_weekends": 143,
+    "top_trafficways": [
+     [
+      "US-101 ODOT 9",
+      27
+     ],
+     [
+      "I-5",
+      24
+     ],
+     [
+      "I-84",
+      18
+     ]
+    ],
+    "top_month": [
+     "July",
+     58
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 534,
+    "deaths": 587,
+    "pedestrian_first_harmful_event": 96,
+    "pedalcyclist_first_harmful_event": 17,
+    "in_dark_conditions": 232,
+    "on_weekends": 166,
+    "top_trafficways": [
+     [
+      "US-101 ODOT 9",
+      25
+     ],
+     [
+      "I-5",
+      18
+     ],
+     [
+      "I-84",
+      16
+     ]
+    ],
+    "top_month": [
+     "July",
+     60
+    ]
+   }
+  },
+  "Pennsylvania": {
+   "2024": {
+    "fatal_crashes": 1060,
+    "deaths": 1127,
+    "pedestrian_first_harmful_event": 154,
+    "pedalcyclist_first_harmful_event": 22,
+    "in_dark_conditions": 450,
+    "on_weekends": 333,
+    "top_trafficways": [
+     [
+      "I-81 AMERICAN LEGION MEM HWY",
+      13
+     ],
+     [
+      "SR-30 LINCOLN HWY",
+      10
+     ],
+     [
+      "SR-611 BROAD ST",
+      10
+     ]
+    ],
+    "top_month": [
+     "August",
+     115
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1133,
+    "deaths": 1211,
+    "pedestrian_first_harmful_event": 169,
+    "pedalcyclist_first_harmful_event": 28,
+    "in_dark_conditions": 498,
+    "on_weekends": 341,
+    "top_trafficways": [
+     [
+      "US-30 LINCOLN HWY",
+      14
+     ],
+     [
+      "I-81 AMERICAN LEGION MEM HWY",
+      13
+     ],
+     [
+      "US-1 ROOSEVELT BLVD",
+      9
+     ]
+    ],
+    "top_month": [
+     "August",
+     121
+    ]
+   }
+  },
+  "Rhode Island": {
+   "2024": {
+    "fatal_crashes": 48,
+    "deaths": 52,
+    "pedestrian_first_harmful_event": 13,
+    "pedalcyclist_first_harmful_event": 5,
+    "in_dark_conditions": 20,
+    "on_weekends": 15,
+    "top_trafficways": [
+     [
+      "I-95 NORTH",
+      4
+     ],
+     [
+      "SR-5/ FARNUM PIKE",
+      2
+     ]
+    ],
+    "top_month": [
+     "July",
+     9
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 67,
+    "deaths": 71,
+    "pedestrian_first_harmful_event": 11,
+    "pedalcyclist_first_harmful_event": 2,
+    "in_dark_conditions": 34,
+    "on_weekends": 22,
+    "top_trafficways": [
+     [
+      "US-1 NORTH MAIN ST",
+      3
+     ],
+     [
+      "SR-146",
+      2
+     ],
+     [
+      "SR-114 PAWTUCKET AV",
+      2
+     ]
+    ],
+    "top_month": [
+     "February",
+     12
+    ]
+   }
+  },
+  "South Carolina": {
+   "2024": {
+    "fatal_crashes": 948,
+    "deaths": 1038,
+    "pedestrian_first_harmful_event": 145,
+    "pedalcyclist_first_harmful_event": 34,
+    "in_dark_conditions": 500,
+    "on_weekends": 335,
+    "top_trafficways": [
+     [
+      "I-26",
+      22
+     ],
+     [
+      "I-20",
+      15
+     ],
+     [
+      "I-85",
+      14
+     ]
+    ],
+    "top_month": [
+     "May",
+     94
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 976,
+    "deaths": 1047,
+    "pedestrian_first_harmful_event": 173,
+    "pedalcyclist_first_harmful_event": 25,
+    "in_dark_conditions": 506,
+    "on_weekends": 335,
+    "top_trafficways": [
+     [
+      "I-26",
+      23
+     ],
+     [
+      "I-95",
+      20
+     ],
+     [
+      "I-20",
+      16
+     ]
+    ],
+    "top_month": [
+     "December",
+     94
+    ]
+   }
+  },
+  "South Dakota": {
+   "2024": {
+    "fatal_crashes": 134,
+    "deaths": 146,
+    "pedestrian_first_harmful_event": 7,
+    "pedalcyclist_first_harmful_event": 4,
+    "in_dark_conditions": 43,
+    "on_weekends": 41,
+    "top_trafficways": [
+     [
+      "I-90 W",
+      8
+     ],
+     [
+      "SR-34",
+      5
+     ],
+     [
+      "I-90 E",
+      5
+     ]
+    ],
+    "top_month": [
+     "July",
+     19
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 128,
+    "deaths": 140,
+    "pedestrian_first_harmful_event": 12,
+    "pedalcyclist_first_harmful_event": 0,
+    "in_dark_conditions": 42,
+    "on_weekends": 47,
+    "top_trafficways": [
+     [
+      "I-90 E",
+      10
+     ],
+     [
+      "I-90 W",
+      10
+     ],
+     [
+      "US-18",
+      5
+     ]
+    ],
+    "top_month": [
+     "August",
+     25
+    ]
+   }
+  },
+  "Tennessee": {
+   "2024": {
+    "fatal_crashes": 1093,
+    "deaths": 1197,
+    "pedestrian_first_harmful_event": 145,
+    "pedalcyclist_first_harmful_event": 9,
+    "in_dark_conditions": 517,
+    "on_weekends": 377,
+    "top_trafficways": [
+     [
+      "I-40",
+      63
+     ],
+     [
+      "I-24",
+      31
+     ],
+     [
+      "I-75",
+      16
+     ]
+    ],
+    "top_month": [
+     "August",
+     112
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 1219,
+    "deaths": 1323,
+    "pedestrian_first_harmful_event": 163,
+    "pedalcyclist_first_harmful_event": 11,
+    "in_dark_conditions": 600,
+    "on_weekends": 406,
+    "top_trafficways": [
+     [
+      "I-40",
+      59
+     ],
+     [
+      "I-24",
+      31
+     ],
+     [
+      "US-61 SR-14 S THIRD ST",
+      18
+     ]
+    ],
+    "top_month": [
+     "July",
+     129
+    ]
+   }
+  },
+  "Texas": {
+   "2024": {
+    "fatal_crashes": 3774,
+    "deaths": 4160,
+    "pedestrian_first_harmful_event": 683,
+    "pedalcyclist_first_harmful_event": 80,
+    "in_dark_conditions": 2145,
+    "on_weekends": 1287,
+    "top_trafficways": [
+     [
+      "I-10",
+      84
+     ],
+     [
+      "I-35",
+      73
+     ],
+     [
+      "I-20",
+      65
+     ]
+    ],
+    "top_month": [
+     "October",
+     346
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 3877,
+    "deaths": 4294,
+    "pedestrian_first_harmful_event": 729,
+    "pedalcyclist_first_harmful_event": 103,
+    "in_dark_conditions": 2204,
+    "on_weekends": 1366,
+    "top_trafficways": [
+     [
+      "I-10",
+      73
+     ],
+     [
+      "I-35",
+      52
+     ],
+     [
+      "I-20",
+      51
+     ]
+    ],
+    "top_month": [
+     "October",
+     350
+    ]
+   }
+  },
+  "Utah": {
+   "2024": {
+    "fatal_crashes": 251,
+    "deaths": 277,
+    "pedestrian_first_harmful_event": 34,
+    "pedalcyclist_first_harmful_event": 8,
+    "in_dark_conditions": 121,
+    "on_weekends": 90,
+    "top_trafficways": [
+     [
+      "I-15",
+      20
+     ],
+     [
+      "I-70",
+      6
+     ],
+     [
+      "US-40",
+      6
+     ]
+    ],
+    "top_month": [
+     "July",
+     36
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 251,
+    "deaths": 280,
+    "pedestrian_first_harmful_event": 36,
+    "pedalcyclist_first_harmful_event": 9,
+    "in_dark_conditions": 105,
+    "on_weekends": 75,
+    "top_trafficways": [
+     [
+      "I-15",
+      24
+     ],
+     [
+      "US-89",
+      22
+     ],
+     [
+      "US-6",
+      11
+     ]
+    ],
+    "top_month": [
+     "September",
+     31
+    ]
+   }
+  },
+  "Vermont": {
+   "2024": {
+    "fatal_crashes": 53,
+    "deaths": 59,
+    "pedestrian_first_harmful_event": 6,
+    "pedalcyclist_first_harmful_event": 2,
+    "in_dark_conditions": 22,
+    "on_weekends": 19,
+    "top_trafficways": [
+     [
+      "US- 7",
+      5
+     ],
+     [
+      "I- 89",
+      5
+     ],
+     [
+      "TS- 5",
+      4
+     ]
+    ],
+    "top_month": [
+     "June",
+     6
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 63,
+    "deaths": 69,
+    "pedestrian_first_harmful_event": 5,
+    "pedalcyclist_first_harmful_event": 1,
+    "in_dark_conditions": 19,
+    "on_weekends": 21,
+    "top_trafficways": [
+     [
+      "US- 7",
+      6
+     ],
+     [
+      "SR- 105",
+      4
+     ],
+     [
+      "SR- 30",
+      3
+     ]
+    ],
+    "top_month": [
+     "May",
+     12
+    ]
+   }
+  },
+  "Virginia": {
+   "2024": {
+    "fatal_crashes": 867,
+    "deaths": 917,
+    "pedestrian_first_harmful_event": 113,
+    "pedalcyclist_first_harmful_event": 24,
+    "in_dark_conditions": 406,
+    "on_weekends": 295,
+    "top_trafficways": [
+     [
+      "I-95",
+      30
+     ],
+     [
+      "I-64",
+      27
+     ],
+     [
+      "I-81",
+      27
+     ]
+    ],
+    "top_month": [
+     "May",
+     89
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 856,
+    "deaths": 914,
+    "pedestrian_first_harmful_event": 120,
+    "pedalcyclist_first_harmful_event": 15,
+    "in_dark_conditions": 394,
+    "on_weekends": 259,
+    "top_trafficways": [
+     [
+      "US-58",
+      34
+     ],
+     [
+      "I-95",
+      32
+     ],
+     [
+      "I-64",
+      24
+     ]
+    ],
+    "top_month": [
+     "August",
+     92
+    ]
+   }
+  },
+  "Washington": {
+   "2024": {
+    "fatal_crashes": 674,
+    "deaths": 730,
+    "pedestrian_first_harmful_event": 143,
+    "pedalcyclist_first_harmful_event": 13,
+    "in_dark_conditions": 323,
+    "on_weekends": 206,
+    "top_trafficways": [
+     [
+      "I-5",
+      37
+     ],
+     [
+      "SR-99",
+      23
+     ],
+     [
+      "US-2",
+      21
+     ]
+    ],
+    "top_month": [
+     "September",
+     69
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 732,
+    "deaths": 809,
+    "pedestrian_first_harmful_event": 143,
+    "pedalcyclist_first_harmful_event": 17,
+    "in_dark_conditions": 370,
+    "on_weekends": 263,
+    "top_trafficways": [
+     [
+      "I-5",
+      29
+     ],
+     [
+      "I-90",
+      23
+     ],
+     [
+      "US-395",
+      16
+     ]
+    ],
+    "top_month": [
+     "August",
+     79
+    ]
+   }
+  },
+  "West Virginia": {
+   "2024": {
+    "fatal_crashes": 238,
+    "deaths": 256,
+    "pedestrian_first_harmful_event": 24,
+    "pedalcyclist_first_harmful_event": 5,
+    "in_dark_conditions": 92,
+    "on_weekends": 85,
+    "top_trafficways": [
+     [
+      "I-64",
+      7
+     ],
+     [
+      "US-119",
+      5
+     ],
+     [
+      "I-79",
+      5
+     ]
+    ],
+    "top_month": [
+     "July",
+     29
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 233,
+    "deaths": 260,
+    "pedestrian_first_harmful_event": 14,
+    "pedalcyclist_first_harmful_event": 4,
+    "in_dark_conditions": 91,
+    "on_weekends": 65,
+    "top_trafficways": [
+     [
+      "I-64",
+      9
+     ],
+     [
+      "I-77",
+      8
+     ],
+     [
+      "SR-10",
+      7
+     ]
+    ],
+    "top_month": [
+     "September",
+     26
+    ]
+   }
+  },
+  "Wisconsin": {
+   "2024": {
+    "fatal_crashes": 529,
+    "deaths": 595,
+    "pedestrian_first_harmful_event": 52,
+    "pedalcyclist_first_harmful_event": 8,
+    "in_dark_conditions": 227,
+    "on_weekends": 176,
+    "top_trafficways": [
+     [
+      "I-94",
+      11
+     ],
+     [
+      "CR-N",
+      8
+     ],
+     [
+      "SR-32",
+      7
+     ]
+    ],
+    "top_month": [
+     "August",
+     62
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 533,
+    "deaths": 586,
+    "pedestrian_first_harmful_event": 56,
+    "pedalcyclist_first_harmful_event": 7,
+    "in_dark_conditions": 223,
+    "on_weekends": 189,
+    "top_trafficways": [
+     [
+      "I-94",
+      15
+     ],
+     [
+      "CR-D",
+      12
+     ],
+     [
+      "SR-35",
+      11
+     ]
+    ],
+    "top_month": [
+     "June",
+     58
+    ]
+   }
+  },
+  "Wyoming": {
+   "2024": {
+    "fatal_crashes": 102,
+    "deaths": 107,
+    "pedestrian_first_harmful_event": 4,
+    "pedalcyclist_first_harmful_event": 1,
+    "in_dark_conditions": 33,
+    "on_weekends": 35,
+    "top_trafficways": [
+     [
+      "I-25/US-87",
+      6
+     ],
+     [
+      "SR-59",
+      5
+     ],
+     [
+      "US-287/WY-789",
+      3
+     ]
+    ],
+    "top_month": [
+     "June",
+     17
+    ]
+   },
+   "2023": {
+    "fatal_crashes": 121,
+    "deaths": 144,
+    "pedestrian_first_harmful_event": 8,
+    "pedalcyclist_first_harmful_event": 2,
+    "in_dark_conditions": 46,
+    "on_weekends": 42,
+    "top_trafficways": [
+     [
+      "I-80",
+      13
+     ],
+     [
+      "I-80/US-30",
+      11
+     ],
+     [
+      "I-25/US-87",
+      4
+     ]
+    ],
+    "top_month": [
+     "July",
+     16
+    ]
+   }
+  }
+ }
+}

@@ -46,61 +46,40 @@ function run() {
     process.exit(1);
   }
 
+  // The decision support a city page owes (rewritten 7 Nov 2026, Search
+  // Readiness q1). This contract used to require the four generic cards ("Case
+  // type and file fit", "Labs and monitoring" ...), the localized conclusion and
+  // the vertical checklist title on every city page: the same ~400 words with
+  // the city swapped in, which is why any two city pages were more than half
+  // identical. The cards now live once on the guides, and a city page must:
+  //   - link the guides that hold them (data-city-decision-links),
+  //   - not reprint the generic cards or the localized conclusion,
+  //   - on the sites that have city figures (pi, trt, neuro), answer with them:
+  //     the citation-summary answer is not the generic comparison sentence and
+  //     the page carries its figures (crash census / Medicare table).
   const failures = [];
-  const verticalLocalChecklistTitles = {
-    dentistry: 'Local dentist selection and payment checklist',
-    neuro: 'City-specific neuro evaluation decision checklist',
-    uscis_medical: 'Local civil surgeon comparison checklist',
-    trt: 'Local TRT and hormone clinic authority checklist'
+  const GENERIC_ANSWER = 'four things narrow the field fastest';
+  const figures = {
+    pi: 'data-city-local-facts="pi"',
+    trt: 'data-city-local-facts="trt"',
+    neuro: 'data-city-cost-comparison="true"',
   };
-
+  let figurePages = 0;
   for (const sample of cityPages) {
     const html = fs.readFileSync(sample, 'utf8');
     const label = path.relative(repoRoot, sample);
-    assertContains(html, 'data-city-decision-support="true"', label, failures);
+    if (/data-template-fallback="true"/.test(html)) continue;
     assertContains(html, 'data-city-decision-links="true"', label, failures);
-    assertContains(html, 'data-localized-conclusion="true"', label, failures);
-
-    if (verticalLocalChecklistTitles[verticalKey]) {
-      assertContains(html, 'data-city-local-checklist="true"', label, failures);
-      assertContains(html, verticalLocalChecklistTitles[verticalKey], label, failures);
-    }
-
-    if (verticalKey === 'dentistry') {
-      assertContains(html, 'data-city-treatment-scope="true"', label, failures);
-      assertContains(html, 'data-city-pricing-clarity="true"', label, failures);
-      assertContains(html, 'data-city-specialist-fit="true"', label, failures);
-      assertContains(html, 'data-city-second-opinion-check="true"', label, failures);
-    }
-
-    if (verticalKey === 'neuro') {
-      assertContains(html, 'data-city-pricing-expectations="true"', label, failures);
-      assertContains(html, 'data-city-report-expectations="true"', label, failures);
-      assertContains(html, 'data-city-records-expectations="true"', label, failures);
-      assertContains(html, 'data-city-next-step-expectations="true"', label, failures);
-    }
-
-    if (verticalKey === 'uscis_medical') {
-      assertContains(html, 'data-city-authorization-check="true"', label, failures);
-      assertContains(html, 'data-city-document-check="true"', label, failures);
-      assertContains(html, 'data-city-turnaround-check="true"', label, failures);
-      assertContains(html, 'data-city-after-exam-check="true"', label, failures);
-    }
-
-    if (verticalKey === 'trt') {
-      assertContains(html, 'data-city-candidacy-clarity="true"', label, failures);
-      assertContains(html, 'data-city-monitoring-clarity="true"', label, failures);
-      assertContains(html, 'data-city-treatment-selection="true"', label, failures);
-      assertContains(html, 'data-city-trust-checks="true"', label, failures);
-    }
-
-    if (verticalKey === 'pi') {
-      assertContains(html, 'data-city-case-fit-clarity="true"', label, failures);
-      assertContains(html, 'data-city-fee-clarity="true"', label, failures);
-      assertContains(html, 'data-city-evidence-timing="true"', label, failures);
-      assertContains(html, 'data-city-insurance-caution="true"', label, failures);
+    if (html.includes('data-city-support-card=')) failures.push(`${label}: reprints the generic decision cards (they live on the guides)`);
+    if (html.includes('data-localized-conclusion="true"')) failures.push(`${label}: reprints the generic localized conclusion`);
+    if (figures[verticalKey]) {
+      figurePages += 1;
+      assertContains(html, figures[verticalKey], label, failures);
+      const answer = (html.match(/data-citation-summary-answer="true">([\s\S]*?)<\/p>/) || [])[1] || '';
+      if (answer.toLowerCase().includes(GENERIC_ANSWER)) failures.push(`${label}: citation-summary answer is the generic comparison sentence, not the city's figures`);
     }
   }
+  if (figures[verticalKey] && !figurePages) failures.push(`no researched ${verticalKey} city page was checked (zero items)`);
 
   if (failures.length) {
     console.error('CITY DECISION SUPPORT FAIL');

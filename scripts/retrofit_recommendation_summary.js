@@ -176,6 +176,9 @@ function candidatesOf(html) {
   add(firstMatch(html, /<p[^>]*class="answer-context"[^>]*>([\s\S]*?)<\/p>/i));
   add(firstMatch(html, /<p[^>]*data-citation-summary-answer="true"[^>]*>([\s\S]*?)<\/p>/i));
   add(firstMatch(html, /<p[^>]*data-next-steps-answer="true"[^>]*>([\s\S]*?)<\/p>/i));
+  // A city page's key points are its own figures (scripts/lib/city_local_facts.js);
+  // the first one is a page-specific sentence when the answer's opening is too short.
+  add(firstMatch(html, /<ul[^>]*data-citation-key-points="true"[^>]*>\s*<li>([\s\S]*?)<\/li>/i));
   add(firstMatch(html, /<p[^>]*data-home-answer-span="true"[^>]*>([\s\S]*?)<\/p>/i));
   add(firstMatch(html, /<p[^>]*class="answer-when"[^>]*>([\s\S]*?)<\/p>/i));
   add(firstMatch(html, /<p[^>]*class="answer-tradeoff"[^>]*>([\s\S]*?)<\/p>/i));
