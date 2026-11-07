@@ -1370,8 +1370,16 @@ function renderOptionalCityContentHtml(content) {
   const decisionItems = content.primary_city_decision_block && Array.isArray(content.primary_city_decision_block.items)
     ? content.primary_city_decision_block.items
     : [];
-  const decisionBlock = decisionItems.length
-    ? `<section class="city-supplement city-supplement-structured" data-city-decision-block="${escapeOptionalHtml(content.primary_city_decision_block.type || 'decision_checklist')}"><h3>${escapeOptionalHtml(content.primary_city_decision_block.title || 'Local decision checklist')}</h3><ul class="neutral-list">${decisionItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
+  // Each researched sentence is printed once per page. The lead checklist below
+  // lifts its steps from the decision block, the vetting points, the wait-time
+  // and the cost notes, and every one of those was then printed again in its own
+  // section - so a page carried each of those sentences two or three times, and
+  // with one more near-copy in the decision block the Monday quality sample read
+  // it as template filler (Search Readiness q1, 7 Nov 2026:
+  // neuroevalguides.com/newark-nj/ "the evaluator with the new jersey psychology
+  // board" x4). The sections now print what the checklist has not.
+  const decisionBlock = decisionItems.length > 4
+    ? `<section class="city-supplement city-supplement-structured" data-city-decision-block="${escapeOptionalHtml(content.primary_city_decision_block.type || 'decision_checklist')}"><h3>${escapeOptionalHtml(content.primary_city_decision_block.title || 'Local decision checklist')}</h3><ul class="neutral-list">${decisionItems.slice(4).map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
     : "";
   const leadChecklistItems = [
     ...decisionItems.slice(0, 4),
@@ -1390,17 +1398,19 @@ function renderOptionalCityContentHtml(content) {
     // lists, never from prose or bullets.
     ? `<section class="city-supplement city-supplement-lead" data-city-local-checklist="true"><h2>${escapeOptionalHtml(content.primary_city_decision_block?.title || content.heading || 'How to compare providers in this city')}</h2>${intro}<ol class="neutral-list">${leadChecklistItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ol></section>`
     : '';
+  const inChecklist = new Set(leadChecklistItems.map((x) => String(x).trim()));
+  const fresh = (items) => (Array.isArray(items) ? items.filter((x) => !inChecklist.has(String(x).trim())) : items);
   const structured = [
     renderCivilSurgeonLocatorTable(content.civil_surgeon_locator),
     renderCityCostComparisonTable(content.cost_comparison_table),
-    renderOptionalCityStructuredSection('Local vetting points', content.local_vetting_points, 'ul', 'local_vetting_points'),
-    renderOptionalCityStructuredSection('Typical cost ranges', content.typical_cost_ranges, 'ul', 'typical_cost_ranges'),
-    renderOptionalCityStructuredSection('Payment options', content.payment_options, 'ul', 'payment_options'),
-    renderOptionalCityStructuredSection('Wait-time notes', content.wait_time_notes, 'ul', 'wait_time_notes'),
-    renderOptionalCityStructuredSection('Availability notes', content.availability_notes, 'ul', 'availability_notes'),
-    renderOptionalCityStructuredSection('Named resources or providers', content.named_resources_or_providers, 'ul', 'named_resources_or_providers'),
-    renderOptionalCityStructuredSection('Market-specific notes', content.market_specific_notes, 'ul', 'market_specific_notes'),
-    ...cityVerticalSectionConfig(verticalKey).map(([key, title]) => renderOptionalCityStructuredSection(title, content[key], 'ul', key))
+    renderOptionalCityStructuredSection('Local vetting points', fresh(content.local_vetting_points), 'ul', 'local_vetting_points'),
+    renderOptionalCityStructuredSection('Typical cost ranges', fresh(content.typical_cost_ranges), 'ul', 'typical_cost_ranges'),
+    renderOptionalCityStructuredSection('Payment options', fresh(content.payment_options), 'ul', 'payment_options'),
+    renderOptionalCityStructuredSection('Wait-time notes', fresh(content.wait_time_notes), 'ul', 'wait_time_notes'),
+    renderOptionalCityStructuredSection('Availability notes', fresh(content.availability_notes), 'ul', 'availability_notes'),
+    renderOptionalCityStructuredSection('Named resources or providers', fresh(content.named_resources_or_providers), 'ul', 'named_resources_or_providers'),
+    renderOptionalCityStructuredSection('Market-specific notes', fresh(content.market_specific_notes), 'ul', 'market_specific_notes'),
+    ...cityVerticalSectionConfig(verticalKey).map(([key, title]) => renderOptionalCityStructuredSection(title, fresh(content[key]), 'ul', key))
   ].join('');
   if (!(content.heading || intro || body || bullets || decisionBlock || structured || leadChecklist)) return '';
   // The marker that makes the fallback visible to the rest of the build.
@@ -3560,7 +3570,7 @@ function renderDedicatedNextStepsHubHtml(opts) {
         // them, and the answer is sized to be quotable whole.
         '<h2>' + (marketScoped ? 'What should you do next in ' + escapeHtml(marketLabel) + '?' : 'What should you do next?') + '</h2>' +
         '<p data-next-steps-answer="true" data-citation-summary-answer="true">' + composeAnswerSpan([
-          (marketScoped ? 'In ' + escapeHtml(marketLabel) + ', three' : 'Three') + ' paths lead out of this page: send the callback form below if you already want a provider to contact you, open the education-first guides if cost, timing, or questions to ask are still unsettled, or use the lookup tools if you would rather verify things yourself first.'
+          composeNextStepsAnswer(marketScoped, marketLabel, String(opts && opts.localLead ? opts.localLead : ''))
         ]) + '</p>' +
       '</div>' +
       // The page's own facts (providers listed for this market, the USCIS field
@@ -3709,11 +3719,99 @@ function uscisFieldOffices(citySlug) {
   return row && Array.isArray(row.field_offices) ? { row, source: _fieldOfficeAssignments.source || {} } : null;
 }
 
+// The local clause a /<city>/next-steps/ answer opens with, from the same data
+// as the page's local block: the nearest licensed community (senior), the civil
+// surgeons listed and the USCIS field office (USCIS), the firms the state
+// directory lists (personal injury). '' when the city has none, and the answer
+// keeps its generic wording. The answer was the same 45 words on every city's
+// page, which with the form made two cities' pages read as one (Search
+// Readiness q1, 7 Nov 2026).
+function joinNames(names) {
+  if (names.length <= 1) return names.join('');
+  return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+}
+function nextStepsLocalLead(verticalKey, city) {
+  const slug = String((city && city.slug) || '');
+  const vk = String(verticalKey || '').toLowerCase();
+  if (vk === 'senior_living' || vk === 'senior-living') return senior.nextStepsLead(city);
+  if (vk.includes('uscis')) {
+    const lists = loadExampleProviderLists(verticalKey, slug) || [];
+    const names = [...new Set(lists.flatMap((l) => l.providers.map((p) => p.name)))]
+      .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' })).slice(0, 3);
+    const fo = uscisFieldOffices(slug);
+    const office = fo && fo.row.field_offices[0] ? fo.row.field_offices[0].office_name + ' Field Office' : '';
+    const bits = [];
+    if (names.length) bits.push('the civil surgeons on our list are ' + joinNames(names));
+    if (office) bits.push('green card interviews for these ZIP codes are held at the ' + office);
+    return bits.join(', and ');
+  }
+  if (isPersonalInjury(verticalKey)) {
+    const st = String((city && city.state) || slug.split('-').pop() || '').toLowerCase();
+    const sf = readJsonIfExistsSafe(path.join(DATA_DIR, 'pi_state_firms', st + '.json'));
+    const firms = [...new Set(((sf && sf.firms) || []).filter((f) => f && f.name && f.source_city_slug === slug).map((f) => String(f.name)))]
+      .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' }));
+    if (!firms.length) return '';
+    return 'our ' + String((sf && sf.state_name) || st.toUpperCase()) + ' directory lists ' + firms.length + ' personal injury firm' + (firms.length === 1 ? '' : 's') +
+      ' here, among them ' + joinNames(firms.slice(0, 2)) + ', and every lawyer can be checked in the state licence and discipline records';
+  }
+  return '';
+}
+
+// The next-steps answer: the local clause, then as much of the three paths as
+// keeps it inside the 40-60 words answer_shape_contract.js measures.
+function composeNextStepsAnswer(marketScoped, marketLabel, lead) {
+  const generic = (marketScoped ? 'In ' + escapeHtml(marketLabel) + ', three' : 'Three') + ' paths lead out of this page: send the callback form below if you already want a provider to contact you, open the education-first guides if cost, timing, or questions to ask are still unsettled, or use the lookup tools if you would rather verify things yourself first.';
+  if (!marketScoped || !lead) return generic;
+  const count = (t) => (String(t).replace(/<[^>]+>/g, ' ').match(/[A-Za-z0-9][\w'’-]*/g) || []).length;
+  const head = 'In ' + escapeHtml(marketLabel) + ', ' + escapeHtml(lead) + '.';
+  const tails = [
+    ' Send the callback form below if you want a provider to contact you, or open the guides if cost, timing, or questions to ask are still unsettled.',
+    ' Send the callback form below if you want a provider to contact you, or open the guides first.',
+    ' Send the callback form below to be contacted.',
+  ];
+  for (const t of tails) { const n = count(head + t); if (n >= 40 && n <= 60) return head + t; }
+  return generic;
+}
+
+function readJsonIfExistsSafe(fp) {
+  try { return fs.existsSync(fp) ? JSON.parse(fs.readFileSync(fp, 'utf8')) : null; } catch (_) { return null; }
+}
+
 function renderNextStepsLocalHtml(verticalKey, city) {
   const slug = String((city && city.slug) || '');
   const market = String((city && (city.marketLabel || city.city)) || slug);
   const vk = String(verticalKey || '').toLowerCase();
   const parts = [];
+  if (senior.isSeniorLiving && (vk === 'senior_living' || vk === 'senior-living')) return senior.nextStepsLocalHtml(city);
+  // The city's own researched lead (USCIS: which local office is itself a civil
+  // surgeon, what the county health department charges). It is the one paragraph
+  // that differs city to city; without it two /<city>/next-steps/ pages were
+  // 0.60-0.62 alike and read as template filler (Search Readiness q1, 7 Nov 2026,
+  // uscisexam.com des-moines-ia / portland-or / columbia-sc). Template-fallback
+  // content is never shown: it is the city name in a fixed sentence.
+  if (vk.includes('uscis')) {
+    const cc = loadOptionalCityContent(verticalKey, slug);
+    if (cc && !cc.is_template_fallback && cc.city_intro_override) {
+      parts.push((cc.heading ? '<p><strong>' + escapeHtml(String(cc.heading)) + '.</strong></p>' : '') +
+        '<p data-next-steps-local-lead="true">' + escapeHtml(String(cc.city_intro_override)) + '</p>');
+    }
+  }
+  // Personal injury: the firms our state directory lists for this city, in the
+  // same neutral alphabetical form as the providers below, and the state's own
+  // lawyer licence lookup. No "best" or "top" wording (spry brain, 1 Nov 2026).
+  if (isPersonalInjury(verticalKey)) {
+    const st = String((city && city.state) || slug.split('-').pop() || '').toLowerCase();
+    const sf = readJsonIfExistsSafe(path.join(DATA_DIR, 'pi_state_firms', st + '.json'));
+    const firms = [...new Set(((sf && sf.firms) || []).filter((f) => f && f.name && f.source_city_slug === slug).map((f) => String(f.name)))]
+      .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' })).slice(0, 9);
+    if (firms.length) {
+      parts.push('<p>Personal injury firms our ' + escapeHtml(String((sf && sf.state_name) || st.toUpperCase())) + ' directory lists in ' + escapeHtml(market) + ' (alphabetical, not ranked or endorsed):</p>' +
+        '<ul data-next-steps-local-providers="true">' + firms.map((n) => '<li>' + escapeHtml(n) + '</li>').join('') + '</ul>');
+    }
+    const links = readJsonIfExistsSafe(path.join(DATA_DIR, 'pi_state_disciplinary_links.json')) || {};
+    const bar = links[st.toUpperCase()];
+    if (bar) parts.push('<p>Before you sign anything, look the lawyer up in the ' + escapeHtml(String((sf && sf.state_name) || st.toUpperCase())) + ' attorney licence and discipline records: <a href="' + escapeHtml(String(bar)) + '" rel="nofollow noopener">' + escapeHtml(String(bar).replace(/^https?:\/\//, '').replace(/\/.*$/, '')) + '</a>.</p>');
+  }
   const lists = loadExampleProviderLists(verticalKey, slug) || [];
   const names = [...new Set(lists.flatMap((l) => l.providers.map((p) => p.name)))]
     .sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' }))
@@ -4283,8 +4381,16 @@ function providerDirectoryGuidance(verticalKey, subKey) {
     return out;
   }
   if (vk === 'trt') {
-    return [sk === 'iv_hydration' ? 'Compare IV protocols, pricing, and supervision' : 'Compare evaluation steps, monitoring, and follow-up clarity',
-      'Ask what is included before treatment starts and what is billed separately'];
+    // One ask per section, each about what that kind of clinic bills. The same
+    // "Ask what is included before treatment starts and what is billed
+    // separately" sat under all three sections and read as template filler
+    // (Search Readiness q1, 7 Nov 2026, hormonesivhair.com/portland-me/ x4).
+    if (sk === 'iv_hydration') return ['Compare IV protocols, pricing, and supervision',
+      'Ask what each drip contains and whether the medical screening before it is billed on its own'];
+    if (sk === 'hair_restoration') return ['Compare evaluation steps, monitoring, and follow-up clarity',
+      'Ask how many sessions a quoted hair restoration price covers and what a touch-up costs'];
+    return ['Compare evaluation steps, monitoring, and follow-up clarity',
+      'Ask whether the quoted hormone price includes the baseline labs, follow-up labs and medication'];
   }
   if (vk === 'uscis_medical' || vk === 'uscis') {
     return ['Confirm documents, vaccination records, and sealed-form handling before you book',
@@ -4320,14 +4426,29 @@ function renderStructuredProviderCardsSectionHtml(opts) {
     ? ('<ul class="provider-directory-guidance" data-provider-directory-guidance="true">' +
         guidance.map((item) => '<li>' + escapeHtml(String(item)) + '</li>').join('') + '</ul>')
     : '';
+  // An attribute two or more cards in this section share ("May also offer peptide
+  // programs") is said once, as a line naming those providers, instead of on each
+  // card: with the card's category and city in front of it, the same 8-word run
+  // repeated card after card and section after section (Search Readiness q1,
+  // 7 Nov 2026: hormonesivhair.com/portland-me/ "clinic portland me may also
+  // offer peptide programs" x4). Each provider's fact is still on the page.
+  const attrCount = new Map();
+  for (const card of cards) for (const a of new Set(Array.isArray(card.attributes) ? card.attributes : [])) attrCount.set(a, (attrCount.get(a) || 0) + 1);
+  const sharedAttrs = [...attrCount].filter(([, n]) => n >= 2).map(([a]) => a);
+  const sharedHtml = sharedAttrs.map((a) => {
+    const names = cards.filter((c) => (c.attributes || []).includes(a)).map((c) => escapeHtml(c.name));
+    const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names.join('');
+    return '<p class="muted" data-provider-shared-attribute="true">' + escapeHtml(a) + ': ' + list + '.</p>';
+  }).join('');
   return (
     '<section class="section provider-directory-section' + (preview ? ' provider-directory-section--preview' : '') + '" data-provider-directory="true"' + (preview ? ' data-home-provider-preview="true"' : '') + String((opts && opts.sectionAttrs) || '') + '>' +
       '<h2>' + heading + '</h2>' +
       (lead ? ('<p class="muted">' + lead + '</p>') : '') +
       guidanceHtml +
+      sharedHtml +
       '<div class="provider-directory-grid">' +
       cards.map((card) => {
-        const list = (Array.isArray(card.attributes) ? card.attributes : []).slice(0, 4);
+        const list = (Array.isArray(card.attributes) ? card.attributes : []).filter((a) => !sharedAttrs.includes(a)).slice(0, 4);
         const attrs = list.map((item) => '<li>' + escapeHtml(item) + '</li>').join('');
         const meta = [card.category, [card.city, card.state].filter(Boolean).join(', ')].filter(Boolean).join(' — ');
         return (
@@ -4891,6 +5012,7 @@ function stripForbiddenInlineBlocks(html) {
       toolsHref: buildTrackedHref('/faq/', { intent: 'self_serve', button: 'next_steps_page_tools', vertical: verticalKey, page_kind: 'next_steps', page_slug: city.slug + '-next-steps', market: city.slug }),
       requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, verticalKey),
       localHtml: renderNextStepsLocalHtml(verticalKey, city),
+      localLead: nextStepsLocalLead(verticalKey, city),
       seniorLiving: senior.isSeniorLiving(verticalKey)
     });
     // senior-living: the request form embedded here is the intake slot. The
@@ -6112,7 +6234,7 @@ function renderCitationSummaryZoneHtml(opts) {
       '<ul data-citation-key-points="true">' +
       [guideEntry && guideEntry.good, guideEntry && guideEntry.mistake].filter(Boolean).map((s) => '<li>' + escapeHtml(s) + '</li>').join('') +
       '</ul>' +
-      guideContent.faqFromSource(opts && opts.sourceHtml, guideEntry) +
+      guideContent.openingFaqFromSource(opts && opts.sourceHtml, guideEntry) +
       '<p data-citation-routing-links="true"><a href="' + escapeHtml(hrefs.guides) + '">Related guides</a> · <a href="/next-steps/">Next steps</a> · <a href="' + escapeHtml(hrefs.methodology) + '">Sources and method</a></p>' +
       '</section>'
     );

@@ -423,7 +423,12 @@ function buildFanoutCluster(ctx, pageSet) {
   const groups = [];
   const byGroup = new Map();
   items.forEach((item) => {
-    const key = `${item.groupId}|${item.groupLabel}`;
+    // Grouped by the heading a reader sees. Keyed by id as well, two groups that
+    // share a label printed the same <h3> once per item - "Costs, timing, and
+    // treatment fit" four times on every dentistry city page, which the Monday
+    // quality sample reads as template filler (Search Readiness q1, 7 Nov 2026,
+    // dentistryguides.com/dallas-tx/). The first group's id keeps the anchor.
+    const key = String(item.groupLabel || 'Related search paths').trim().toLowerCase();
     if (!byGroup.has(key)) {
       const group = {
         id: String(item.groupId || 'group').trim() || 'group',
