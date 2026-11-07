@@ -1370,8 +1370,16 @@ function renderOptionalCityContentHtml(content) {
   const decisionItems = content.primary_city_decision_block && Array.isArray(content.primary_city_decision_block.items)
     ? content.primary_city_decision_block.items
     : [];
-  const decisionBlock = decisionItems.length
-    ? `<section class="city-supplement city-supplement-structured" data-city-decision-block="${escapeOptionalHtml(content.primary_city_decision_block.type || 'decision_checklist')}"><h3>${escapeOptionalHtml(content.primary_city_decision_block.title || 'Local decision checklist')}</h3><ul class="neutral-list">${decisionItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
+  // Each researched sentence is printed once per page. The lead checklist below
+  // lifts its steps from the decision block, the vetting points, the wait-time
+  // and the cost notes, and every one of those was then printed again in its own
+  // section - so a page carried each of those sentences two or three times, and
+  // with one more near-copy in the decision block the Monday quality sample read
+  // it as template filler (Search Readiness q1, 7 Nov 2026:
+  // neuroevalguides.com/newark-nj/ "the evaluator with the new jersey psychology
+  // board" x4). The sections now print what the checklist has not.
+  const decisionBlock = decisionItems.length > 4
+    ? `<section class="city-supplement city-supplement-structured" data-city-decision-block="${escapeOptionalHtml(content.primary_city_decision_block.type || 'decision_checklist')}"><h3>${escapeOptionalHtml(content.primary_city_decision_block.title || 'Local decision checklist')}</h3><ul class="neutral-list">${decisionItems.slice(4).map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ul></section>`
     : "";
   const leadChecklistItems = [
     ...decisionItems.slice(0, 4),
@@ -1390,17 +1398,19 @@ function renderOptionalCityContentHtml(content) {
     // lists, never from prose or bullets.
     ? `<section class="city-supplement city-supplement-lead" data-city-local-checklist="true"><h2>${escapeOptionalHtml(content.primary_city_decision_block?.title || content.heading || 'How to compare providers in this city')}</h2>${intro}<ol class="neutral-list">${leadChecklistItems.map((item) => `<li>${escapeOptionalHtml(item)}</li>`).join('')}</ol></section>`
     : '';
+  const inChecklist = new Set(leadChecklistItems.map((x) => String(x).trim()));
+  const fresh = (items) => (Array.isArray(items) ? items.filter((x) => !inChecklist.has(String(x).trim())) : items);
   const structured = [
     renderCivilSurgeonLocatorTable(content.civil_surgeon_locator),
     renderCityCostComparisonTable(content.cost_comparison_table),
-    renderOptionalCityStructuredSection('Local vetting points', content.local_vetting_points, 'ul', 'local_vetting_points'),
-    renderOptionalCityStructuredSection('Typical cost ranges', content.typical_cost_ranges, 'ul', 'typical_cost_ranges'),
-    renderOptionalCityStructuredSection('Payment options', content.payment_options, 'ul', 'payment_options'),
-    renderOptionalCityStructuredSection('Wait-time notes', content.wait_time_notes, 'ul', 'wait_time_notes'),
-    renderOptionalCityStructuredSection('Availability notes', content.availability_notes, 'ul', 'availability_notes'),
-    renderOptionalCityStructuredSection('Named resources or providers', content.named_resources_or_providers, 'ul', 'named_resources_or_providers'),
-    renderOptionalCityStructuredSection('Market-specific notes', content.market_specific_notes, 'ul', 'market_specific_notes'),
-    ...cityVerticalSectionConfig(verticalKey).map(([key, title]) => renderOptionalCityStructuredSection(title, content[key], 'ul', key))
+    renderOptionalCityStructuredSection('Local vetting points', fresh(content.local_vetting_points), 'ul', 'local_vetting_points'),
+    renderOptionalCityStructuredSection('Typical cost ranges', fresh(content.typical_cost_ranges), 'ul', 'typical_cost_ranges'),
+    renderOptionalCityStructuredSection('Payment options', fresh(content.payment_options), 'ul', 'payment_options'),
+    renderOptionalCityStructuredSection('Wait-time notes', fresh(content.wait_time_notes), 'ul', 'wait_time_notes'),
+    renderOptionalCityStructuredSection('Availability notes', fresh(content.availability_notes), 'ul', 'availability_notes'),
+    renderOptionalCityStructuredSection('Named resources or providers', fresh(content.named_resources_or_providers), 'ul', 'named_resources_or_providers'),
+    renderOptionalCityStructuredSection('Market-specific notes', fresh(content.market_specific_notes), 'ul', 'market_specific_notes'),
+    ...cityVerticalSectionConfig(verticalKey).map(([key, title]) => renderOptionalCityStructuredSection(title, fresh(content[key]), 'ul', key))
   ].join('');
   if (!(content.heading || intro || body || bullets || decisionBlock || structured || leadChecklist)) return '';
   // The marker that makes the fallback visible to the rest of the build.
@@ -4371,8 +4381,16 @@ function providerDirectoryGuidance(verticalKey, subKey) {
     return out;
   }
   if (vk === 'trt') {
-    return [sk === 'iv_hydration' ? 'Compare IV protocols, pricing, and supervision' : 'Compare evaluation steps, monitoring, and follow-up clarity',
-      'Ask what is included before treatment starts and what is billed separately'];
+    // One ask per section, each about what that kind of clinic bills. The same
+    // "Ask what is included before treatment starts and what is billed
+    // separately" sat under all three sections and read as template filler
+    // (Search Readiness q1, 7 Nov 2026, hormonesivhair.com/portland-me/ x4).
+    if (sk === 'iv_hydration') return ['Compare IV protocols, pricing, and supervision',
+      'Ask what each drip contains and whether the medical screening before it is billed on its own'];
+    if (sk === 'hair_restoration') return ['Compare evaluation steps, monitoring, and follow-up clarity',
+      'Ask how many sessions a quoted hair restoration price covers and what a touch-up costs'];
+    return ['Compare evaluation steps, monitoring, and follow-up clarity',
+      'Ask whether the quoted hormone price includes the baseline labs, follow-up labs and medication'];
   }
   if (vk === 'uscis_medical' || vk === 'uscis') {
     return ['Confirm documents, vaccination records, and sealed-form handling before you book',
@@ -4408,14 +4426,29 @@ function renderStructuredProviderCardsSectionHtml(opts) {
     ? ('<ul class="provider-directory-guidance" data-provider-directory-guidance="true">' +
         guidance.map((item) => '<li>' + escapeHtml(String(item)) + '</li>').join('') + '</ul>')
     : '';
+  // An attribute two or more cards in this section share ("May also offer peptide
+  // programs") is said once, as a line naming those providers, instead of on each
+  // card: with the card's category and city in front of it, the same 8-word run
+  // repeated card after card and section after section (Search Readiness q1,
+  // 7 Nov 2026: hormonesivhair.com/portland-me/ "clinic portland me may also
+  // offer peptide programs" x4). Each provider's fact is still on the page.
+  const attrCount = new Map();
+  for (const card of cards) for (const a of new Set(Array.isArray(card.attributes) ? card.attributes : [])) attrCount.set(a, (attrCount.get(a) || 0) + 1);
+  const sharedAttrs = [...attrCount].filter(([, n]) => n >= 2).map(([a]) => a);
+  const sharedHtml = sharedAttrs.map((a) => {
+    const names = cards.filter((c) => (c.attributes || []).includes(a)).map((c) => escapeHtml(c.name));
+    const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names.join('');
+    return '<p class="muted" data-provider-shared-attribute="true">' + escapeHtml(a) + ': ' + list + '.</p>';
+  }).join('');
   return (
     '<section class="section provider-directory-section' + (preview ? ' provider-directory-section--preview' : '') + '" data-provider-directory="true"' + (preview ? ' data-home-provider-preview="true"' : '') + String((opts && opts.sectionAttrs) || '') + '>' +
       '<h2>' + heading + '</h2>' +
       (lead ? ('<p class="muted">' + lead + '</p>') : '') +
       guidanceHtml +
+      sharedHtml +
       '<div class="provider-directory-grid">' +
       cards.map((card) => {
-        const list = (Array.isArray(card.attributes) ? card.attributes : []).slice(0, 4);
+        const list = (Array.isArray(card.attributes) ? card.attributes : []).filter((a) => !sharedAttrs.includes(a)).slice(0, 4);
         const attrs = list.map((item) => '<li>' + escapeHtml(item) + '</li>').join('');
         const meta = [card.category, [card.city, card.state].filter(Boolean).join(', ')].filter(Boolean).join(' — ');
         return (
@@ -6201,7 +6234,7 @@ function renderCitationSummaryZoneHtml(opts) {
       '<ul data-citation-key-points="true">' +
       [guideEntry && guideEntry.good, guideEntry && guideEntry.mistake].filter(Boolean).map((s) => '<li>' + escapeHtml(s) + '</li>').join('') +
       '</ul>' +
-      guideContent.faqFromSource(opts && opts.sourceHtml, guideEntry) +
+      guideContent.openingFaqFromSource(opts && opts.sourceHtml, guideEntry) +
       '<p data-citation-routing-links="true"><a href="' + escapeHtml(hrefs.guides) + '">Related guides</a> · <a href="/next-steps/">Next steps</a> · <a href="' + escapeHtml(hrefs.methodology) + '">Sources and method</a></p>' +
       '</section>'
     );

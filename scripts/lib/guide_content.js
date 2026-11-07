@@ -42,6 +42,19 @@ function faqFromSource(html, entry) {
   if (!pairs.length) return '';
   return '<section class="guide-faq" data-guide-faq="true"><h2>What else should you know?</h2>' + pairs.map((m) => '<h3>' + escape(m[1]) + '</h3><p>' + m[2] + '</p>').join('') + '</section>';
 }
+// The opening block's FAQ on a guide page whose article is printed below it.
+// Every pair faqFromSource() finds is lifted from that article, so printing them
+// in the opening put each answer on the page twice - and two such answers side by
+// side made the Monday quality sample read the guide as template filler (Search
+// Readiness q1, 7 Nov 2026: dentistryguides.com/guides/ocala-dental-new-patient-
+// specials-compared/ "without periodontal disease advanced dental care south
+// ocala" x4). The article keeps its questions; the opening adds only the curated
+// pair the article does not carry.
+function openingFaqFromSource(html, entry) {
+  const own = faqFromSource(html, null);
+  if (own) return '';
+  return faqFromSource('', entry);
+}
 function recommendationFromSource(html) {
   for (const m of String(html || '').matchAll(/<(p|li)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
     const plain = text(m[2]);
@@ -70,4 +83,4 @@ function assertDistinctGuides(pages) {
     }
   }
 }
-module.exports = { answerFromSource, faqFromSource, recommendationFromSource, assertDistinctGuides };
+module.exports = { answerFromSource, faqFromSource, openingFaqFromSource, recommendationFromSource, assertDistinctGuides };

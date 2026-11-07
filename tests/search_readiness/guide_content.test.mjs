@@ -2,7 +2,7 @@ import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 const require = createRequire(import.meta.url);
-const { answerFromSource, faqFromSource } = require('../../scripts/lib/guide_content.js');
+const { answerFromSource, faqFromSource, openingFaqFromSource } = require('../../scripts/lib/guide_content.js');
 const { buildFanoutCluster } = require('../../scripts/helpers/fanout.js');
 const { assertDistinctGuides } = require('../../scripts/lib/guide_content.js');
 const { buildGuideHtml } = require('../../scripts/vertical_upgrades/lib.js');
@@ -21,6 +21,18 @@ test('visible FAQ contains only questions and answers in the source', () => {
   assert.ok(html.includes(answer));
   assert.ok(html.includes('<h3>What does the quote include?</h3>'));
   assert.equal(faqFromSource('<h2>Cost table</h2><table><tr><td>100</td></tr></table>'), '');
+});
+
+test('the opening never reprints a question the article below already answers', () => {
+  const answer = 'Ask the clinic for a written estimate identifying the examination, laboratory testing, follow-up visit and paperwork charges before booking.';
+  const article = '<h2>What does the quote include?</h2><p>' + answer + '</p>';
+  const entry = { good: 'The provider should explain the written estimate line by line.', mistake: 'Booking on the headline fee alone.' };
+  // The article carries a pair: the opening adds nothing, so the answer is on the page once.
+  assert.equal(openingFaqFromSource(article, entry), '');
+  // No pair in the article: the opening carries the curated pair, which the article does not.
+  const fallback = openingFaqFromSource('<p>No questions here.</p>', entry);
+  assert.ok(fallback.includes(entry.good) && fallback.includes(entry.mistake));
+  assert.equal(openingFaqFromSource('<p>No questions here.</p>', null), '');
 });
 
 test('compiled navigation resolves retired routes and rejects redirect cycles', () => {
