@@ -33,15 +33,22 @@
  *   - These are counts of clinicians who BILLED, not a directory, not a
  *     recommendation, and not evidence about quality.
  *
- * Usage: node scripts/research/pull_cms_provider_city_neuro.js
- * Writes data/research/costs/cms_provider_city_neuro_2024.json.
+ * Usage: node scripts/research/pull_cms_provider_city_neuro.js [neuro|trt]
+ * Writes data/research/costs/cms_provider_city_<set>_2024.json (default neuro).
+ *
+ * The trt set (added 7 Nov 2026) pulls the hormone codes the TRT city pages
+ * already quote at state level - total testosterone testing, hormone pellet
+ * placement and testosterone cypionate injection - for the same reason the
+ * neuro set exists: state figures were all San Diego and San Francisco could
+ * say, so their pages were 0.86 alike (Search Readiness q1, 7 Nov 2026).
  */
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const OUT = path.join(ROOT, 'data', 'research', 'costs', 'cms_provider_city_neuro_2024.json');
+const SET = String(process.argv[2] || 'neuro').toLowerCase();
+const OUT = path.join(ROOT, 'data', 'research', 'costs', `cms_provider_city_${SET}_2024.json`);
 
 // Version-pinned CY2024 distribution, not a "latest" alias, so a rerun after
 // CMS publishes CY2025 does not silently change every number on every page.
@@ -50,11 +57,24 @@ const API = (qs) => `https://data.cms.gov/data-api/v1/dataset/${DATASET_ID}/data
 
 // Only the evaluation codes a member of the public would call "a neuropsych
 // eval", plus the administration code that is billed alongside them.
-const CODES = {
-  96132: 'Evaluation of neuropsychological test, first hour',
-  96133: 'Evaluation of neuropsychological test, each additional hour',
-  96136: 'Administration of psychological or neuropsychological test, first 30 minutes',
+const CODE_SETS = {
+  neuro: {
+    96132: 'Evaluation of neuropsychological test, first hour',
+    96133: 'Evaluation of neuropsychological test, each additional hour',
+    96136: 'Administration of psychological or neuropsychological test, first 30 minutes',
+  },
+  trt: {
+    84403: 'Total testosterone lab test',
+    11980: 'Hormone pellet placement under the skin',
+    J1071: 'Testosterone cypionate injection, 1 mg',
+  },
 };
+const CODES = CODE_SETS[SET];
+if (!CODES) { console.error(`unknown code set "${SET}" (known: ${Object.keys(CODE_SETS).join(', ')})`); process.exit(1); }
+const MARKET_NOTE = {
+  neuro: 'Medicare fee-for-service only. Private-pay and paediatric neuropsychology practices, which are much of this market, do not appear.',
+  trt: 'Medicare fee-for-service only. Cash-pay and membership hormone clinics, which are much of this market, do not appear.',
+}[SET];
 
 function get(url) {
   return new Promise((resolve, reject) => {
@@ -100,7 +120,7 @@ const keyOf = (city, st) => `${String(city || '').trim().toUpperCase()}|${String
     limits: [
       'Practice address is not catchment: a clinician serving a metro from a suburban office counts as the suburb. City counts UNDERSTATE metros and must never be presented as the number of providers available in a city.',
       'CMS suppresses provider-service rows covering fewer than 11 beneficiaries, so low-volume clinicians are absent entirely and a city with a real clinic can show zero.',
-      'Medicare fee-for-service only. Private-pay and paediatric neuropsychology practices, which are much of this market, do not appear.',
+      MARKET_NOTE,
       'These are counts of clinicians who billed, not a directory, not a recommendation, and not evidence about quality.',
     ],
     pulled_at: new Date().toISOString().slice(0, 10),
