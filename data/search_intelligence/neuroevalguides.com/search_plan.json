@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-07..2026-11-03",
+  "gsc_window": "2026-10-08..2026-11-04",
   "totals": {
     "clicks": 2,
     "impressions": 98,
     "ctr": 0.0204,
-    "position": 25.1
+    "position": 24.9
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,9 +16,9 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 11,
+      "family_impressions": 12,
       "source": "data/page_sets/examples/neuro_global_pages/guides_fayetteville-adhd-evaluation-testing-options.json",
-      "impressions": 12,
+      "impressions": 13,
       "clicks": 0,
       "position": 50.2,
       "strengthened": false
@@ -31,9 +31,9 @@
       ],
       "family_impressions": 10,
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
-      "impressions": 27,
+      "impressions": 26,
       "clicks": 1,
-      "position": 37.8,
+      "position": 38.8,
       "strengthened": true
     },
     {
@@ -57,9 +57,22 @@
       ],
       "family_impressions": 3,
       "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
-      "impressions": 17,
+      "impressions": 18,
       "clicks": 0,
-      "position": 7.1,
+      "position": 6.9,
+      "strengthened": true
+    },
+    {
+      "route": "/states/SD/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "ranking_page"
+      ],
+      "family_impressions": 2,
+      "source": "data/page_sets/examples/neuro_v1.json",
+      "impressions": 8,
+      "clicks": 0,
+      "position": 10.6,
       "strengthened": true
     }
   ],
@@ -69,15 +82,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 80,
-      "Discovered - currently not indexed": 37,
+      "Discovered - currently not indexed": 34,
       "Submitted and indexed": 33,
-      "URL is unknown to Google": 46
+      "URL is unknown to Google": 49
     },
     "buckets": {
       "crawled_not_indexed": 80,
-      "discovered_not_indexed": 37,
+      "discovered_not_indexed": 34,
       "indexed": 33,
-      "unknown": 46
+      "unknown": 49
     }
   }
 }
