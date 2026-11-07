@@ -268,6 +268,62 @@ function areaLocalHtml(city) {
     '</section>';
 }
 
+// The local facts a /<town>/next-steps/ page carries, from the same licensed
+// directory as the town page but as a call list, not a repeat of its prose: the
+// five nearest communities with distance, phone and whether each reports a
+// secured memory care unit, and the nearest hospital page. Without it every
+// senior next-steps page was the same form and the same three paths with only
+// the town's name changed - Millington, Bartlett, Covington and the Methodist
+// University Hospital page were 0.58-0.71 alike (5-word shingles) and the Monday
+// quality sample read them as template filler (Search Readiness q1, 7 Nov 2026).
+function nextStepsLocalHtml(city) {
+  if (!city || city.lat == null || city.lng == null) return '';
+  const list = facilitiesForPage(city).filter((f) => f.miles != null).sort((a, b) => a.miles - b.miles).slice(0, 5);
+  if (!list.length) return '';
+  const place = city.kind === 'hospital' ? esc(city.hospital_name || city.city) : esc(city.city);
+  const rows = list.map((f) => '<li>' + esc(titleCaseName(f.name)) + ', ' + esc(titleCaseName(String(f.city || ''))) +
+    ' - ' + f.miles.toFixed(1) + ' mi, ' + esc(f.phone || 'no phone listed') +
+    (f.memory_care ? ', secured memory care' + (typeof f.secured_beds === 'number' ? ' (' + f.secured_beds + ' secured beds)' : '') : '') +
+    (typeof f.total_beds === 'number' ? ', licensed for ' + f.total_beds + ' residents' : '') + '</li>').join('');
+  const hosp = city.kind === 'hospital' ? null : nearestHospitals(city)[0];
+  // What is inside ten miles, counted from the same rows: the numbers are this
+  // place's own, which is the point of the block.
+  const doc = loadFacilities();
+  const all = (doc.facilities || []).map((f) => ({ ...f, miles: milesBetween(city.lat, city.lng, f.lat, f.lng) })).filter((f) => f.miles != null && f.miles <= 10);
+  const ownTown = String(city.licensed_city || city.city || '').toLowerCase();
+  const inTown = city.kind === 'hospital' ? [] : all.filter((f) => String(f.city || '').toLowerCase() === ownTown);
+  const beds = all.reduce((n, f) => n + (typeof f.total_beds === 'number' ? f.total_beds : 0), 0);
+  const secured = all.reduce((n, f) => n + (typeof f.secured_beds === 'number' ? f.secured_beds : 0), 0);
+  const within = all.length
+    ? '<p data-next-steps-local-count="true">Within 10 miles of ' + place + ': ' + all.length + ' licensed communit' + (all.length === 1 ? 'y' : 'ies') +
+      (beds ? ' with ' + beds + ' licensed beds' : '') + (secured ? ', ' + secured + ' of them secured memory care beds' : ', none reporting secured memory care beds') +
+      (city.kind === 'hospital' ? '' : (inTown.length ? '; ' + inTown.length + ' of the communities are in ' + esc(city.city) + ' itself' : '; none is in ' + esc(city.city) + ' itself')) + '.</p>'
+    : '<p data-next-steps-local-count="true">No licensed community in our directory is within 10 miles of ' + place + '; the nearest are listed above.</p>';
+  const src = doc.source && doc.source.registry_index
+    ? '<p class="muted" data-next-steps-local-source="true">Source: <a href="' + esc(doc.source.registry_index) + '">Tennessee Health Facilities Commission licensure reports</a>' +
+      (doc.source.ms_registry ? ' and the <a href="' + esc(doc.source.ms_registry) + '">Mississippi State Department of Health facility search</a>' : '') +
+      (doc.fetched_at ? ', read ' + esc(String(doc.fetched_at).slice(0, 10)) : '') + '. Distances are straight-line from the centre of ' + place + '.</p>'
+    : '';
+  return '<section class="section" data-next-steps-local="true"><div class="card"><h2>Who to call first near ' + place + '</h2>' +
+    '<p>The ' + list.length + ' licensed communities closest to ' + place + ', nearest first, with the phone number each filed with the state:</p>' +
+    '<ul data-next-steps-local-providers="true">' + rows + '</ul>' +
+    within +
+    (hosp ? '<p>Nearest hospital with a page here: <a href="/' + esc(hosp.slug) + '/">' + esc(hosp.hospital_name) + '</a>, ' + hosp.miles.toFixed(1) + ' miles.</p>' : '') +
+    src +
+    '</div></section>';
+}
+
+// One clause naming the nearest licensed community, for the next-steps answer.
+function nextStepsLead(city) {
+  if (!city || city.lat == null || city.lng == null) return '';
+  const list = facilitiesForPage(city).filter((f) => f.miles != null).sort((a, b) => a.miles - b.miles);
+  if (!list.length) return '';
+  const f = list[0];
+  const mc = list.find((x) => x.memory_care);
+  return 'the closest licensed community is ' + titleCaseName(f.name) + ', ' + f.miles.toFixed(1) + ' miles away' +
+    (mc && mc !== f ? ', and the closest with secured memory care is ' + titleCaseName(mc.name) + ' at ' + mc.miles.toFixed(1) + ' miles' : (f.memory_care ? ', with secured memory care' : ''));
+}
+
 function hospitalLocalHtml(city) {
   const list = facilitiesForPage(city);
   const mc = list.filter((f) => f.memory_care);
@@ -321,7 +377,7 @@ module.exports = {
   PACK_KEY, PUBLIC_ID, DISCLOSURE, FACILITIES_PATH,
   isSeniorLiving, loadFacilities, facilitiesForPage, milesBetween,
   intakeSlotHtml, intakeSlotForCity, intakeSlotForSite,
-  h1For, cityIntroHtml, directoryHtml, footerFor, copySeatFile, publishFacilities, cityLocalHtml, directoryJsonLd,
+  h1For, cityIntroHtml, directoryHtml, footerFor, copySeatFile, publishFacilities, cityLocalHtml, nextStepsLocalHtml, nextStepsLead, directoryJsonLd,
 };
 
 // The three products this site sells to communities. Kept in code rather than in
