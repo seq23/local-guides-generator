@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-08..2026-11-04",
-  "gsc_collected_at": "2026-11-07T13:46:48+00:00",
+  "gsc_window": "2026-10-09..2026-11-05",
+  "gsc_collected_at": "2026-11-08T13:46:59+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,7 +12,7 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 6,
+  "family_count": 8,
   "top_families": [
     {
       "rank": 1,
@@ -28,21 +28,21 @@
     },
     {
       "rank": 3,
-      "family": "choose a provider @ /states/{STATE}/",
+      "family": "choose a provider @ /guides/does-insurance-cover-testosterone-therapy/",
       "impressions": 2,
       "status": "below_impression_floor"
     },
     {
       "rank": 4,
-      "family": "choose a provider @ /guides/trt-red-flags/",
-      "impressions": 1,
-      "status": "intent_mismatch"
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 2,
+      "status": "below_impression_floor"
     },
     {
       "rank": 5,
-      "family": "cost @ /guides/beauty-peptide-costs-and-bundles/",
+      "family": "choose a provider @ /guides/trt-red-flags/",
       "impressions": 1,
-      "status": "below_impression_floor"
+      "status": "intent_mismatch"
     }
   ],
   "families": [
@@ -137,6 +137,41 @@
       "reason": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json search_strengthening"
     },
     {
+      "family": "choose a provider @ /guides/does-insurance-cover-testosterone-therapy/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/guides/does-insurance-cover-testosterone-therapy/",
+      "page_kind": "guide",
+      "page_intent": "topic:does-insurance-cover-testosterone-therapy",
+      "impressions": 2,
+      "best_position": 68.5,
+      "weighted_position": 68.5,
+      "top_query": "do trt clinics take insurance",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "do trt clinics take insurance",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 2,
+          "position": 68.5
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "family_impressions": 2,
+          "page_impressions": 3,
+          "page_position": 69.7
+        }
+      ],
+      "rank": 3,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "2 impressions < 5"
+    },
+    {
       "family": "choose a provider @ /states/{STATE}/",
       "intent": "choose_provider",
       "head_term": "choose a provider",
@@ -176,7 +211,7 @@
           "page_position": 19
         }
       ],
-      "rank": 3,
+      "rank": 4,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
@@ -211,7 +246,7 @@
           "page_position": 7
         }
       ],
-      "rank": 4,
+      "rank": 5,
       "basis": [
         "ranking_page"
       ],
@@ -248,12 +283,12 @@
           "page_position": 9
         }
       ],
-      "rank": 5,
+      "rank": 6,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "1 impressions < 5"
+      "status": "not_top_family",
+      "reason": "rank 6 of 8 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/ocala-vitamin-c-injection-iv-prices/",
@@ -283,12 +318,47 @@
           "page_position": 34
         }
       ],
-      "rank": 6,
+      "rank": 7,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 6 of 6 by impressions; no page at position <= 15"
+      "reason": "rank 7 of 8 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
+      "intent": "topic:does-insurance-cover-testosterone-therapy",
+      "head_term": "topic:does-insurance-cover-testosterone-therapy",
+      "page": "/guides/does-insurance-cover-testosterone-therapy/",
+      "page_kind": "guide",
+      "page_intent": "topic:does-insurance-cover-testosterone-therapy",
+      "impressions": 1,
+      "best_position": 72,
+      "weighted_position": 72,
+      "top_query": "does medicare cover testosterone",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "does medicare cover testosterone",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 1,
+          "position": 72
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "family_impressions": 1,
+          "page_impressions": 3,
+          "page_position": 69.7
+        }
+      ],
+      "rank": 8,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 8 of 8 by impressions; no page at position <= 15"
     }
   ]
 }
