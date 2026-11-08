@@ -46,6 +46,15 @@ function loadLegacyRedirects(distDir) {
   return out;
 }
 
+// Kindle book companions: the URL printed in a book ends in a slash, and a reader may type it without
+// one. Pages would answer the bare form 308; these lines answer it 200 with the same page instead.
+function bookCompanionRewrites(distDir) {
+  const dir = path.join(distDir, "amazon");
+  if (!fs.existsSync(dir)) return [];
+  const slugs = fs.readdirSync(dir).filter((s) => fs.existsSync(path.join(dir, s, "index.html"))).sort();
+  return slugs.length ? ["# Kindle book companions: bare form answers the page (200)"].concat(slugs.map((s) => "/amazon/" + s + " /amazon/" + s + "/ 200")) : [];
+}
+
 function main() {
   const distDir = path.join(process.cwd(), "dist");
   ensureDir(distDir);
@@ -58,6 +67,7 @@ function main() {
     "/indexnow /indexnow.txt 301",
     "/indexnow.txt /indexnow.txt 200",
     "/.well-known/indexnow.txt /indexnow.txt 301",
+    ...bookCompanionRewrites(distDir),
     ...(legacy.length ? ["# Retired URLs -> live page on the same topic (page set legacyRedirects)"].concat(legacy) : []),
     ""
   ];
