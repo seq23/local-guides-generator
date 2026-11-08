@@ -84,7 +84,10 @@ function run() {
       issues.push(`${vertical}: missing guide directory ${rule.dir}`);
       return;
     }
-    const files = fs.readdirSync(dir).filter((f) => f.endsWith('.json') && !['guides.json', 'home.json'].includes(f));
+    // Kindle book companions (route /amazon/...) share the folder but are not guides: their URL is
+    // printed inside a book and they carry the next step, not a guide's sections (8 Nov 2026).
+    const files = fs.readdirSync(dir).filter((f) => f.endsWith('.json') && !['guides.json', 'home.json'].includes(f))
+      .filter((f) => !String(JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')).route || '').startsWith('/amazon/'));
     const kept = JSON.parse(fs.readFileSync(path.join(repoRoot, 'data/page_quality/kept_guides.json'), 'utf8'))[vertical];
     if (!Array.isArray(kept) || !kept.length) issues.push(`${vertical}: retained guide ledger is empty`);
     const routes = new Set(files.map((file) => String(JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')).route || '')));
