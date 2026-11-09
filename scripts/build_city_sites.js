@@ -24,6 +24,7 @@ const fs = require("fs");
 const path = require("path");
 const senior = require("./lib/senior_living");
 const guideContent = require("./lib/guide_content");
+const { renderGuideTopModule } = require("./lib/guide_top_module");
 const seniorBinders = require("./lib/senior_binders");
 const seniorFanout = require("./lib/senior_fanout");
 
@@ -4162,67 +4163,6 @@ function renderStateAuthorityBlockHtml(stateName, cityCount) {
 }
 
 
-function renderGuideTopModule(route, contractEntry, enhancement) {
-  if (!contractEntry || !contractEntry.top_module_type) return "";
-  const topType = contractEntry.top_module_type;
-  const heading = escapeHtml((enhancement && enhancement.heading) || 'Quick decision support');
-  const best = escapeHtml((enhancement && enhancement.best) || 'Use this page to get the direct answer first, then decide what to ask or compare next.');
-  const key = escapeHtml((enhancement && enhancement.key) || 'The goal is to surface the answer shape that LLMs and real users both look for first.');
-  const mistake = escapeHtml((enhancement && enhancement.mistake) || 'Do not rely on a vague summary when the real decision turns on a few practical checks.');
-  const good = escapeHtml((enhancement && enhancement.good) || 'A strong page should make the decision path, the tradeoffs, and the next questions easy to see.');
-  const ask = escapeHtml((enhancement && enhancement.ask) || 'What is the best next question, comparison, or document check before I commit?');
-  const intent = escapeHtml(contractEntry.exact_opening_intent || '');
-  let inner = '';
-  if (topType === 'top_checklist') {
-    inner = '<ul class="top-module-checklist">' +
-      '<li><strong>Use this page when:</strong> ' + best + '</li>' +
-      '<li><strong>Check first:</strong> ' + key + '</li>' +
-      '<li><strong>Slow down if:</strong> ' + mistake + '</li>' +
-      '<li><strong>What to confirm next:</strong> ' + ask + '</li>' +
-      '</ul>';
-  } else if (topType === 'top_comparison_table') {
-    inner = '<table class="top-module-table"><thead><tr><th>Decision factor</th><th>What to compare</th></tr></thead><tbody>' +
-      '<tr><td>Best use case</td><td>' + best + '</td></tr>' +
-      '<tr><td>Main tradeoff</td><td>' + key + '</td></tr>' +
-      '<tr><td>Common mistake</td><td>' + mistake + '</td></tr>' +
-      '<tr><td>Question to ask</td><td>' + ask + '</td></tr>' +
-      '</tbody></table>';
-  } else if (topType === 'top_timeline') {
-    inner = '<ol class="top-module-timeline">' +
-      '<li><strong>Start:</strong> ' + best + '</li>' +
-      '<li><strong>Then compare:</strong> ' + key + '</li>' +
-      '<li><strong>Watch for:</strong> ' + mistake + '</li>' +
-      '<li><strong>Before you book:</strong> ' + ask + '</li>' +
-      '</ol>';
-  } else if (topType === 'top_cost_table') {
-    inner = '<table class="top-module-table"><thead><tr><th>Cost question</th><th>What matters</th></tr></thead><tbody>' +
-      '<tr><td>What are you really comparing?</td><td>' + best + '</td></tr>' +
-      '<tr><td>What changes total cost?</td><td>' + key + '</td></tr>' +
-      '<tr><td>Where people get burned</td><td>' + mistake + '</td></tr>' +
-      '<tr><td>What to ask before paying</td><td>' + ask + '</td></tr>' +
-      '</tbody></table>';
-  } else if (topType === 'top_decision_tree') {
-    inner = '<ul class="top-module-decision-tree">' +
-      '<li><strong>If the page still feels too broad:</strong> use the next question path: ' + ask + '</li>' +
-      '<li><strong>If the fit sounds strong:</strong> ' + good + '</li>' +
-      '<li><strong>If the page raises concern:</strong> ' + mistake + '</li>' +
-      '</ul>';
-  } else if (topType === 'top_question_script') {
-    inner = '<div class="top-module-script"><p><strong>Use these questions:</strong></p><ol>' +
-      '<li>' + ask + '</li>' +
-      '<li>What would make you say this is <em>not</em> the right next step?</li>' +
-      '<li>What changes the price, timing, or required documents?</li>' +
-      '<li>What do people usually misunderstand here?</li>' +
-      '</ol></div>';
-  } else {
-    inner = '<div class="top-module-verdict"><p><strong>Direct answer:</strong> ' + best + '</p><p><strong>Why:</strong> ' + key + '</p><p><strong>Best next move:</strong> ' + ask + '</p></div>';
-  }
-  return '<section class="section guide-section guide-top-module" data-guide-section="true" data-guide-top-module="true" data-guide-top-module-type="' + escapeHtml(topType) + '">' +
-    '<h2>' + heading + '</h2>' +
-    (intent ? '<p class="answer-when"><strong>Opening intent:</strong> ' + intent + '</p>' : '') +
-    inner +
-    '</section>';
-}
 
 function renderGuideGroupsHtml(groups) {
   const rendered = (Array.isArray(groups) ? groups : []).map((group) => {
@@ -5586,7 +5526,7 @@ if (route === 'admin') {
     const guideShapeContract = GUIDE_ANSWER_SHAPE_MAP[normalizedGuideRoute] || null;
     // The citation summary is the single opening; do not repeat it in the article.
     if (guideShapeContract && !out.includes('data-guide-top-module="true"')) {
-      const topModule = renderGuideTopModule(route, guideShapeContract, enhancement);
+      const topModule = renderGuideTopModule(route, guideShapeContract, enhancement, out);
       if (topModule) {
         if (out.includes('data-guide-opening="true"')) out = out.replace(/(<section class="section guide-section guide-opening-block[\s\S]*?<\/section>)/i, '$1\n' + topModule + '\n');
         else if (out.includes('<article class="guide-article"')) out = out.replace(/(<article class="guide-article"[^>]*>)/i, '$1\n' + topModule + '\n');
