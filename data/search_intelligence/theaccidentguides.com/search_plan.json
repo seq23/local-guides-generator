@@ -1,52 +1,39 @@
 {
   "schema_version": "1.0",
   "host": "theaccidentguides.com",
-  "gsc_window": "2026-10-09..2026-11-05",
+  "gsc_window": "2026-10-10..2026-11-06",
   "totals": {
     "clicks": 1,
-    "impressions": 1628,
+    "impressions": 1782,
     "ctr": 0.0006,
-    "position": 66.7
+    "position": 66.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
-    {
-      "route": "/states/MO/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 699,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 96,
-      "clicks": 0,
-      "position": 71.5,
-      "strengthened": true
-    },
     {
       "route": "/states/LA/",
       "family": "choose a provider @ /states/{STATE}/",
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 94,
+      "impressions": 143,
       "clicks": 0,
-      "position": 58.3,
+      "position": 59.3,
       "strengthened": true
     },
     {
-      "route": "/states/WV/",
+      "route": "/states/MO/",
       "family": "choose a provider @ /states/{STATE}/",
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 80,
+      "impressions": 113,
       "clicks": 0,
-      "position": 52.1,
+      "position": 72,
       "strengthened": true
     },
     {
@@ -55,11 +42,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 69,
+      "impressions": 83,
       "clicks": 0,
-      "position": 66.1,
+      "position": 60.3,
+      "strengthened": true
+    },
+    {
+      "route": "/states/WV/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 780,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 82,
+      "clicks": 0,
+      "position": 50.7,
       "strengthened": true
     },
     {
@@ -68,7 +68,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 50,
       "clicks": 0,
@@ -81,7 +81,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 40,
       "clicks": 0,
@@ -94,11 +94,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 35,
+      "impressions": 36,
       "clicks": 0,
-      "position": 67.5,
+      "position": 67.2,
       "strengthened": true
     },
     {
@@ -107,7 +107,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 39,
       "clicks": 0,
@@ -120,11 +120,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 28,
+      "impressions": 29,
       "clicks": 0,
-      "position": 88.5,
+      "position": 88.7,
       "strengthened": true
     },
     {
@@ -133,24 +133,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 25,
       "clicks": 0,
-      "position": 65,
-      "strengthened": true
-    },
-    {
-      "route": "/states/NE/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 699,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 20,
-      "clicks": 0,
-      "position": 57.6,
+      "position": 65.2,
       "strengthened": true
     },
     {
@@ -159,11 +146,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 26,
+      "impressions": 27,
       "clicks": 0,
-      "position": 61.7,
+      "position": 61.6,
+      "strengthened": true
+    },
+    {
+      "route": "/states/NE/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 780,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 20,
+      "clicks": 0,
+      "position": 55.8,
       "strengthened": true
     },
     {
@@ -172,7 +172,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 19,
       "clicks": 0,
@@ -185,11 +185,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 20,
+      "impressions": 17,
       "clicks": 0,
-      "position": 79.5,
+      "position": 82.9,
       "strengthened": true
     },
     {
@@ -198,7 +198,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 16,
       "clicks": 0,
@@ -211,7 +211,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 20,
       "clicks": 0,
@@ -224,7 +224,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 699,
+      "family_impressions": 780,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 10,
       "clicks": 0,
@@ -237,11 +237,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 579,
+      "family_impressions": 636,
       "source": "data/page_sets/examples/pi_global_pages/personal-injury-fees-explained.json",
-      "impressions": 653,
+      "impressions": 720,
       "clicks": 1,
-      "position": 68.5,
+      "position": 68.8,
       "strengthened": true
     },
     {
@@ -250,11 +250,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 67,
+      "family_impressions": 69,
       "source": "data/page_sets/examples/pi_global_pages/evidence-checklist-after-an-accident.json",
-      "impressions": 73,
+      "impressions": 75,
       "clicks": 0,
-      "position": 64.6,
+      "position": 64.3,
       "strengthened": true
     },
     {
@@ -267,25 +267,25 @@
       "source": "data/page_sets/examples/pi_global_pages/when-to-call-a-personal-injury-lawyer.json",
       "impressions": 65,
       "clicks": 0,
-      "position": 62.4,
+      "position": 62.1,
       "strengthened": true
     }
   ],
   "not_yet_strengthened": [],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 163,
-      "Discovered - currently not indexed": 20,
+      "Crawled - currently not indexed": 164,
+      "Discovered - currently not indexed": 16,
       "Duplicate, Google chose different canonical than user": 1,
-      "Submitted and indexed": 65,
-      "URL is unknown to Google": 11
+      "Submitted and indexed": 63,
+      "URL is unknown to Google": 16
     },
     "buckets": {
-      "crawled_not_indexed": 163,
-      "discovered_not_indexed": 20,
-      "indexed": 65,
+      "crawled_not_indexed": 164,
+      "discovered_not_indexed": 16,
+      "indexed": 63,
       "other": 1,
-      "unknown": 11
+      "unknown": 16
     }
   }
 }
