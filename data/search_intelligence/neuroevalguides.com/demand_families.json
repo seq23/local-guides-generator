@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-09..2026-11-05",
-  "gsc_collected_at": "2026-11-08T13:42:17+00:00",
+  "gsc_window": "2026-10-10..2026-11-06",
+  "gsc_collected_at": "2026-11-09T13:43:01+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,13 +17,13 @@
     {
       "rank": 1,
       "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
-      "impressions": 19,
+      "impressions": 21,
       "status": "not_strengthened"
     },
     {
       "rank": 2,
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "impressions": 10,
+      "impressions": 11,
       "status": "strengthened"
     },
     {
@@ -34,15 +34,15 @@
     },
     {
       "rank": 4,
-      "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 3,
-      "status": "below_impression_floor"
+      "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
+      "impressions": 4,
+      "status": "strengthened"
     },
     {
       "rank": 5,
-      "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
+      "family": "choose a provider @ /states/{STATE}/",
       "impressions": 3,
-      "status": "strengthened"
+      "status": "below_impression_floor"
     }
   ],
   "families": [
@@ -53,17 +53,17 @@
       "page": "/guides/fayetteville-adhd-evaluation-testing-options/",
       "page_kind": "guide",
       "page_intent": "questions_to_ask",
-      "impressions": 19,
-      "best_position": 46.6,
-      "weighted_position": 52,
+      "impressions": 21,
+      "best_position": 46.1,
+      "weighted_position": 51,
       "top_query": "adhd evaluation in fayetteville",
       "query_count": 2,
       "queries": [
         {
           "query": "adhd evaluation in fayetteville",
           "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
-          "impressions": 16,
-          "position": 46.6
+          "impressions": 18,
+          "position": 46.1
         },
         {
           "query": "adhd testing fayetteville ar",
@@ -75,9 +75,9 @@
       "pages": [
         {
           "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
-          "family_impressions": 19,
-          "page_impressions": 20,
-          "page_position": 49.8
+          "family_impressions": 21,
+          "page_impressions": 22,
+          "page_position": 49
         }
       ],
       "rank": 1,
@@ -98,17 +98,17 @@
       "page": "/guides/neuropsych-testing-cost-by-state/",
       "page_kind": "guide",
       "page_intent": "cost",
-      "impressions": 10,
+      "impressions": 11,
       "best_position": 84,
-      "weighted_position": 87.5,
+      "weighted_position": 85.9,
       "top_query": "neuropsychological testing cost",
       "query_count": 3,
       "queries": [
         {
           "query": "neuropsychological testing cost",
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "impressions": 6,
-          "position": 88.7
+          "impressions": 7,
+          "position": 86
         },
         {
           "query": "cost of a neuropsychological evaluation",
@@ -126,9 +126,9 @@
       "pages": [
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "family_impressions": 10,
-          "page_impressions": 25,
-          "page_position": 40.3
+          "family_impressions": 11,
+          "page_impressions": 28,
+          "page_position": 38.6
         }
       ],
       "rank": 2,
@@ -188,6 +188,51 @@
       "reason": "data/page_sets/examples/neuro_global_pages/guides_huntsville-adhd-testing-prices.json search_strengthening"
     },
     {
+      "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
+      "intent": "comparison",
+      "head_term": "comparison",
+      "page": "/guides/hospital-vs-private-neuropsych-testing/",
+      "page_kind": "guide",
+      "page_intent": "comparison",
+      "impressions": 4,
+      "best_position": 3,
+      "weighted_position": 13.3,
+      "top_query": "hospital vs private neuropsych testing",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "hospital vs private neuropsych testing",
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "impressions": 3,
+          "position": 16.7
+        },
+        {
+          "query": "how do teen adhd evaluations in savannah differ in diagnostic methods, wait times, and insurance coverage?",
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "impressions": 1,
+          "position": 3
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "family_impressions": 4,
+          "page_impressions": 21,
+          "page_position": 6.2
+        }
+      ],
+      "rank": 4,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/hospital-vs-private-neuropsych-testing/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json search_strengthening"
+    },
+    {
       "family": "choose a provider @ /states/{STATE}/",
       "intent": "choose_provider",
       "head_term": "choose a provider",
@@ -221,51 +266,12 @@
           "page_position": 18.9
         }
       ],
-      "rank": 4,
+      "rank": 5,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "below_impression_floor",
       "reason": "3 impressions < 5"
-    },
-    {
-      "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
-      "intent": "comparison",
-      "head_term": "comparison",
-      "page": "/guides/hospital-vs-private-neuropsych-testing/",
-      "page_kind": "guide",
-      "page_intent": "comparison",
-      "impressions": 3,
-      "best_position": 16.7,
-      "weighted_position": 16.7,
-      "top_query": "hospital vs private neuropsych testing",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "hospital vs private neuropsych testing",
-          "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "impressions": 3,
-          "position": 16.7
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "family_impressions": 3,
-          "page_impressions": 18,
-          "page_position": 6.9
-        }
-      ],
-      "rank": 5,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [
-        "/guides/hospital-vs-private-neuropsych-testing/"
-      ],
-      "status": "strengthened",
-      "reason": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json search_strengthening"
     },
     {
       "family": "other @ /contact/",
