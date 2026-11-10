@@ -37,7 +37,6 @@
       "why": [
         "The ADA discontinued its Survey of Dental Fees in 2023 and is barred by federal law from quoting or recommending fees, so no authoritative US dental price list exists. See data/research/costs/sources.json -> ada_hpi_dental_care_market and its not_available entry.",
         "Medicare largely excludes routine and restorative dentistry, so the CDT codes for crowns, bridges and standard implants are absent from the CMS files that make neuro and trt researchable per city. State coverage on the dental codes runs from 13 states down to none.",
-        "scripts/validation/demand_backed_pages.js records the same conclusion independently: dentistry is 'not a gap, it is an absence'.",
         "Consequence: any per-city dental price on these pages would be invented. sourced_cost_figures_contract.js requires every dollar figure to be traceable, and the correct number of new dollar figures here is zero."
       ]
     },

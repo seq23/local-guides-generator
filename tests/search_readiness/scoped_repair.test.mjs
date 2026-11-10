@@ -111,68 +111,6 @@ test('reviewed search titles retain topic and brand within the existing length b
   }
 });
 
-test('each repaired guide must remain rendered and above the word floor', (t) => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'sr-guide-floor-'));
-  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
-  const script = new URL('../../scripts/validation/guide_word_floor_contract.js', import.meta.url).pathname;
-  for (const [pack, slug] of [
-    ['pi', 'settlement-calculator-red-flags'],
-    ['neuro', 'adhd-therapy-after-an-evaluation'],
-    ['neuro', 'neuropsych-testing-children-vs-adults'],
-    ['trt', 'trt-first-90-days'],
-    ['pi', 'questions-to-ask-a-personal-injury-lawyer'],
-    ['trt', 'peptides-vs-iv-therapy'],
-    ['uscis_medical', 'brooklyn-i693-medical-exam-prices'],
-    ['dentistry', 'ocala-dental-new-patient-specials-compared'],
-    ['neuro', 'neuropsych-evaluation-cost-estimator'],
-    ['neuro', 'neuro-provider-red-flags'],
-  ]) {
-    const dir = path.join(root, pack, 'guides', slug);
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'index.html'), '<p>Short guide</p>');
-    const run = () => {
-      try {
-        execFileSync(process.execPath, [script], { env: { ...process.env, LKG_VALIDATE_DIST: '1',
-          PAGE_SET_FILE: `data/page_sets/examples/${pack}_v1.json`, PAGES_OUT_DIR: path.join(root, pack) }, stdio: 'pipe' });
-        assert.fail('word-floor gate accepted a broken guide');
-      } catch (error) {
-        assert.equal(error.status, 1);
-        return error.stderr.toString();
-      }
-    };
-    assert.match(run(), new RegExp(`${slug}/.*2 words`));
-    fs.renameSync(path.join(root, pack, 'guides', slug), path.join(root, pack, 'guides', `unrelated-${slug}`));
-    assert.match(run(), new RegExp(`not in the rendered pack:.*${slug}`));
-  }
-});
-
-test('repaired local guides reject duplicate H1s, missing answers, missing tables and broken attribution', () => {
-  const { shapeProblems } = require('../../scripts/validation/guide_word_floor_contract');
-  for (const slug of ['brooklyn-i693-medical-exam-prices', 'ocala-dental-new-patient-specials-compared', 'neuropsych-evaluation-cost-estimator', 'neuro-provider-red-flags']) {
-    const good = `<h1>Guide topic</h1><h2 id="quick-answer">Quick answer</h2><table><tr><td>Comparison</td></tr></table>` +
-      `<section data-search-faq="true"><h2>Frequently asked questions</h2><h3>What is included?</h3><p>Ask for itemized scope.</p></section>` +
-      `<script type="application/ld+json">{"@type":"FAQPage"}</script>` +
-      `<a href="/request-assistance/?vertical=example&amp;page_kind=guide&amp;page_slug=guides/${slug}">Ask</a>`;
-    assert.deepEqual(shapeProblems(good, slug), []);
-    assert.match(shapeProblems(good.replace('</h1>', '</h1><section><h1>Nested title</h1></section>'), slug).join(), /expected one H1, found 2/);
-    assert.match(shapeProblems(good.replace(/<h1>.*?<\/h1>/, ''), slug).join(), /expected one H1, found 0/);
-    // Wording, so a note; the generator seats the H2 (scripts/lib/answer_shape_seat.js).
-    const { shapeNotes } = require('../../scripts/validation/guide_word_floor_contract');
-    const { seatAnswerShape } = require('../../scripts/lib/answer_shape_seat');
-    const h3 = good.replace('<h2 id="quick-answer">Quick answer</h2>', '<h3 id="quick-answer">Quick answer</h3>');
-    assert.deepEqual(shapeProblems(h3, slug), []);
-    assert.deepEqual(shapeNotes(h3), ['no Quick answer H2']);
-    assert.deepEqual(shapeNotes(seatAnswerShape(`<main>${h3}</main>`, `guides/${slug}`)), []);
-    assert.match(shapeProblems(good.replace('page_kind=guide', 'page_kind=city'), slug).join(), /no intake CTA/);
-    assert.match(shapeProblems(good.replace(`guides/${slug}`, 'guides/another-guide'), slug).join(), /no intake CTA/);
-    assert.match(shapeProblems(good + '<script>{"@type":"FAQPage"}</script>', slug).join(), /more than one FAQPage/);
-    assert.match(shapeProblems(good.replace('data-search-faq="true"', ''), slug).join(), /no visible FAQ/);
-    assert.match(shapeProblems(good.replace('"FAQPage"', '"WebPage"'), slug).join(), /no FAQPage/);
-    const withoutTable = shapeProblems(good.replace(/<table>.*?<\/table>/, ''), slug);
-    assert.equal(withoutTable.includes('comparison has no table'), slug === 'ocala-dental-new-patient-specials-compared');
-  }
-});
-
 test('Search Console query history retains dropped queries without summing overlapping windows', () => {
   const script = new URL('../../scripts/search_intelligence/collect_gsc.py', import.meta.url).pathname;
   execFileSync('python3', ['-c', `

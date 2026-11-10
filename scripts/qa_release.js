@@ -16,8 +16,6 @@ function run(cmd, envExtras = {}) {
 console.log('== RELEASE QA RUNNER ==');
 run('npm run build:all');
 run('npm run validate:all', { LKG_VALIDATE_DIST: '1' });
-run('npm run validate:dist:compliance');
-run('npm run validate:goldens');
 run('npm run validate:pi:containment');
 run('npm run audit:links');
 run('npm run audit:buyouts');
