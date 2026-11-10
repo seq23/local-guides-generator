@@ -1057,19 +1057,21 @@ function renderSafetyNetDentalAccessHtml(content) {
   }).join('');
 }
 
-// Datasets a cost table's source line may name, and where each one lives.
-// A table may also carry its own `source_links: [{ label, url }]`.
-const COST_TABLE_DATASETS = [
-  { test: /Medicare Physician (?:&|and) Other Practitioners/i, links: [
-    { label: 'CMS data by provider', url: cityLocalFacts.CMS_PROVIDER_URL },
-    { label: 'CMS data by state', url: cityLocalFacts.CMS_GEO_URL },
-  ] },
+// Datasets a cost table's source line names, linked in place so the line gains
+// no words (every word added here is added to all 56 neuro next-steps pages).
+// A table may also carry its own `source_links: [{ label, url }]`, appended.
+const COST_TABLE_DATASET_LINKS = [
+  [/by Provider and Service/, () => cityLocalFacts.CMS_PROVIDER_URL],
+  [/by Geography and Service/, () => cityLocalFacts.CMS_GEO_URL],
 ];
-function costTableSourceLinks(table, sourceText) {
+function linkCostTableSource(sourceText, table) {
+  let html = escapeOptionalHtml(sourceText);
+  for (const [re, url] of COST_TABLE_DATASET_LINKS) {
+    html = html.replace(re, (m) => `<a href="${escapeOptionalHtml(url())}" rel="nofollow noopener">${m}</a>`);
+  }
   const own = Array.isArray(table && table.source_links) ? table.source_links.filter((l) => l && /^https?:\/\//.test(String(l.url || ''))) : [];
-  const known = own.length ? own : ((COST_TABLE_DATASETS.find((d) => d.test.test(String(sourceText || ''))) || {}).links || []);
-  if (!known.length) return '';
-  return ' ' + known.map((l) => `<a href="${escapeOptionalHtml(l.url)}" rel="nofollow noopener">${escapeOptionalHtml(l.label || l.url)}</a>`).join(' · ');
+  if (own.length) html += ' ' + own.map((l) => `<a href="${escapeOptionalHtml(l.url)}" rel="nofollow noopener">${escapeOptionalHtml(l.label || l.url)}</a>`).join(' · ');
+  return html;
 }
 
 function renderCityCostComparisonTable(table) {
@@ -1096,8 +1098,7 @@ function renderCityCostComparisonTable(table) {
   // The source line named the CMS datasets but linked neither, so a page of
   // 13 Medicare figures cited nothing a reader could open (Search Readiness q1
   // d3, 10 Nov 2026: neuroevalguides.com/<city>/next-steps/).
-  const sourceLinks = costTableSourceLinks(table, sourceText);
-  const source = sourceText ? `<p class="muted" data-cost-table-source="true">${escapeOptionalHtml(sourceText)}${sourceLinks}</p>` : '';
+  const source = sourceText ? `<p class="muted" data-cost-table-source="true">${linkCostTableSource(sourceText, table)}</p>` : '';
   return `<section class="city-supplement city-supplement-structured" data-city-cost-comparison="true">`
     + `<h3>${escapeOptionalHtml(table.heading || 'Published cost comparison')}</h3>`
     + `<table class="comparison-table" data-city-comparison-table="true">${caption}`
@@ -6804,7 +6805,7 @@ function loadNextStepsSponsor(citySlug) {
       const naturalizationStateGuides = renderStateNaturalizationGuidesHtml(verticalKey, globalPagesDir);
       let mainHtml = (
         (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and city coverage checks.') : '') +
-        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : brandName + ' in ' + stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
+        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : brandName + ' in ' + stateName) + '</h1>' + (stateStrength ? '' : '<p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p>') + '</section>' +
         searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:state_hub_top%%' +
         stateLead +
@@ -6908,7 +6909,7 @@ function loadNextStepsSponsor(citySlug) {
       const title = 'Next steps — ' + stateName + ' personal injury';
       const headTitle = brandedTitle('Next Steps: ' + stateName, siteUrl, brandName);
       const description = 'Next steps for a personal injury claim in ' + stateName + ': a preparation checklist, the questions to ask a lawyer first, and a sponsor contact route.';
-      const stateFacts = cityLocalFacts.piState(ab, stateName);
+      const stateFacts = cityLocalFacts.piState(ab, stateName, new Set(cities.map((c) => String(c.slug || '')).filter((slug) => slug && !isFoldedRoute(slug))));
 
       const mainHtml = (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.') : '') + renderDedicatedNextStepsHubHtml({
         marketLabel: stateName,

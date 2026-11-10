@@ -1,0 +1,4080 @@
+{
+  "source": {
+    "publisher": "Health Resources and Services Administration (HRSA)",
+    "dataset": "HPSA - Dental Health (Data Warehouse download)",
+    "landing_page": "https://data.hrsa.gov/data/download",
+    "file": "https://data.hrsa.gov/DataDownload/DD_Files/BCD_HPSA_FCT_DET_DH.csv",
+    "fetched_on": "2026-11-10"
+  },
+  "field_meaning": {
+    "designations": "HPSAs with status Designated, any type.",
+    "geographic": "Geographic and high-needs geographic HPSAs: a whole area short of dentists.",
+    "population_groups": "Population HPSAs: a group (usually low-income or Medicaid-eligible residents) short of dentists.",
+    "facilities": "Facility HPSAs: health centres, rural health clinics, tribal and correctional facilities.",
+    "people_covered": "Sum of the designation population of geographic and population HPSAs.",
+    "dentists_needed": "Sum of HPSA Shortage: full-time dentists needed to remove those designations.",
+    "top_designations": "Geographic and population HPSAs with the highest HPSA score, by name.",
+    "top_counties": "Counties touched by a geographic or population HPSA, highest HPSA score first (scores run 0-26; higher is a greater shortage)."
+  },
+  "limits": [
+    "A designation is a federal shortage finding, not a statement that no dentist is taking patients.",
+    "Withdrawn and proposed-for-withdrawal designations are not counted.",
+    "Facility designations are counted but not summed into people covered."
+  ],
+  "states": {
+    "AK": {
+      "state": "Alaska",
+      "designations": 327,
+      "geographic": 13,
+      "population_groups": 3,
+      "facilities": 311,
+      "rural_or_partly_rural": 303,
+      "people_covered": 476266,
+      "dentists_needed": 43.6,
+      "counties_with_designation": 26,
+      "top_counties": [
+        {
+          "county": "Kusilvak Census Area, AK",
+          "max_score": 22
+        },
+        {
+          "county": "Yukon-Koyukuk Census Area, AK",
+          "max_score": 20
+        },
+        {
+          "county": "Dillingham Census Area, AK",
+          "max_score": 18
+        },
+        {
+          "county": "Aleutians East Borough, AK",
+          "max_score": 16
+        },
+        {
+          "county": "Aleutians West Census Area, AK",
+          "max_score": 16
+        },
+        {
+          "county": "Chugach Census Area, AK",
+          "max_score": 16
+        },
+        {
+          "county": "Copper River Census Area, AK",
+          "max_score": 16
+        },
+        {
+          "county": "Southeast Fairbanks Census Area, AK",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Kusilvak Census Area",
+          "county": "Kusilvak Census Area, AK",
+          "score": 22,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Yukon-Koyukuk Census Area",
+          "county": "Yukon-Koyukuk Census Area, AK",
+          "score": 20,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Native Alaskan - Dillingham Census Area",
+          "county": "Dillingham Census Area, AK",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Aleutians East Borough",
+          "county": "Aleutians East Borough, AK",
+          "score": 16,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "Aleutians West",
+          "county": "Aleutians West Census Area, AK",
+          "score": 16,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "AL": {
+      "state": "Alabama",
+      "designations": 93,
+      "geographic": 1,
+      "population_groups": 47,
+      "facilities": 45,
+      "rural_or_partly_rural": 72,
+      "people_covered": 733656,
+      "dentists_needed": 134.5,
+      "counties_with_designation": 48,
+      "top_counties": [
+        {
+          "county": "Perry County, AL",
+          "max_score": 22
+        },
+        {
+          "county": "Greene County, AL",
+          "max_score": 21
+        },
+        {
+          "county": "Barbour County, AL",
+          "max_score": 20
+        },
+        {
+          "county": "Bibb County, AL",
+          "max_score": 20
+        },
+        {
+          "county": "Bullock County, AL",
+          "max_score": 20
+        },
+        {
+          "county": "Butler County, AL",
+          "max_score": 20
+        },
+        {
+          "county": "Hale County, AL",
+          "max_score": 20
+        },
+        {
+          "county": "Lowndes County, AL",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Perry County",
+          "county": "Perry County, AL",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Greene County",
+          "county": "Greene County, AL",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Barbour County",
+          "county": "Barbour County, AL",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Bibb County",
+          "county": "Bibb County, AL",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Bullock County",
+          "county": "Bullock County, AL",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "AR": {
+      "state": "Arkansas",
+      "designations": 149,
+      "geographic": 3,
+      "population_groups": 68,
+      "facilities": 78,
+      "rural_or_partly_rural": 129,
+      "people_covered": 1006116,
+      "dentists_needed": 201.1,
+      "counties_with_designation": 71,
+      "top_counties": [
+        {
+          "county": "Columbia County, AR",
+          "max_score": 22
+        },
+        {
+          "county": "Izard County, AR",
+          "max_score": 20
+        },
+        {
+          "county": "Miller County, AR",
+          "max_score": 20
+        },
+        {
+          "county": "Poinsett County, AR",
+          "max_score": 20
+        },
+        {
+          "county": "Desha County, AR",
+          "max_score": 19
+        },
+        {
+          "county": "Drew County, AR",
+          "max_score": 19
+        },
+        {
+          "county": "Jefferson County, AR",
+          "max_score": 19
+        },
+        {
+          "county": "Lee County, AR",
+          "max_score": 19
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-Columbia",
+          "county": "Columbia County, AR",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Izard County",
+          "county": "Izard County, AR",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Miller County",
+          "county": "Miller County, AR",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Poinsett County",
+          "county": "Poinsett County, AR",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Desha County",
+          "county": "Desha County, AR",
+          "score": 19,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "AS": {
+      "state": "American Samoa",
+      "designations": 2,
+      "geographic": 1,
+      "population_groups": 0,
+      "facilities": 1,
+      "rural_or_partly_rural": 2,
+      "people_covered": 55009,
+      "dentists_needed": 13.8,
+      "counties_with_designation": 5,
+      "top_counties": [
+        {
+          "county": "Eastern District, AS",
+          "max_score": 26
+        },
+        {
+          "county": "Manu'a District, AS",
+          "max_score": 26
+        },
+        {
+          "county": "Rose Island, AS",
+          "max_score": 26
+        },
+        {
+          "county": "Swains Island, AS",
+          "max_score": 26
+        },
+        {
+          "county": "Western District, AS",
+          "max_score": 26
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "American Samoa",
+          "county": "Eastern District, AS",
+          "score": 26,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "AZ": {
+      "state": "Arizona",
+      "designations": 210,
+      "geographic": 15,
+      "population_groups": 56,
+      "facilities": 139,
+      "rural_or_partly_rural": 127,
+      "people_covered": 1374569,
+      "dentists_needed": 222.5,
+      "counties_with_designation": 15,
+      "top_counties": [
+        {
+          "county": "Gila County, AZ",
+          "max_score": 24
+        },
+        {
+          "county": "Maricopa County, AZ",
+          "max_score": 24
+        },
+        {
+          "county": "Navajo County, AZ",
+          "max_score": 24
+        },
+        {
+          "county": "Pima County, AZ",
+          "max_score": 24
+        },
+        {
+          "county": "Pinal County, AZ",
+          "max_score": 22
+        },
+        {
+          "county": "Graham County, AZ",
+          "max_score": 20
+        },
+        {
+          "county": "Cochise County, AZ",
+          "max_score": 19
+        },
+        {
+          "county": "Mohave County, AZ",
+          "max_score": 19
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Tohono O’odham Nation",
+          "county": "Maricopa County, AZ",
+          "score": 24,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "White Mountain Apache Tribe",
+          "county": "Gila County, AZ",
+          "score": 24,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Gila River Indian Community",
+          "county": "Maricopa County, AZ",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Salt River Pima-Maricopa Indian Community",
+          "county": "Maricopa County, AZ",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "San Carlos Apache Tribe",
+          "county": "Gila County, AZ",
+          "score": 20,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "CA": {
+      "state": "California",
+      "designations": 562,
+      "geographic": 10,
+      "population_groups": 93,
+      "facilities": 459,
+      "rural_or_partly_rural": 227,
+      "people_covered": 2874342,
+      "dentists_needed": 468.4,
+      "counties_with_designation": 39,
+      "top_counties": [
+        {
+          "county": "Fresno County, CA",
+          "max_score": 22
+        },
+        {
+          "county": "Humboldt County, CA",
+          "max_score": 22
+        },
+        {
+          "county": "Kern County, CA",
+          "max_score": 22
+        },
+        {
+          "county": "Imperial County, CA",
+          "max_score": 21
+        },
+        {
+          "county": "Los Angeles County, CA",
+          "max_score": 21
+        },
+        {
+          "county": "Kings County, CA",
+          "max_score": 20
+        },
+        {
+          "county": "Lake County, CA",
+          "max_score": 20
+        },
+        {
+          "county": "Madera County, CA",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - MSSA 44/Garverville/Redway",
+          "county": "Humboldt County, CA",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI MSSA 25-Firebaugh",
+          "county": "Fresno County, CA",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI MSSA 26-San Joaquin",
+          "county": "Fresno County, CA",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME/MSSA 66b- Bakersfield East/Lakeview/La Loma",
+          "county": "Kern County, CA",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - MSSA 47/Calipatria",
+          "county": "Imperial County, CA",
+          "score": 21,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "CO": {
+      "state": "Colorado",
+      "designations": 108,
+      "geographic": 18,
+      "population_groups": 27,
+      "facilities": 63,
+      "rural_or_partly_rural": 83,
+      "people_covered": 489517,
+      "dentists_needed": 68.0,
+      "counties_with_designation": 46,
+      "top_counties": [
+        {
+          "county": "Bent County, CO",
+          "max_score": 22
+        },
+        {
+          "county": "Alamosa County, CO",
+          "max_score": 18
+        },
+        {
+          "county": "Saguache County, CO",
+          "max_score": 18
+        },
+        {
+          "county": "Las Animas County, CO",
+          "max_score": 17
+        },
+        {
+          "county": "Otero County, CO",
+          "max_score": 17
+        },
+        {
+          "county": "Delta County, CO",
+          "max_score": 16
+        },
+        {
+          "county": "Gilpin County, CO",
+          "max_score": 16
+        },
+        {
+          "county": "Logan County, CO",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Bent County",
+          "county": "Bent County, CO",
+          "score": 22,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "LI Alamosa County",
+          "county": "Alamosa County, CO",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Saguache County",
+          "county": "Saguache County, CO",
+          "score": 18,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "LI - Otero County",
+          "county": "Otero County, CO",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Las Animas County",
+          "county": "Las Animas County, CO",
+          "score": 17,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "CT": {
+      "state": "Connecticut",
+      "designations": 38,
+      "geographic": 0,
+      "population_groups": 18,
+      "facilities": 20,
+      "rural_or_partly_rural": 3,
+      "people_covered": 443164,
+      "dentists_needed": 110.8,
+      "counties_with_designation": 8,
+      "top_counties": [
+        {
+          "county": "Capitol Planning Region, CT",
+          "max_score": 19
+        },
+        {
+          "county": "Greater Bridgeport Planning Region, CT",
+          "max_score": 19
+        },
+        {
+          "county": "Southeastern Connecticut Planning Region, CT",
+          "max_score": 19
+        },
+        {
+          "county": "Naugatuck Valley Planning Region, CT",
+          "max_score": 16
+        },
+        {
+          "county": "Northwest Hills Planning Region, CT",
+          "max_score": 16
+        },
+        {
+          "county": "South Central Connecticut Planning Region, CT",
+          "max_score": 16
+        },
+        {
+          "county": "Western Connecticut Planning Region, CT",
+          "max_score": 15
+        },
+        {
+          "county": "Lower Connecticut River Valley Planning Region, CT",
+          "max_score": 14
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Bridgeport",
+          "county": "Greater Bridgeport Planning Region, CT",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Hartford",
+          "county": "Capitol Planning Region, CT",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "New London and Groton",
+          "county": "Southeastern Connecticut Planning Region, CT",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Central Manchester",
+          "county": "Capitol Planning Region, CT",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Mansfield/Windham",
+          "county": "Capitol Planning Region, CT",
+          "score": 18,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "DC": {
+      "state": "District of Columbia",
+      "designations": 9,
+      "geographic": 0,
+      "population_groups": 1,
+      "facilities": 8,
+      "rural_or_partly_rural": 0,
+      "people_covered": 7473,
+      "dentists_needed": 1.7,
+      "counties_with_designation": 1,
+      "top_counties": [
+        {
+          "county": "District of Columbia, DC",
+          "max_score": 17
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Homeless - Downtown D.C.",
+          "county": "District of Columbia, DC",
+          "score": 17,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "DE": {
+      "state": "Delaware",
+      "designations": 12,
+      "geographic": 0,
+      "population_groups": 3,
+      "facilities": 9,
+      "rural_or_partly_rural": 5,
+      "people_covered": 287728,
+      "dentists_needed": 71.6,
+      "counties_with_designation": 3,
+      "top_counties": [
+        {
+          "county": "New Castle County, DE",
+          "max_score": 17
+        },
+        {
+          "county": "Sussex County, DE",
+          "max_score": 16
+        },
+        {
+          "county": "Kent County, DE",
+          "max_score": 13
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Wilmington/Stanton/Newark",
+          "county": "New Castle County, DE",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - Sussex County",
+          "county": "Sussex County, DE",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - Kent County",
+          "county": "Kent County, DE",
+          "score": 13,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "FL": {
+      "state": "Florida",
+      "designations": 217,
+      "geographic": 5,
+      "population_groups": 39,
+      "facilities": 173,
+      "rural_or_partly_rural": 109,
+      "people_covered": 1250732,
+      "dentists_needed": 256.1,
+      "counties_with_designation": 43,
+      "top_counties": [
+        {
+          "county": "Gadsden County, FL",
+          "max_score": 20
+        },
+        {
+          "county": "Glades County, FL",
+          "max_score": 20
+        },
+        {
+          "county": "Hamilton County, FL",
+          "max_score": 20
+        },
+        {
+          "county": "Jefferson County, FL",
+          "max_score": 20
+        },
+        {
+          "county": "Madison County, FL",
+          "max_score": 20
+        },
+        {
+          "county": "Miami-Dade County, FL",
+          "max_score": 20
+        },
+        {
+          "county": "Putnam County, FL",
+          "max_score": 20
+        },
+        {
+          "county": "Calhoun County, FL",
+          "max_score": 19
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Glades County",
+          "county": "Glades County, FL",
+          "score": 20,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI - Jefferson County",
+          "county": "Jefferson County, FL",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Little Haiti",
+          "county": "Miami-Dade County, FL",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Madison County",
+          "county": "Madison County, FL",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Putnam County",
+          "county": "Putnam County, FL",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "FM": {
+      "state": "Federated States of Micronesia",
+      "designations": 8,
+      "geographic": 4,
+      "population_groups": 0,
+      "facilities": 4,
+      "rural_or_partly_rural": 8,
+      "people_covered": 91491,
+      "dentists_needed": 22.9,
+      "counties_with_designation": 4,
+      "top_counties": [
+        {
+          "county": "Chuuk State, FM",
+          "max_score": 24
+        },
+        {
+          "county": "Pohnpei State, FM",
+          "max_score": 22
+        },
+        {
+          "county": "Kosrae State, FM",
+          "max_score": 20
+        },
+        {
+          "county": "Yap State, FM",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Chuuk State",
+          "county": "Chuuk State, FM",
+          "score": 24,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "Pohnpei State",
+          "county": "Pohnpei State, FM",
+          "score": 22,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "Kosrae State",
+          "county": "Kosrae State, FM",
+          "score": 20,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "Yap State",
+          "county": "Yap State, FM",
+          "score": 16,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "GA": {
+      "state": "Georgia",
+      "designations": 110,
+      "geographic": 8,
+      "population_groups": 40,
+      "facilities": 62,
+      "rural_or_partly_rural": 77,
+      "people_covered": 661163,
+      "dentists_needed": 137.6,
+      "counties_with_designation": 50,
+      "top_counties": [
+        {
+          "county": "Terrell County, GA",
+          "max_score": 21
+        },
+        {
+          "county": "Bacon County, GA",
+          "max_score": 20
+        },
+        {
+          "county": "Berrien County, GA",
+          "max_score": 20
+        },
+        {
+          "county": "Coffee County, GA",
+          "max_score": 20
+        },
+        {
+          "county": "Crisp County, GA",
+          "max_score": 20
+        },
+        {
+          "county": "Elbert County, GA",
+          "max_score": 20
+        },
+        {
+          "county": "Grady County, GA",
+          "max_score": 20
+        },
+        {
+          "county": "Lanier County, GA",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Terrell County",
+          "county": "Terrell County, GA",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Bacon County",
+          "county": "Bacon County, GA",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Berrien County",
+          "county": "Berrien County, GA",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Coffee County",
+          "county": "Coffee County, GA",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Crisp County",
+          "county": "Crisp County, GA",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "GU": {
+      "state": "Guam",
+      "designations": 4,
+      "geographic": 0,
+      "population_groups": 1,
+      "facilities": 3,
+      "rural_or_partly_rural": 4,
+      "people_covered": 70429,
+      "dentists_needed": 16.7,
+      "counties_with_designation": 1,
+      "top_counties": [
+        {
+          "county": "Guam, GU",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Guam",
+          "county": "Guam, GU",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "HI": {
+      "state": "Hawaii",
+      "designations": 33,
+      "geographic": 0,
+      "population_groups": 4,
+      "facilities": 29,
+      "rural_or_partly_rural": 20,
+      "people_covered": 162646,
+      "dentists_needed": 29.8,
+      "counties_with_designation": 4,
+      "top_counties": [
+        {
+          "county": "Honolulu County, HI",
+          "max_score": 18
+        },
+        {
+          "county": "Hawaii County, HI",
+          "max_score": 16
+        },
+        {
+          "county": "Kauai County, HI",
+          "max_score": 16
+        },
+        {
+          "county": "Maui County, HI",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Kalihi-Palama",
+          "county": "Honolulu County, HI",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Hawaii County",
+          "county": "Hawaii County, HI",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - Kauai County",
+          "county": "Kauai County, HI",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - Maui County",
+          "county": "Maui County, HI",
+          "score": 16,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "IA": {
+      "state": "Iowa",
+      "designations": 131,
+      "geographic": 7,
+      "population_groups": 28,
+      "facilities": 96,
+      "rural_or_partly_rural": 120,
+      "people_covered": 411724,
+      "dentists_needed": 58.9,
+      "counties_with_designation": 35,
+      "top_counties": [
+        {
+          "county": "Johnson County, IA",
+          "max_score": 19
+        },
+        {
+          "county": "Tama County, IA",
+          "max_score": 18
+        },
+        {
+          "county": "Crawford County, IA",
+          "max_score": 17
+        },
+        {
+          "county": "Story County, IA",
+          "max_score": 17
+        },
+        {
+          "county": "Clayton County, IA",
+          "max_score": 16
+        },
+        {
+          "county": "Black Hawk County, IA",
+          "max_score": 15
+        },
+        {
+          "county": "Clarke County, IA",
+          "max_score": 15
+        },
+        {
+          "county": "Des Moines County, IA",
+          "max_score": 15
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Iowa City Area",
+          "county": "Johnson County, IA",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Tama County",
+          "county": "Tama County, IA",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Crawford County",
+          "county": "Crawford County, IA",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Story County",
+          "county": "Story County, IA",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Clayton County",
+          "county": "Clayton County, IA",
+          "score": 16,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "ID": {
+      "state": "Idaho",
+      "designations": 84,
+      "geographic": 4,
+      "population_groups": 24,
+      "facilities": 56,
+      "rural_or_partly_rural": 77,
+      "people_covered": 286977,
+      "dentists_needed": 48.8,
+      "counties_with_designation": 29,
+      "top_counties": [
+        {
+          "county": "Boundary County, ID",
+          "max_score": 18
+        },
+        {
+          "county": "Washington County, ID",
+          "max_score": 18
+        },
+        {
+          "county": "Madison County, ID",
+          "max_score": 17
+        },
+        {
+          "county": "Bannock County, ID",
+          "max_score": 16
+        },
+        {
+          "county": "Benewah County, ID",
+          "max_score": 16
+        },
+        {
+          "county": "Bonner County, ID",
+          "max_score": 16
+        },
+        {
+          "county": "Canyon County, ID",
+          "max_score": 16
+        },
+        {
+          "county": "Elmore County, ID",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Boundary County",
+          "county": "Boundary County, ID",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Washington County",
+          "county": "Washington County, ID",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Madison County",
+          "county": "Madison County, ID",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Bannock County",
+          "county": "Bannock County, ID",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Benewah County",
+          "county": "Benewah County, ID",
+          "score": 16,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "IL": {
+      "state": "Illinois",
+      "designations": 256,
+      "geographic": 7,
+      "population_groups": 71,
+      "facilities": 178,
+      "rural_or_partly_rural": 190,
+      "people_covered": 1163102,
+      "dentists_needed": 218.9,
+      "counties_with_designation": 71,
+      "top_counties": [
+        {
+          "county": "Cook County, IL",
+          "max_score": 25
+        },
+        {
+          "county": "Jackson County, IL",
+          "max_score": 19
+        },
+        {
+          "county": "Champaign County, IL",
+          "max_score": 17
+        },
+        {
+          "county": "Clay County, IL",
+          "max_score": 17
+        },
+        {
+          "county": "Coles County, IL",
+          "max_score": 17
+        },
+        {
+          "county": "Franklin County, IL",
+          "max_score": 17
+        },
+        {
+          "county": "Knox County, IL",
+          "max_score": 17
+        },
+        {
+          "county": "Marion County, IL",
+          "max_score": 17
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-Riverdale",
+          "county": "Cook County, IL",
+          "score": 25,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Washington Park",
+          "county": "Cook County, IL",
+          "score": 23,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Chicago Englewood/Gresham",
+          "county": "Cook County, IL",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI Southeast Chicago",
+          "county": "Cook County, IL",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Armour Square",
+          "county": "Cook County, IL",
+          "score": 19,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "IN": {
+      "state": "Indiana",
+      "designations": 129,
+      "geographic": 3,
+      "population_groups": 49,
+      "facilities": 77,
+      "rural_or_partly_rural": 78,
+      "people_covered": 953965,
+      "dentists_needed": 172.0,
+      "counties_with_designation": 52,
+      "top_counties": [
+        {
+          "county": "Crawford County, IN",
+          "max_score": 19
+        },
+        {
+          "county": "Lake County, IN",
+          "max_score": 19
+        },
+        {
+          "county": "Monroe County, IN",
+          "max_score": 19
+        },
+        {
+          "county": "St. Joseph County, IN",
+          "max_score": 19
+        },
+        {
+          "county": "Vigo County, IN",
+          "max_score": 19
+        },
+        {
+          "county": "Miami County, IN",
+          "max_score": 18
+        },
+        {
+          "county": "Blackford County, IN",
+          "max_score": 17
+        },
+        {
+          "county": "Fayette County, IN",
+          "max_score": 17
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Calumet Township / Gary",
+          "county": "Lake County, IN",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Crawford County",
+          "county": "Crawford County, IN",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Monroe County",
+          "county": "Monroe County, IN",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - St Joseph County / Portage / South Bend",
+          "county": "St. Joseph County, IN",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Vigo County",
+          "county": "Vigo County, IN",
+          "score": 19,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "KS": {
+      "state": "Kansas",
+      "designations": 125,
+      "geographic": 6,
+      "population_groups": 26,
+      "facilities": 93,
+      "rural_or_partly_rural": 111,
+      "people_covered": 243485,
+      "dentists_needed": 37.9,
+      "counties_with_designation": 32,
+      "top_counties": [
+        {
+          "county": "Riley County, KS",
+          "max_score": 19
+        },
+        {
+          "county": "Wilson County, KS",
+          "max_score": 18
+        },
+        {
+          "county": "Douglas County, KS",
+          "max_score": 17
+        },
+        {
+          "county": "Atchison County, KS",
+          "max_score": 16
+        },
+        {
+          "county": "Cloud County, KS",
+          "max_score": 16
+        },
+        {
+          "county": "Marion County, KS",
+          "max_score": 16
+        },
+        {
+          "county": "Norton County, KS",
+          "max_score": 16
+        },
+        {
+          "county": "Cherokee County, KS",
+          "max_score": 15
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-Riley County",
+          "county": "Riley County, KS",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Wilson County",
+          "county": "Wilson County, KS",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Douglas County",
+          "county": "Douglas County, KS",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Atchison County",
+          "county": "Atchison County, KS",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Cloud County",
+          "county": "Cloud County, KS",
+          "score": 16,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "KY": {
+      "state": "Kentucky",
+      "designations": 257,
+      "geographic": 2,
+      "population_groups": 112,
+      "facilities": 143,
+      "rural_or_partly_rural": 231,
+      "people_covered": 1293108,
+      "dentists_needed": 291.9,
+      "counties_with_designation": 116,
+      "top_counties": [
+        {
+          "county": "Clay County, KY",
+          "max_score": 21
+        },
+        {
+          "county": "Cumberland County, KY",
+          "max_score": 21
+        },
+        {
+          "county": "Fayette County, KY",
+          "max_score": 21
+        },
+        {
+          "county": "Jefferson County, KY",
+          "max_score": 21
+        },
+        {
+          "county": "Knox County, KY",
+          "max_score": 21
+        },
+        {
+          "county": "Magoffin County, KY",
+          "max_score": 21
+        },
+        {
+          "county": "McCreary County, KY",
+          "max_score": 21
+        },
+        {
+          "county": "Warren County, KY",
+          "max_score": 21
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Clay County",
+          "county": "Clay County, KY",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Jefferson County 6 Northwest",
+          "county": "Jefferson County, KY",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Wolfe County",
+          "county": "Wolfe County, KY",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Cumberland County",
+          "county": "Cumberland County, KY",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Fayette County 6 Downtown",
+          "county": "Fayette County, KY",
+          "score": 21,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "LA": {
+      "state": "Louisiana",
+      "designations": 172,
+      "geographic": 21,
+      "population_groups": 35,
+      "facilities": 116,
+      "rural_or_partly_rural": 116,
+      "people_covered": 1751377,
+      "dentists_needed": 235.3,
+      "counties_with_designation": 56,
+      "top_counties": [
+        {
+          "county": "Ascension Parish, LA",
+          "max_score": 22
+        },
+        {
+          "county": "Claiborne Parish, LA",
+          "max_score": 22
+        },
+        {
+          "county": "Lincoln Parish, LA",
+          "max_score": 22
+        },
+        {
+          "county": "St. Helena Parish, LA",
+          "max_score": 22
+        },
+        {
+          "county": "East Carroll Parish, LA",
+          "max_score": 21
+        },
+        {
+          "county": "Acadia Parish, LA",
+          "max_score": 20
+        },
+        {
+          "county": "Avoyelles Parish, LA",
+          "max_score": 20
+        },
+        {
+          "county": "Iberia Parish, LA",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Lincoln Parish",
+          "county": "Lincoln Parish, LA",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - St. Helena Parish",
+          "county": "St. Helena Parish, LA",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-ASCENSION PARISH-DONALDSONVILLE SA",
+          "county": "Ascension Parish, LA",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-CLAIBORNE PARISH",
+          "county": "Claiborne Parish, LA",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - East Carroll Parish",
+          "county": "East Carroll Parish, LA",
+          "score": 21,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "MA": {
+      "state": "Massachusetts",
+      "designations": 55,
+      "geographic": 0,
+      "population_groups": 5,
+      "facilities": 50,
+      "rural_or_partly_rural": 10,
+      "people_covered": 131462,
+      "dentists_needed": 15.6,
+      "counties_with_designation": 3,
+      "top_counties": [
+        {
+          "county": "Berkshire County, MA",
+          "max_score": 16
+        },
+        {
+          "county": "Franklin County, MA",
+          "max_score": 16
+        },
+        {
+          "county": "Suffolk County, MA",
+          "max_score": 15
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Greenfield",
+          "county": "Franklin County, MA",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - North Berkshire",
+          "county": "Berkshire County, MA",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI Dorchester/Mattapan",
+          "county": "Suffolk County, MA",
+          "score": 15,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-South End - Downtown",
+          "county": "Suffolk County, MA",
+          "score": 15,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Roxbury",
+          "county": "Suffolk County, MA",
+          "score": 13,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "MD": {
+      "state": "Maryland",
+      "designations": 31,
+      "geographic": 5,
+      "population_groups": 9,
+      "facilities": 17,
+      "rural_or_partly_rural": 8,
+      "people_covered": 818664,
+      "dentists_needed": 75.7,
+      "counties_with_designation": 11,
+      "top_counties": [
+        {
+          "county": "Baltimore City, MD",
+          "max_score": 19
+        },
+        {
+          "county": "Allegany County, MD",
+          "max_score": 18
+        },
+        {
+          "county": "Dorchester County, MD",
+          "max_score": 17
+        },
+        {
+          "county": "Somerset County, MD",
+          "max_score": 16
+        },
+        {
+          "county": "Wicomico County, MD",
+          "max_score": 16
+        },
+        {
+          "county": "Garrett County, MD",
+          "max_score": 15
+        },
+        {
+          "county": "Talbot County, MD",
+          "max_score": 15
+        },
+        {
+          "county": "Baltimore County, MD",
+          "max_score": 14
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - West Central Baltimore City",
+          "county": "Baltimore City, MD",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Alleghany County",
+          "county": "Allegany County, MD",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Dorchester County",
+          "county": "Dorchester County, MD",
+          "score": 17,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "LI - East Baltimore City",
+          "county": "Baltimore City, MD",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Wicomico County",
+          "county": "Wicomico County, MD",
+          "score": 16,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "ME": {
+      "state": "Maine",
+      "designations": 78,
+      "geographic": 2,
+      "population_groups": 21,
+      "facilities": 55,
+      "rural_or_partly_rural": 66,
+      "people_covered": 195978,
+      "dentists_needed": 34.3,
+      "counties_with_designation": 15,
+      "top_counties": [
+        {
+          "county": "Aroostook County, ME",
+          "max_score": 18
+        },
+        {
+          "county": "Penobscot County, ME",
+          "max_score": 18
+        },
+        {
+          "county": "Piscataquis County, ME",
+          "max_score": 18
+        },
+        {
+          "county": "Somerset County, ME",
+          "max_score": 18
+        },
+        {
+          "county": "Washington County, ME",
+          "max_score": 18
+        },
+        {
+          "county": "Franklin County, ME",
+          "max_score": 17
+        },
+        {
+          "county": "Oxford County, ME",
+          "max_score": 17
+        },
+        {
+          "county": "Androscoggin County, ME",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-Dover Foxcroft SA",
+          "county": "Penobscot County, ME",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Houlton SA",
+          "county": "Aroostook County, ME",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Machias",
+          "county": "Washington County, ME",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Skowhegan SA",
+          "county": "Piscataquis County, ME",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Rumford",
+          "county": "Franklin County, ME",
+          "score": 17,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "MH": {
+      "state": "Marshall Islands",
+      "designations": 2,
+      "geographic": 1,
+      "population_groups": 0,
+      "facilities": 1,
+      "rural_or_partly_rural": 1,
+      "people_covered": 53158,
+      "dentists_needed": 10.6,
+      "counties_with_designation": 32,
+      "top_counties": [
+        {
+          "county": "Ailinginae, MH",
+          "max_score": 26
+        },
+        {
+          "county": "Ailinglaplap, MH",
+          "max_score": 26
+        },
+        {
+          "county": "Ailuk, MH",
+          "max_score": 26
+        },
+        {
+          "county": "Arno, MH",
+          "max_score": 26
+        },
+        {
+          "county": "Aur, MH",
+          "max_score": 26
+        },
+        {
+          "county": "Bikar, MH",
+          "max_score": 26
+        },
+        {
+          "county": "Bikini, MH",
+          "max_score": 26
+        },
+        {
+          "county": "Bokak, MH",
+          "max_score": 26
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Republic of the Marshall Islands",
+          "county": "Ailinginae, MH",
+          "score": 26,
+          "kind": "Geographic HPSA"
+        }
+      ]
+    },
+    "MI": {
+      "state": "Michigan",
+      "designations": 268,
+      "geographic": 1,
+      "population_groups": 62,
+      "facilities": 205,
+      "rural_or_partly_rural": 219,
+      "people_covered": 1372620,
+      "dentists_needed": 256.7,
+      "counties_with_designation": 60,
+      "top_counties": [
+        {
+          "county": "Wayne County, MI",
+          "max_score": 21
+        },
+        {
+          "county": "Clare County, MI",
+          "max_score": 20
+        },
+        {
+          "county": "Isabella County, MI",
+          "max_score": 20
+        },
+        {
+          "county": "Branch County, MI",
+          "max_score": 18
+        },
+        {
+          "county": "Houghton County, MI",
+          "max_score": 18
+        },
+        {
+          "county": "Iron County, MI",
+          "max_score": 18
+        },
+        {
+          "county": "Lake County, MI",
+          "max_score": 18
+        },
+        {
+          "county": "Mecosta County, MI",
+          "max_score": 18
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - East Detroit SA",
+          "county": "Wayne County, MI",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Hamtramck/Highland Park SA",
+          "county": "Wayne County, MI",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Southwest Detroit SA",
+          "county": "Wayne County, MI",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - West Detroit",
+          "county": "Wayne County, MI",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Isabella County",
+          "county": "Isabella County, MI",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "MN": {
+      "state": "Minnesota",
+      "designations": 193,
+      "geographic": 32,
+      "population_groups": 33,
+      "facilities": 128,
+      "rural_or_partly_rural": 141,
+      "people_covered": 1169252,
+      "dentists_needed": 127.7,
+      "counties_with_designation": 59,
+      "top_counties": [
+        {
+          "county": "Hennepin County, MN",
+          "max_score": 19
+        },
+        {
+          "county": "Winona County, MN",
+          "max_score": 19
+        },
+        {
+          "county": "Beltrami County, MN",
+          "max_score": 18
+        },
+        {
+          "county": "Mahnomen County, MN",
+          "max_score": 18
+        },
+        {
+          "county": "Norman County, MN",
+          "max_score": 18
+        },
+        {
+          "county": "Blue Earth County, MN",
+          "max_score": 17
+        },
+        {
+          "county": "Clay County, MN",
+          "max_score": 17
+        },
+        {
+          "county": "Ramsey County, MN",
+          "max_score": 17
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-North Minneapolis",
+          "county": "Hennepin County, MN",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Winona/Goodview",
+          "county": "Winona County, MN",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI Norman/Mahnomen Counties",
+          "county": "Mahnomen County, MN",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Beltrami County",
+          "county": "Beltrami County, MN",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Duluth",
+          "county": "St. Louis County, MN",
+          "score": 17,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "MO": {
+      "state": "Missouri",
+      "designations": 325,
+      "geographic": 18,
+      "population_groups": 72,
+      "facilities": 235,
+      "rural_or_partly_rural": 292,
+      "people_covered": 1839912,
+      "dentists_needed": 279.9,
+      "counties_with_designation": 111,
+      "top_counties": [
+        {
+          "county": "St. Louis City, MO",
+          "max_score": 21
+        },
+        {
+          "county": "Barton County, MO",
+          "max_score": 20
+        },
+        {
+          "county": "Butler County, MO",
+          "max_score": 20
+        },
+        {
+          "county": "Dallas County, MO",
+          "max_score": 20
+        },
+        {
+          "county": "Dunklin County, MO",
+          "max_score": 20
+        },
+        {
+          "county": "Howell County, MO",
+          "max_score": 20
+        },
+        {
+          "county": "Ozark County, MO",
+          "max_score": 20
+        },
+        {
+          "county": "Pemiscot County, MO",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - North St. Louis",
+          "county": "St. Louis City, MO",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Butler County",
+          "county": "Butler County, MO",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Dunklin County",
+          "county": "Dunklin County, MO",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Ozark County",
+          "county": "Ozark County, MO",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Pemiscot County",
+          "county": "Pemiscot County, MO",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "MP": {
+      "state": "Northern Mariana Islands",
+      "designations": 2,
+      "geographic": 1,
+      "population_groups": 0,
+      "facilities": 1,
+      "rural_or_partly_rural": 2,
+      "people_covered": 53890,
+      "dentists_needed": 8.4,
+      "counties_with_designation": 4,
+      "top_counties": [
+        {
+          "county": "Northern Islands Municipality, MP",
+          "max_score": 26
+        },
+        {
+          "county": "Rota Municipality, MP",
+          "max_score": 26
+        },
+        {
+          "county": "Saipan Municipality, MP",
+          "max_score": 26
+        },
+        {
+          "county": "Tinian Municipality, MP",
+          "max_score": 26
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Commonwealth Northern Mariana Islands",
+          "county": "Northern Islands Municipality, MP",
+          "score": 26,
+          "kind": "Geographic HPSA"
+        }
+      ]
+    },
+    "MS": {
+      "state": "Mississippi",
+      "designations": 148,
+      "geographic": 30,
+      "population_groups": 47,
+      "facilities": 71,
+      "rural_or_partly_rural": 135,
+      "people_covered": 1294896,
+      "dentists_needed": 196.0,
+      "counties_with_designation": 79,
+      "top_counties": [
+        {
+          "county": "Leflore County, MS",
+          "max_score": 22
+        },
+        {
+          "county": "Quitman County, MS",
+          "max_score": 22
+        },
+        {
+          "county": "Bolivar County, MS",
+          "max_score": 21
+        },
+        {
+          "county": "Coahoma County, MS",
+          "max_score": 21
+        },
+        {
+          "county": "Amite County, MS",
+          "max_score": 20
+        },
+        {
+          "county": "Chickasaw County, MS",
+          "max_score": 20
+        },
+        {
+          "county": "Copiah County, MS",
+          "max_score": 20
+        },
+        {
+          "county": "Franklin County, MS",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-Lelfore County",
+          "county": "Leflore County, MS",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Quitman County",
+          "county": "Quitman County, MS",
+          "score": 22,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "Coahoma County",
+          "county": "Coahoma County, MS",
+          "score": 21,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI - Bolivar County",
+          "county": "Bolivar County, MS",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Franklin County",
+          "county": "Franklin County, MS",
+          "score": 20,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "MT": {
+      "state": "Montana",
+      "designations": 105,
+      "geographic": 8,
+      "population_groups": 19,
+      "facilities": 78,
+      "rural_or_partly_rural": 96,
+      "people_covered": 128663,
+      "dentists_needed": 15.8,
+      "counties_with_designation": 28,
+      "top_counties": [
+        {
+          "county": "Roosevelt County, MT",
+          "max_score": 21
+        },
+        {
+          "county": "Glacier County, MT",
+          "max_score": 20
+        },
+        {
+          "county": "Pondera County, MT",
+          "max_score": 20
+        },
+        {
+          "county": "Big Horn County, MT",
+          "max_score": 19
+        },
+        {
+          "county": "Rosebud County, MT",
+          "max_score": 19
+        },
+        {
+          "county": "Sanders County, MT",
+          "max_score": 17
+        },
+        {
+          "county": "Beaverhead County, MT",
+          "max_score": 15
+        },
+        {
+          "county": "Deer Lodge County, MT",
+          "max_score": 15
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Roosevelt County",
+          "county": "Roosevelt County, MT",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Glacier County",
+          "county": "Glacier County, MT",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Pondera County",
+          "county": "Pondera County, MT",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Big Horn County",
+          "county": "Big Horn County, MT",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Rosebud County",
+          "county": "Rosebud County, MT",
+          "score": 19,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "NC": {
+      "state": "North Carolina",
+      "designations": 200,
+      "geographic": 3,
+      "population_groups": 99,
+      "facilities": 98,
+      "rural_or_partly_rural": 143,
+      "people_covered": 2583345,
+      "dentists_needed": 501.0,
+      "counties_with_designation": 93,
+      "top_counties": [
+        {
+          "county": "Bladen County, NC",
+          "max_score": 20
+        },
+        {
+          "county": "Greene County, NC",
+          "max_score": 20
+        },
+        {
+          "county": "Hertford County, NC",
+          "max_score": 20
+        },
+        {
+          "county": "Lenoir County, NC",
+          "max_score": 20
+        },
+        {
+          "county": "Sampson County, NC",
+          "max_score": 20
+        },
+        {
+          "county": "Watauga County, NC",
+          "max_score": 20
+        },
+        {
+          "county": "Anson County, NC",
+          "max_score": 19
+        },
+        {
+          "county": "Chowan County, NC",
+          "max_score": 19
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Hertford County",
+          "county": "Hertford County, NC",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Lenoir County",
+          "county": "Lenoir County, NC",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Sampson County",
+          "county": "Sampson County, NC",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Bladen County",
+          "county": "Bladen County, NC",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Greene County",
+          "county": "Greene County, NC",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "ND": {
+      "state": "North Dakota",
+      "designations": 69,
+      "geographic": 20,
+      "population_groups": 1,
+      "facilities": 48,
+      "rural_or_partly_rural": 65,
+      "people_covered": 104544,
+      "dentists_needed": 16.1,
+      "counties_with_designation": 26,
+      "top_counties": [
+        {
+          "county": "Sioux County, ND",
+          "max_score": 23
+        },
+        {
+          "county": "Rolette County, ND",
+          "max_score": 20
+        },
+        {
+          "county": "Benson County, ND",
+          "max_score": 16
+        },
+        {
+          "county": "Eddy County, ND",
+          "max_score": 16
+        },
+        {
+          "county": "Nelson County, ND",
+          "max_score": 16
+        },
+        {
+          "county": "Ramsey County, ND",
+          "max_score": 16
+        },
+        {
+          "county": "Wells County, ND",
+          "max_score": 16
+        },
+        {
+          "county": "Cavalier County, ND",
+          "max_score": 15
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Sioux County",
+          "county": "Sioux County, ND",
+          "score": 23,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Rolette County",
+          "county": "Rolette County, ND",
+          "score": 20,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Spirit Lake Nation",
+          "county": "Benson County, ND",
+          "score": 16,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Cavalier County",
+          "county": "Cavalier County, ND",
+          "score": 15,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Emmons County",
+          "county": "Emmons County, ND",
+          "score": 15,
+          "kind": "Geographic HPSA"
+        }
+      ]
+    },
+    "NE": {
+      "state": "Nebraska",
+      "designations": 100,
+      "geographic": 2,
+      "population_groups": 14,
+      "facilities": 84,
+      "rural_or_partly_rural": 90,
+      "people_covered": 67548,
+      "dentists_needed": 10.4,
+      "counties_with_designation": 16,
+      "top_counties": [
+        {
+          "county": "Hall County, NE",
+          "max_score": 16
+        },
+        {
+          "county": "Scotts Bluff County, NE",
+          "max_score": 16
+        },
+        {
+          "county": "Cheyenne County, NE",
+          "max_score": 15
+        },
+        {
+          "county": "Sheridan County, NE",
+          "max_score": 15
+        },
+        {
+          "county": "Thurston County, NE",
+          "max_score": 15
+        },
+        {
+          "county": "Box Butte County, NE",
+          "max_score": 13
+        },
+        {
+          "county": "Dawson County, NE",
+          "max_score": 12
+        },
+        {
+          "county": "Nemaha County, NE",
+          "max_score": 11
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Hall County",
+          "county": "Hall County, NE",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Scottsbluff County",
+          "county": "Scotts Bluff County, NE",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Cheyenne County",
+          "county": "Cheyenne County, NE",
+          "score": 15,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Thurston County",
+          "county": "Thurston County, NE",
+          "score": 15,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Sheridan County",
+          "county": "Sheridan County, NE",
+          "score": 15,
+          "kind": "Geographic HPSA"
+        }
+      ]
+    },
+    "NH": {
+      "state": "New Hampshire",
+      "designations": 22,
+      "geographic": 0,
+      "population_groups": 3,
+      "facilities": 19,
+      "rural_or_partly_rural": 17,
+      "people_covered": 25265,
+      "dentists_needed": 5.3,
+      "counties_with_designation": 3,
+      "top_counties": [
+        {
+          "county": "Coos County, NH",
+          "max_score": 16
+        },
+        {
+          "county": "Sullivan County, NH",
+          "max_score": 16
+        },
+        {
+          "county": "Grafton County, NH",
+          "max_score": 12
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Coos County",
+          "county": "Coos County, NH",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Southern Sullivan",
+          "county": "Sullivan County, NH",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Northern Grafton",
+          "county": "Grafton County, NH",
+          "score": 12,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "NJ": {
+      "state": "New Jersey",
+      "designations": 39,
+      "geographic": 2,
+      "population_groups": 0,
+      "facilities": 37,
+      "rural_or_partly_rural": 6,
+      "people_covered": 230971,
+      "dentists_needed": 18.9,
+      "counties_with_designation": 2,
+      "top_counties": [
+        {
+          "county": "Mercer County, NJ",
+          "max_score": 19
+        },
+        {
+          "county": "Cumberland County, NJ",
+          "max_score": 12
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Trenton SA",
+          "county": "Mercer County, NJ",
+          "score": 19,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Cumberland County",
+          "county": "Cumberland County, NJ",
+          "score": 12,
+          "kind": "Geographic HPSA"
+        }
+      ]
+    },
+    "NM": {
+      "state": "New Mexico",
+      "designations": 103,
+      "geographic": 11,
+      "population_groups": 21,
+      "facilities": 71,
+      "rural_or_partly_rural": 82,
+      "people_covered": 801544,
+      "dentists_needed": 186.8,
+      "counties_with_designation": 32,
+      "top_counties": [
+        {
+          "county": "McKinley County, NM",
+          "max_score": 21
+        },
+        {
+          "county": "Catron County, NM",
+          "max_score": 19
+        },
+        {
+          "county": "Chaves County, NM",
+          "max_score": 19
+        },
+        {
+          "county": "Cibola County, NM",
+          "max_score": 19
+        },
+        {
+          "county": "Curry County, NM",
+          "max_score": 19
+        },
+        {
+          "county": "Dona Ana County, NM",
+          "max_score": 19
+        },
+        {
+          "county": "Rio Arriba County, NM",
+          "max_score": 19
+        },
+        {
+          "county": "Roosevelt County, NM",
+          "max_score": 19
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-McKinley County",
+          "county": "McKinley County, NM",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Catron County",
+          "county": "Catron County, NM",
+          "score": 19,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Cibola County",
+          "county": "Cibola County, NM",
+          "score": 19,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI - Chaves County",
+          "county": "Chaves County, NM",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Curry County",
+          "county": "Curry County, NM",
+          "score": 19,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "NV": {
+      "state": "Nevada",
+      "designations": 56,
+      "geographic": 6,
+      "population_groups": 4,
+      "facilities": 46,
+      "rural_or_partly_rural": 35,
+      "people_covered": 278389,
+      "dentists_needed": 55.1,
+      "counties_with_designation": 9,
+      "top_counties": [
+        {
+          "county": "Nye County, NV",
+          "max_score": 18
+        },
+        {
+          "county": "Clark County, NV",
+          "max_score": 17
+        },
+        {
+          "county": "Pershing County, NV",
+          "max_score": 16
+        },
+        {
+          "county": "Storey County, NV",
+          "max_score": 16
+        },
+        {
+          "county": "Elko County, NV",
+          "max_score": 14
+        },
+        {
+          "county": "Mineral County, NV",
+          "max_score": 14
+        },
+        {
+          "county": "Lyon County, NV",
+          "max_score": 13
+        },
+        {
+          "county": "Lander County, NV",
+          "max_score": 10
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Nye County",
+          "county": "Nye County, NV",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Paradise",
+          "county": "Clark County, NV",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Pershing County",
+          "county": "Pershing County, NV",
+          "score": 16,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Storey County",
+          "county": "Storey County, NV",
+          "score": 16,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "LI North Las Vegas",
+          "county": "Clark County, NV",
+          "score": 15,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "NY": {
+      "state": "New York",
+      "designations": 166,
+      "geographic": 0,
+      "population_groups": 44,
+      "facilities": 122,
+      "rural_or_partly_rural": 66,
+      "people_covered": 2746367,
+      "dentists_needed": 577.1,
+      "counties_with_designation": 33,
+      "top_counties": [
+        {
+          "county": "Bronx County, NY",
+          "max_score": 21
+        },
+        {
+          "county": "New York County, NY",
+          "max_score": 21
+        },
+        {
+          "county": "Tompkins County, NY",
+          "max_score": 20
+        },
+        {
+          "county": "Erie County, NY",
+          "max_score": 19
+        },
+        {
+          "county": "Kings County, NY",
+          "max_score": 19
+        },
+        {
+          "county": "Monroe County, NY",
+          "max_score": 19
+        },
+        {
+          "county": "Richmond County, NY",
+          "max_score": 19
+        },
+        {
+          "county": "Cattaraugus County, NY",
+          "max_score": 18
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "ME - Crotona",
+          "county": "Bronx County, NY",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - East Harlem",
+          "county": "New York County, NY",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - High Bridge",
+          "county": "Bronx County, NY",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - Hunts Point",
+          "county": "Bronx County, NY",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - Tompkins County",
+          "county": "Tompkins County, NY",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "OH": {
+      "state": "Ohio",
+      "designations": 158,
+      "geographic": 1,
+      "population_groups": 65,
+      "facilities": 92,
+      "rural_or_partly_rural": 75,
+      "people_covered": 1792295,
+      "dentists_needed": 253.4,
+      "counties_with_designation": 54,
+      "top_counties": [
+        {
+          "county": "Mahoning County, OH",
+          "max_score": 22
+        },
+        {
+          "county": "Cuyahoga County, OH",
+          "max_score": 21
+        },
+        {
+          "county": "Hamilton County, OH",
+          "max_score": 21
+        },
+        {
+          "county": "Adams County, OH",
+          "max_score": 19
+        },
+        {
+          "county": "Athens County, OH",
+          "max_score": 19
+        },
+        {
+          "county": "Erie County, OH",
+          "max_score": 19
+        },
+        {
+          "county": "Franklin County, OH",
+          "max_score": 19
+        },
+        {
+          "county": "Montgomery County, OH",
+          "max_score": 19
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-Mahoning County-Youngstown SA",
+          "county": "Mahoning County, OH",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Cuyahoga County-Buckeye Kinsman",
+          "county": "Cuyahoga County, OH",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Cuyahoga County-Central Fairfax/University",
+          "county": "Cuyahoga County, OH",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Cuyahoga County-Goodrich/Glenville",
+          "county": "Cuyahoga County, OH",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Cuyahoga County-Tremont/Broadway",
+          "county": "Cuyahoga County, OH",
+          "score": 21,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "OK": {
+      "state": "Oklahoma",
+      "designations": 185,
+      "geographic": 1,
+      "population_groups": 62,
+      "facilities": 122,
+      "rural_or_partly_rural": 159,
+      "people_covered": 858510,
+      "dentists_needed": 100.1,
+      "counties_with_designation": 63,
+      "top_counties": [
+        {
+          "county": "Beckham County, OK",
+          "max_score": 20
+        },
+        {
+          "county": "Hughes County, OK",
+          "max_score": 20
+        },
+        {
+          "county": "Kiowa County, OK",
+          "max_score": 20
+        },
+        {
+          "county": "McCurtain County, OK",
+          "max_score": 20
+        },
+        {
+          "county": "McIntosh County, OK",
+          "max_score": 20
+        },
+        {
+          "county": "Ottawa County, OK",
+          "max_score": 20
+        },
+        {
+          "county": "Seminole County, OK",
+          "max_score": 20
+        },
+        {
+          "county": "Sequoyah County, OK",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Hughes County",
+          "county": "Hughes County, OK",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Kiowa County",
+          "county": "Kiowa County, OK",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - McIntosh County",
+          "county": "McIntosh County, OK",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Seminole County",
+          "county": "Seminole County, OK",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Sequoyah County",
+          "county": "Sequoyah County, OK",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "OR": {
+      "state": "Oregon",
+      "designations": 140,
+      "geographic": 2,
+      "population_groups": 30,
+      "facilities": 108,
+      "rural_or_partly_rural": 100,
+      "people_covered": 949314,
+      "dentists_needed": 130.2,
+      "counties_with_designation": 33,
+      "top_counties": [
+        {
+          "county": "Klamath County, OR",
+          "max_score": 18
+        },
+        {
+          "county": "Lane County, OR",
+          "max_score": 18
+        },
+        {
+          "county": "Lincoln County, OR",
+          "max_score": 18
+        },
+        {
+          "county": "Multnomah County, OR",
+          "max_score": 18
+        },
+        {
+          "county": "Union County, OR",
+          "max_score": 18
+        },
+        {
+          "county": "Benton County, OR",
+          "max_score": 17
+        },
+        {
+          "county": "Coos County, OR",
+          "max_score": 17
+        },
+        {
+          "county": "Baker County, OR",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Inner Portland",
+          "county": "Multnomah County, OR",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Lane County",
+          "county": "Lane County, OR",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Lincoln County",
+          "county": "Lincoln County, OR",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Union County",
+          "county": "Union County, OR",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Klamath County",
+          "county": "Klamath County, OR",
+          "score": 18,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "PA": {
+      "state": "Pennsylvania",
+      "designations": 152,
+      "geographic": 0,
+      "population_groups": 45,
+      "facilities": 107,
+      "rural_or_partly_rural": 91,
+      "people_covered": 1505190,
+      "dentists_needed": 209.0,
+      "counties_with_designation": 41,
+      "top_counties": [
+        {
+          "county": "Allegheny County, PA",
+          "max_score": 19
+        },
+        {
+          "county": "Lehigh County, PA",
+          "max_score": 19
+        },
+        {
+          "county": "Northampton County, PA",
+          "max_score": 19
+        },
+        {
+          "county": "Philadelphia County, PA",
+          "max_score": 19
+        },
+        {
+          "county": "Columbia County, PA",
+          "max_score": 18
+        },
+        {
+          "county": "Jefferson County, PA",
+          "max_score": 18
+        },
+        {
+          "county": "Luzerne County, PA",
+          "max_score": 18
+        },
+        {
+          "county": "Centre County, PA",
+          "max_score": 17
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-Allentown City",
+          "county": "Lehigh County, PA",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Bethlehem",
+          "county": "Northampton County, PA",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Hill District",
+          "county": "Allegheny County, PA",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Philadelphia D5",
+          "county": "Philadelphia County, PA",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Luzerne County",
+          "county": "Luzerne County, PA",
+          "score": 18,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "PR": {
+      "state": "Puerto Rico",
+      "designations": 100,
+      "geographic": 1,
+      "population_groups": 76,
+      "facilities": 23,
+      "rural_or_partly_rural": 25,
+      "people_covered": 2289505,
+      "dentists_needed": 296.7,
+      "counties_with_designation": 77,
+      "top_counties": [
+        {
+          "county": "Adjuntas Municipio, PR",
+          "max_score": 26
+        },
+        {
+          "county": "Ciales Municipio, PR",
+          "max_score": 26
+        },
+        {
+          "county": "Comerio Municipio, PR",
+          "max_score": 26
+        },
+        {
+          "county": "Corozal Municipio, PR",
+          "max_score": 26
+        },
+        {
+          "county": "Florida Municipio, PR",
+          "max_score": 26
+        },
+        {
+          "county": "Guanica Municipio, PR",
+          "max_score": 26
+        },
+        {
+          "county": "Guayanilla Municipio, PR",
+          "max_score": 26
+        },
+        {
+          "county": "Jayuya Municipio, PR",
+          "max_score": 26
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Adjuntas Municipio",
+          "county": "Adjuntas Municipio, PR",
+          "score": 26,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Ciales Municipio",
+          "county": "Ciales Municipio, PR",
+          "score": 26,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Comerío Municipio",
+          "county": "Comerio Municipio, PR",
+          "score": 26,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Corozal Municipio",
+          "county": "Corozal Municipio, PR",
+          "score": 26,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Florida Municipio",
+          "county": "Florida Municipio, PR",
+          "score": 26,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "PW": {
+      "state": "Republic of Palau",
+      "designations": 2,
+      "geographic": 1,
+      "population_groups": 0,
+      "facilities": 1,
+      "rural_or_partly_rural": 2,
+      "people_covered": 19907,
+      "dentists_needed": 5.0,
+      "counties_with_designation": 16,
+      "top_counties": [
+        {
+          "county": "Aimeliik State, PW",
+          "max_score": 26
+        },
+        {
+          "county": "Airai State, PW",
+          "max_score": 26
+        },
+        {
+          "county": "Angaur State, PW",
+          "max_score": 26
+        },
+        {
+          "county": "Hatoboheit State, PW",
+          "max_score": 26
+        },
+        {
+          "county": "Kayangel State, PW",
+          "max_score": 26
+        },
+        {
+          "county": "Koror State, PW",
+          "max_score": 26
+        },
+        {
+          "county": "Melekeok State, PW",
+          "max_score": 26
+        },
+        {
+          "county": "Ngaraard State, PW",
+          "max_score": 26
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Republic of Palau",
+          "county": "Aimeliik State, PW",
+          "score": 26,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "RI": {
+      "state": "Rhode Island",
+      "designations": 14,
+      "geographic": 0,
+      "population_groups": 4,
+      "facilities": 10,
+      "rural_or_partly_rural": 1,
+      "people_covered": 129816,
+      "dentists_needed": 20.9,
+      "counties_with_designation": 2,
+      "top_counties": [
+        {
+          "county": "Providence County, RI",
+          "max_score": 17
+        },
+        {
+          "county": "Newport County, RI",
+          "max_score": 15
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI- Woonsocket DH",
+          "county": "Providence County, RI",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Providence City",
+          "county": "Providence County, RI",
+          "score": 17,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "ME - Newport/Middletown",
+          "county": "Newport County, RI",
+          "score": 15,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Central Falls/Pawtucket",
+          "county": "Providence County, RI",
+          "score": 14,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "SC": {
+      "state": "South Carolina",
+      "designations": 103,
+      "geographic": 12,
+      "population_groups": 22,
+      "facilities": 69,
+      "rural_or_partly_rural": 76,
+      "people_covered": 1324494,
+      "dentists_needed": 184.3,
+      "counties_with_designation": 38,
+      "top_counties": [
+        {
+          "county": "Allendale County, SC",
+          "max_score": 20
+        },
+        {
+          "county": "Bamberg County, SC",
+          "max_score": 20
+        },
+        {
+          "county": "Hampton County, SC",
+          "max_score": 20
+        },
+        {
+          "county": "Chesterfield County, SC",
+          "max_score": 19
+        },
+        {
+          "county": "Dillon County, SC",
+          "max_score": 19
+        },
+        {
+          "county": "Marion County, SC",
+          "max_score": 19
+        },
+        {
+          "county": "Union County, SC",
+          "max_score": 19
+        },
+        {
+          "county": "Cherokee County, SC",
+          "max_score": 18
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Allendale/Hampton Counties",
+          "county": "Allendale County, SC",
+          "score": 20,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI - Bamberg County",
+          "county": "Bamberg County, SC",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Chesterfield County",
+          "county": "Chesterfield County, SC",
+          "score": 19,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI-Dillon &amp; Marion Counties",
+          "county": "Dillon County, SC",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Union County",
+          "county": "Union County, SC",
+          "score": 19,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "SD": {
+      "state": "South Dakota",
+      "designations": 92,
+      "geographic": 20,
+      "population_groups": 20,
+      "facilities": 52,
+      "rural_or_partly_rural": 84,
+      "people_covered": 150924,
+      "dentists_needed": 30.5,
+      "counties_with_designation": 40,
+      "top_counties": [
+        {
+          "county": "Oglala Lakota County, SD",
+          "max_score": 25
+        },
+        {
+          "county": "Corson County, SD",
+          "max_score": 23
+        },
+        {
+          "county": "Todd County, SD",
+          "max_score": 23
+        },
+        {
+          "county": "Bennett County, SD",
+          "max_score": 22
+        },
+        {
+          "county": "Dewey County, SD",
+          "max_score": 21
+        },
+        {
+          "county": "Jackson County, SD",
+          "max_score": 20
+        },
+        {
+          "county": "Lyman County, SD",
+          "max_score": 20
+        },
+        {
+          "county": "Ziebach County, SD",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI Oglala Lakota County",
+          "county": "Oglala Lakota County, SD",
+          "score": 25,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Corson County",
+          "county": "Corson County, SD",
+          "score": 23,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI Todd County",
+          "county": "Todd County, SD",
+          "score": 23,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Bennett County",
+          "county": "Bennett County, SD",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Dewey County",
+          "county": "Dewey County, SD",
+          "score": 21,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "TN": {
+      "state": "Tennessee",
+      "designations": 151,
+      "geographic": 3,
+      "population_groups": 79,
+      "facilities": 69,
+      "rural_or_partly_rural": 120,
+      "people_covered": 1475737,
+      "dentists_needed": 272.6,
+      "counties_with_designation": 79,
+      "top_counties": [
+        {
+          "county": "Lake County, TN",
+          "max_score": 22
+        },
+        {
+          "county": "Bledsoe County, TN",
+          "max_score": 20
+        },
+        {
+          "county": "Hancock County, TN",
+          "max_score": 20
+        },
+        {
+          "county": "Clay County, TN",
+          "max_score": 19
+        },
+        {
+          "county": "Cocke County, TN",
+          "max_score": 19
+        },
+        {
+          "county": "DeKalb County, TN",
+          "max_score": 19
+        },
+        {
+          "county": "Decatur County, TN",
+          "max_score": 19
+        },
+        {
+          "county": "Fentress County, TN",
+          "max_score": 19
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Lake County",
+          "county": "Lake County, TN",
+          "score": 22,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "Hancock County",
+          "county": "Hancock County, TN",
+          "score": 20,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI-Bledsoe County",
+          "county": "Bledsoe County, TN",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Clay County",
+          "county": "Clay County, TN",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Cocke County",
+          "county": "Cocke County, TN",
+          "score": 19,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "TX": {
+      "state": "Texas",
+      "designations": 401,
+      "geographic": 77,
+      "population_groups": 168,
+      "facilities": 156,
+      "rural_or_partly_rural": 284,
+      "people_covered": 5999073,
+      "dentists_needed": 1181.3,
+      "counties_with_designation": 210,
+      "top_counties": [
+        {
+          "county": "El Paso County, TX",
+          "max_score": 22
+        },
+        {
+          "county": "Hidalgo County, TX",
+          "max_score": 22
+        },
+        {
+          "county": "Presidio County, TX",
+          "max_score": 21
+        },
+        {
+          "county": "Zapata County, TX",
+          "max_score": 21
+        },
+        {
+          "county": "Bexar County, TX",
+          "max_score": 20
+        },
+        {
+          "county": "Brazos County, TX",
+          "max_score": 20
+        },
+        {
+          "county": "Cameron County, TX",
+          "max_score": 20
+        },
+        {
+          "county": "Dimmit County, TX",
+          "max_score": 20
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - East SA - Hidalgo County",
+          "county": "Hidalgo County, TX",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Northwest SA - Hidalgo County",
+          "county": "Hidalgo County, TX",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-East El Paso SA - El Paso Co",
+          "county": "El Paso County, TX",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Presidio County",
+          "county": "Presidio County, TX",
+          "score": 21,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Zapata County",
+          "county": "Zapata County, TX",
+          "score": 21,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "UT": {
+      "state": "Utah",
+      "designations": 58,
+      "geographic": 5,
+      "population_groups": 13,
+      "facilities": 40,
+      "rural_or_partly_rural": 45,
+      "people_covered": 184441,
+      "dentists_needed": 22.7,
+      "counties_with_designation": 18,
+      "top_counties": [
+        {
+          "county": "Sanpete County, UT",
+          "max_score": 18
+        },
+        {
+          "county": "Beaver County, UT",
+          "max_score": 16
+        },
+        {
+          "county": "Grand County, UT",
+          "max_score": 16
+        },
+        {
+          "county": "Millard County, UT",
+          "max_score": 16
+        },
+        {
+          "county": "Cache County, UT",
+          "max_score": 14
+        },
+        {
+          "county": "Duchesne County, UT",
+          "max_score": 14
+        },
+        {
+          "county": "Uintah County, UT",
+          "max_score": 14
+        },
+        {
+          "county": "Washington County, UT",
+          "max_score": 14
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-Sanpete County",
+          "county": "Sanpete County, UT",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Grand County",
+          "county": "Grand County, UT",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Beaver County",
+          "county": "Beaver County, UT",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Millard County",
+          "county": "Millard County, UT",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Cache County",
+          "county": "Cache County, UT",
+          "score": 14,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "VA": {
+      "state": "Virginia",
+      "designations": 166,
+      "geographic": 42,
+      "population_groups": 35,
+      "facilities": 89,
+      "rural_or_partly_rural": 123,
+      "people_covered": 2257216,
+      "dentists_needed": 240.7,
+      "counties_with_designation": 103,
+      "top_counties": [
+        {
+          "county": "Lee County, VA",
+          "max_score": 20
+        },
+        {
+          "county": "Buchanan County, VA",
+          "max_score": 19
+        },
+        {
+          "county": "Dickenson County, VA",
+          "max_score": 19
+        },
+        {
+          "county": "Hopewell City, VA",
+          "max_score": 19
+        },
+        {
+          "county": "Montgomery County, VA",
+          "max_score": 19
+        },
+        {
+          "county": "Pulaski County, VA",
+          "max_score": 19
+        },
+        {
+          "county": "Radford City, VA",
+          "max_score": 19
+        },
+        {
+          "county": "Accomack County, VA",
+          "max_score": 18
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Lee County",
+          "county": "Lee County, VA",
+          "score": 20,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "Buchanan County",
+          "county": "Buchanan County, VA",
+          "score": 19,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "Dickenson County",
+          "county": "Dickenson County, VA",
+          "score": 19,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI - Hopewell City County",
+          "county": "Hopewell City, VA",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Montgomery County",
+          "county": "Montgomery County, VA",
+          "score": 19,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "VI": {
+      "state": "U.S. Virgin Islands",
+      "designations": 5,
+      "geographic": 3,
+      "population_groups": 0,
+      "facilities": 2,
+      "rural_or_partly_rural": 5,
+      "people_covered": 96379,
+      "dentists_needed": 5.9,
+      "counties_with_designation": 3,
+      "top_counties": [
+        {
+          "county": "St. John, VI",
+          "max_score": 22
+        },
+        {
+          "county": "St. Croix, VI",
+          "max_score": 18
+        },
+        {
+          "county": "St. Thomas, VI",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "St. John Island",
+          "county": "St. John, VI",
+          "score": 22,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "St. Croix",
+          "county": "St. Croix, VI",
+          "score": 18,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "St. Thomas County",
+          "county": "St. Thomas, VI",
+          "score": 16,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "VT": {
+      "state": "Vermont",
+      "designations": 14,
+      "geographic": 2,
+      "population_groups": 0,
+      "facilities": 12,
+      "rural_or_partly_rural": 13,
+      "people_covered": 42326,
+      "dentists_needed": 0.7,
+      "counties_with_designation": 2,
+      "top_counties": [
+        {
+          "county": "Essex County, VT",
+          "max_score": 9
+        },
+        {
+          "county": "Bennington County, VT",
+          "max_score": 5
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "Essex County",
+          "county": "Essex County, VT",
+          "score": 9,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "Bennington County",
+          "county": "Bennington County, VT",
+          "score": 5,
+          "kind": "High Needs Geographic HPSA"
+        }
+      ]
+    },
+    "WA": {
+      "state": "Washington",
+      "designations": 211,
+      "geographic": 27,
+      "population_groups": 20,
+      "facilities": 164,
+      "rural_or_partly_rural": 143,
+      "people_covered": 2763117,
+      "dentists_needed": 224.3,
+      "counties_with_designation": 39,
+      "top_counties": [
+        {
+          "county": "King County, WA",
+          "max_score": 19
+        },
+        {
+          "county": "Whitman County, WA",
+          "max_score": 19
+        },
+        {
+          "county": "Clallam County, WA",
+          "max_score": 18
+        },
+        {
+          "county": "Jefferson County, WA",
+          "max_score": 18
+        },
+        {
+          "county": "Pierce County, WA",
+          "max_score": 18
+        },
+        {
+          "county": "Yakima County, WA",
+          "max_score": 17
+        },
+        {
+          "county": "Asotin County, WA",
+          "max_score": 16
+        },
+        {
+          "county": "Ferry County, WA",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - North Seattle/University District",
+          "county": "King County, WA",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Whitman County",
+          "county": "Whitman County, WA",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Tacoma Service Area",
+          "county": "Pierce County, WA",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "West Clallam-Jefferson Service Area",
+          "county": "Clallam County, WA",
+          "score": 18,
+          "kind": "Geographic HPSA"
+        },
+        {
+          "name": "LI - Yakima County",
+          "county": "Yakima County, WA",
+          "score": 17,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "WI": {
+      "state": "Wisconsin",
+      "designations": 145,
+      "geographic": 1,
+      "population_groups": 29,
+      "facilities": 115,
+      "rural_or_partly_rural": 117,
+      "people_covered": 586122,
+      "dentists_needed": 87.1,
+      "counties_with_designation": 30,
+      "top_counties": [
+        {
+          "county": "La Crosse County, WI",
+          "max_score": 21
+        },
+        {
+          "county": "Milwaukee County, WI",
+          "max_score": 19
+        },
+        {
+          "county": "Waukesha County, WI",
+          "max_score": 19
+        },
+        {
+          "county": "Waupaca County, WI",
+          "max_score": 18
+        },
+        {
+          "county": "Burnett County, WI",
+          "max_score": 16
+        },
+        {
+          "county": "Crawford County, WI",
+          "max_score": 16
+        },
+        {
+          "county": "Marquette County, WI",
+          "max_score": 16
+        },
+        {
+          "county": "Menominee County, WI",
+          "max_score": 16
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI-La Crosse",
+          "county": "La Crosse County, WI",
+          "score": 21,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-North Milwaukee SA",
+          "county": "Milwaukee County, WI",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Marion",
+          "county": "Waupaca County, WI",
+          "score": 18,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Burnett County",
+          "county": "Burnett County, WI",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Crawford County",
+          "county": "Crawford County, WI",
+          "score": 16,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "WV": {
+      "state": "West Virginia",
+      "designations": 119,
+      "geographic": 4,
+      "population_groups": 48,
+      "facilities": 67,
+      "rural_or_partly_rural": 104,
+      "people_covered": 605360,
+      "dentists_needed": 122.1,
+      "counties_with_designation": 52,
+      "top_counties": [
+        {
+          "county": "Calhoun County, WV",
+          "max_score": 22
+        },
+        {
+          "county": "McDowell County, WV",
+          "max_score": 22
+        },
+        {
+          "county": "Greenbrier County, WV",
+          "max_score": 20
+        },
+        {
+          "county": "Pocahontas County, WV",
+          "max_score": 20
+        },
+        {
+          "county": "Ritchie County, WV",
+          "max_score": 20
+        },
+        {
+          "county": "Barbour County, WV",
+          "max_score": 19
+        },
+        {
+          "county": "Logan County, WV",
+          "max_score": 19
+        },
+        {
+          "county": "Mingo County, WV",
+          "max_score": 19
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Calhoun County",
+          "county": "Calhoun County, WV",
+          "score": 22,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "McDowell County",
+          "county": "McDowell County, WV",
+          "score": 22,
+          "kind": "High Needs Geographic HPSA"
+        },
+        {
+          "name": "LI - Pocahontas County",
+          "county": "Pocahontas County, WV",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Ritchie County",
+          "county": "Ritchie County, WV",
+          "score": 20,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI-Greenbrier County",
+          "county": "Greenbrier County, WV",
+          "score": 20,
+          "kind": "HPSA Population"
+        }
+      ]
+    },
+    "WY": {
+      "state": "Wyoming",
+      "designations": 28,
+      "geographic": 3,
+      "population_groups": 5,
+      "facilities": 20,
+      "rural_or_partly_rural": 23,
+      "people_covered": 48996,
+      "dentists_needed": 8.2,
+      "counties_with_designation": 8,
+      "top_counties": [
+        {
+          "county": "Albany County, WY",
+          "max_score": 19
+        },
+        {
+          "county": "Goshen County, WY",
+          "max_score": 16
+        },
+        {
+          "county": "Platte County, WY",
+          "max_score": 16
+        },
+        {
+          "county": "Fremont County, WY",
+          "max_score": 13
+        },
+        {
+          "county": "Sheridan County, WY",
+          "max_score": 12
+        },
+        {
+          "county": "Carbon County, WY",
+          "max_score": 9
+        },
+        {
+          "county": "Niobrara County, WY",
+          "max_score": 8
+        },
+        {
+          "county": "Natrona County, WY",
+          "max_score": 7
+        }
+      ],
+      "top_designations": [
+        {
+          "name": "LI - Albany County",
+          "county": "Albany County, WY",
+          "score": 19,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Goshen County",
+          "county": "Goshen County, WY",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "LI - Platte County",
+          "county": "Platte County, WY",
+          "score": 16,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "Low Income - Fremont County",
+          "county": "Fremont County, WY",
+          "score": 13,
+          "kind": "HPSA Population"
+        },
+        {
+          "name": "West Sheridan County",
+          "county": "Sheridan County, WY",
+          "score": 12,
+          "kind": "Geographic HPSA"
+        }
+      ]
+    },
+    "XX": {
+      "state": "Not Determined",
+      "designations": 2,
+      "geographic": 0,
+      "population_groups": 0,
+      "facilities": 2,
+      "rural_or_partly_rural": 0,
+      "people_covered": 0,
+      "dentists_needed": 0.0,
+      "counties_with_designation": 0,
+      "top_counties": [],
+      "top_designations": []
+    }
+  }
+}
