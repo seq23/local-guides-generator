@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   rotating-refresh:
-    timeout-minutes: 25  # ~3x median 5.5m over 8 green runs plus ~3m of Search Console reads; fault detector, not a budget
+    timeout-minutes: 35  # ~3x median 5.5m over 8 green runs, ~3m of Search Console reads, and the refresh lane (3 pages: links + at most 2 x 90s of $0 model time each); fault detector, not a budget
     runs-on: ubuntu-latest
     # A newly qualifying family is a note for the search loop, never a failure
     # (demand_families_contract.js). A real failure fails only its own site's
@@ -98,6 +98,18 @@ jobs:
       - name: Rotate one vertical
         if: ${{ !inputs.search_only && matrix.host == 'memphisseniorcarehomes.com' }}
         run: node scripts/automation/rotate_vertical_refresh.js
+      # Real refresh (owner goal 10 Nov 2026; risk rule R-ADV-12): a few guides a
+      # day get their links re-checked and fixed, and one real Search Console
+      # question added through the $0 router. The lane never writes a date: the
+      # record step's --refresh-ledger moves lastmod only for pages whose rendered
+      # content changed. Census line: OUTPUT <n> pages refreshed.
+      - name: Refresh lane (links re-checked, one real-search question)
+        if: ${{ !inputs.search_only && matrix.host == 'memphisseniorcarehomes.com' }}
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          node scripts/lib/free_llm_router.mjs --receipt
+          node scripts/automation/refresh_lane.mjs
       - name: LLM cost receipt (zero-paid policy)
         if: ${{ !inputs.search_only && matrix.host == 'memphisseniorcarehomes.com' }}
         # Owner policy 11 Oct 2026: "nothing should be paid ... cut the probes and
@@ -119,7 +131,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/signals/ CHANGELOG.md data/search_intelligence/
+          git add data/signals/ CHANGELOG.md data/search_intelligence/ data/cadence/refresh_lane_ledger.json data/page_sets/examples/
           if git diff --cached --quiet; then
             echo "no observation or rotation entry to record"
             exit 0
