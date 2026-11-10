@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-10..2026-11-06",
-  "gsc_collected_at": "2026-11-09T13:51:28+00:00",
+  "gsc_window": "2026-10-11..2026-11-07",
+  "gsc_collected_at": "2026-11-10T13:53:07+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 8,
+      "impressions": 9,
       "status": "no_page"
     },
     {
@@ -41,23 +41,23 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 8,
+      "impressions": 9,
       "best_position": 80.7,
-      "weighted_position": 91.3,
-      "top_query": "uscis immigration exam",
+      "weighted_position": 89.7,
+      "top_query": "uscis civil surgeon",
       "query_count": 5,
       "queries": [
+        {
+          "query": "uscis civil surgeon",
+          "route": "/",
+          "impressions": 3,
+          "position": 90
+        },
         {
           "query": "uscis immigration exam",
           "route": "/",
           "impressions": 3,
           "position": 80.7
-        },
-        {
-          "query": "uscis civil surgeon",
-          "route": "/",
-          "impressions": 2,
-          "position": 96.5
         },
         {
           "query": "civil surgeon uscis",
@@ -81,9 +81,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 8,
-          "page_impressions": 23,
-          "page_position": 72
+          "family_impressions": 9,
+          "page_impressions": 24,
+          "page_position": 72.2
         }
       ],
       "rank": 1,
@@ -154,8 +154,8 @@
         {
           "route": "/",
           "family_impressions": 2,
-          "page_impressions": 23,
-          "page_position": 72
+          "page_impressions": 24,
+          "page_position": 72.2
         }
       ],
       "rank": 3,

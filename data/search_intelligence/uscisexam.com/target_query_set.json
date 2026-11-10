@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-10..2026-11-06",
-  "gsc_collected_at": "2026-11-09T13:51:28+00:00",
+  "gsc_window": "2026-10-11..2026-11-07",
+  "gsc_collected_at": "2026-11-10T13:53:07+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
   "target_count": 9,
   "targets_by_source": {
@@ -37,6 +37,27 @@
       "owner_route": "/guides/citizenship-test/"
     },
     {
+      "query": "uscis civil surgeon",
+      "normalized_query": "uscis civil surgeon",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 90,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-11..2026-11-07"
+      },
+      "owner_route": "/",
+      "other_measurements": [
+        {
+          "metric": "search_volume_monthly",
+          "value": 5400,
+          "source_type": "semrush_keyword_magic"
+        }
+      ]
+    },
+    {
       "query": "uscis immigration exam",
       "normalized_query": "uscis immigration exam",
       "source": "gsc_export",
@@ -46,7 +67,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-10..2026-11-06"
+        "window": "2026-10-11..2026-11-07"
       },
       "owner_route": "/"
     },
@@ -60,7 +81,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-10..2026-11-06"
+        "window": "2026-10-11..2026-11-07"
       },
       "owner_route": "/states/NV/"
     },
@@ -74,30 +95,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-10..2026-11-06"
+        "window": "2026-10-11..2026-11-07"
       },
       "owner_route": "/"
-    },
-    {
-      "query": "uscis civil surgeon",
-      "normalized_query": "uscis civil surgeon",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 96.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-10..2026-11-06"
-      },
-      "owner_route": "/",
-      "other_measurements": [
-        {
-          "metric": "search_volume_monthly",
-          "value": 5400,
-          "source_type": "semrush_keyword_magic"
-        }
-      ]
     },
     {
       "query": "civil surgeon uscis",
@@ -109,7 +109,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-10..2026-11-06"
+        "window": "2026-10-11..2026-11-07"
       },
       "owner_route": "/"
     },
@@ -123,7 +123,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-10..2026-11-06"
+        "window": "2026-10-11..2026-11-07"
       },
       "owner_route": "/"
     },
@@ -137,7 +137,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-10..2026-11-06"
+        "window": "2026-10-11..2026-11-07"
       },
       "owner_route": "/"
     }
