@@ -63,3 +63,30 @@ test('legacy upgrades preserve reviewed copy and cannot synthesize a template bo
   assert.equal(buildGuideHtml(guide, profile), guide.main_html);
   assert.throws(() => buildGuideHtml({ route: guide.route }, profile), /Author guide content/);
 });
+
+test('every accident guide opens with a 40-60 word span that defines its subject ("X is ...")', async () => {
+  // Search Readiness b4 (theaccidentguides.com, 10 Nov 2026): three guides opened on a
+  // sentence that defined nothing, so the renderer's lede had no "X is ..." to quote.
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const dir = path.join(path.dirname(new URL(import.meta.url).pathname), '..', '..', 'data', 'page_sets', 'examples', 'pi_global_pages');
+  const registry = JSON.parse(fs.readFileSync(path.join(dir, '..', '..', '..', 'contracts', 'guide_enhancement_registry.json'), 'utf8'));
+  const words = (s) => String(s).replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+  const guides = fs.readdirSync(dir).map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')))
+    .filter((p) => /^\/guides\/.+\/$/.test(p.route || ''));
+  assert.ok(guides.length >= 20, `expected the accident guides, read ${guides.length}`);
+  // A guide whose own text yields no opening is composed from its curated registry
+  // sentences instead; this pins the path that broke: an opening taken from the guide's own text.
+  const bad = [];
+  let checked = 0;
+  for (const p of guides) {
+    const entry = registry[p.route] || {};
+    const opening = entry.definition || answerFromSource(p.main_html);
+    if (!opening) continue;
+    checked += 1;
+    const n = words(opening);
+    if (n < 40 || n > 60 || !/\b(is|are)\b/.test(opening.replace(/<[^>]+>/g, ' '))) bad.push(`${p.route} (${n} words)`);
+  }
+  assert.ok(checked >= 20, `expected 20+ guides opening on their own text, checked ${checked}`);
+  assert.deepEqual(bad, []);
+});
