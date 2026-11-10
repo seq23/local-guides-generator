@@ -58,6 +58,7 @@
     "validate:dist": "rm -rf dist && node scripts/build_all_packs.js && LKG_VALIDATE_DIST=1 npm run validate:all",
     "validate:pi:containment": "node scripts/validate_pi_keyword_containment.js",
     "validate:senior-lead": "node scripts/validation/senior_seat_schema_contract.js && node scripts/validation/senior_static_contract.js && node scripts/validation/senior_lead_flow_contract.js",
+    "validate:sourced-cost-figures": "node scripts/validation/sourced_cost_figures_contract.js",
     "validate:tier:developer": "node scripts/validation/run_validator_tier.js developer",
     "validate:tier:hard-fail": "node scripts/validation/run_validator_tier.js hard_fail",
     "validate:tier:warning": "node scripts/validation/run_validator_tier.js warning",
