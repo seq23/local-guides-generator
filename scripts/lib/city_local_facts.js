@@ -261,4 +261,4 @@ function forCity(verticalKey, city) {
   return null;
 }
 
-module.exports = { forCity, forState, fit, words };
+module.exports = { forCity, forState, fit, words, CMS_PROVIDER_URL, CMS_GEO_URL };
