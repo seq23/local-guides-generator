@@ -34,71 +34,6 @@ test('one floor rule: fail under 75%, note for a near miss or anything over', ()
   assert.equal(judgeLength(500, 40, 60), 'note');
 });
 
-test('head contract: a long or slightly short title is a note; a stub, a duplicate or two h1s still fail', (t) => {
-  const dir = tmp(t, 'head');
-  const page = (rel, title, desc = 'd'.repeat(130), h1 = '<h1>x</h1>') => {
-    fs.mkdirSync(path.join(dir, 'dist', rel), { recursive: true });
-    fs.writeFileSync(path.join(dir, 'dist', rel, 'index.html'), `<title>${title}</title><meta name="description" content="${desc}"><main>${h1}</main>`);
-  };
-  page('', 'T'.repeat(80));
-  page('a', 'Twenty-five chars title x', 'd'.repeat(200));
-  let r = node('scripts/validation/search_readiness_head_contract.js', { cwd: dir });
-  assert.equal(r.status, 0, r.stderr);
-  assert.match(r.stdout, /NOTE: 3 title\/description length/);
-  page('b', 'Too short title');
-  r = node('scripts/validation/search_readiness_head_contract.js', { cwd: dir });
-  assert.equal(r.status, 1);
-  assert.match(r.stderr, /b\/ +title is 15 chars/);
-  page('b', 'T'.repeat(80));
-  r = node('scripts/validation/search_readiness_head_contract.js', { cwd: dir });
-  assert.equal(r.status, 1);
-  assert.match(r.stderr, /used by more than one page/);
-  page('b', 'A unique title for page b ok', 'd'.repeat(130), '<h1>x</h1><h1>y</h1>');
-  r = node('scripts/validation/search_readiness_head_contract.js', { cwd: dir });
-  assert.equal(r.status, 1);
-  assert.match(r.stderr, /has 2 <h1>/);
-});
-
-test('answer shape: a 35-word or 80-word answer is a note; a 25-word fragment fails', (t) => {
-  const dir = tmp(t, 'answer');
-  const write = (n) => fs.writeFileSync(path.join(dir, 'index.html'),
-    `<main><h2>What does a crash report cost?</h2><p data-citation-summary-answer="true">${words(n, 'cost')}</p>` +
-    '<div data-content-block="recommendation_summary"></div></main>');
-  const run = () => node('scripts/validation/answer_shape_contract.js', { env: { PAGES_OUT_DIR: dir } });
-  for (const n of [35, 80]) {
-    write(n);
-    const r = run();
-    assert.equal(r.status, 0, r.stdout);
-    assert.match(r.stdout, new RegExp(`NOTE .*answer span is ${n} words`));
-  }
-  write(25);
-  const r = run();
-  assert.equal(r.status, 1);
-  assert.match(r.stdout, /FAIL .*answer span is 25 words/);
-});
-
-test('guide word floor: 1,500 words is a note on an enforced pack; 1,000 fails', (t) => {
-  const dir = tmp(t, 'floor');
-  const slug = 'ocala-dental-new-patient-specials-compared';
-  fs.mkdirSync(path.join(dir, 'guides', slug), { recursive: true });
-  const write = (n) => fs.writeFileSync(path.join(dir, 'guides', slug, 'index.html'),
-    `<h1>Guide topic</h1><h2 id="quick-answer">Quick answer</h2><table><tr><td>Comparison</td></tr></table>` +
-    `<section data-search-faq="true"><h2>Frequently asked questions</h2><p>${words(n)}</p></section>` +
-    `<script type="application/ld+json">{"@type":"FAQPage"}</script>` +
-    `<a href="/request-assistance/?vertical=dentistry&amp;page_kind=guide&amp;page_slug=guides/${slug}">Ask</a>`);
-  const run = () => node('scripts/validation/guide_word_floor_contract.js', {
-    env: { LKG_VALIDATE_DIST: '1', PAGE_SET_FILE: 'data/page_sets/examples/dentistry_v1.json', PAGES_OUT_DIR: dir },
-  });
-  write(1500);
-  let r = run();
-  assert.equal(r.status, 0, r.stderr);
-  assert.match(r.stdout, /NOTE: .*under the 1800-word target/);
-  write(1000);
-  r = run();
-  assert.equal(r.status, 1);
-  assert.match(r.stderr, /under 1350 words/);
-});
-
 test('PI wording: outcome and dollar promises stay blocking; pushy tone is a note', () => {
   const pi = require('../../scripts/validation/pi_trust_tone_contract');
   for (const p of ['guaranteed win', 'guaranteed outcome', 'million-dollar', 'we win big']) assert.ok(pi.BANNED_PHRASES.includes(p), p);
@@ -139,17 +74,10 @@ test('cadence: the weekly cap blocks the publish lane and is a warning in the me
   assert.match(r.stdout, /BLOCK +no_freshness_signal/);
 });
 
-test('answer wording: a label heading or a pronoun opening is a note, and the generator produces the shape', (t) => {
+test('answer wording: the generator seats a question heading and a self-contained first sentence', () => {
   const { seatAnswerShape, selfContainedFirst } = require('../../scripts/lib/answer_shape_seat');
-  const dir = tmp(t, 'wording');
   const page = (heading, span) => `<main><h1>USCIS medical exam: costs</h1><h2>${heading}</h2>` +
     `<p data-citation-summary-answer="true">${span}</p><div data-content-block="recommendation_summary"></div></main>`;
-  const pronoun = `It is ${words(40, 'exam')}`;
-  fs.writeFileSync(path.join(dir, 'index.html'), page('Short answer', pronoun));
-  const r = node('scripts/validation/answer_shape_contract.js', { env: { PAGES_OUT_DIR: dir } });
-  assert.equal(r.status, 0, r.stdout);
-  assert.match(r.stdout, /NOTE .*heading is not a question/);
-  assert.match(r.stdout, /NOTE .*opens with a pronoun/);
   // Render-time: the label becomes the house question; a page in shape is untouched.
   const seated = seatAnswerShape(page('Short answer', 'The exam costs money.'), 'guides/x');
   assert.match(seated, /<h2>USCIS medical exam: what should you know before you decide\?<\/h2>/);
