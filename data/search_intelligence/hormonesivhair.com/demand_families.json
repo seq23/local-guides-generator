@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-10..2026-11-06",
-  "gsc_collected_at": "2026-11-09T13:47:12+00:00",
+  "gsc_window": "2026-10-11..2026-11-07",
+  "gsc_collected_at": "2026-11-10T13:48:19+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -23,8 +23,8 @@
     {
       "rank": 2,
       "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
-      "impressions": 4,
-      "status": "below_impression_floor"
+      "impressions": 5,
+      "status": "not_strengthened"
     },
     {
       "rank": 3,
@@ -104,11 +104,11 @@
       "page": "/guides/does-insurance-cover-testosterone-therapy/",
       "page_kind": "guide",
       "page_intent": "topic:does-insurance-cover-testosterone-therapy",
-      "impressions": 4,
+      "impressions": 5,
       "best_position": 72,
-      "weighted_position": 89.8,
+      "weighted_position": 90.4,
       "top_query": "does insurance cover testosterone replacement therapy",
-      "query_count": 4,
+      "query_count": 5,
       "queries": [
         {
           "query": "does insurance cover testosterone replacement therapy",
@@ -121,6 +121,12 @@
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "impressions": 1,
           "position": 72
+        },
+        {
+          "query": "how to get testosterone covered by insurance",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 1,
+          "position": 93
         },
         {
           "query": "is testosterone cream covered by insurance",
@@ -138,17 +144,21 @@
       "pages": [
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "family_impressions": 4,
-          "page_impressions": 6,
-          "page_position": 82.7
+          "family_impressions": 5,
+          "page_impressions": 8,
+          "page_position": 75
         }
       ],
       "rank": 2,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "4 impressions < 5"
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/does-insurance-cover-testosterone-therapy/"
+      ],
+      "status": "not_strengthened",
+      "reason": "data/page_sets/examples/trt_global_pages/guides_trt_does-insurance-cover-testosterone-therapy.json has no search_strengthening listed in strengthened_pages.json"
     },
     {
       "family": "red flags @ /guides/trt-red-flags/",
@@ -213,8 +223,8 @@
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "family_impressions": 2,
-          "page_impressions": 6,
-          "page_position": 82.7
+          "page_impressions": 8,
+          "page_position": 75
         }
       ],
       "rank": 4,
