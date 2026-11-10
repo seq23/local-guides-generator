@@ -41,7 +41,7 @@ function hostOf(siteUrl) {
 
 function applyStrengthening(mainHtml, page) {
   const s = page && page.search_strengthening;
-  if (!s) return mainHtml;
+  if (!s) return applyRefreshQuestions(mainHtml, page);
   let out = String(mainHtml);
   if (s.definition && !out.includes('data-search-definition="true"')) {
     const para = '<p class="search-definition" data-search-definition="true">' + esc(s.definition) + '</p>';
@@ -54,7 +54,24 @@ function applyStrengthening(mainHtml, page) {
     const next = out.search(/<h2[^>]*id="next-steps"/i);
     out = next >= 0 ? out.slice(0, next) + faq + '\n' + out.slice(next) : out + '\n' + faq;
   }
-  return out;
+  return applyRefreshQuestions(out, page);
+}
+
+// Questions the refresh lane added from real searches (scripts/automation/refresh_lane.mjs):
+// inside the search FAQ when the page has one, else their own FAQ section.
+function applyRefreshQuestions(mainHtml, page) {
+  const extra = page && Array.isArray(page.refresh_faq) ? page.refresh_faq : [];
+  if (!extra.length || String(mainHtml).includes('data-refresh-faq="true"')) return mainHtml;
+  const items = extra.map((x) => '<h3>' + esc(x.q) + '</h3><p>' + esc(x.a) + '</p>').join('');
+  const out = String(mainHtml);
+  const open = out.indexOf('data-search-faq="true"');
+  if (open >= 0) {
+    const close = out.indexOf('</section>', open);
+    return out.slice(0, close) + '<div data-refresh-faq="true">' + items + '</div>' + out.slice(close);
+  }
+  const section = '<section class="section search-faq" data-refresh-faq="true"><h2 id="more-questions">More questions readers ask</h2>' + items + '</section>';
+  const next = out.search(/<h2[^>]*id="next-steps"/i);
+  return next >= 0 ? out.slice(0, next) + section + '\n' + out.slice(next) : out + '\n' + section;
 }
 
 // Folds the page's real questions into the FAQPage the head already carries
@@ -63,8 +80,9 @@ function applyStrengthening(mainHtml, page) {
 // "Duplicate field FAQPage" error that voids the rich result.
 function mergeFaqIntoJsonLd(headJsonLd, page) {
   const s = page && page.search_strengthening;
-  if (!s || !Array.isArray(s.faq) || !s.faq.length) return headJsonLd;
-  const qs = s.faq.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } }));
+  const all = [...(s && Array.isArray(s.faq) ? s.faq : []), ...(page && Array.isArray(page.refresh_faq) ? page.refresh_faq : [])];
+  if (!all.length) return headJsonLd;
+  const qs = all.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } }));
   const m = String(headJsonLd).match(/(<script type="application\/ld\+json">\s*)([\s\S]*?)(\s*<\/script>)/);
   if (!m) throw new Error('mergeFaqIntoJsonLd: head JSON-LD script not found');
   const data = JSON.parse(m[2]);
@@ -144,4 +162,5 @@ function renderAudienceBlockHtml(siteUrl, verticalKey, stateAbbr, stateName) {
   return '<section class="section audience-cta" data-audience-cta="' + esc(cta.ref) + '"><h2>' + fill(cta.heading) + '</h2><p>' + fill(cta.body) + '</p><p class="audience-cta__actions">' + links.join(' ') + '</p></section>' + TRACK_SCRIPT;
 }
 
-module.exports = { rankedLinks, applyStrengthening, mergeFaqIntoJsonLd, stateHubStrengthening, renderStateStrengtheningHtml, renderRankedLinksHtml, renderAudienceBlockHtml, STRENGTHENED, CTAS };
+module.exports = {
+  applyRefreshQuestions, rankedLinks, applyStrengthening, mergeFaqIntoJsonLd, stateHubStrengthening, renderStateStrengtheningHtml, renderRankedLinksHtml, renderAudienceBlockHtml, STRENGTHENED, CTAS };
