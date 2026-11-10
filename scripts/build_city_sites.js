@@ -6908,6 +6908,7 @@ function loadNextStepsSponsor(citySlug) {
       const title = 'Next steps — ' + stateName + ' personal injury';
       const headTitle = brandedTitle('Next Steps: ' + stateName, siteUrl, brandName);
       const description = 'Next steps for a personal injury claim in ' + stateName + ': a preparation checklist, the questions to ask a lawyer first, and a sponsor contact route.';
+      const stateFacts = cityLocalFacts.piState(ab, stateName);
 
       const mainHtml = (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.') : '') + renderDedicatedNextStepsHubHtml({
         marketLabel: stateName,
@@ -6915,7 +6916,12 @@ function loadNextStepsSponsor(citySlug) {
         compareHref: '/guides/?intent=decision_hub&button=next_steps_page_compare&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         toolsHref: '/faq/?intent=self_serve&button=next_steps_page_tools&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, 'pi'),
-        sponsorRouting: getSponsorRoutingForContext({ pageKind: 'state', route: 'states/' + ab + '/next-steps', verticalKey: 'pi', stateAbbr: ab })
+        sponsorRouting: getSponsorRoutingForContext({ pageKind: 'state', route: 'states/' + ab + '/next-steps', verticalKey: 'pi', stateAbbr: ab }),
+        // The state's own FARS figures and attorney lookup (Search Readiness q1,
+        // 10 Nov 2026): without them the 50 pages were one page with 50 names.
+        localDefinition: stateFacts ? stateFacts.answer : '',
+        localLead: stateFacts ? stateFacts.lead : '',
+        localHtml: stateFacts ? stateFacts.html : ''
       });
 
       const mapped = replaceAll(baseTemplate, {

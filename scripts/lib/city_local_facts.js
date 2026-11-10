@@ -124,6 +124,64 @@ function pi(city) {
   return { answer, html, faq };
 }
 
+// ---- personal injury: a state's own FARS figures ------------------------
+// /states/<ST>/next-steps/ was the shared callback form under two sentences
+// that changed only the state's name, so any two of the 50 were 0.82-0.87
+// alike (Search Readiness q1, 10 Nov 2026: SD, NJ, HI, MT). Each state's FARS
+// census and its own attorney-discipline lookup are what only it can say.
+function ordinal(k) { const m = k % 100; return k + ((m >= 11 && m <= 13) ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' }[k % 10] || 'th')); }
+
+function piState(abbr, sname) {
+  const fars = readJson('research/pi/fars_city_fatal_crashes.json');
+  const e = fars && fars.states && fars.states[sname];
+  const [y1, y0] = ((fars && fars.years) || []).map(String);
+  const s1 = e && e[y1]; const s0 = e && y0 && e[y0];
+  if (!s1) return null;
+  const disc = readJson('pi_state_disciplinary_links.json') || {};
+  const lookupUrl = /^https?:\/\//.test(String(disc[String(abbr).toUpperCase()] || '')) ? String(disc[String(abbr).toUpperCase()]) : '';
+  const st = esc(sname);
+  const trend = s0 ? (s1.fatal_crashes === s0.fatal_crashes ? 'the same as' : (s1.fatal_crashes > s0.fatal_crashes ? 'up from ' : 'down from ') + n(s0.fatal_crashes) + ' in') + ' ' + y0 : '';
+  const roads = roadsText(s1.top_trafficways);
+  const head = 'In ' + y1 + ' the federal crash census (NHTSA FARS) recorded ' + n(s1.fatal_crashes) + ' fatal ' + plural(s1.fatal_crashes, 'crash', 'crashes') + ' in ' + st + (trend ? ', ' + trend : '') + ', and ' + n(s1.deaths) + ' ' + plural(s1.deaths, 'person', 'people') + ' died.';
+  const ped = s1.pedestrian_first_harmful_event ? ' ' + n(s1.pedestrian_first_harmful_event) + ' began with a pedestrian being struck.' : '';
+  const dark = s1.in_dark_conditions ? ' ' + n(s1.in_dark_conditions) + ' happened in the dark.' : '';
+  const tail = ' If you were hurt in a crash, the first check on any lawyer is the ' + st + ' attorney licence record.';
+  const answer = fit([head + ped + dark + tail, head + ped + tail, head + dark + tail, head + tail, head + ped + dark]);
+  const row = (label, f) => '<tr><th scope="row">' + label + '</th><td>' + f(s1) + '</td>' + (s0 ? '<td>' + f(s0) + '</td>' : '') + '</tr>';
+  const table = '<table class="data-table" data-state-fars-table="true"><caption>Fatal crashes in ' + st + ' recorded by NHTSA FARS</caption><thead><tr><th scope="col">Measure</th><th scope="col">' + y1 + '</th>' + (s0 ? '<th scope="col">' + y0 + '</th>' : '') + '</tr></thead><tbody>' +
+    row('Fatal crashes', (x) => n(x.fatal_crashes)) +
+    row('People killed', (x) => n(x.deaths)) +
+    row('First harmful event: pedestrian struck', (x) => n(x.pedestrian_first_harmful_event)) +
+    row('First harmful event: cyclist struck', (x) => n(x.pedalcyclist_first_harmful_event)) +
+    row('In the dark', (x) => n(x.in_dark_conditions)) +
+    row('On a Saturday or Sunday', (x) => n(x.on_weekends)) +
+    '</tbody></table>';
+  const month = s1.top_month && s1.top_month[1] > 1 ? esc(s1.top_month[0]) + ', with ' + n(s1.top_month[1]) + ' fatal crashes' : '';
+  const roads0 = s0 ? roadsText(s0.top_trafficways) : '';
+  const month0 = s0 && s0.top_month && s0.top_month[1] > 1 ? esc(s0.top_month[0]) + ' (' + n(s0.top_month[1]) + ')' : '';
+  const ranked = Object.entries(fars.states).filter(([, v]) => v && v[y1]).map(([k, v]) => [k, v[y1].fatal_crashes]).sort((a, b) => b[1] - a[1]);
+  const pos = ranked.findIndex(([k]) => k === sname);
+  const share = s1.fatal_crashes ? Math.round((100 * (s1.pedestrian_first_harmful_event || 0)) / s1.fatal_crashes) : 0;
+  // The covered cities in this state, each with its own FARS count.
+  const cityRows = Object.entries((fars && fars.cities) || {})
+    .filter(([, c]) => c && c.state === sname && c.years && c.years[y1] && c.years[y1].city)
+    .sort((a, b) => String(a[1].city).localeCompare(String(b[1].city)))
+    .map(([slug, c]) => '<li><a href="/' + esc(slug) + '/">' + esc(c.city) + '</a>: ' + n(c.years[y1].city.fatal_crashes) + ' fatal ' + plural(c.years[y1].city.fatal_crashes, 'crash', 'crashes') + (c.county && c.years[y1].county ? ', ' + esc(c.county) + ' ' + n(c.years[y1].county.fatal_crashes) : '') + '</li>');
+  const cityList = cityRows.length ? '<ul class="neutral-list" data-state-fars-cities="true">' + cityRows.join('') + '</ul>' : '';
+  const html = '<section class="section" data-state-local-facts="pi">' +
+    '<h2>How many fatal crashes happen in ' + st + '?</h2>' + table +
+    (roads ? '<p data-state-fars-roads="true">' + st + ' roads with the most fatal crashes in ' + y1 + ': ' + roads + (month ? '; peak month ' + month : '') + '.</p>' : '') +
+    (pos >= 0 ? '<p data-state-fars-rank="true">' + st + ' ranked ' + ordinal(pos + 1) + ' of ' + ranked.length + ' for fatal crashes in ' + y1 + (share ? ', ' + share + '% of them pedestrian' : '') + '.</p>' : '') +
+    (roads0 || month0 ? '<p data-state-fars-prior="true">' + y0 + ': ' + [roads0, month0 ? 'peak month ' + month0 : ''].filter(Boolean).join('; ') + '.</p>' : '') +
+    cityList +
+    (lookupUrl ? '<p>Before you sign with a firm, look the lawyer up in the ' + st + ' <a href="' + esc(lookupUrl) + '" rel="nofollow noopener">attorney licence and discipline records</a>.</p>' : '') +
+    '<p class="muted" data-state-local-source="true">Source: <a href="' + FARS_URL + '" rel="nofollow noopener">NHTSA FARS</a>, ' + y1 + (y0 ? ' and ' + y0 : '') + '. Fatal crashes only; counts, not rates.</p>' +
+    '</section>';
+  // The next-steps answer's own clause: what differs about this state's roads.
+  const lead = roads ? 'the roads with the most fatal crashes in ' + y1 + ' were ' + roads.replace(/&amp;/g, '&') + (month ? ', and the worst month was ' + month.replace(/&amp;/g, '&') : '') : (month ? 'the worst month for fatal crashes in ' + y1 + ' was ' + month.replace(/&amp;/g, '&') : '');
+  return { answer, html, lead };
+}
+
 // ---- Medicare figures: TRT and neuro ------------------------------------
 const CMS_SETS = {
   trt: {
@@ -261,4 +319,4 @@ function forCity(verticalKey, city) {
   return null;
 }
 
-module.exports = { forCity, forState, fit, words, CMS_PROVIDER_URL, CMS_GEO_URL };
+module.exports = { forCity, forState, piState, fit, words, CMS_PROVIDER_URL, CMS_GEO_URL };
