@@ -18,7 +18,6 @@ on:
     # runs under load, which would have turned k6 red for all six publications
     # on one missed Monday. Two firings three and four days apart survive a miss,
     # and the Monday run lands before the audit that reads it.
-    # Held by scripts/validation/entity_watch_lane_contract.js (max gap 4 days).
     - cron: '40 5 * * 1'   # Mondays 05:40 UTC
     - cron: '40 5 * * 4'   # Thursdays 05:40 UTC
   workflow_dispatch:

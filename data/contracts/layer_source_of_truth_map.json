@@ -4,18 +4,31 @@
   "updated_at": "2026-04-30",
   "layers": {
     "pack_specific_guides": {
-      "paths": ["data/page_sets/examples/*_global_pages/*.json"],
+      "paths": [
+        "data/page_sets/examples/*_global_pages/*.json"
+      ],
       "purpose": "Pack-specific guide and route source data",
       "allowed_keys_note": "Guide content and route-specific source JSON live here; do not move city enrichment here."
     },
     "shared_globals": {
-      "paths": ["data/global_pages/*.json"],
+      "paths": [
+        "data/global_pages/*.json"
+      ],
       "purpose": "Shared global and non-pack pages"
     },
     "runtime_listings_inventory": {
-      "paths": ["data/listings/*.json"],
+      "paths": [
+        "data/listings/*.json"
+      ],
       "purpose": "Runtime provider and sponsor inventory for city pages",
-      "required_keys": ["city_slug", "city", "state", "vertical", "sponsor", "listings"],
+      "required_keys": [
+        "city_slug",
+        "city",
+        "state",
+        "vertical",
+        "sponsor",
+        "listings"
+      ],
       "forbidden_enrichment_keys": [
         "market_specific_notes",
         "local_vetting_points",
@@ -29,16 +42,23 @@
       ]
     },
     "city_enrichment": {
-      "paths": ["data/city_content/<vertical>/<city-slug>.json"],
+      "paths": [
+        "data/city_content/<vertical>/<city-slug>.json"
+      ],
       "purpose": "Optional structured city intelligence and decision-support enrichment",
       "required_location_rule": "Vertical subfolders only; no root-level city_content JSON files"
     },
     "example_provider_data": {
-      "paths": ["data/example_providers/<vertical>/*.json"],
+      "paths": [
+        "data/example_providers/<vertical>/*.json"
+      ],
       "purpose": "Example provider datasets used for rendering and examples"
     },
     "validation": {
-      "paths": ["scripts/validation/*.js", "scripts/validate_core.js", "scripts/validate_llm_surface.js", "scripts/validate_coverage_parity.js"],
+      "paths": [
+        "scripts/validation/*.js",
+        "scripts/validate_core.js"
+      ],
       "purpose": "Deterministic validation and release guardrails"
     }
   }
