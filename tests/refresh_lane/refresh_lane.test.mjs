@@ -28,6 +28,7 @@ test('dentistry and the accident guides come first, oldest first, at the pace', 
   const { due, take } = duePages(pages, { pages: {} }, '2026-11-10');
   assert.deepEqual(due.map((p) => p.url), ['https://d/a', 'https://d/b', 'https://p/a', 'https://t/a']);
   assert.equal(take, 1);
+  assert.equal(duePages(pages, { pages: {} }, '2026-11-10').next_due, '2026-12-01', 'the page changed 1 Nov comes due 30 days later');
   const again = duePages(pages, { pages: { 'https://d/a': { checked_at: '2026-11-01' } } }, '2026-11-10');
   assert.ok(!again.due.some((p) => p.url === 'https://d/a'), 'a page checked within 30 days is not due');
 });
