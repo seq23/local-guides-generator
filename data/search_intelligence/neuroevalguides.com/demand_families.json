@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-10..2026-11-06",
-  "gsc_collected_at": "2026-11-09T13:43:01+00:00",
+  "gsc_window": "2026-10-11..2026-11-07",
+  "gsc_collected_at": "2026-11-10T13:43:41+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
-      "impressions": 21,
+      "impressions": 31,
       "status": "not_strengthened"
     },
     {
@@ -53,17 +53,17 @@
       "page": "/guides/fayetteville-adhd-evaluation-testing-options/",
       "page_kind": "guide",
       "page_intent": "questions_to_ask",
-      "impressions": 21,
-      "best_position": 46.1,
-      "weighted_position": 51,
+      "impressions": 31,
+      "best_position": 45.5,
+      "weighted_position": 48.9,
       "top_query": "adhd evaluation in fayetteville",
       "query_count": 2,
       "queries": [
         {
           "query": "adhd evaluation in fayetteville",
           "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
-          "impressions": 18,
-          "position": 46.1
+          "impressions": 28,
+          "position": 45.5
         },
         {
           "query": "adhd testing fayetteville ar",
@@ -75,9 +75,9 @@
       "pages": [
         {
           "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
-          "family_impressions": 21,
-          "page_impressions": 22,
-          "page_position": 49
+          "family_impressions": 31,
+          "page_impressions": 32,
+          "page_position": 47.7
         }
       ],
       "rank": 1,
