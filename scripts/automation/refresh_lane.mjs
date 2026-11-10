@@ -80,7 +80,9 @@ export function duePages(pages, laneLedger, today) {
   const due = pages.filter((p) => t - Date.parse(last(p)) >= MIN_DAYS * DAY);
   const rank = (p) => ORDER.indexOf(p.key);
   due.sort((a, b) => rank(a) - rank(b) || last(a).localeCompare(last(b)) || a.url.localeCompare(b.url));
-  return { due, take: Math.max(1, Math.ceil(pages.length / PACE_DAYS)) };
+  // The first day a page not due now comes due: what "nothing due" means, in a date.
+  const later = pages.filter((p) => !due.includes(p)).map((p) => new Date(Date.parse(last(p)) + MIN_DAYS * DAY).toISOString().slice(0, 10)).sort();
+  return { due, take: Math.max(1, Math.ceil(pages.length / PACE_DAYS)), next_due: later[0] || null };
 }
 
 /** Unwraps every <a> whose href is in `dead`, keeping its words. */
@@ -189,7 +191,7 @@ async function main() {
   lane.pages ||= {}; lane.runs ||= [];
   const pages = guidePages();
   if (!pages.length) { console.log('NAMED STOP [REFRESH_NO_GUIDES] no guide pages found under data/page_sets/examples/*_global_pages'); process.exit(2); }
-  const { due, take } = duePages(pages, lane, today);
+  const { due, take, next_due } = duePages(pages, lane, today);
   const { PACK_SITE_CONFIG } = require(path.join(ROOT, 'scripts/lib/pack_site_config.js'));
 
   const router = await import(pathToFileURL(path.join(ROOT, 'scripts/lib/free_llm_router.mjs')).href);
@@ -236,12 +238,13 @@ async function main() {
     console.log(`${changes.length ? 'REFRESHED' : 'CHECKED  '} ${p.url}${changes.length ? ' - ' + changes.join('; ') : ''}${note ? ` (${note})` : ''}`);
   }
 
-  lane.runs = [...lane.runs.filter((r) => r.at !== today), { at: today, due: due.length, checked: Math.min(take, due.length), refreshed: refreshed.length, sites: [...new Set(refreshed.map((r) => new URL(r.url).hostname))].length }].slice(-90);
+  lane.runs = [...lane.runs.filter((r) => r.at !== today), { at: today, due: due.length, next_due, checked: Math.min(take, due.length), refreshed: refreshed.length, sites: [...new Set(refreshed.map((r) => new URL(r.url).hostname))].length }].slice(-90);
   lane.updated_at = today;
+  lane.next_due = next_due;
   writeJson(LEDGER, lane);
 
   console.log(`OUTPUT ${refreshed.length} pages refreshed`);
-  if (!due.length) { console.log(`NAMED NOTE [NOTHING_DUE] every guide was checked or changed within ${MIN_DAYS} days`); return; }
+  if (!due.length) { console.log(`NAMED NOTE [NOTHING_DUE] every guide was checked or changed within ${MIN_DAYS} days; the next comes due ${next_due}`); return; }
   if (!refreshed.length) {
     console.log(`NAMED STOP [REFRESH_NOTHING_CHANGED] ${due.length} due, ${Math.min(take, due.length)} checked, 0 changed${modelStop ? `; ${modelStop}` : ''}`);
     if (stalled(lane.runs)) { console.log('NAMED STOP [REFRESH_STALLED] three runs in a row with due pages and nothing refreshed'); process.exit(1); }
