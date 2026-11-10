@@ -181,7 +181,10 @@ function piState(abbr, sname, builtSlugs) {
     '<p class="muted" data-state-local-source="true">Source: <a href="' + FARS_URL + '" rel="nofollow noopener">NHTSA FARS</a>, ' + y1 + (y0 ? ' and ' + y0 : '') + '. Fatal crashes only; counts, not rates.</p>' +
     '</div>';
   // The next-steps answer's own clause: what differs about this state's roads.
-  const lead = roads ? 'the roads with the most fatal crashes in ' + y1 + ' were ' + roads.replace(/&amp;/g, '&') + (month ? ', and the worst month was ' + month.replace(/&amp;/g, '&') : '') : (month ? 'the worst month for fatal crashes in ' + y1 + ' was ' + month.replace(/&amp;/g, '&') : '');
+  // The state's own words carry the answer, so it needs only the shortest
+  // shared tail (composeNextStepsAnswer picks the shortest that fits 40-60).
+  const un = (t) => String(t).replace(/&amp;/g, '&');
+  const lead = roads ? 'the roads with the most fatal crashes in ' + y1 + ' were ' + un(roads) + (month ? ', and the worst month was ' + un(month) : '') + (roads0 ? '; in ' + y0 + ' they were ' + un(roads0) : '') : (month ? 'the worst month for fatal crashes in ' + y1 + ' was ' + un(month) : '');
   return { answer, html, lead };
 }
 
