@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-10..2026-11-06",
+  "gsc_window": "2026-10-11..2026-11-07",
   "totals": {
     "clicks": 0,
-    "impressions": 81,
+    "impressions": 83,
     "ctr": 0,
-    "position": 63.1
+    "position": 62.8
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -24,6 +24,19 @@
       "strengthened": true
     },
     {
+      "route": "/guides/does-insurance-cover-testosterone-therapy/",
+      "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 5,
+      "source": "data/page_sets/examples/trt_global_pages/guides_trt_does-insurance-cover-testosterone-therapy.json",
+      "impressions": 8,
+      "clicks": 0,
+      "position": 75,
+      "strengthened": false
+    },
+    {
       "route": "/guides/trt-red-flags/",
       "family": "red flags @ /guides/trt-red-flags/",
       "basis": [
@@ -37,7 +50,9 @@
       "strengthened": true
     }
   ],
-  "not_yet_strengthened": [],
+  "not_yet_strengthened": [
+    "/guides/does-insurance-cover-testosterone-therapy/"
+  ],
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 76,

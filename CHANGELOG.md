@@ -1,5 +1,9 @@
 # Changelog
 
+# 2026-11-10
+
+- Revalidated core contracts and inventories (rotating focus: Hormone Optimization Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-11-09
 
 - Revalidated core contracts and inventories (rotating focus: The Dentistry Guides).
