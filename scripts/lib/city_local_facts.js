@@ -124,6 +124,70 @@ function pi(city) {
   return { answer, html, faq };
 }
 
+// ---- personal injury: a state's own FARS figures ------------------------
+// /states/<ST>/next-steps/ was the shared callback form under two sentences
+// that changed only the state's name, so any two of the 50 were 0.82-0.87
+// alike (Search Readiness q1, 10 Nov 2026: SD, NJ, HI, MT). Each state's FARS
+// census and its own attorney-discipline lookup are what only it can say.
+function ordinal(k) { const m = k % 100; return k + ((m >= 11 && m <= 13) ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' }[k % 10] || 'th')); }
+
+function piState(abbr, sname, builtSlugs) {
+  const fars = readJson('research/pi/fars_city_fatal_crashes.json');
+  const e = fars && fars.states && fars.states[sname];
+  const [y1, y0] = ((fars && fars.years) || []).map(String);
+  const s1 = e && e[y1]; const s0 = e && y0 && e[y0];
+  if (!s1) return null;
+  const disc = readJson('pi_state_disciplinary_links.json') || {};
+  const lookupUrl = /^https?:\/\//.test(String(disc[String(abbr).toUpperCase()] || '')) ? String(disc[String(abbr).toUpperCase()]) : '';
+  const st = esc(sname);
+  const trend = s0 ? (s1.fatal_crashes === s0.fatal_crashes ? 'the same as' : (s1.fatal_crashes > s0.fatal_crashes ? 'up from ' : 'down from ') + n(s0.fatal_crashes) + ' in') + ' ' + y0 : '';
+  const roads = roadsText(s1.top_trafficways);
+  const head = 'In ' + y1 + ' the federal crash census (NHTSA FARS) recorded ' + n(s1.fatal_crashes) + ' fatal ' + plural(s1.fatal_crashes, 'crash', 'crashes') + ' in ' + st + (trend ? ', ' + trend : '') + ', and ' + n(s1.deaths) + ' ' + plural(s1.deaths, 'person', 'people') + ' died.';
+  const ped = s1.pedestrian_first_harmful_event ? ' ' + n(s1.pedestrian_first_harmful_event) + ' began with a pedestrian being struck.' : '';
+  const dark = s1.in_dark_conditions ? ' ' + n(s1.in_dark_conditions) + ' happened in the dark.' : '';
+  const tail = ' If you were hurt in a crash, the first check on any lawyer is the ' + st + ' attorney licence record.';
+  const answer = fit([head + ped + dark + tail, head + ped + tail, head + dark + tail, head + tail, head + ped + dark]);
+  const row = (label, f) => '<tr><th scope="row">' + label + '</th><td>' + f(s1) + '</td>' + (s0 ? '<td>' + f(s0) + '</td>' : '') + '</tr>';
+  const table = '<table class="data-table" data-state-fars-table="true"><caption>Fatal crashes in ' + st + ' recorded by NHTSA FARS</caption><thead><tr><th scope="col">Measure</th><th scope="col">' + y1 + '</th>' + (s0 ? '<th scope="col">' + y0 + '</th>' : '') + '</tr></thead><tbody>' +
+    row('Fatal crashes', (x) => n(x.fatal_crashes)) +
+    row('People killed', (x) => n(x.deaths)) +
+    row('First harmful event: pedestrian struck', (x) => n(x.pedestrian_first_harmful_event)) +
+    row('First harmful event: cyclist struck', (x) => n(x.pedalcyclist_first_harmful_event)) +
+    row('In the dark', (x) => n(x.in_dark_conditions)) +
+    row('On a Saturday or Sunday', (x) => n(x.on_weekends)) +
+    '</tbody></table>';
+  const month = s1.top_month && s1.top_month[1] > 1 ? esc(s1.top_month[0]) + ', with ' + n(s1.top_month[1]) + ' fatal crashes' : '';
+  const roads0 = s0 ? roadsText(s0.top_trafficways) : '';
+  const month0 = s0 && s0.top_month && s0.top_month[1] > 1 ? esc(s0.top_month[0]) + ' (' + n(s0.top_month[1]) + ')' : '';
+  const ranked = Object.entries(fars.states).filter(([, v]) => v && v[y1]).map(([k, v]) => [k, v[y1].fatal_crashes]).sort((a, b) => b[1] - a[1]);
+  const pos = ranked.findIndex(([k]) => k === sname);
+  const share = s1.fatal_crashes ? Math.round((100 * (s1.pedestrian_first_harmful_event || 0)) / s1.fatal_crashes) : 0;
+  // The covered cities in this state, each with its own FARS count.
+  const cityRows = Object.entries((fars && fars.cities) || {})
+    // Only cities the pack actually publishes: a folded city 301s elsewhere.
+    .filter(([slug, c]) => c && c.state === sname && c.years && c.years[y1] && c.years[y1].city && (!builtSlugs || builtSlugs.has(slug)))
+    .sort((a, b) => String(a[1].city).localeCompare(String(b[1].city)))
+    .map(([slug, c]) => '<li><a href="/' + esc(slug) + '/">' + esc(c.city) + '</a>: ' + n(c.years[y1].city.fatal_crashes) + ' fatal ' + plural(c.years[y1].city.fatal_crashes, 'crash', 'crashes') + (c.county && c.years[y1].county ? ', ' + esc(c.county) + ' ' + n(c.years[y1].county.fatal_crashes) : '') + '</li>');
+  const cityList = cityRows.length ? '<ul class="neutral-list" data-state-fars-cities="true">' + cityRows.join('') + '</ul>' : '';
+  // A <div>, not a <section>: it sits inside the next-steps page shell, and a
+  // nested </section> ended the shell early for the section passes after it.
+  const html = '<div class="card" data-state-local-facts="pi">' +
+    '<h2>How many fatal crashes happen in ' + st + '?</h2>' + table +
+    (roads ? '<p data-state-fars-roads="true">' + st + ' roads with the most fatal crashes in ' + y1 + ': ' + roads + (month ? '; peak month ' + month : '') + '.</p>' : '') +
+    (pos >= 0 ? '<p data-state-fars-rank="true">' + st + ' ranked ' + ordinal(pos + 1) + ' of ' + ranked.length + ' for fatal crashes in ' + y1 + (share ? ', ' + share + '% of them pedestrian' : '') + '.</p>' : '') +
+    (roads0 || month0 ? '<p data-state-fars-prior="true">' + y0 + ': ' + [roads0, month0 ? 'peak month ' + month0 : ''].filter(Boolean).join('; ') + '.</p>' : '') +
+    cityList +
+    (lookupUrl ? '<p>Before you sign with a firm, look the lawyer up in the ' + st + ' <a href="' + esc(lookupUrl) + '" rel="nofollow noopener">attorney licence and discipline records</a>.</p>' : '') +
+    '<p class="muted" data-state-local-source="true">Source: <a href="' + FARS_URL + '" rel="nofollow noopener">NHTSA FARS</a>, ' + y1 + (y0 ? ' and ' + y0 : '') + '. Fatal crashes only; counts, not rates.</p>' +
+    '</div>';
+  // The next-steps answer's own clause: what differs about this state's roads.
+  // The state's own words carry the answer, so it needs only the shortest
+  // shared tail (composeNextStepsAnswer picks the shortest that fits 40-60).
+  const un = (t) => String(t).replace(/&amp;/g, '&');
+  const lead = roads ? 'the roads with the most fatal crashes in ' + y1 + ' were ' + un(roads) + (month ? ', and the worst month was ' + un(month) : '') + (roads0 ? '; in ' + y0 + ' they were ' + un(roads0) : '') : (month ? 'the worst month for fatal crashes in ' + y1 + ' was ' + un(month) : '');
+  return { answer, html, lead };
+}
+
 // ---- Medicare figures: TRT and neuro ------------------------------------
 const CMS_SETS = {
   trt: {
@@ -194,6 +258,56 @@ function cms(vk, city) {
   return { answer, html: vk === 'neuro' ? '' : html, faq };
 }
 
+// ---- dentistry: a state's dental shortage designations (HRSA) -----------
+// The 17 dentistry state hubs were one comparison paragraph with the state's
+// name swapped in (Search Readiness q1, 10 Nov 2026: AZ/OH 0.74 alike), and most
+// have no researched city. HRSA's dental HPSA designations are the public,
+// state-level fact about how hard a dentist is to reach there
+// (data/research/dentistry/hrsa_dental_hpsa_by_state.json,
+//  scripts/research/pull_hrsa_dental_hpsa.py). No dollar figures: see
+// data/research/dentistry/coverage_and_plan_mechanics_sources_2026-08-27.json.
+const HRSA_URL = 'https://data.hrsa.gov/data/download';
+const HRSA_FIND_URL = 'https://data.hrsa.gov/tools/shortage-area/hpsa-find';
+function dentistryState(ab, sname, cities) {
+  const doc = readJson('research/dentistry/hrsa_dental_hpsa_by_state.json');
+  const h = doc && doc.states && doc.states[ab];
+  if (!h || !h.designations) return null;
+  const st = esc(sname);
+  const people = h.people_covered >= 1e6 ? (h.people_covered / 1e6).toFixed(1) + ' million' : n(Math.round(h.people_covered / 1000) * 1000);
+  const dentists = n(Math.round(h.dentists_needed));
+  const kinds = n(h.geographic) + ' whole ' + plural(h.geographic, 'area', 'areas') + ', ' + n(h.population_groups) + ' population ' + plural(h.population_groups, 'group', 'groups') + ' (mostly low-income residents)' + ' and ' + n(h.facilities) + ' ' + plural(h.facilities, 'clinic or facility', 'clinics or facilities');
+  const head = 'HRSA lists ' + n(h.designations) + ' dental shortage designations in ' + st + ': ' + kinds + '.';
+  const ppl = ' About ' + people + ' people live in the areas and groups they cover, and ' + dentists + ' more full-time dentists are needed to lift them.';
+  const tail = ' A shortage designation is a federal finding, not a closed door.';
+  const answer = fit([head + ppl + tail, head + ppl, 'HRSA lists ' + n(h.designations) + ' dental shortage designations in ' + st + '.' + ppl + tail]);
+  const top = (h.top_counties || []).map((c) => esc(String(c.county).replace(/, [A-Z]{2}$/, '')) + ' (' + c.max_score + ')');
+  const des = (h.top_designations || []).filter((d) => d && d.name);
+  const cityRows = (cities || []).map((c) => {
+    const cc = readJson('city_content/dentistry/' + c.slug + '.json');
+    const sna = cc && cc.safety_net_access;
+    const k = sna ? ['free_low_cost', 'dental_school'].reduce((t, key) => t + (Array.isArray(sna[key]) ? sna[key].length : 0), 0) : 0;
+    return k ? '<li><a href="/' + esc(c.slug) + '/">' + esc(c.marketLabel || c.slug) + '</a>: ' + n(k) + ' free, low-cost or dental-school ' + plural(k, 'clinic', 'clinics') + ' researched from their own pages</li>' : '';
+  }).filter(Boolean).join('');
+  const html = '<section class="section" data-state-local-facts="dentistry">' +
+    '<h2>Where is ' + st + ' short of dentists?</h2>' +
+    '<table class="data-table" data-state-hpsa-table="true"><caption>Dental shortage designations in ' + st + ', HRSA</caption><tbody>' +
+    '<tr><th scope="row">Designations in force</th><td>' + n(h.designations) + '</td></tr>' +
+    '<tr><th scope="row">Whole areas</th><td>' + n(h.geographic) + '</td></tr>' +
+    '<tr><th scope="row">Population groups</th><td>' + n(h.population_groups) + '</td></tr>' +
+    '<tr><th scope="row">Clinics and facilities</th><td>' + n(h.facilities) + '</td></tr>' +
+    '<tr><th scope="row">Rural or partly rural</th><td>' + n(h.rural_or_partly_rural) + '</td></tr>' +
+    '<tr><th scope="row">Counties touched</th><td>' + n(h.counties_with_designation) + '</td></tr>' +
+    '<tr><th scope="row">Dentists needed</th><td>' + dentists + '</td></tr>' +
+    '</tbody></table>' +
+    (top.length ? '<p data-state-hpsa-counties="true">' + st + ' counties with the highest dental shortage scores (0-26, higher is worse): ' + top.join(', ') + '.</p>' : '') +
+    (des.length ? '<p>Highest-scored ' + st + ' designations:</p><ol data-state-hpsa-designations="true">' + des.map((d) => '<li>' + esc(String(d.name).replace(/^LI-/, 'Low-income residents, ').replace(/^MSFW-/, 'Farmworkers, ')) + (d.county ? ', ' + esc(d.county) : '') + ' (' + d.score + ')</li>').join('') + '</ol>' : '') +
+    (cityRows ? '<ul class="neutral-list" data-state-hpsa-cities="true">' + cityRows + '</ul>' : '') +
+    '<p>Check your own address in <a href="' + HRSA_FIND_URL + '" rel="nofollow noopener">HRSA\u2019s HPSA Find</a>.</p>' +
+    '<p class="muted" data-state-local-source="true">Source: <a href="' + HRSA_URL + '" rel="nofollow noopener">HRSA Data Warehouse, HPSA - Dental Health</a>' + (doc.source && doc.source.fetched_on ? ', read ' + esc(doc.source.fetched_on) : '') + '. Designated status only.</p>' +
+    '</section>';
+  return { answer, html };
+}
+
 // ---- state hubs ---------------------------------------------------------
 // A state page's own facts: the state's Medicare figures (trt, neuro), the
 // USCIS field office each covered city's ZIP codes go to (uscis), and one row per
@@ -232,6 +346,7 @@ function forState(verticalKey, abbr, sname, cities) {
       '<p class="muted">Source: CMS Medicare data, 2024, <a href="' + CMS_GEO_URL + '" rel="nofollow noopener">by state</a> and <a href="' + CMS_PROVIDER_URL + '" rel="nofollow noopener">by provider</a>; Medicare patients only.</p></section>';
     return { answer, html };
   }
+  if (vk === 'dentistry') return dentistryState(ab, sname, list);
   if (vk.includes('uscis')) {
     const fo = readJson('research/uscis_medical/field_office_assignments.json');
     const rows = list.map((c) => {
@@ -261,4 +376,4 @@ function forCity(verticalKey, city) {
   return null;
 }
 
-module.exports = { forCity, forState, fit, words };
+module.exports = { forCity, forState, piState, fit, words, CMS_PROVIDER_URL, CMS_GEO_URL };

@@ -1057,6 +1057,23 @@ function renderSafetyNetDentalAccessHtml(content) {
   }).join('');
 }
 
+// Datasets a cost table's source line names, linked in place so the line gains
+// no words (every word added here is added to all 56 neuro next-steps pages).
+// A table may also carry its own `source_links: [{ label, url }]`, appended.
+const COST_TABLE_DATASET_LINKS = [
+  [/by Provider and Service/, () => cityLocalFacts.CMS_PROVIDER_URL],
+  [/by Geography and Service/, () => cityLocalFacts.CMS_GEO_URL],
+];
+function linkCostTableSource(sourceText, table) {
+  let html = escapeOptionalHtml(sourceText);
+  for (const [re, url] of COST_TABLE_DATASET_LINKS) {
+    html = html.replace(re, (m) => `<a href="${escapeOptionalHtml(url())}" rel="nofollow noopener">${m}</a>`);
+  }
+  const own = Array.isArray(table && table.source_links) ? table.source_links.filter((l) => l && /^https?:\/\//.test(String(l.url || ''))) : [];
+  if (own.length) html += ' ' + own.map((l) => `<a href="${escapeOptionalHtml(l.url)}" rel="nofollow noopener">${escapeOptionalHtml(l.label || l.url)}</a>`).join(' · ');
+  return html;
+}
+
 function renderCityCostComparisonTable(table) {
   if (!table || !Array.isArray(table.columns) || !Array.isArray(table.rows) || !table.rows.length) return '';
   const cols = table.columns.filter(Boolean);
@@ -1078,7 +1095,10 @@ function renderCityCostComparisonTable(table) {
   // The source's first sentence names the dataset; the caveats after it were the
   // same 40 words under every city's table (Search Readiness q1, 7 Nov 2026).
   const sourceText = String(table.source || '').split(/(?<=\.)\s+(?=[A-Z])/)[0];
-  const source = sourceText ? `<p class="muted">${escapeOptionalHtml(sourceText)}</p>` : '';
+  // The source line named the CMS datasets but linked neither, so a page of
+  // 13 Medicare figures cited nothing a reader could open (Search Readiness q1
+  // d3, 10 Nov 2026: neuroevalguides.com/<city>/next-steps/).
+  const source = sourceText ? `<p class="muted" data-cost-table-source="true">${linkCostTableSource(sourceText, table)}</p>` : '';
   return `<section class="city-supplement city-supplement-structured" data-city-cost-comparison="true">`
     + `<h3>${escapeOptionalHtml(table.heading || 'Published cost comparison')}</h3>`
     + `<table class="comparison-table" data-city-comparison-table="true">${caption}`
@@ -6785,7 +6805,7 @@ function loadNextStepsSponsor(citySlug) {
       const naturalizationStateGuides = renderStateNaturalizationGuidesHtml(verticalKey, globalPagesDir);
       let mainHtml = (
         (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and city coverage checks.') : '') +
-        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : brandName + ' in ' + stateName) + '</h1><p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p></section>' +
+        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : brandName + ' in ' + stateName) + '</h1>' + (stateStrength ? '' : '<p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p>') + '</section>' +
         searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:state_hub_top%%' +
         stateLead +
@@ -6889,6 +6909,7 @@ function loadNextStepsSponsor(citySlug) {
       const title = 'Next steps — ' + stateName + ' personal injury';
       const headTitle = brandedTitle('Next Steps: ' + stateName, siteUrl, brandName);
       const description = 'Next steps for a personal injury claim in ' + stateName + ': a preparation checklist, the questions to ask a lawyer first, and a sponsor contact route.';
+      const stateFacts = cityLocalFacts.piState(ab, stateName, new Set(cities.map((c) => String(c.slug || '')).filter((slug) => slug && !isFoldedRoute(slug))));
 
       const mainHtml = (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox next-steps page. Use this to practice conversion-flow audits.') : '') + renderDedicatedNextStepsHubHtml({
         marketLabel: stateName,
@@ -6896,7 +6917,12 @@ function loadNextStepsSponsor(citySlug) {
         compareHref: '/guides/?intent=decision_hub&button=next_steps_page_compare&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         toolsHref: '/faq/?intent=self_serve&button=next_steps_page_tools&vertical=pi&page_kind=next_steps&page_slug=states-' + String(ab).toLowerCase() + '-next-steps&market=' + String(ab).toLowerCase(),
         requestAssistanceHtml: extractRequestAssistanceHtml(pageSet, 'pi'),
-        sponsorRouting: getSponsorRoutingForContext({ pageKind: 'state', route: 'states/' + ab + '/next-steps', verticalKey: 'pi', stateAbbr: ab })
+        sponsorRouting: getSponsorRoutingForContext({ pageKind: 'state', route: 'states/' + ab + '/next-steps', verticalKey: 'pi', stateAbbr: ab }),
+        // The state's own FARS figures and attorney lookup (Search Readiness q1,
+        // 10 Nov 2026): without them the 50 pages were one page with 50 names.
+        localDefinition: stateFacts ? stateFacts.answer : '',
+        localLead: stateFacts ? stateFacts.lead : '',
+        localHtml: stateFacts ? stateFacts.html : ''
       });
 
       const mapped = replaceAll(baseTemplate, {
