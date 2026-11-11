@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-10-11..2026-11-07",
+  "gsc_window": "2026-10-12..2026-11-08",
   "totals": {
     "clicks": 6,
-    "impressions": 1780,
-    "ctr": 0.0034,
-    "position": 38.6
+    "impressions": 1921,
+    "ctr": 0.0031,
+    "position": 40.1
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,24 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 87,
+      "family_impressions": 88,
       "source": "data/page_sets/examples/senior_living_global_pages/guides_when-a-parent-refuses-to-move.json",
-      "impressions": 92,
+      "impressions": 93,
       "clicks": 0,
       "position": 77.8,
-      "strengthened": true
-    },
-    {
-      "route": "/guides/assisted-living-cost-memphis/",
-      "family": "cost @ /guides/assisted-living-cost-memphis/",
-      "basis": [
-        "ranking_page"
-      ],
-      "family_impressions": 10,
-      "source": "data/page_sets/examples/senior_living_global_pages/guides_assisted-living-cost-memphis.json",
-      "impressions": 18,
-      "clicks": 0,
-      "position": 12.5,
       "strengthened": true
     },
     {
@@ -44,7 +31,7 @@
       ],
       "family_impressions": 2,
       "source": "data/page_sets/examples/senior_living_global_pages/guides_when-the-money-runs-out-tenncare-choices.json",
-      "impressions": 57,
+      "impressions": 61,
       "clicks": 3,
       "position": 6.8,
       "strengthened": true
@@ -53,12 +40,14 @@
   "not_yet_strengthened": [],
   "coverage": {
     "by_coverage_state": {
-      "Discovered - currently not indexed": 3,
-      "Submitted and indexed": 191
+      "Discovered - currently not indexed": 2,
+      "Submitted and indexed": 191,
+      "URL is unknown to Google": 1
     },
     "buckets": {
-      "discovered_not_indexed": 3,
-      "indexed": 191
+      "discovered_not_indexed": 2,
+      "indexed": 191,
+      "unknown": 1
     }
   }
 }
