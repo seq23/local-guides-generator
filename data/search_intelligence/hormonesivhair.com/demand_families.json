@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-11..2026-11-07",
-  "gsc_collected_at": "2026-11-10T13:48:19+00:00",
+  "gsc_window": "2026-10-12..2026-11-08",
+  "gsc_collected_at": "2026-11-11T13:48:28+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,7 +12,7 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 8,
+  "family_count": 7,
   "top_families": [
     {
       "rank": 1,
@@ -22,25 +22,25 @@
     },
     {
       "rank": 2,
-      "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
-      "impressions": 5,
-      "status": "not_strengthened"
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 7,
+      "status": "no_page"
     },
     {
       "rank": 3,
+      "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
+      "impressions": 7,
+      "status": "not_strengthened"
+    },
+    {
+      "rank": 4,
       "family": "red flags @ /guides/trt-red-flags/",
       "impressions": 3,
       "status": "strengthened"
     },
     {
-      "rank": 4,
-      "family": "choose a provider @ /guides/does-insurance-cover-testosterone-therapy/",
-      "impressions": 2,
-      "status": "below_impression_floor"
-    },
-    {
       "rank": 5,
-      "family": "choose a provider @ /states/{STATE}/",
+      "family": "choose a provider @ /guides/does-insurance-cover-testosterone-therapy/",
       "impressions": 2,
       "status": "below_impression_floor"
     }
@@ -98,17 +98,102 @@
       "reason": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json search_strengthening"
     },
     {
+      "family": "choose a provider @ /states/{STATE}/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 7,
+      "best_position": 47,
+      "weighted_position": 75.3,
+      "top_query": "hrt solutions in montana",
+      "query_count": 6,
+      "queries": [
+        {
+          "query": "hrt solutions in montana",
+          "route": "/states/MT/",
+          "impressions": 2,
+          "position": 80.5
+        },
+        {
+          "query": "hormone therapy in wyoming",
+          "route": "/states/WY/",
+          "impressions": 1,
+          "position": 97
+        },
+        {
+          "query": "low testosterone treatment in sioux falls",
+          "route": "/states/SD/",
+          "impressions": 1,
+          "position": 79
+        },
+        {
+          "query": "low testosterone treatments in wyoming",
+          "route": "/states/WY/",
+          "impressions": 1,
+          "position": 68
+        },
+        {
+          "query": "ohio thyroid optimization",
+          "route": "/states/OH/",
+          "impressions": 1,
+          "position": 47
+        },
+        {
+          "query": "testosterone therapy sioux falls",
+          "route": "/states/SD/",
+          "impressions": 1,
+          "position": 75
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/MT/",
+          "family_impressions": 2,
+          "page_impressions": 7,
+          "page_position": 27.3
+        },
+        {
+          "route": "/states/SD/",
+          "family_impressions": 2,
+          "page_impressions": 2,
+          "page_position": 77
+        },
+        {
+          "route": "/states/WY/",
+          "family_impressions": 2,
+          "page_impressions": 7,
+          "page_position": 59.1
+        },
+        {
+          "route": "/states/OH/",
+          "family_impressions": 1,
+          "page_impressions": 3,
+          "page_position": 19
+        }
+      ],
+      "rank": 2,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "no_page",
+      "reason": "no state page in the family has >= 10 impressions (largest 2 on /states/MT/)"
+    },
+    {
       "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
       "intent": "topic:does-insurance-cover-testosterone-therapy",
       "head_term": "topic:does-insurance-cover-testosterone-therapy",
       "page": "/guides/does-insurance-cover-testosterone-therapy/",
       "page_kind": "guide",
       "page_intent": "topic:does-insurance-cover-testosterone-therapy",
-      "impressions": 5,
-      "best_position": 72,
-      "weighted_position": 90.4,
+      "impressions": 7,
+      "best_position": 62,
+      "weighted_position": 87.3,
       "top_query": "does insurance cover testosterone replacement therapy",
-      "query_count": 5,
+      "query_count": 7,
       "queries": [
         {
           "query": "does insurance cover testosterone replacement therapy",
@@ -139,17 +224,29 @@
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "impressions": 1,
           "position": 94
+        },
+        {
+          "query": "is testosterone replacement thereapy covered by insurance",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 1,
+          "position": 97
+        },
+        {
+          "query": "what insurance covers trt",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 1,
+          "position": 62
         }
       ],
       "pages": [
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "family_impressions": 5,
-          "page_impressions": 8,
-          "page_position": 75
+          "family_impressions": 7,
+          "page_impressions": 10,
+          "page_position": 75.9
         }
       ],
-      "rank": 2,
+      "rank": 3,
       "basis": [
         "top_demand"
       ],
@@ -184,11 +281,11 @@
         {
           "route": "/guides/trt-red-flags/",
           "family_impressions": 3,
-          "page_impressions": 6,
-          "page_position": 7
+          "page_impressions": 5,
+          "page_position": 6.4
         }
       ],
-      "rank": 3,
+      "rank": 4,
       "basis": [
         "ranking_page"
       ],
@@ -223,55 +320,8 @@
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "family_impressions": 2,
-          "page_impressions": 8,
-          "page_position": 75
-        }
-      ],
-      "rank": 4,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "2 impressions < 5"
-    },
-    {
-      "family": "choose a provider @ /states/{STATE}/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/states/{STATE}/",
-      "page_kind": "state_hub",
-      "page_intent": "choose_provider",
-      "impressions": 2,
-      "best_position": 47,
-      "weighted_position": 68,
-      "top_query": "hrt solutions in montana",
-      "query_count": 2,
-      "queries": [
-        {
-          "query": "hrt solutions in montana",
-          "route": "/states/MT/",
-          "impressions": 1,
-          "position": 89
-        },
-        {
-          "query": "ohio thyroid optimization",
-          "route": "/states/OH/",
-          "impressions": 1,
-          "position": 47
-        }
-      ],
-      "pages": [
-        {
-          "route": "/states/MT/",
-          "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 33.7
-        },
-        {
-          "route": "/states/OH/",
-          "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 19
+          "page_impressions": 10,
+          "page_position": 75.9
         }
       ],
       "rank": 5,
@@ -280,43 +330,6 @@
       "strengthened_pages": [],
       "status": "below_impression_floor",
       "reason": "2 impressions < 5"
-    },
-    {
-      "family": "choose a provider @ /guides/trt-red-flags/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/guides/trt-red-flags/",
-      "page_kind": "guide",
-      "page_intent": "red_flags",
-      "impressions": 1,
-      "best_position": 10,
-      "weighted_position": 10,
-      "top_query": "what's the process for getting a low testosterone diagnosis — do i need a referral or can i go directly to a trt clinic?",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "what's the process for getting a low testosterone diagnosis — do i need a referral or can i go directly to a trt clinic?",
-          "route": "/guides/trt-red-flags/",
-          "impressions": 1,
-          "position": 10
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/trt-red-flags/",
-          "family_impressions": 1,
-          "page_impressions": 6,
-          "page_position": 7
-        }
-      ],
-      "rank": 6,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "intent_mismatch",
-      "reason": "query intent choose_provider vs page intent red_flags"
     },
     {
       "family": "cost @ /guides/beauty-peptide-costs-and-bundles/",
@@ -346,12 +359,12 @@
           "page_position": 9
         }
       ],
-      "rank": 7,
+      "rank": 6,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 7 of 8 by impressions; no page at position <= 15"
+      "reason": "rank 6 of 7 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/ocala-vitamin-c-injection-iv-prices/",
@@ -381,12 +394,12 @@
           "page_position": 34
         }
       ],
-      "rank": 8,
+      "rank": 7,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 8 of 8 by impressions; no page at position <= 15"
+      "reason": "rank 7 of 7 by impressions; no page at position <= 15"
     }
   ]
 }
