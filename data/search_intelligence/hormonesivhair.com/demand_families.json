@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-12..2026-11-08",
-  "gsc_collected_at": "2026-11-11T13:48:28+00:00",
+  "gsc_window": "2026-10-13..2026-11-09",
+  "gsc_collected_at": "2026-11-12T13:47:48+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -23,7 +23,7 @@
     {
       "rank": 2,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 7,
+      "impressions": 17,
       "status": "no_page"
     },
     {
@@ -104,12 +104,24 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 7,
+      "impressions": 17,
       "best_position": 47,
-      "weighted_position": 75.3,
-      "top_query": "hrt solutions in montana",
-      "query_count": 6,
+      "weighted_position": 75.4,
+      "top_query": "testosterone therapy sioux falls",
+      "query_count": 10,
       "queries": [
+        {
+          "query": "testosterone therapy sioux falls",
+          "route": "/states/SD/",
+          "impressions": 4,
+          "position": 77
+        },
+        {
+          "query": "hormone therapy in wyoming",
+          "route": "/states/WY/",
+          "impressions": 2,
+          "position": 97
+        },
         {
           "query": "hrt solutions in montana",
           "route": "/states/MT/",
@@ -117,22 +129,28 @@
           "position": 80.5
         },
         {
-          "query": "hormone therapy in wyoming",
-          "route": "/states/WY/",
-          "impressions": 1,
-          "position": 97
-        },
-        {
           "query": "low testosterone treatment in sioux falls",
           "route": "/states/SD/",
-          "impressions": 1,
-          "position": 79
+          "impressions": 2,
+          "position": 82
         },
         {
           "query": "low testosterone treatments in wyoming",
           "route": "/states/WY/",
+          "impressions": 2,
+          "position": 71.5
+        },
+        {
+          "query": "low t treatment in wyoming",
+          "route": "/states/WY/",
           "impressions": 1,
-          "position": 68
+          "position": 66
+        },
+        {
+          "query": "low testosterone treatment in wyoming",
+          "route": "/states/WY/",
+          "impressions": 1,
+          "position": 74
         },
         {
           "query": "ohio thyroid optimization",
@@ -141,13 +159,31 @@
           "position": 47
         },
         {
-          "query": "testosterone therapy sioux falls",
-          "route": "/states/SD/",
+          "query": "personalized low testosterone treatments in wyoming",
+          "route": "/states/WY/",
           "impressions": 1,
-          "position": 75
+          "position": 77
+        },
+        {
+          "query": "testosterone therapy chevy chase md",
+          "route": "/states/MD/",
+          "impressions": 1,
+          "position": 47
         }
       ],
       "pages": [
+        {
+          "route": "/states/WY/",
+          "family_impressions": 7,
+          "page_impressions": 12,
+          "page_position": 66.9
+        },
+        {
+          "route": "/states/SD/",
+          "family_impressions": 6,
+          "page_impressions": 6,
+          "page_position": 78.7
+        },
         {
           "route": "/states/MT/",
           "family_impressions": 2,
@@ -155,16 +191,10 @@
           "page_position": 27.3
         },
         {
-          "route": "/states/SD/",
-          "family_impressions": 2,
-          "page_impressions": 2,
-          "page_position": 77
-        },
-        {
-          "route": "/states/WY/",
-          "family_impressions": 2,
-          "page_impressions": 7,
-          "page_position": 59.1
+          "route": "/states/MD/",
+          "family_impressions": 1,
+          "page_impressions": 4,
+          "page_position": 17
         },
         {
           "route": "/states/OH/",
@@ -180,7 +210,7 @@
       "qualifies": true,
       "strengthened_pages": [],
       "status": "no_page",
-      "reason": "no state page in the family has >= 10 impressions (largest 2 on /states/MT/)"
+      "reason": "no state page in the family has >= 10 impressions (largest 7 on /states/WY/)"
     },
     {
       "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
