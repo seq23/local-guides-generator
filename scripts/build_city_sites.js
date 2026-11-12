@@ -1976,10 +1976,12 @@ function stripDirectoryBlocks(html) {
   return out;
 }
 
-function renderStateLookupCta(city) {
-  // Non-PI verticals: provide a functional state license lookup CTA.
-  // Source: data/states.json -> licenseLookupUrl.
-  const url = normalizeUrl(city && city.licenseLookupUrl);
+function renderStateLookupCta(city, verticalKey) {
+  // Each profession has its own board. Shared state defaults include dental
+  // registries and must not override the pack-specific verification sources.
+  const lookup = loadLicensingLookup(verticalKey);
+  const row = lookup && lookup[String(city && city.state || "").toUpperCase()];
+  const url = normalizeUrl(lookup ? (row && row.license || "") : (city && city.licenseLookupUrl));
   const stateName = escapeHtml(city && (city.stateName || city.state) || "");
   const title = stateName ? ("Verify a provider's license (" + stateName + ")") : "Verify a provider's license";
   if (!url) {
@@ -3310,7 +3312,7 @@ function injectAdPlacements(html, ads, ctx) {
       if (features && features.stateLookup === false) return '';
       // Legacy: PI is directory-only; state lookup is stripped earlier.
       if (isPersonalInjury(verticalKey)) return '';
-      return renderStateLookupCta(city || {});
+      return renderStateLookupCta(city || {}, verticalKey);
     }
     if (!cfg || cfg.enabled !== true) return '';
     const k = String(key);
