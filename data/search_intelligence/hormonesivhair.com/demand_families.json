@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-13..2026-11-09",
-  "gsc_collected_at": "2026-11-12T13:47:48+00:00",
+  "gsc_window": "2026-10-14..2026-11-10",
+  "gsc_collected_at": "2026-11-13T13:46:34+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,19 +17,19 @@
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 44,
+      "impressions": 41,
       "status": "strengthened"
     },
     {
       "rank": 2,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 17,
-      "status": "no_page"
+      "impressions": 24,
+      "status": "not_strengthened"
     },
     {
       "rank": 3,
       "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
-      "impressions": 7,
+      "impressions": 10,
       "status": "not_strengthened"
     },
     {
@@ -53,16 +53,16 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 44,
+      "impressions": 41,
       "best_position": 6.5,
-      "weighted_position": 84.1,
+      "weighted_position": 83.7,
       "top_query": "am i a candidate for trt",
       "query_count": 3,
       "queries": [
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 36,
+          "impressions": 33,
           "position": 89.4
         },
         {
@@ -81,9 +81,9 @@
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 44,
-          "page_impressions": 51,
-          "page_position": 74.3
+          "family_impressions": 41,
+          "page_impressions": 48,
+          "page_position": 73.3
         }
       ],
       "rank": 1,
@@ -104,23 +104,29 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 17,
-      "best_position": 47,
-      "weighted_position": 75.4,
+      "impressions": 24,
+      "best_position": 45.5,
+      "weighted_position": 75.3,
       "top_query": "testosterone therapy sioux falls",
       "query_count": 10,
       "queries": [
         {
           "query": "testosterone therapy sioux falls",
           "route": "/states/SD/",
-          "impressions": 4,
-          "position": 77
+          "impressions": 6,
+          "position": 79
         },
         {
           "query": "hormone therapy in wyoming",
           "route": "/states/WY/",
-          "impressions": 2,
-          "position": 97
+          "impressions": 3,
+          "position": 96.7
+        },
+        {
+          "query": "low testosterone treatment in sioux falls",
+          "route": "/states/SD/",
+          "impressions": 3,
+          "position": 83.3
         },
         {
           "query": "hrt solutions in montana",
@@ -129,10 +135,10 @@
           "position": 80.5
         },
         {
-          "query": "low testosterone treatment in sioux falls",
-          "route": "/states/SD/",
+          "query": "low testosterone treatment in wyoming",
+          "route": "/states/WY/",
           "impressions": 2,
-          "position": 82
+          "position": 64.5
         },
         {
           "query": "low testosterone treatments in wyoming",
@@ -141,32 +147,26 @@
           "position": 71.5
         },
         {
+          "query": "personalized low testosterone treatments in wyoming",
+          "route": "/states/WY/",
+          "impressions": 2,
+          "position": 78
+        },
+        {
+          "query": "testosterone therapy chevy chase md",
+          "route": "/states/MD/",
+          "impressions": 2,
+          "position": 45.5
+        },
+        {
           "query": "low t treatment in wyoming",
           "route": "/states/WY/",
           "impressions": 1,
           "position": 66
         },
         {
-          "query": "low testosterone treatment in wyoming",
-          "route": "/states/WY/",
-          "impressions": 1,
-          "position": 74
-        },
-        {
           "query": "ohio thyroid optimization",
           "route": "/states/OH/",
-          "impressions": 1,
-          "position": 47
-        },
-        {
-          "query": "personalized low testosterone treatments in wyoming",
-          "route": "/states/WY/",
-          "impressions": 1,
-          "position": 77
-        },
-        {
-          "query": "testosterone therapy chevy chase md",
-          "route": "/states/MD/",
           "impressions": 1,
           "position": 47
         }
@@ -174,27 +174,27 @@
       "pages": [
         {
           "route": "/states/WY/",
-          "family_impressions": 7,
-          "page_impressions": 12,
-          "page_position": 66.9
+          "family_impressions": 10,
+          "page_impressions": 15,
+          "page_position": 68.9
         },
         {
           "route": "/states/SD/",
-          "family_impressions": 6,
-          "page_impressions": 6,
-          "page_position": 78.7
+          "family_impressions": 9,
+          "page_impressions": 9,
+          "page_position": 80.4
+        },
+        {
+          "route": "/states/MD/",
+          "family_impressions": 2,
+          "page_impressions": 5,
+          "page_position": 22.4
         },
         {
           "route": "/states/MT/",
           "family_impressions": 2,
           "page_impressions": 7,
           "page_position": 27.3
-        },
-        {
-          "route": "/states/MD/",
-          "family_impressions": 1,
-          "page_impressions": 4,
-          "page_position": 17
         },
         {
           "route": "/states/OH/",
@@ -208,9 +208,11 @@
         "top_demand"
       ],
       "qualifies": true,
-      "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "no state page in the family has >= 10 impressions (largest 7 on /states/WY/)"
+      "strengthened_pages": [
+        "/states/WY/"
+      ],
+      "status": "not_strengthened",
+      "reason": "data/page_sets/examples/trt_v1.json has no search_strengthening.state_hub template"
     },
     {
       "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
@@ -219,17 +221,29 @@
       "page": "/guides/does-insurance-cover-testosterone-therapy/",
       "page_kind": "guide",
       "page_intent": "topic:does-insurance-cover-testosterone-therapy",
-      "impressions": 7,
+      "impressions": 10,
       "best_position": 62,
-      "weighted_position": 87.3,
-      "top_query": "does insurance cover testosterone replacement therapy",
-      "query_count": 7,
+      "weighted_position": 90.6,
+      "top_query": "testosterone insurance",
+      "query_count": 9,
       "queries": [
+        {
+          "query": "testosterone insurance",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 2,
+          "position": 98.5
+        },
         {
           "query": "does insurance cover testosterone replacement therapy",
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "impressions": 1,
           "position": 94
+        },
+        {
+          "query": "does insurance cover trt",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 1,
+          "position": 98
         },
         {
           "query": "does medicare cover testosterone",
@@ -271,9 +285,9 @@
       "pages": [
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "family_impressions": 7,
-          "page_impressions": 10,
-          "page_position": 75.9
+          "family_impressions": 10,
+          "page_impressions": 13,
+          "page_position": 81.1
         }
       ],
       "rank": 3,
@@ -350,8 +364,8 @@
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "family_impressions": 2,
-          "page_impressions": 10,
-          "page_position": 75.9
+          "page_impressions": 13,
+          "page_position": 81.1
         }
       ],
       "rank": 5,
