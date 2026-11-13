@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "theaccidentguides.com",
-  "gsc_window": "2026-10-13..2026-11-09",
-  "gsc_collected_at": "2026-11-12T13:36:17+00:00",
+  "gsc_window": "2026-10-14..2026-11-10",
+  "gsc_collected_at": "2026-11-13T13:35:38+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 399,
+  "target_count": 422,
   "targets_by_source": {
-    "gsc_export": 399
+    "gsc_export": 422
   },
   "dropped_count": 0,
   "dropped": [],
@@ -21,7 +21,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 161,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -29,27 +29,41 @@
       "query": "louisiana personal injury lawyer",
       "normalized_query": "louisiana personal injury lawyer",
       "source": "gsc_export",
-      "impressions": 49,
+      "impressions": 54,
       "clicks": 0,
       "average_position": 66.4,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 49,
-        "window": "2026-10-13..2026-11-09"
+        "value": 54,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
+    },
+    {
+      "query": "missouri personal injury lawyer",
+      "normalized_query": "missouri personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 45,
+      "clicks": 0,
+      "average_position": 69.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 45,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
     },
     {
       "query": "missouri personal injury attorney",
       "normalized_query": "missouri personal injury attorney",
       "source": "gsc_export",
-      "impressions": 43,
+      "impressions": 44,
       "clicks": 0,
-      "average_position": 74,
+      "average_position": 74.4,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 43,
-        "window": "2026-10-13..2026-11-09"
+        "value": 44,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -57,29 +71,15 @@
       "query": "what do personal injury lawyers charge",
       "normalized_query": "what do personal injury lawyers charge",
       "source": "gsc_export",
-      "impressions": 43,
-      "clicks": 0,
-      "average_position": 85.3,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 43,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/guides/personal-injury-fees-explained/"
-    },
-    {
-      "query": "missouri personal injury lawyer",
-      "normalized_query": "missouri personal injury lawyer",
-      "source": "gsc_export",
       "impressions": 42,
       "clicks": 0,
-      "average_position": 69.5,
+      "average_position": 85.4,
       "measurement": {
         "metric": "impressions_28d",
         "value": 42,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/MO/"
+      "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
       "query": "how much do personal injury lawyers charge",
@@ -91,7 +91,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 39,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -105,7 +105,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 37,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -119,7 +119,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 36,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -133,7 +133,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 33,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -147,7 +147,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 32,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -161,9 +161,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 32,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "personal injury lawyer louisiana",
+      "normalized_query": "personal injury lawyer louisiana",
+      "source": "gsc_export",
+      "impressions": 31,
+      "clicks": 0,
+      "average_position": 56,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 31,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
     },
     {
       "query": "personal injury lead cost",
@@ -175,7 +189,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 31,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -189,7 +203,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 30,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -199,53 +213,39 @@
       "source": "gsc_export",
       "impressions": 27,
       "clicks": 0,
-      "average_position": 53.5,
+      "average_position": 55,
       "measurement": {
         "metric": "impressions_28d",
         "value": 27,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
     {
-      "query": "personal injury lawyer louisiana",
-      "normalized_query": "personal injury lawyer louisiana",
+      "query": "wyoming personal injury lawyer",
+      "normalized_query": "wyoming personal injury lawyer",
       "source": "gsc_export",
-      "impressions": 27,
+      "impressions": 26,
       "clicks": 0,
-      "average_position": 56.2,
+      "average_position": 53.8,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 27,
-        "window": "2026-10-13..2026-11-09"
+        "value": 26,
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
-    },
-    {
-      "query": "personal injury attorney",
-      "normalized_query": "personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 24,
-      "clicks": 0,
-      "average_position": 46.4,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 24,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WV/"
+      "owner_route": "/states/WY/"
     },
     {
       "query": "personal injury lawyer in louisiana",
       "normalized_query": "personal injury lawyer in louisiana",
       "source": "gsc_export",
-      "impressions": 24,
+      "impressions": 25,
       "clicks": 0,
-      "average_position": 56.8,
+      "average_position": 55.4,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 24,
-        "window": "2026-10-13..2026-11-09"
+        "value": 25,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -259,7 +259,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 24,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -273,37 +273,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 24,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
-    },
-    {
-      "query": "wyoming personal injury lawyer",
-      "normalized_query": "wyoming personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 22,
-      "clicks": 0,
-      "average_position": 54.9,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 22,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WY/"
     },
     {
       "query": "colorado personal injury attorney",
       "normalized_query": "colorado personal injury attorney",
       "source": "gsc_export",
-      "impressions": 21,
+      "impressions": 22,
       "clicks": 0,
-      "average_position": 80,
+      "average_position": 78.5,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 21,
-        "window": "2026-10-13..2026-11-09"
+        "value": 22,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/CO/"
+    },
+    {
+      "query": "personal injury attorney",
+      "normalized_query": "personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 22,
+      "clicks": 0,
+      "average_position": 48.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 22,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WV/"
     },
     {
       "query": "lawyer fees for personal injury case",
@@ -315,7 +315,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 21,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -323,13 +323,13 @@
       "query": "delaware personal injury",
       "normalized_query": "delaware personal injury",
       "source": "gsc_export",
-      "impressions": 18,
+      "impressions": 19,
       "clicks": 0,
-      "average_position": 87.8,
+      "average_position": 87.2,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 18,
-        "window": "2026-10-13..2026-11-09"
+        "value": 19,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/DE/"
     },
@@ -343,9 +343,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 18,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "louisiana injury lawyer",
+      "normalized_query": "louisiana injury lawyer",
+      "source": "gsc_export",
+      "impressions": 18,
+      "clicks": 0,
+      "average_position": 62,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 18,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
     },
     {
       "query": "nebraska personal injury lawyer",
@@ -357,9 +371,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 18,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NE/"
+    },
+    {
+      "query": "personal injury evidence checklist",
+      "normalized_query": "personal injury evidence checklist",
+      "source": "gsc_export",
+      "impressions": 18,
+      "clicks": 0,
+      "average_position": 77.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 18,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
     {
       "query": "when to call a personal injury lawyer",
@@ -371,9 +399,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 18,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
+    },
+    {
+      "query": "louisiana personal injury attorney",
+      "normalized_query": "louisiana personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 17,
+      "clicks": 0,
+      "average_position": 58.4,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 17,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
     },
     {
       "query": "car accident evidence checklist virginia",
@@ -385,23 +427,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 16,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
-    },
-    {
-      "query": "louisiana injury lawyer",
-      "normalized_query": "louisiana injury lawyer",
-      "source": "gsc_export",
-      "impressions": 16,
-      "clicks": 0,
-      "average_position": 61.3,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 16,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
     },
     {
       "query": "personal injury attorney fees",
@@ -413,23 +441,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 16,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
-    },
-    {
-      "query": "personal injury evidence checklist",
-      "normalized_query": "personal injury evidence checklist",
-      "source": "gsc_export",
-      "impressions": 16,
-      "clicks": 0,
-      "average_position": 76.9,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 16,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
     {
       "query": "standard fee for personal injury lawyer",
@@ -441,7 +455,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 16,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -455,37 +469,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 15,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "indiana personal injury lawyer",
-      "normalized_query": "indiana personal injury lawyer",
+      "query": "injury attorney",
+      "normalized_query": "injury attorney",
       "source": "gsc_export",
       "impressions": 15,
       "clicks": 0,
-      "average_position": 66.3,
+      "average_position": 43.9,
       "measurement": {
         "metric": "impressions_28d",
         "value": 15,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/IN/"
-    },
-    {
-      "query": "louisiana personal injury attorney",
-      "normalized_query": "louisiana personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 15,
-      "clicks": 0,
-      "average_position": 58.7,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 15,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/WV/"
     },
     {
       "query": "personal injury lawyer fee",
@@ -497,23 +497,51 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 15,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "injury attorney",
-      "normalized_query": "injury attorney",
+      "query": "wyoming personal injury attorney",
+      "normalized_query": "wyoming personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 15,
+      "clicks": 0,
+      "average_position": 58.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 15,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WY/"
+    },
+    {
+      "query": "accident attorney sd",
+      "normalized_query": "accident attorney sd",
       "source": "gsc_export",
       "impressions": 14,
       "clicks": 0,
-      "average_position": 45.3,
+      "average_position": 74.6,
       "measurement": {
         "metric": "impressions_28d",
         "value": 14,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/WV/"
+      "owner_route": "/states/SD/"
+    },
+    {
+      "query": "accident lawyer in louisiana",
+      "normalized_query": "accident lawyer in louisiana",
+      "source": "gsc_export",
+      "impressions": 14,
+      "clicks": 0,
+      "average_position": 62.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 14,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
     },
     {
       "query": "injury lawyer louisiana",
@@ -521,13 +549,27 @@
       "source": "gsc_export",
       "impressions": 14,
       "clicks": 0,
-      "average_position": 63.7,
+      "average_position": 62.1,
       "measurement": {
         "metric": "impressions_28d",
         "value": 14,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
+    },
+    {
+      "query": "kansas personal injury attorney",
+      "normalized_query": "kansas personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 14,
+      "clicks": 0,
+      "average_position": 73.4,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 14,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/KS/"
     },
     {
       "query": "personal injury texas",
@@ -539,7 +581,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 14,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/TX/"
     },
@@ -553,37 +595,51 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 14,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/TX/"
     },
     {
-      "query": "wyoming personal injury attorney",
-      "normalized_query": "wyoming personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 14,
-      "clicks": 0,
-      "average_position": 57.6,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 14,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WY/"
-    },
-    {
-      "query": "accident attorney sd",
-      "normalized_query": "accident attorney sd",
+      "query": "best personal injury lawyer in louisiana",
+      "normalized_query": "best personal injury lawyer in louisiana",
       "source": "gsc_export",
       "impressions": 13,
       "clicks": 0,
-      "average_position": 75.8,
+      "average_position": 70.8,
       "measurement": {
         "metric": "impressions_28d",
         "value": 13,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/SD/"
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "injury lawyers michigan",
+      "normalized_query": "injury lawyers michigan",
+      "source": "gsc_export",
+      "impressions": 13,
+      "clicks": 0,
+      "average_position": 67.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 13,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
+    },
+    {
+      "query": "michigan personal injury law",
+      "normalized_query": "michigan personal injury law",
+      "source": "gsc_export",
+      "impressions": 13,
+      "clicks": 0,
+      "average_position": 74.1,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 13,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
     },
     {
       "query": "personal injury lawyer",
@@ -591,11 +647,11 @@
       "source": "gsc_export",
       "impressions": 13,
       "clicks": 0,
-      "average_position": 44.1,
+      "average_position": 40.3,
       "measurement": {
         "metric": "impressions_28d",
         "value": 13,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -605,11 +661,11 @@
       "source": "gsc_export",
       "impressions": 13,
       "clicks": 0,
-      "average_position": 97.6,
+      "average_position": 97.2,
       "measurement": {
         "metric": "impressions_28d",
         "value": 13,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -623,65 +679,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 13,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
-    },
-    {
-      "query": "best personal injury lawyer in louisiana",
-      "normalized_query": "best personal injury lawyer in louisiana",
-      "source": "gsc_export",
-      "impressions": 12,
-      "clicks": 0,
-      "average_position": 67.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 12,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
-    },
-    {
-      "query": "how to find a personal injury lawyer",
-      "normalized_query": "how to find a personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 12,
-      "clicks": 0,
-      "average_position": 70.7,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 12,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
-    },
-    {
-      "query": "kansas personal injury attorney",
-      "normalized_query": "kansas personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 12,
-      "clicks": 0,
-      "average_position": 75.4,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 12,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/KS/"
-    },
-    {
-      "query": "accident lawyer in louisiana",
-      "normalized_query": "accident lawyer in louisiana",
-      "source": "gsc_export",
-      "impressions": 11,
-      "clicks": 0,
-      "average_position": 60.9,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 11,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
     },
     {
       "query": "car accident attorney",
@@ -689,11 +689,39 @@
       "source": "gsc_export",
       "impressions": 11,
       "clicks": 0,
-      "average_position": 38.6,
+      "average_position": 37,
       "measurement": {
         "metric": "impressions_28d",
         "value": 11,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/SD/"
+    },
+    {
+      "query": "how to find a personal injury lawyer",
+      "normalized_query": "how to find a personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 11,
+      "clicks": 0,
+      "average_position": 70.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 11,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "injury lawyer",
+      "normalized_query": "injury lawyer",
+      "source": "gsc_export",
+      "impressions": 11,
+      "clicks": 0,
+      "average_position": 29.9,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 11,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -707,23 +735,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 11,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
-    },
-    {
-      "query": "michigan personal injury law",
-      "normalized_query": "michigan personal injury law",
-      "source": "gsc_export",
-      "impressions": 11,
-      "clicks": 0,
-      "average_position": 70.9,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 11,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MI/"
     },
     {
       "query": "personal injury attorney louisiana",
@@ -735,7 +749,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 11,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -749,9 +763,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 11,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
+    },
+    {
+      "query": "indiana personal injury lawyer",
+      "normalized_query": "indiana personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 10,
+      "clicks": 0,
+      "average_position": 72,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 10,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/IN/"
     },
     {
       "query": "interactive personal injury guide",
@@ -759,13 +787,41 @@
       "source": "gsc_export",
       "impressions": 10,
       "clicks": 0,
-      "average_position": 30.7,
+      "average_position": 24.5,
       "measurement": {
         "metric": "impressions_28d",
         "value": 10,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/"
+    },
+    {
+      "query": "louisiana injury attorney",
+      "normalized_query": "louisiana injury attorney",
+      "source": "gsc_export",
+      "impressions": 10,
+      "clicks": 0,
+      "average_position": 69.9,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 10,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "louisiana personal injury law firm",
+      "normalized_query": "louisiana personal injury law firm",
+      "source": "gsc_export",
+      "impressions": 10,
+      "clicks": 0,
+      "average_position": 61.6,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 10,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
     },
     {
       "query": "typical attorney fees for personal injury",
@@ -777,9 +833,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 10,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "wyoming personal injury lawyers",
+      "normalized_query": "wyoming personal injury lawyers",
+      "source": "gsc_export",
+      "impressions": 10,
+      "clicks": 0,
+      "average_position": 53.4,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 10,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WY/"
     },
     {
       "query": "injury attorney fees",
@@ -791,23 +861,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "injury lawyer",
-      "normalized_query": "injury lawyer",
+      "query": "injury attorneys",
+      "normalized_query": "injury attorneys",
       "source": "gsc_export",
       "impressions": 9,
       "clicks": 0,
-      "average_position": 30.3,
+      "average_position": 56.1,
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/SD/"
+      "owner_route": "/states/MO/"
     },
     {
       "query": "injury lawyer fees",
@@ -819,23 +889,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "louisiana injury attorney",
-      "normalized_query": "louisiana injury attorney",
+      "query": "michigan personal injury lawyer",
+      "normalized_query": "michigan personal injury lawyer",
       "source": "gsc_export",
       "impressions": 9,
       "clicks": 0,
-      "average_position": 69.7,
+      "average_position": 65.1,
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/MI/"
     },
     {
       "query": "personal injury lawyer south dakota",
@@ -843,11 +913,11 @@
       "source": "gsc_export",
       "impressions": 9,
       "clicks": 0,
-      "average_position": 54.6,
+      "average_position": 53.2,
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -861,23 +931,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
-    },
-    {
-      "query": "questions for personal injury lawyer",
-      "normalized_query": "questions for personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 9,
-      "clicks": 0,
-      "average_position": 97,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 9,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
     {
       "query": "rhode island personal injury",
@@ -889,7 +945,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 9,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/RI/"
     },
@@ -903,7 +959,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "car accident attorney in louisiana",
+      "normalized_query": "car accident attorney in louisiana",
+      "source": "gsc_export",
+      "impressions": 8,
+      "clicks": 0,
+      "average_position": 94.4,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 8,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -917,65 +987,79 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/CO/"
     },
     {
-      "query": "indiana personal injury attorney",
-      "normalized_query": "indiana personal injury attorney",
+      "query": "personal injury lawyer missouri",
+      "normalized_query": "personal injury lawyer missouri",
       "source": "gsc_export",
       "impressions": 8,
       "clicks": 0,
-      "average_position": 78.4,
+      "average_position": 74.9,
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/IN/"
-    },
-    {
-      "query": "injury attorneys",
-      "normalized_query": "injury attorneys",
-      "source": "gsc_export",
-      "impressions": 8,
-      "clicks": 0,
-      "average_position": 59.1,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 8,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
     {
-      "query": "injury lawyer in louisiana",
-      "normalized_query": "injury lawyer in louisiana",
+      "query": "personal injury lawyers in louisiana",
+      "normalized_query": "personal injury lawyers in louisiana",
       "source": "gsc_export",
       "impressions": 8,
       "clicks": 0,
-      "average_position": 44.9,
+      "average_position": 44.1,
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
     {
-      "query": "louisiana personal injury law firm",
-      "normalized_query": "louisiana personal injury law firm",
+      "query": "questions for personal injury lawyer",
+      "normalized_query": "questions for personal injury lawyer",
       "source": "gsc_export",
       "impressions": 8,
       "clicks": 0,
-      "average_position": 61.6,
+      "average_position": 97.4,
       "measurement": {
         "metric": "impressions_28d",
         "value": 8,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
+    },
+    {
+      "query": "accident lawyer louisiana",
+      "normalized_query": "accident lawyer louisiana",
+      "source": "gsc_export",
+      "impressions": 7,
+      "clicks": 0,
+      "average_position": 80.6,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 7,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
+    },
+    {
+      "query": "best accident lawyers in michigan",
+      "normalized_query": "best accident lawyers in michigan",
+      "source": "gsc_export",
+      "impressions": 7,
+      "clicks": 0,
+      "average_position": 80.1,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 7,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
     },
     {
       "query": "best personal injury attorney louisiana",
@@ -987,7 +1071,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -1001,7 +1085,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -1015,37 +1099,65 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "injury lawyers michigan",
-      "normalized_query": "injury lawyers michigan",
+      "query": "injury lawyer in louisiana",
+      "normalized_query": "injury lawyer in louisiana",
       "source": "gsc_export",
       "impressions": 7,
       "clicks": 0,
-      "average_position": 65.3,
+      "average_position": 42,
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "kansas personal injury lawyer",
+      "normalized_query": "kansas personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 7,
+      "clicks": 0,
+      "average_position": 68.1,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 7,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/KS/"
+    },
+    {
+      "query": "michigan injury attorneys",
+      "normalized_query": "michigan injury attorneys",
+      "source": "gsc_export",
+      "impressions": 7,
+      "clicks": 0,
+      "average_position": 69.6,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 7,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
     },
     {
-      "query": "kansas injury attorneys",
-      "normalized_query": "kansas injury attorneys",
+      "query": "michigan injury lawyer",
+      "normalized_query": "michigan injury lawyer",
       "source": "gsc_export",
       "impressions": 7,
       "clicks": 0,
-      "average_position": 64.4,
+      "average_position": 68.4,
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/KS/"
+      "owner_route": "/states/MI/"
     },
     {
       "query": "nevada personal injury",
@@ -1057,37 +1169,65 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NV/"
     },
     {
-      "query": "personal injury lawyer missouri",
-      "normalized_query": "personal injury lawyer missouri",
+      "query": "personal injury lawyer kansas",
+      "normalized_query": "personal injury lawyer kansas",
       "source": "gsc_export",
       "impressions": 7,
       "clicks": 0,
-      "average_position": 72.9,
+      "average_position": 57.4,
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/MO/"
+      "owner_route": "/states/KS/"
     },
     {
-      "query": "personal injury lawyers in louisiana",
-      "normalized_query": "personal injury lawyers in louisiana",
+      "query": "wyoming personal injury attorneys",
+      "normalized_query": "wyoming personal injury attorneys",
       "source": "gsc_export",
       "impressions": 7,
       "clicks": 0,
-      "average_position": 44.4,
+      "average_position": 53.1,
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/WY/"
+    },
+    {
+      "query": "accident attorneys in michigan",
+      "normalized_query": "accident attorneys in michigan",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 75.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
+    },
+    {
+      "query": "accident lawyers in michigan",
+      "normalized_query": "accident lawyers in michigan",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 67.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
     },
     {
       "query": "auto injury attorney louisiana",
@@ -1099,7 +1239,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -1113,21 +1253,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
-    },
-    {
-      "query": "car accident attorney in louisiana",
-      "normalized_query": "car accident attorney in louisiana",
-      "source": "gsc_export",
-      "impressions": 6,
-      "clicks": 0,
-      "average_position": 94,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -1141,7 +1267,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1155,9 +1281,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/TX/"
+    },
+    {
+      "query": "indiana personal injury attorney",
+      "normalized_query": "indiana personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 78.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/IN/"
     },
     {
       "query": "injury attorney in louisiana",
@@ -1169,9 +1309,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
+    },
+    {
+      "query": "injury lawyer michigan",
+      "normalized_query": "injury lawyer michigan",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 61,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
     },
     {
       "query": "injury lawyers fees",
@@ -1183,7 +1337,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1197,37 +1351,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "kansas personal injury lawyer",
-      "normalized_query": "kansas personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 6,
-      "clicks": 0,
-      "average_position": 69.7,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 6,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/KS/"
-    },
-    {
-      "query": "kansas personal injury lawyers",
-      "normalized_query": "kansas personal injury lawyers",
-      "source": "gsc_export",
-      "impressions": 6,
-      "clicks": 0,
-      "average_position": 65.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 6,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/KS/"
     },
     {
       "query": "kentucy personal injury",
@@ -1239,7 +1365,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KY/"
     },
@@ -1253,7 +1379,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/"
     },
@@ -1267,9 +1393,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NY/"
+    },
+    {
+      "query": "michigan personal injury attorney",
+      "normalized_query": "michigan personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 70.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
+    },
+    {
+      "query": "missouri personal injury attorneys",
+      "normalized_query": "missouri personal injury attorneys",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 81.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
     },
     {
       "query": "ny personal injury",
@@ -1281,7 +1435,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NY/"
     },
@@ -1291,11 +1445,39 @@
       "source": "gsc_export",
       "impressions": 6,
       "clicks": 0,
-      "average_position": 44.5,
+      "average_position": 45.3,
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "personal injury attorney near me",
+      "normalized_query": "personal injury attorney near me",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 63.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
+    },
+    {
+      "query": "personal injury attorneys in louisiana",
+      "normalized_query": "personal injury attorneys in louisiana",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 45.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -1309,7 +1491,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WY/"
     },
@@ -1323,23 +1505,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "accident lawyer louisiana",
-      "normalized_query": "accident lawyer louisiana",
+      "query": "top louisiana accident lawyer",
+      "normalized_query": "top louisiana accident lawyer",
+      "source": "gsc_export",
+      "impressions": 6,
+      "clicks": 0,
+      "average_position": 71.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 6,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "accident lawyer",
+      "normalized_query": "accident lawyer",
       "source": "gsc_export",
       "impressions": 5,
       "clicks": 0,
-      "average_position": 79.4,
+      "average_position": 24.8,
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/NE/"
     },
     {
       "query": "accident lawyer questions",
@@ -1351,9 +1547,65 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
+    },
+    {
+      "query": "auto accident attorneys missouri",
+      "normalized_query": "auto accident attorneys missouri",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 79.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
+    },
+    {
+      "query": "auto accident lawyer in delaware",
+      "normalized_query": "auto accident lawyer in delaware",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 85,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "best injury lawyer",
+      "normalized_query": "best injury lawyer",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 42.6,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
+    },
+    {
+      "query": "car accident lawyers delaware",
+      "normalized_query": "car accident lawyers delaware",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 92,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
     },
     {
       "query": "cost of personal injury lawyer",
@@ -1365,37 +1617,135 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "personal injury attorneys in louisiana",
-      "normalized_query": "personal injury attorneys in louisiana",
+      "query": "injury attorneys michigan",
+      "normalized_query": "injury attorneys michigan",
       "source": "gsc_export",
       "impressions": 5,
       "clicks": 0,
-      "average_position": 46.2,
+      "average_position": 68.8,
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
+    },
+    {
+      "query": "kansas injury attorneys",
+      "normalized_query": "kansas injury attorneys",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 65.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/KS/"
+    },
+    {
+      "query": "louisiana injury attorneys",
+      "normalized_query": "louisiana injury attorneys",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 47.4,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
     {
-      "query": "personal injury lawyer kansas",
-      "normalized_query": "personal injury lawyer kansas",
+      "query": "louisiana injury law firm",
+      "normalized_query": "louisiana injury law firm",
       "source": "gsc_export",
       "impressions": 5,
       "clicks": 0,
-      "average_position": 57,
+      "average_position": 45.6,
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/KS/"
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "louisiana personal injury attorneys",
+      "normalized_query": "louisiana personal injury attorneys",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 48.6,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "missouri injury lawyer",
+      "normalized_query": "missouri injury lawyer",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 74.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
+    },
+    {
+      "query": "personal injury attorney in missouri",
+      "normalized_query": "personal injury attorney in missouri",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 79.4,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
+    },
+    {
+      "query": "personal injury attorney west virginia",
+      "normalized_query": "personal injury attorney west virginia",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 64.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WV/"
+    },
+    {
+      "query": "personal injury law firm",
+      "normalized_query": "personal injury law firm",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 36,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/SD/"
     },
     {
       "query": "personal injury michigan",
@@ -1407,23 +1757,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
     },
     {
-      "query": "top louisiana accident lawyer",
-      "normalized_query": "top louisiana accident lawyer",
+      "query": "south dakota personal injury attorney",
+      "normalized_query": "south dakota personal injury attorney",
       "source": "gsc_export",
       "impressions": 5,
       "clicks": 0,
-      "average_position": 68.6,
+      "average_position": 56.4,
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/SD/"
+    },
+    {
+      "query": "south dakota personal injury lawyer",
+      "normalized_query": "south dakota personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 5,
+      "clicks": 0,
+      "average_position": 57.4,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 5,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/SD/"
     },
     {
       "query": "when is the best time to contact a personal injury attorney",
@@ -1435,37 +1799,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
     },
     {
-      "query": "wyoming personal injury lawyers",
-      "normalized_query": "wyoming personal injury lawyers",
-      "source": "gsc_export",
-      "impressions": 5,
-      "clicks": 0,
-      "average_position": 55.4,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 5,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WY/"
-    },
-    {
-      "query": "accident lawyer",
-      "normalized_query": "accident lawyer",
+      "query": "accident lawyer missouri",
+      "normalized_query": "accident lawyer missouri",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 20.5,
+      "average_position": 77.8,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/NE/"
+      "owner_route": "/states/MO/"
     },
     {
       "query": "accident lawyers",
@@ -1477,21 +1827,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MO/"
-    },
-    {
-      "query": "auto accident attorneys missouri",
-      "normalized_query": "auto accident attorneys missouri",
-      "source": "gsc_export",
-      "impressions": 4,
-      "clicks": 0,
-      "average_position": 76.8,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -1505,21 +1841,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
     {
-      "query": "best injury lawyer",
-      "normalized_query": "best injury lawyer",
+      "query": "best personal injury lawyer in missouri",
+      "normalized_query": "best personal injury lawyer in missouri",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 43.8,
+      "average_position": 81.2,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -1533,7 +1869,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/what-a-fair-settlement-figure-is-made-of/"
     },
@@ -1547,7 +1883,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1561,7 +1897,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1575,7 +1911,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
     },
@@ -1589,9 +1925,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KS/"
+    },
+    {
+      "query": "injury attorney louisiana",
+      "normalized_query": "injury attorney louisiana",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 67.2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
+    },
+    {
+      "query": "injury attorney near me",
+      "normalized_query": "injury attorney near me",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 78,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
     },
     {
       "query": "injury attorneys in louisiana",
@@ -1599,11 +1963,11 @@
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 39.5,
+      "average_position": 40.2,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -1617,7 +1981,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -1631,49 +1995,49 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
     {
-      "query": "louisiana injury attorneys",
-      "normalized_query": "louisiana injury attorneys",
+      "query": "injury lawyers in texas",
+      "normalized_query": "injury lawyers in texas",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 47.5,
+      "average_position": 57,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/TX/"
     },
     {
-      "query": "louisiana injury law firm",
-      "normalized_query": "louisiana injury law firm",
+      "query": "kansas personal injury lawyers",
+      "normalized_query": "kansas personal injury lawyers",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 45.8,
+      "average_position": 69.5,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/KS/"
     },
     {
-      "query": "louisiana personal injury attorneys",
-      "normalized_query": "louisiana personal injury attorneys",
+      "query": "louisiana injury lawyers",
+      "normalized_query": "louisiana injury lawyers",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 48.5,
+      "average_position": 46.8,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -1687,21 +2051,35 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
     {
-      "query": "michigan injury lawyer",
-      "normalized_query": "michigan injury lawyer",
+      "query": "michigan injury attorney",
+      "normalized_query": "michigan injury attorney",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 65.2,
+      "average_position": 81.2,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MI/"
+    },
+    {
+      "query": "michigan personal injury lawyers",
+      "normalized_query": "michigan personal injury lawyers",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 71.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
     },
@@ -1715,7 +2093,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -1729,35 +2107,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
     {
-      "query": "missouri injury lawyer",
-      "normalized_query": "missouri injury lawyer",
+      "query": "missouri personal injury law firm",
+      "normalized_query": "missouri personal injury law firm",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 74.5,
+      "average_position": 81,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MO/"
-    },
-    {
-      "query": "missouri personal injury attorneys",
-      "normalized_query": "missouri personal injury attorneys",
-      "source": "gsc_export",
-      "impressions": 4,
-      "clicks": 0,
-      "average_position": 79.8,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -1771,51 +2135,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/ND/"
     },
     {
-      "query": "personal injury attorney in missouri",
-      "normalized_query": "personal injury attorney in missouri",
+      "query": "personal injury attorneys in michigan",
+      "normalized_query": "personal injury attorneys in michigan",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 81.2,
+      "average_position": 60.5,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/MO/"
-    },
-    {
-      "query": "personal injury attorney near me",
-      "normalized_query": "personal injury attorney near me",
-      "source": "gsc_export",
-      "impressions": 4,
-      "clicks": 0,
-      "average_position": 65.2,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 4,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MO/"
-    },
-    {
-      "query": "personal injury attorney west virginia",
-      "normalized_query": "personal injury attorney west virginia",
-      "source": "gsc_export",
-      "impressions": 4,
-      "clicks": 0,
-      "average_position": 69.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 4,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WV/"
+      "owner_route": "/states/MI/"
     },
     {
       "query": "personal injury defense lawyer cost",
@@ -1827,7 +2163,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1841,7 +2177,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -1855,9 +2191,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KY/"
+    },
+    {
+      "query": "personal injury lawyer west virginia",
+      "normalized_query": "personal injury lawyer west virginia",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 58.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WV/"
     },
     {
       "query": "personal injury lawyers kansas",
@@ -1869,7 +2219,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KS/"
     },
@@ -1883,7 +2233,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -1897,23 +2247,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-lawyer-red-flags/"
-    },
-    {
-      "query": "south dakota personal injury attorney",
-      "normalized_query": "south dakota personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 4,
-      "clicks": 0,
-      "average_position": 60,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 4,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/SD/"
     },
     {
       "query": "south dakota personal injury law",
@@ -1925,23 +2261,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
     {
-      "query": "south dakota personal injury lawyer",
-      "normalized_query": "south dakota personal injury lawyer",
+      "query": "who is the best injury lawyer in louisiana",
+      "normalized_query": "who is the best injury lawyer in louisiana",
       "source": "gsc_export",
       "impressions": 4,
       "clicks": 0,
-      "average_position": 60.2,
+      "average_position": 48.5,
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/SD/"
+      "owner_route": "/states/LA/"
     },
     {
       "query": "wyoming injury attorney",
@@ -1953,7 +2289,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WY/"
     },
@@ -1967,9 +2303,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
+    },
+    {
+      "query": "accident attorney delaware",
+      "normalized_query": "accident attorney delaware",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 75.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
     },
     {
       "query": "accident lawyer kansas",
@@ -1981,37 +2331,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KS/"
-    },
-    {
-      "query": "accident lawyer missouri",
-      "normalized_query": "accident lawyer missouri",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 72,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MO/"
-    },
-    {
-      "query": "alabama personal injury",
-      "normalized_query": "alabama personal injury",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 98,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/AL/"
     },
     {
       "query": "are personal injury lawyers worth the cost",
@@ -2023,7 +2345,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2037,7 +2359,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2051,23 +2373,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
-    },
-    {
-      "query": "auto accident lawyer in delaware",
-      "normalized_query": "auto accident lawyer in delaware",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 84,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
     },
     {
       "query": "average personal injury lead cost",
@@ -2079,7 +2387,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2093,7 +2401,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -2107,23 +2415,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
     {
-      "query": "best personal injury lawyer in missouri",
-      "normalized_query": "best personal injury lawyer in missouri",
+      "query": "best personal injury lawyers louisiana",
+      "normalized_query": "best personal injury lawyers louisiana",
       "source": "gsc_export",
       "impressions": 3,
       "clicks": 0,
-      "average_position": 79.3,
+      "average_position": 80.3,
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/MO/"
+      "owner_route": "/states/LA/"
     },
     {
       "query": "car accident evidence checklist",
@@ -2135,7 +2443,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -2149,21 +2457,91 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
     {
-      "query": "car accident lawyers delaware",
-      "normalized_query": "car accident lawyers delaware",
+      "query": "car accident law firm",
+      "normalized_query": "car accident law firm",
       "source": "gsc_export",
       "impressions": 3,
       "clicks": 0,
-      "average_position": 96.7,
+      "average_position": 36.7,
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/SD/"
+    },
+    {
+      "query": "car accident lawyers in delaware",
+      "normalized_query": "car accident lawyers in delaware",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 95.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "delaware injury attorney",
+      "normalized_query": "delaware injury attorney",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 72.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "delaware injury lawyers",
+      "normalized_query": "delaware injury lawyers",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 75.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "delaware personal injury attorney",
+      "normalized_query": "delaware personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 75.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "delaware's injury lawyers",
+      "normalized_query": "delaware s injury lawyers",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 78.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/DE/"
     },
@@ -2177,9 +2555,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "hire injury lawyer louisiana",
+      "normalized_query": "hire injury lawyer louisiana",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 67.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/LA/"
     },
     {
       "query": "how much does a personal injury lawyer cost nj",
@@ -2191,7 +2583,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2205,7 +2597,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2219,7 +2611,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2233,7 +2625,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2247,7 +2639,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
     },
@@ -2261,7 +2653,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AK/"
     },
@@ -2275,65 +2667,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AL/"
     },
     {
-      "query": "injury attorney louisiana",
-      "normalized_query": "injury attorney louisiana",
+      "query": "injury attorney delaware",
+      "normalized_query": "injury attorney delaware",
       "source": "gsc_export",
       "impressions": 3,
       "clicks": 0,
-      "average_position": 66.7,
+      "average_position": 80.7,
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/DE/"
     },
     {
-      "query": "injury attorney near me",
-      "normalized_query": "injury attorney near me",
+      "query": "injury attorney michigan",
+      "normalized_query": "injury attorney michigan",
       "source": "gsc_export",
       "impressions": 3,
       "clicks": 0,
-      "average_position": 75.3,
+      "average_position": 76.7,
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/MO/"
-    },
-    {
-      "query": "injury lawyers in texas",
-      "normalized_query": "injury lawyers in texas",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 52.7,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/TX/"
-    },
-    {
-      "query": "louisiana injury lawyers",
-      "normalized_query": "louisiana injury lawyers",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 46,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
+      "owner_route": "/states/MI/"
     },
     {
       "query": "louisiana serious injury lawyer",
@@ -2345,7 +2709,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -2359,23 +2723,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
     {
-      "query": "missouri personal injury law firm",
-      "normalized_query": "missouri personal injury law firm",
+      "query": "michigan personal injury attorneys",
+      "normalized_query": "michigan personal injury attorneys",
       "source": "gsc_export",
       "impressions": 3,
       "clicks": 0,
-      "average_position": 78,
+      "average_position": 71.7,
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/MO/"
+      "owner_route": "/states/MI/"
     },
     {
       "query": "new jersey personal injury",
@@ -2387,7 +2751,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NJ/"
     },
@@ -2401,7 +2765,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NY/"
     },
@@ -2415,7 +2779,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WY/"
     },
@@ -2429,7 +2793,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2443,7 +2807,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2457,23 +2821,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KY/"
-    },
-    {
-      "query": "personal injury law firm",
-      "normalized_query": "personal injury law firm",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 27.3,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/SD/"
     },
     {
       "query": "personal injury lawyer costs",
@@ -2485,9 +2835,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "personal injury lawyer delaware",
+      "normalized_query": "personal injury lawyer delaware",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 70.7,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
     },
     {
       "query": "personal injury leads cost",
@@ -2499,7 +2863,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2513,7 +2877,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MT/"
     },
@@ -2527,37 +2891,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
-    },
-    {
-      "query": "who is the best injury lawyer in louisiana",
-      "normalized_query": "who is the best injury lawyer in louisiana",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 53,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
-    },
-    {
-      "query": "wyoming personal injury attorneys",
-      "normalized_query": "wyoming personal injury attorneys",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 55.7,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WY/"
     },
     {
       "query": "\"the injury law guides\" \"theinjurylawguides.com\"",
@@ -2569,23 +2905,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/"
-    },
-    {
-      "query": "accident attorney delaware",
-      "normalized_query": "accident attorney delaware",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 74,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
     },
     {
       "query": "accident attorney fees",
@@ -2597,9 +2919,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "accident attorneys delaware",
+      "normalized_query": "accident attorneys delaware",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 84.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
     },
     {
       "query": "accident lawyer in south dakota",
@@ -2611,7 +2947,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -2625,7 +2961,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -2639,9 +2975,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/HI/"
+    },
+    {
+      "query": "alabama personal injury",
+      "normalized_query": "alabama personal injury",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 97.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/AL/"
     },
     {
       "query": "attorney for personal injury",
@@ -2653,7 +3003,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -2667,7 +3017,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -2681,23 +3031,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "best personal injury attorney west virginia",
-      "normalized_query": "best personal injury attorney west virginia",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 37,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WV/"
     },
     {
       "query": "best personal injury attorneys louisiana",
@@ -2709,7 +3045,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -2723,37 +3059,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
     {
-      "query": "best personal injury lawyers louisiana",
-      "normalized_query": "best personal injury lawyers louisiana",
+      "query": "car accident attorney near me",
+      "normalized_query": "car accident attorney near me",
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 80.5,
+      "average_position": 82,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/LA/"
-    },
-    {
-      "query": "car accident law firm",
-      "normalized_query": "car accident law firm",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 23.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/SD/"
+      "owner_route": "/states/MO/"
     },
     {
       "query": "car accident lawyer cost michigan",
@@ -2765,9 +3087,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
+    },
+    {
+      "query": "colorado injury attorneys",
+      "normalized_query": "colorado injury attorneys",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 60,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/CO/"
+    },
+    {
+      "query": "colorado personal injury lawyer",
+      "normalized_query": "colorado personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 50.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/CO/"
     },
     {
       "query": "compare new york city personal injury lawyer",
@@ -2779,35 +3129,77 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NY/"
     },
     {
-      "query": "delaware injury attorney",
-      "normalized_query": "delaware injury attorney",
+      "query": "delaware accident attorney",
+      "normalized_query": "delaware accident attorney",
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 72,
+      "average_position": 85.5,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/DE/"
     },
     {
-      "query": "delaware injury lawyers",
-      "normalized_query": "delaware injury lawyers",
+      "query": "delaware accident attorneys",
+      "normalized_query": "delaware accident attorneys",
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 75,
+      "average_position": 90,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "delaware car wreck lawyer",
+      "normalized_query": "delaware car wreck lawyer",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 85,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "delaware injury attorneys",
+      "normalized_query": "delaware injury attorneys",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 79,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "delaware personal injury attorneys",
+      "normalized_query": "delaware personal injury attorneys",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 78,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/DE/"
     },
@@ -2817,25 +3209,39 @@
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 84.5,
+      "average_position": 82,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/DE/"
     },
     {
-      "query": "delaware's injury lawyers",
-      "normalized_query": "delaware s injury lawyers",
+      "query": "delaware personal injury law firms",
+      "normalized_query": "delaware personal injury law firms",
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 84,
+      "average_position": 73,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "delaware personal injury lawyer",
+      "normalized_query": "delaware personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 71,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/DE/"
     },
@@ -2849,7 +3255,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/motorcycle-accidents/"
     },
@@ -2863,23 +3269,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
-    },
-    {
-      "query": "hire injury lawyer louisiana",
-      "normalized_query": "hire injury lawyer louisiana",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 69,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/LA/"
     },
     {
       "query": "hit and run attorney cost",
@@ -2891,7 +3283,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2905,7 +3297,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2919,7 +3311,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -2933,7 +3325,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SC/"
     },
@@ -2947,7 +3339,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MD/"
     },
@@ -2961,7 +3353,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NY/"
     },
@@ -2975,7 +3367,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NY/"
     },
@@ -2989,7 +3381,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/IN/"
     },
@@ -3003,23 +3395,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/IN/"
-    },
-    {
-      "query": "injury attorney delaware",
-      "normalized_query": "injury attorney delaware",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 83.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
     },
     {
       "query": "injury attorney in south dakota",
@@ -3031,7 +3409,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3045,7 +3423,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WI/"
     },
@@ -3059,21 +3437,35 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
     {
-      "query": "injury lawyer michigan",
-      "normalized_query": "injury lawyer michigan",
+      "query": "injury lawyers",
+      "normalized_query": "injury lawyers",
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 68,
+      "average_position": 53,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/SD/"
+    },
+    {
+      "query": "injury lawyers in michigan",
+      "normalized_query": "injury lawyers in michigan",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 61,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
     },
@@ -3087,7 +3479,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/TX/"
     },
@@ -3101,7 +3493,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KY/"
     },
@@ -3115,23 +3507,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
     {
-      "query": "michigan personal injury attorney",
-      "normalized_query": "michigan personal injury attorney",
+      "query": "michigan injury lawyers",
+      "normalized_query": "michigan injury lawyers",
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 82,
+      "average_position": 63,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
+    },
+    {
+      "query": "missouri accident lawyer",
+      "normalized_query": "missouri accident lawyer",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 66,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
     },
     {
       "query": "mo personal injury lawyers",
@@ -3143,23 +3549,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
     {
-      "query": "motorcycle accident evidence",
-      "normalized_query": "motorcycle accident evidence",
+      "query": "personal injury attorney delaware",
+      "normalized_query": "personal injury attorney delaware",
       "source": "gsc_export",
       "impressions": 2,
       "clicks": 0,
-      "average_position": 81,
+      "average_position": 75,
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/guides/motorcycle-accidents/"
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "personal injury attorney kansas",
+      "normalized_query": "personal injury attorney kansas",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 76,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/KS/"
     },
     {
       "query": "personal injury attorney north dakota",
@@ -3171,7 +3591,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/ND/"
     },
@@ -3185,9 +3605,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WY/"
+    },
+    {
+      "query": "personal injury attorneys in delaware",
+      "normalized_query": "personal injury attorneys in delaware",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 67.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "personal injury attorneys in missouri",
+      "normalized_query": "personal injury attorneys in missouri",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 70,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
     },
     {
       "query": "personal injury law advice texas",
@@ -3199,37 +3647,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/TX/"
-    },
-    {
-      "query": "personal injury lawyer delaware",
-      "normalized_query": "personal injury lawyer delaware",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 70.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
-    },
-    {
-      "query": "personal injury lawyer west virginia",
-      "normalized_query": "personal injury lawyer west virginia",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 57.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WV/"
     },
     {
       "query": "personal injury lawyer wyoming",
@@ -3241,9 +3661,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WY/"
+    },
+    {
+      "query": "personal injury lawyers in delaware",
+      "normalized_query": "personal injury lawyers in delaware",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 72,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
     },
     {
       "query": "personal injury lawyers in mo",
@@ -3255,7 +3689,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -3269,23 +3703,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "personal injury questions",
-      "normalized_query": "personal injury questions",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 99,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
     {
       "query": "questions to ask your personal injury attorney",
@@ -3297,7 +3717,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -3311,7 +3731,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3325,7 +3745,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3339,7 +3759,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3353,7 +3773,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3367,7 +3787,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -3381,23 +3801,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
-    },
-    {
-      "query": "west virginia injury attorney",
-      "normalized_query": "west virginia injury attorney",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 42,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WV/"
     },
     {
       "query": "what questions should i ask a personal injury lawyer",
@@ -3409,7 +3815,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -3423,7 +3829,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/when-to-call-a-personal-injury-lawyer/"
     },
@@ -3437,7 +3843,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -3451,7 +3857,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NV/"
     },
@@ -3465,7 +3871,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/evidence-checklist-after-an-accident/"
     },
@@ -3479,9 +3885,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "accident attorney colorado",
+      "normalized_query": "accident attorney colorado",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 74,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/CO/"
     },
     {
       "query": "accident attorney missouri",
@@ -3493,23 +3913,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
-    },
-    {
-      "query": "accident attorneys delaware",
-      "normalized_query": "accident attorneys delaware",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 99,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
     },
     {
       "query": "accident attorneys in colorado",
@@ -3521,7 +3927,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/CO/"
     },
@@ -3535,7 +3941,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -3549,9 +3955,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
+    },
+    {
+      "query": "accident lawyer in kentucky",
+      "normalized_query": "accident lawyer in kentucky",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 53,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/KY/"
     },
     {
       "query": "aiken & scoptur",
@@ -3563,9 +3983,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WI/"
+    },
+    {
+      "query": "alabama personal injury attorney",
+      "normalized_query": "alabama personal injury attorney",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 86,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/AL/"
     },
     {
       "query": "alabama personal injury law",
@@ -3577,7 +4011,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AL/"
     },
@@ -3591,7 +4025,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AK/"
     },
@@ -3605,7 +4039,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -3619,9 +4053,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
+    },
+    {
+      "query": "auto accident lawyer missouri",
+      "normalized_query": "auto accident lawyer missouri",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 73,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/MO/"
     },
     {
       "query": "auto accident lawyers wyoming",
@@ -3633,7 +4081,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WY/"
     },
@@ -3647,23 +4095,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
-    },
-    {
-      "query": "best accident lawyers in michigan",
-      "normalized_query": "best accident lawyers in michigan",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 71,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MI/"
     },
     {
       "query": "best injury attorney",
@@ -3675,7 +4109,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3689,7 +4123,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3703,7 +4137,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -3717,7 +4151,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -3731,7 +4165,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -3745,9 +4179,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
+    },
+    {
+      "query": "best personal injury attorney west virginia",
+      "normalized_query": "best personal injury attorney west virginia",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 34,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WV/"
     },
     {
       "query": "best personal injury attorneys",
@@ -3759,7 +4207,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3773,23 +4221,51 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NE/"
     },
     {
-      "query": "best personal injury lawyer west virginia",
-      "normalized_query": "best personal injury lawyer west virginia",
+      "query": "best personal injury lawyer colorado",
+      "normalized_query": "best personal injury lawyer colorado",
       "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
-      "average_position": 39,
+      "average_position": 80,
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/WV/"
+      "owner_route": "/states/CO/"
+    },
+    {
+      "query": "best personal injury lawyers in delaware",
+      "normalized_query": "best personal injury lawyers in delaware",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 98,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
+    },
+    {
+      "query": "car accident attorney delaware",
+      "normalized_query": "car accident attorney delaware",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 80,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
     },
     {
       "query": "car accident attorney louisiana statewide",
@@ -3801,23 +4277,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "car accident attorney near me",
-      "normalized_query": "car accident attorney near me",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 89,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MO/"
     },
     {
       "query": "car accident attorney south dakota",
@@ -3829,7 +4291,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -3843,7 +4305,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -3857,7 +4319,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AK/"
     },
@@ -3871,37 +4333,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
-    },
-    {
-      "query": "car accident lawyers in delaware",
-      "normalized_query": "car accident lawyers in delaware",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 96,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
-    },
-    {
-      "query": "colorado injury attorneys",
-      "normalized_query": "colorado injury attorneys",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 61,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/CO/"
     },
     {
       "query": "colorado personal injury",
@@ -3913,7 +4347,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/CO/"
     },
@@ -3927,107 +4361,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/CO/"
     },
     {
-      "query": "delaware accident attorney",
-      "normalized_query": "delaware accident attorney",
+      "query": "colorado personal injury lawyers",
+      "normalized_query": "colorado personal injury lawyers",
       "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
-      "average_position": 84,
+      "average_position": 42,
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/DE/"
+      "owner_route": "/states/CO/"
     },
     {
-      "query": "delaware accident attorneys",
-      "normalized_query": "delaware accident attorneys",
+      "query": "compare fees for bicycle accident attorneys in colorado",
+      "normalized_query": "compare fees for bicycle accident attorneys in colorado",
       "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
-      "average_position": 90,
+      "average_position": 71,
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/DE/"
-    },
-    {
-      "query": "delaware injury attorneys",
-      "normalized_query": "delaware injury attorneys",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 79,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
-    },
-    {
-      "query": "delaware personal injury attorney",
-      "normalized_query": "delaware personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 78,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
-    },
-    {
-      "query": "delaware personal injury attorneys",
-      "normalized_query": "delaware personal injury attorneys",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 79,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
-    },
-    {
-      "query": "delaware personal injury law firms",
-      "normalized_query": "delaware personal injury law firms",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 74,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
-    },
-    {
-      "query": "delaware personal injury lawyer",
-      "normalized_query": "delaware personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 80,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
+      "owner_route": "/states/CO/"
     },
     {
       "query": "find personal injury lawyer",
@@ -4039,7 +4403,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -4053,7 +4417,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/RI/"
     },
@@ -4067,7 +4431,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/RI/"
     },
@@ -4081,7 +4445,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/RI/"
     },
@@ -4095,7 +4459,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4109,7 +4473,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AL/"
     },
@@ -4123,7 +4487,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4137,7 +4501,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4151,7 +4515,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4165,7 +4529,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4179,7 +4543,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4193,7 +4557,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4207,7 +4571,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4221,7 +4585,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4235,7 +4599,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -4249,7 +4613,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NY/"
     },
@@ -4263,7 +4627,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/IN/"
     },
@@ -4277,7 +4641,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AL/"
     },
@@ -4291,7 +4655,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AL/"
     },
@@ -4305,7 +4669,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AL/"
     },
@@ -4319,7 +4683,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/IN/"
     },
@@ -4333,23 +4697,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
-    },
-    {
-      "query": "injury attorney in west virginia",
-      "normalized_query": "injury attorney in west virginia",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 67,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/WV/"
     },
     {
       "query": "injury attorney west virginia",
@@ -4361,7 +4711,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -4375,7 +4725,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -4389,7 +4739,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -4403,7 +4753,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -4417,7 +4767,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -4431,7 +4781,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -4445,7 +4795,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -4459,23 +4809,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
-    },
-    {
-      "query": "injury lawyers",
-      "normalized_query": "injury lawyers",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 66,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/SD/"
     },
     {
       "query": "injury lawyers louisiana",
@@ -4487,7 +4823,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -4501,7 +4837,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -4515,7 +4851,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -4529,7 +4865,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -4543,7 +4879,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/HI/"
     },
@@ -4557,7 +4893,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/HI/"
     },
@@ -4571,7 +4907,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -4585,37 +4921,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MD/"
-    },
-    {
-      "query": "michigan injury attorney",
-      "normalized_query": "michigan injury attorney",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 67,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MI/"
-    },
-    {
-      "query": "michigan injury attorneys",
-      "normalized_query": "michigan injury attorneys",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 71,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MI/"
     },
     {
       "query": "michigan injury law",
@@ -4627,51 +4935,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MI/"
     },
     {
-      "query": "michigan personal injury attorneys",
-      "normalized_query": "michigan personal injury attorneys",
+      "query": "missouri auto accident attorney",
+      "normalized_query": "missouri auto accident attorney",
       "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
-      "average_position": 73,
+      "average_position": 79,
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
-      "owner_route": "/states/MI/"
-    },
-    {
-      "query": "michigan personal injury lawyer",
-      "normalized_query": "michigan personal injury lawyer",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 51,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MI/"
-    },
-    {
-      "query": "michigan personal injury lawyers",
-      "normalized_query": "michigan personal injury lawyers",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 68,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MI/"
+      "owner_route": "/states/MO/"
     },
     {
       "query": "missouri industrial accident lawyer",
@@ -4683,7 +4963,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -4697,7 +4977,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
     },
@@ -4711,9 +4991,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
+    },
+    {
+      "query": "motorcycle accident evidence",
+      "normalized_query": "motorcycle accident evidence",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 93,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/guides/motorcycle-accidents/"
     },
     {
       "query": "nebraska personal injury lawyers",
@@ -4725,7 +5019,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/NE/"
+    },
+    {
+      "query": "nebraska slip and fall lawyer",
+      "normalized_query": "nebraska slip and fall lawyer",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 69,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NE/"
     },
@@ -4739,7 +5047,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/ND/"
     },
@@ -4753,7 +5061,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/ND/"
     },
@@ -4767,7 +5075,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/OR/"
     },
@@ -4781,23 +5089,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
-    },
-    {
-      "query": "personal injury attorney delaware",
-      "normalized_query": "personal injury attorney delaware",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 75,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
     },
     {
       "query": "personal injury attorney south dakota",
@@ -4809,23 +5103,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
-    },
-    {
-      "query": "personal injury attorneys in delaware",
-      "normalized_query": "personal injury attorneys in delaware",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 76,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
     },
     {
       "query": "personal injury attorneys in kansas",
@@ -4837,7 +5117,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KS/"
     },
@@ -4851,7 +5131,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -4865,7 +5145,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/CO/"
     },
@@ -4879,7 +5159,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/",
       "other_measurements": [
@@ -4900,7 +5180,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/HI/"
     },
@@ -4914,7 +5194,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/NV/"
     },
@@ -4928,7 +5208,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -4942,23 +5222,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/HI/"
-    },
-    {
-      "query": "personal injury law minnesota",
-      "normalized_query": "personal injury law minnesota",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 87,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/MN/"
     },
     {
       "query": "personal injury lawyer directory",
@@ -4970,9 +5236,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AK/"
+    },
+    {
+      "query": "personal injury lawyer in colorado",
+      "normalized_query": "personal injury lawyer in colorado",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 53,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/CO/"
     },
     {
       "query": "personal injury lawyer in south dakota",
@@ -4984,7 +5264,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -4998,7 +5278,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/KS/"
     },
@@ -5012,7 +5292,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -5026,7 +5306,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -5040,7 +5320,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -5054,23 +5334,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MO/"
-    },
-    {
-      "query": "personal injury lawyers in delaware",
-      "normalized_query": "personal injury lawyers in delaware",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 72,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/DE/"
     },
     {
       "query": "personal injury lawyers in wyoming",
@@ -5082,9 +5348,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WY/"
+    },
+    {
+      "query": "personal injury lawyers near me",
+      "normalized_query": "personal injury lawyers near me",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 86,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WV/"
     },
     {
       "query": "personal injury lawyers south dakota",
@@ -5096,7 +5376,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -5110,7 +5390,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/MD/"
     },
@@ -5124,7 +5404,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -5138,7 +5418,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -5152,7 +5432,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -5166,7 +5446,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -5180,7 +5460,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -5194,21 +5474,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
-      },
-      "owner_route": "/states/RI/"
-    },
-    {
-      "query": "rhode island personal injury attorney",
-      "normalized_query": "rhode island personal injury attorney",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 79,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/RI/"
     },
@@ -5222,7 +5488,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/RI/"
     },
@@ -5236,7 +5502,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -5250,7 +5516,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/IN/"
     },
@@ -5264,9 +5530,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
+    },
+    {
+      "query": "slip and fall lawyers in delaware",
+      "normalized_query": "slip and fall lawyers in delaware",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 78,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/DE/"
     },
     {
       "query": "south dakota car accident lawyer",
@@ -5278,7 +5558,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -5292,7 +5572,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -5306,7 +5586,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/SD/"
     },
@@ -5320,7 +5600,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -5334,7 +5614,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -5348,7 +5628,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/TN/"
     },
@@ -5362,7 +5642,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/TX/"
     },
@@ -5376,7 +5656,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -5390,7 +5670,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -5404,7 +5684,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/LA/"
     },
@@ -5418,7 +5698,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -5428,11 +5708,25 @@
       "source": "gsc_export",
       "impressions": 1,
       "clicks": 0,
-      "average_position": 41,
+      "average_position": 42,
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WV/"
+    },
+    {
+      "query": "west virginia injury attorney",
+      "normalized_query": "west virginia injury attorney",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 39,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -5446,7 +5740,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -5460,7 +5754,21 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WV/"
+    },
+    {
+      "query": "west virginia personal injury lawyer",
+      "normalized_query": "west virginia personal injury lawyer",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 61,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
     },
@@ -5474,7 +5782,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -5488,7 +5796,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -5502,7 +5810,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     },
@@ -5516,7 +5824,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -5530,7 +5838,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AL/"
     },
@@ -5544,7 +5852,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/questions-to-ask-a-personal-injury-lawyer/"
     },
@@ -5558,7 +5866,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/AL/"
     },
@@ -5572,7 +5880,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WI/"
     },
@@ -5586,9 +5894,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/states/WV/"
+    },
+    {
+      "query": "wyoming burn injury attorney",
+      "normalized_query": "wyoming burn injury attorney",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 64,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-14..2026-11-10"
+      },
+      "owner_route": "/states/WY/"
     },
     {
       "query": "人身伤害律师费用是多少",
@@ -5600,7 +5922,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-13..2026-11-09"
+        "window": "2026-10-14..2026-11-10"
       },
       "owner_route": "/guides/personal-injury-fees-explained/"
     }
