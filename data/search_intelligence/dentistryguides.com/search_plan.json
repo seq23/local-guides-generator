@@ -1,28 +1,15 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-10-13..2026-11-09",
+  "gsc_window": "2026-10-14..2026-11-10",
   "totals": {
-    "clicks": 0,
-    "impressions": 890,
-    "ctr": 0,
-    "position": 58
+    "clicks": 1,
+    "impressions": 874,
+    "ctr": 0.0011,
+    "position": 57.7
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
-    {
-      "route": "/guides/how-to-choose/",
-      "family": "choose a provider @ /guides/how-to-choose/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 159,
-      "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
-      "impressions": 160,
-      "clicks": 0,
-      "position": 77,
-      "strengthened": true
-    },
     {
       "route": "/states/TX/",
       "family": "choose a provider @ /states/{STATE}/",
@@ -31,9 +18,9 @@
       ],
       "family_impressions": 156,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 54,
+      "impressions": 55,
       "clicks": 0,
-      "position": 56.1,
+      "position": 56,
       "strengthened": true
     },
     {
@@ -44,9 +31,9 @@
       ],
       "family_impressions": 156,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 66,
+      "impressions": 65,
       "clicks": 0,
-      "position": 59,
+      "position": 59.6,
       "strengthened": true
     },
     {
@@ -57,9 +44,9 @@
       ],
       "family_impressions": 156,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 35,
+      "impressions": 32,
       "clicks": 0,
-      "position": 53,
+      "position": 52.2,
       "strengthened": true
     },
     {
@@ -70,9 +57,9 @@
       ],
       "family_impressions": 156,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 18,
+      "impressions": 19,
       "clicks": 0,
-      "position": 33.5,
+      "position": 32.7,
       "strengthened": true
     },
     {
@@ -83,9 +70,35 @@
       ],
       "family_impressions": 156,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 33,
+      "impressions": 31,
       "clicks": 0,
-      "position": 55.2,
+      "position": 54.3,
+      "strengthened": true
+    },
+    {
+      "route": "/guides/how-to-choose/",
+      "family": "choose a provider @ /guides/how-to-choose/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 147,
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
+      "impressions": 149,
+      "clicks": 0,
+      "position": 76.3,
+      "strengthened": true
+    },
+    {
+      "route": "/guides/dental-implant-and-oral-surgery-cost/",
+      "family": "cost @ /guides/dental-implant-and-oral-surgery-cost/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 46,
+      "source": "data/page_sets/examples/dentistry_global_pages/guides_dental-implant-and-oral-surgery-cost.json",
+      "impressions": 49,
+      "clicks": 0,
+      "position": 64.3,
       "strengthened": true
     },
     {
@@ -108,15 +121,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 12,
-      "Discovered - currently not indexed": 8,
+      "Discovered - currently not indexed": 11,
       "Submitted and indexed": 41,
-      "URL is unknown to Google": 5
+      "URL is unknown to Google": 2
     },
     "buckets": {
       "crawled_not_indexed": 12,
-      "discovered_not_indexed": 8,
+      "discovered_not_indexed": 11,
       "indexed": 41,
-      "unknown": 5
+      "unknown": 2
     }
   }
 }
