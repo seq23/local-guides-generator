@@ -1,28 +1,15 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-10-13..2026-11-09",
+  "gsc_window": "2026-10-14..2026-11-10",
   "totals": {
     "clicks": 6,
-    "impressions": 1967,
-    "ctr": 0.0031,
-    "position": 39.8
+    "impressions": 2056,
+    "ctr": 0.0029,
+    "position": 40.3
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
-    {
-      "route": "/guides/when-a-parent-refuses-to-move/",
-      "family": "when to call @ /guides/when-a-parent-refuses-to-move/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 89,
-      "source": "data/page_sets/examples/senior_living_global_pages/guides_when-a-parent-refuses-to-move.json",
-      "impressions": 94,
-      "clicks": 0,
-      "position": 77.8,
-      "strengthened": true
-    },
     {
       "route": "/guides/when-the-money-runs-out-tenncare-choices/",
       "family": "when to call @ /guides/when-the-money-runs-out-tenncare-choices/",
@@ -31,23 +18,21 @@
       ],
       "family_impressions": 2,
       "source": "data/page_sets/examples/senior_living_global_pages/guides_when-the-money-runs-out-tenncare-choices.json",
-      "impressions": 64,
+      "impressions": 66,
       "clicks": 3,
-      "position": 6.6,
+      "position": 6.5,
       "strengthened": true
     }
   ],
   "not_yet_strengthened": [],
   "coverage": {
     "by_coverage_state": {
-      "Discovered - currently not indexed": 2,
-      "Submitted and indexed": 191,
-      "URL is unknown to Google": 1
+      "Discovered - currently not indexed": 3,
+      "Submitted and indexed": 191
     },
     "buckets": {
-      "discovered_not_indexed": 2,
-      "indexed": 191,
-      "unknown": 1
+      "discovered_not_indexed": 3,
+      "indexed": 191
     }
   }
 }
