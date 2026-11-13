@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-13..2026-11-09",
+  "gsc_window": "2026-10-14..2026-11-10",
   "totals": {
     "clicks": 2,
-    "impressions": 141,
-    "ctr": 0.0142,
-    "position": 28.5
+    "impressions": 149,
+    "ctr": 0.0134,
+    "position": 28.3
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 40,
+      "family_impressions": 43,
       "source": "data/page_sets/examples/neuro_global_pages/guides_fayetteville-adhd-evaluation-testing-options.json",
-      "impressions": 41,
+      "impressions": 44,
       "clicks": 0,
-      "position": 47.6,
+      "position": 48.2,
       "strengthened": false
     },
     {
@@ -31,9 +31,9 @@
       ],
       "family_impressions": 11,
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
-      "impressions": 29,
+      "impressions": 31,
       "clicks": 1,
-      "position": 37.6,
+      "position": 35.7,
       "strengthened": true
     },
     {
@@ -43,11 +43,11 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 5,
+      "family_impressions": 6,
       "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
-      "impressions": 23,
+      "impressions": 24,
       "clicks": 0,
-      "position": 5.9,
+      "position": 5.8,
       "strengthened": true
     },
     {
@@ -70,15 +70,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 78,
-      "Discovered - currently not indexed": 31,
+      "Discovered - currently not indexed": 33,
       "Submitted and indexed": 34,
-      "URL is unknown to Google": 53
+      "URL is unknown to Google": 51
     },
     "buckets": {
       "crawled_not_indexed": 78,
-      "discovered_not_indexed": 31,
+      "discovered_not_indexed": 33,
       "indexed": 34,
-      "unknown": 53
+      "unknown": 51
     }
   }
 }
