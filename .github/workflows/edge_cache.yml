@@ -5,9 +5,18 @@ name: edge-cache
 # code), wait until every Pages project has deployed this commit, then purge
 # each zone so the new build is what the edge serves. Each step exits non-zero
 # unless it acted on every configured zone/project.
+#
+# Daily too (2026-11-14): the data commits on main are pushed by
+# github-actions[bot], and a GITHUB_TOKEN push never triggers this workflow. So
+# after one Cloudflare-side deploy failure (49e3774 on -pi, 13 Nov: upload and
+# publish logged success, stage marked failure) this lane stayed red until the
+# next human push, and bot-pushed builds were never purged. The daily run waits
+# for the CURRENT head of main to be deployed on every project and purges.
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 15 * * *'   # 09:00 CT (CST), after the morning data commits
   workflow_dispatch:
 
 concurrency:
