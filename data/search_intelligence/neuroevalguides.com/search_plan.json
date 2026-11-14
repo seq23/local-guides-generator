@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-14..2026-11-10",
+  "gsc_window": "2026-10-15..2026-11-11",
   "totals": {
     "clicks": 2,
-    "impressions": 149,
-    "ctr": 0.0134,
-    "position": 28.3
+    "impressions": 146,
+    "ctr": 0.0137,
+    "position": 28.8
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -31,9 +31,9 @@
       ],
       "family_impressions": 11,
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
-      "impressions": 31,
+      "impressions": 30,
       "clicks": 1,
-      "position": 35.7,
+      "position": 36.6,
       "strengthened": true
     },
     {
@@ -45,9 +45,9 @@
       ],
       "family_impressions": 6,
       "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
-      "impressions": 24,
+      "impressions": 23,
       "clicks": 0,
-      "position": 5.8,
+      "position": 6,
       "strengthened": true
     },
     {
