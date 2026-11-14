@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-14..2026-11-10",
-  "gsc_collected_at": "2026-11-13T13:51:22+00:00",
+  "gsc_window": "2026-10-15..2026-11-11",
+  "gsc_collected_at": "2026-11-14T13:50:19+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 9,
+      "impressions": 8,
       "status": "no_page"
     },
     {
@@ -41,11 +41,11 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 9,
+      "impressions": 8,
       "best_position": 80.7,
-      "weighted_position": 89.7,
+      "weighted_position": 88.5,
       "top_query": "uscis civil surgeon",
-      "query_count": 5,
+      "query_count": 4,
       "queries": [
         {
           "query": "uscis civil surgeon",
@@ -70,20 +70,14 @@
           "route": "/",
           "impressions": 1,
           "position": 100
-        },
-        {
-          "query": "uscis-designated civil surgeon",
-          "route": "/",
-          "impressions": 1,
-          "position": 99
         }
       ],
       "pages": [
         {
           "route": "/",
-          "family_impressions": 9,
-          "page_impressions": 27,
-          "page_position": 64.3
+          "family_impressions": 8,
+          "page_impressions": 26,
+          "page_position": 62.9
         }
       ],
       "rank": 1,
@@ -154,8 +148,8 @@
         {
           "route": "/",
           "family_impressions": 2,
-          "page_impressions": 27,
-          "page_position": 64.3
+          "page_impressions": 26,
+          "page_position": 62.9
         }
       ],
       "rank": 3,
