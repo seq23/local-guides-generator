@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-14..2026-11-10",
-  "gsc_collected_at": "2026-11-13T13:46:34+00:00",
+  "gsc_window": "2026-10-15..2026-11-11",
+  "gsc_collected_at": "2026-11-14T13:46:38+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 41,
+      "impressions": 37,
       "status": "strengthened"
     },
     {
@@ -53,17 +53,17 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 41,
+      "impressions": 37,
       "best_position": 6.5,
-      "weighted_position": 83.7,
+      "weighted_position": 82.9,
       "top_query": "am i a candidate for trt",
       "query_count": 3,
       "queries": [
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 33,
-          "position": 89.4
+          "impressions": 29,
+          "position": 89.1
         },
         {
           "query": "suitable candidate for trt",
@@ -81,9 +81,9 @@
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 41,
-          "page_impressions": 48,
-          "page_position": 73.3
+          "family_impressions": 37,
+          "page_impressions": 44,
+          "page_position": 71.7
         }
       ],
       "rank": 1,
