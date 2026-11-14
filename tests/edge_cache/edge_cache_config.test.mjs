@@ -67,5 +67,9 @@ test('the deploy workflow applies the rule and purges every zone after Pages dep
   const wf = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'edge_cache.yml'), 'utf8');
   assert.match(wf, /branches:\s*\[\s*main\s*\]/);
   for (const step of ['apply_edge_cache.js rules', 'apply_edge_cache.js wait', 'apply_edge_cache.js purge']) assert.ok(wf.includes(step), `edge_cache.yml is missing: ${step}`);
+  // Bot pushes (GITHUB_TOKEN) never fire `push`, so without a schedule one failed
+  // deploy leaves the lane red, and bot-pushed builds unpurged, until a human pushes.
+  const on = wf.slice(wf.indexOf('\non:'), wf.indexOf('\nconcurrency:'));
+  assert.match(on, /\n  schedule:\n\s+- cron: '[^']+'/, 'edge_cache.yml has no schedule: a bot-pushed main is never re-checked or purged');
   assert.match(wf, /CLOUDFLARE_EDGE_CACHE_TOKEN: \$\{\{ secrets\.CLOUDFLARE_EDGE_CACHE_TOKEN \}\}/);
 });
