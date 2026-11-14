@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "theaccidentguides.com",
-  "gsc_window": "2026-10-14..2026-11-10",
-  "gsc_collected_at": "2026-11-13T13:35:38+00:00",
+  "gsc_window": "2026-10-15..2026-11-11",
+  "gsc_collected_at": "2026-11-14T13:34:57+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,19 +17,19 @@
     {
       "rank": 1,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 1396,
+      "impressions": 1252,
       "status": "strengthened"
     },
     {
       "rank": 2,
       "family": "cost @ /guides/personal-injury-fees-explained/",
-      "impressions": 661,
+      "impressions": 660,
       "status": "strengthened"
     },
     {
       "rank": 3,
       "family": "evidence checklist @ /guides/evidence-checklist-after-an-accident/",
-      "impressions": 75,
+      "impressions": 72,
       "status": "strengthened"
     },
     {
@@ -41,7 +41,7 @@
     {
       "rank": 5,
       "family": "when to call @ /guides/when-to-call-a-personal-injury-lawyer/",
-      "impressions": 65,
+      "impressions": 63,
       "status": "strengthened"
     }
   ],
@@ -53,11 +53,11 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 1396,
+      "impressions": 1252,
       "best_position": 1,
-      "weighted_position": 65.6,
+      "weighted_position": 65.1,
       "top_query": "louisiana personal injury lawyer",
-      "query_count": 353,
+      "query_count": 327,
       "queries": [
         {
           "query": "louisiana personal injury lawyer",
@@ -66,22 +66,16 @@
           "position": 66.4
         },
         {
-          "query": "missouri personal injury lawyer",
-          "route": "/states/MO/",
-          "impressions": 45,
-          "position": 69.5
-        },
-        {
-          "query": "missouri personal injury attorney",
-          "route": "/states/MO/",
-          "impressions": 44,
-          "position": 74.4
-        },
-        {
           "query": "personal injury lawyer louisiana",
           "route": "/states/LA/",
           "impressions": 31,
           "position": 56
+        },
+        {
+          "query": "missouri personal injury lawyer",
+          "route": "/states/MO/",
+          "impressions": 29,
+          "position": 67.4
         },
         {
           "query": "wyoming personal injury lawyer",
@@ -90,22 +84,22 @@
           "position": 53.8
         },
         {
-          "query": "personal injury lawyer in louisiana",
-          "route": "/states/LA/",
-          "impressions": 25,
-          "position": 55.4
-        },
-        {
-          "query": "personal injury lawyer in missouri",
-          "route": "/states/MO/",
-          "impressions": 24,
-          "position": 70.3
-        },
-        {
           "query": "colorado personal injury attorney",
           "route": "/states/CO/",
           "impressions": 22,
           "position": 78.5
+        },
+        {
+          "query": "missouri personal injury attorney",
+          "route": "/states/MO/",
+          "impressions": 20,
+          "position": 74.2
+        },
+        {
+          "query": "personal injury lawyer in louisiana",
+          "route": "/states/LA/",
+          "impressions": 20,
+          "position": 54.4
         },
         {
           "query": "delaware personal injury",
@@ -120,22 +114,16 @@
           "position": 62
         },
         {
-          "query": "nebraska personal injury lawyer",
-          "route": "/states/NE/",
-          "impressions": 18,
-          "position": 61.3
-        },
-        {
           "query": "louisiana personal injury attorney",
           "route": "/states/LA/",
           "impressions": 17,
           "position": 58.4
         },
         {
-          "query": "personal injury attorney",
-          "route": "/states/WV/",
-          "impressions": 15,
-          "position": 53.9
+          "query": "nebraska personal injury lawyer",
+          "route": "/states/NE/",
+          "impressions": 17,
+          "position": 61.1
         },
         {
           "query": "wyoming personal injury attorney",
@@ -144,34 +132,10 @@
           "position": 58.2
         },
         {
-          "query": "accident attorney sd",
-          "route": "/states/SD/",
-          "impressions": 14,
-          "position": 74.6
-        },
-        {
           "query": "accident lawyer in louisiana",
           "route": "/states/LA/",
           "impressions": 14,
           "position": 62.7
-        },
-        {
-          "query": "injury lawyer louisiana",
-          "route": "/states/LA/",
-          "impressions": 14,
-          "position": 62.1
-        },
-        {
-          "query": "kansas personal injury attorney",
-          "route": "/states/KS/",
-          "impressions": 14,
-          "position": 73.4
-        },
-        {
-          "query": "personal injury texas",
-          "route": "/states/TX/",
-          "impressions": 14,
-          "position": 77.6
         },
         {
           "query": "texas personal injury law",
@@ -180,10 +144,10 @@
           "position": 72.4
         },
         {
-          "query": "best personal injury lawyer in louisiana",
-          "route": "/states/LA/",
+          "query": "accident attorney sd",
+          "route": "/states/SD/",
           "impressions": 13,
-          "position": 70.8
+          "position": 74.8
         },
         {
           "query": "injury lawyers michigan",
@@ -192,28 +156,40 @@
           "position": 67.3
         },
         {
+          "query": "kansas personal injury attorney",
+          "route": "/states/KS/",
+          "impressions": 13,
+          "position": 72.6
+        },
+        {
           "query": "michigan personal injury law",
           "route": "/states/MI/",
           "impressions": 13,
           "position": 74.1
         },
         {
+          "query": "personal injury texas",
+          "route": "/states/TX/",
+          "impressions": 13,
+          "position": 76.8
+        },
+        {
+          "query": "best personal injury lawyer in louisiana",
+          "route": "/states/LA/",
+          "impressions": 12,
+          "position": 72.7
+        },
+        {
+          "query": "injury lawyer louisiana",
+          "route": "/states/LA/",
+          "impressions": 12,
+          "position": 61.4
+        },
+        {
           "query": "personal injury attorney louisiana",
           "route": "/states/LA/",
           "impressions": 11,
           "position": 60.6
-        },
-        {
-          "query": "how to find a personal injury lawyer",
-          "route": "/states/LA/",
-          "impressions": 10,
-          "position": 69.5
-        },
-        {
-          "query": "indiana personal injury lawyer",
-          "route": "/states/IN/",
-          "impressions": 10,
-          "position": 72
         },
         {
           "query": "louisiana injury attorney",
@@ -228,10 +204,10 @@
           "position": 61.6
         },
         {
-          "query": "personal injury lawyer",
+          "query": "personal injury attorney",
           "route": "/states/WV/",
           "impressions": 10,
-          "position": 44.3
+          "position": 45.4
         },
         {
           "query": "wyoming personal injury lawyers",
@@ -244,6 +220,12 @@
           "route": "/states/SD/",
           "impressions": 9,
           "position": 32.8
+        },
+        {
+          "query": "how to find a personal injury lawyer",
+          "route": "/states/LA/",
+          "impressions": 9,
+          "position": 69.3
         },
         {
           "query": "michigan personal injury lawyer",
@@ -318,24 +300,6 @@
           "position": 95.3
         },
         {
-          "query": "injury attorney",
-          "route": "/states/WV/",
-          "impressions": 7,
-          "position": 48
-        },
-        {
-          "query": "injury lawyer in louisiana",
-          "route": "/states/LA/",
-          "impressions": 7,
-          "position": 42
-        },
-        {
-          "query": "kansas personal injury lawyer",
-          "route": "/states/KS/",
-          "impressions": 7,
-          "position": 68.1
-        },
-        {
           "query": "michigan injury attorneys",
           "route": "/states/MI/",
           "impressions": 7,
@@ -396,22 +360,10 @@
           "position": 88
         },
         {
-          "query": "indiana personal injury attorney",
-          "route": "/states/IN/",
-          "impressions": 6,
-          "position": 78.5
-        },
-        {
           "query": "injury attorney",
           "route": "/states/SD/",
           "impressions": 6,
           "position": 31.8
-        },
-        {
-          "query": "injury attorney in louisiana",
-          "route": "/states/LA/",
-          "impressions": 6,
-          "position": 46.3
         },
         {
           "query": "injury lawyer",
@@ -424,12 +376,6 @@
           "route": "/states/MI/",
           "impressions": 6,
           "position": 61
-        },
-        {
-          "query": "injury lawyers in louisiana",
-          "route": "/states/LA/",
-          "impressions": 6,
-          "position": 40.5
         },
         {
           "query": "kentucy personal injury",
@@ -468,12 +414,6 @@
           "position": 36.7
         },
         {
-          "query": "personal injury attorney in louisiana",
-          "route": "/states/LA/",
-          "impressions": 6,
-          "position": 45.3
-        },
-        {
           "query": "personal injury attorneys in louisiana",
           "route": "/states/LA/",
           "impressions": 6,
@@ -484,12 +424,6 @@
           "route": "/states/WY/",
           "impressions": 6,
           "position": 50.2
-        },
-        {
-          "query": "top louisiana accident lawyer",
-          "route": "/states/LA/",
-          "impressions": 6,
-          "position": 71.2
         },
         {
           "query": "auto accident attorneys missouri",
@@ -516,6 +450,18 @@
           "position": 92
         },
         {
+          "query": "injury attorney",
+          "route": "/states/WV/",
+          "impressions": 5,
+          "position": 48.4
+        },
+        {
+          "query": "injury attorney in louisiana",
+          "route": "/states/LA/",
+          "impressions": 5,
+          "position": 42.2
+        },
+        {
           "query": "injury attorneys",
           "route": "/states/MO/",
           "impressions": 5,
@@ -528,10 +474,28 @@
           "position": 68.8
         },
         {
+          "query": "injury lawyer in louisiana",
+          "route": "/states/LA/",
+          "impressions": 5,
+          "position": 41.2
+        },
+        {
+          "query": "injury lawyers in louisiana",
+          "route": "/states/LA/",
+          "impressions": 5,
+          "position": 40.2
+        },
+        {
           "query": "kansas injury attorneys",
           "route": "/states/KS/",
           "impressions": 5,
           "position": 65.8
+        },
+        {
+          "query": "kansas personal injury lawyer",
+          "route": "/states/KS/",
+          "impressions": 5,
+          "position": 69.8
         },
         {
           "query": "louisiana injury attorneys",
@@ -558,6 +522,12 @@
           "position": 74.2
         },
         {
+          "query": "personal injury attorney in louisiana",
+          "route": "/states/LA/",
+          "impressions": 5,
+          "position": 46
+        },
+        {
           "query": "personal injury attorney in missouri",
           "route": "/states/MO/",
           "impressions": 5,
@@ -576,22 +546,22 @@
           "position": 64.2
         },
         {
+          "query": "personal injury lawyer",
+          "route": "/states/WV/",
+          "impressions": 5,
+          "position": 44
+        },
+        {
           "query": "personal injury michigan",
           "route": "/states/MI/",
           "impressions": 5,
           "position": 55.2
         },
         {
-          "query": "south dakota personal injury attorney",
-          "route": "/states/SD/",
+          "query": "top louisiana accident lawyer",
+          "route": "/states/LA/",
           "impressions": 5,
-          "position": 56.4
-        },
-        {
-          "query": "south dakota personal injury lawyer",
-          "route": "/states/SD/",
-          "impressions": 5,
-          "position": 57.4
+          "position": 76
         },
         {
           "query": "accident lawyer",
@@ -616,6 +586,12 @@
           "route": "/states/MO/",
           "impressions": 4,
           "position": 81.2
+        },
+        {
+          "query": "indiana personal injury attorney",
+          "route": "/states/IN/",
+          "impressions": 4,
+          "position": 78.5
         },
         {
           "query": "injury attorney louisiana",
@@ -646,12 +622,6 @@
           "route": "/states/LA/",
           "impressions": 4,
           "position": 48.8
-        },
-        {
-          "query": "injury lawyer missouri",
-          "route": "/states/MO/",
-          "impressions": 4,
-          "position": 66.2
         },
         {
           "query": "injury lawyers in texas",
@@ -706,12 +676,6 @@
           "route": "/states/MO/",
           "impressions": 4,
           "position": 81
-        },
-        {
-          "query": "north dakota personal injury laws",
-          "route": "/states/ND/",
-          "impressions": 4,
-          "position": 69
         },
         {
           "query": "personal injury attorneys in michigan",
@@ -786,12 +750,6 @@
           "position": 87.7
         },
         {
-          "query": "best injury attorneys in louisiana",
-          "route": "/states/LA/",
-          "impressions": 3,
-          "position": 30.7
-        },
-        {
           "query": "best personal injury lawyers louisiana",
           "route": "/states/LA/",
           "impressions": 3,
@@ -846,6 +804,12 @@
           "position": 73.7
         },
         {
+          "query": "indiana personal injury lawyer",
+          "route": "/states/IN/",
+          "impressions": 3,
+          "position": 71.7
+        },
+        {
           "query": "injury attorney delaware",
           "route": "/states/DE/",
           "impressions": 3,
@@ -856,6 +820,12 @@
           "route": "/states/MI/",
           "impressions": 3,
           "position": 76.7
+        },
+        {
+          "query": "injury lawyer missouri",
+          "route": "/states/MO/",
+          "impressions": 3,
+          "position": 67
         },
         {
           "query": "louisiana serious injury lawyer",
@@ -888,6 +858,12 @@
           "position": 96
         },
         {
+          "query": "north dakota personal injury laws",
+          "route": "/states/ND/",
+          "impressions": 3,
+          "position": 71
+        },
+        {
           "query": "personal injury attorney wyoming",
           "route": "/states/WY/",
           "impressions": 3,
@@ -910,6 +886,18 @@
           "route": "/states/MT/",
           "impressions": 3,
           "position": 64
+        },
+        {
+          "query": "south dakota personal injury attorney",
+          "route": "/states/SD/",
+          "impressions": 3,
+          "position": 49.7
+        },
+        {
+          "query": "south dakota personal injury lawyer",
+          "route": "/states/SD/",
+          "impressions": 3,
+          "position": 51.7
         },
         {
           "query": "accident attorney",
@@ -942,12 +930,6 @@
           "position": 9
         },
         {
-          "query": "alabama personal injury",
-          "route": "/states/AL/",
-          "impressions": 2,
-          "position": 97.5
-        },
-        {
           "query": "attorney for personal injury",
           "route": "/states/MO/",
           "impressions": 2,
@@ -964,6 +946,12 @@
           "route": "/states/LA/",
           "impressions": 2,
           "position": 42
+        },
+        {
+          "query": "best injury attorneys in louisiana",
+          "route": "/states/LA/",
+          "impressions": 2,
+          "position": 29.5
         },
         {
           "query": "best personal injury attorneys louisiana",
@@ -1068,12 +1056,6 @@
           "position": 52.5
         },
         {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/LA/",
-          "impressions": 2,
-          "position": 78.5
-        },
-        {
           "query": "how to pick a personal injury lawyer in new york",
           "route": "/states/NY/",
           "impressions": 2,
@@ -1084,12 +1066,6 @@
           "route": "/states/NY/",
           "impressions": 2,
           "position": 77
-        },
-        {
-          "query": "indiana injury lawyer",
-          "route": "/states/IN/",
-          "impressions": 2,
-          "position": 55.5
         },
         {
           "query": "injury attorney in south dakota",
@@ -1126,12 +1102,6 @@
           "route": "/states/KY/",
           "impressions": 2,
           "position": 79.5
-        },
-        {
-          "query": "louisiana personal injury",
-          "route": "/states/LA/",
-          "impressions": 2,
-          "position": 89.5
         },
         {
           "query": "michigan injury lawyers",
@@ -1218,12 +1188,6 @@
           "position": 72
         },
         {
-          "query": "personal injury louisiana",
-          "route": "/states/LA/",
-          "impressions": 2,
-          "position": 90
-        },
-        {
           "query": "south dakota accident lawyer",
           "route": "/states/SD/",
           "impressions": 2,
@@ -1240,12 +1204,6 @@
           "route": "/states/SD/",
           "impressions": 2,
           "position": 48.5
-        },
-        {
-          "query": "south dakota personal injury laws",
-          "route": "/states/SD/",
-          "impressions": 2,
-          "position": 68.5
         },
         {
           "query": "top personal injury lawyer",
@@ -1326,16 +1284,16 @@
           "position": 94
         },
         {
+          "query": "alabama personal injury",
+          "route": "/states/AL/",
+          "impressions": 1,
+          "position": 98
+        },
+        {
           "query": "alabama personal injury attorney",
           "route": "/states/AL/",
           "impressions": 1,
           "position": 86
-        },
-        {
-          "query": "alabama personal injury law",
-          "route": "/states/AL/",
-          "impressions": 1,
-          "position": 94
         },
         {
           "query": "alaska personal injury laws",
@@ -1378,18 +1336,6 @@
           "route": "/states/LA/",
           "impressions": 1,
           "position": 32
-        },
-        {
-          "query": "best louisiana personal injury law firm",
-          "route": "/states/LA/",
-          "impressions": 1,
-          "position": 36
-        },
-        {
-          "query": "best louisiana personal injury lawyer",
-          "route": "/states/LA/",
-          "impressions": 1,
-          "position": 35
         },
         {
           "query": "best personal injury attorney",
@@ -1579,105 +1525,21 @@
         },
         {
           "query": "how to get on personal injury attorney lists",
-          "route": "/states/AL/",
+          "route": "/states/LA/",
           "impressions": 1,
-          "position": 92
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/CO/",
-          "impressions": 1,
-          "position": 97
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/DE/",
-          "impressions": 1,
-          "position": 96
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/HI/",
-          "impressions": 1,
-          "position": 99
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/IN/",
-          "impressions": 1,
-          "position": 32
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/KY/",
-          "impressions": 1,
-          "position": 95
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/MD/",
-          "impressions": 1,
-          "position": 78
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/MI/",
-          "impressions": 1,
-          "position": 52
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/MN/",
-          "impressions": 1,
-          "position": 93
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/MO/",
-          "impressions": 1,
-          "position": 82
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/NE/",
-          "impressions": 1,
-          "position": 94
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/NJ/",
-          "impressions": 1,
-          "position": 100
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/NV/",
-          "impressions": 1,
-          "position": 86
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/NY/",
-          "impressions": 1,
-          "position": 98
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/OR/",
-          "impressions": 1,
-          "position": 73
-        },
-        {
-          "query": "how to get on personal injury attorney lists",
-          "route": "/states/TN/",
-          "impressions": 1,
-          "position": 62
+          "position": 68
         },
         {
           "query": "how to hire a personal injury lawyer",
           "route": "/states/AL/",
           "impressions": 1,
           "position": 93
+        },
+        {
+          "query": "indiana injury lawyer",
+          "route": "/states/IN/",
+          "impressions": 1,
+          "position": 74
         },
         {
           "query": "indiana injury lawyers",
@@ -1708,12 +1570,6 @@
           "route": "/states/WV/",
           "impressions": 1,
           "position": 75
-        },
-        {
-          "query": "injury attorney wv",
-          "route": "/states/WV/",
-          "impressions": 1,
-          "position": 71
         },
         {
           "query": "injury attorneys in west virginia",
@@ -1788,12 +1644,6 @@
           "position": 43
         },
         {
-          "query": "injury lawyers west virginia",
-          "route": "/states/WV/",
-          "impressions": 1,
-          "position": 66
-        },
-        {
           "query": "lawyers for car accident",
           "route": "/states/MO/",
           "impressions": 1,
@@ -1822,6 +1672,12 @@
           "route": "/states/LA/",
           "impressions": 1,
           "position": 86
+        },
+        {
+          "query": "louisiana personal injury",
+          "route": "/states/LA/",
+          "impressions": 1,
+          "position": 90
         },
         {
           "query": "maryland navigating accident lawyers",
@@ -1914,12 +1770,6 @@
           "position": 55
         },
         {
-          "query": "personal injury attorneys in kansas",
-          "route": "/states/KS/",
-          "impressions": 1,
-          "position": 70
-        },
-        {
           "query": "personal injury attorneys in west virginia",
           "route": "/states/WV/",
           "impressions": 1,
@@ -1930,12 +1780,6 @@
           "route": "/states/CO/",
           "impressions": 1,
           "position": 91
-        },
-        {
-          "query": "personal injury hawaii",
-          "route": "/states/HI/",
-          "impressions": 1,
-          "position": 82
         },
         {
           "query": "personal injury investigation nevada",
@@ -1978,6 +1822,12 @@
           "route": "/states/CO/",
           "impressions": 1,
           "position": 53
+        },
+        {
+          "query": "personal injury lawyer in missouri",
+          "route": "/states/MO/",
+          "impressions": 1,
+          "position": 68
         },
         {
           "query": "personal injury lawyer in south dakota",
@@ -2076,16 +1926,16 @@
           "position": 51
         },
         {
+          "query": "south dakota personal injury laws",
+          "route": "/states/SD/",
+          "impressions": 1,
+          "position": 69
+        },
+        {
           "query": "south dakota personal injury lawyers",
           "route": "/states/SD/",
           "impressions": 1,
           "position": 55
-        },
-        {
-          "query": "stephen new and associates",
-          "route": "/states/WV/",
-          "impressions": 1,
-          "position": 59
         },
         {
           "query": "tennessee personal injury attorney",
@@ -2142,12 +1992,6 @@
           "position": 65
         },
         {
-          "query": "west virginia injury lawyers",
-          "route": "/states/WV/",
-          "impressions": 1,
-          "position": 67
-        },
-        {
           "query": "west virginia personal injury lawyer",
           "route": "/states/WV/",
           "impressions": 1,
@@ -2181,33 +2025,33 @@
       "pages": [
         {
           "route": "/states/LA/",
-          "family_impressions": 404,
-          "page_impressions": 406,
-          "page_position": 61.7
+          "family_impressions": 382,
+          "page_impressions": 384,
+          "page_position": 61.9
         },
         {
           "route": "/states/MO/",
-          "family_impressions": 225,
-          "page_impressions": 225,
-          "page_position": 71.5
-        },
-        {
-          "route": "/states/SD/",
-          "family_impressions": 119,
-          "page_impressions": 120,
-          "page_position": 53.7
+          "family_impressions": 160,
+          "page_impressions": 160,
+          "page_position": 71
         },
         {
           "route": "/states/MI/",
-          "family_impressions": 115,
-          "page_impressions": 122,
-          "page_position": 68.2
+          "family_impressions": 114,
+          "page_impressions": 121,
+          "page_position": 68.3
+        },
+        {
+          "route": "/states/SD/",
+          "family_impressions": 113,
+          "page_impressions": 114,
+          "page_position": 53
         },
         {
           "route": "/states/DE/",
-          "family_impressions": 81,
-          "page_impressions": 82,
-          "page_position": 81.2
+          "family_impressions": 80,
+          "page_impressions": 81,
+          "page_position": 81
         },
         {
           "route": "/states/WY/",
@@ -2216,52 +2060,46 @@
           "page_position": 54.5
         },
         {
-          "route": "/states/WV/",
-          "family_impressions": 65,
-          "page_impressions": 66,
-          "page_position": 53.8
+          "route": "/states/KS/",
+          "family_impressions": 50,
+          "page_impressions": 53,
+          "page_position": 65
         },
         {
-          "route": "/states/KS/",
-          "family_impressions": 54,
-          "page_impressions": 58,
-          "page_position": 64.5
+          "route": "/states/WV/",
+          "family_impressions": 49,
+          "page_impressions": 50,
+          "page_position": 52.3
         },
         {
           "route": "/states/CO/",
-          "family_impressions": 44,
-          "page_impressions": 45,
-          "page_position": 77.9
+          "family_impressions": 43,
+          "page_impressions": 44,
+          "page_position": 77.5
         },
         {
           "route": "/states/TX/",
-          "family_impressions": 44,
-          "page_impressions": 45,
-          "page_position": 71.6
+          "family_impressions": 43,
+          "page_impressions": 44,
+          "page_position": 71.3
         },
         {
           "route": "/states/NE/",
-          "family_impressions": 27,
-          "page_impressions": 29,
-          "page_position": 54.7
+          "family_impressions": 25,
+          "page_impressions": 27,
+          "page_position": 52.9
         },
         {
           "route": "/states/NY/",
-          "family_impressions": 23,
-          "page_impressions": 24,
-          "page_position": 73
-        },
-        {
-          "route": "/states/IN/",
           "family_impressions": 22,
-          "page_impressions": 28,
-          "page_position": 70
+          "page_impressions": 23,
+          "page_position": 71.9
         },
         {
           "route": "/states/KY/",
-          "family_impressions": 17,
-          "page_impressions": 17,
-          "page_position": 74.9
+          "family_impressions": 16,
+          "page_impressions": 16,
+          "page_position": 73.7
         },
         {
           "route": "/states/RI/",
@@ -2270,28 +2108,28 @@
           "page_position": 61.8
         },
         {
+          "route": "/states/IN/",
+          "family_impressions": 11,
+          "page_impressions": 16,
+          "page_position": 72.8
+        },
+        {
           "route": "/states/AL/",
-          "family_impressions": 13,
-          "page_impressions": 18,
-          "page_position": 69.3
+          "family_impressions": 10,
+          "page_impressions": 15,
+          "page_position": 64.3
         },
         {
           "route": "/states/NV/",
-          "family_impressions": 10,
-          "page_impressions": 10,
-          "page_position": 70.3
+          "family_impressions": 9,
+          "page_impressions": 9,
+          "page_position": 68.6
         },
         {
           "route": "/states/ND/",
-          "family_impressions": 8,
-          "page_impressions": 12,
-          "page_position": 70.2
-        },
-        {
-          "route": "/states/HI/",
           "family_impressions": 7,
-          "page_impressions": 12,
-          "page_position": 39.7
+          "page_impressions": 11,
+          "page_position": 70.8
         },
         {
           "route": "/states/AK/",
@@ -2300,16 +2138,16 @@
           "page_position": 50
         },
         {
-          "route": "/states/MD/",
+          "route": "/states/HI/",
           "family_impressions": 5,
-          "page_impressions": 8,
-          "page_position": 63
+          "page_impressions": 10,
+          "page_position": 29.5
         },
         {
-          "route": "/states/NJ/",
+          "route": "/states/MD/",
           "family_impressions": 4,
-          "page_impressions": 5,
-          "page_position": 71.8
+          "page_impressions": 7,
+          "page_position": 60.9
         },
         {
           "route": "/states/WI/",
@@ -2324,22 +2162,22 @@
           "page_position": 64
         },
         {
+          "route": "/states/NJ/",
+          "family_impressions": 3,
+          "page_impressions": 4,
+          "page_position": 64.8
+        },
+        {
           "route": "/states/OR/",
-          "family_impressions": 2,
-          "page_impressions": 6,
-          "page_position": 30.5
+          "family_impressions": 1,
+          "page_impressions": 5,
+          "page_position": 22
         },
         {
           "route": "/states/TN/",
-          "family_impressions": 2,
-          "page_impressions": 3,
-          "page_position": 43.7
-        },
-        {
-          "route": "/states/MN/",
           "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 93
+          "page_impressions": 2,
+          "page_position": 34.5
         }
       ],
       "rank": 1,
@@ -2350,21 +2188,20 @@
       "strengthened_pages": [
         "/states/LA/",
         "/states/MO/",
-        "/states/SD/",
         "/states/MI/",
+        "/states/SD/",
         "/states/DE/",
         "/states/WY/",
-        "/states/WV/",
         "/states/KS/",
+        "/states/WV/",
         "/states/CO/",
         "/states/TX/",
         "/states/NE/",
         "/states/NY/",
-        "/states/IN/",
         "/states/KY/",
         "/states/RI/",
-        "/states/AL/",
-        "/states/NV/"
+        "/states/IN/",
+        "/states/AL/"
       ],
       "status": "strengthened",
       "reason": "data/page_sets/examples/pi_v1.json search_strengthening.state_hub"
@@ -2376,9 +2213,9 @@
       "page": "/guides/personal-injury-fees-explained/",
       "page_kind": "guide",
       "page_intent": "cost",
-      "impressions": 661,
+      "impressions": 660,
       "best_position": 50,
-      "weighted_position": 68.4,
+      "weighted_position": 68.3,
       "top_query": "how much does a personal injury lawyer cost",
       "query_count": 60,
       "queries": [
@@ -2391,8 +2228,8 @@
         {
           "query": "what do personal injury lawyers charge",
           "route": "/guides/personal-injury-fees-explained/",
-          "impressions": 42,
-          "position": 85.4
+          "impressions": 41,
+          "position": 85.5
         },
         {
           "query": "how much do personal injury lawyers charge",
@@ -2746,8 +2583,8 @@
       "pages": [
         {
           "route": "/guides/personal-injury-fees-explained/",
-          "family_impressions": 661,
-          "page_impressions": 746,
+          "family_impressions": 660,
+          "page_impressions": 745,
           "page_position": 69
         }
       ],
@@ -2769,29 +2606,29 @@
       "page": "/guides/evidence-checklist-after-an-accident/",
       "page_kind": "guide",
       "page_intent": "evidence_checklist",
-      "impressions": 75,
+      "impressions": 72,
       "best_position": 41,
-      "weighted_position": 66.2,
+      "weighted_position": 66.1,
       "top_query": "accident evidence checklist",
       "query_count": 7,
       "queries": [
         {
           "query": "accident evidence checklist",
           "route": "/guides/evidence-checklist-after-an-accident/",
-          "impressions": 27,
-          "position": 55
-        },
-        {
-          "query": "personal injury evidence checklist",
-          "route": "/guides/evidence-checklist-after-an-accident/",
-          "impressions": 18,
-          "position": 77.5
+          "impressions": 26,
+          "position": 55.4
         },
         {
           "query": "car accident evidence checklist virginia",
           "route": "/guides/evidence-checklist-after-an-accident/",
           "impressions": 16,
           "position": 68.2
+        },
+        {
+          "query": "personal injury evidence checklist",
+          "route": "/guides/evidence-checklist-after-an-accident/",
+          "impressions": 16,
+          "position": 77.1
         },
         {
           "query": "hampton roads crash evidence checklist",
@@ -2821,9 +2658,9 @@
       "pages": [
         {
           "route": "/guides/evidence-checklist-after-an-accident/",
-          "family_impressions": 75,
-          "page_impressions": 80,
-          "page_position": 66.2
+          "family_impressions": 72,
+          "page_impressions": 77,
+          "page_position": 66.1
         }
       ],
       "rank": 3,
@@ -2903,7 +2740,7 @@
         {
           "route": "/guides/personal-injury-fees-explained/",
           "family_impressions": 69,
-          "page_impressions": 746,
+          "page_impressions": 745,
           "page_position": 69
         }
       ],
@@ -2923,9 +2760,9 @@
       "page": "/guides/when-to-call-a-personal-injury-lawyer/",
       "page_kind": "guide",
       "page_intent": "when_to_call",
-      "impressions": 65,
-      "best_position": 49.8,
-      "weighted_position": 62,
+      "impressions": 63,
+      "best_position": 50,
+      "weighted_position": 62.2,
       "top_query": "when to contact a personal injury lawyer",
       "query_count": 6,
       "queries": [
@@ -2938,8 +2775,8 @@
         {
           "query": "when to call a personal injury lawyer",
           "route": "/guides/when-to-call-a-personal-injury-lawyer/",
-          "impressions": 18,
-          "position": 58.2
+          "impressions": 17,
+          "position": 58.1
         },
         {
           "query": "when should i contact a personal injury lawyer",
@@ -2950,8 +2787,8 @@
         {
           "query": "when is the best time to contact a personal injury attorney",
           "route": "/guides/when-to-call-a-personal-injury-lawyer/",
-          "impressions": 5,
-          "position": 49.8
+          "impressions": 4,
+          "position": 50
         },
         {
           "query": "when should you contact a personal injury lawyer",
@@ -2969,9 +2806,9 @@
       "pages": [
         {
           "route": "/guides/when-to-call-a-personal-injury-lawyer/",
-          "family_impressions": 65,
-          "page_impressions": 68,
-          "page_position": 62
+          "family_impressions": 63,
+          "page_impressions": 66,
+          "page_position": 62.3
         }
       ],
       "rank": 5,
@@ -2992,7 +2829,7 @@
       "page": "/guides/questions-to-ask-a-personal-injury-lawyer/",
       "page_kind": "guide",
       "page_intent": "questions_to_ask",
-      "impressions": 49,
+      "impressions": 39,
       "best_position": 93,
       "weighted_position": 97.5,
       "top_query": "questions to ask personal injury lawyer",
@@ -3001,32 +2838,26 @@
         {
           "query": "questions to ask personal injury lawyer",
           "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
-          "impressions": 13,
+          "impressions": 12,
           "position": 97.2
         },
         {
           "query": "questions to ask a personal injury lawyer",
           "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
-          "impressions": 11,
+          "impressions": 9,
           "position": 98.3
         },
         {
           "query": "questions for personal injury lawyer",
           "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
-          "impressions": 8,
-          "position": 97.4
-        },
-        {
-          "query": "accident lawyer questions",
-          "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
-          "impressions": 5,
-          "position": 97.2
+          "impressions": 7,
+          "position": 97.7
         },
         {
           "query": "questions to ask personal injury attorney",
           "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
-          "impressions": 4,
-          "position": 98.2
+          "impressions": 2,
+          "position": 98
         },
         {
           "query": "questions to ask your personal injury attorney",
@@ -3039,6 +2870,12 @@
           "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
           "impressions": 2,
           "position": 95.5
+        },
+        {
+          "query": "accident lawyer questions",
+          "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
+          "impressions": 1,
+          "position": 95
         },
         {
           "query": "personal injury lawyer questions",
@@ -3068,9 +2905,9 @@
       "pages": [
         {
           "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
-          "family_impressions": 49,
-          "page_impressions": 53,
-          "page_position": 96.8
+          "family_impressions": 39,
+          "page_impressions": 43,
+          "page_position": 96.6
         }
       ],
       "rank": 6,
@@ -3175,8 +3012,8 @@
         {
           "route": "/states/MI/",
           "family_impressions": 6,
-          "page_impressions": 122,
-          "page_position": 68.2
+          "page_impressions": 121,
+          "page_position": 68.3
         },
         {
           "route": "/states/SC/",
@@ -3187,8 +3024,8 @@
         {
           "route": "/states/CO/",
           "family_impressions": 1,
-          "page_impressions": 45,
-          "page_position": 77.9
+          "page_impressions": 44,
+          "page_position": 77.5
         }
       ],
       "rank": 8,
@@ -3292,8 +3129,8 @@
         {
           "route": "/guides/when-to-call-a-personal-injury-lawyer/",
           "family_impressions": 3,
-          "page_impressions": 68,
-          "page_position": 62
+          "page_impressions": 66,
+          "page_position": 62.3
         }
       ],
       "rank": 11,
@@ -3302,47 +3139,6 @@
       "strengthened_pages": [],
       "status": "not_top_family",
       "reason": "rank 11 of 16 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "evidence checklist @ /guides/motorcycle-accidents/",
-      "intent": "evidence_checklist",
-      "head_term": "evidence checklist",
-      "page": "/guides/motorcycle-accidents/",
-      "page_kind": "guide",
-      "page_intent": "topic:motorcycle-accidents",
-      "impressions": 3,
-      "best_position": 79.5,
-      "weighted_position": 84,
-      "top_query": "evidence in accident claims motorcycle",
-      "query_count": 2,
-      "queries": [
-        {
-          "query": "evidence in accident claims motorcycle",
-          "route": "/guides/motorcycle-accidents/",
-          "impressions": 2,
-          "position": 79.5
-        },
-        {
-          "query": "motorcycle accident evidence",
-          "route": "/guides/motorcycle-accidents/",
-          "impressions": 1,
-          "position": 93
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/motorcycle-accidents/",
-          "family_impressions": 3,
-          "page_impressions": 3,
-          "page_position": 84
-        }
-      ],
-      "rank": 12,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 12 of 16 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /guides/questions-to-ask-a-personal-injury-lawyer/",
@@ -3374,16 +3170,16 @@
         {
           "route": "/guides/questions-to-ask-a-personal-injury-lawyer/",
           "family_impressions": 2,
-          "page_impressions": 53,
-          "page_position": 96.8
+          "page_impressions": 43,
+          "page_position": 96.6
         }
       ],
-      "rank": 13,
+      "rank": 12,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 13 of 16 by impressions; no page at position <= 15"
+      "reason": "rank 12 of 16 by impressions; no page at position <= 15"
     },
     {
       "family": "comparison @ /states/{STATE}/",
@@ -3409,8 +3205,49 @@
         {
           "route": "/states/IN/",
           "family_impressions": 2,
-          "page_impressions": 28,
-          "page_position": 70
+          "page_impressions": 16,
+          "page_position": 72.8
+        }
+      ],
+      "rank": 13,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 13 of 16 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "evidence checklist @ /guides/motorcycle-accidents/",
+      "intent": "evidence_checklist",
+      "head_term": "evidence checklist",
+      "page": "/guides/motorcycle-accidents/",
+      "page_kind": "guide",
+      "page_intent": "topic:motorcycle-accidents",
+      "impressions": 2,
+      "best_position": 83,
+      "weighted_position": 88,
+      "top_query": "evidence in accident claims motorcycle",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "evidence in accident claims motorcycle",
+          "route": "/guides/motorcycle-accidents/",
+          "impressions": 1,
+          "position": 83
+        },
+        {
+          "query": "motorcycle accident evidence",
+          "route": "/guides/motorcycle-accidents/",
+          "impressions": 1,
+          "position": 93
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/motorcycle-accidents/",
+          "family_impressions": 2,
+          "page_impressions": 2,
+          "page_position": 88
         }
       ],
       "rank": 14,
@@ -3444,7 +3281,7 @@
         {
           "route": "/guides/personal-injury-fees-explained/",
           "family_impressions": 1,
-          "page_impressions": 746,
+          "page_impressions": 745,
           "page_position": 69
         }
       ],
@@ -3479,8 +3316,8 @@
         {
           "route": "/states/AL/",
           "family_impressions": 1,
-          "page_impressions": 18,
-          "page_position": 69.3
+          "page_impressions": 15,
+          "page_position": 64.3
         }
       ],
       "rank": 16,
