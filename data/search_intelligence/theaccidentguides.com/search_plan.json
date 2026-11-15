@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "theaccidentguides.com",
-  "gsc_window": "2026-10-15..2026-11-11",
+  "gsc_window": "2026-10-16..2026-11-12",
   "totals": {
     "clicks": 1,
-    "impressions": 2282,
+    "impressions": 2807,
     "ctr": 0.0004,
-    "position": 65.9
+    "position": 65.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 1252,
+      "family_impressions": 1766,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 384,
+      "impressions": 470,
       "clicks": 0,
-      "position": 61.9,
+      "position": 62.4,
       "strengthened": true
     },
     {
@@ -29,37 +29,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 1252,
+      "family_impressions": 1766,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 160,
+      "impressions": 284,
       "clicks": 0,
-      "position": 71,
-      "strengthened": true
-    },
-    {
-      "route": "/states/MI/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 1252,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 121,
-      "clicks": 0,
-      "position": 68.3,
-      "strengthened": true
-    },
-    {
-      "route": "/states/SD/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 1252,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 114,
-      "clicks": 0,
-      "position": 53,
+      "position": 65.4,
       "strengthened": true
     },
     {
@@ -68,50 +42,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 1252,
+      "family_impressions": 1766,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 81,
+      "impressions": 189,
       "clicks": 0,
-      "position": 81,
+      "position": 79.5,
       "strengthened": true
     },
     {
-      "route": "/states/WY/",
+      "route": "/states/SD/",
       "family": "choose a provider @ /states/{STATE}/",
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 1252,
+      "family_impressions": 1766,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 78,
+      "impressions": 138,
       "clicks": 0,
-      "position": 54.5,
-      "strengthened": true
-    },
-    {
-      "route": "/states/KS/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 1252,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 53,
-      "clicks": 0,
-      "position": 65,
-      "strengthened": true
-    },
-    {
-      "route": "/states/WV/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 1252,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 50,
-      "clicks": 0,
-      "position": 52.3,
+      "position": 52.6,
       "strengthened": true
     },
     {
@@ -120,11 +68,63 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 1252,
+      "family_impressions": 1766,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 44,
+      "impressions": 128,
       "clicks": 0,
-      "position": 77.5,
+      "position": 64.7,
+      "strengthened": true
+    },
+    {
+      "route": "/states/MI/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 135,
+      "clicks": 0,
+      "position": 67.4,
+      "strengthened": true
+    },
+    {
+      "route": "/states/WY/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 90,
+      "clicks": 0,
+      "position": 55.1,
+      "strengthened": true
+    },
+    {
+      "route": "/states/KS/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 60,
+      "clicks": 0,
+      "position": 64.9,
+      "strengthened": true
+    },
+    {
+      "route": "/states/WV/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 49,
+      "clicks": 0,
+      "position": 52.2,
       "strengthened": true
     },
     {
@@ -133,63 +133,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 1252,
+      "family_impressions": 1766,
       "source": "data/page_sets/examples/pi_v1.json",
       "impressions": 44,
       "clicks": 0,
-      "position": 71.3,
-      "strengthened": true
-    },
-    {
-      "route": "/states/NE/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 1252,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 27,
-      "clicks": 0,
-      "position": 52.9,
-      "strengthened": true
-    },
-    {
-      "route": "/states/NY/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 1252,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 23,
-      "clicks": 0,
-      "position": 71.9,
-      "strengthened": true
-    },
-    {
-      "route": "/states/KY/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 1252,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 16,
-      "clicks": 0,
-      "position": 73.7,
-      "strengthened": true
-    },
-    {
-      "route": "/states/RI/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 1252,
-      "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 15,
-      "clicks": 0,
-      "position": 61.8,
+      "position": 69,
       "strengthened": true
     },
     {
@@ -198,11 +146,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 1252,
+      "family_impressions": 1766,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 16,
+      "impressions": 40,
       "clicks": 0,
-      "position": 72.8,
+      "position": 68.7,
+      "strengthened": true
+    },
+    {
+      "route": "/states/NE/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 31,
+      "clicks": 0,
+      "position": 53.9,
       "strengthened": true
     },
     {
@@ -211,11 +172,63 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 1252,
+      "family_impressions": 1766,
       "source": "data/page_sets/examples/pi_v1.json",
-      "impressions": 15,
+      "impressions": 32,
       "clicks": 0,
-      "position": 64.3,
+      "position": 61.8,
+      "strengthened": true
+    },
+    {
+      "route": "/states/NY/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 27,
+      "clicks": 0,
+      "position": 67.7,
+      "strengthened": true
+    },
+    {
+      "route": "/states/KY/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 22,
+      "clicks": 0,
+      "position": 69.5,
+      "strengthened": true
+    },
+    {
+      "route": "/states/ND/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 18,
+      "clicks": 0,
+      "position": 71.8,
+      "strengthened": true
+    },
+    {
+      "route": "/states/RI/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 1766,
+      "source": "data/page_sets/examples/pi_v1.json",
+      "impressions": 13,
+      "clicks": 0,
+      "position": 60.6,
       "strengthened": true
     },
     {
@@ -226,7 +239,7 @@
       ],
       "family_impressions": 660,
       "source": "data/page_sets/examples/pi_global_pages/personal-injury-fees-explained.json",
-      "impressions": 745,
+      "impressions": 753,
       "clicks": 1,
       "position": 69,
       "strengthened": true
@@ -237,11 +250,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 72,
+      "family_impressions": 75,
       "source": "data/page_sets/examples/pi_global_pages/evidence-checklist-after-an-accident.json",
-      "impressions": 77,
+      "impressions": 80,
       "clicks": 0,
-      "position": 66.1,
+      "position": 65.2,
       "strengthened": true
     },
     {
@@ -262,17 +275,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 164,
-      "Discovered - currently not indexed": 21,
-      "Duplicate, Google chose different canonical than user": 1,
-      "Submitted and indexed": 61,
-      "URL is unknown to Google": 13
+      "Discovered - currently not indexed": 23,
+      "Submitted and indexed": 62,
+      "URL is unknown to Google": 11
     },
     "buckets": {
       "crawled_not_indexed": 164,
-      "discovered_not_indexed": 21,
-      "indexed": 61,
-      "other": 1,
-      "unknown": 13
+      "discovered_not_indexed": 23,
+      "indexed": 62,
+      "unknown": 11
     }
   }
 }
