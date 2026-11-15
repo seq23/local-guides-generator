@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-15..2026-11-11",
-  "gsc_collected_at": "2026-11-14T13:50:19+00:00",
+  "gsc_window": "2026-10-16..2026-11-12",
+  "gsc_collected_at": "2026-11-15T13:50:21+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 8,
+  "target_count": 7,
   "targets_by_source": {
     "measured_demand": 2,
-    "gsc_export": 6
+    "gsc_export": 5
   },
   "dropped_count": 0,
   "dropped": [],
@@ -37,27 +37,6 @@
       "owner_route": "/guides/citizenship-test/"
     },
     {
-      "query": "uscis civil surgeon",
-      "normalized_query": "uscis civil surgeon",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 90,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-15..2026-11-11"
-      },
-      "owner_route": "/",
-      "other_measurements": [
-        {
-          "metric": "search_volume_monthly",
-          "value": 5400,
-          "source_type": "semrush_keyword_magic"
-        }
-      ]
-    },
-    {
       "query": "uscis immigration exam",
       "normalized_query": "uscis immigration exam",
       "source": "gsc_export",
@@ -67,23 +46,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-15..2026-11-11"
+        "window": "2026-10-16..2026-11-12"
       },
       "owner_route": "/"
-    },
-    {
-      "query": "citizenship test preparation las vegas",
-      "normalized_query": "citizenship test preparation las vegas",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 99,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-15..2026-11-11"
-      },
-      "owner_route": "/states/NV/"
     },
     {
       "query": "i-693 exam cost",
@@ -95,9 +60,30 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-15..2026-11-11"
+        "window": "2026-10-16..2026-11-12"
       },
       "owner_route": "/"
+    },
+    {
+      "query": "uscis civil surgeon",
+      "normalized_query": "uscis civil surgeon",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 87,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-16..2026-11-12"
+      },
+      "owner_route": "/",
+      "other_measurements": [
+        {
+          "metric": "search_volume_monthly",
+          "value": 5400,
+          "source_type": "semrush_keyword_magic"
+        }
+      ]
     },
     {
       "query": "civil surgeon uscis",
@@ -109,7 +95,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-15..2026-11-11"
+        "window": "2026-10-16..2026-11-12"
       },
       "owner_route": "/"
     },
@@ -123,7 +109,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-15..2026-11-11"
+        "window": "2026-10-16..2026-11-12"
       },
       "owner_route": "/"
     }
