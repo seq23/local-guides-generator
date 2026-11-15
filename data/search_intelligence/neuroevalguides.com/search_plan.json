@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-15..2026-11-11",
+  "gsc_window": "2026-10-16..2026-11-12",
   "totals": {
-    "clicks": 2,
-    "impressions": 146,
-    "ctr": 0.0137,
-    "position": 28.8
+    "clicks": 3,
+    "impressions": 160,
+    "ctr": 0.0187,
+    "position": 27.6
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 43,
+      "family_impressions": 47,
       "source": "data/page_sets/examples/neuro_global_pages/guides_fayetteville-adhd-evaluation-testing-options.json",
-      "impressions": 44,
+      "impressions": 51,
       "clicks": 0,
-      "position": 48.2,
+      "position": 45.4,
       "strengthened": false
     },
     {
@@ -31,9 +31,9 @@
       ],
       "family_impressions": 11,
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
-      "impressions": 30,
-      "clicks": 1,
-      "position": 36.6,
+      "impressions": 35,
+      "clicks": 2,
+      "position": 32,
       "strengthened": true
     },
     {
@@ -69,16 +69,16 @@
   ],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 78,
-      "Discovered - currently not indexed": 33,
+      "Crawled - currently not indexed": 77,
+      "Discovered - currently not indexed": 38,
       "Submitted and indexed": 34,
-      "URL is unknown to Google": 51
+      "URL is unknown to Google": 47
     },
     "buckets": {
-      "crawled_not_indexed": 78,
-      "discovered_not_indexed": 33,
+      "crawled_not_indexed": 77,
+      "discovered_not_indexed": 38,
       "indexed": 34,
-      "unknown": 51
+      "unknown": 47
     }
   }
 }

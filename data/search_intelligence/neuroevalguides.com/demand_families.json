@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-15..2026-11-11",
-  "gsc_collected_at": "2026-11-14T13:42:16+00:00",
+  "gsc_window": "2026-10-16..2026-11-12",
+  "gsc_collected_at": "2026-11-15T13:42:10+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "questions to ask @ /guides/fayetteville-adhd-evaluation-testing-options/",
-      "impressions": 43,
+      "impressions": 47,
       "status": "not_strengthened"
     },
     {
@@ -53,17 +53,17 @@
       "page": "/guides/fayetteville-adhd-evaluation-testing-options/",
       "page_kind": "guide",
       "page_intent": "questions_to_ask",
-      "impressions": 43,
-      "best_position": 45.5,
-      "weighted_position": 49.1,
+      "impressions": 47,
+      "best_position": 45.2,
+      "weighted_position": 48.5,
       "top_query": "adhd evaluation in fayetteville",
       "query_count": 2,
       "queries": [
         {
           "query": "adhd evaluation in fayetteville",
           "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
-          "impressions": 39,
-          "position": 45.5
+          "impressions": 43,
+          "position": 45.2
         },
         {
           "query": "adhd testing fayetteville ar",
@@ -75,9 +75,9 @@
       "pages": [
         {
           "route": "/guides/fayetteville-adhd-evaluation-testing-options/",
-          "family_impressions": 43,
-          "page_impressions": 44,
-          "page_position": 48.2
+          "family_impressions": 47,
+          "page_impressions": 51,
+          "page_position": 45.4
         }
       ],
       "rank": 1,
@@ -127,8 +127,8 @@
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
           "family_impressions": 11,
-          "page_impressions": 30,
-          "page_position": 36.6
+          "page_impressions": 35,
+          "page_position": 32
         }
       ],
       "rank": 2,
