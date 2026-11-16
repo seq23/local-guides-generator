@@ -1,39 +1,26 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-16..2026-11-12",
+  "gsc_window": "2026-10-17..2026-11-13",
   "totals": {
     "clicks": 0,
-    "impressions": 120,
+    "impressions": 127,
     "ctr": 0,
-    "position": 63.2
+    "position": 63.9
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
-    {
-      "route": "/guides/who-is-a-good-candidate-for-trt/",
-      "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 35,
-      "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
-      "impressions": 42,
-      "clicks": 0,
-      "position": 70.8,
-      "strengthened": true
-    },
     {
       "route": "/states/WY/",
       "family": "choose a provider @ /states/{STATE}/",
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 33,
+      "family_impressions": 41,
       "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 20,
+      "impressions": 24,
       "clicks": 0,
-      "position": 70.2,
+      "position": 71.2,
       "strengthened": false
     },
     {
@@ -42,12 +29,25 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 33,
+      "family_impressions": 41,
       "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 12,
+      "impressions": 16,
       "clicks": 0,
-      "position": 80,
+      "position": 79.9,
       "strengthened": false
+    },
+    {
+      "route": "/guides/who-is-a-good-candidate-for-trt/",
+      "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 32,
+      "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
+      "impressions": 39,
+      "clicks": 0,
+      "position": 69.2,
+      "strengthened": true
     },
     {
       "route": "/guides/does-insurance-cover-testosterone-therapy/",
@@ -55,11 +55,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 12,
+      "family_impressions": 13,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_does-insurance-cover-testosterone-therapy.json",
-      "impressions": 16,
+      "impressions": 18,
       "clicks": 0,
-      "position": 82.4,
+      "position": 83.1,
       "strengthened": false
     },
     {
@@ -83,18 +83,18 @@
   ],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 74,
-      "Discovered - currently not indexed": 52,
+      "Crawled - currently not indexed": 73,
+      "Discovered - currently not indexed": 36,
       "Duplicate, Google chose different canonical than user": 1,
-      "Submitted and indexed": 32,
-      "URL is unknown to Google": 45
+      "Submitted and indexed": 33,
+      "URL is unknown to Google": 61
     },
     "buckets": {
-      "crawled_not_indexed": 74,
-      "discovered_not_indexed": 52,
-      "indexed": 32,
+      "crawled_not_indexed": 73,
+      "discovered_not_indexed": 36,
+      "indexed": 33,
       "other": 1,
-      "unknown": 45
+      "unknown": 61
     }
   }
 }
