@@ -1,11 +1,11 @@
 {
   "schema": "search-loop-week-v1",
-  "week": "2026-W46",
+  "week": "2026-W47",
   "site": "uscisexam.com",
-  "generated_at": "2026-11-15T15:43:59.250Z",
+  "generated_at": "2026-11-16T15:47:48.755Z",
   "state": "running",
   "published": 0,
-  "indexed": 0,
+  "indexed": "not read: no page old enough to inspect yet (14 days)",
   "pace": 5,
   "ai_visitors": "not read: no day this week was collected",
   "ai_bot_hits": "not read: no day this week was collected",
@@ -15,9 +15,10 @@
   "merged": 0,
   "notes": [
     "canonical side: new pages = missing guides only (velocity builds the daily pages); pace = min(engine pace, cadence 5/week)",
-    "strengthen /guides/fayetteville-adhd-evaluation-testing-options/ failed the gate, left as it was: definition 0 words (40-60); fewer than 2 FAQ",
-    "strengthen /guides/does-insurance-cover-testosterone-therapy/ failed the gate, left as it was: definition 33 words (40-60)"
+    "strengthen /guides/does-insurance-cover-testosterone-therapy/ failed the gate, left as it was: title \"Does Insurance Cover Testosterone Therapy? What Is Published\" is not aligned to \"is trt covered by insurance\"",
+    "uscisexam.com pace: held at 10/day: indexing not read (no loop guide is 14-42 days old yet)",
+    "strengthen /guides/uscis-fees-timelines-and-what-to-ask/ failed the gate, left as it was: definition 0 words (40-60); fewer than 2 FAQ"
   ],
-  "run_url": "https://github.com/seq23/local-guides-generator/actions/runs/43731481052",
+  "run_url": "https://github.com/seq23/local-guides-generator/actions/runs/43900223315",
   "lead_path": "ok"
 }
