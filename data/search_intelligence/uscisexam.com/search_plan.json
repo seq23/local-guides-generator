@@ -1,30 +1,46 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-16..2026-11-12",
+  "gsc_window": "2026-10-17..2026-11-13",
   "totals": {
     "clicks": 0,
-    "impressions": 32,
+    "impressions": 39,
     "ctr": 0,
-    "position": 63.7
+    "position": 66.1
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
-  "strengthening_candidates": [],
-  "not_yet_strengthened": [],
+  "strengthening_candidates": [
+    {
+      "route": "/guides/uscis-fees-timelines-and-what-to-ask/",
+      "family": "cost @ /guides/uscis-fees-timelines-and-what-to-ask/",
+      "basis": [
+        "ranking_page"
+      ],
+      "family_impressions": 1,
+      "source": "data/page_sets/examples/uscis_medical_global_pages/guides_uscis-fees-timelines-and-what-to-ask.json",
+      "impressions": 2,
+      "clicks": 0,
+      "position": 11.5,
+      "strengthened": false
+    }
+  ],
+  "not_yet_strengthened": [
+    "/guides/uscis-fees-timelines-and-what-to-ask/"
+  ],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 36,
-      "Discovered - currently not indexed": 66,
+      "Crawled - currently not indexed": 35,
+      "Discovered - currently not indexed": 61,
       "Duplicate, Google chose different canonical than user": 3,
-      "Submitted and indexed": 27,
-      "URL is unknown to Google": 55
+      "Submitted and indexed": 28,
+      "URL is unknown to Google": 60
     },
     "buckets": {
-      "crawled_not_indexed": 36,
-      "discovered_not_indexed": 66,
-      "indexed": 27,
+      "crawled_not_indexed": 35,
+      "discovered_not_indexed": 61,
+      "indexed": 28,
       "other": 3,
-      "unknown": 55
+      "unknown": 60
     }
   }
 }
