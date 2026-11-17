@@ -90,3 +90,11 @@ test('every accident guide opens with a 40-60 word span that defines its subject
   assert.ok(checked >= 20, `expected 20+ guides opening on their own text, checked ${checked}`);
   assert.deepEqual(bad, []);
 });
+
+test('the opening FAQ is dropped when both curated answers are already printed above it', () => {
+  const entry = { good: 'A written, itemised quote naming every code and every stage.', mistake: 'Treating a figure from a lead-generation site as a benchmark.' };
+  const printed = ['<p>The common mistake: ' + entry.mistake + '</p>', '<li>' + entry.good + '</li>'];
+  assert.equal(openingFaqFromSource('', entry, printed), '');
+  // Negative: with nothing printed above, the curated pair still renders.
+  assert.match(openingFaqFromSource('', entry, []), /data-guide-faq="true"/);
+});

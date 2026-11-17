@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /**
- * Every /guides/<slug>/ page declares a speakable node, and every selector it
+ * Every /guides/<slug>/ page, and the /guides/ hub, declares a speakable node, and every selector it
  * declares resolves in its own markup.
  *
  * WHY: guide pages carry a short-answer block and a citation summary but declared
@@ -71,7 +71,16 @@ function run() {
     throw new Error('GUIDE SPEAKABLE CONTRACT FAIL\n - dist/guides/ has no guide page: nothing was checked, which is not a pass');
   }
   const bad = [];
-  for (const file of pages) {
+  // The /guides/ hub declares its own list (guides_hub_speakable_selectors): the
+  // Monday sample scores it as a guide page, and it had no speakable node.
+  const hubSelectors = registry.guides_hub_speakable_selectors;
+  const hub = path.join(distDir, 'guides', 'index.html');
+  const targets = pages.map((file) => [file, selectors]);
+  if (fs.existsSync(hub)) {
+    if (!Array.isArray(hubSelectors) || hubSelectors.length === 0) bad.push('data/contracts/site_hygiene_registry.json declares no guides_hub_speakable_selectors');
+    else targets.push([hub, hubSelectors]);
+  }
+  for (const [file, selectors] of targets) {
     const rel = path.relative(distDir, file);
     const html = fs.readFileSync(file, 'utf8');
     const declared = jsonLdNodes(html)
@@ -87,7 +96,7 @@ function run() {
     }
   }
   if (bad.length) throw new Error('GUIDE SPEAKABLE CONTRACT FAIL\n' + bad.map((b) => ' - ' + b).join('\n'));
-  console.log(`✅ guide speakable contract pass (${pages.length} guide page(s), ${selectors.length} selector(s))`);
+  console.log(`✅ guide speakable contract pass (${pages.length} guide page(s)${targets.length > pages.length ? ' + the /guides/ hub' : ''}, ${selectors.length} selector(s))`);
 }
 
 if (require.main === module) {
