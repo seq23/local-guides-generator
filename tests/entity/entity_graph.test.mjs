@@ -119,6 +119,25 @@ test('watch: dead sameAs is removed and logged', async () => {
   assert.ok(r.findings.some((f) => f.state === 'LINKED_BACK'));
 });
 
+test('watch: a transient 5xx or network error never removes a profile (9 Nov 2026: one GitHub 504 emptied every sameAs)', async () => {
+  const e = { ...base(), sameAs: ['https://github.com/xguides', 'https://www.youtube.com/@xguides'] };
+  const r = await watchEntity('k', e, 'x.example', fakeFetch({
+    'https://github.com/xguides': { status: 504, body: '' },
+    'https://www.youtube.com/@xguides': new Error('timeout'),
+  }), '2026-11-17');
+  assert.deepEqual(r.entity.sameAs, e.sameAs);
+  assert.equal(r.changed, false);
+  assert.equal(r.findings.filter((f) => f.state === 'UNREACHABLE').length, 2);
+  assert.ok(!r.findings.some((f) => f.state === 'DEAD' || f.state === 'NO_EXTERNAL_PROFILE'));
+});
+
+test('watch: 410 Gone removes the profile', async () => {
+  const e = { ...base(), sameAs: ['https://github.com/xguides'] };
+  const r = await watchEntity('k', e, 'x.example', fakeFetch({ 'https://github.com/xguides': { status: 410, body: '' } }));
+  assert.deepEqual(r.entity.sameAs, []);
+  assert.ok(r.findings.some((f) => f.state === 'DEAD'));
+});
+
 test('watch: missing link-back is a named stop naming the field', async () => {
   const e = { ...base(), sameAs: ['https://www.facebook.com/xguides'] };
   const r = await watchEntity('k', e, 'x.example', fakeFetch({ 'https://www.facebook.com/xguides': { status: 200, body: 'no site here' } }));
