@@ -6,7 +6,10 @@
 //
 // For every sameAs URL:
 //   resolves (2xx after redirects, browser UA)?
-//     no, twice  -> DEAD: removed from sameAs (self-heal, through a PR)
+//     404/410 on every try -> DEAD: removed from sameAs (self-heal, through a PR)
+//     any other failure (5xx, 403/429, timeout) -> UNREACHABLE: kept, re-checked
+//       next run. A single GitHub 504 on 9 Nov 2026 emptied every guide's
+//       sameAs; only a profile the host says is gone is ever removed.
 //   JS-rendered platform (Instagram, Gumroad, Google Maps, TikTok, LinkedIn)?
 //     -> UNVERIFIABLE: a named state, never counted as a pass
 //   page contains the site's host?
@@ -64,9 +67,13 @@ async function defaultFetch(url) {
   return { status: res.status, body };
 }
 
-async function probe(url, fetcher) {
+// Only the host saying the page is gone counts as dead; everything else is transient.
+export const isGone = (status) => status === 404 || status === 410;
+
+async function probe(url, fetcher, waitMs = 3000) {
   let last = { status: 0, body: '', error: '' };
-  for (let i = 0; i < 2; i += 1) {
+  for (let i = 0; i < 3; i += 1) {
+    if (i > 0 && waitMs) await new Promise((r) => setTimeout(r, waitMs * i));
     try {
       const r = await fetcher(url);
       last = { status: r.status, body: r.body || '', error: '' };
@@ -79,12 +86,17 @@ async function probe(url, fetcher) {
 }
 
 // Pure decision over one publication; returns its findings and the entity to write.
-export async function watchEntity(key, entity, siteHost, fetcher = defaultFetch, today = new Date().toISOString().slice(0, 10)) {
+export async function watchEntity(key, entity, siteHost, fetcher = defaultFetch, today = new Date().toISOString().slice(0, 10), waitMs = fetcher === defaultFetch ? 3000 : 0) {
   const findings = [];
   const keep = [];
   const log = [];
   for (const url of entity.sameAs || []) {
-    const r = await probe(url, fetcher);
+    const r = await probe(url, fetcher, waitMs);
+    if (!(r.status >= 200 && r.status < 300) && !isGone(r.status)) {
+      keep.push(url);
+      findings.push({ key, url, state: 'UNREACHABLE', detail: `${r.error || `HTTP ${r.status}`}; kept, not a removal (only 404/410 removes a profile)` });
+      continue;
+    }
     if (!(r.status >= 200 && r.status < 300)) {
       findings.push({ key, url, state: 'DEAD', detail: r.error || `HTTP ${r.status}` });
       log.push({ date: today, action: 'removed_from_sameAs', url, reason: r.error || `HTTP ${r.status}` });
@@ -99,7 +111,7 @@ export async function watchEntity(key, entity, siteHost, fetcher = defaultFetch,
   for (const p of entity.profiles_pending || []) {
     const url = (p && p.url) || p;
     if (isUnverifiable(url)) { findings.push({ key, url, state: 'PENDING_UNVERIFIABLE', detail: 'cannot be confirmed by a fetch; promote by hand once it exists and links back' }); stillPending.push(p); continue; }
-    const r = await probe(url, fetcher);
+    const r = await probe(url, fetcher, waitMs);
     if (r.status >= 200 && r.status < 300 && r.body.toLowerCase().includes(siteHost)) {
       keep.push(url);
       findings.push({ key, url, state: 'PROMOTED' });

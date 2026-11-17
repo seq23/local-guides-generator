@@ -5,7 +5,9 @@
   "url": "https://theaccidentguides.com/",
   "logo": "https://theaccidentguides.com/icon-512.png",
   "description": "The Accident Guides is an independent consumer guide to personal injury claims, from the first steps after an accident to choosing and comparing local attorneys, published by The Industry Guides.",
-  "sameAs": [],
+  "sameAs": [
+    "https://github.com/seq23/local-guides-generator"
+  ],
   "profiles_pending": [],
   "parentOrganization": {
     "@id": "https://theindustryguides.com/#organization",
@@ -19,6 +21,12 @@
       "action": "removed_from_sameAs",
       "url": "https://github.com/seq23/local-guides-generator",
       "reason": "HTTP 504"
+    },
+    {
+      "date": "2026-11-17",
+      "action": "restored_to_sameAs",
+      "url": "https://github.com/seq23/local-guides-generator",
+      "reason": "the 2026-11-09 removal was one transient HTTP 504; the repository answers 200 and is public. The watch now removes only on 404/410."
     }
   ]
 }
