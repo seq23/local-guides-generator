@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-17..2026-11-13",
+  "gsc_window": "2026-10-18..2026-11-14",
   "totals": {
     "clicks": 0,
-    "impressions": 127,
+    "impressions": 134,
     "ctr": 0,
-    "position": 63.9
+    "position": 62.8
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 41,
+      "family_impressions": 49,
       "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 24,
+      "impressions": 28,
       "clicks": 0,
-      "position": 71.2,
+      "position": 70.8,
       "strengthened": false
     },
     {
@@ -29,11 +29,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 41,
+      "family_impressions": 49,
       "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 16,
+      "impressions": 20,
       "clicks": 0,
-      "position": 79.9,
+      "position": 79,
       "strengthened": false
     },
     {
@@ -42,11 +42,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 32,
+      "family_impressions": 28,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
-      "impressions": 39,
+      "impressions": 35,
       "clicks": 0,
-      "position": 69.2,
+      "position": 67,
       "strengthened": true
     },
     {
@@ -57,9 +57,9 @@
       ],
       "family_impressions": 13,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_does-insurance-cover-testosterone-therapy.json",
-      "impressions": 18,
+      "impressions": 19,
       "clicks": 0,
-      "position": 83.1,
+      "position": 79.2,
       "strengthened": false
     },
     {
@@ -84,17 +84,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 73,
-      "Discovered - currently not indexed": 36,
-      "Duplicate, Google chose different canonical than user": 1,
-      "Submitted and indexed": 33,
-      "URL is unknown to Google": 61
+      "Discovered - currently not indexed": 37,
+      "Submitted and indexed": 34,
+      "URL is unknown to Google": 60
     },
     "buckets": {
       "crawled_not_indexed": 73,
-      "discovered_not_indexed": 36,
-      "indexed": 33,
-      "other": 1,
-      "unknown": 61
+      "discovered_not_indexed": 37,
+      "indexed": 34,
+      "unknown": 60
     }
   }
 }
