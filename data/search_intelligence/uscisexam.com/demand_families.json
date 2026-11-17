@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-17..2026-11-13",
-  "gsc_collected_at": "2026-11-16T14:08:06+00:00",
+  "gsc_window": "2026-10-18..2026-11-14",
+  "gsc_collected_at": "2026-11-17T13:52:58+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 11,
+      "impressions": 15,
       "status": "no_page"
     },
     {
@@ -41,12 +41,24 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 11,
+      "impressions": 15,
       "best_position": 80.7,
-      "weighted_position": 88,
-      "top_query": "uscis immigration exam",
+      "weighted_position": 89,
+      "top_query": "uscis medical exam",
       "query_count": 6,
       "queries": [
+        {
+          "query": "uscis medical exam",
+          "route": "/",
+          "impressions": 4,
+          "position": 93
+        },
+        {
+          "query": "uscis civil surgeon",
+          "route": "/",
+          "impressions": 3,
+          "position": 88.3
+        },
         {
           "query": "uscis immigration exam",
           "route": "/",
@@ -58,18 +70,6 @@
           "route": "/",
           "impressions": 3,
           "position": 88.3
-        },
-        {
-          "query": "uscis civil surgeon",
-          "route": "/",
-          "impressions": 2,
-          "position": 87
-        },
-        {
-          "query": "civil surgeon uscis",
-          "route": "/",
-          "impressions": 1,
-          "position": 96
         },
         {
           "query": "i-693 exam",
@@ -87,9 +87,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 11,
-          "page_impressions": 34,
-          "page_position": 67.4
+          "family_impressions": 15,
+          "page_impressions": 37,
+          "page_position": 69.2
         }
       ],
       "rank": 1,
@@ -125,8 +125,8 @@
         {
           "route": "/",
           "family_impressions": 2,
-          "page_impressions": 34,
-          "page_position": 67.4
+          "page_impressions": 37,
+          "page_position": 69.2
         }
       ],
       "rank": 2,
