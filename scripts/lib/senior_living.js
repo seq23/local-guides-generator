@@ -365,6 +365,59 @@ function nextStepsLead(city) {
     (mc && mc !== f ? ', and the closest with secured memory care is ' + titleCaseName(mc.name) + ' at ' + mc.miles.toFixed(1) + ' miles' : (f.memory_care ? ', with secured memory care' : ''));
 }
 
+// One sentence of this place's own counts for the opening definition: what is
+// licensed within ten miles and the nearest hospital with a page here. It
+// replaces a generic "every community listed below is licensed by its state;
+// call two or three..." tail that was word-for-word the same on every town's
+// page (Search Readiness q1, 17 Nov 2026; see nextStepsAnswerLead).
+function areaFactsSentence(city) {
+  if (!city || city.lat == null || city.lng == null) return '';
+  const keep = careTypeKeep(city);
+  const all = (loadFacilities().facilities || []).map((f) => ({ ...f, miles: milesBetween(city.lat, city.lng, f.lat, f.lng) }))
+    .filter((f) => f.miles != null && f.miles <= 10 && keep(f));
+  const beds = all.reduce((n, f) => n + (typeof f.total_beds === 'number' ? f.total_beds : 0), 0);
+  const hosp = city.kind === 'hospital' ? null : nearestHospitals(city)[0];
+  const count = all.length
+    ? 'Within 10 miles there ' + (all.length === 1 ? 'is 1 licensed community' : 'are ' + all.length + ' licensed communities') + (beds ? ' with ' + beds + ' licensed beds' : '')
+    : 'No licensed community in our directory is within 10 miles';
+  const h = hosp && hosp.miles != null ? '; the nearest hospital, ' + (hosp.hospital_name || hosp.city) + ', is ' + hosp.miles.toFixed(1) + ' miles away' : '';
+  return count + h + '.';
+}
+
+// The next-steps ANSWER's clause: a second fact about the place, never the one
+// the hero definition already opens on (nextStepsLead). Both blocks printed the
+// same "closest licensed community" sentence, so the only words that differed
+// between two towns' next-steps pages were one fact said twice, and the shared
+// form text made any two of them more than half identical (Search Readiness q1,
+// 17 Nov 2026: assisted-living-lakeland-tn vs assisted-living-arlington-tn
+// next-steps, 0.51 on 5-word shingles). Guarded by
+// tests/search_readiness/senior_next_steps_lead.test.mjs.
+const ANSWER_RADIUS_MILES = 15;
+function nextStepsAnswerLead(city) {
+  if (!city || city.lat == null || city.lng == null) return '';
+  const near = (loadFacilities().facilities || []).map((f) => ({ ...f, miles: milesBetween(city.lat, city.lng, f.lat, f.lng) }))
+    .filter((f) => f.miles != null).sort((a, b) => a.miles - b.miles);
+  const keep = careTypeKeep(city);
+  const inRadius = near.filter((f) => f.miles <= ANSWER_RADIUS_MILES && keep(f));
+  const bits = [];
+  if (isAssistedLivingPage(city)) {
+    const mc = near.find((f) => f.memory_care);
+    if (mc) bits.push('if memory care is needed later, the nearest secured unit is at ' + titleCaseName(mc.name) + ', ' + mc.miles.toFixed(1) + ' miles away');
+  } else {
+    const big = inRadius.filter((f) => typeof f.total_beds === 'number').sort((a, b) => b.total_beds - a.total_beds || a.miles - b.miles)[0];
+    if (big) bits.push('the largest licensed community within ' + ANSWER_RADIUS_MILES + ' miles is ' + titleCaseName(big.name) + ', licensed for ' + big.total_beds + ' residents');
+  }
+  if (inRadius.length) bits.push(inRadius.length + ' licensed communit' + (inRadius.length === 1 ? 'y is' : 'ies are') + ' within ' + ANSWER_RADIUS_MILES + ' miles');
+  else {
+    // A remote place: nothing inside the radius, so name the next-nearest option.
+    const kept = near.filter(keep);
+    const second = kept[1];
+    bits.push('no licensed community is within ' + ANSWER_RADIUS_MILES + ' miles' +
+      (second ? ', and the next-nearest after the closest is ' + titleCaseName(second.name) + ', ' + second.miles.toFixed(1) + ' miles away' : ''));
+  }
+  return bits.join(', and ');
+}
+
 function hospitalLocalHtml(city) {
   const list = facilitiesForPage(city);
   const mc = list.filter((f) => f.memory_care);
@@ -418,7 +471,7 @@ module.exports = {
   PACK_KEY, PUBLIC_ID, DISCLOSURE, FACILITIES_PATH,
   isSeniorLiving, loadFacilities, facilitiesForPage, milesBetween,
   intakeSlotHtml, intakeSlotForCity, intakeSlotForSite,
-  h1For, cityIntroHtml, directoryHtml, footerFor, copySeatFile, publishFacilities, cityLocalHtml, nextStepsLocalHtml, nextStepsLead, directoryJsonLd,
+  h1For, cityIntroHtml, directoryHtml, footerFor, copySeatFile, publishFacilities, cityLocalHtml, nextStepsLocalHtml, nextStepsLead, nextStepsAnswerLead, areaFactsSentence, directoryJsonLd,
 };
 
 // The three products this site sells to communities. Kept in code rather than in

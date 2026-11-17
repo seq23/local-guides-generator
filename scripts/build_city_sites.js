@@ -93,6 +93,7 @@ const ADS_PATH = path.join(DATA_DIR, "ad_placements.json");
 const CITY_CONTENT_DIR = path.join(DATA_DIR, "city_content");
 const templateText = require("./lib/template_text");
 const cityLocalFacts = require("./lib/city_local_facts");
+const { linkNamedSources } = require("./lib/guide_source_links");
 const PI_STATE_ATTORNEY_SELECTION_DEFAULTS_PATH = path.join(DATA_DIR, "pi_state_attorney_selection_defaults.json");
 const PI_CITY_ATTORNEY_SELECTION_OVERRIDES_PATH = path.join(DATA_DIR, "pi_city_attorney_selection_overrides.json");
 const US_STATES_PATH = path.join(DATA_DIR, "us_states.json");
@@ -2297,6 +2298,7 @@ const HOME_SPEAKABLE_SELECTORS = JSON.parse(fs.readFileSync(path.join(__dirname,
 // Same contract for guide pages: scripts/validation/guide_speakable_contract.js
 // resolves every selector in this list against each rendered /guides/<slug>/ page.
 const GUIDE_SPEAKABLE_SELECTORS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'contracts', 'site_hygiene_registry.json'), 'utf8')).guide_speakable_selectors;
+const GUIDES_HUB_SPEAKABLE_SELECTORS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'contracts', 'site_hygiene_registry.json'), 'utf8')).guides_hub_speakable_selectors;
 
 function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, description) {
   return {
@@ -2308,7 +2310,14 @@ function buildCollectionPageSchemaGlobal(siteUrl, brandName, route, title, descr
     dateModified: BUILD_ISO,
     url: buildCanonicalGlobal(siteUrl, route),
     isPartOf: { "@type": "WebSite", name: brandName, url: siteUrl.replace(/\/+$/, "") + "/" },
-    ...authorForPack(siteUrl, brandName)
+    ...authorForPack(siteUrl, brandName),
+    // The /guides/ hub is sampled as a guide page too ("a guide page with no
+    // speakable markup", Search Readiness q1 17 Nov 2026: dentistryguides.com,
+    // uscisexam.com, hormonesivhair.com /guides/). Its read-aloud surface is the
+    // hub's citation summary; validate:guide-speakable resolves these on the hub.
+    ...(String(route || "").replace(/^\/+|\/+$/g, "") === "guides" ? {
+      speakable: { "@type": "SpeakableSpecification", cssSelector: GUIDES_HUB_SPEAKABLE_SELECTORS }
+    } : {})
   };
 }
 function buildCollectionPageSchemaCity(siteUrl, brandName, city, route, title, description, verticalKey) {
@@ -2920,7 +2929,12 @@ function cityLocalAnswer(verticalKey, city) {
   if (senior.isSeniorLiving(vk)) {
     const lead = senior.nextStepsLead(city);
     if (lead) {
+      // The place's own counts come before the generic advice, so two towns'
+      // openings share the advice only when the counts leave room for it.
+      const facts = escapeHtml(senior.areaFactsSentence(city));
       const a = cityLocalFacts.fit([
+        'Near ' + escapeHtml(city.marketLabel) + ', ' + escapeHtml(lead) + '. ' + facts + ' Call two or three and tour before you sign.',
+        'Near ' + escapeHtml(city.marketLabel) + ', ' + escapeHtml(lead) + '. ' + facts,
         'Near ' + escapeHtml(city.marketLabel) + ', ' + escapeHtml(lead) + '. Every community listed below is licensed by its state, with its phone number, secured memory care beds and distance; call two or three, ask for an all-in monthly figure at your parent\'s care level, and tour before you sign.',
         'Near ' + escapeHtml(city.marketLabel) + ', ' + escapeHtml(lead) + '. Every community listed below is licensed by its state; call two or three, ask for an all-in monthly figure at your parent\'s care level, and tour before you sign.',
         'Near ' + escapeHtml(city.marketLabel) + ', ' + escapeHtml(lead) + '. Every community listed below is licensed by its state; call two or three and tour before you sign.',
@@ -3859,7 +3873,8 @@ function joinNames(names) {
 function nextStepsLocalLead(verticalKey, city) {
   const slug = String((city && city.slug) || '');
   const vk = String(verticalKey || '').toLowerCase();
-  if (vk === 'senior_living' || vk === 'senior-living') return senior.nextStepsLead(city);
+  // The hero definition opens on senior.nextStepsLead(); the answer says a different fact.
+  if (vk === 'senior_living' || vk === 'senior-living') return senior.nextStepsAnswerLead(city) || senior.nextStepsLead(city);
   if (vk.includes('uscis')) {
     const lists = loadExampleProviderLists(verticalKey, slug) || [];
     const names = [...new Set(lists.flatMap((l) => l.providers.map((p) => p.name)))]
@@ -5305,7 +5320,7 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
   // the shared pages (FAQ, contact, methodology...) describe the site they are on.
   const seoTopic = String((pageSet && pageSet.seoTopic) || '').trim();
   const applyMetaTokens = (s) => String(s || '').split('%%BRAND_NAME%%').join(brandName).split('%%TOPIC%%').join(seoTopic);
-  if (!seoTopic && [globalPage.meta_title, globalPage.meta_description].some((s) => String(s || '').includes('%%TOPIC%%'))) {
+  if (!seoTopic && [globalPage.meta_title, globalPage.meta_description, globalPage.main_html].some((s) => String(s || '').includes('%%TOPIC%%'))) {
     throw new Error('Global page ' + (globalPage.route || '/') + ' uses %%TOPIC%% but the page set has no seoTopic');
   }
   const headTitle = brandedTitle(globalPage.meta_title ? applyMetaTokens(globalPage.meta_title) : title, siteUrl, brandName, route);
@@ -5325,7 +5340,10 @@ function renderGlobalPage(baseTemplate, footerHtml, connectionBubbleTemplate, pr
     .split("%%SENIOR_SEARCHES%%").join(senior.isSeniorLiving(verticalKey) ? seniorFanout.searchesHtml((globalPage.route || '/').replace(/^\/*/, '/').replace(/\/*$/, '/')) : "")
     .split("%%BRAND_NAME%%").join(brandName)
     .split("%%PARENT_COMPANY%%").join(escapeHtml(PARENT_COMPANY))
-    .split("%%CONTACT_EMAIL%%").join(escapeHtml(CONTACT_EMAIL));
+    .split("%%CONTACT_EMAIL%%").join(escapeHtml(CONTACT_EMAIL))
+    .split("%%TOPIC%%").join(escapeHtml(seoTopic));
+  // A "Source:" line names its publisher; link it in place (lib/guide_source_links.js).
+  mainHtml = linkNamedSources(mainHtml);
   mainHtml = searchBlocks.applyStrengthening(mainHtml, globalPage);
   if (route === 'request-assistance') mainHtml = applyVerticalRequestAssistanceForm(mainHtml, verticalKey);
   if (route === 'for-providers' && String(verticalKey || '').toLowerCase() === 'neuro') mainHtml = neuroServices.applyToForProvidersHtml(mainHtml);
@@ -6311,6 +6329,29 @@ function renderCitationSummaryZoneHtml(opts) {
     const guideLabel = escapeHtml(inferGuideLabelFromRoute(route));
     const guideEntry = loadGuideEnhancementRegistry()[String(route || '')] || null;
     const sourceAnswer = guideContent.answerFromSource(opts && opts.sourceHtml);
+    const lede = composeAnswerSpan([
+        guideEntry && guideEntry.definition ? escapeHtml(guideEntry.definition) : sourceAnswer || (guideEntry && guideEntry.best ? escapeHtml(guideEntry.best) : ''),
+        guideEntry && guideEntry.key ? escapeHtml(guideEntry.key) : '',
+        guideEntry && guideEntry.mistake ? 'The common mistake: ' + escapeHtml(guideEntry.mistake) : '',
+        description,
+        '<strong>' + title + '</strong> is a guide for ' + guideLabel + '.',
+        'Use it when the question is narrow enough that a city or state hub is too broad.'
+      ]);
+    // Each curated sentence is printed once in the opening. The lede, the key
+    // points and the opening FAQ all printed `mistake` (and the last two `good`),
+    // so with the top module's row one sentence stood on the page four times and
+    // the Monday sample read the guide as template filler (Search Readiness q1,
+    // 17 Nov 2026: dentistryguides.com dental-implant-and-oral-surgery-cost,
+    // "treating a figure from a lead-generation site as" x4).
+    const printed = [lede];
+    const once = (s) => {
+      if (!s) return '';
+      const e = escapeHtml(s);
+      if (printed.some((h) => guideContent.alreadyPrinted(h, e))) return '';
+      printed.push(e);
+      return e;
+    };
+    const keyPoints = [guideEntry && guideEntry.good, guideEntry && guideEntry.mistake].map(once).filter(Boolean);
     return (
       '<section class="section citation-summary guide-opening-block answer-block" data-guide-opening="true" data-citation-summary="true" data-short-answer="true" data-citation-summary-type="guide-detail">' +
       '<h2 id="citation-summary">' + escapeHtml(guideQuestionHeading(route, String((opts && opts.title) || ''))) + '</h2>' +
@@ -6318,22 +6359,12 @@ function renderCitationSummaryZoneHtml(opts) {
       // page's own answer, written by a human for this exact guide. Preferring
       // them over the generic template is what makes eight guide answers eight
       // different answers rather than one sentence with the title swapped in.
-      '<p data-citation-summary-lede="true" data-citation-summary-answer="true">' + composeAnswerSpan([
-        guideEntry && guideEntry.definition ? escapeHtml(guideEntry.definition) : sourceAnswer || (guideEntry && guideEntry.best ? escapeHtml(guideEntry.best) : ''),
-        guideEntry && guideEntry.key ? escapeHtml(guideEntry.key) : '',
-        guideEntry && guideEntry.mistake ? 'The common mistake: ' + escapeHtml(guideEntry.mistake) : '',
-        // A guide with no curated registry entry falls back to its own
-        // description, which says something, before the sentence that only
-        // restates the title, which does not.
-        description,
-        '<strong>' + title + '</strong> is a guide for ' + guideLabel + '.',
-        'Use it when the question is narrow enough that a city or state hub is too broad.'
-      ]) + '</p>' +
+      '<p data-citation-summary-lede="true" data-citation-summary-answer="true">' + lede + '</p>' +
       '<p class="answer-when">' + (guideEntry && guideEntry.ask ? escapeHtml(guideEntry.ask) : guideContent.recommendationFromSource(opts && opts.sourceHtml)) + '</p>' +
       '<ul data-citation-key-points="true">' +
-      [guideEntry && guideEntry.good, guideEntry && guideEntry.mistake].filter(Boolean).map((s) => '<li>' + escapeHtml(s) + '</li>').join('') +
+      keyPoints.map((s) => '<li>' + s + '</li>').join('') +
       '</ul>' +
-      guideContent.openingFaqFromSource(opts && opts.sourceHtml, guideEntry) +
+      guideContent.openingFaqFromSource(opts && opts.sourceHtml, guideEntry, printed) +
       '<p data-citation-routing-links="true"><a href="' + escapeHtml(hrefs.guides) + '">Related guides</a> · <a href="/next-steps/">Next steps</a> · <a href="' + escapeHtml(hrefs.methodology) + '">Sources and method</a></p>' +
       '</section>'
     );

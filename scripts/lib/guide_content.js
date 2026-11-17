@@ -50,10 +50,21 @@ function faqFromSource(html, entry) {
 // specials-compared/ "without periodontal disease advanced dental care south
 // ocala" x4). The article keeps its questions; the opening adds only the curated
 // pair the article does not carry.
-function openingFaqFromSource(html, entry) {
+function openingFaqFromSource(html, entry, printed) {
   const own = faqFromSource(html, null);
   if (own) return '';
+  // The curated pair is printed only when its answers are not already in the
+  // opening above it (the lede and key points): a pair that repeats them is a
+  // label change, not an answer (Search Readiness q1, 17 Nov 2026).
+  const seen = Array.isArray(printed) ? printed : [];
+  if (entry && seen.some((h) => alreadyPrinted(h, escape(entry.good || ''))) && seen.some((h) => alreadyPrinted(h, escape(entry.mistake || '')))) return '';
   return faqFromSource('', entry);
+}
+// Is this sentence already in that HTML? Tags and spacing ignored; short labels never count.
+function alreadyPrinted(html, sentence) {
+  const norm = (s) => String(s || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim().toLowerCase();
+  const needle = norm(sentence);
+  return needle.length >= 25 && norm(html).includes(needle);
 }
 function recommendationFromSource(html) {
   for (const m of String(html || '').matchAll(/<(p|li)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
@@ -83,4 +94,4 @@ function assertDistinctGuides(pages) {
     }
   }
 }
-module.exports = { answerFromSource, faqFromSource, openingFaqFromSource, recommendationFromSource, assertDistinctGuides };
+module.exports = { answerFromSource, alreadyPrinted, faqFromSource, openingFaqFromSource, recommendationFromSource, assertDistinctGuides };
