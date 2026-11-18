@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-18..2026-11-14",
+  "gsc_window": "2026-10-19..2026-11-15",
   "totals": {
     "clicks": 3,
-    "impressions": 172,
-    "ctr": 0.0174,
-    "position": 26.2
+    "impressions": 187,
+    "ctr": 0.016,
+    "position": 25.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -29,11 +29,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 11,
+      "family_impressions": 12,
       "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json",
-      "impressions": 35,
+      "impressions": 40,
       "clicks": 2,
-      "position": 31.9,
+      "position": 29.4,
+      "strengthened": true
+    },
+    {
+      "route": "/guides/huntsville-adhd-testing-prices/",
+      "family": "cost @ /guides/huntsville-adhd-testing-prices/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 9,
+      "source": "data/page_sets/examples/neuro_global_pages/guides_huntsville-adhd-testing-prices.json",
+      "impressions": 12,
+      "clicks": 1,
+      "position": 24,
       "strengthened": true
     },
     {
@@ -43,40 +56,41 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 7,
+      "family_impressions": 6,
       "source": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json",
-      "impressions": 25,
+      "impressions": 24,
       "clicks": 0,
-      "position": 6.5,
+      "position": 5.2,
       "strengthened": true
     },
     {
-      "route": "/guides/huntsville-adhd-testing-prices/",
-      "family": "cost @ /guides/huntsville-adhd-testing-prices/",
+      "route": "/guides/neuropsych-testing-overview/",
+      "family": "topic:neuropsych-testing-overview @ /guides/neuropsych-testing-overview/",
       "basis": [
-        "top_demand"
+        "ranking_page"
       ],
-      "family_impressions": 5,
-      "source": "data/page_sets/examples/neuro_global_pages/guides_huntsville-adhd-testing-prices.json",
-      "impressions": 7,
-      "clicks": 1,
-      "position": 26.9,
-      "strengthened": true
+      "family_impressions": 1,
+      "source": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-overview.json",
+      "impressions": 5,
+      "clicks": 0,
+      "position": 9.6,
+      "strengthened": false
     }
   ],
   "not_yet_strengthened": [
-    "/guides/fayetteville-adhd-evaluation-testing-options/"
+    "/guides/fayetteville-adhd-evaluation-testing-options/",
+    "/guides/neuropsych-testing-overview/"
   ],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 76,
-      "Discovered - currently not indexed": 24,
+      "Crawled - currently not indexed": 75,
+      "Discovered - currently not indexed": 25,
       "Submitted and indexed": 35,
       "URL is unknown to Google": 61
     },
     "buckets": {
-      "crawled_not_indexed": 76,
-      "discovered_not_indexed": 24,
+      "crawled_not_indexed": 75,
+      "discovered_not_indexed": 25,
       "indexed": 35,
       "unknown": 61
     }

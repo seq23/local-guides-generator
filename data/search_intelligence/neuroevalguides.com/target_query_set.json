@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-18..2026-11-14",
-  "gsc_collected_at": "2026-11-17T13:44:04+00:00",
+  "gsc_window": "2026-10-19..2026-11-15",
+  "gsc_collected_at": "2026-11-18T13:43:22+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 13,
+  "target_count": 18,
   "targets_by_source": {
-    "gsc_export": 13
+    "gsc_export": 18
   },
   "dropped_count": 0,
   "dropped": [],
@@ -21,9 +21,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 43,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/fayetteville-adhd-evaluation-testing-options/"
+    },
+    {
+      "query": "tova testing huntsville",
+      "normalized_query": "tova testing huntsville",
+      "source": "gsc_export",
+      "impressions": 8,
+      "clicks": 0,
+      "average_position": 17.6,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 8,
+        "window": "2026-10-19..2026-11-15"
+      },
+      "owner_route": "/guides/huntsville-adhd-testing-prices/"
     },
     {
       "query": "neuropsychological testing cost",
@@ -35,7 +49,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 7,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/neuropsych-testing-cost-by-state/"
     },
@@ -43,13 +57,13 @@
       "query": "hospital vs private neuropsych testing",
       "normalized_query": "hospital vs private neuropsych testing",
       "source": "gsc_export",
-      "impressions": 6,
+      "impressions": 5,
       "clicks": 0,
-      "average_position": 10.8,
+      "average_position": 5.4,
       "measurement": {
         "metric": "impressions_28d",
-        "value": 6,
-        "window": "2026-10-18..2026-11-14"
+        "value": 5,
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/hospital-vs-private-neuropsych-testing/"
     },
@@ -63,23 +77,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 4,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/fayetteville-adhd-evaluation-testing-options/"
-    },
-    {
-      "query": "tova testing huntsville",
-      "normalized_query": "tova testing huntsville",
-      "source": "gsc_export",
-      "impressions": 4,
-      "clicks": 0,
-      "average_position": 22.8,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 4,
-        "window": "2026-10-18..2026-11-14"
-      },
-      "owner_route": "/guides/huntsville-adhd-testing-prices/"
     },
     {
       "query": "cost of a neuropsychological evaluation",
@@ -91,7 +91,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/neuropsych-testing-cost-by-state/"
     },
@@ -105,23 +105,9 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/neuropsych-testing-cost-by-state/"
-    },
-    {
-      "query": "neuropsych testing near me",
-      "normalized_query": "neuropsych testing near me",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 25.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-18..2026-11-14"
-      },
-      "owner_route": "/states/SD/"
     },
     {
       "query": "aba therapy red and green flags",
@@ -133,7 +119,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/autism-therapy-red-flags-and-green-flags/"
     },
@@ -147,7 +133,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/states/SD/"
     },
@@ -161,9 +147,23 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/hospital-vs-private-neuropsych-testing/"
+    },
+    {
+      "query": "neurodevelopmental evaluation",
+      "normalized_query": "neurodevelopmental evaluation",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 2,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-19..2026-11-15"
+      },
+      "owner_route": "/guides/"
     },
     {
       "query": "neurohealthah.com alternatives",
@@ -175,9 +175,51 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/states/NY/"
+    },
+    {
+      "query": "neuropsych evaluation cost",
+      "normalized_query": "neuropsych evaluation cost",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 30,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-19..2026-11-15"
+      },
+      "owner_route": "/guides/neuropsych-testing-cost-by-state/"
+    },
+    {
+      "query": "neuropsych testing near me",
+      "normalized_query": "neuropsych testing near me",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 30,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-19..2026-11-15"
+      },
+      "owner_route": "/states/SD/"
+    },
+    {
+      "query": "preparing for autism diagnosis delaware",
+      "normalized_query": "preparing for autism diagnosis delaware",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 88,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-19..2026-11-15"
+      },
+      "owner_route": "/states/DE/"
     },
     {
       "query": "qbtest adhd cost",
@@ -189,9 +231,37 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-18..2026-11-14"
+        "window": "2026-10-19..2026-11-15"
       },
       "owner_route": "/guides/huntsville-adhd-testing-prices/"
+    },
+    {
+      "query": "what is a neurodevelopmental evaluation",
+      "normalized_query": "what is a neurodevelopmental evaluation",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-19..2026-11-15"
+      },
+      "owner_route": "/guides/how-to-choose-a-neuro-evaluation-provider/"
+    },
+    {
+      "query": "what is neuropsych testing",
+      "normalized_query": "what is neuropsych testing",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 19,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-19..2026-11-15"
+      },
+      "owner_route": "/guides/neuropsych-testing-overview/"
     }
   ]
 }
