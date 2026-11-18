@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-18..2026-11-14",
-  "gsc_collected_at": "2026-11-17T13:52:58+00:00",
+  "gsc_window": "2026-10-19..2026-11-15",
+  "gsc_collected_at": "2026-11-18T13:52:07+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 15,
+      "impressions": 19,
       "status": "no_page"
     },
     {
@@ -41,11 +41,11 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 15,
-      "best_position": 80.7,
-      "weighted_position": 89,
+      "impressions": 19,
+      "best_position": 74,
+      "weighted_position": 88.8,
       "top_query": "uscis medical exam",
-      "query_count": 6,
+      "query_count": 10,
       "queries": [
         {
           "query": "uscis medical exam",
@@ -78,6 +78,30 @@
           "position": 100
         },
         {
+          "query": "medical uscis",
+          "route": "/",
+          "impressions": 1,
+          "position": 89
+        },
+        {
+          "query": "us medical exam",
+          "route": "/",
+          "impressions": 1,
+          "position": 90
+        },
+        {
+          "query": "us medical exams",
+          "route": "/",
+          "impressions": 1,
+          "position": 100
+        },
+        {
+          "query": "uscis i-693 form",
+          "route": "/",
+          "impressions": 1,
+          "position": 74
+        },
+        {
           "query": "uscis md",
           "route": "/",
           "impressions": 1,
@@ -87,9 +111,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 15,
-          "page_impressions": 37,
-          "page_position": 69.2
+          "family_impressions": 19,
+          "page_impressions": 41,
+          "page_position": 71
         }
       ],
       "rank": 1,
@@ -125,8 +149,8 @@
         {
           "route": "/",
           "family_impressions": 2,
-          "page_impressions": 37,
-          "page_position": 69.2
+          "page_impressions": 41,
+          "page_position": 71
         }
       ],
       "rank": 2,
