@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-10-19..2026-11-15",
+  "gsc_window": "2026-10-20..2026-11-16",
   "totals": {
     "clicks": 2,
-    "impressions": 846,
+    "impressions": 851,
     "ctr": 0.0024,
-    "position": 56.7
+    "position": 56.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,24 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 158,
+      "family_impressions": 162,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 65,
+      "impressions": 68,
       "clicks": 0,
-      "position": 54.6,
-      "strengthened": true
-    },
-    {
-      "route": "/states/OH/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 158,
-      "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 46,
-      "clicks": 0,
-      "position": 59.5,
+      "position": 53.8,
       "strengthened": true
     },
     {
@@ -42,11 +29,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 158,
+      "family_impressions": 162,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 35,
+      "impressions": 36,
       "clicks": 0,
-      "position": 53.9,
+      "position": 54.4,
+      "strengthened": true
+    },
+    {
+      "route": "/states/OH/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 162,
+      "source": "data/page_sets/examples/dentistry_v1.json",
+      "impressions": 42,
+      "clicks": 0,
+      "position": 58.8,
       "strengthened": true
     },
     {
@@ -55,11 +55,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 158,
+      "family_impressions": 162,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 23,
+      "impressions": 24,
       "clicks": 0,
-      "position": 31.7,
+      "position": 32.2,
+      "strengthened": true
+    },
+    {
+      "route": "/states/NC/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 162,
+      "source": "data/page_sets/examples/dentistry_v1.json",
+      "impressions": 14,
+      "clicks": 0,
+      "position": 68.6,
       "strengthened": true
     },
     {
@@ -68,11 +81,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 106,
+      "family_impressions": 102,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
-      "impressions": 108,
+      "impressions": 104,
       "clicks": 0,
-      "position": 77.6,
+      "position": 77.7,
       "strengthened": true
     },
     {
@@ -81,11 +94,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 71,
+      "family_impressions": 73,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_dental-implant-and-oral-surgery-cost.json",
-      "impressions": 74,
+      "impressions": 78,
       "clicks": 0,
-      "position": 67.2,
+      "position": 65.7,
       "strengthened": true
     },
     {
@@ -96,9 +109,9 @@
       ],
       "family_impressions": 2,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_ocala-dental-new-patient-specials-compared.json",
-      "impressions": 13,
+      "impressions": 14,
       "clicks": 0,
-      "position": 7.1,
+      "position": 7.2,
       "strengthened": false
     }
   ],
@@ -108,15 +121,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 12,
-      "Discovered - currently not indexed": 4,
+      "Discovered - currently not indexed": 8,
       "Submitted and indexed": 41,
-      "URL is unknown to Google": 9
+      "URL is unknown to Google": 5
     },
     "buckets": {
       "crawled_not_indexed": 12,
-      "discovered_not_indexed": 4,
+      "discovered_not_indexed": 8,
       "indexed": 41,
-      "unknown": 9
+      "unknown": 5
     }
   }
 }
