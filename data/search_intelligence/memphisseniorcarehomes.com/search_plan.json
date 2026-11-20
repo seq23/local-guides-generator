@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-10-20..2026-11-16",
+  "gsc_window": "2026-10-21..2026-11-17",
   "totals": {
-    "clicks": 6,
-    "impressions": 2221,
-    "ctr": 0.0027,
-    "position": 40.7
+    "clicks": 5,
+    "impressions": 2222,
+    "ctr": 0.0023,
+    "position": 40.8
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -18,9 +18,9 @@
       ],
       "family_impressions": 14,
       "source": "data/page_sets/examples/senior_living_global_pages/guides_assisted-living-cost-memphis.json",
-      "impressions": 29,
+      "impressions": 30,
       "clicks": 0,
-      "position": 10.4,
+      "position": 10.2,
       "strengthened": true
     },
     {
@@ -33,7 +33,7 @@
       "source": "data/page_sets/examples/senior_living_global_pages/guides_when-the-money-runs-out-tenncare-choices.json",
       "impressions": 78,
       "clicks": 3,
-      "position": 6,
+      "position": 6.1,
       "strengthened": true
     }
   ],
