@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-20..2026-11-16",
-  "gsc_collected_at": "2026-11-19T21:56:59+00:00",
+  "gsc_window": "2026-10-21..2026-11-17",
+  "gsc_collected_at": "2026-11-20T21:34:46+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -22,15 +22,15 @@
     },
     {
       "rank": 2,
-      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "impressions": 13,
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 14,
       "status": "strengthened"
     },
     {
       "rank": 3,
-      "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 11,
-      "status": "no_page"
+      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
+      "impressions": 13,
+      "status": "strengthened"
     },
     {
       "rank": 4,
@@ -92,6 +92,136 @@
       "reason": "data/page_sets/examples/neuro_global_pages/guides_fayetteville-adhd-evaluation-testing-options.json has no search_strengthening listed in strengthened_pages.json"
     },
     {
+      "family": "choose a provider @ /states/{STATE}/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 14,
+      "best_position": 1,
+      "weighted_position": 35.6,
+      "top_query": "dysgraphia testing rhode island",
+      "query_count": 12,
+      "queries": [
+        {
+          "query": "dysgraphia testing rhode island",
+          "route": "/states/RI/",
+          "impressions": 3,
+          "position": 18.7
+        },
+        {
+          "query": "adult psychological testing rhode island",
+          "route": "/states/RI/",
+          "impressions": 1,
+          "position": 6
+        },
+        {
+          "query": "autism testing south dakota",
+          "route": "/states/SD/",
+          "impressions": 1,
+          "position": 85
+        },
+        {
+          "query": "diagnostic clarification evaluation rhode island",
+          "route": "/states/RI/",
+          "impressions": 1,
+          "position": 33
+        },
+        {
+          "query": "how do comprehensive psychiatric evaluations compare across providers? (city: anchorage, state: alaska)",
+          "route": "/states/AK/",
+          "impressions": 1,
+          "position": 1
+        },
+        {
+          "query": "neurohealthah.com alternatives",
+          "route": "/states/NY/",
+          "impressions": 1,
+          "position": 8
+        },
+        {
+          "query": "neuropsych testing near me",
+          "route": "/states/SD/",
+          "impressions": 1,
+          "position": 30
+        },
+        {
+          "query": "neuropsych testing ri",
+          "route": "/states/RI/",
+          "impressions": 1,
+          "position": 43
+        },
+        {
+          "query": "neuropsychological evaluation nyc medicaid",
+          "route": "/states/NY/",
+          "impressions": 1,
+          "position": 53
+        },
+        {
+          "query": "neuropsychology associates ri",
+          "route": "/states/RI/",
+          "impressions": 1,
+          "position": 47
+        },
+        {
+          "query": "preparing for autism diagnosis delaware",
+          "route": "/states/DE/",
+          "impressions": 1,
+          "position": 88
+        },
+        {
+          "query": "psychoeducational assessment rhode island",
+          "route": "/states/RI/",
+          "impressions": 1,
+          "position": 48
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/RI/",
+          "family_impressions": 8,
+          "page_impressions": 16,
+          "page_position": 19.3
+        },
+        {
+          "route": "/states/NY/",
+          "family_impressions": 2,
+          "page_impressions": 3,
+          "page_position": 23.7
+        },
+        {
+          "route": "/states/SD/",
+          "family_impressions": 2,
+          "page_impressions": 9,
+          "page_position": 16.7
+        },
+        {
+          "route": "/states/AK/",
+          "family_impressions": 1,
+          "page_impressions": 3,
+          "page_position": 2
+        },
+        {
+          "route": "/states/DE/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 88
+        }
+      ],
+      "rank": 2,
+      "basis": [
+        "ranking_page",
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/states/AK/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_v1.json search_strengthening.state_hub"
+    },
+    {
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
       "intent": "cost",
       "head_term": "cost",
@@ -133,11 +263,11 @@
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
           "family_impressions": 13,
-          "page_impressions": 44,
-          "page_position": 28.4
+          "page_impressions": 46,
+          "page_position": 28.2
         }
       ],
-      "rank": 2,
+      "rank": 3,
       "basis": [
         "top_demand"
       ],
@@ -147,109 +277,6 @@
       ],
       "status": "strengthened",
       "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json search_strengthening"
-    },
-    {
-      "family": "choose a provider @ /states/{STATE}/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/states/{STATE}/",
-      "page_kind": "state_hub",
-      "page_intent": "choose_provider",
-      "impressions": 11,
-      "best_position": 6,
-      "weighted_position": 37,
-      "top_query": "dysgraphia testing rhode island",
-      "query_count": 9,
-      "queries": [
-        {
-          "query": "dysgraphia testing rhode island",
-          "route": "/states/RI/",
-          "impressions": 3,
-          "position": 18.7
-        },
-        {
-          "query": "adult psychological testing rhode island",
-          "route": "/states/RI/",
-          "impressions": 1,
-          "position": 6
-        },
-        {
-          "query": "autism testing south dakota",
-          "route": "/states/SD/",
-          "impressions": 1,
-          "position": 85
-        },
-        {
-          "query": "diagnostic clarification evaluation rhode island",
-          "route": "/states/RI/",
-          "impressions": 1,
-          "position": 33
-        },
-        {
-          "query": "neurohealthah.com alternatives",
-          "route": "/states/NY/",
-          "impressions": 1,
-          "position": 8
-        },
-        {
-          "query": "neuropsych testing near me",
-          "route": "/states/SD/",
-          "impressions": 1,
-          "position": 30
-        },
-        {
-          "query": "neuropsychological evaluation nyc medicaid",
-          "route": "/states/NY/",
-          "impressions": 1,
-          "position": 53
-        },
-        {
-          "query": "preparing for autism diagnosis delaware",
-          "route": "/states/DE/",
-          "impressions": 1,
-          "position": 88
-        },
-        {
-          "query": "psychoeducational assessment rhode island",
-          "route": "/states/RI/",
-          "impressions": 1,
-          "position": 48
-        }
-      ],
-      "pages": [
-        {
-          "route": "/states/RI/",
-          "family_impressions": 6,
-          "page_impressions": 13,
-          "page_position": 16
-        },
-        {
-          "route": "/states/NY/",
-          "family_impressions": 2,
-          "page_impressions": 2,
-          "page_position": 30.5
-        },
-        {
-          "route": "/states/SD/",
-          "family_impressions": 2,
-          "page_impressions": 9,
-          "page_position": 16.7
-        },
-        {
-          "route": "/states/DE/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 88
-        }
-      ],
-      "rank": 3,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "no_page",
-      "reason": "no state page in the family has >= 10 impressions (largest 6 on /states/RI/)"
     },
     {
       "family": "cost @ /guides/huntsville-adhd-testing-prices/",
@@ -281,8 +308,8 @@
         {
           "route": "/guides/huntsville-adhd-testing-prices/",
           "family_impressions": 10,
-          "page_impressions": 15,
-          "page_position": 20.6
+          "page_impressions": 16,
+          "page_position": 19.9
         }
       ],
       "rank": 4,
@@ -326,7 +353,7 @@
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "family_impressions": 6,
-          "page_impressions": 24,
+          "page_impressions": 27,
           "page_position": 5.2
         }
       ],
@@ -349,37 +376,57 @@
       "page": "/guides/neuropsych-testing-overview/",
       "page_kind": "guide",
       "page_intent": "topic:neuropsych-testing-overview",
-      "impressions": 2,
+      "impressions": 6,
       "best_position": 14.5,
-      "weighted_position": 14.5,
+      "weighted_position": 40.7,
       "top_query": "what is neuropsych testing",
-      "query_count": 1,
+      "query_count": 5,
       "queries": [
         {
           "query": "what is neuropsych testing",
           "route": "/guides/neuropsych-testing-overview/",
           "impressions": 2,
           "position": 14.5
+        },
+        {
+          "query": "neuropsych testing results",
+          "route": "/guides/neuropsych-testing-overview/",
+          "impressions": 1,
+          "position": 28
+        },
+        {
+          "query": "neuropsychological evaluation process",
+          "route": "/guides/neuropsych-testing-overview/",
+          "impressions": 1,
+          "position": 78
+        },
+        {
+          "query": "neuropsychological test results interpretation",
+          "route": "/guides/neuropsych-testing-overview/",
+          "impressions": 1,
+          "position": 46
+        },
+        {
+          "query": "what happens during neuropsychological testing",
+          "route": "/guides/neuropsych-testing-overview/",
+          "impressions": 1,
+          "position": 63
         }
       ],
       "pages": [
         {
           "route": "/guides/neuropsych-testing-overview/",
-          "family_impressions": 2,
-          "page_impressions": 6,
-          "page_position": 9.7
+          "family_impressions": 6,
+          "page_impressions": 10,
+          "page_position": 27.3
         }
       ],
       "rank": 6,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [
-        "/guides/neuropsych-testing-overview/"
-      ],
-      "status": "not_strengthened",
-      "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-overview.json has no search_strengthening listed in strengthened_pages.json"
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 6 of 9 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /guides/how-to-choose-a-neuro-evaluation-provider/",
