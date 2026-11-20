@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-20..2026-11-16",
-  "gsc_collected_at": "2026-11-19T22:05:28+00:00",
+  "gsc_window": "2026-10-21..2026-11-17",
+  "gsc_collected_at": "2026-11-20T21:40:21+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,7 +12,7 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 9,
+  "family_count": 10,
   "top_families": [
     {
       "rank": 1,
@@ -23,26 +23,26 @@
     {
       "rank": 2,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 24,
+      "impressions": 23,
       "status": "strengthened"
     },
     {
       "rank": 3,
       "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
-      "impressions": 22,
+      "impressions": 23,
       "status": "not_strengthened"
     },
     {
       "rank": 4,
-      "family": "cost @ /guides/does-insurance-cover-testosterone-therapy/",
-      "impressions": 3,
-      "status": "below_impression_floor"
+      "family": "cost @ /guides/hormone-therapy-cost-what-is-published/",
+      "impressions": 5,
+      "status": "not_strengthened"
     },
     {
       "rank": 5,
-      "family": "red flags @ /guides/trt-red-flags/",
-      "impressions": 3,
-      "status": "strengthened"
+      "family": "provider business @ /guides/hormone-therapy-cost-what-is-published/",
+      "impressions": 4,
+      "status": "below_impression_floor"
     }
   ],
   "families": [
@@ -178,18 +178,20 @@
         {
           "route": "/states/OH/",
           "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 19
+          "page_impressions": 5,
+          "page_position": 14.6
         }
       ],
       "rank": 1,
       "basis": [
+        "ranking_page",
         "top_demand"
       ],
       "qualifies": true,
       "strengthened_pages": [
         "/states/WY/",
-        "/states/SD/"
+        "/states/SD/",
+        "/states/OH/"
       ],
       "status": "not_strengthened",
       "reason": "data/page_sets/examples/trt_v1.json has no search_strengthening.state_hub template"
@@ -201,16 +203,16 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 24,
+      "impressions": 23,
       "best_position": 6.5,
-      "weighted_position": 79.1,
+      "weighted_position": 78.7,
       "top_query": "am i a candidate for trt",
       "query_count": 3,
       "queries": [
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 16,
+          "impressions": 15,
           "position": 88.5
         },
         {
@@ -229,9 +231,9 @@
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 24,
-          "page_impressions": 31,
-          "page_position": 64.1
+          "family_impressions": 23,
+          "page_impressions": 30,
+          "page_position": 63.3
         }
       ],
       "rank": 2,
@@ -252,11 +254,11 @@
       "page": "/guides/does-insurance-cover-testosterone-therapy/",
       "page_kind": "guide",
       "page_intent": "topic:does-insurance-cover-testosterone-therapy",
-      "impressions": 22,
+      "impressions": 23,
       "best_position": 62,
-      "weighted_position": 88.9,
+      "weighted_position": 88.7,
       "top_query": "does insurance cover trt",
-      "query_count": 15,
+      "query_count": 16,
       "queries": [
         {
           "query": "does insurance cover trt",
@@ -337,6 +339,12 @@
           "position": 88
         },
         {
+          "query": "trt insurance coverage",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 1,
+          "position": 85
+        },
+        {
           "query": "what insurance covers trt",
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "impressions": 1,
@@ -352,9 +360,9 @@
       "pages": [
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "family_impressions": 22,
-          "page_impressions": 30,
-          "page_position": 77
+          "family_impressions": 23,
+          "page_impressions": 31,
+          "page_position": 77.2
         }
       ],
       "rank": 3,
@@ -367,6 +375,98 @@
       ],
       "status": "not_strengthened",
       "reason": "data/page_sets/examples/trt_global_pages/guides_trt_does-insurance-cover-testosterone-therapy.json has no search_strengthening listed in strengthened_pages.json"
+    },
+    {
+      "family": "cost @ /guides/hormone-therapy-cost-what-is-published/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/hormone-therapy-cost-what-is-published/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 5,
+      "best_position": 7.5,
+      "weighted_position": 14.2,
+      "top_query": "hormone clinic cost per patient",
+      "query_count": 3,
+      "queries": [
+        {
+          "query": "hormone clinic cost per patient",
+          "route": "/guides/hormone-therapy-cost-what-is-published/",
+          "impressions": 2,
+          "position": 13.5
+        },
+        {
+          "query": "how much does hormone treatment cost",
+          "route": "/guides/hormone-therapy-cost-what-is-published/",
+          "impressions": 2,
+          "position": 7.5
+        },
+        {
+          "query": "cost considerations for hormone therapy",
+          "route": "/guides/hormone-therapy-cost-what-is-published/",
+          "impressions": 1,
+          "position": 29
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/hormone-therapy-cost-what-is-published/",
+          "family_impressions": 5,
+          "page_impressions": 9,
+          "page_position": 19.9
+        }
+      ],
+      "rank": 4,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/hormone-therapy-cost-what-is-published/"
+      ],
+      "status": "not_strengthened",
+      "reason": "data/page_sets/examples/trt_global_pages/guides_trt_hormone-therapy-cost-what-is-published.json has no search_strengthening listed in strengthened_pages.json"
+    },
+    {
+      "family": "provider business @ /guides/hormone-therapy-cost-what-is-published/",
+      "intent": "provider_business",
+      "head_term": "provider business",
+      "page": "/guides/hormone-therapy-cost-what-is-published/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 4,
+      "best_position": 25,
+      "weighted_position": 27,
+      "top_query": "hormone clinic cost per lead",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "hormone clinic cost per lead",
+          "route": "/guides/hormone-therapy-cost-what-is-published/",
+          "impressions": 2,
+          "position": 29
+        },
+        {
+          "query": "hormone clinic marketing pricing",
+          "route": "/guides/hormone-therapy-cost-what-is-published/",
+          "impressions": 2,
+          "position": 25
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/hormone-therapy-cost-what-is-published/",
+          "family_impressions": 4,
+          "page_impressions": 9,
+          "page_position": 19.9
+        }
+      ],
+      "rank": 5,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "4 impressions < 5"
     },
     {
       "family": "cost @ /guides/does-insurance-cover-testosterone-therapy/",
@@ -398,16 +498,16 @@
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "family_impressions": 3,
-          "page_impressions": 30,
-          "page_position": 77
+          "page_impressions": 31,
+          "page_position": 77.2
         }
       ],
-      "rank": 4,
+      "rank": 6,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "3 impressions < 5"
+      "status": "not_top_family",
+      "reason": "rank 6 of 10 by impressions; no page at position <= 15"
     },
     {
       "family": "red flags @ /guides/trt-red-flags/",
@@ -437,7 +537,7 @@
           "page_position": 6.4
         }
       ],
-      "rank": 5,
+      "rank": 7,
       "basis": [
         "ranking_page"
       ],
@@ -472,57 +572,16 @@
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "family_impressions": 2,
-          "page_impressions": 30,
-          "page_position": 77
+          "page_impressions": 31,
+          "page_position": 77.2
         }
       ],
-      "rank": 6,
+      "rank": 8,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 6 of 9 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "cost @ /guides/hormone-therapy-cost-what-is-published/",
-      "intent": "cost",
-      "head_term": "cost",
-      "page": "/guides/hormone-therapy-cost-what-is-published/",
-      "page_kind": "guide",
-      "page_intent": "cost",
-      "impressions": 2,
-      "best_position": 6,
-      "weighted_position": 17.5,
-      "top_query": "cost considerations for hormone therapy",
-      "query_count": 2,
-      "queries": [
-        {
-          "query": "cost considerations for hormone therapy",
-          "route": "/guides/hormone-therapy-cost-what-is-published/",
-          "impressions": 1,
-          "position": 29
-        },
-        {
-          "query": "how much does hormone treatment cost",
-          "route": "/guides/hormone-therapy-cost-what-is-published/",
-          "impressions": 1,
-          "position": 6
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/hormone-therapy-cost-what-is-published/",
-          "family_impressions": 2,
-          "page_impressions": 2,
-          "page_position": 17.5
-        }
-      ],
-      "rank": 7,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 7 of 9 by impressions; no page at position <= 15"
+      "reason": "rank 8 of 10 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/beauty-peptide-costs-and-bundles/",
@@ -552,12 +611,12 @@
           "page_position": 9
         }
       ],
-      "rank": 8,
+      "rank": 9,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 8 of 9 by impressions; no page at position <= 15"
+      "reason": "rank 9 of 10 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/ocala-vitamin-c-injection-iv-prices/",
@@ -587,12 +646,12 @@
           "page_position": 34
         }
       ],
-      "rank": 9,
+      "rank": 10,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 9 of 9 by impressions; no page at position <= 15"
+      "reason": "rank 10 of 10 by impressions; no page at position <= 15"
     }
   ]
 }
