@@ -69,7 +69,7 @@ const SITES = {
     verify: 'Verify the license with the state dental board, then ask: an itemized written plan, who does the work, and what follow-up costs.'
   },
   trt: {
-    accent: '#A16207', accentHover: '#854D0E',
+    accent: '#854D0E', accentHover: '#713F12',
     providerNoun: 'clinic', providerPlural: 'clinics', findLabel: 'Find a clinic',
     advice: 'medical',
     nav: [['Costs', '/guides/hormone-therapy-cost-what-is-published/'], ['Labs', '/guides/trt-pricing-and-labs/'], ['Treatments', '/guides/who-is-a-good-candidate-for-trt/']],
@@ -126,7 +126,7 @@ const SITES = {
     verify: 'Verify the license with the state psychology board, then ask: the testing scope, the wait, and what the written report includes.'
   },
   pi: {
-    accent: '#B45309', accentHover: '#92400E',
+    accent: '#92400E', accentHover: '#78350F',
     providerNoun: 'attorney', providerPlural: 'law firms', findLabel: 'Find an attorney',
     advice: 'legal',
     nav: [['Costs', '/guides/personal-injury-fees-explained/'], ['First 48 hours', '/guides/what-to-do-after-an-accident/'], ['Deadlines', '/guides/when-to-call-a-personal-injury-lawyer/']],
