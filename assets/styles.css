@@ -2458,3 +2458,6 @@ main { max-width: 1240px; }
 
 /* Links in the dark footer: the page accent (#2563EB) is 3.5:1 on #0F172A; light text is 15:1. */
 footer .footer-meta a, .site-footer .footer-meta a { color: rgba(255,255,255,0.92); text-decoration: underline; text-underline-offset: 2px; }
+/* Affiliate blocks carry their own light background (trt_affiliates.js), so their links take the
+   page accent, not the colour of the band they sit in (white links on the light block were 1.2:1). */
+.affiliate-block a { color: var(--hp-accent, #854D0E); text-decoration: underline; text-underline-offset: 2px; }
