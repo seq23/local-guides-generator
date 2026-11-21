@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-21..2026-11-17",
-  "gsc_collected_at": "2026-11-20T21:44:31+00:00",
+  "gsc_window": "2026-10-22..2026-11-18",
+  "gsc_collected_at": "2026-11-21T20:30:12+00:00",
   "measurement_rule": "Every target carries a source (gsc_export | measured_demand) and a positive measured number. Anything unmeasured is dropped with its reason.",
-  "target_count": 20,
+  "target_count": 22,
   "targets_by_source": {
     "measured_demand": 2,
-    "gsc_export": 18
+    "gsc_export": 20
   },
   "dropped_count": 0,
   "dropped": [],
@@ -46,7 +46,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 6,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/",
       "other_measurements": [
@@ -67,7 +67,35 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 5,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "uscis immigration medical exam",
+      "normalized_query": "uscis immigration medical exam",
+      "source": "gsc_export",
+      "impressions": 4,
+      "clicks": 0,
+      "average_position": 85.8,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 4,
+        "window": "2026-10-22..2026-11-18"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "form i-693 doctor",
+      "normalized_query": "form i 693 doctor",
+      "source": "gsc_export",
+      "impressions": 3,
+      "clicks": 0,
+      "average_position": 81.3,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 3,
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -81,35 +109,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 3,
-        "window": "2026-10-21..2026-11-17"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "uscis immigration medical exam",
-      "normalized_query": "uscis immigration medical exam",
-      "source": "gsc_export",
-      "impressions": 3,
-      "clicks": 0,
-      "average_position": 88.3,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 3,
-        "window": "2026-10-21..2026-11-17"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "form i-693 doctor",
-      "normalized_query": "form i 693 doctor",
-      "source": "gsc_export",
-      "impressions": 2,
-      "clicks": 0,
-      "average_position": 82.5,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 2,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -123,7 +123,77 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 2,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "immigration medical exam form",
+      "normalized_query": "immigration medical exam form",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 68.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-22..2026-11-18"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "uscis medical",
+      "normalized_query": "uscis medical",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 79.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-22..2026-11-18"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "uscis medical exam requirements",
+      "normalized_query": "uscis medical exam requirements",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 77.5,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-22..2026-11-18"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "uscis medical examination",
+      "normalized_query": "uscis medical examination",
+      "source": "gsc_export",
+      "impressions": 2,
+      "clicks": 0,
+      "average_position": 69,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 2,
+        "window": "2026-10-22..2026-11-18"
+      },
+      "owner_route": "/"
+    },
+    {
+      "query": "civil surgeon uscis",
+      "normalized_query": "civil surgeon uscis",
+      "source": "gsc_export",
+      "impressions": 1,
+      "clicks": 0,
+      "average_position": 69,
+      "measurement": {
+        "metric": "impressions_28d",
+        "value": 1,
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -137,7 +207,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/guides/uscis-fees-timelines-and-what-to-ask/"
     },
@@ -151,7 +221,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -165,21 +235,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "immigration medical exam form",
-      "normalized_query": "immigration medical exam form",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 69,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -193,7 +249,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -207,7 +263,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -221,7 +277,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -235,7 +291,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -249,7 +305,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     },
@@ -263,35 +319,7 @@
       "measurement": {
         "metric": "impressions_28d",
         "value": 1,
-        "window": "2026-10-21..2026-11-17"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "uscis medical exam requirements",
-      "normalized_query": "uscis medical exam requirements",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 69,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-21..2026-11-17"
-      },
-      "owner_route": "/"
-    },
-    {
-      "query": "uscis medical examination",
-      "normalized_query": "uscis medical examination",
-      "source": "gsc_export",
-      "impressions": 1,
-      "clicks": 0,
-      "average_position": 69,
-      "measurement": {
-        "metric": "impressions_28d",
-        "value": 1,
-        "window": "2026-10-21..2026-11-17"
+        "window": "2026-10-22..2026-11-18"
       },
       "owner_route": "/"
     }

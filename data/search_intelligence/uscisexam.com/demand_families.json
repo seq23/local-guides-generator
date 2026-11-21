@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-21..2026-11-17",
-  "gsc_collected_at": "2026-11-20T21:44:31+00:00",
+  "gsc_window": "2026-10-22..2026-11-18",
+  "gsc_collected_at": "2026-11-21T20:30:12+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,7 +17,7 @@
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 32,
+      "impressions": 40,
       "status": "no_page"
     },
     {
@@ -47,11 +47,11 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 32,
-      "best_position": 69,
-      "weighted_position": 83.8,
+      "impressions": 40,
+      "best_position": 68.5,
+      "weighted_position": 82.3,
       "top_query": "uscis civil surgeon",
-      "query_count": 16,
+      "query_count": 18,
       "queries": [
         {
           "query": "uscis civil surgeon",
@@ -66,6 +66,18 @@
           "position": 92.8
         },
         {
+          "query": "uscis immigration medical exam",
+          "route": "/",
+          "impressions": 4,
+          "position": 85.8
+        },
+        {
+          "query": "form i-693 doctor",
+          "route": "/",
+          "impressions": 3,
+          "position": 81.3
+        },
+        {
           "query": "i 693 medical exam",
           "route": "/",
           "impressions": 3,
@@ -78,16 +90,34 @@
           "position": 80.7
         },
         {
-          "query": "uscis immigration medical exam",
-          "route": "/",
-          "impressions": 3,
-          "position": 88.3
-        },
-        {
-          "query": "form i-693 doctor",
+          "query": "immigration medical exam form",
           "route": "/",
           "impressions": 2,
-          "position": 82.5
+          "position": 68.5
+        },
+        {
+          "query": "uscis medical",
+          "route": "/",
+          "impressions": 2,
+          "position": 79.5
+        },
+        {
+          "query": "uscis medical exam requirements",
+          "route": "/",
+          "impressions": 2,
+          "position": 77.5
+        },
+        {
+          "query": "uscis medical examination",
+          "route": "/",
+          "impressions": 2,
+          "position": 69
+        },
+        {
+          "query": "civil surgeon uscis",
+          "route": "/",
+          "impressions": 1,
+          "position": 69
         },
         {
           "query": "i-693 exam",
@@ -100,12 +130,6 @@
           "route": "/",
           "impressions": 1,
           "position": 84
-        },
-        {
-          "query": "immigration medical exam form",
-          "route": "/",
-          "impressions": 1,
-          "position": 69
         },
         {
           "query": "medical uscis",
@@ -136,26 +160,14 @@
           "route": "/",
           "impressions": 1,
           "position": 91
-        },
-        {
-          "query": "uscis medical exam requirements",
-          "route": "/",
-          "impressions": 1,
-          "position": 69
-        },
-        {
-          "query": "uscis medical examination",
-          "route": "/",
-          "impressions": 1,
-          "position": 69
         }
       ],
       "pages": [
         {
           "route": "/",
-          "family_impressions": 32,
-          "page_impressions": 55,
-          "page_position": 72.2
+          "family_impressions": 40,
+          "page_impressions": 64,
+          "page_position": 72.8
         }
       ],
       "rank": 1,
@@ -191,8 +203,8 @@
         {
           "route": "/",
           "family_impressions": 2,
-          "page_impressions": 55,
-          "page_position": 72.2
+          "page_impressions": 64,
+          "page_position": 72.8
         }
       ],
       "rank": 2,
@@ -226,8 +238,8 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 55,
-          "page_position": 72.2
+          "page_impressions": 64,
+          "page_position": 72.8
         }
       ],
       "rank": 3,
