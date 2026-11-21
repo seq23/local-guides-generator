@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-21..2026-11-17",
+  "gsc_window": "2026-10-22..2026-11-18",
   "totals": {
     "clicks": 0,
-    "impressions": 177,
+    "impressions": 199,
     "ctr": 0,
-    "position": 61.2
+    "position": 60.2
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -17,11 +17,11 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 72,
+      "family_impressions": 88,
       "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 37,
+      "impressions": 38,
       "clicks": 0,
-      "position": 71.2,
+      "position": 71.1,
       "strengthened": false
     },
     {
@@ -31,11 +31,25 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 72,
+      "family_impressions": 88,
       "source": "data/page_sets/examples/trt_v1.json",
       "impressions": 31,
       "clicks": 0,
       "position": 79.5,
+      "strengthened": false
+    },
+    {
+      "route": "/states/CA/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "ranking_page",
+        "top_demand"
+      ],
+      "family_impressions": 88,
+      "source": "data/page_sets/examples/trt_v1.json",
+      "impressions": 15,
+      "clicks": 0,
+      "position": 63.5,
       "strengthened": false
     },
     {
@@ -45,11 +59,24 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 72,
+      "family_impressions": 88,
       "source": "data/page_sets/examples/trt_v1.json",
       "impressions": 5,
       "clicks": 0,
       "position": 14.6,
+      "strengthened": false
+    },
+    {
+      "route": "/guides/does-insurance-cover-testosterone-therapy/",
+      "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 24,
+      "source": "data/page_sets/examples/trt_global_pages/guides_trt_does-insurance-cover-testosterone-therapy.json",
+      "impressions": 32,
+      "clicks": 0,
+      "position": 77.4,
       "strengthened": false
     },
     {
@@ -58,25 +85,12 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 23,
+      "family_impressions": 21,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
-      "impressions": 30,
+      "impressions": 28,
       "clicks": 0,
-      "position": 63.3,
+      "position": 61.4,
       "strengthened": true
-    },
-    {
-      "route": "/guides/does-insurance-cover-testosterone-therapy/",
-      "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
-      "basis": [
-        "top_demand"
-      ],
-      "family_impressions": 23,
-      "source": "data/page_sets/examples/trt_global_pages/guides_trt_does-insurance-cover-testosterone-therapy.json",
-      "impressions": 31,
-      "clicks": 0,
-      "position": 77.2,
-      "strengthened": false
     },
     {
       "route": "/guides/hormone-therapy-cost-what-is-published/",
@@ -86,9 +100,9 @@
       ],
       "family_impressions": 5,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_hormone-therapy-cost-what-is-published.json",
-      "impressions": 9,
+      "impressions": 13,
       "clicks": 0,
-      "position": 19.9,
+      "position": 21.7,
       "strengthened": false
     },
     {
@@ -108,22 +122,23 @@
   "not_yet_strengthened": [
     "/states/WY/",
     "/states/SD/",
+    "/states/CA/",
     "/states/OH/",
     "/guides/does-insurance-cover-testosterone-therapy/",
     "/guides/hormone-therapy-cost-what-is-published/"
   ],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 71,
+      "Crawled - currently not indexed": 72,
       "Discovered - currently not indexed": 51,
       "Submitted and indexed": 34,
-      "URL is unknown to Google": 48
+      "URL is unknown to Google": 47
     },
     "buckets": {
-      "crawled_not_indexed": 71,
+      "crawled_not_indexed": 72,
       "discovered_not_indexed": 51,
       "indexed": 34,
-      "unknown": 48
+      "unknown": 47
     }
   }
 }
