@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "memphisseniorcarehomes.com",
-  "gsc_window": "2026-10-21..2026-11-17",
+  "gsc_window": "2026-10-22..2026-11-18",
   "totals": {
     "clicks": 5,
-    "impressions": 2222,
+    "impressions": 2221,
     "ctr": 0.0023,
-    "position": 40.8
+    "position": 40.5
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -40,12 +40,14 @@
   "not_yet_strengthened": [],
   "coverage": {
     "by_coverage_state": {
-      "Discovered - currently not indexed": 3,
-      "Submitted and indexed": 191
+      "Discovered - currently not indexed": 1,
+      "Submitted and indexed": 191,
+      "URL is unknown to Google": 2
     },
     "buckets": {
-      "discovered_not_indexed": 3,
-      "indexed": 191
+      "discovered_not_indexed": 1,
+      "indexed": 191,
+      "unknown": 2
     }
   }
 }
