@@ -92,7 +92,7 @@ function labelHtml() {
   return '<p class="affiliate-label" data-affiliate-label="true">' + esc(LABEL) + '</p>';
 }
 
-const BLOCK_STYLE = 'border:1px dashed #A16207;border-radius:10px;padding:12px 14px;margin:16px 0;background:rgba(161,98,7,.05)';
+const BLOCK_STYLE = 'border:1px dashed #A16207;border-radius:10px;padding:12px 14px;margin:16px 0;background:#FDF7F2;color:#0F172A';
 
 /** "Check your levels first" — Ulta Lab Tests. keys: subset of ULTA_LINKS. */
 function labsBlockHtml(keys) {

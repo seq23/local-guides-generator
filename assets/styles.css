@@ -35,7 +35,7 @@ body {
 .brand { font-weight: 700; text-decoration: none; color: inherit; }
 
 .brand-wrap{display:flex;flex-direction:column;gap:2px}
-.publisher{font-size:12px;opacity:0.8}
+.publisher{font-size:12px;color:var(--muted)}
 
 .top-nav { display: flex; gap: 12px; flex-wrap: wrap; }
 .top-nav a { text-decoration: none; color: inherit; padding: 6px 8px; border-radius: 8px; }
@@ -92,7 +92,7 @@ a.button:hover, .button:hover { background: rgba(17,24,39,0.04); }
   border-color: rgba(255,255,255,0.18);
 }
 .button-primary:hover { background: var(--accent-2); }
-.kicker { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; opacity: .7; }
+.kicker { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
 .section { padding: 14px 0; }
 
 /* Content rhythm */
@@ -298,8 +298,8 @@ footer .footer-nav a:hover{
 .ad-block .disclosure,
 .ad-block .ad-sub,
 .advertising .disclosure{
-  font-size: 0.68rem;
-  opacity: 0.65;
+  font-size: 0.75rem;
+  color: var(--muted);
 }
 /* ===== Guides hub cards: fix underline + oversized headings ===== */
 .card a {
@@ -320,7 +320,6 @@ footer .footer-nav a:hover{
 .card p {
   margin: 0.35em 0 0;      /* reduce card copy spacing */
   font-size: 0.95rem;
-  opacity: 0.85;
 }
 /* ===== Guides hub card polish ===== */
 .guide-card {
@@ -927,7 +926,7 @@ main ul, main ol{
 
 /* Publisher lockup (umbrella brand) */
 .brand-lockup{display:flex;flex-direction:column;line-height:1.1}
-.publisher{font-size:12px;opacity:.75;margin-bottom:4px}
+.publisher{font-size:12px;color:var(--muted);margin-bottom:4px}
 
 /* =============================================================================
    Enterprise UX upgrades (for-providers + guides)
@@ -2333,7 +2332,7 @@ main { max-width: 1240px; }
 .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -0.02em; }
 .hero .muted { max-width: 70ch; font-size: 1.08rem; }
 .answer-block, .citation-summary.answer-block { background: #f6f4ef; border: 1px solid #e4dfd1; border-radius: 18px; padding: 1.2rem 1.25rem; max-width: 78ch; }
-.tertiary-support, .fanout-query-cluster--tertiary { opacity: .82; }
+.tertiary-support, .fanout-query-cluster--tertiary { color: var(--muted); }
 .tertiary-support .support-links, .fanout-query-cluster--tertiary a { font-size: .95rem; }
 .state-card-grid, .state-city-grid, .provider-directory-grid, .guide-group-grid { display: grid; gap: 1rem; }
 .state-card-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
@@ -2371,7 +2370,7 @@ main { max-width: 1240px; }
 .answer-block, .citation-summary.answer-block { background: #f5f1e8; }
 .provider-directory-section, .faq-entry-card, .state-cities-block, .request-city-block, .state-guides-support { background: #fffdfa; border-radius: 22px; }
 .state-guides-support .grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); display:grid; gap:1rem; }
-.tertiary-support, .fanout-query-cluster--tertiary { opacity: .66; }
+.tertiary-support, .fanout-query-cluster--tertiary { color: var(--muted); }
 .fanout-query-cluster--tertiary summary { font-size: .98rem; }
 .fanout-query-cluster--tertiary .accordion-meta, .tertiary-support .muted { font-size: .9rem; }
 [data-pi-state-faq="true"], [data-disciplinary-lookup="true"] { background: #fbfaf7; }
@@ -2456,3 +2455,6 @@ main { max-width: 1240px; }
   }
 }
 
+
+/* Links in the dark footer: the page accent (#2563EB) is 3.5:1 on #0F172A; light text is 15:1. */
+footer .footer-meta a, .site-footer .footer-meta a { color: rgba(255,255,255,0.92); text-decoration: underline; text-underline-offset: 2px; }
