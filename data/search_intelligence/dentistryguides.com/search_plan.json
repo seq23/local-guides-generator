@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-10-22..2026-11-18",
+  "gsc_window": "2026-10-23..2026-11-19",
   "totals": {
     "clicks": 2,
     "impressions": 847,
     "ctr": 0.0024,
-    "position": 54.2
+    "position": 54
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -16,11 +16,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 157,
+      "family_impressions": 161,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 68,
+      "impressions": 64,
       "clicks": 0,
-      "position": 52.9,
+      "position": 52.1,
       "strengthened": true
     },
     {
@@ -29,11 +29,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 157,
+      "family_impressions": 161,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 34,
+      "impressions": 38,
       "clicks": 0,
-      "position": 56.6,
+      "position": 59.1,
       "strengthened": true
     },
     {
@@ -42,7 +42,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 157,
+      "family_impressions": 161,
       "source": "data/page_sets/examples/dentistry_v1.json",
       "impressions": 24,
       "clicks": 0,
@@ -55,11 +55,24 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 157,
+      "family_impressions": 161,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 36,
+      "impressions": 34,
       "clicks": 0,
-      "position": 58.1,
+      "position": 57.4,
+      "strengthened": true
+    },
+    {
+      "route": "/states/VA/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "top_demand"
+      ],
+      "family_impressions": 161,
+      "source": "data/page_sets/examples/dentistry_v1.json",
+      "impressions": 14,
+      "clicks": 0,
+      "position": 65.2,
       "strengthened": true
     },
     {
@@ -68,7 +81,7 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 157,
+      "family_impressions": 161,
       "source": "data/page_sets/examples/dentistry_v1.json",
       "impressions": 21,
       "clicks": 0,
@@ -81,11 +94,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 88,
+      "family_impressions": 87,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
       "impressions": 90,
       "clicks": 0,
-      "position": 78.8,
+      "position": 78.2,
       "strengthened": true
     },
     {
@@ -94,11 +107,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 76,
+      "family_impressions": 77,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_dental-implant-and-oral-surgery-cost.json",
-      "impressions": 81,
+      "impressions": 82,
       "clicks": 0,
-      "position": 64,
+      "position": 63.4,
       "strengthened": true
     },
     {
@@ -121,15 +134,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 12,
-      "Discovered - currently not indexed": 6,
+      "Discovered - currently not indexed": 11,
       "Submitted and indexed": 41,
-      "URL is unknown to Google": 7
+      "URL is unknown to Google": 2
     },
     "buckets": {
       "crawled_not_indexed": 12,
-      "discovered_not_indexed": 6,
+      "discovered_not_indexed": 11,
       "indexed": 41,
-      "unknown": 7
+      "unknown": 2
     }
   }
 }
