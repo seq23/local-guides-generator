@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-20..2026-11-16",
-  "gsc_collected_at": "2026-11-19T22:13:20+00:00",
+  "gsc_window": "2026-10-23..2026-11-19",
+  "gsc_collected_at": "2026-11-22T20:44:51+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,12 +12,12 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 3,
+  "family_count": 4,
   "top_families": [
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 24,
+      "impressions": 50,
       "status": "no_page"
     },
     {
@@ -28,6 +28,12 @@
     },
     {
       "rank": 3,
+      "family": "choose a provider @ /",
+      "impressions": 1,
+      "status": "below_impression_floor"
+    },
+    {
+      "rank": 4,
       "family": "cost @ /guides/uscis-fees-timelines-and-what-to-ask/",
       "impressions": 1,
       "status": "not_strengthened"
@@ -41,23 +47,47 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 24,
-      "best_position": 74,
-      "weighted_position": 87.2,
+      "impressions": 50,
+      "best_position": 69,
+      "weighted_position": 82.4,
       "top_query": "uscis civil surgeon",
-      "query_count": 13,
+      "query_count": 19,
       "queries": [
         {
           "query": "uscis civil surgeon",
           "route": "/",
-          "impressions": 4,
-          "position": 85.5
+          "impressions": 6,
+          "position": 76.8
         },
         {
           "query": "uscis medical exam",
           "route": "/",
+          "impressions": 6,
+          "position": 88.8
+        },
+        {
+          "query": "uscis immigration medical exam",
+          "route": "/",
+          "impressions": 5,
+          "position": 86.6
+        },
+        {
+          "query": "form i-693 doctor",
+          "route": "/",
           "impressions": 4,
-          "position": 93
+          "position": 81
+        },
+        {
+          "query": "i 693 medical exam",
+          "route": "/",
+          "impressions": 3,
+          "position": 83.7
+        },
+        {
+          "query": "immigration medical exam form",
+          "route": "/",
+          "impressions": 3,
+          "position": 72.3
         },
         {
           "query": "uscis immigration exam",
@@ -66,40 +96,52 @@
           "position": 80.7
         },
         {
-          "query": "uscis immigration medical exam",
+          "query": "uscis medical",
           "route": "/",
           "impressions": 3,
-          "position": 88.3
+          "position": 86.3
         },
         {
-          "query": "form i-693 doctor",
+          "query": "uscis medical exam requirements",
+          "route": "/",
+          "impressions": 3,
+          "position": 82
+        },
+        {
+          "query": "i-693 medical exam",
           "route": "/",
           "impressions": 2,
-          "position": 82.5
+          "position": 81
         },
         {
-          "query": "i 693 medical exam",
+          "query": "medical exam uscis form",
+          "route": "/",
+          "impressions": 2,
+          "position": 71
+        },
+        {
+          "query": "medical uscis",
+          "route": "/",
+          "impressions": 2,
+          "position": 94
+        },
+        {
+          "query": "uscis medical examination",
+          "route": "/",
+          "impressions": 2,
+          "position": 69
+        },
+        {
+          "query": "civil surgeon uscis",
           "route": "/",
           "impressions": 1,
-          "position": 79
+          "position": 69
         },
         {
           "query": "i-693 exam",
           "route": "/",
           "impressions": 1,
           "position": 100
-        },
-        {
-          "query": "i-693 medical exam",
-          "route": "/",
-          "impressions": 1,
-          "position": 84
-        },
-        {
-          "query": "medical uscis",
-          "route": "/",
-          "impressions": 1,
-          "position": 89
         },
         {
           "query": "us medical exam",
@@ -129,9 +171,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 24,
-          "page_impressions": 46,
-          "page_position": 72.1
+          "family_impressions": 50,
+          "page_impressions": 74,
+          "page_position": 74.4
         }
       ],
       "rank": 1,
@@ -167,8 +209,8 @@
         {
           "route": "/",
           "family_impressions": 2,
-          "page_impressions": 46,
-          "page_position": 72.1
+          "page_impressions": 74,
+          "page_position": 74.4
         }
       ],
       "rank": 2,
@@ -177,6 +219,41 @@
       "strengthened_pages": [],
       "status": "below_impression_floor",
       "reason": "2 impressions < 5"
+    },
+    {
+      "family": "choose a provider @ /",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/",
+      "page_kind": "hub",
+      "page_intent": "hub",
+      "impressions": 1,
+      "best_position": 64,
+      "weighted_position": 64,
+      "top_query": "uscis find a civil surgeon tool",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "uscis find a civil surgeon tool",
+          "route": "/",
+          "impressions": 1,
+          "position": 64
+        }
+      ],
+      "pages": [
+        {
+          "route": "/",
+          "family_impressions": 1,
+          "page_impressions": 74,
+          "page_position": 74.4
+        }
+      ],
+      "rank": 3,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "1 impressions < 5"
     },
     {
       "family": "cost @ /guides/uscis-fees-timelines-and-what-to-ask/",
@@ -206,7 +283,7 @@
           "page_position": 11.5
         }
       ],
-      "rank": 3,
+      "rank": 4,
       "basis": [
         "ranking_page"
       ],
