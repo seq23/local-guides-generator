@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-22..2026-11-18",
-  "gsc_collected_at": "2026-11-21T20:20:48+00:00",
+  "gsc_window": "2026-10-23..2026-11-19",
+  "gsc_collected_at": "2026-11-22T20:35:55+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -29,7 +29,7 @@
     {
       "rank": 3,
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "impressions": 12,
+      "impressions": 13,
       "status": "strengthened"
     },
     {
@@ -240,9 +240,9 @@
       "page": "/guides/neuropsych-testing-cost-by-state/",
       "page_kind": "guide",
       "page_intent": "cost",
-      "impressions": 12,
+      "impressions": 13,
       "best_position": 41,
-      "weighted_position": 77.8,
+      "weighted_position": 75.9,
       "top_query": "neuropsychological testing cost",
       "query_count": 4,
       "queries": [
@@ -250,13 +250,13 @@
           "query": "neuropsychological testing cost",
           "route": "/guides/neuropsych-testing-cost-by-state/",
           "impressions": 6,
-          "position": 84.7
+          "position": 81.8
         },
         {
           "query": "cost of a neuropsychological evaluation",
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "impressions": 2,
-          "position": 87.5
+          "impressions": 3,
+          "position": 82
         },
         {
           "query": "neuropsych assessment cost",
@@ -274,9 +274,9 @@
       "pages": [
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "family_impressions": 12,
-          "page_impressions": 48,
-          "page_position": 25.7
+          "family_impressions": 13,
+          "page_impressions": 52,
+          "page_position": 24.9
         }
       ],
       "rank": 3,
@@ -429,7 +429,7 @@
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "family_impressions": 6,
           "page_impressions": 29,
-          "page_position": 5.7
+          "page_position": 5.8
         }
       ],
       "rank": 6,
@@ -468,7 +468,7 @@
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "family_impressions": 2,
           "page_impressions": 29,
-          "page_position": 5.7
+          "page_position": 5.8
         }
       ],
       "rank": 7,
@@ -479,6 +479,47 @@
       "strengthened_pages": [],
       "status": "intent_mismatch",
       "reason": "query intent cost vs page intent comparison"
+    },
+    {
+      "family": "red flags @ /guides/autism-therapy-red-flags-and-green-flags/",
+      "intent": "red_flags",
+      "head_term": "red flags",
+      "page": "/guides/autism-therapy-red-flags-and-green-flags/",
+      "page_kind": "guide",
+      "page_intent": "red_flags",
+      "impressions": 2,
+      "best_position": 30,
+      "weighted_position": 48,
+      "top_query": "aba therapy red and green flags",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "aba therapy red and green flags",
+          "route": "/guides/autism-therapy-red-flags-and-green-flags/",
+          "impressions": 1,
+          "position": 66
+        },
+        {
+          "query": "red flag autism",
+          "route": "/guides/autism-therapy-red-flags-and-green-flags/",
+          "impressions": 1,
+          "position": 30
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/autism-therapy-red-flags-and-green-flags/",
+          "family_impressions": 2,
+          "page_impressions": 3,
+          "page_position": 35
+        }
+      ],
+      "rank": 8,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 8 of 10 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /guides/how-to-choose-a-neuro-evaluation-provider/",
@@ -504,16 +545,16 @@
         {
           "route": "/guides/how-to-choose-a-neuro-evaluation-provider/",
           "family_impressions": 1,
-          "page_impressions": 3,
-          "page_position": 39.7
+          "page_impressions": 4,
+          "page_position": 30.8
         }
       ],
-      "rank": 8,
+      "rank": 9,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 8 of 10 by impressions; no page at position <= 15"
+      "reason": "rank 9 of 10 by impressions; no page at position <= 15"
     },
     {
       "family": "hub @ /guides/",
@@ -543,7 +584,7 @@
           "page_position": 2.8
         }
       ],
-      "rank": 9,
+      "rank": 10,
       "basis": [
         "ranking_page"
       ],
@@ -551,41 +592,6 @@
       "strengthened_pages": [],
       "status": "no_page",
       "reason": "lands on /guides/ (hub); no guide or state hub serves \"hub\" there"
-    },
-    {
-      "family": "red flags @ /guides/autism-therapy-red-flags-and-green-flags/",
-      "intent": "red_flags",
-      "head_term": "red flags",
-      "page": "/guides/autism-therapy-red-flags-and-green-flags/",
-      "page_kind": "guide",
-      "page_intent": "red_flags",
-      "impressions": 1,
-      "best_position": 66,
-      "weighted_position": 66,
-      "top_query": "aba therapy red and green flags",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "aba therapy red and green flags",
-          "route": "/guides/autism-therapy-red-flags-and-green-flags/",
-          "impressions": 1,
-          "position": 66
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/autism-therapy-red-flags-and-green-flags/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 66
-        }
-      ],
-      "rank": 10,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 10 of 10 by impressions; no page at position <= 15"
     }
   ]
 }
