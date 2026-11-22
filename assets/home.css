@@ -87,6 +87,9 @@ body.hp-body .hp-status { grid-column: 1 / -1; color: #FFFFFF; }
 body.hp-body .hp-band-panel { background: #FFFFFF; color: var(--hp-ink); border-radius: 12px; padding: 20px; margin-top: 16px; }
 body.hp-body .hp-band-panel h2 { color: var(--hp-ink); }
 body.hp-body .hp-band-panel a { color: var(--hp-accent); }
+/* An affiliate block (trt_affiliates.js) carries its own light background, so inside a band its links
+   take the accent like a band panel's; white band links on it were 1.2:1. */
+body.hp-body .hp-band .affiliate-block a, body.hp-body .affiliate-block a { color: var(--hp-accent); text-decoration: underline; text-underline-offset: 2px; }
 
 /* About */
 body.hp-body .hp-about { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 32px; }
