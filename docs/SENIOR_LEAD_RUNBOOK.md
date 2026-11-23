@@ -12,7 +12,7 @@ Run the queries below with:
 - Waiting leads: `SELECT id, created_at, email <> '' AS has_email FROM leads WHERE status = 'pending_confirm'`. Links expire after 14 days.
 
 ## Switch the exclusive seat on or off
-1. The community pays through `POST /api/senior-seat-checkout {"facility_id":"<id>"}`. That returns a Stripe link for $249/month with 60 free days. When they pay, you get a "Seat paid" email with the exact line to paste, and Stripe ends the subscription after 6 months on its own (`cancel_at`).
+1. The community pays through `POST /api/senior-seat-checkout {"facility_id":"<id>"}`. That returns a Stripe link for $249/month with 60 free days. It is limited per IP and per site per day (`CAPS['seat-checkout']` in `lib/abuse_guard.mjs`; over is 429, no `LEAD_LIMITS` store is 503 and Stripe is never called), and asking twice the same day for the same community and email returns the same Stripe session. When they pay, you get a "Seat paid" email with the exact line to paste, and Stripe ends the subscription after 6 months on its own (`cancel_at`).
 2. Edit `data/senior_seat.json`. To switch it on: `{"active":true,"facility_id":"<id>","start":"YYYY-MM-DD","end":"YYYY-MM-DD"}` (6 months at most; there is no lead cap). To switch it off: `{"active":false}`. Merge the change and the deploy follows on its own. `senior_seat_schema_contract.js` rejects a malformed file or a term longer than 6 months.
 3. While a seat is on, each lead that fits the seat holder goes to them alone, in full. If they click **Pass**, or do not click within 72 hours, the lead goes to the open round. It also goes to the open round if they click **Working it** and the family says "not yet" at day 30.
 

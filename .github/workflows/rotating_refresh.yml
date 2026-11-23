@@ -63,6 +63,8 @@ jobs:
           python3 scripts/search_intelligence/collect_gsc.py --only "${{ matrix.host }}"
       - name: Record audience CTA clicks
         if: matrix.host == 'memphisseniorcarehomes.com'
+        env:
+          SENIOR_TICK_TOKEN: ${{ secrets.SENIOR_TICK_TOKEN }}
         run: node scripts/search_intelligence/collect_cta_clicks.mjs
       - name: Rebuild measured targets, consolidation ledger and strengthening plan
         run: node scripts/search_intelligence/build_search_plan.mjs

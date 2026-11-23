@@ -10,11 +10,15 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const LIB = pathToFileURL(path.join(ROOT, 'lib')).href;
 
-export function loadRequestAssistance(prefix = 'ra-fn-') {
-  const src = fs.readFileSync(path.join(ROOT, 'functions/api/request-assistance.js'), 'utf8');
-  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), prefix)), 'request-assistance.mjs');
+export function loadFunction(name, prefix = 'fn-') {
+  const src = fs.readFileSync(path.join(ROOT, 'functions/api', `${name}.js`), 'utf8');
+  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), prefix)), `${name}.mjs`);
   fs.writeFileSync(tmp, src.replace(/(['"])\.\.\/\.\.\/lib\//g, `$1${LIB}/`));
   return import(pathToFileURL(tmp).href);
+}
+
+export function loadRequestAssistance(prefix = 'ra-fn-') {
+  return loadFunction('request-assistance', prefix);
 }
 
 // The lead gate (lib/lead_guard.mjs) needs a Turnstile token on every post. Tests that

@@ -94,6 +94,13 @@ jobs:
         # routed (follow-ups, seat offer, teasers) only after the family confirms (3 Nov 2026).
         run: npm run test:lead-guard
 
+      - name: Click and readback abuse pins
+        # POST /api/track-connection-click: per-IP and per-site daily caps, repeats deduped
+        # for 30 min, never more Airtable writes than the cap, 413 over the body limit, a cap
+        # store or Airtable outage is 'unknown' with 200. GET /api/cta-clicks: total only in
+        # public, detail behind the ops token (lib/abuse_guard.mjs, 23 Nov 2026).
+        run: npm run test:abuse-guard
+
       - name: Blocked lead domains pins
         # A form email on BLOCKED_LEAD_DOMAINS (Pages env var only) is dropped
         # quietly: no storage, no email, one log line, honeypot answer (26 Oct 2026).

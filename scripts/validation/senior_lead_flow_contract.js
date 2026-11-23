@@ -28,7 +28,14 @@ const REQUIRED = [
   'follow-up move-in emails the owner with the invoice line',
   'every outgoing email carries the footer',
   'matcher: tiers, radius and the full list',
-  'funnel refuses without the token and returns no PII'
+  'funnel refuses without the token and returns no PII',
+  'seat checkout: per-IP and daily caps stop before Stripe, forged forwarding headers do not help',
+  'seat checkout: a cap store that is missing or failing refuses and never reaches Stripe',
+  'seat checkout: Stripe down is a 502 and a huge body is refused before anything',
+  'seat checkout: a real buyer gets one Stripe session, with an idempotency key a retry reuses',
+  'funnel events: per-IP and daily caps, body limit, and a cap-store outage inserts nothing',
+  'admin token: a near miss or an unset token never opens tick or funnel',
+  'admin token and webhook signature are compared through the constant-time HMAC path'
 ];
 
 function fail(msg) { console.error(`SENIOR LEAD FLOW FAIL: ${msg}`); process.exit(1); }
