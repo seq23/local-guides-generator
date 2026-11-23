@@ -99,7 +99,8 @@ export function makeWorld({ seat = { active: false }, start = '2026-10-13T12:00:
     }
     if (u.startsWith('https://api.stripe.com/v1/')) {
       const p = u.slice('https://api.stripe.com/v1/'.length);
-      stripeCalls.push({ method: init.method, path: p, body: init.body ? String(init.body) : '' });
+      stripeCalls.push({ method: init.method, path: p, body: init.body ? String(init.body) : '', headers: { ...(init.headers || {}) } });
+      if (world.stripeDown) throw new Error('stripe unreachable');
       if (p.startsWith('prices')) return new Response(JSON.stringify({ data: [{ id: p.includes('seat') ? 'price_seat' : 'price_flat' }] }));
       if (p.startsWith('checkout/sessions') && init.method === 'POST') return new Response(JSON.stringify({ id: `cs_test_${++n}`, url: `https://checkout.stripe.com/c/pay/cs_test_${n}` }));
       if (p.startsWith('refunds')) return new Response(JSON.stringify({ id: `re_${++n}` }));

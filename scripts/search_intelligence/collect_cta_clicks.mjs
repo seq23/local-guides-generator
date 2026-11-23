@@ -4,6 +4,9 @@
 // GET /api/cta-clicks?ref=<ref> endpoint (functions/api/cta-clicks.js). An endpoint
 // that cannot answer is recorded as a NAMED_STOP row with its reason - never a
 // silent zero - and the step exits 0 so the rest of the cycle still commits.
+// SENIOR_TICK_TOKEN (Actions secret) is sent as x-senior-tick-token so the endpoint
+// answers with its detail (records scanned, the vendor's error text); without it the
+// public answer still carries the click total.
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -12,11 +15,14 @@ const SI = path.join(ROOT, 'data', 'search_intelligence');
 const { ctas } = JSON.parse(fs.readFileSync(path.join(SI, 'audience_ctas.json'), 'utf8'));
 if (!ctas.length) { console.error('collect_cta_clicks: audience_ctas.json registers no CTA'); process.exit(1); }
 const now = new Date().toISOString();
+const opsToken = String(process.env.SENIOR_TICK_TOKEN || '').trim();
+const headers = opsToken ? { 'x-senior-tick-token': opsToken } : {};
+if (!opsToken) console.log('collect_cta_clicks: SENIOR_TICK_TOKEN not set; recording public totals without the scanned count');
 const byHost = new Map();
 for (const c of ctas) {
   let row;
   try {
-    const res = await fetch(`https://${c.host}/api/cta-clicks?ref=${encodeURIComponent(c.ref)}`, { signal: AbortSignal.timeout(20000) });
+    const res = await fetch(`https://${c.host}/api/cta-clicks?ref=${encodeURIComponent(c.ref)}`, { headers, signal: AbortSignal.timeout(20000) });
     const body = await res.json().catch(() => ({}));
     row = body.ok
       ? { ref: c.ref, state: 'OK', clicks: body.clicks, window_days: body.window_days, scanned: body.scanned, truncated: body.truncated }

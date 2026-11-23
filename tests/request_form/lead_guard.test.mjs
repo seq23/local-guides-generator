@@ -7,7 +7,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadRequestAssistance, GUARD_ENV, GUARD_HEADERS, makeKV, withSiteverify } from './load_endpoint.mjs';
 import { makeWorld, PII } from '../senior/harness.mjs';
-import { LIMITS } from '../../lib/lead_guard.mjs';
+import { CAPS as LIMITS } from '../../lib/abuse_guard.mjs';
 
 const RA_BODY = { provider_type: 'Personal Injury Attorney', email: 'synthetic@example.test', consent: 'yes' };
 

@@ -126,6 +126,15 @@ Anti-spam:
 
 This is **best-effort** telemetry. Missing telemetry must never break the site.
 
+Abuse limits (`lib/abuse_guard.mjs`, the one place the numbers live): body up to
+`MAX_BODY_BYTES['connection-click']` bytes (longer is 413); the same click from the same IP on
+the same page inside `CLICK_DEDUPE_SECONDS` (30 minutes) is written once; Airtable writes are
+capped by `CAPS['connection-click']` per IP and per site per day. Every answer is 200 with a
+`state`: `stored`, `duplicate`, `over`, `ignored`, `not_configured` or `unknown` (cap store or
+Airtable unavailable: the click is not counted). Without the `LEAD_LIMITS` KV binding nothing is
+written. `GET /api/cta-clicks?ref=<ref>` answers the 28-day total in public; the records scanned
+and the vendor's error text need the `x-senior-tick-token` header (the daily collector sends it).
+
 ---
 
 ## 5) Airtable storage (free tier)
