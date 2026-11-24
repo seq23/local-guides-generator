@@ -4,6 +4,8 @@
 
 - Revalidated core contracts and inventories (rotating focus: Hormone Optimization Guides).
 - Updated Verification & Updates page and machine-readable snapshot.
+- Revalidated core contracts and inventories (rotating focus: Hormone Optimization Guides).
+- Updated Verification & Updates page and machine-readable snapshot.
 # 2026-11-22
 
 - Revalidated core contracts and inventories (rotating focus: The Accident Guides).
