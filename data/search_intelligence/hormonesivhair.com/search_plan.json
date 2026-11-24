@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-23..2026-11-19",
+  "gsc_window": "2026-10-25..2026-11-21",
   "totals": {
     "clicks": 0,
-    "impressions": 218,
+    "impressions": 244,
     "ctr": 0,
-    "position": 60.3
+    "position": 60.7
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -17,11 +17,11 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 105,
+      "family_impressions": 130,
       "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 42,
+      "impressions": 50,
       "clicks": 0,
-      "position": 70.6,
+      "position": 69.7,
       "strengthened": false
     },
     {
@@ -31,25 +31,11 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 105,
+      "family_impressions": 130,
       "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 35,
+      "impressions": 45,
       "clicks": 0,
-      "position": 78.9,
-      "strengthened": false
-    },
-    {
-      "route": "/states/CA/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "ranking_page",
-        "top_demand"
-      ],
-      "family_impressions": 105,
-      "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 15,
-      "clicks": 0,
-      "position": 63.5,
+      "position": 75.4,
       "strengthened": false
     },
     {
@@ -59,11 +45,39 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 105,
+      "family_impressions": 130,
       "source": "data/page_sets/examples/trt_v1.json",
-      "impressions": 12,
+      "impressions": 16,
+      "clicks": 0,
+      "position": 63.6,
+      "strengthened": false
+    },
+    {
+      "route": "/states/MD/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "ranking_page",
+        "top_demand"
+      ],
+      "family_impressions": 130,
+      "source": "data/page_sets/examples/trt_v1.json",
+      "impressions": 15,
       "clicks": 0,
       "position": 56.1,
+      "strengthened": false
+    },
+    {
+      "route": "/states/CA/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "ranking_page",
+        "top_demand"
+      ],
+      "family_impressions": 130,
+      "source": "data/page_sets/examples/trt_v1.json",
+      "impressions": 15,
+      "clicks": 0,
+      "position": 63.5,
       "strengthened": false
     },
     {
@@ -73,7 +87,7 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 105,
+      "family_impressions": 130,
       "source": "data/page_sets/examples/trt_v1.json",
       "impressions": 5,
       "clicks": 0,
@@ -86,11 +100,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 28,
+      "family_impressions": 33,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_does-insurance-cover-testosterone-therapy.json",
-      "impressions": 37,
+      "impressions": 43,
       "clicks": 0,
-      "position": 75.4,
+      "position": 74.9,
       "strengthened": false
     },
     {
@@ -99,11 +113,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 17,
+      "family_impressions": 9,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_who-is-a-good-candidate-for-trt.json",
-      "impressions": 24,
+      "impressions": 16,
       "clicks": 0,
-      "position": 57.1,
+      "position": 43.3,
       "strengthened": true
     },
     {
@@ -125,35 +139,36 @@
       "basis": [
         "ranking_page"
       ],
-      "family_impressions": 3,
+      "family_impressions": 1,
       "source": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json",
-      "impressions": 5,
+      "impressions": 3,
       "clicks": 0,
-      "position": 6.4,
+      "position": 6.7,
       "strengthened": true
     }
   ],
   "not_yet_strengthened": [
     "/states/WY/",
     "/states/SD/",
-    "/states/CA/",
     "/states/VA/",
+    "/states/MD/",
+    "/states/CA/",
     "/states/OH/",
     "/guides/does-insurance-cover-testosterone-therapy/",
     "/guides/hormone-therapy-cost-what-is-published/"
   ],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 72,
-      "Discovered - currently not indexed": 43,
+      "Crawled - currently not indexed": 71,
+      "Discovered - currently not indexed": 39,
       "Submitted and indexed": 34,
-      "URL is unknown to Google": 55
+      "URL is unknown to Google": 60
     },
     "buckets": {
-      "crawled_not_indexed": 72,
-      "discovered_not_indexed": 43,
+      "crawled_not_indexed": 71,
+      "discovered_not_indexed": 39,
       "indexed": 34,
-      "unknown": 55
+      "unknown": 60
     }
   }
 }

@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
-  "gsc_window": "2026-10-23..2026-11-19",
-  "gsc_collected_at": "2026-11-22T20:40:36+00:00",
+  "gsc_window": "2026-10-25..2026-11-21",
+  "gsc_collected_at": "2026-11-24T01:20:35+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,24 +12,24 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 10,
+  "family_count": 9,
   "top_families": [
     {
       "rank": 1,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 105,
+      "impressions": 130,
       "status": "not_strengthened"
     },
     {
       "rank": 2,
       "family": "topic:does-insurance-cover-testosterone-therapy @ /guides/does-insurance-cover-testosterone-therapy/",
-      "impressions": 28,
+      "impressions": 33,
       "status": "not_strengthened"
     },
     {
       "rank": 3,
       "family": "candidate @ /guides/who-is-a-good-candidate-for-trt/",
-      "impressions": 17,
+      "impressions": 9,
       "status": "strengthened"
     },
     {
@@ -53,47 +53,47 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 105,
+      "impressions": 130,
       "best_position": 43.7,
-      "weighted_position": 74.4,
+      "weighted_position": 74.3,
       "top_query": "testosterone therapy sioux falls",
-      "query_count": 20,
+      "query_count": 29,
       "queries": [
         {
           "query": "testosterone therapy sioux falls",
           "route": "/states/SD/",
-          "impressions": 27,
+          "impressions": 33,
           "position": 78.4
         },
         {
           "query": "hormone therapy in wyoming",
           "route": "/states/WY/",
-          "impressions": 13,
-          "position": 83.4
+          "impressions": 14,
+          "position": 82.8
         },
         {
           "query": "low testosterone treatment in wyoming",
           "route": "/states/WY/",
-          "impressions": 8,
-          "position": 64.8
+          "impressions": 10,
+          "position": 64.6
         },
         {
           "query": "low testosterone treatment in sioux falls",
           "route": "/states/SD/",
-          "impressions": 7,
-          "position": 81.3
+          "impressions": 9,
+          "position": 80.1
+        },
+        {
+          "query": "personalized low testosterone treatments in wyoming",
+          "route": "/states/WY/",
+          "impressions": 9,
+          "position": 71.2
         },
         {
           "query": "low testosterone treatments in wyoming",
           "route": "/states/WY/",
           "impressions": 7,
           "position": 68.1
-        },
-        {
-          "query": "personalized low testosterone treatments in wyoming",
-          "route": "/states/WY/",
-          "impressions": 7,
-          "position": 72.9
         },
         {
           "query": "testosterone california",
@@ -120,6 +120,12 @@
           "position": 60.2
         },
         {
+          "query": "low t treatment in wyoming",
+          "route": "/states/WY/",
+          "impressions": 4,
+          "position": 63.5
+        },
+        {
           "query": "testosterone therapy chevy chase md",
           "route": "/states/MD/",
           "impressions": 3,
@@ -132,10 +138,10 @@
           "position": 80.5
         },
         {
-          "query": "low t treatment in wyoming",
-          "route": "/states/WY/",
+          "query": "low t clinic baltimore",
+          "route": "/states/MD/",
           "impressions": 2,
-          "position": 64
+          "position": 89
         },
         {
           "query": "testosterone maryland",
@@ -144,10 +150,28 @@
           "position": 71
         },
         {
-          "query": "low t clinic baltimore",
+          "query": "bioidentical hormone therapy for men in virginia",
+          "route": "/states/VA/",
+          "impressions": 1,
+          "position": 91
+        },
+        {
+          "query": "hormone optimization iowa",
+          "route": "/states/IA/",
+          "impressions": 1,
+          "position": 56
+        },
+        {
+          "query": "hrt for men baltimore md",
           "route": "/states/MD/",
           "impressions": 1,
-          "position": 89
+          "position": 72
+        },
+        {
+          "query": "hrt solutions in wyoming",
+          "route": "/states/WY/",
+          "impressions": 1,
+          "position": 61
         },
         {
           "query": "ohio thyroid optimization",
@@ -156,10 +180,22 @@
           "position": 47
         },
         {
+          "query": "testosterone replacement therapy towson md",
+          "route": "/states/MD/",
+          "impressions": 1,
+          "position": 78
+        },
+        {
           "query": "testosterone therapy baltimore",
           "route": "/states/MD/",
           "impressions": 1,
           "position": 73
+        },
+        {
+          "query": "testosterone therapy clinic lake ridge va",
+          "route": "/states/VA/",
+          "impressions": 1,
+          "position": 80
         },
         {
           "query": "testosterone therapy in baltimore",
@@ -174,6 +210,24 @@
           "position": 76
         },
         {
+          "query": "testosterone therapy towson md",
+          "route": "/states/MD/",
+          "impressions": 1,
+          "position": 73
+        },
+        {
+          "query": "trt dale city va",
+          "route": "/states/VA/",
+          "impressions": 1,
+          "position": 75
+        },
+        {
+          "query": "trt lake ridge va",
+          "route": "/states/VA/",
+          "impressions": 1,
+          "position": 98
+        },
+        {
           "query": "where to get testosterone injections madisonville",
           "route": "/states/KY/",
           "impressions": 1,
@@ -183,15 +237,27 @@
       "pages": [
         {
           "route": "/states/WY/",
-          "family_impressions": 37,
-          "page_impressions": 42,
-          "page_position": 70.6
+          "family_impressions": 45,
+          "page_impressions": 50,
+          "page_position": 69.7
         },
         {
           "route": "/states/SD/",
-          "family_impressions": 35,
-          "page_impressions": 35,
-          "page_position": 78.9
+          "family_impressions": 43,
+          "page_impressions": 45,
+          "page_position": 75.4
+        },
+        {
+          "route": "/states/VA/",
+          "family_impressions": 14,
+          "page_impressions": 16,
+          "page_position": 63.6
+        },
+        {
+          "route": "/states/MD/",
+          "family_impressions": 12,
+          "page_impressions": 15,
+          "page_position": 56.1
         },
         {
           "route": "/states/CA/",
@@ -200,22 +266,16 @@
           "page_position": 63.5
         },
         {
-          "route": "/states/VA/",
-          "family_impressions": 10,
-          "page_impressions": 12,
-          "page_position": 56.1
-        },
-        {
-          "route": "/states/MD/",
-          "family_impressions": 8,
-          "page_impressions": 11,
-          "page_position": 48.2
-        },
-        {
           "route": "/states/MT/",
           "family_impressions": 2,
           "page_impressions": 8,
           "page_position": 24.6
+        },
+        {
+          "route": "/states/IA/",
+          "family_impressions": 1,
+          "page_impressions": 9,
+          "page_position": 32.7
         },
         {
           "route": "/states/KY/",
@@ -239,8 +299,9 @@
       "strengthened_pages": [
         "/states/WY/",
         "/states/SD/",
-        "/states/CA/",
         "/states/VA/",
+        "/states/MD/",
+        "/states/CA/",
         "/states/OH/"
       ],
       "status": "not_strengthened",
@@ -253,9 +314,9 @@
       "page": "/guides/does-insurance-cover-testosterone-therapy/",
       "page_kind": "guide",
       "page_intent": "topic:does-insurance-cover-testosterone-therapy",
-      "impressions": 28,
-      "best_position": 57,
-      "weighted_position": 86.8,
+      "impressions": 33,
+      "best_position": 57.5,
+      "weighted_position": 86.5,
       "top_query": "is trt covered by insurance",
       "query_count": 17,
       "queries": [
@@ -266,28 +327,40 @@
           "position": 87.8
         },
         {
+          "query": "trt insurance coverage",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 4,
+          "position": 84.5
+        },
+        {
+          "query": "does insurance cover testosterone replacement therapy",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 3,
+          "position": 94
+        },
+        {
           "query": "does insurance cover trt",
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "impressions": 3,
           "position": 84.7
         },
         {
-          "query": "trt insurance coverage",
-          "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "impressions": 3,
-          "position": 84
-        },
-        {
-          "query": "does insurance cover testosterone replacement therapy",
-          "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "impressions": 2,
-          "position": 93
-        },
-        {
           "query": "is testosterone replacement therapy covered by insurance",
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 3,
+          "position": 92.7
+        },
+        {
+          "query": "does medicare cover low testosterone treatment",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "impressions": 2,
-          "position": 92
+          "position": 57.5
+        },
+        {
+          "query": "how to get testosterone covered by insurance",
+          "route": "/guides/does-insurance-cover-testosterone-therapy/",
+          "impressions": 2,
+          "position": 91.5
         },
         {
           "query": "testosterone insurance",
@@ -308,22 +381,10 @@
           "position": 85
         },
         {
-          "query": "does medicare cover low testosterone treatment",
-          "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "impressions": 1,
-          "position": 57
-        },
-        {
           "query": "does medicare cover testosterone",
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "impressions": 1,
           "position": 72
-        },
-        {
-          "query": "how to get testosterone covered by insurance",
-          "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "impressions": 1,
-          "position": 93
         },
         {
           "query": "is testosterone covered by insurance",
@@ -365,9 +426,9 @@
       "pages": [
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
-          "family_impressions": 28,
-          "page_impressions": 37,
-          "page_position": 75.4
+          "family_impressions": 33,
+          "page_impressions": 43,
+          "page_position": 74.9
         }
       ],
       "rank": 2,
@@ -388,23 +449,23 @@
       "page": "/guides/who-is-a-good-candidate-for-trt/",
       "page_kind": "guide",
       "page_intent": "candidacy",
-      "impressions": 17,
+      "impressions": 9,
       "best_position": 6.5,
-      "weighted_position": 75.4,
+      "weighted_position": 67.1,
       "top_query": "am i a candidate for trt",
       "query_count": 3,
       "queries": [
         {
           "query": "am i a candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 9,
-          "position": 88.8
+          "impressions": 4,
+          "position": 90
         },
         {
           "query": "suitable candidate for trt",
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "impressions": 6,
-          "position": 78.2
+          "impressions": 3,
+          "position": 77
         },
         {
           "query": "evaluating trt providers online",
@@ -416,9 +477,9 @@
       "pages": [
         {
           "route": "/guides/who-is-a-good-candidate-for-trt/",
-          "family_impressions": 17,
-          "page_impressions": 24,
-          "page_position": 57.1
+          "family_impressions": 9,
+          "page_impressions": 16,
+          "page_position": 43.3
         }
       ],
       "rank": 3,
@@ -556,8 +617,8 @@
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "family_impressions": 3,
-          "page_impressions": 37,
-          "page_position": 75.4
+          "page_impressions": 43,
+          "page_position": 74.9
         }
       ],
       "rank": 6,
@@ -565,46 +626,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 6 of 10 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "red flags @ /guides/trt-red-flags/",
-      "intent": "red_flags",
-      "head_term": "red flags",
-      "page": "/guides/trt-red-flags/",
-      "page_kind": "guide",
-      "page_intent": "red_flags",
-      "impressions": 3,
-      "best_position": 4.7,
-      "weighted_position": 4.7,
-      "top_query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
-          "route": "/guides/trt-red-flags/",
-          "impressions": 3,
-          "position": 4.7
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/trt-red-flags/",
-          "family_impressions": 3,
-          "page_impressions": 5,
-          "page_position": 6.4
-        }
-      ],
-      "rank": 7,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [
-        "/guides/trt-red-flags/"
-      ],
-      "status": "strengthened",
-      "reason": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json search_strengthening"
+      "reason": "rank 6 of 9 by impressions; no page at position <= 15"
     },
     {
       "family": "choose a provider @ /guides/does-insurance-cover-testosterone-therapy/",
@@ -630,51 +652,16 @@
         {
           "route": "/guides/does-insurance-cover-testosterone-therapy/",
           "family_impressions": 2,
-          "page_impressions": 37,
-          "page_position": 75.4
+          "page_impressions": 43,
+          "page_position": 74.9
         }
       ],
-      "rank": 8,
+      "rank": 7,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 8 of 10 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "cost @ /guides/beauty-peptide-costs-and-bundles/",
-      "intent": "cost",
-      "head_term": "cost",
-      "page": "/guides/beauty-peptide-costs-and-bundles/",
-      "page_kind": "guide",
-      "page_intent": "cost",
-      "impressions": 1,
-      "best_position": 9,
-      "weighted_position": 9,
-      "top_query": "average cost of peptide serum",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "average cost of peptide serum",
-          "route": "/guides/beauty-peptide-costs-and-bundles/",
-          "impressions": 1,
-          "position": 9
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/beauty-peptide-costs-and-bundles/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 9
-        }
-      ],
-      "rank": 9,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 9 of 10 by impressions; no page at position <= 15"
+      "reason": "rank 7 of 9 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/ocala-vitamin-c-injection-iv-prices/",
@@ -704,12 +691,51 @@
           "page_position": 34
         }
       ],
-      "rank": 10,
+      "rank": 8,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 10 of 10 by impressions; no page at position <= 15"
+      "reason": "rank 8 of 9 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "red flags @ /guides/trt-red-flags/",
+      "intent": "red_flags",
+      "head_term": "red flags",
+      "page": "/guides/trt-red-flags/",
+      "page_kind": "guide",
+      "page_intent": "red_flags",
+      "impressions": 1,
+      "best_position": 2,
+      "weighted_position": 2,
+      "top_query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "what red flags should i watch for when evaluating trt providers — things like hidden fees, rotating providers, or lack of lab monitoring?",
+          "route": "/guides/trt-red-flags/",
+          "impressions": 1,
+          "position": 2
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/trt-red-flags/",
+          "family_impressions": 1,
+          "page_impressions": 3,
+          "page_position": 6.7
+        }
+      ],
+      "rank": 9,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/trt-red-flags/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json search_strengthening"
     }
   ]
 }
