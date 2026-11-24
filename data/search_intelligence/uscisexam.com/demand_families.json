@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-23..2026-11-19",
-  "gsc_collected_at": "2026-11-22T20:44:51+00:00",
+  "gsc_window": "2026-10-25..2026-11-21",
+  "gsc_collected_at": "2026-11-24T01:25:00+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,28 +12,34 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 4,
+  "family_count": 5,
   "top_families": [
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 50,
+      "impressions": 51,
       "status": "no_page"
     },
     {
       "rank": 2,
-      "family": "cost @ /",
-      "impressions": 2,
-      "status": "below_impression_floor"
-    },
-    {
-      "rank": 3,
       "family": "choose a provider @ /",
       "impressions": 1,
       "status": "below_impression_floor"
     },
     {
+      "rank": 3,
+      "family": "choose a provider @ /states/{STATE}/",
+      "impressions": 1,
+      "status": "below_impression_floor"
+    },
+    {
       "rank": 4,
+      "family": "cost @ /",
+      "impressions": 1,
+      "status": "below_impression_floor"
+    },
+    {
+      "rank": 5,
       "family": "cost @ /guides/uscis-fees-timelines-and-what-to-ask/",
       "impressions": 1,
       "status": "not_strengthened"
@@ -47,29 +53,29 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 50,
+      "impressions": 51,
       "best_position": 69,
-      "weighted_position": 82.4,
-      "top_query": "uscis civil surgeon",
+      "weighted_position": 81.8,
+      "top_query": "uscis medical exam",
       "query_count": 19,
       "queries": [
         {
-          "query": "uscis civil surgeon",
-          "route": "/",
-          "impressions": 6,
-          "position": 76.8
-        },
-        {
           "query": "uscis medical exam",
           "route": "/",
-          "impressions": 6,
-          "position": 88.8
+          "impressions": 7,
+          "position": 85.7
         },
         {
           "query": "uscis immigration medical exam",
           "route": "/",
+          "impressions": 6,
+          "position": 87.7
+        },
+        {
+          "query": "uscis civil surgeon",
+          "route": "/",
           "impressions": 5,
-          "position": 86.6
+          "position": 72.8
         },
         {
           "query": "form i-693 doctor",
@@ -84,16 +90,16 @@
           "position": 83.7
         },
         {
+          "query": "i-693 medical exam",
+          "route": "/",
+          "impressions": 3,
+          "position": 76.3
+        },
+        {
           "query": "immigration medical exam form",
           "route": "/",
           "impressions": 3,
           "position": 72.3
-        },
-        {
-          "query": "uscis immigration exam",
-          "route": "/",
-          "impressions": 3,
-          "position": 80.7
         },
         {
           "query": "uscis medical",
@@ -108,12 +114,6 @@
           "position": 82
         },
         {
-          "query": "i-693 medical exam",
-          "route": "/",
-          "impressions": 2,
-          "position": 81
-        },
-        {
           "query": "medical exam uscis form",
           "route": "/",
           "impressions": 2,
@@ -124,6 +124,12 @@
           "route": "/",
           "impressions": 2,
           "position": 94
+        },
+        {
+          "query": "uscis immigration exam",
+          "route": "/",
+          "impressions": 2,
+          "position": 82.5
         },
         {
           "query": "uscis medical examination",
@@ -171,9 +177,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 50,
-          "page_impressions": 74,
-          "page_position": 74.4
+          "family_impressions": 51,
+          "page_impressions": 73,
+          "page_position": 74.2
         }
       ],
       "rank": 1,
@@ -184,41 +190,6 @@
       "strengthened_pages": [],
       "status": "no_page",
       "reason": "lands on / (hub); no guide or state hub serves \"hub\" there"
-    },
-    {
-      "family": "cost @ /",
-      "intent": "cost",
-      "head_term": "cost",
-      "page": "/",
-      "page_kind": "hub",
-      "page_intent": "hub",
-      "impressions": 2,
-      "best_position": 99,
-      "weighted_position": 99,
-      "top_query": "i-693 exam cost",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "i-693 exam cost",
-          "route": "/",
-          "impressions": 2,
-          "position": 99
-        }
-      ],
-      "pages": [
-        {
-          "route": "/",
-          "family_impressions": 2,
-          "page_impressions": 74,
-          "page_position": 74.4
-        }
-      ],
-      "rank": 2,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "2 impressions < 5"
     },
     {
       "family": "choose a provider @ /",
@@ -244,11 +215,81 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 74,
-          "page_position": 74.4
+          "page_impressions": 73,
+          "page_position": 74.2
+        }
+      ],
+      "rank": 2,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "1 impressions < 5"
+    },
+    {
+      "family": "choose a provider @ /states/{STATE}/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 1,
+      "best_position": 77,
+      "weighted_position": 77,
+      "top_query": "vermont uscis center",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "vermont uscis center",
+          "route": "/states/VT/",
+          "impressions": 1,
+          "position": 77
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/VT/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 77
         }
       ],
       "rank": 3,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "1 impressions < 5"
+    },
+    {
+      "family": "cost @ /",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/",
+      "page_kind": "hub",
+      "page_intent": "hub",
+      "impressions": 1,
+      "best_position": 98,
+      "weighted_position": 98,
+      "top_query": "i-693 exam cost",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "i-693 exam cost",
+          "route": "/",
+          "impressions": 1,
+          "position": 98
+        }
+      ],
+      "pages": [
+        {
+          "route": "/",
+          "family_impressions": 1,
+          "page_impressions": 73,
+          "page_position": 74.2
+        }
+      ],
+      "rank": 4,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
@@ -283,7 +324,7 @@
           "page_position": 11.5
         }
       ],
-      "rank": 4,
+      "rank": 5,
       "basis": [
         "ranking_page"
       ],
