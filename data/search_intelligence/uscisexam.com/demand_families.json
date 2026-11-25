@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-25..2026-11-21",
-  "gsc_collected_at": "2026-11-24T23:28:27+00:00",
+  "gsc_window": "2026-10-26..2026-11-22",
+  "gsc_collected_at": "2026-11-25T22:55:29+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -178,8 +178,8 @@
         {
           "route": "/",
           "family_impressions": 51,
-          "page_impressions": 73,
-          "page_position": 74.2
+          "page_impressions": 71,
+          "page_position": 74.3
         }
       ],
       "rank": 1,
@@ -215,8 +215,8 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 73,
-          "page_position": 74.2
+          "page_impressions": 71,
+          "page_position": 74.3
         }
       ],
       "rank": 2,
@@ -285,8 +285,8 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 73,
-          "page_position": 74.2
+          "page_impressions": 71,
+          "page_position": 74.3
         }
       ],
       "rank": 4,
