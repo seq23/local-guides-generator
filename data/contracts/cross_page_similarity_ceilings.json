@@ -14,6 +14,12 @@
         "worst": 0.602,
         "worst_pair": "miami-fl / tampa-fl",
         "pages": 56
+      },
+      "state": {
+        "pairs_over": 0,
+        "worst": 0.382,
+        "worst_pair": "states/VT / states/WY",
+        "pages": 50
       }
     },
     "pi": {
@@ -28,6 +34,12 @@
         "worst": 0.503,
         "worst_pair": "augusta-me / portland-me",
         "pages": 63
+      },
+      "state": {
+        "pairs_over": 0,
+        "worst": 0.456,
+        "worst_pair": "states/ND / states/SD",
+        "pages": 50
       }
     },
     "dentistry": {
@@ -42,6 +54,12 @@
         "worst": 0.679,
         "worst_pair": "dallas-tx / houston-tx",
         "pages": 6
+      },
+      "state": {
+        "pairs_over": 0,
+        "worst": 0.432,
+        "worst_pair": "states/OH / states/VA",
+        "pages": 17
       }
     },
     "neuro": {
@@ -52,10 +70,16 @@
         "pages": 56
       },
       "next-steps": {
-        "pairs_over": 174,
+        "pairs_over": 167,
         "worst": 0.674,
         "worst_pair": "san-diego-ca / san-francisco-ca",
         "pages": 56
+      },
+      "state": {
+        "pairs_over": 0,
+        "worst": 0.499,
+        "worst_pair": "states/AK / states/CT",
+        "pages": 50
       }
     },
     "uscis_medical": {
@@ -70,22 +94,36 @@
         "worst": 0.519,
         "worst_pair": "atlanta-ga / miami-fl",
         "pages": 56
+      },
+      "state": {
+        "pairs_over": 0,
+        "worst": 0.475,
+        "worst_pair": "states/ME / states/VT",
+        "pages": 50
       }
     },
     "senior_living": {
       "city": {
-        "pairs_over": 50,
-        "worst": 0.62,
+        "pairs_over": 24,
+        "worst": 0.603,
         "worst_pair": "methodist-university-hospital / regional-one-health",
         "pages": 84
       },
       "next-steps": {
-        "pairs_over": 100,
-        "worst": 0.731,
+        "pairs_over": 45,
+        "worst": 0.724,
         "worst_pair": "arlington-tn / memory-care-arlington-tn",
         "pages": 84
+      },
+      "state": {
+        "pairs_over": 0,
+        "worst": 0.444,
+        "worst_pair": "states/AR / states/MS",
+        "pages": 3
       }
     }
   },
+  "state_measured_on": "2026-11-24",
+  "state_before_this_fix": "State hubs were not measured before 24 Nov 2026. On origin/main b10fea6, pairs of /states/<ST>/ hubs over 0.5: uscis_medical 1205 of 1225 (worst 0.738), trt 900 (0.549), pi 591 (0.618), neuro 538 (0.609), dentistry 0 (0.456).",
   "before_this_fix": "Measured on origin/main 41c1a0e (7 Nov 2026), pairs over 0.5 among next-steps pages: uscis_medical 242, pi 1787, neuro 1540, trt 1540, senior_living 128 (worst 0.96); among top-level pages: uscis_medical 868, pi 2016, neuro 1540, trt 1540, senior_living 581."
 }

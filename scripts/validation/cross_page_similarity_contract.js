@@ -26,6 +26,14 @@
  * kind with no ceiling must have no pair over the limit at all. Zero pages of a
  * kind is a failure, not a pass.
  *
+ * State hubs (/states/<ST>/) were outside this contract until 24 Nov 2026, and
+ * they are the pages the sample kept failing after the city pages were fixed
+ * (uscisexam NH/NC/KS, neuroevalguides MT/MA, hormonesivhair KY/NJ/NE). Every
+ * pack builds at least two today. A pack that builds fewer records
+ * "state": { "not_built": true } in the ceilings file; without that entry, too
+ * few state hubs is a failure like any other kind, and the entry itself fails
+ * once the pack does build two.
+ *
  * Usage: node scripts/validation/cross_page_similarity_contract.js [--self-test]
  */
 const fs = require('fs');
@@ -35,7 +43,7 @@ const { pairwiseSimilarity } = require('../lib/template_text');
 const ROOT = path.join(__dirname, '..', '..');
 const LIMIT = 0.5;
 const WORST_SLACK = 0.02;
-const KINDS = ['city', 'next-steps'];
+const KINDS = ['city', 'next-steps', 'state'];
 
 function packKey() {
   try {
@@ -45,10 +53,21 @@ function packKey() {
   } catch (_) { return ''; }
 }
 
-/** City pages are /<slug>/ dirs that have a next-steps child; next-steps are those children. */
+const indexable = (html) => !/content=["'][^"']*noindex/i.test(html);
+
+/** City pages are /<slug>/ dirs that have a next-steps child; next-steps are those children; state hubs are /states/<ST>/. */
 function pagesOf(distDir) {
-  const out = { city: [], 'next-steps': [] };
+  const out = { city: [], 'next-steps': [], state: [] };
   if (!fs.existsSync(distDir)) return out;
+  const statesDir = path.join(distDir, 'states');
+  if (fs.existsSync(statesDir)) {
+    for (const e of fs.readdirSync(statesDir, { withFileTypes: true })) {
+      const fp = path.join(statesDir, e.name, 'index.html');
+      if (!e.isDirectory() || !fs.existsSync(fp)) continue;
+      const html = fs.readFileSync(fp, 'utf8');
+      if (indexable(html)) out.state.push({ id: 'states/' + e.name, html });
+    }
+  }
   for (const e of fs.readdirSync(distDir, { withFileTypes: true })) {
     if (!e.isDirectory() || ['states', 'guides', 'next-steps'].includes(e.name)) continue;
     const city = path.join(distDir, e.name, 'index.html');
@@ -57,8 +76,8 @@ function pagesOf(distDir) {
     const ch = fs.readFileSync(city, 'utf8');
     const nh = fs.readFileSync(ns, 'utf8');
     // A noindex page is not in the sitemap, so the audit never samples it.
-    if (!/content=["'][^"']*noindex/i.test(ch)) out.city.push({ id: e.name, html: ch });
-    if (!/content=["'][^"']*noindex/i.test(nh)) out['next-steps'].push({ id: e.name, html: nh });
+    if (indexable(ch)) out.city.push({ id: e.name, html: ch });
+    if (indexable(nh)) out['next-steps'].push({ id: e.name, html: nh });
   }
   return out;
 }
@@ -76,12 +95,17 @@ function check(pages, ceilings) {
   const measured = {};
   for (const kind of KINDS) {
     const list = pages[kind] || [];
+    const c = (ceilings || {})[kind];
+    if (c && c.not_built) {
+      // Declared: this pack builds fewer than two of this kind. Declared wrongly is a failure.
+      if (list.length >= 2) bad.push(`${kind}: ${list.length} pages built, but the ceilings file says this pack builds none to compare; measure them and record a ceiling`);
+      continue;
+    }
     if (list.length < 2) { bad.push(`no ${kind} pages to compare (${list.length}): nothing was checked, which is not a pass`); continue; }
     const pairs = pairwiseSimilarity(list);
     const over = pairs.filter((p) => p.sim > LIMIT);
     const worst = pairs[0];
     measured[kind] = { pages: list.length, pairs_over: over.length, worst: Number(worst.sim.toFixed(3)), worst_pair: worst.a + ' / ' + worst.b };
-    const c = (ceilings || {})[kind];
     const show = over.slice(0, 5).map((p) => `/${p.a}/ ~ /${p.b}/ ${p.sim.toFixed(3)}`).join('; ');
     if (!c) {
       if (over.length) bad.push(`${kind}: ${over.length} pair(s) more than ${LIMIT} alike and no recorded ceiling (${show}); give each page facts only it can carry, or fold one into the other`);
@@ -98,14 +122,19 @@ function selfTest() {
   const shared = Array.from({ length: 200 }, (_, i) => 'shared' + i).join(' ');
   const own = (k) => Array.from({ length: 200 }, (_, i) => k + i).join(' ');
   const distinct = [{ id: 'a-xx', html: body(own('a')) }, { id: 'b-xx', html: body(own('b')) }];
-  const twins = { city: [{ id: 'a-xx', html: body(shared + ' x') }, { id: 'b-xx', html: body(shared + ' y') }], 'next-steps': distinct };
+  const pair = [{ id: 'a-xx', html: body(shared + ' x') }, { id: 'b-xx', html: body(shared + ' y') }];
+  const twins = { city: pair, 'next-steps': distinct, state: distinct };
   if (!check(twins, {}).bad.length) throw new Error('self-test: two identical city pages passed with no ceiling');
   if (check(twins, { city: { pairs_over: 1, worst: 0.99 } }).bad.length) throw new Error('self-test: twins inside their recorded ceiling failed');
   if (!check(twins, { city: { pairs_over: 0, worst: 0.99 } }).bad.length) throw new Error('self-test: more pairs than the ceiling passed');
   if (!check(twins, { city: { pairs_over: 1, worst: 0.6 } }).bad.length) throw new Error('self-test: a worse pair than the ceiling passed');
-  if (!check({ city: [], 'next-steps': [] }, {}).bad.length) throw new Error('self-test: zero pages passed');
-  if (check({ city: distinct, 'next-steps': distinct }, {}).bad.length) throw new Error('self-test: distinct pages failed');
-  console.log('✅ cross-page similarity self-test pass (twins fail, ceilings hold both ways, zero pages fail, distinct pages pass)');
+  if (!check({ city: distinct, 'next-steps': distinct, state: pair }, {}).bad.length) throw new Error('self-test: two identical state hubs passed with no ceiling');
+  if (!check({ city: [], 'next-steps': [], state: [] }, {}).bad.length) throw new Error('self-test: zero pages passed');
+  if (!check({ city: distinct, 'next-steps': distinct, state: [] }, {}).bad.length) throw new Error('self-test: zero state hubs passed undeclared');
+  if (check({ city: distinct, 'next-steps': distinct, state: [] }, { state: { not_built: true } }).bad.length) throw new Error('self-test: a declared not-built kind failed');
+  if (!check({ city: distinct, 'next-steps': distinct, state: pair }, { state: { not_built: true } }).bad.length) throw new Error('self-test: state hubs built under a not_built declaration passed');
+  if (check({ city: distinct, 'next-steps': distinct, state: distinct }, {}).bad.length) throw new Error('self-test: distinct pages failed');
+  console.log('✅ cross-page similarity self-test pass (twins fail on every kind, ceilings hold both ways, zero pages fail unless declared, a false declaration fails, distinct pages pass)');
 }
 
 function run() {

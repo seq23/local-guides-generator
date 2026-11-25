@@ -185,7 +185,13 @@ function piState(abbr, sname, builtSlugs) {
   // shared tail (composeNextStepsAnswer picks the shortest that fits 40-60).
   const un = (t) => String(t).replace(/&amp;/g, '&');
   const lead = roads ? 'the roads with the most fatal crashes in ' + y1 + ' were ' + un(roads) + (month ? ', and the worst month was ' + un(month) : '') + (roads0 ? '; in ' + y0 + ' they were ' + un(roads0) : '') : (month ? 'the worst month for fatal crashes in ' + y1 + ' was ' + un(month) : '');
-  return { answer, html, lead };
+  // Questions only this state's census answers: the /states/<ST>/ hub FAQ
+  // (visible and FAQPage schema), in place of the fee and checklist questions
+  // every state hub printed word for word (Search Readiness q1, 24 Nov 2026).
+  const faq = [{ q: 'How many people died in crashes in ' + sname + ' in ' + y1 + '?', a: n(s1.deaths) + ' people died in ' + n(s1.fatal_crashes) + ' fatal crashes in ' + sname + ' in ' + y1 + (s0 ? ', against ' + n(s0.deaths) + ' deaths in ' + n(s0.fatal_crashes) + ' crashes in ' + y0 : '') + ' (NHTSA FARS).' }];
+  if (roads) faq.push({ q: 'Which ' + sname + ' roads had the most fatal crashes in ' + y1 + '?', a: 'In NHTSA FARS for ' + y1 + ': ' + un(roads) + (month ? '. The worst month was ' + un(month) : '') + '.' });
+  if (pos >= 0) faq.push({ q: 'How does ' + sname + ' compare with other states for fatal crashes?', a: sname + ' ranked ' + ordinal(pos + 1) + ' of ' + ranked.length + ' in ' + y1 + ' by fatal crash count' + (share ? ', and ' + share + '% of its fatal crashes began with a pedestrian being struck' : '') + '. These are counts, not rates per mile driven.' });
+  return { answer, html, lead, faq };
 }
 
 // ---- Medicare figures: TRT and neuro ------------------------------------
@@ -196,6 +202,8 @@ const CMS_SETS = {
     codes: [['84403', 'Total testosterone lab test (84403)'], ['11980', 'Hormone pellet placement (11980)'], ['J1071', 'Testosterone cypionate injection (J1071)']],
     service: 'total testosterone testing',
     ask: 'Ask any clinic near {place} which labs its monthly fee includes and which arrive as a separate bill.',
+    // State hubs: every hormone code the CMS geography file publishes by state.
+    stateCodes: [['84403', 'Total testosterone test (84403)'], ['84402', 'Free testosterone test (84402)'], ['82670', 'Estradiol test (82670)'], ['11980', 'Hormone pellet placement (11980)'], ['96372', 'Injection into muscle or under skin (96372)']],
   },
   neuro: {
     file: 'research/costs/cms_provider_city_neuro_2024.json',
@@ -203,6 +211,7 @@ const CMS_SETS = {
     codes: [['96132', 'Neuropsychological evaluation, first hour (96132)'], ['96133', 'Each additional hour (96133)'], ['96136', 'Test administration, first 30 minutes (96136)']],
     service: 'a neuropsychological evaluation',
     ask: 'Ask any practice near {place} for an hours estimate, because an evaluation is billed by the hour.',
+    stateCodes: [['96132', 'Neuropsychological evaluation, first hour (96132)'], ['96133', 'Each additional hour (96133)'], ['96130', 'Psychological evaluation, first hour (96130)'], ['96131', 'Psychological evaluation, each added hour (96131)'], ['96136', 'Test administration, first 30 minutes (96136)'], ['96137', 'Test administration, each added 30 minutes (96137)'], ['96116', 'Neurobehavioral status exam, first hour (96116)']],
   },
 };
 
@@ -308,6 +317,56 @@ function dentistryState(ab, sname, cities) {
   return { answer, html };
 }
 
+// ---- uscis: which field office holds a state's interviews ---------------
+// The 50 uscisexam.com state hubs named only the field office of the one or two
+// cities we cover, under an explainer every hub printed whole: NH, NC and KS were
+// more than half identical (Search Readiness q1, 24 Nov 2026). The same USCIS file
+// assigns every ZIP code in the state to an office
+// (data/research/uscis_medical/field_office_states.json,
+//  scripts/research/pull_uscis_field_office_states.py).
+const USCIS_FO_URL = 'https://www.uscis.gov/about-us/find-a-uscis-office/field-offices';
+function uscisState(ab, sname, list) {
+  const doc = readJson('research/uscis_medical/field_office_states.json');
+  const sj = doc && doc.states && doc.states[ab];
+  const fo = readJson('research/uscis_medical/field_office_assignments.json');
+  const cityRows = list.map((c) => {
+    const r = fo && fo.cities && fo.cities[c.slug];
+    const o = r && r.field_offices && r.field_offices[0];
+    return o ? '<li><a href="/' + esc(c.slug) + '/">' + esc(c.marketLabel || c.slug) + '</a>: ' + esc(o.office_name) + ' (' + n(r.zip_codes_in_city) + ' ' + plural(r.zip_codes_in_city, 'ZIP code', 'ZIP codes') + ' in the city)</li>' : '';
+  }).filter(Boolean).join('');
+  if (!sj || !Array.isArray(sj.field_offices) || !sj.field_offices.length) return null;
+  const allStates = readJson('us_states.json') || {};
+  const st = esc(sname);
+  const offs = sj.field_offices;
+  const where = (o) => esc(o.office_name) + (o.in_another_state ? ', in ' + esc(allStates[o.office_state] || o.office_state) : '');
+  const split = offs.length === 1
+    ? 'all of them go to the ' + where(offs[0]) + ' office'
+    : offs.slice(0, 3).map((o) => n(o.zip_codes) + ' to ' + where(o)).join(', ') + (offs.length > 3 ? ', and ' + n(offs.slice(3).reduce((t, o) => t + o.zip_codes, 0)) + ' to ' + (offs.length - 3) + ' more' : '');
+  const head = 'USCIS assigns each of ' + st + '’s ' + n(sj.zip_codes) + ' ZIP codes to a field office for interviews: ' + split + '.';
+  const answer = fit([
+    head + ' That office is not where the medical exam happens: Form I-693 is completed by a USCIS-designated civil surgeon you book yourself.',
+    head + ' The medical exam is done by a USCIS-designated civil surgeon, not at the office.',
+    head + ' The exam is a civil surgeon’s, not the office’s.',
+    head,
+  ]);
+  const out = offs.filter((o) => o.in_another_state);
+  const hasCounties = sj.counties > 0;
+  const rows = offs.map((o) => '<tr><th scope="row">' + esc(o.office_name) + '</th><td>' + esc(o.street) + ', ' + esc(o.office_city) + ', ' + esc(o.office_state) + ' ' + esc(o.office_zip) + '</td><td>' + n(o.zip_codes) + '</td>' + (hasCounties ? '<td>' + n(o.counties) + '</td><td>' + (o.top_counties || []).map(esc).join(', ') + '</td>' : '') + '</tr>').join('');
+  // The places each office covers, by ZIP code count, and the district it reports to.
+  const places = offs.map((o) => {
+    const p = (o.top_places || []).filter((x) => x && x.place);
+    const district = o.district && o.district !== o.office_name ? ' It reports to the USCIS ' + esc(o.district) + ' district.' : '';
+    return p.length ? '<li><strong>' + esc(o.office_name) + '</strong>: ' + p.map((x) => esc(x.place) + ' (' + n(x.zip_codes) + ')').join(', ') + '.' + district + '</li>' : '';
+  }).filter(Boolean).join('');
+  const html = '<section class="section" data-state-local-facts="uscis"><h2>Which USCIS field office holds interviews for ' + st + '?</h2>' +
+    '<table class="data-table" data-state-field-office-table="true"><caption>' + st + ': ' + n(sj.zip_codes) + ' ZIP codes' + (hasCounties ? ' in ' + n(sj.counties) + ' ' + plural(sj.counties, 'county', 'counties') : '') + ', by field office</caption><thead><tr><th scope="col">Field office</th><th scope="col">Address</th><th scope="col">ZIP codes</th>' + (hasCounties ? '<th scope="col">Counties</th><th scope="col">Counties with the most ZIP codes</th>' : '') + '</tr></thead><tbody>' + rows + '</tbody></table>' +
+    (places ? '<p>Places with the most ZIP codes, by office:</p><ul class="neutral-list" data-state-field-office-places="true">' + places + '</ul>' : '') +
+    (out.length ? '<p data-state-field-office-out="true">' + out.map((o) => { const tc = (o.top_counties || []).slice(0, 2); return n(o.zip_codes) + ' ' + st + ' ZIP codes' + (tc.length ? ', including ' + tc.map(esc).join(' and ') + ' ' + plural(tc.length, 'County', 'counties') + ',' : '') + ' go to ' + esc(o.office_name) + ' in ' + esc(allStates[o.office_state] || o.office_state); }).join('; ') + '.</p>' : '') +
+    (cityRows ? '<ul class="neutral-list" data-state-field-office-cities="true">' + cityRows + '</ul>' : '') +
+    '<p class="muted" data-state-local-source="true">Source: <a href="' + USCIS_FO_URL + '" rel="nofollow noopener">USCIS field office ZIP code assignments</a>' + (doc.source && doc.source.file_vintage ? ' (' + esc(doc.source.file_vintage) + ')' : '') + '. Your own notice names your office.</p></section>';
+  return { answer, html };
+}
+
 // ---- state hubs ---------------------------------------------------------
 // A state page's own facts: the state's Medicare figures (trt, neuro), the
 // USCIS field office each covered city's ZIP codes go to (uscis), and one row per
@@ -334,37 +393,32 @@ function forState(verticalKey, abbr, sname, cities) {
       'In 2024, ' + n(lead.rendering_providers) + ' clinicians in ' + esc(sname) + ' billed Medicare for ' + set.service + (rank ? ', number ' + rank.pos + ' of the ' + rank.of + ' states and territories CMS published,' : '') + ' at an average ' + usd(lead.avg_submitted_charge) + ' billed' + (nl ? ' against ' + usd(nl.avg_submitted_charge) + ' nationally' : '') + ', and Medicare allowed ' + usd(lead.avg_medicare_allowed) + '. These are Medicare figures, not a cash-pay quote; the city pages below carry each city\u2019s own.',
       'In 2024, ' + n(lead.rendering_providers) + ' clinicians in ' + esc(sname) + ' billed Medicare for ' + set.service + ' at an average ' + usd(lead.avg_submitted_charge) + ' billed, and Medicare allowed ' + usd(lead.avg_medicare_allowed) + '. These are Medicare figures, not a cash-pay quote; the city pages below carry each city\u2019s own.',
     ]);
-    const rows = set.codes.map(([code, label]) => { const x = st(code); const y = nat(code); return x ? '<tr><th scope="row">' + esc(label) + '</th><td>' + n(x.rendering_providers) + '</td><td>' + usd(x.avg_submitted_charge) + '</td><td>' + usd(x.avg_medicare_allowed) + '</td><td>' + (y ? usd(y.avg_submitted_charge) : '') + '</td></tr>' : ''; }).join('');
+    // Every code the state publishes, with patients and services: two or three
+    // rows of clinician counts left the 50 hubs one table of shared labels
+    // (Search Readiness q1, 24 Nov 2026: hormonesivhair KY/NJ/NE).
+    const rows = set.stateCodes.map(([code, label]) => { const x = st(code); const y = nat(code); return x ? '<tr><th scope="row">' + esc(label) + '</th><td>' + n(x.rendering_providers) + '</td><td>' + n(x.beneficiaries) + '</td><td>' + n(x.services) + '</td><td>' + usd(x.avg_submitted_charge) + '</td><td>' + usd(x.avg_medicare_allowed) + '</td><td>' + (y ? usd(y.avg_submitted_charge) : '') + '</td></tr>' : ''; }).join('');
+    const vsNational = nl && nl.avg_submitted_charge ? Math.round((100 * (lead.avg_submitted_charge - nl.avg_submitted_charge)) / nl.avg_submitted_charge) : null;
+    const perClinician = lead.rendering_providers ? (lead.services / lead.rendering_providers).toFixed(1) : '';
+    const leadLabel = (set.stateCodes.find(([c]) => c === set.lead) || [])[1] || set.lead;
+    const compareParts = [
+      vsNational === null ? '' : esc(sname) + ' clinicians billed ' + (vsNational === 0 ? 'the national average' : Math.abs(vsNational) + '% ' + (vsNational > 0 ? 'above' : 'below') + ' the national average') + ' for ' + esc(leadLabel),
+      perClinician ? perClinician + ' services per clinician for ' + n(lead.beneficiaries) + ' Medicare patients in all' : '',
+    ].filter(Boolean);
+    const compare = compareParts.length ? '<p data-state-cms-compare="true">' + compareParts.join('; ') + '.</p>' : '';
     const cityRows = list.map((c) => {
       const cc = prov && prov.cities && prov.cities[cityName(c).toUpperCase() + '|' + ab];
       const x = cc && cc.codes && cc.codes[set.lead];
       return '<li><a href="/' + esc(c.slug) + '/">' + esc(c.marketLabel || c.slug) + '</a>: ' + (x ? n(x.rendering_providers) + ' clinicians billing ' + set.lead + ' from city practice addresses' : 'none in the published ' + set.lead + ' rows') + '</li>';
     }).join('');
     const html = '<section class="section" data-state-local-facts="' + esc(vk) + '"><h2>What did ' + esc(sname) + ' clinicians bill Medicare in 2024?</h2>' +
-      (rows ? '<table class="data-table"><thead><tr><th scope="col">Service</th><th scope="col">Clinicians</th><th scope="col">Average billed</th><th scope="col">Medicare allowed</th><th scope="col">National billed</th></tr></thead><tbody>' + rows + '</tbody></table>' : '') +
+      (rows ? '<table class="data-table"><thead><tr><th scope="col">Service</th><th scope="col">Clinicians</th><th scope="col">Patients</th><th scope="col">Services</th><th scope="col">Average billed</th><th scope="col">Medicare allowed</th><th scope="col">National billed</th></tr></thead><tbody>' + rows + '</tbody></table>' : '') +
+      compare +
       (cityRows ? '<ul class="neutral-list">' + cityRows + '</ul>' : '') +
       '<p class="muted">Source: CMS Medicare data, 2024, <a href="' + CMS_GEO_URL + '" rel="nofollow noopener">by state</a> and <a href="' + CMS_PROVIDER_URL + '" rel="nofollow noopener">by provider</a>; Medicare patients only.</p></section>';
     return { answer, html };
   }
   if (vk === 'dentistry') return dentistryState(ab, sname, list);
-  if (vk.includes('uscis')) {
-    const fo = readJson('research/uscis_medical/field_office_assignments.json');
-    const rows = list.map((c) => {
-      const r = fo && fo.cities && fo.cities[c.slug];
-      const o = r && r.field_offices && r.field_offices[0];
-      return o ? { c, o } : null;
-    }).filter(Boolean);
-    if (!rows.length) return null;
-    const offices = [...new Set(rows.map((x) => x.o.office_name))];
-    const answer = fit([
-      'In ' + esc(sname) + ', green card interviews for the ZIP codes of the cities we cover are held at the ' + offices.slice(0, 2).map(esc).join(' and ') + ' Field Office' + (offices.length > 1 ? 's' : '') + ', and the civil surgeon who completes Form I-693 is a doctor USCIS designates; confirm one in the USCIS locator before you book, and ask what the quoted fee covers.',
-      'In ' + esc(sname) + ', green card interviews for the ZIP codes we cover are held at the ' + esc(offices[0]) + ' Field Office. A civil surgeon is a doctor USCIS designates to complete Form I-693; confirm one in the USCIS locator before you book.',
-    ]);
-    const html = '<section class="section" data-state-local-facts="uscis"><h2>Which USCIS field office serves each ' + esc(sname) + ' city?</h2><ul class="neutral-list">' +
-      rows.map(({ c, o }) => '<li><a href="/' + esc(c.slug) + '/">' + esc(c.marketLabel || c.slug) + '</a>: ' + esc(o.office_name) + ' Field Office, ' + esc(o.street) + ', ' + esc(o.office_city) + ', ' + esc(o.office_state) + ' ' + esc(o.office_zip) + '</li>').join('') +
-      '</ul><p class="muted">Source: USCIS ZIP code assignment file' + (fo.source && fo.source.file_vintage ? ' (' + esc(fo.source.file_vintage) + ')' : '') + '. Your own notice names your office.</p></section>';
-    return { answer, html };
-  }
+  if (vk.includes('uscis')) return uscisState(ab, sname, list);
   return null;
 }
 

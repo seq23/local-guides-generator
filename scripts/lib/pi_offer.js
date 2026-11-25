@@ -67,7 +67,9 @@ function applyToForProvidersHtml(html) {
   if (!out) return out;
   const hero = /(<section class="hero for-providers-hero">[\s\S]*?<p class="muted">)[\s\S]*?(<\/p>)/;
   if (!hero.test(out)) throw new Error('pi_offer: for-providers page has no hero line to rewrite');
-  out = out.replace(hero, '$1Get a featured listing on the state page people use when they look for an injury lawyer. ' + PI_PRICE_LINE + ' The first two months are free.$2');
+  // A 40-60 word "X is ..." definition: it is the first paragraph under the H1
+  // (Search Readiness b4). No lead forwarding here: firms get clicks, not referrals.
+  out = out.replace(hero, '$1A featured listing is a labelled sponsor slot on the state page people use when they look for an injury lawyer, showing your firm\'s name, phone number and website. It is a fixed monthly fee: ' + PI_PRICE_LINE + ' The first two months are free.$2');
   out = replaceSection(out, '<section class="section for-providers-commercial"', COMMERCIAL_SECTION);
   out = replaceSection(out, '<section class="section for-providers-exclusive"', '');
   out = replaceSection(out, '<section class="section">\n  <h2>How sponsor ownership works</h2>', '');
