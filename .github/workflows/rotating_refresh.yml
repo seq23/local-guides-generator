@@ -19,6 +19,8 @@ concurrency:
 
 jobs:
   rotating-refresh:
+    if: github.ref == 'refs/heads/main'
+    environment: reviewed-main
     timeout-minutes: 35  # ~3x median 5.5m over 8 green runs, ~3m of Search Console reads, and the refresh lane (3 pages: links + at most 2 x 90s of $0 model time each); fault detector, not a budget
     runs-on: ubuntu-latest
     # A newly qualifying family is a note for the search loop, never a failure

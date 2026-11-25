@@ -25,6 +25,8 @@ concurrency:
 
 jobs:
   purge:
+    if: github.ref == 'refs/heads/main'
+    environment: reviewed-main
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
