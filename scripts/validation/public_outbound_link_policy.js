@@ -56,7 +56,9 @@ function run(ctx) {
       if (/<a\s+href=/i.test(section)) fail(rel, 'state directory section contains outbound link');
     }
 
-    const isPiDirectorySurface = /pi-directory-table|Listed in this state directory/i.test(html);
+    // The section marker, not the card wording: the per-card "Listed in this
+    // state directory" line was dropped as template filler (q1, 24 Nov 2026).
+    const isPiDirectorySurface = /pi-directory-table|data-pi-state-directory="true"/i.test(html);
     if (isPiDirectorySurface) {
       const scripts = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/gi) || [];
       for (const block of scripts) {

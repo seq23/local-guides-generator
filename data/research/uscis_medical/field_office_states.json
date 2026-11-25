@@ -1,0 +1,5388 @@
+{
+  "$schema": "lkg-uscis-field-office-states-v1",
+  "source": {
+    "publisher": "U.S. Citizenship and Immigration Services",
+    "title": "Field Office Locator ZIP code assignment data",
+    "page": "https://www.uscis.gov/about-us/find-a-uscis-office/field-offices",
+    "file": "https://www.uscis.gov/sites/default/files/document/data/field_office_zip_08-25-26.csv",
+    "file_vintage": "08-25-26",
+    "retrieved_on": "2026-11-24",
+    "rows_in_file": 43301,
+    "method": "Rows with IsRetired=TRUE excluded. Grouped by the CSV State column, then counted by field office (ZIP codes, counties, and the CSV City column for places). A County of \"None\" (Connecticut) is treated as missing."
+  },
+  "limits": [
+    "Assignment is by ZIP code of residence; the applicant's own notice names the office.",
+    "A field office holds interviews and does not do the immigration medical exam."
+  ],
+  "states": {
+    "AK": {
+      "zip_codes": 273,
+      "counties": 31,
+      "field_offices": [
+        {
+          "designation": "ANC",
+          "office_name": "Anchorage",
+          "street": "222 West 7th Avenue, Suite 128",
+          "office_city": "Anchorage",
+          "office_state": "AK",
+          "office_zip": "99513",
+          "district": "Seattle",
+          "zip_codes": 273,
+          "counties": 31,
+          "top_counties": [
+            "Anchorage",
+            "Yukon Koyukuk",
+            "Bethel",
+            "Fairbanks North Star"
+          ],
+          "top_places": [
+            {
+              "place": "Anchorage",
+              "zip_codes": 25
+            },
+            {
+              "place": "Fairbanks",
+              "zip_codes": 10
+            },
+            {
+              "place": "Juneau",
+              "zip_codes": 6
+            },
+            {
+              "place": "Wasilla",
+              "zip_codes": 4
+            },
+            {
+              "place": "Kodiak",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "AL": {
+      "zip_codes": 799,
+      "counties": 67,
+      "field_offices": [
+        {
+          "designation": "MGA",
+          "office_name": "Montgomery",
+          "street": "3381 Atlanta Highway",
+          "office_city": "Montgomery",
+          "office_state": "AL",
+          "office_zip": "36109",
+          "district": "Atlanta",
+          "zip_codes": 799,
+          "counties": 67,
+          "top_counties": [
+            "Jefferson",
+            "Mobile",
+            "Montgomery",
+            "Madison"
+          ],
+          "top_places": [
+            {
+              "place": "Birmingham",
+              "zip_codes": 61
+            },
+            {
+              "place": "Mobile",
+              "zip_codes": 33
+            },
+            {
+              "place": "Montgomery",
+              "zip_codes": 33
+            },
+            {
+              "place": "Huntsville",
+              "zip_codes": 24
+            },
+            {
+              "place": "Tuscaloosa",
+              "zip_codes": 9
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "AR": {
+      "zip_codes": 705,
+      "counties": 75,
+      "field_offices": [
+        {
+          "designation": "MEM",
+          "office_name": "Memphis",
+          "street": "80 Monroe Ave., 7th Floor",
+          "office_city": "Memphis",
+          "office_state": "TN",
+          "office_zip": "38103",
+          "district": "Atlanta",
+          "zip_codes": 425,
+          "counties": 42,
+          "top_counties": [
+            "Pulaski",
+            "Mississippi",
+            "White",
+            "Independence"
+          ],
+          "top_places": [
+            {
+              "place": "Little Rock",
+              "zip_codes": 25
+            },
+            {
+              "place": "North Little Rock",
+              "zip_codes": 9
+            },
+            {
+              "place": "Jonesboro",
+              "zip_codes": 5
+            },
+            {
+              "place": "Benton",
+              "zip_codes": 4
+            },
+            {
+              "place": "Conway",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "FSA",
+          "office_name": "Fort Smith",
+          "street": "4624 Kelley Highway",
+          "office_city": "Fort Smith",
+          "office_state": "AR",
+          "office_zip": "72904",
+          "district": "Atlanta",
+          "zip_codes": 280,
+          "counties": 33,
+          "top_counties": [
+            "Washington",
+            "Benton",
+            "Sebastian",
+            "Baxter"
+          ],
+          "top_places": [
+            {
+              "place": "Fort Smith",
+              "zip_codes": 13
+            },
+            {
+              "place": "Hot Springs National Park",
+              "zip_codes": 5
+            },
+            {
+              "place": "Fayetteville",
+              "zip_codes": 4
+            },
+            {
+              "place": "Springdale",
+              "zip_codes": 4
+            },
+            {
+              "place": "Arkadelphia",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "AS": {
+      "zip_codes": 1,
+      "counties": 1,
+      "field_offices": [
+        {
+          "designation": "HHW",
+          "office_name": "Honolulu",
+          "street": "500 Ala Moana Boulevard, Suite 2-403",
+          "office_city": "Honolulu",
+          "office_state": "HI",
+          "office_zip": "96813",
+          "district": "Seattle",
+          "zip_codes": 1,
+          "counties": 1,
+          "top_counties": [
+            "American Samoa"
+          ],
+          "top_places": [
+            {
+              "place": "Pago Pago",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "AZ": {
+      "zip_codes": 519,
+      "counties": 15,
+      "field_offices": [
+        {
+          "designation": "PHO",
+          "office_name": "Phoenix",
+          "street": "1330 South 16th Street",
+          "office_city": "Phoenix",
+          "office_state": "AZ",
+          "office_zip": "85034",
+          "district": "San Antonio",
+          "zip_codes": 367,
+          "counties": 10,
+          "top_counties": [
+            "Maricopa",
+            "Yavapai",
+            "Mohave",
+            "Navajo"
+          ],
+          "top_places": [
+            {
+              "place": "Phoenix",
+              "zip_codes": 70
+            },
+            {
+              "place": "Mesa",
+              "zip_codes": 19
+            },
+            {
+              "place": "Scottsdale",
+              "zip_codes": 15
+            },
+            {
+              "place": "Glendale",
+              "zip_codes": 12
+            },
+            {
+              "place": "Chandler",
+              "zip_codes": 8
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "TUC",
+          "office_name": "Tucson",
+          "street": "4475 South Coach Drive",
+          "office_city": "Tucson",
+          "office_state": "AZ",
+          "office_zip": "85714",
+          "district": "San Antonio",
+          "zip_codes": 140,
+          "counties": 5,
+          "top_counties": [
+            "Pima",
+            "Pinal",
+            "Cochise",
+            "Graham"
+          ],
+          "top_places": [
+            {
+              "place": "Tucson",
+              "zip_codes": 52
+            },
+            {
+              "place": "Apache Junction",
+              "zip_codes": 4
+            },
+            {
+              "place": "Casa Grande",
+              "zip_codes": 4
+            },
+            {
+              "place": "Douglas",
+              "zip_codes": 3
+            },
+            {
+              "place": "San Tan Valley",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "IMP",
+          "office_name": "Imperial",
+          "street": "509 Industry Way",
+          "office_city": "Imperial",
+          "office_state": "CA",
+          "office_zip": "92251",
+          "district": "San Diego",
+          "zip_codes": 12,
+          "counties": 1,
+          "top_counties": [
+            "Yuma"
+          ],
+          "top_places": [
+            {
+              "place": "Yuma",
+              "zip_codes": 5
+            },
+            {
+              "place": "San Luis",
+              "zip_codes": 2
+            },
+            {
+              "place": "Dateland",
+              "zip_codes": 1
+            },
+            {
+              "place": "Roll",
+              "zip_codes": 1
+            },
+            {
+              "place": "Somerton",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "CA": {
+      "zip_codes": 2570,
+      "counties": 58,
+      "field_offices": [
+        {
+          "designation": "SAC",
+          "office_name": "Sacramento",
+          "street": "650 Capitol Mall",
+          "office_city": "Sacramento",
+          "office_state": "CA",
+          "office_zip": "95814",
+          "district": "San Francisco",
+          "zip_codes": 505,
+          "counties": 23,
+          "top_counties": [
+            "Sacramento",
+            "San Joaquin",
+            "Shasta",
+            "El Dorado"
+          ],
+          "top_places": [
+            {
+              "place": "Sacramento",
+              "zip_codes": 92
+            },
+            {
+              "place": "Stockton",
+              "zip_codes": 19
+            },
+            {
+              "place": "South Lake Tahoe",
+              "zip_codes": 8
+            },
+            {
+              "place": "Chico",
+              "zip_codes": 6
+            },
+            {
+              "place": "Redding",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SFR",
+          "office_name": "San Francisco",
+          "street": "630 Sansome Street",
+          "office_city": "San Francisco",
+          "office_state": "CA",
+          "office_zip": "94111",
+          "district": "San Francisco",
+          "zip_codes": 376,
+          "counties": 12,
+          "top_counties": [
+            "Alameda",
+            "Contra Costa",
+            "San Francisco",
+            "Sonoma"
+          ],
+          "top_places": [
+            {
+              "place": "San Francisco",
+              "zip_codes": 51
+            },
+            {
+              "place": "Oakland",
+              "zip_codes": 26
+            },
+            {
+              "place": "Berkeley",
+              "zip_codes": 11
+            },
+            {
+              "place": "Concord",
+              "zip_codes": 8
+            },
+            {
+              "place": "Santa Rosa",
+              "zip_codes": 8
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "FRE",
+          "office_name": "Fresno",
+          "street": "744 P Street, Suite 120",
+          "office_city": "Fresno",
+          "office_state": "CA",
+          "office_zip": "93721",
+          "district": "San Francisco",
+          "zip_codes": 308,
+          "counties": 11,
+          "top_counties": [
+            "Fresno",
+            "Kern",
+            "Tulare",
+            "Stanislaus"
+          ],
+          "top_places": [
+            {
+              "place": "Fresno",
+              "zip_codes": 58
+            },
+            {
+              "place": "Bakersfield",
+              "zip_codes": 22
+            },
+            {
+              "place": "Modesto",
+              "zip_codes": 10
+            },
+            {
+              "place": "Visalia",
+              "zip_codes": 6
+            },
+            {
+              "place": "Merced",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SFV",
+          "office_name": "San Fernando Valley",
+          "street": "19809 Prairie Street, 1st Floor, Suite 100",
+          "office_city": "Chatsworth",
+          "office_state": "CA",
+          "office_zip": "91311",
+          "district": "Los Angeles",
+          "zip_codes": 226,
+          "counties": 4,
+          "top_counties": [
+            "Los Angeles",
+            "Ventura",
+            "Santa Barbara",
+            "San Luis Obispo"
+          ],
+          "top_places": [
+            {
+              "place": "Santa Barbara",
+              "zip_codes": 17
+            },
+            {
+              "place": "Van Nuys",
+              "zip_codes": 12
+            },
+            {
+              "place": "San Luis Obispo",
+              "zip_codes": 8
+            },
+            {
+              "place": "Ventura",
+              "zip_codes": 8
+            },
+            {
+              "place": "Oxnard",
+              "zip_codes": 7
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "LOS",
+          "office_name": "Los Angeles",
+          "street": "300 North Los Angeles Street",
+          "office_city": "Los Angeles",
+          "office_state": "CA",
+          "office_zip": "90012",
+          "district": "Los Angeles",
+          "zip_codes": 218,
+          "counties": 2,
+          "top_counties": [
+            "Los Angeles",
+            "San Bernardino"
+          ],
+          "top_places": [
+            {
+              "place": "Los Angeles",
+              "zip_codes": 82
+            },
+            {
+              "place": "Pasadena",
+              "zip_codes": 25
+            },
+            {
+              "place": "Glendale",
+              "zip_codes": 14
+            },
+            {
+              "place": "Burbank",
+              "zip_codes": 12
+            },
+            {
+              "place": "Santa Monica",
+              "zip_codes": 11
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SBD",
+          "office_name": "San Bernardino",
+          "street": "995 Hardt Street",
+          "office_city": "San Bernardino",
+          "office_state": "CA",
+          "office_zip": "92408",
+          "district": "San Diego",
+          "zip_codes": 213,
+          "counties": 3,
+          "top_counties": [
+            "San Bernardino",
+            "Riverside",
+            "Kern"
+          ],
+          "top_places": [
+            {
+              "place": "Riverside",
+              "zip_codes": 15
+            },
+            {
+              "place": "San Bernardino",
+              "zip_codes": 15
+            },
+            {
+              "place": "Moreno Valley",
+              "zip_codes": 7
+            },
+            {
+              "place": "Corona",
+              "zip_codes": 6
+            },
+            {
+              "place": "Fontana",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SNJ",
+          "office_name": "San Jose",
+          "street": "1450 Coleman Avenue",
+          "office_city": "Santa Clara",
+          "office_state": "CA",
+          "office_zip": "95050",
+          "district": "San Francisco",
+          "zip_codes": 205,
+          "counties": 8,
+          "top_counties": [
+            "Santa Clara",
+            "Monterey",
+            "Santa Cruz",
+            "Alameda"
+          ],
+          "top_places": [
+            {
+              "place": "San Jose",
+              "zip_codes": 58
+            },
+            {
+              "place": "Salinas",
+              "zip_codes": 8
+            },
+            {
+              "place": "Santa Clara",
+              "zip_codes": 7
+            },
+            {
+              "place": "Mountain View",
+              "zip_codes": 6
+            },
+            {
+              "place": "Palo Alto",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SND",
+          "office_name": "San Diego",
+          "street": "1325 Front Street",
+          "office_city": "San Diego",
+          "office_state": "CA",
+          "office_zip": "92101",
+          "district": "San Diego",
+          "zip_codes": 181,
+          "counties": 1,
+          "top_counties": [
+            "San Diego"
+          ],
+          "top_places": [
+            {
+              "place": "San Diego",
+              "zip_codes": 75
+            },
+            {
+              "place": "Chula Vista",
+              "zip_codes": 8
+            },
+            {
+              "place": "Escondido",
+              "zip_codes": 7
+            },
+            {
+              "place": "Oceanside",
+              "zip_codes": 7
+            },
+            {
+              "place": "Carlsbad",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "LAC",
+          "office_name": "Los Angeles County",
+          "street": "300 North Los Angeles Street",
+          "office_city": "Los Angeles",
+          "office_state": "CA",
+          "office_zip": "90012",
+          "district": "Los Angeles",
+          "zip_codes": 177,
+          "counties": 1,
+          "top_counties": [
+            "Los Angeles"
+          ],
+          "top_places": [
+            {
+              "place": "Long Beach",
+              "zip_codes": 24
+            },
+            {
+              "place": "Los Angeles",
+              "zip_codes": 13
+            },
+            {
+              "place": "Inglewood",
+              "zip_codes": 12
+            },
+            {
+              "place": "Torrance",
+              "zip_codes": 10
+            },
+            {
+              "place": "Whittier",
+              "zip_codes": 10
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SAA",
+          "office_name": "Santa Ana",
+          "street": "34 Civic Center Plaza",
+          "office_city": "Santa Ana",
+          "office_state": "CA",
+          "office_zip": "92701",
+          "district": "San Diego",
+          "zip_codes": 144,
+          "counties": 1,
+          "top_counties": [
+            "Orange"
+          ],
+          "top_places": [
+            {
+              "place": "Anaheim",
+              "zip_codes": 16
+            },
+            {
+              "place": "Irvine",
+              "zip_codes": 13
+            },
+            {
+              "place": "Orange",
+              "zip_codes": 11
+            },
+            {
+              "place": "Santa Ana",
+              "zip_codes": 10
+            },
+            {
+              "place": "Fullerton",
+              "zip_codes": 8
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "IMP",
+          "office_name": "Imperial",
+          "street": "509 Industry Way",
+          "office_city": "Imperial",
+          "office_state": "CA",
+          "office_zip": "92251",
+          "district": "San Diego",
+          "zip_codes": 17,
+          "counties": 1,
+          "top_counties": [
+            "Imperial"
+          ],
+          "top_places": [
+            {
+              "place": "Calexico",
+              "zip_codes": 2
+            },
+            {
+              "place": "El Centro",
+              "zip_codes": 2
+            },
+            {
+              "place": "Bard",
+              "zip_codes": 1
+            },
+            {
+              "place": "Brawley",
+              "zip_codes": 1
+            },
+            {
+              "place": "Calipatria",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "CO": {
+      "zip_codes": 640,
+      "counties": 64,
+      "field_offices": [
+        {
+          "designation": "DEN",
+          "office_name": "Denver",
+          "street": "12484 East Weaver Place",
+          "office_city": "Centennial",
+          "office_state": "CO",
+          "office_zip": "80111",
+          "district": "Kansas City",
+          "zip_codes": 640,
+          "counties": 64,
+          "top_counties": [
+            "El Paso",
+            "Denver",
+            "Weld",
+            "Jefferson"
+          ],
+          "top_places": [
+            {
+              "place": "Denver",
+              "zip_codes": 62
+            },
+            {
+              "place": "Colorado Springs",
+              "zip_codes": 52
+            },
+            {
+              "place": "Aurora",
+              "zip_codes": 17
+            },
+            {
+              "place": "Littleton",
+              "zip_codes": 16
+            },
+            {
+              "place": "Pueblo",
+              "zip_codes": 12
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "CT": {
+      "zip_codes": 421,
+      "counties": 0,
+      "field_offices": [
+        {
+          "designation": "HAR",
+          "office_name": "Hartford",
+          "street": "450 Main Street",
+          "office_city": "Hartford",
+          "office_state": "CT",
+          "office_zip": "06103",
+          "district": "Boston",
+          "zip_codes": 421,
+          "counties": 0,
+          "top_counties": [],
+          "top_places": [
+            {
+              "place": "Hartford",
+              "zip_codes": 36
+            },
+            {
+              "place": "New Haven",
+              "zip_codes": 26
+            },
+            {
+              "place": "Waterbury",
+              "zip_codes": 15
+            },
+            {
+              "place": "Stamford",
+              "zip_codes": 14
+            },
+            {
+              "place": "Bridgeport",
+              "zip_codes": 10
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "DC": {
+      "zip_codes": 301,
+      "counties": 1,
+      "field_offices": [
+        {
+          "designation": "WAS",
+          "office_name": "Washington",
+          "street": "2675 Prosperity Avenue, MS2480",
+          "office_city": "Fairfax",
+          "office_state": "VA",
+          "office_zip": "20598",
+          "district": "Washington",
+          "zip_codes": 301,
+          "counties": 1,
+          "top_counties": [
+            "District of Columbia"
+          ],
+          "top_places": [
+            {
+              "place": "Washington",
+              "zip_codes": 264
+            },
+            {
+              "place": "Parcel Return Service",
+              "zip_codes": 30
+            },
+            {
+              "place": "Washington Navy Yard",
+              "zip_codes": 5
+            },
+            {
+              "place": "Naval Anacost Annex",
+              "zip_codes": 1
+            },
+            {
+              "place": "North Pole",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "DE": {
+      "zip_codes": 96,
+      "counties": 3,
+      "field_offices": [
+        {
+          "designation": "PHI",
+          "office_name": "Philadelphia",
+          "street": "30 North 41st Street",
+          "office_city": "Philadelphia",
+          "office_state": "PA",
+          "office_zip": "19104",
+          "district": "Cleveland",
+          "zip_codes": 96,
+          "counties": 3,
+          "top_counties": [
+            "New Castle",
+            "Sussex",
+            "Kent"
+          ],
+          "top_places": [
+            {
+              "place": "Wilmington",
+              "zip_codes": 25
+            },
+            {
+              "place": "Newark",
+              "zip_codes": 10
+            },
+            {
+              "place": "Dover",
+              "zip_codes": 5
+            },
+            {
+              "place": "New Castle",
+              "zip_codes": 3
+            },
+            {
+              "place": "Bear",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "FL": {
+      "zip_codes": 1457,
+      "counties": 67,
+      "field_offices": [
+        {
+          "designation": "TAM",
+          "office_name": "Tampa",
+          "street": "5629 Hoover Boulevard",
+          "office_city": "Tampa",
+          "office_state": "FL",
+          "office_zip": "33634",
+          "district": "Tampa",
+          "zip_codes": 344,
+          "counties": 10,
+          "top_counties": [
+            "Hillsborough",
+            "Pinellas",
+            "Polk",
+            "Pasco"
+          ],
+          "top_places": [
+            {
+              "place": "Tampa",
+              "zip_codes": 55
+            },
+            {
+              "place": "Saint Petersburg",
+              "zip_codes": 30
+            },
+            {
+              "place": "Sarasota",
+              "zip_codes": 18
+            },
+            {
+              "place": "Bradenton",
+              "zip_codes": 15
+            },
+            {
+              "place": "Clearwater",
+              "zip_codes": 13
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "ORL",
+          "office_name": "Orlando",
+          "street": "6680 Corporate Centre Boulevard",
+          "office_city": "Orlando",
+          "office_state": "FL",
+          "office_zip": "32822",
+          "district": "Tampa",
+          "zip_codes": 293,
+          "counties": 9,
+          "top_counties": [
+            "Orange",
+            "Brevard",
+            "Volusia",
+            "Marion"
+          ],
+          "top_places": [
+            {
+              "place": "Orlando",
+              "zip_codes": 59
+            },
+            {
+              "place": "Ocala",
+              "zip_codes": 14
+            },
+            {
+              "place": "Daytona Beach",
+              "zip_codes": 12
+            },
+            {
+              "place": "Melbourne",
+              "zip_codes": 10
+            },
+            {
+              "place": "Kissimmee",
+              "zip_codes": 8
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "JAC",
+          "office_name": "Jacksonville",
+          "street": "4121 Southpoint Boulevard",
+          "office_city": "Jacksonville",
+          "office_state": "FL",
+          "office_zip": "32216",
+          "district": "Tampa",
+          "zip_codes": 231,
+          "counties": 25,
+          "top_counties": [
+            "Duval",
+            "Alachua",
+            "Leon",
+            "Putnam"
+          ],
+          "top_places": [
+            {
+              "place": "Jacksonville",
+              "zip_codes": 47
+            },
+            {
+              "place": "Tallahassee",
+              "zip_codes": 19
+            },
+            {
+              "place": "Gainesville",
+              "zip_codes": 17
+            },
+            {
+              "place": "Saint Augustine",
+              "zip_codes": 6
+            },
+            {
+              "place": "Lake City",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "WPB",
+          "office_name": "West Palm Beach",
+          "street": "9300 Belvedere",
+          "office_city": "West Palm Beach",
+          "office_state": "FL",
+          "office_zip": "33411",
+          "district": "Tampa",
+          "zip_codes": 138,
+          "counties": 7,
+          "top_counties": [
+            "Palm Beach",
+            "Saint Lucie",
+            "Indian River",
+            "Martin"
+          ],
+          "top_places": [
+            {
+              "place": "West Palm Beach",
+              "zip_codes": 17
+            },
+            {
+              "place": "Boca Raton",
+              "zip_codes": 16
+            },
+            {
+              "place": "Fort Pierce",
+              "zip_codes": 11
+            },
+            {
+              "place": "Vero Beach",
+              "zip_codes": 10
+            },
+            {
+              "place": "Boynton Beach",
+              "zip_codes": 9
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "MGA",
+          "office_name": "Montgomery",
+          "street": "3381 Atlanta Highway",
+          "office_city": "Montgomery",
+          "office_state": "AL",
+          "office_zip": "36109",
+          "district": "Atlanta",
+          "zip_codes": 120,
+          "counties": 12,
+          "top_counties": [
+            "Escambia",
+            "Okaloosa",
+            "Bay",
+            "Jackson"
+          ],
+          "top_places": [
+            {
+              "place": "Pensacola",
+              "zip_codes": 23
+            },
+            {
+              "place": "Panama City",
+              "zip_codes": 11
+            },
+            {
+              "place": "Milton",
+              "zip_codes": 4
+            },
+            {
+              "place": "Fort Walton Beach",
+              "zip_codes": 3
+            },
+            {
+              "place": "Gulf Breeze",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "OFM",
+          "office_name": "Ft. Myers",
+          "street": "4220 Executive Circle Suite 1",
+          "office_city": "Fort Myers",
+          "office_state": "FL",
+          "office_zip": "33916",
+          "district": "Tampa",
+          "zip_codes": 110,
+          "counties": 6,
+          "top_counties": [
+            "Lee",
+            "Collier",
+            "Charlotte",
+            "Sarasota"
+          ],
+          "top_places": [
+            {
+              "place": "Naples",
+              "zip_codes": 17
+            },
+            {
+              "place": "Fort Myers",
+              "zip_codes": 14
+            },
+            {
+              "place": "Cape Coral",
+              "zip_codes": 8
+            },
+            {
+              "place": "Lehigh Acres",
+              "zip_codes": 7
+            },
+            {
+              "place": "North Port",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "OKL",
+          "office_name": "Oakland Park",
+          "street": "4451 NW 31st Avenue",
+          "office_city": "Fort Lauderdale",
+          "office_state": "FL",
+          "office_zip": "33309",
+          "district": "Miami",
+          "zip_codes": 76,
+          "counties": 1,
+          "top_counties": [
+            "Broward"
+          ],
+          "top_places": [
+            {
+              "place": "Fort Lauderdale",
+              "zip_codes": 44
+            },
+            {
+              "place": "Pompano Beach",
+              "zip_codes": 13
+            },
+            {
+              "place": "Hollywood",
+              "zip_codes": 7
+            },
+            {
+              "place": "Coral Springs",
+              "zip_codes": 3
+            },
+            {
+              "place": "Deerfield Beach",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "KND",
+          "office_name": "Kendall",
+          "street": "14675 SW 120th Street",
+          "office_city": "Miami",
+          "office_state": "FL",
+          "office_zip": "33186",
+          "district": "Miami",
+          "zip_codes": 56,
+          "counties": 2,
+          "top_counties": [
+            "Miami-Dade",
+            "Monroe"
+          ],
+          "top_places": [
+            {
+              "place": "Miami",
+              "zip_codes": 35
+            },
+            {
+              "place": "Homestead",
+              "zip_codes": 9
+            },
+            {
+              "place": "Key West",
+              "zip_codes": 3
+            },
+            {
+              "place": "Big Pine Key",
+              "zip_codes": 1
+            },
+            {
+              "place": "Islamorada",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "MIA",
+          "office_name": "Miami",
+          "street": "8801 NW 7th Avenue",
+          "office_city": "Miami",
+          "office_state": "FL",
+          "office_zip": "33150",
+          "district": "Miami",
+          "zip_codes": 55,
+          "counties": 1,
+          "top_counties": [
+            "Miami-Dade"
+          ],
+          "top_places": [
+            {
+              "place": "Miami",
+              "zip_codes": 45
+            },
+            {
+              "place": "Miami Beach",
+              "zip_codes": 7
+            },
+            {
+              "place": "Coral Gables",
+              "zip_codes": 1
+            },
+            {
+              "place": "Key Biscayne",
+              "zip_codes": 1
+            },
+            {
+              "place": "North Miami Beach",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "HIA",
+          "office_name": "Hialeah",
+          "street": "5880 NW 183rd Street",
+          "office_city": "Hialeah",
+          "office_state": "FL",
+          "office_zip": "33015",
+          "district": "Miami",
+          "zip_codes": 34,
+          "counties": 2,
+          "top_counties": [
+            "Miami-Dade",
+            "Broward"
+          ],
+          "top_places": [
+            {
+              "place": "Miami",
+              "zip_codes": 13
+            },
+            {
+              "place": "Hialeah",
+              "zip_codes": 10
+            },
+            {
+              "place": "Hollywood",
+              "zip_codes": 6
+            },
+            {
+              "place": "Opa Locka",
+              "zip_codes": 2
+            },
+            {
+              "place": "Pembroke Pines",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "FM": {
+      "zip_codes": 4,
+      "counties": 1,
+      "field_offices": [
+        {
+          "designation": "AGA",
+          "office_name": "Guam",
+          "street": "770 East Sunset Boulevard, Suite 185",
+          "office_city": "Barrigada",
+          "office_state": "GU",
+          "office_zip": "96913",
+          "district": "Seattle",
+          "zip_codes": 4,
+          "counties": 1,
+          "top_counties": [
+            "Federated States of Micro"
+          ],
+          "top_places": [
+            {
+              "place": "Chuuk",
+              "zip_codes": 1
+            },
+            {
+              "place": "Kosrae",
+              "zip_codes": 1
+            },
+            {
+              "place": "Pohnpei",
+              "zip_codes": 1
+            },
+            {
+              "place": "Yap",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "GA": {
+      "zip_codes": 941,
+      "counties": 159,
+      "field_offices": [
+        {
+          "designation": "ATL",
+          "office_name": "Atlanta",
+          "street": "2150 Parklake Drive NE",
+          "office_city": "Atlanta",
+          "office_state": "GA",
+          "office_zip": "30345",
+          "district": "Atlanta",
+          "zip_codes": 683,
+          "counties": 110,
+          "top_counties": [
+            "Fulton",
+            "DeKalb",
+            "Cobb",
+            "Gwinnett"
+          ],
+          "top_places": [
+            {
+              "place": "Atlanta",
+              "zip_codes": 90
+            },
+            {
+              "place": "Macon",
+              "zip_codes": 19
+            },
+            {
+              "place": "Marietta",
+              "zip_codes": 14
+            },
+            {
+              "place": "Augusta",
+              "zip_codes": 13
+            },
+            {
+              "place": "Athens",
+              "zip_codes": 9
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "MGA",
+          "office_name": "Montgomery",
+          "street": "3381 Atlanta Highway",
+          "office_city": "Montgomery",
+          "office_state": "AL",
+          "office_zip": "36109",
+          "district": "Atlanta",
+          "zip_codes": 127,
+          "counties": 29,
+          "top_counties": [
+            "Muscogee",
+            "Dougherty",
+            "Colquitt",
+            "Thomas"
+          ],
+          "top_places": [
+            {
+              "place": "Columbus",
+              "zip_codes": 14
+            },
+            {
+              "place": "Albany",
+              "zip_codes": 9
+            },
+            {
+              "place": "Thomasville",
+              "zip_codes": 4
+            },
+            {
+              "place": "Bainbridge",
+              "zip_codes": 3
+            },
+            {
+              "place": "Moultrie",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "JAC",
+          "office_name": "Jacksonville",
+          "street": "4121 Southpoint Boulevard",
+          "office_city": "Jacksonville",
+          "office_state": "FL",
+          "office_zip": "32216",
+          "district": "Tampa",
+          "zip_codes": 85,
+          "counties": 21,
+          "top_counties": [
+            "Lowndes",
+            "Glynn",
+            "Coffee",
+            "Camden"
+          ],
+          "top_places": [
+            {
+              "place": "Valdosta",
+              "zip_codes": 7
+            },
+            {
+              "place": "Brunswick",
+              "zip_codes": 5
+            },
+            {
+              "place": "Jesup",
+              "zip_codes": 4
+            },
+            {
+              "place": "Douglas",
+              "zip_codes": 3
+            },
+            {
+              "place": "Waycross",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "CHL",
+          "office_name": "Charleston",
+          "street": "1821 Sam Rittenberg Boulevard",
+          "office_city": "Charleston",
+          "office_state": "SC",
+          "office_zip": "29407",
+          "district": "Atlanta",
+          "zip_codes": 46,
+          "counties": 6,
+          "top_counties": [
+            "Chatham",
+            "Liberty",
+            "Effingham",
+            "McIntosh"
+          ],
+          "top_places": [
+            {
+              "place": "Savannah",
+              "zip_codes": 18
+            },
+            {
+              "place": "Fort Stewart",
+              "zip_codes": 2
+            },
+            {
+              "place": "Hinesville",
+              "zip_codes": 2
+            },
+            {
+              "place": "Allenhurst",
+              "zip_codes": 1
+            },
+            {
+              "place": "Bloomingdale",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "GU": {
+      "zip_codes": 12,
+      "counties": 1,
+      "field_offices": [
+        {
+          "designation": "AGA",
+          "office_name": "Guam",
+          "street": "770 East Sunset Boulevard, Suite 185",
+          "office_city": "Barrigada",
+          "office_state": "GU",
+          "office_zip": "96913",
+          "district": "Seattle",
+          "zip_codes": 12,
+          "counties": 1,
+          "top_counties": [
+            "Guam"
+          ],
+          "top_places": [
+            {
+              "place": "Barrigada",
+              "zip_codes": 2
+            },
+            {
+              "place": "Hagatna",
+              "zip_codes": 2
+            },
+            {
+              "place": "Agat",
+              "zip_codes": 1
+            },
+            {
+              "place": "Dededo",
+              "zip_codes": 1
+            },
+            {
+              "place": "Inarajan",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "HI": {
+      "zip_codes": 137,
+      "counties": 5,
+      "field_offices": [
+        {
+          "designation": "HHW",
+          "office_name": "Honolulu",
+          "street": "500 Ala Moana Boulevard, Suite 2-403",
+          "office_city": "Honolulu",
+          "office_state": "HI",
+          "office_zip": "96813",
+          "district": "Seattle",
+          "zip_codes": 137,
+          "counties": 5,
+          "top_counties": [
+            "Honolulu",
+            "Hawaii",
+            "Maui",
+            "Kauai"
+          ],
+          "top_places": [
+            {
+              "place": "Honolulu",
+              "zip_codes": 41
+            },
+            {
+              "place": "Hilo",
+              "zip_codes": 2
+            },
+            {
+              "place": "Jbphh",
+              "zip_codes": 2
+            },
+            {
+              "place": "Kahului",
+              "zip_codes": 2
+            },
+            {
+              "place": "Kailua Kona",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "IA": {
+      "zip_codes": 1054,
+      "counties": 99,
+      "field_offices": [
+        {
+          "designation": "DSM",
+          "office_name": "Des Moines",
+          "street": "Neal Smith Federal Building, 210 Walnut Street, Room 215",
+          "office_city": "Des Moines",
+          "office_state": "IA",
+          "office_zip": "50309",
+          "district": "Chicago",
+          "zip_codes": 822,
+          "counties": 75,
+          "top_counties": [
+            "Polk",
+            "Linn",
+            "Scott",
+            "Clinton"
+          ],
+          "top_places": [
+            {
+              "place": "Des Moines",
+              "zip_codes": 55
+            },
+            {
+              "place": "Cedar Rapids",
+              "zip_codes": 14
+            },
+            {
+              "place": "Davenport",
+              "zip_codes": 9
+            },
+            {
+              "place": "Iowa City",
+              "zip_codes": 6
+            },
+            {
+              "place": "Ames",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "OMA",
+          "office_name": "Omaha",
+          "street": "1717 Avenue H E",
+          "office_city": "Omaha",
+          "office_state": "NE",
+          "office_zip": "68110",
+          "district": "Kansas City",
+          "zip_codes": 232,
+          "counties": 24,
+          "top_counties": [
+            "Woodbury",
+            "Pottawattamie",
+            "Sioux",
+            "Carroll"
+          ],
+          "top_places": [
+            {
+              "place": "Sioux City",
+              "zip_codes": 9
+            },
+            {
+              "place": "Council Bluffs",
+              "zip_codes": 3
+            },
+            {
+              "place": "Harlan",
+              "zip_codes": 2
+            },
+            {
+              "place": "Red Oak",
+              "zip_codes": 2
+            },
+            {
+              "place": "Shenandoah",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "ID": {
+      "zip_codes": 317,
+      "counties": 44,
+      "field_offices": [
+        {
+          "designation": "BOI",
+          "office_name": "Boise",
+          "street": "7180 West Potomac Drive",
+          "office_city": "Boise",
+          "office_state": "ID",
+          "office_zip": "83704",
+          "district": "Seattle",
+          "zip_codes": 224,
+          "counties": 34,
+          "top_counties": [
+            "Ada",
+            "Canyon",
+            "Bannock",
+            "Bonneville"
+          ],
+          "top_places": [
+            {
+              "place": "Boise",
+              "zip_codes": 27
+            },
+            {
+              "place": "Idaho Falls",
+              "zip_codes": 7
+            },
+            {
+              "place": "Pocatello",
+              "zip_codes": 6
+            },
+            {
+              "place": "Nampa",
+              "zip_codes": 5
+            },
+            {
+              "place": "Caldwell",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SPO",
+          "office_name": "Spokane",
+          "street": "US Courthouse, 920 West Riverside Drive, Room 691",
+          "office_city": "Spokane",
+          "office_state": "WA",
+          "office_zip": "99201",
+          "district": "Seattle",
+          "zip_codes": 93,
+          "counties": 10,
+          "top_counties": [
+            "Bonner",
+            "Kootenai",
+            "Idaho",
+            "Latah"
+          ],
+          "top_places": [
+            {
+              "place": "Coeur D Alene",
+              "zip_codes": 3
+            },
+            {
+              "place": "Moscow",
+              "zip_codes": 2
+            },
+            {
+              "place": "Post Falls",
+              "zip_codes": 2
+            },
+            {
+              "place": "Ahsahka",
+              "zip_codes": 1
+            },
+            {
+              "place": "Athol",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "IL": {
+      "zip_codes": 1568,
+      "counties": 102,
+      "field_offices": [
+        {
+          "designation": "STL",
+          "office_name": "Saint Louis",
+          "street": "Robert A. Young Federal Bldg, 1222 Spruce Street, Room 2.205",
+          "office_city": "Saint Louis",
+          "office_state": "MO",
+          "office_zip": "63103",
+          "district": "Chicago",
+          "zip_codes": 884,
+          "counties": 74,
+          "top_counties": [
+            "Sangamon",
+            "Peoria",
+            "Champaign",
+            "McLean"
+          ],
+          "top_places": [
+            {
+              "place": "Springfield",
+              "zip_codes": 32
+            },
+            {
+              "place": "Peoria",
+              "zip_codes": 29
+            },
+            {
+              "place": "Bloomington",
+              "zip_codes": 8
+            },
+            {
+              "place": "East Saint Louis",
+              "zip_codes": 7
+            },
+            {
+              "place": "Champaign",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "CHI",
+          "office_name": "Chicago",
+          "street": "101 West Ida B. Wells Drive",
+          "office_city": "Chicago",
+          "office_state": "IL",
+          "office_zip": "60605",
+          "district": "Chicago",
+          "zip_codes": 546,
+          "counties": 23,
+          "top_counties": [
+            "Cook",
+            "DuPage",
+            "Lake",
+            "Will"
+          ],
+          "top_places": [
+            {
+              "place": "Chicago",
+              "zip_codes": 84
+            },
+            {
+              "place": "Rockford",
+              "zip_codes": 14
+            },
+            {
+              "place": "Aurora",
+              "zip_codes": 10
+            },
+            {
+              "place": "Carol Stream",
+              "zip_codes": 7
+            },
+            {
+              "place": "Palatine",
+              "zip_codes": 7
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "DSM",
+          "office_name": "Des Moines",
+          "street": "Neal Smith Federal Building, 210 Walnut Street, Room 215",
+          "office_city": "Des Moines",
+          "office_state": "IA",
+          "office_zip": "50309",
+          "district": "Chicago",
+          "zip_codes": 138,
+          "counties": 10,
+          "top_counties": [
+            "Bureau",
+            "Rock Island",
+            "Knox",
+            "Henry"
+          ],
+          "top_places": [
+            {
+              "place": "Rock Island",
+              "zip_codes": 3
+            },
+            {
+              "place": "Galesburg",
+              "zip_codes": 2
+            },
+            {
+              "place": "Moline",
+              "zip_codes": 2
+            },
+            {
+              "place": "Abingdon",
+              "zip_codes": 1
+            },
+            {
+              "place": "Adair",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "IN": {
+      "zip_codes": 958,
+      "counties": 92,
+      "field_offices": [
+        {
+          "designation": "INP",
+          "office_name": "Indianapolis",
+          "street": "1099 North Meridian Street, 10th Floor",
+          "office_city": "Indianapolis",
+          "office_state": "IN",
+          "office_zip": "46204",
+          "district": "Cleveland",
+          "zip_codes": 876,
+          "counties": 88,
+          "top_counties": [
+            "Marion",
+            "Allen",
+            "Vanderburgh",
+            "Clark"
+          ],
+          "top_places": [
+            {
+              "place": "Indianapolis",
+              "zip_codes": 57
+            },
+            {
+              "place": "Fort Wayne",
+              "zip_codes": 43
+            },
+            {
+              "place": "Evansville",
+              "zip_codes": 32
+            },
+            {
+              "place": "Anderson",
+              "zip_codes": 8
+            },
+            {
+              "place": "Bloomington",
+              "zip_codes": 8
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "CHI",
+          "office_name": "Chicago",
+          "street": "101 West Ida B. Wells Drive",
+          "office_city": "Chicago",
+          "office_state": "IL",
+          "office_zip": "60605",
+          "district": "Chicago",
+          "zip_codes": 82,
+          "counties": 4,
+          "top_counties": [
+            "Lake",
+            "St Joseph",
+            "La Porte",
+            "Porter"
+          ],
+          "top_places": [
+            {
+              "place": "South Bend",
+              "zip_codes": 16
+            },
+            {
+              "place": "Gary",
+              "zip_codes": 8
+            },
+            {
+              "place": "Hammond",
+              "zip_codes": 5
+            },
+            {
+              "place": "Mishawaka",
+              "zip_codes": 3
+            },
+            {
+              "place": "Valparaiso",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "KS": {
+      "zip_codes": 747,
+      "counties": 105,
+      "field_offices": [
+        {
+          "designation": "WIC",
+          "office_name": "Wichita",
+          "street": "550 West Douglas Avenue",
+          "office_city": "Wichita",
+          "office_state": "KS",
+          "office_zip": "67203",
+          "district": "Kansas City",
+          "zip_codes": 433,
+          "counties": 74,
+          "top_counties": [
+            "Sedgwick",
+            "Butler",
+            "Reno",
+            "Marion"
+          ],
+          "top_places": [
+            {
+              "place": "Wichita",
+              "zip_codes": 32
+            },
+            {
+              "place": "Hutchinson",
+              "zip_codes": 3
+            },
+            {
+              "place": "Liberal",
+              "zip_codes": 2
+            },
+            {
+              "place": "Salina",
+              "zip_codes": 2
+            },
+            {
+              "place": "Abbyville",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "KAN",
+          "office_name": "Kansas City",
+          "street": "10320 NW Prairie View Road",
+          "office_city": "Kansas City",
+          "office_state": "MO",
+          "office_zip": "64153",
+          "district": "Kansas City",
+          "zip_codes": 314,
+          "counties": 31,
+          "top_counties": [
+            "Johnson",
+            "Shawnee",
+            "Wyandotte",
+            "Crawford"
+          ],
+          "top_places": [
+            {
+              "place": "Topeka",
+              "zip_codes": 31
+            },
+            {
+              "place": "Kansas City",
+              "zip_codes": 15
+            },
+            {
+              "place": "Overland Park",
+              "zip_codes": 13
+            },
+            {
+              "place": "Lenexa",
+              "zip_codes": 7
+            },
+            {
+              "place": "Shawnee",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "KY": {
+      "zip_codes": 944,
+      "counties": 120,
+      "field_offices": [
+        {
+          "designation": "LOU",
+          "office_name": "Louisville",
+          "street": "411 South 4th Street, Suite 200",
+          "office_city": "Louisville",
+          "office_state": "KY",
+          "office_zip": "40202",
+          "district": "Cleveland",
+          "zip_codes": 944,
+          "counties": 120,
+          "top_counties": [
+            "Jefferson",
+            "Pike",
+            "Fayette",
+            "Floyd"
+          ],
+          "top_places": [
+            {
+              "place": "Louisville",
+              "zip_codes": 66
+            },
+            {
+              "place": "Lexington",
+              "zip_codes": 39
+            },
+            {
+              "place": "Frankfort",
+              "zip_codes": 9
+            },
+            {
+              "place": "London",
+              "zip_codes": 6
+            },
+            {
+              "place": "Bowling Green",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "LA": {
+      "zip_codes": 719,
+      "counties": 64,
+      "field_offices": [
+        {
+          "designation": "NOL",
+          "office_name": "New Orleans",
+          "street": "1250 Poydras Street, Suite 1800",
+          "office_city": "New Orleans",
+          "office_state": "LA",
+          "office_zip": "70113",
+          "district": "Atlanta",
+          "zip_codes": 719,
+          "counties": 64,
+          "top_counties": [
+            "Orleans",
+            "Caddo",
+            "East Baton Rouge",
+            "Jefferson"
+          ],
+          "top_places": [
+            {
+              "place": "New Orleans",
+              "zip_codes": 61
+            },
+            {
+              "place": "Baton Rouge",
+              "zip_codes": 42
+            },
+            {
+              "place": "Shreveport",
+              "zip_codes": 35
+            },
+            {
+              "place": "Lafayette",
+              "zip_codes": 12
+            },
+            {
+              "place": "Metairie",
+              "zip_codes": 12
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "MA": {
+      "zip_codes": 679,
+      "counties": 14,
+      "field_offices": [
+        {
+          "designation": "BOS",
+          "office_name": "Boston",
+          "street": "John F. Kennedy Federal Building, 15 New Sudbury St., Room E-160",
+          "office_city": "Boston",
+          "office_state": "MA",
+          "office_zip": "02203",
+          "district": "Boston",
+          "zip_codes": 347,
+          "counties": 10,
+          "top_counties": [
+            "Plymouth",
+            "Barnstable",
+            "Middlesex",
+            "Suffolk"
+          ],
+          "top_places": [
+            {
+              "place": "Boston",
+              "zip_codes": 33
+            },
+            {
+              "place": "Cambridge",
+              "zip_codes": 6
+            },
+            {
+              "place": "New Bedford",
+              "zip_codes": 6
+            },
+            {
+              "place": "Brockton",
+              "zip_codes": 5
+            },
+            {
+              "place": "Fall River",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "LAW",
+          "office_name": "Lawrence",
+          "street": "280 Merrimack Street, 6th Floor, Suite 610",
+          "office_city": "Lawrence",
+          "office_state": "MA",
+          "office_zip": "01843",
+          "district": "Boston",
+          "zip_codes": 332,
+          "counties": 7,
+          "top_counties": [
+            "Worcester",
+            "Middlesex",
+            "Hampden",
+            "Essex"
+          ],
+          "top_places": [
+            {
+              "place": "Springfield",
+              "zip_codes": 19
+            },
+            {
+              "place": "Worcester",
+              "zip_codes": 15
+            },
+            {
+              "place": "Chicopee",
+              "zip_codes": 5
+            },
+            {
+              "place": "Lowell",
+              "zip_codes": 5
+            },
+            {
+              "place": "Andover",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "MD": {
+      "zip_codes": 601,
+      "counties": 24,
+      "field_offices": [
+        {
+          "designation": "BAL",
+          "office_name": "Baltimore",
+          "street": "3701 Koppers Street",
+          "office_city": "Halethorpe",
+          "office_state": "MD",
+          "office_zip": "21227",
+          "district": "Washington",
+          "zip_codes": 601,
+          "counties": 24,
+          "top_counties": [
+            "Montgomery",
+            "Prince Georges",
+            "Baltimore",
+            "Anne Arundel"
+          ],
+          "top_places": [
+            {
+              "place": "Baltimore",
+              "zip_codes": 40
+            },
+            {
+              "place": "Silver Spring",
+              "zip_codes": 16
+            },
+            {
+              "place": "Bethesda",
+              "zip_codes": 11
+            },
+            {
+              "place": "Gaithersburg",
+              "zip_codes": 9
+            },
+            {
+              "place": "Annapolis",
+              "zip_codes": 8
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "ME": {
+      "zip_codes": 485,
+      "counties": 16,
+      "field_offices": [
+        {
+          "designation": "POM",
+          "office_name": "Portland",
+          "street": "207 Gannett Drive",
+          "office_city": "South Portland",
+          "office_state": "ME",
+          "office_zip": "04106",
+          "district": "Boston",
+          "zip_codes": 485,
+          "counties": 16,
+          "top_counties": [
+            "Cumberland",
+            "Penobscot",
+            "Aroostook",
+            "Hancock"
+          ],
+          "top_places": [
+            {
+              "place": "Portland",
+              "zip_codes": 9
+            },
+            {
+              "place": "Augusta",
+              "zip_codes": 5
+            },
+            {
+              "place": "Auburn",
+              "zip_codes": 3
+            },
+            {
+              "place": "Freeport",
+              "zip_codes": 3
+            },
+            {
+              "place": "Lewiston",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "MH": {
+      "zip_codes": 2,
+      "counties": 1,
+      "field_offices": [
+        {
+          "designation": "AGA",
+          "office_name": "Guam",
+          "street": "770 East Sunset Boulevard, Suite 185",
+          "office_city": "Barrigada",
+          "office_state": "GU",
+          "office_zip": "96913",
+          "district": "Seattle",
+          "zip_codes": 2,
+          "counties": 1,
+          "top_counties": [
+            "Marshall Islands"
+          ],
+          "top_places": [
+            {
+              "place": "Ebeye",
+              "zip_codes": 1
+            },
+            {
+              "place": "Majuro",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "MI": {
+      "zip_codes": 1159,
+      "counties": 83,
+      "field_offices": [
+        {
+          "designation": "DET",
+          "office_name": "Detroit",
+          "street": "750 Stephenson Highway, 3rd Floor",
+          "office_city": "Troy",
+          "office_state": "MI",
+          "office_zip": "48083",
+          "district": "Chicago",
+          "zip_codes": 1159,
+          "counties": 83,
+          "top_counties": [
+            "Wayne",
+            "Oakland",
+            "Kent",
+            "Macomb"
+          ],
+          "top_places": [
+            {
+              "place": "Detroit",
+              "zip_codes": 46
+            },
+            {
+              "place": "Grand Rapids",
+              "zip_codes": 26
+            },
+            {
+              "place": "Lansing",
+              "zip_codes": 22
+            },
+            {
+              "place": "Flint",
+              "zip_codes": 17
+            },
+            {
+              "place": "Saginaw",
+              "zip_codes": 11
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "MN": {
+      "zip_codes": 952,
+      "counties": 87,
+      "field_offices": [
+        {
+          "designation": "SPM",
+          "office_name": "Saint Paul",
+          "street": "250 Marquette Avenue, Suite 710",
+          "office_city": "Minneapolis",
+          "office_state": "MN",
+          "office_zip": "55401",
+          "district": "Kansas City",
+          "zip_codes": 952,
+          "counties": 87,
+          "top_counties": [
+            "Hennepin",
+            "Saint Louis",
+            "Stearns",
+            "Itasca"
+          ],
+          "top_places": [
+            {
+              "place": "Minneapolis",
+              "zip_codes": 65
+            },
+            {
+              "place": "Saint Paul",
+              "zip_codes": 38
+            },
+            {
+              "place": "Duluth",
+              "zip_codes": 14
+            },
+            {
+              "place": "Saint Cloud",
+              "zip_codes": 12
+            },
+            {
+              "place": "Rochester",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "MO": {
+      "zip_codes": 1154,
+      "counties": 115,
+      "field_offices": [
+        {
+          "designation": "KAN",
+          "office_name": "Kansas City",
+          "street": "10320 NW Prairie View Road",
+          "office_city": "Kansas City",
+          "office_state": "MO",
+          "office_zip": "64153",
+          "district": "Kansas City",
+          "zip_codes": 675,
+          "counties": 66,
+          "top_counties": [
+            "Jackson",
+            "Greene",
+            "Clay",
+            "Boone"
+          ],
+          "top_places": [
+            {
+              "place": "Kansas City",
+              "zip_codes": 71
+            },
+            {
+              "place": "Springfield",
+              "zip_codes": 16
+            },
+            {
+              "place": "Columbia",
+              "zip_codes": 11
+            },
+            {
+              "place": "Jefferson City",
+              "zip_codes": 11
+            },
+            {
+              "place": "Independence",
+              "zip_codes": 9
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "STL",
+          "office_name": "Saint Louis",
+          "street": "Robert A. Young Federal Bldg, 1222 Spruce Street, Room 2.205",
+          "office_city": "Saint Louis",
+          "office_state": "MO",
+          "office_zip": "63103",
+          "district": "Chicago",
+          "zip_codes": 479,
+          "counties": 49,
+          "top_counties": [
+            "Saint Louis",
+            "Saint Louis City",
+            "Franklin",
+            "Jefferson"
+          ],
+          "top_places": [
+            {
+              "place": "Saint Louis",
+              "zip_codes": 67
+            },
+            {
+              "place": "Ballwin",
+              "zip_codes": 4
+            },
+            {
+              "place": "Florissant",
+              "zip_codes": 4
+            },
+            {
+              "place": "Saint Charles",
+              "zip_codes": 4
+            },
+            {
+              "place": "Cape Girardeau",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "MP": {
+      "zip_codes": 3,
+      "counties": 3,
+      "field_offices": [
+        {
+          "designation": "AGA",
+          "office_name": "Guam",
+          "street": "770 East Sunset Boulevard, Suite 185",
+          "office_city": "Barrigada",
+          "office_state": "GU",
+          "office_zip": "96913",
+          "district": "Seattle",
+          "zip_codes": 3,
+          "counties": 3,
+          "top_counties": [
+            "Rota",
+            "Saipan",
+            "Tinian"
+          ],
+          "top_places": [
+            {
+              "place": "Rota",
+              "zip_codes": 1
+            },
+            {
+              "place": "Saipan",
+              "zip_codes": 1
+            },
+            {
+              "place": "Tinian",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "MS": {
+      "zip_codes": 516,
+      "counties": 82,
+      "field_offices": [
+        {
+          "designation": "NOL",
+          "office_name": "New Orleans",
+          "street": "1250 Poydras Street, Suite 1800",
+          "office_city": "New Orleans",
+          "office_state": "LA",
+          "office_zip": "70113",
+          "district": "Atlanta",
+          "zip_codes": 261,
+          "counties": 43,
+          "top_counties": [
+            "Hinds",
+            "Harrison",
+            "Rankin",
+            "Jackson"
+          ],
+          "top_places": [
+            {
+              "place": "Jackson",
+              "zip_codes": 25
+            },
+            {
+              "place": "Meridian",
+              "zip_codes": 7
+            },
+            {
+              "place": "Biloxi",
+              "zip_codes": 6
+            },
+            {
+              "place": "Gulfport",
+              "zip_codes": 6
+            },
+            {
+              "place": "Hattiesburg",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "MEM",
+          "office_name": "Memphis",
+          "street": "80 Monroe Ave., 7th Floor",
+          "office_city": "Memphis",
+          "office_state": "TN",
+          "office_zip": "38103",
+          "district": "Atlanta",
+          "zip_codes": 255,
+          "counties": 44,
+          "top_counties": [
+            "Bolivar",
+            "Washington",
+            "Lee",
+            "Lowndes"
+          ],
+          "top_places": [
+            {
+              "place": "Columbus",
+              "zip_codes": 6
+            },
+            {
+              "place": "Greenville",
+              "zip_codes": 4
+            },
+            {
+              "place": "Tupelo",
+              "zip_codes": 4
+            },
+            {
+              "place": "Cleveland",
+              "zip_codes": 2
+            },
+            {
+              "place": "Corinth",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "MT": {
+      "zip_codes": 404,
+      "counties": 56,
+      "field_offices": [
+        {
+          "designation": "HEL",
+          "office_name": "Helena",
+          "street": "754 River Rock Drive, Suite #101",
+          "office_city": "Helena",
+          "office_state": "MT",
+          "office_zip": "59602",
+          "district": "Seattle",
+          "zip_codes": 404,
+          "counties": 56,
+          "top_counties": [
+            "Yellowstone",
+            "Cascade",
+            "Flathead",
+            "Missoula"
+          ],
+          "top_places": [
+            {
+              "place": "Billings",
+              "zip_codes": 14
+            },
+            {
+              "place": "Helena",
+              "zip_codes": 8
+            },
+            {
+              "place": "Missoula",
+              "zip_codes": 8
+            },
+            {
+              "place": "Bozeman",
+              "zip_codes": 6
+            },
+            {
+              "place": "Butte",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "NC": {
+      "zip_codes": 1079,
+      "counties": 100,
+      "field_offices": [
+        {
+          "designation": "RAL",
+          "office_name": "Raleigh-Durham",
+          "street": "301 Roycroft Drive",
+          "office_city": "Durham",
+          "office_state": "NC",
+          "office_zip": "27703",
+          "district": "Washington",
+          "zip_codes": 544,
+          "counties": 54,
+          "top_counties": [
+            "Wake",
+            "Cumberland",
+            "Durham",
+            "Carteret"
+          ],
+          "top_places": [
+            {
+              "place": "Raleigh",
+              "zip_codes": 43
+            },
+            {
+              "place": "Durham",
+              "zip_codes": 16
+            },
+            {
+              "place": "Wilmington",
+              "zip_codes": 12
+            },
+            {
+              "place": "Fayetteville",
+              "zip_codes": 10
+            },
+            {
+              "place": "Cary",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "CLT",
+          "office_name": "Charlotte",
+          "street": "201 Regency Executive Park Drive",
+          "office_city": "Charlotte",
+          "office_state": "NC",
+          "office_zip": "28217",
+          "district": "Washington",
+          "zip_codes": 535,
+          "counties": 46,
+          "top_counties": [
+            "Mecklenburg",
+            "Guilford",
+            "Forsyth",
+            "Buncombe"
+          ],
+          "top_places": [
+            {
+              "place": "Charlotte",
+              "zip_codes": 73
+            },
+            {
+              "place": "Greensboro",
+              "zip_codes": 28
+            },
+            {
+              "place": "Winston Salem",
+              "zip_codes": 25
+            },
+            {
+              "place": "Asheville",
+              "zip_codes": 11
+            },
+            {
+              "place": "High Point",
+              "zip_codes": 7
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "ND": {
+      "zip_codes": 407,
+      "counties": 53,
+      "field_offices": [
+        {
+          "designation": "SPM",
+          "office_name": "Saint Paul",
+          "street": "250 Marquette Avenue, Suite 710",
+          "office_city": "Minneapolis",
+          "office_state": "MN",
+          "office_zip": "55401",
+          "district": "Kansas City",
+          "zip_codes": 407,
+          "counties": 53,
+          "top_counties": [
+            "Cass",
+            "Grand Forks",
+            "Ward",
+            "Richland"
+          ],
+          "top_places": [
+            {
+              "place": "Fargo",
+              "zip_codes": 13
+            },
+            {
+              "place": "Bismarck",
+              "zip_codes": 7
+            },
+            {
+              "place": "Grand Forks",
+              "zip_codes": 6
+            },
+            {
+              "place": "Minot",
+              "zip_codes": 4
+            },
+            {
+              "place": "Jamestown",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "NE": {
+      "zip_codes": 616,
+      "counties": 93,
+      "field_offices": [
+        {
+          "designation": "OMA",
+          "office_name": "Omaha",
+          "street": "1717 Avenue H E",
+          "office_city": "Omaha",
+          "office_state": "NE",
+          "office_zip": "68110",
+          "district": "Kansas City",
+          "zip_codes": 574,
+          "counties": 82,
+          "top_counties": [
+            "Douglas",
+            "Lancaster",
+            "Cass",
+            "Saunders"
+          ],
+          "top_places": [
+            {
+              "place": "Omaha",
+              "zip_codes": 46
+            },
+            {
+              "place": "Lincoln",
+              "zip_codes": 29
+            },
+            {
+              "place": "Kearney",
+              "zip_codes": 4
+            },
+            {
+              "place": "Bellevue",
+              "zip_codes": 3
+            },
+            {
+              "place": "Grand Island",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "DEN",
+          "office_name": "Denver",
+          "street": "12484 East Weaver Place",
+          "office_city": "Centennial",
+          "office_state": "CO",
+          "office_zip": "80111",
+          "district": "Kansas City",
+          "zip_codes": 42,
+          "counties": 11,
+          "top_counties": [
+            "Scotts Bluff",
+            "Sheridan",
+            "Cheyenne",
+            "Dawes"
+          ],
+          "top_places": [
+            {
+              "place": "Scottsbluff",
+              "zip_codes": 2
+            },
+            {
+              "place": "Sidney",
+              "zip_codes": 2
+            },
+            {
+              "place": "Alliance",
+              "zip_codes": 1
+            },
+            {
+              "place": "Angora",
+              "zip_codes": 1
+            },
+            {
+              "place": "Bayard",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "NH": {
+      "zip_codes": 281,
+      "counties": 10,
+      "field_offices": [
+        {
+          "designation": "MAN",
+          "office_name": "Manchester",
+          "street": "9 Ridgewood Road",
+          "office_city": "Bedford",
+          "office_state": "NH",
+          "office_zip": "03110",
+          "district": "Boston",
+          "zip_codes": 281,
+          "counties": 10,
+          "top_counties": [
+            "Rockingham",
+            "Grafton",
+            "Hillsborough",
+            "Carroll"
+          ],
+          "top_places": [
+            {
+              "place": "Manchester",
+              "zip_codes": 8
+            },
+            {
+              "place": "Nashua",
+              "zip_codes": 5
+            },
+            {
+              "place": "Concord",
+              "zip_codes": 4
+            },
+            {
+              "place": "Portsmouth",
+              "zip_codes": 4
+            },
+            {
+              "place": "Rochester",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "NJ": {
+      "zip_codes": 721,
+      "counties": 21,
+      "field_offices": [
+        {
+          "designation": "MTL",
+          "office_name": "Mount Laurel",
+          "street": "530 Fellowship Road",
+          "office_city": "Mount Laurel",
+          "office_state": "NJ",
+          "office_zip": "08054",
+          "district": "Newark",
+          "zip_codes": 312,
+          "counties": 10,
+          "top_counties": [
+            "Monmouth",
+            "Mercer",
+            "Camden",
+            "Burlington"
+          ],
+          "top_places": [
+            {
+              "place": "Trenton",
+              "zip_codes": 25
+            },
+            {
+              "place": "Camden",
+              "zip_codes": 5
+            },
+            {
+              "place": "Princeton",
+              "zip_codes": 5
+            },
+            {
+              "place": "Toms River",
+              "zip_codes": 5
+            },
+            {
+              "place": "Atlantic City",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "NJC",
+          "office_name": "New Jersey Central",
+          "street": "8 Cedar Brook Drive",
+          "office_city": "Cranbury",
+          "office_state": "NJ",
+          "office_zip": "08512",
+          "district": "Newark",
+          "zip_codes": 222,
+          "counties": 7,
+          "top_counties": [
+            "Morris",
+            "Middlesex",
+            "Somerset",
+            "Hunterdon"
+          ],
+          "top_places": [
+            {
+              "place": "Edison",
+              "zip_codes": 5
+            },
+            {
+              "place": "New Brunswick",
+              "zip_codes": 5
+            },
+            {
+              "place": "Plainfield",
+              "zip_codes": 4
+            },
+            {
+              "place": "Morristown",
+              "zip_codes": 3
+            },
+            {
+              "place": "Branchville",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "NEW",
+          "office_name": "Newark",
+          "street": "Peter Rodino Federal Building, 970 Broad Street",
+          "office_city": "Newark",
+          "office_state": "NJ",
+          "office_zip": "07102",
+          "district": "Newark",
+          "zip_codes": 187,
+          "counties": 5,
+          "top_counties": [
+            "Bergen",
+            "Essex",
+            "Passaic",
+            "Hudson"
+          ],
+          "top_places": [
+            {
+              "place": "Newark",
+              "zip_codes": 20
+            },
+            {
+              "place": "Paterson",
+              "zip_codes": 14
+            },
+            {
+              "place": "Jersey City",
+              "zip_codes": 12
+            },
+            {
+              "place": "Clifton",
+              "zip_codes": 5
+            },
+            {
+              "place": "Elizabeth",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "NM": {
+      "zip_codes": 427,
+      "counties": 33,
+      "field_offices": [
+        {
+          "designation": "ABQ",
+          "office_name": "Albuquerque",
+          "street": "1551 Mercantile Avenue NE, Suite B",
+          "office_city": "Albuquerque",
+          "office_state": "NM",
+          "office_zip": "87107",
+          "district": "San Antonio",
+          "zip_codes": 302,
+          "counties": 23,
+          "top_counties": [
+            "Bernalillo",
+            "Rio Arriba",
+            "McKinley",
+            "Taos"
+          ],
+          "top_places": [
+            {
+              "place": "Albuquerque",
+              "zip_codes": 42
+            },
+            {
+              "place": "Santa Fe",
+              "zip_codes": 11
+            },
+            {
+              "place": "Farmington",
+              "zip_codes": 3
+            },
+            {
+              "place": "Gallup",
+              "zip_codes": 3
+            },
+            {
+              "place": "Rio Rancho",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "ELP",
+          "office_name": "El Paso",
+          "street": "1545 Hawkins Boulevard",
+          "office_city": "El Paso",
+          "office_state": "TX",
+          "office_zip": "79925",
+          "district": "San Antonio",
+          "zip_codes": 125,
+          "counties": 10,
+          "top_counties": [
+            "Dona Ana",
+            "Grant",
+            "Otero",
+            "Lincoln"
+          ],
+          "top_places": [
+            {
+              "place": "Las Cruces",
+              "zip_codes": 9
+            },
+            {
+              "place": "Hobbs",
+              "zip_codes": 4
+            },
+            {
+              "place": "Roswell",
+              "zip_codes": 3
+            },
+            {
+              "place": "Alamogordo",
+              "zip_codes": 2
+            },
+            {
+              "place": "Artesia",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "NV": {
+      "zip_codes": 243,
+      "counties": 17,
+      "field_offices": [
+        {
+          "designation": "LVG",
+          "office_name": "Las Vegas",
+          "street": "5650 West Badura Avenue, Suite 100",
+          "office_city": "Las Vegas",
+          "office_state": "NV",
+          "office_zip": "89118",
+          "district": "Kansas City",
+          "zip_codes": 136,
+          "counties": 4,
+          "top_counties": [
+            "Clark",
+            "Nye",
+            "Lincoln",
+            "Esmeralda"
+          ],
+          "top_places": [
+            {
+              "place": "Las Vegas",
+              "zip_codes": 74
+            },
+            {
+              "place": "Henderson",
+              "zip_codes": 12
+            },
+            {
+              "place": "North Las Vegas",
+              "zip_codes": 10
+            },
+            {
+              "place": "Pahrump",
+              "zip_codes": 4
+            },
+            {
+              "place": "Mesquite",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "REN",
+          "office_name": "Reno",
+          "street": "790 Sandhill Road",
+          "office_city": "Reno",
+          "office_state": "NV",
+          "office_zip": "89521",
+          "district": "Kansas City",
+          "zip_codes": 92,
+          "counties": 12,
+          "top_counties": [
+            "Washoe",
+            "Carson City",
+            "Douglas",
+            "Humboldt"
+          ],
+          "top_places": [
+            {
+              "place": "Reno",
+              "zip_codes": 23
+            },
+            {
+              "place": "Carson City",
+              "zip_codes": 10
+            },
+            {
+              "place": "Sparks",
+              "zip_codes": 7
+            },
+            {
+              "place": "Fallon",
+              "zip_codes": 3
+            },
+            {
+              "place": "Elko",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SLC",
+          "office_name": "Salt Lake City",
+          "street": "660 South 200 East, Suite 400",
+          "office_city": "Salt Lake City",
+          "office_state": "UT",
+          "office_zip": "84111",
+          "district": "Kansas City",
+          "zip_codes": 15,
+          "counties": 2,
+          "top_counties": [
+            "Elko",
+            "White Pine"
+          ],
+          "top_places": [
+            {
+              "place": "Ely",
+              "zip_codes": 2
+            },
+            {
+              "place": "Baker",
+              "zip_codes": 1
+            },
+            {
+              "place": "Deeth",
+              "zip_codes": 1
+            },
+            {
+              "place": "Duckwater",
+              "zip_codes": 1
+            },
+            {
+              "place": "Jackpot",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "NY": {
+      "zip_codes": 2143,
+      "counties": 62,
+      "field_offices": [
+        {
+          "designation": "ALB",
+          "office_name": "Albany",
+          "street": "500 New Karner Road, Third Floor",
+          "office_city": "Albany",
+          "office_state": "NY",
+          "office_zip": "12205",
+          "district": "Boston",
+          "zip_codes": 554,
+          "counties": 18,
+          "top_counties": [
+            "Albany",
+            "Ulster",
+            "Orange",
+            "Sullivan"
+          ],
+          "top_places": [
+            {
+              "place": "Albany",
+              "zip_codes": 48
+            },
+            {
+              "place": "Schenectady",
+              "zip_codes": 11
+            },
+            {
+              "place": "Newburgh",
+              "zip_codes": 4
+            },
+            {
+              "place": "Poughkeepsie",
+              "zip_codes": 4
+            },
+            {
+              "place": "Troy",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SYR",
+          "office_name": "Syracuse",
+          "street": "213 South Salina Street",
+          "office_city": "Syracuse",
+          "office_state": "NY",
+          "office_zip": "13202",
+          "district": "Boston",
+          "zip_codes": 450,
+          "counties": 17,
+          "top_counties": [
+            "Onondaga",
+            "Oneida",
+            "Jefferson",
+            "Delaware"
+          ],
+          "top_places": [
+            {
+              "place": "Syracuse",
+              "zip_codes": 28
+            },
+            {
+              "place": "Utica",
+              "zip_codes": 6
+            },
+            {
+              "place": "Binghamton",
+              "zip_codes": 5
+            },
+            {
+              "place": "Elmira",
+              "zip_codes": 5
+            },
+            {
+              "place": "Ithaca",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "BUF",
+          "office_name": "Buffalo",
+          "street": "306 Delaware Avenue",
+          "office_city": "Buffalo",
+          "office_state": "NY",
+          "office_zip": "14202",
+          "district": "Boston",
+          "zip_codes": 429,
+          "counties": 15,
+          "top_counties": [
+            "Erie",
+            "Monroe",
+            "Chautauqua",
+            "Cattaraugus"
+          ],
+          "top_places": [
+            {
+              "place": "Buffalo",
+              "zip_codes": 44
+            },
+            {
+              "place": "Rochester",
+              "zip_codes": 40
+            },
+            {
+              "place": "Niagara Falls",
+              "zip_codes": 5
+            },
+            {
+              "place": "Batavia",
+              "zip_codes": 2
+            },
+            {
+              "place": "Corning",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "NYC",
+          "office_name": "New York",
+          "street": "Jacob Javits Federal Building, 26 Federal Plaza, 3rd Floor Room 3-120",
+          "office_city": "New York",
+          "office_state": "NY",
+          "office_zip": "10278",
+          "district": "New York",
+          "zip_codes": 271,
+          "counties": 4,
+          "top_counties": [
+            "New York",
+            "Westchester",
+            "Rockland",
+            "Bronx"
+          ],
+          "top_places": [
+            {
+              "place": "New York",
+              "zip_codes": 145
+            },
+            {
+              "place": "Bronx",
+              "zip_codes": 18
+            },
+            {
+              "place": "White Plains",
+              "zip_codes": 7
+            },
+            {
+              "place": "Yonkers",
+              "zip_codes": 6
+            },
+            {
+              "place": "Mount Vernon",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "LNY",
+          "office_name": "Long Island",
+          "street": "30 Barretts Avenue",
+          "office_city": "Holtsville",
+          "office_state": "NY",
+          "office_zip": "11742",
+          "district": "New York",
+          "zip_codes": 204,
+          "counties": 3,
+          "top_counties": [
+            "Suffolk",
+            "Nassau",
+            "Queens"
+          ],
+          "top_places": [
+            {
+              "place": "Great Neck",
+              "zip_codes": 5
+            },
+            {
+              "place": "Hicksville",
+              "zip_codes": 4
+            },
+            {
+              "place": "Melville",
+              "zip_codes": 4
+            },
+            {
+              "place": "Floral Park",
+              "zip_codes": 3
+            },
+            {
+              "place": "Garden City",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "STA",
+          "office_name": "Burlington",
+          "street": "463 Mountain View Drive, Suite 200",
+          "office_city": "Colchester",
+          "office_state": "VT",
+          "office_zip": "05446",
+          "district": "Boston",
+          "zip_codes": 96,
+          "counties": 4,
+          "top_counties": [
+            "Saint Lawrence",
+            "Clinton",
+            "Franklin",
+            "Essex"
+          ],
+          "top_places": [
+            {
+              "place": "Keeseville",
+              "zip_codes": 3
+            },
+            {
+              "place": "Lyon Mountain",
+              "zip_codes": 2
+            },
+            {
+              "place": "Plattsburgh",
+              "zip_codes": 2
+            },
+            {
+              "place": "Potsdam",
+              "zip_codes": 2
+            },
+            {
+              "place": "Altona",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "QNS",
+          "office_name": "Queens",
+          "street": "31-00 47th Avenue, 5th Floor, Room 5001",
+          "office_city": "Long Island City",
+          "office_state": "NY",
+          "office_zip": "11101",
+          "district": "New York",
+          "zip_codes": 77,
+          "counties": 2,
+          "top_counties": [
+            "Queens",
+            "Bronx"
+          ],
+          "top_places": [
+            {
+              "place": "Jamaica",
+              "zip_codes": 14
+            },
+            {
+              "place": "Bronx",
+              "zip_codes": 7
+            },
+            {
+              "place": "Flushing",
+              "zip_codes": 7
+            },
+            {
+              "place": "Astoria",
+              "zip_codes": 4
+            },
+            {
+              "place": "Far Rockaway",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "BNY",
+          "office_name": "Brooklyn",
+          "street": "Jacob K. Javits Federal Building, 26 Federal Plaza (Lafayette Street entrance), 8th Floor",
+          "office_city": "New York",
+          "office_state": "NY",
+          "office_zip": "10278",
+          "district": "New York",
+          "zip_codes": 62,
+          "counties": 3,
+          "top_counties": [
+            "Kings",
+            "Richmond",
+            "Queens"
+          ],
+          "top_places": [
+            {
+              "place": "Brooklyn",
+              "zip_codes": 47
+            },
+            {
+              "place": "Staten Island",
+              "zip_codes": 14
+            },
+            {
+              "place": "Ridgewood",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "OH": {
+      "zip_codes": 1414,
+      "counties": 88,
+      "field_offices": [
+        {
+          "designation": "CLE",
+          "office_name": "Cleveland",
+          "street": "AJC Federal Building, 1240 East 9th Street, Room 501",
+          "office_city": "Cleveland",
+          "office_state": "OH",
+          "office_zip": "44199",
+          "district": "Cleveland",
+          "zip_codes": 684,
+          "counties": 40,
+          "top_counties": [
+            "Cuyahoga",
+            "Summit",
+            "Stark",
+            "Lucas"
+          ],
+          "top_places": [
+            {
+              "place": "Cleveland",
+              "zip_codes": 40
+            },
+            {
+              "place": "Toledo",
+              "zip_codes": 32
+            },
+            {
+              "place": "Akron",
+              "zip_codes": 27
+            },
+            {
+              "place": "Canton",
+              "zip_codes": 18
+            },
+            {
+              "place": "Youngstown",
+              "zip_codes": 15
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "CLM",
+          "office_name": "Columbus",
+          "street": "395 E. Broad Street, Suite 100",
+          "office_city": "Columbus",
+          "office_state": "OH",
+          "office_zip": "43215",
+          "district": "Cleveland",
+          "zip_codes": 400,
+          "counties": 30,
+          "top_counties": [
+            "Franklin",
+            "Belmont",
+            "Jefferson",
+            "Licking"
+          ],
+          "top_places": [
+            {
+              "place": "Columbus",
+              "zip_codes": 45
+            },
+            {
+              "place": "Groveport",
+              "zip_codes": 4
+            },
+            {
+              "place": "Newark",
+              "zip_codes": 3
+            },
+            {
+              "place": "Westerville",
+              "zip_codes": 3
+            },
+            {
+              "place": "Dublin",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "CIN",
+          "office_name": "Cincinnati",
+          "street": "JW Peck Federal Bldg, 550 Main Street, Room 4001",
+          "office_city": "Cincinnati",
+          "office_state": "OH",
+          "office_zip": "45202",
+          "district": "Cleveland",
+          "zip_codes": 330,
+          "counties": 18,
+          "top_counties": [
+            "Hamilton",
+            "Montgomery",
+            "Butler",
+            "Clermont"
+          ],
+          "top_places": [
+            {
+              "place": "Cincinnati",
+              "zip_codes": 71
+            },
+            {
+              "place": "Dayton",
+              "zip_codes": 43
+            },
+            {
+              "place": "Springfield",
+              "zip_codes": 6
+            },
+            {
+              "place": "Hamilton",
+              "zip_codes": 4
+            },
+            {
+              "place": "Fairfield",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "OK": {
+      "zip_codes": 764,
+      "counties": 77,
+      "field_offices": [
+        {
+          "designation": "OKC",
+          "office_name": "Oklahoma City",
+          "street": "3101 Technology Drive",
+          "office_city": "Edmond",
+          "office_state": "OK",
+          "office_zip": "73013",
+          "district": "Dallas",
+          "zip_codes": 764,
+          "counties": 77,
+          "top_counties": [
+            "Oklahoma",
+            "Tulsa",
+            "Le Flore",
+            "Garfield"
+          ],
+          "top_places": [
+            {
+              "place": "Oklahoma City",
+              "zip_codes": 75
+            },
+            {
+              "place": "Tulsa",
+              "zip_codes": 52
+            },
+            {
+              "place": "Edmond",
+              "zip_codes": 6
+            },
+            {
+              "place": "Norman",
+              "zip_codes": 6
+            },
+            {
+              "place": "Enid",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "OR": {
+      "zip_codes": 479,
+      "counties": 36,
+      "field_offices": [
+        {
+          "designation": "POO",
+          "office_name": "Portland",
+          "street": "1455 NW Overton Street, Suite 1",
+          "office_city": "Portland",
+          "office_state": "OR",
+          "office_zip": "97209",
+          "district": "Seattle",
+          "zip_codes": 436,
+          "counties": 32,
+          "top_counties": [
+            "Multnomah",
+            "Lane",
+            "Marion",
+            "Washington"
+          ],
+          "top_places": [
+            {
+              "place": "Portland",
+              "zip_codes": 59
+            },
+            {
+              "place": "Salem",
+              "zip_codes": 13
+            },
+            {
+              "place": "Beaverton",
+              "zip_codes": 10
+            },
+            {
+              "place": "Eugene",
+              "zip_codes": 7
+            },
+            {
+              "place": "Bend",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "BOI",
+          "office_name": "Boise",
+          "street": "7180 West Potomac Drive",
+          "office_city": "Boise",
+          "office_state": "ID",
+          "office_zip": "83704",
+          "district": "Seattle",
+          "zip_codes": 43,
+          "counties": 4,
+          "top_counties": [
+            "Malheur",
+            "Baker",
+            "Grant",
+            "Harney"
+          ],
+          "top_places": [
+            {
+              "place": "Adrian",
+              "zip_codes": 1
+            },
+            {
+              "place": "Arock",
+              "zip_codes": 1
+            },
+            {
+              "place": "Baker City",
+              "zip_codes": 1
+            },
+            {
+              "place": "Bates",
+              "zip_codes": 1
+            },
+            {
+              "place": "Bridgeport",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "PA": {
+      "zip_codes": 2166,
+      "counties": 67,
+      "field_offices": [
+        {
+          "designation": "PHI",
+          "office_name": "Philadelphia",
+          "street": "30 North 41st Street",
+          "office_city": "Philadelphia",
+          "office_state": "PA",
+          "office_zip": "19104",
+          "district": "Cleveland",
+          "zip_codes": 1258,
+          "counties": 42,
+          "top_counties": [
+            "Philadelphia",
+            "Montgomery",
+            "Lancaster",
+            "Bucks"
+          ],
+          "top_places": [
+            {
+              "place": "Philadelphia",
+              "zip_codes": 87
+            },
+            {
+              "place": "Harrisburg",
+              "zip_codes": 26
+            },
+            {
+              "place": "Wilkes Barre",
+              "zip_codes": 15
+            },
+            {
+              "place": "Scranton",
+              "zip_codes": 13
+            },
+            {
+              "place": "Lancaster",
+              "zip_codes": 12
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "PIT",
+          "office_name": "Pittsburgh",
+          "street": "Penn Center East, Building 7, 777 Penn Center Boulevard, Suite 600",
+          "office_city": "Pittsburgh",
+          "office_state": "PA",
+          "office_zip": "15235",
+          "district": "Cleveland",
+          "zip_codes": 823,
+          "counties": 22,
+          "top_counties": [
+            "Allegheny",
+            "Westmoreland",
+            "Fayette",
+            "Washington"
+          ],
+          "top_places": [
+            {
+              "place": "Pittsburgh",
+              "zip_codes": 75
+            },
+            {
+              "place": "Johnstown",
+              "zip_codes": 8
+            },
+            {
+              "place": "New Castle",
+              "zip_codes": 6
+            },
+            {
+              "place": "Mckeesport",
+              "zip_codes": 5
+            },
+            {
+              "place": "Boyers",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "BUF",
+          "office_name": "Buffalo",
+          "street": "306 Delaware Avenue",
+          "office_city": "Buffalo",
+          "office_state": "NY",
+          "office_zip": "14202",
+          "district": "Boston",
+          "zip_codes": 85,
+          "counties": 3,
+          "top_counties": [
+            "Erie",
+            "Warren",
+            "McKean"
+          ],
+          "top_places": [
+            {
+              "place": "Erie",
+              "zip_codes": 26
+            },
+            {
+              "place": "Warren",
+              "zip_codes": 5
+            },
+            {
+              "place": "Albion",
+              "zip_codes": 2
+            },
+            {
+              "place": "Edinboro",
+              "zip_codes": 2
+            },
+            {
+              "place": "Bear Lake",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "PR": {
+      "zip_codes": 174,
+      "counties": 78,
+      "field_offices": [
+        {
+          "designation": "SAJ",
+          "office_name": "San Juan",
+          "street": "Scotiabank Plaza, 273 Ponce de Leon Avenue, Suite 1100",
+          "office_city": "San Juan",
+          "office_state": "PR",
+          "office_zip": "00917",
+          "district": "Miami",
+          "zip_codes": 174,
+          "counties": 78,
+          "top_counties": [
+            "San Juan",
+            "Ponce",
+            "Carolina",
+            "Guaynabo"
+          ],
+          "top_places": [
+            {
+              "place": "San Juan",
+              "zip_codes": 35
+            },
+            {
+              "place": "Carolina",
+              "zip_codes": 9
+            },
+            {
+              "place": "Ponce",
+              "zip_codes": 8
+            },
+            {
+              "place": "Bayamon",
+              "zip_codes": 6
+            },
+            {
+              "place": "Guaynabo",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "PW": {
+      "zip_codes": 2,
+      "counties": 1,
+      "field_offices": [
+        {
+          "designation": "AGA",
+          "office_name": "Guam",
+          "street": "770 East Sunset Boulevard, Suite 185",
+          "office_city": "Barrigada",
+          "office_state": "GU",
+          "office_zip": "96913",
+          "district": "Seattle",
+          "zip_codes": 2,
+          "counties": 1,
+          "top_counties": [
+            "Palau"
+          ],
+          "top_places": [
+            {
+              "place": "Koror",
+              "zip_codes": 1
+            },
+            {
+              "place": "Ngerulmud",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "RI": {
+      "zip_codes": 90,
+      "counties": 5,
+      "field_offices": [
+        {
+          "designation": "PRO",
+          "office_name": "Providence",
+          "street": "1543 Atwood Avenue",
+          "office_city": "Johnston",
+          "office_state": "RI",
+          "office_zip": "02919",
+          "district": "Boston",
+          "zip_codes": 90,
+          "counties": 5,
+          "top_counties": [
+            "Providence",
+            "Washington",
+            "Kent",
+            "Newport"
+          ],
+          "top_places": [
+            {
+              "place": "Providence",
+              "zip_codes": 12
+            },
+            {
+              "place": "Warwick",
+              "zip_codes": 4
+            },
+            {
+              "place": "Cranston",
+              "zip_codes": 3
+            },
+            {
+              "place": "Pawtucket",
+              "zip_codes": 3
+            },
+            {
+              "place": "Newport",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "SC": {
+      "zip_codes": 534,
+      "counties": 46,
+      "field_offices": [
+        {
+          "designation": "CHL",
+          "office_name": "Charleston",
+          "street": "1821 Sam Rittenberg Boulevard",
+          "office_city": "Charleston",
+          "office_state": "SC",
+          "office_zip": "29407",
+          "district": "Atlanta",
+          "zip_codes": 350,
+          "counties": 30,
+          "top_counties": [
+            "Richland",
+            "Charleston",
+            "Aiken",
+            "Horry"
+          ],
+          "top_places": [
+            {
+              "place": "Columbia",
+              "zip_codes": 33
+            },
+            {
+              "place": "Charleston",
+              "zip_codes": 16
+            },
+            {
+              "place": "Myrtle Beach",
+              "zip_codes": 7
+            },
+            {
+              "place": "Aiken",
+              "zip_codes": 6
+            },
+            {
+              "place": "Beaufort",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "GRR",
+          "office_name": "Greer",
+          "street": "501 Pennsylvania Avenue",
+          "office_city": "Greer",
+          "office_state": "SC",
+          "office_zip": "29650",
+          "district": "Atlanta",
+          "zip_codes": 184,
+          "counties": 19,
+          "top_counties": [
+            "Greenville",
+            "Spartanburg",
+            "Anderson",
+            "York"
+          ],
+          "top_places": [
+            {
+              "place": "Greenville",
+              "zip_codes": 17
+            },
+            {
+              "place": "Anderson",
+              "zip_codes": 6
+            },
+            {
+              "place": "Rock Hill",
+              "zip_codes": 5
+            },
+            {
+              "place": "Spartanburg",
+              "zip_codes": 5
+            },
+            {
+              "place": "Clemson",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "SD": {
+      "zip_codes": 385,
+      "counties": 66,
+      "field_offices": [
+        {
+          "designation": "OMA",
+          "office_name": "Omaha",
+          "street": "1717 Avenue H E",
+          "office_city": "Omaha",
+          "office_state": "NE",
+          "office_zip": "68110",
+          "district": "Kansas City",
+          "zip_codes": 321,
+          "counties": 57,
+          "top_counties": [
+            "Minnehaha",
+            "Brown",
+            "Corson",
+            "Spink"
+          ],
+          "top_places": [
+            {
+              "place": "Sioux Falls",
+              "zip_codes": 15
+            },
+            {
+              "place": "Aberdeen",
+              "zip_codes": 2
+            },
+            {
+              "place": "Brookings",
+              "zip_codes": 2
+            },
+            {
+              "place": "Chamberlain",
+              "zip_codes": 2
+            },
+            {
+              "place": "Huron",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "DEN",
+          "office_name": "Denver",
+          "street": "12484 East Weaver Place",
+          "office_city": "Centennial",
+          "office_state": "CO",
+          "office_zip": "80111",
+          "district": "Kansas City",
+          "zip_codes": 64,
+          "counties": 9,
+          "top_counties": [
+            "Pennington",
+            "Meade",
+            "Lawrence",
+            "Oglala Lakota"
+          ],
+          "top_places": [
+            {
+              "place": "Rapid City",
+              "zip_codes": 4
+            },
+            {
+              "place": "Spearfish",
+              "zip_codes": 2
+            },
+            {
+              "place": "Batesland",
+              "zip_codes": 1
+            },
+            {
+              "place": "Belle Fourche",
+              "zip_codes": 1
+            },
+            {
+              "place": "Bison",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "TN": {
+      "zip_codes": 785,
+      "counties": 95,
+      "field_offices": [
+        {
+          "designation": "NTN",
+          "office_name": "Nashville",
+          "street": "340 Plus Park Boulevard",
+          "office_city": "Nashville",
+          "office_state": "TN",
+          "office_zip": "37217",
+          "district": "Atlanta",
+          "zip_codes": 554,
+          "counties": 73,
+          "top_counties": [
+            "Davidson",
+            "Knox",
+            "Hamilton",
+            "Rutherford"
+          ],
+          "top_places": [
+            {
+              "place": "Nashville",
+              "zip_codes": 39
+            },
+            {
+              "place": "Knoxville",
+              "zip_codes": 30
+            },
+            {
+              "place": "Chattanooga",
+              "zip_codes": 20
+            },
+            {
+              "place": "Murfreesboro",
+              "zip_codes": 7
+            },
+            {
+              "place": "Johnson City",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "MEM",
+          "office_name": "Memphis",
+          "street": "80 Monroe Ave., 7th Floor",
+          "office_city": "Memphis",
+          "office_state": "TN",
+          "office_zip": "38103",
+          "district": "Atlanta",
+          "zip_codes": 231,
+          "counties": 22,
+          "top_counties": [
+            "Shelby",
+            "Carroll",
+            "Madison",
+            "Gibson"
+          ],
+          "top_places": [
+            {
+              "place": "Memphis",
+              "zip_codes": 61
+            },
+            {
+              "place": "Jackson",
+              "zip_codes": 6
+            },
+            {
+              "place": "Millington",
+              "zip_codes": 4
+            },
+            {
+              "place": "Cordova",
+              "zip_codes": 3
+            },
+            {
+              "place": "Germantown",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "TX": {
+      "zip_codes": 2596,
+      "counties": 254,
+      "field_offices": [
+        {
+          "designation": "DAL",
+          "office_name": "Dallas",
+          "street": "6500 Campus Circle Drive East",
+          "office_city": "Irving",
+          "office_state": "TX",
+          "office_zip": "75063",
+          "district": "Dallas",
+          "zip_codes": 878,
+          "counties": 84,
+          "top_counties": [
+            "Dallas",
+            "Tarrant",
+            "Denton",
+            "Collin"
+          ],
+          "top_places": [
+            {
+              "place": "Dallas",
+              "zip_codes": 105
+            },
+            {
+              "place": "Fort Worth",
+              "zip_codes": 56
+            },
+            {
+              "place": "Arlington",
+              "zip_codes": 19
+            },
+            {
+              "place": "Tyler",
+              "zip_codes": 15
+            },
+            {
+              "place": "Irving",
+              "zip_codes": 12
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SNA",
+          "office_name": "San Antonio",
+          "street": "20760 North US Highway 281",
+          "office_city": "San Antonio",
+          "office_state": "TX",
+          "office_zip": "78258",
+          "district": "San Antonio",
+          "zip_codes": 707,
+          "counties": 78,
+          "top_counties": [
+            "Bexar",
+            "Travis",
+            "Nueces",
+            "McLennan"
+          ],
+          "top_places": [
+            {
+              "place": "San Antonio",
+              "zip_codes": 83
+            },
+            {
+              "place": "Austin",
+              "zip_codes": 73
+            },
+            {
+              "place": "Corpus Christi",
+              "zip_codes": 29
+            },
+            {
+              "place": "Waco",
+              "zip_codes": 16
+            },
+            {
+              "place": "Bryan",
+              "zip_codes": 7
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "HOU",
+          "office_name": "Houston",
+          "street": "810 Gears Road, Suite 100",
+          "office_city": "Houston",
+          "office_state": "TX",
+          "office_zip": "77067",
+          "district": "Dallas",
+          "zip_codes": 531,
+          "counties": 30,
+          "top_counties": [
+            "Harris",
+            "Montgomery",
+            "Fort Bend",
+            "Jefferson"
+          ],
+          "top_places": [
+            {
+              "place": "Houston",
+              "zip_codes": 177
+            },
+            {
+              "place": "Beaumont",
+              "zip_codes": 13
+            },
+            {
+              "place": "Spring",
+              "zip_codes": 12
+            },
+            {
+              "place": "Conroe",
+              "zip_codes": 8
+            },
+            {
+              "place": "Huntsville",
+              "zip_codes": 8
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "ELP",
+          "office_name": "El Paso",
+          "street": "1545 Hawkins Boulevard",
+          "office_city": "El Paso",
+          "office_state": "TX",
+          "office_zip": "79925",
+          "district": "San Antonio",
+          "zip_codes": 210,
+          "counties": 16,
+          "top_counties": [
+            "El Paso",
+            "Ector",
+            "Midland",
+            "Brewster"
+          ],
+          "top_places": [
+            {
+              "place": "El Paso",
+              "zip_codes": 136
+            },
+            {
+              "place": "Midland",
+              "zip_codes": 11
+            },
+            {
+              "place": "Odessa",
+              "zip_codes": 9
+            },
+            {
+              "place": "Alpine",
+              "zip_codes": 3
+            },
+            {
+              "place": "Fort Bliss",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "OKC",
+          "office_name": "Oklahoma City",
+          "street": "3101 Technology Drive",
+          "office_city": "Edmond",
+          "office_state": "OK",
+          "office_zip": "73013",
+          "district": "Dallas",
+          "zip_codes": 196,
+          "counties": 49,
+          "top_counties": [
+            "Potter",
+            "Lubbock",
+            "Randall",
+            "Lamb"
+          ],
+          "top_places": [
+            {
+              "place": "Amarillo",
+              "zip_codes": 27
+            },
+            {
+              "place": "Lubbock",
+              "zip_codes": 15
+            },
+            {
+              "place": "Borger",
+              "zip_codes": 2
+            },
+            {
+              "place": "Canyon",
+              "zip_codes": 2
+            },
+            {
+              "place": "Pampa",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "HLG",
+          "office_name": "Rio Grande Valley",
+          "street": "2800 W Trenton Road, Suite 3000",
+          "office_city": "Edinburg",
+          "office_state": "TX",
+          "office_zip": "78539",
+          "district": "San Antonio",
+          "zip_codes": 74,
+          "counties": 7,
+          "top_counties": [
+            "Hidalgo",
+            "Cameron",
+            "Starr",
+            "Willacy"
+          ],
+          "top_places": [
+            {
+              "place": "Brownsville",
+              "zip_codes": 5
+            },
+            {
+              "place": "Mcallen",
+              "zip_codes": 5
+            },
+            {
+              "place": "Edinburg",
+              "zip_codes": 4
+            },
+            {
+              "place": "Harlingen",
+              "zip_codes": 4
+            },
+            {
+              "place": "Mission",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "UT": {
+      "zip_codes": 343,
+      "counties": 29,
+      "field_offices": [
+        {
+          "designation": "SLC",
+          "office_name": "Salt Lake City",
+          "street": "660 South 200 East, Suite 400",
+          "office_city": "Salt Lake City",
+          "office_state": "UT",
+          "office_zip": "84111",
+          "district": "Kansas City",
+          "zip_codes": 343,
+          "counties": 29,
+          "top_counties": [
+            "Salt Lake",
+            "Utah",
+            "Washington",
+            "Cache"
+          ],
+          "top_places": [
+            {
+              "place": "Salt Lake City",
+              "zip_codes": 49
+            },
+            {
+              "place": "Ogden",
+              "zip_codes": 13
+            },
+            {
+              "place": "Provo",
+              "zip_codes": 6
+            },
+            {
+              "place": "Sandy",
+              "zip_codes": 6
+            },
+            {
+              "place": "Logan",
+              "zip_codes": 4
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "VA": {
+      "zip_codes": 1213,
+      "counties": 133,
+      "field_offices": [
+        {
+          "designation": "NOR",
+          "office_name": "Norfolk",
+          "street": "5678 East Virginia Beach Boulevard",
+          "office_city": "Norfolk",
+          "office_state": "VA",
+          "office_zip": "23502",
+          "district": "Washington",
+          "zip_codes": 468,
+          "counties": 57,
+          "top_counties": [
+            "Accomack",
+            "Richmond City",
+            "Norfolk City",
+            "Virginia Beach City"
+          ],
+          "top_places": [
+            {
+              "place": "Richmond",
+              "zip_codes": 39
+            },
+            {
+              "place": "Norfolk",
+              "zip_codes": 21
+            },
+            {
+              "place": "Virginia Beach",
+              "zip_codes": 20
+            },
+            {
+              "place": "Hampton",
+              "zip_codes": 11
+            },
+            {
+              "place": "Henrico",
+              "zip_codes": 11
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "WAS",
+          "office_name": "Washington",
+          "street": "2675 Prosperity Avenue, MS2480",
+          "office_city": "Fairfax",
+          "office_state": "VA",
+          "office_zip": "20598",
+          "district": "Washington",
+          "zip_codes": 411,
+          "counties": 38,
+          "top_counties": [
+            "Fairfax",
+            "Loudoun",
+            "Arlington",
+            "Fauquier"
+          ],
+          "top_places": [
+            {
+              "place": "Arlington",
+              "zip_codes": 27
+            },
+            {
+              "place": "Alexandria",
+              "zip_codes": 21
+            },
+            {
+              "place": "Charlottesville",
+              "zip_codes": 11
+            },
+            {
+              "place": "Fairfax",
+              "zip_codes": 10
+            },
+            {
+              "place": "Springfield",
+              "zip_codes": 9
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "CLT",
+          "office_name": "Charlotte",
+          "street": "201 Regency Executive Park Drive",
+          "office_city": "Charlotte",
+          "office_state": "NC",
+          "office_zip": "28217",
+          "district": "Washington",
+          "zip_codes": 222,
+          "counties": 26,
+          "top_counties": [
+            "Roanoke City",
+            "Tazewell",
+            "Buchanan",
+            "Montgomery"
+          ],
+          "top_places": [
+            {
+              "place": "Roanoke",
+              "zip_codes": 43
+            },
+            {
+              "place": "Bristol",
+              "zip_codes": 5
+            },
+            {
+              "place": "Blacksburg",
+              "zip_codes": 4
+            },
+            {
+              "place": "Abingdon",
+              "zip_codes": 3
+            },
+            {
+              "place": "Radford",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": true
+        },
+        {
+          "designation": "RAL",
+          "office_name": "Raleigh-Durham",
+          "street": "301 Roycroft Drive",
+          "office_city": "Durham",
+          "office_state": "NC",
+          "office_zip": "27703",
+          "district": "Washington",
+          "zip_codes": 112,
+          "counties": 16,
+          "top_counties": [
+            "Pittsylvania",
+            "Bedford",
+            "Charlotte",
+            "Halifax"
+          ],
+          "top_places": [
+            {
+              "place": "Lynchburg",
+              "zip_codes": 9
+            },
+            {
+              "place": "Martinsville",
+              "zip_codes": 4
+            },
+            {
+              "place": "Danville",
+              "zip_codes": 3
+            },
+            {
+              "place": "Altavista",
+              "zip_codes": 1
+            },
+            {
+              "place": "Alton",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "VI": {
+      "zip_codes": 16,
+      "counties": 3,
+      "field_offices": [
+        {
+          "designation": "CHR",
+          "office_name": "Christiansted",
+          "street": "Almeric L. Christian Federal Building and Courthouse 3013 Estate Golden Rock, Suite 316/317",
+          "office_city": "Christiansted",
+          "office_state": "VI",
+          "office_zip": "00820",
+          "district": "Miami",
+          "zip_codes": 9,
+          "counties": 1,
+          "top_counties": [
+            "Saint Croix"
+          ],
+          "top_places": [
+            {
+              "place": "Christiansted",
+              "zip_codes": 5
+            },
+            {
+              "place": "Frederiksted",
+              "zip_codes": 2
+            },
+            {
+              "place": "Kingshill",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "CHA",
+          "office_name": "Charlotte Amalie",
+          "street": "6783 Estate Smith Bay",
+          "office_city": "St Thomas",
+          "office_state": "VI",
+          "office_zip": "00802",
+          "district": "Miami",
+          "zip_codes": 7,
+          "counties": 2,
+          "top_counties": [
+            "Saint Thomas",
+            "Saint John"
+          ],
+          "top_places": [
+            {
+              "place": "St Thomas",
+              "zip_codes": 5
+            },
+            {
+              "place": "St John",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "VT": {
+      "zip_codes": 308,
+      "counties": 14,
+      "field_offices": [
+        {
+          "designation": "STA",
+          "office_name": "Burlington",
+          "street": "463 Mountain View Drive, Suite 200",
+          "office_city": "Colchester",
+          "office_state": "VT",
+          "office_zip": "05446",
+          "district": "Boston",
+          "zip_codes": 308,
+          "counties": 14,
+          "top_counties": [
+            "Windsor",
+            "Washington",
+            "Rutland",
+            "Windham"
+          ],
+          "top_places": [
+            {
+              "place": "Montpelier",
+              "zip_codes": 7
+            },
+            {
+              "place": "Burlington",
+              "zip_codes": 5
+            },
+            {
+              "place": "Brattleboro",
+              "zip_codes": 4
+            },
+            {
+              "place": "Colchester",
+              "zip_codes": 3
+            },
+            {
+              "place": "Essex Junction",
+              "zip_codes": 3
+            }
+          ],
+          "in_another_state": false
+        }
+      ]
+    },
+    "WA": {
+      "zip_codes": 715,
+      "counties": 39,
+      "field_offices": [
+        {
+          "designation": "SEA",
+          "office_name": "Seattle",
+          "street": "12500 Tukwila International Boulevard",
+          "office_city": "Seattle",
+          "office_state": "WA",
+          "office_zip": "98168",
+          "district": "Seattle",
+          "zip_codes": 414,
+          "counties": 15,
+          "top_counties": [
+            "King",
+            "Pierce",
+            "Snohomish",
+            "Kitsap"
+          ],
+          "top_places": [
+            {
+              "place": "Seattle",
+              "zip_codes": 59
+            },
+            {
+              "place": "Tacoma",
+              "zip_codes": 34
+            },
+            {
+              "place": "Olympia",
+              "zip_codes": 11
+            },
+            {
+              "place": "Bellevue",
+              "zip_codes": 7
+            },
+            {
+              "place": "Everett",
+              "zip_codes": 7
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SPO",
+          "office_name": "Spokane",
+          "street": "US Courthouse, 920 West Riverside Drive, Room 691",
+          "office_city": "Spokane",
+          "office_state": "WA",
+          "office_zip": "99201",
+          "district": "Seattle",
+          "zip_codes": 156,
+          "counties": 12,
+          "top_counties": [
+            "Spokane",
+            "Whitman",
+            "Okanogan",
+            "Stevens"
+          ],
+          "top_places": [
+            {
+              "place": "Spokane",
+              "zip_codes": 28
+            },
+            {
+              "place": "Pullman",
+              "zip_codes": 2
+            },
+            {
+              "place": "Addy",
+              "zip_codes": 1
+            },
+            {
+              "place": "Airway Heights",
+              "zip_codes": 1
+            },
+            {
+              "place": "Albion",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "YAK",
+          "office_name": "Yakima",
+          "street": "415 North Third Street",
+          "office_city": "Yakima",
+          "office_state": "WA",
+          "office_zip": "98901",
+          "district": "Seattle",
+          "zip_codes": 102,
+          "counties": 8,
+          "top_counties": [
+            "Yakima",
+            "Grant",
+            "Chelan",
+            "Klickitat"
+          ],
+          "top_places": [
+            {
+              "place": "Yakima",
+              "zip_codes": 7
+            },
+            {
+              "place": "Kennewick",
+              "zip_codes": 3
+            },
+            {
+              "place": "Pasco",
+              "zip_codes": 2
+            },
+            {
+              "place": "Richland",
+              "zip_codes": 2
+            },
+            {
+              "place": "Wenatchee",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "POO",
+          "office_name": "Portland",
+          "street": "1455 NW Overton Street, Suite 1",
+          "office_city": "Portland",
+          "office_state": "OR",
+          "office_zip": "97209",
+          "district": "Seattle",
+          "zip_codes": 43,
+          "counties": 5,
+          "top_counties": [
+            "Clark",
+            "Cowlitz",
+            "Skamania",
+            "Wahkiakum"
+          ],
+          "top_places": [
+            {
+              "place": "Vancouver",
+              "zip_codes": 14
+            },
+            {
+              "place": "Amboy",
+              "zip_codes": 1
+            },
+            {
+              "place": "Ariel",
+              "zip_codes": 1
+            },
+            {
+              "place": "Battle Ground",
+              "zip_codes": 1
+            },
+            {
+              "place": "Bingen",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "WI": {
+      "zip_codes": 877,
+      "counties": 72,
+      "field_offices": [
+        {
+          "designation": "MIL",
+          "office_name": "Milwaukee",
+          "street": "310 W Wisconsin Ave, Suite 850W",
+          "office_city": "Milwaukee",
+          "office_state": "WI",
+          "office_zip": "53203",
+          "district": "Chicago",
+          "zip_codes": 565,
+          "counties": 39,
+          "top_counties": [
+            "Dane",
+            "Milwaukee",
+            "Waukesha",
+            "Grant"
+          ],
+          "top_places": [
+            {
+              "place": "Milwaukee",
+              "zip_codes": 39
+            },
+            {
+              "place": "Madison",
+              "zip_codes": 32
+            },
+            {
+              "place": "Green Bay",
+              "zip_codes": 12
+            },
+            {
+              "place": "Racine",
+              "zip_codes": 7
+            },
+            {
+              "place": "Appleton",
+              "zip_codes": 6
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "SPM",
+          "office_name": "Saint Paul",
+          "street": "250 Marquette Avenue, Suite 710",
+          "office_city": "Minneapolis",
+          "office_state": "MN",
+          "office_zip": "55401",
+          "district": "Kansas City",
+          "zip_codes": 312,
+          "counties": 33,
+          "top_counties": [
+            "Marathon",
+            "Clark",
+            "Wood",
+            "Barron"
+          ],
+          "top_places": [
+            {
+              "place": "Eau Claire",
+              "zip_codes": 3
+            },
+            {
+              "place": "La Crosse",
+              "zip_codes": 3
+            },
+            {
+              "place": "Stevens Point",
+              "zip_codes": 3
+            },
+            {
+              "place": "Wausau",
+              "zip_codes": 3
+            },
+            {
+              "place": "Chippewa Falls",
+              "zip_codes": 2
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "WV": {
+      "zip_codes": 851,
+      "counties": 55,
+      "field_offices": [
+        {
+          "designation": "PIT",
+          "office_name": "Pittsburgh",
+          "street": "Penn Center East, Building 7, 777 Penn Center Boulevard, Suite 600",
+          "office_city": "Pittsburgh",
+          "office_state": "PA",
+          "office_zip": "15235",
+          "district": "Cleveland",
+          "zip_codes": 851,
+          "counties": 55,
+          "top_counties": [
+            "Kanawha",
+            "Cabell",
+            "Raleigh",
+            "Fayette"
+          ],
+          "top_places": [
+            {
+              "place": "Charleston",
+              "zip_codes": 45
+            },
+            {
+              "place": "Huntington",
+              "zip_codes": 40
+            },
+            {
+              "place": "Morgantown",
+              "zip_codes": 7
+            },
+            {
+              "place": "Martinsburg",
+              "zip_codes": 5
+            },
+            {
+              "place": "Parkersburg",
+              "zip_codes": 5
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    },
+    "WY": {
+      "zip_codes": 194,
+      "counties": 23,
+      "field_offices": [
+        {
+          "designation": "CAS",
+          "office_name": "Casper",
+          "street": "150 East B Street, Room 1014",
+          "office_city": "Casper",
+          "office_state": "WY",
+          "office_zip": "82601",
+          "district": "Kansas City",
+          "zip_codes": 106,
+          "counties": 15,
+          "top_counties": [
+            "Natrona",
+            "Fremont",
+            "Big Horn",
+            "Sheridan"
+          ],
+          "top_places": [
+            {
+              "place": "Casper",
+              "zip_codes": 5
+            },
+            {
+              "place": "Gillette",
+              "zip_codes": 3
+            },
+            {
+              "place": "Jackson",
+              "zip_codes": 2
+            },
+            {
+              "place": "Aladdin",
+              "zip_codes": 1
+            },
+            {
+              "place": "Alcova",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": false
+        },
+        {
+          "designation": "DEN",
+          "office_name": "Denver",
+          "street": "12484 East Weaver Place",
+          "office_city": "Centennial",
+          "office_state": "CO",
+          "office_zip": "80111",
+          "district": "Kansas City",
+          "zip_codes": 88,
+          "counties": 8,
+          "top_counties": [
+            "Laramie",
+            "Lincoln",
+            "Carbon",
+            "Sweetwater"
+          ],
+          "top_places": [
+            {
+              "place": "Cheyenne",
+              "zip_codes": 7
+            },
+            {
+              "place": "Laramie",
+              "zip_codes": 4
+            },
+            {
+              "place": "Evanston",
+              "zip_codes": 2
+            },
+            {
+              "place": "Rock Springs",
+              "zip_codes": 2
+            },
+            {
+              "place": "Afton",
+              "zip_codes": 1
+            }
+          ],
+          "in_another_state": true
+        }
+      ]
+    }
+  }
+}

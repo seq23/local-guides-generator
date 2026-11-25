@@ -1772,7 +1772,9 @@ function conversionCopyForContextBase(pageType, verticalKey, ctx) {
     return {
       eyebrow: 'Start here',
       heading: 'View your next steps for ' + escapeHtml(marketLabel || 'this state'),
-      body: 'Use the state-level next-steps path after you narrow into the right city and support surface.',
+      // Short and named for the state: the 16-word routing sentence was the
+      // same on every state hub (Search Readiness q1, 24 Nov 2026).
+      body: 'The ' + escapeHtml(marketLabel || 'state') + ' checklist and request form, on one page.',
       button: 'View Your Next Steps',
       variant: 'primary'
     };
@@ -1782,7 +1784,7 @@ function conversionCopyForContextBase(pageType, verticalKey, ctx) {
     return {
       eyebrow: 'Need help now?',
       heading: 'Get matched with a provider in ' + escapeHtml(marketLabel || 'this state'),
-      body: 'Use the callback path only after you review the city coverage, request-city option, and state support guides.',
+      body: 'Read the ' + escapeHtml(marketLabel || 'state') + ' city pages first.',
       button: 'Get Matched With a Provider',
       variant: 'inline'
     };
@@ -2745,7 +2747,7 @@ function renderHeadJsonLd(siteUrl, brandName, city, route, title, description, p
   return `<script type="application/ld+json">\n${JSON.stringify(foldFaqPages(ld), null, 2)}\n</script>`;
 }
 
-function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateName, title, description, pageSet, listingsAgg) {
+function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateName, title, description, pageSet, listingsAgg, faqItems) {
   const route = 'states/' + String(stateAbbr).toUpperCase();
   const ld = [
     buildOrganizationSchema(siteUrl, brandName),
@@ -2767,25 +2769,9 @@ function renderHeadJsonLdPiStateDirectory(siteUrl, brandName, stateAbbr, stateNa
   // PI state pages: FAQPage JSON-LD (pack-controlled, validator enforced when enabled)
   const schemaCfg = (pageSet && pageSet.schema) ? pageSet.schema : {};
   const faqEnabled = schemaCfg && schemaCfg.faqEnabled === true;
-  const faqItems = [
-    {
-      q: `How do I choose a personal injury lawyer in ${String(stateName)}?`,
-      a: `No single lawyer is right for every case. Use a consistent checklist: verify the lawyer's license and discipline history, confirm relevant practice focus, ask about fee terms (often contingency), and compare communication and case-handling process. This site is educational only and does not rank providers.`
-    },
-    {
-      q: `What is a contingency fee?`,
-      a: `A contingency fee is a payment arrangement where a lawyer may collect a fee only if there is a recovery. Terms vary and should be confirmed in writing before signing.`
-    },
-    {
-      q: `What should I verify before signing with a firm?`,
-      a: `Verify licensing, review engagement terms in writing, ask who will handle the matter day-to-day, and confirm how updates and costs are communicated. Avoid relying on marketing claims.`
-    },
-    {
-      q: `How do I check licensing and discipline in ${String(stateName)}?`,
-      a: `Use the official state disciplinary and license lookup linked on this page to confirm current status and any public disciplinary history.`
-    }
-  ];
-  if (faqEnabled) {
+  // The visible state FAQ, passed in: the schema kept its own copy of the
+  // questions and had drifted from the page's answers.
+  if (faqEnabled && Array.isArray(faqItems) && faqItems.length) {
     const faqSchema = buildFaqSchema(faqItems);
     if (faqSchema) ld.push(faqSchema);
   }
@@ -6017,14 +6003,16 @@ function renderStateNaturalizationGuidesHtml(verticalKey, globalPagesDir) {
   const cards = USCIS_NATURALIZATION_ROUTES
     .map((route) => byRoute.get(route))
     .filter(Boolean)
-    .map((g) => '<div class="card"><h3><a href="' + escapeHtml(String(g.route)) + '">' + escapeHtml(String(g.title || 'Guide')) + '</a></h3><p>' + escapeHtml(String(g.description || 'Guide')) + '</p></div>')
+    // Titles only: the two guide blurbs and the I-485 explainer were the same
+    // 120 words on every state hub (Search Readiness q1, 24 Nov 2026).
+    .map((g) => '<li><a href="' + escapeHtml(String(g.route)) + '">' + escapeHtml(String(g.title || 'Guide')) + '</a></li>')
     .join('');
   if (!cards) return '';
   return (
     '<section class="section state-naturalization-guides" data-state-naturalization-guides="true">' +
-      '<h2>If your case is naturalization (Form N-400), not a green card</h2>' +
-      '<p class="muted">Form I-693 and the civil surgeon belong to the green-card path: USCIS requires Form I-693 with Form I-485. If you are applying to naturalize on Form N-400, these are the pages that apply instead. Educational only. Not legal or medical advice.</p>' +
-      '<div class="grid">' + cards + '</div>' +
+      '<h2>Is your case naturalization (Form N-400), not a green card?</h2>' +
+      '<p class="muted">Form I-693 goes with a green card application; for naturalization, read these instead.</p>' +
+      '<ul class="neutral-list">' + cards + '</ul>' +
     '</section>'
   );
 }
@@ -6820,13 +6808,15 @@ function loadNextStepsSponsor(citySlug) {
       const title = stateStrength ? stateStrength.title : brandName + ' in ' + stateName + ' — state hub';
       const headTitle = brandedTitle((stateStrength && stateStrength.meta_title) || title, siteUrl, brandName);
       const description = 'Use this state hub to narrow into covered cities, provider examples, official verification resources, and next steps in ' + stateName + '.';
-      const guideLinks = selectPriorityGuideSummaries(globalPagesDir, 4).map((g) => ({ href: g.route, label: g.title, description: g.description }));
       const cityLinks = stateInfo.cities.slice().sort((a,b)=>String(a.marketLabel||a.slug).localeCompare(String(b.marketLabel||b.slug))).map((c) => ({ href: '/' + c.slug + '/', label: c.linkLabel || c.marketLabel || c.slug }));
       const stateFacts = cityLocalFacts.forState(verticalKey, ab, stateName, stateInfo.cities);
       const stateLead = renderCitationSummaryZoneHtml({ kind: 'state-home', title, description, stateName, verticalLabel: verticalLabelFor(verticalKey), localAnswer: stateFacts ? stateFacts.answer : '', hrefs: { guides: '/guides/', faq: '/faq/', methodology: '/methodology/' } }) + (stateFacts ? stateFacts.html : '');
-      // Titles only: the four guide blurbs were the same 100 words on all 50
-      // state pages (Search Readiness q1, 7 Nov 2026).
-      const groupedGuides = '<section class="section state-guides-support" data-state-guides-support="true"><h2>Which guides apply in ' + escapeHtml(stateName) + '?</h2><ul class="neutral-list">' + guideLinks.map((g) => '<li><a href="' + escapeHtml(g.href) + '">' + escapeHtml(g.label) + '</a></li>').join('') + '</ul></section>';
+      // A state hub carries what is true of that state and nothing every hub
+      // prints: the four national guide titles, the "lighter support path" links
+      // and the hero's routing sentence were the same on all 50 and are in the
+      // site nav already (Search Readiness q1, 24 Nov 2026: uscisexam NH/NC/KS,
+      // neuroevalguides MT/MA, hormonesivhair KY/NJ/NE more than half identical).
+      // cross_page_similarity_contract.js now measures every pair of state hubs.
       // selectPriorityGuideSummaries fills four fixed topical buckets - cost,
       // questions, red-flags, after - so a state page can only ever surface the
       // four medical-exam guides that match them. The naturalization cluster
@@ -6838,7 +6828,7 @@ function loadNextStepsSponsor(citySlug) {
       const naturalizationStateGuides = renderStateNaturalizationGuidesHtml(verticalKey, globalPagesDir);
       let mainHtml = (
         (isStarterTrainingPack(pageSet) ? renderTrainingBannerHtml('Sandbox state page. Use this to practice state-level audits and city coverage checks.') : '') +
-        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : brandName + ' in ' + stateName) + '</h1>' + (stateStrength ? '' : '<p class="muted">Use this state page to narrow into covered cities, official verification resources, and the next decision path.</p>') + '</section>' +
+        '<section class="hero" data-state-hero="true"><p class="kicker">' + escapeHtml(brandName) + ' · State hub</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : brandName + ' in ' + stateName) + '</h1></section>' +
         searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:state_hub_top%%' +
         stateLead +
@@ -6848,10 +6838,8 @@ function loadNextStepsSponsor(citySlug) {
         renderStateAuthorityBlockHtml(stateName, cityLinks.length) +
         renderStateCityGridHtml(stateName, cityLinks) +
         renderRequestCitySectionHtml(brandName, stateName) +
-        groupedGuides +
         naturalizationStateGuides +
-        '%%MID_NEXT_STEPS%%' +
-        '<section class="section tertiary-support" data-tertiary-support="true"><h2>Need a lighter support path?</h2><p class="muted"><a href="/faq/">FAQ</a> · <a href="/methodology/">Methodology</a> · <a href="/guides/">Guides hub</a></p></section>'
+        '%%MID_NEXT_STEPS%%'
       );
       mainHtml = injectPrimaryConversionCta(mainHtml, primaryConversionTemplate, verticalKey, {
         pageType: 'state-primary', src: '/states/' + ab + '/', marketLabel: stateName, intentType: 'direct_match', buttonSource: 'primary_cta'
@@ -7035,35 +7023,30 @@ function loadNextStepsSponsor(citySlug) {
         return an.localeCompare(bn);
       });
 
+      // Name and city only. A "Listed in this state directory" line under every
+      // card put the same 8-word phrase on Utah's hub four times (Search
+      // Readiness q1, 24 Nov 2026: theaccidentguides.com/states/UT/).
       const directoryCards = listingsAgg.slice(0, 40).map(it => {
         const name = String((it.firm_name || it.name || '')).trim();
         const loc = String(it.__marketLabel || '').trim();
         return (
           '<div class="card">' +
           '<h3 style="margin:0 0 6px 0">' + escapeHtml(name) + '</h3>' +
-          (loc ? ('<p class="muted" style="margin:0 0 6px 0">' + escapeHtml(loc) + '</p>') : '') +
-          '<p style="margin:0"><span>Listed in this state directory</span></p>' +
+          (loc ? ('<p class="muted" style="margin:0">' + escapeHtml(loc) + '</p>') : '') +
           '</div>'
         );
       }).join("\n");
 
+      // The state's own FARS census (the same facts its /next-steps/ page
+      // carries): what only this state can say, in place of the fee and
+      // checklist answers all 50 hubs printed, which the national guides own.
+      const stateFacts = cityLocalFacts.piState(ab, stateName, new Set(cities.map((c) => String(c.slug || '')).filter((slug) => slug && !isFoldedRoute(slug))));
       const disciplineUrl = disciplineLinks[ab] ? String(disciplineLinks[ab]) : '';
       const stateFaqItems = [
+        ...((stateFacts && stateFacts.faq) || []),
         {
-          q: `How do I choose a personal injury lawyer in ${String(stateName)}?`,
-          a: `Use a consistent checklist: verify licensing and discipline history, confirm relevant practice focus, ask about fee terms, and compare communication and case-handling process. This site is educational only and does not rank providers.`
-        },
-        {
-          q: `What is a contingency fee?`,
-          a: `A contingency fee is a payment arrangement where a lawyer may collect a fee only if there is a recovery. Terms vary and should be confirmed in writing before signing.`
-        },
-        {
-          q: `What should I verify before signing with a firm?`,
-          a: `Verify licensing, review engagement terms in writing, ask who will handle the matter day-to-day, and confirm how updates and costs are communicated. Avoid relying on marketing claims.`
-        },
-        {
-          q: `How do I check licensing and discipline in ${String(stateName)}?`,
-          a: `Use the official state disciplinary and license lookup linked on this page to confirm current status and any public disciplinary history.`
+          q: `How do I check a lawyer's licence and discipline in ${String(stateName)}?`,
+          a: `Look the lawyer up in the official ${String(stateName)} licensing and discipline lookup linked on this page; it shows current status and any public discipline. Fees and what to ask a firm are in the personal injury guides.`
         }
       ];
       const stateFaqAccordion = (
@@ -7080,14 +7063,15 @@ function loadNextStepsSponsor(citySlug) {
       let mainHtml = (
         '<section class="hero" data-state-hero="true" data-pi-state-page="true">' +
         '<p class="kicker">' + escapeHtml(brandName) + '</p><h1>' + escapeHtml(stateStrength ? stateStrength.h1 : stateName + ' personal injury guide') + '</h1>' +
-        '<p data-state-definition="true">This is the ' + escapeHtml(stateName) +
+        '<p data-state-definition="true">' + (stateFacts && stateFacts.answer ? stateFacts.answer : 'This is the ' + escapeHtml(stateName) +
         ' directory for personal injury lawyers. It brings together firms listed in ' + escapeHtml(stateName) +
-        ', covered cities and the state licensing lookup. Listings are alphabetical, not recommendations; use the official record to check a lawyer before discussing your case or signing an agreement.</p></section>' +
+        ', covered cities and the state licensing lookup. Listings are alphabetical, not recommendations; use the official record to check a lawyer before discussing your case or signing an agreement.') + '</p></section>' +
         searchBlocks.renderStateStrengtheningHtml(stateStrength) +
         '%%AD:pi_state_top%%' +
         '<section class="section state-authority-block" data-state-authority-block="true" data-state-authority-dominance="true" data-state-authority-strength="true">' +
         '<h2>Where can you verify a lawyer in ' + escapeHtml(stateName) + '?</h2>' +
         '<p data-disciplinary-lookup="true"><a href="' + escapeHtml(disciplineUrl) + '" rel="nofollow">Official ' + escapeHtml(stateName) + ' licensing and discipline lookup</a></p></section>' +
+        (stateFacts && stateFacts.html ? '<section class="section" data-pi-state-fars="true">' + stateFacts.html + '</section>' : '') +
         '<section class="section answer-block" data-pi-best-lawyer-answer="true" data-pi-how-to-choose="true" data-citation-summary-type="state-home">' +
         '<h2>How should you compare ' + escapeHtml(stateName) + ' firms?</h2>' +
         '<p>Check the license first, then compare <a href="/guides/personal-injury-fees-explained/">written fees</a> and <a href="/guides/questions-to-ask-a-personal-injury-lawyer/">who handles the case</a>. No firm is ranked or endorsed.</p></section>' +
@@ -7142,7 +7126,7 @@ function loadNextStepsSponsor(citySlug) {
         '%%INLINE_SCRIPTS%%': '',
         '%%CANONICAL%%': buildCanonicalGlobal(siteUrl, 'states/' + ab),
         '%%HEAD_META%%': renderHeadMeta({ pageType: 'state-home', title: headTitle, description, canonical: buildCanonicalGlobal(siteUrl, 'states/' + ab), brandName, section: 'State directory', keywords: [stateName, 'personal injury', 'directory'] }),
-        '%%HEAD_JSON_LD%%': searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg), stateStrength && { search_strengthening: stateStrength }),
+        '%%HEAD_JSON_LD%%': searchBlocks.mergeFaqIntoJsonLd(renderHeadJsonLdPiStateDirectory(siteUrl, brandName, ab, stateName, title, description, pageSet, listingsAgg, stateFaqItems), stateStrength && { search_strengthening: stateStrength }),
         '%%FOOTER%%': footerHtml,
         '%%CONNECTION_BUBBLE%%': connectionBubbleHtml,
         '%%BRAND_NAME%%': escapeHtml(brandName),
