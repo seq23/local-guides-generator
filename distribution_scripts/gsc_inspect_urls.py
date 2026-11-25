@@ -26,7 +26,7 @@ WHAT THIS DOES NOW
   - Paces requests (GSC_INSPECTION_SLEEP, default 0.2s) to stay under 600/min.
   - Treats 429 as a STOP, not a crash: it keeps what it has, records why it
     stopped, and exits 0 -- quota exhaustion is an expected operating condition.
-  - Retries 500/503 with backoff, because those are transient.
+  - Retries read timeouts and HTTP 500/503 with backoff, because those are transient.
   - Writes results even on failure, so partial work survives.
   - Exits non-zero only for real faults (bad credentials, unreadable input),
     which is the case the caller's `|| echo WARNING` should actually surface.
@@ -94,13 +94,16 @@ def main():
     limit = env_int("GSC_INSPECTION_LIMIT", DEFAULT_LIMIT)
     sleep_s = env_float("GSC_INSPECTION_SLEEP", DEFAULT_SLEEP)
 
+    all_urls = load_urls(url_file)
+    if not all_urls:
+        print("NAMED STOP [GSC_INSPECTION_EMPTY_INPUT] No inspectable URLs in the priority file.", file=sys.stderr)
+        sys.exit(1)
+    urls = all_urls[:limit]
+    deferred = len(all_urls) - len(urls)
+
     scopes = ["https://www.googleapis.com/auth/webmasters.readonly"]
     creds = service_account.Credentials.from_service_account_file(creds_path, scopes=scopes)
     service = build("searchconsole", "v1", credentials=creds)
-
-    all_urls = load_urls(url_file)
-    urls = all_urls[:limit]
-    deferred = len(all_urls) - len(urls)
 
     results = []
     stopped_reason = None
@@ -112,21 +115,22 @@ def main():
                 print(f"Inspecting ({index + 1}/{len(urls)}): {url}")
                 results.append(service.urlInspection().index().inspect(body=body).execute())
                 break
-            except HttpError as err:
+            except (HttpError, TimeoutError) as err:
                 status = getattr(getattr(err, "resp", None), "status", None)
+                failure = "read_timeout" if isinstance(err, TimeoutError) else f"http_error_{status}"
                 if status == 429:
                     # Expected. 2,000/day and 600/min per property; a full priority
                     # file exceeds the daily quota on its own.
                     stopped_reason = f"quota_exceeded_after_{len(results)}_inspections"
-                    print(f"QUOTA: stopping after {len(results)} inspection(s) -- {site_url} quota exhausted.")
+                    print(f"NAMED STOP [GSC_INSPECTION_QUOTA] stopping after {len(results)} inspection(s) -- {site_url} quota exhausted.")
                     break
-                if status in (500, 503) and attempt < MAX_RETRIES - 1:
+                if (failure == "read_timeout" or status in (500, 503)) and attempt < MAX_RETRIES - 1:
                     backoff = 2 ** attempt
-                    print(f"TRANSIENT {status}: retrying in {backoff}s ({attempt + 1}/{MAX_RETRIES})")
+                    print(f"TRANSIENT {failure}: retrying in {backoff}s ({attempt + 1}/{MAX_RETRIES})")
                     time.sleep(backoff)
                     continue
-                stopped_reason = f"http_error_{status}_after_{len(results)}_inspections"
-                print(f"ERROR {status} on {url}: stopping and keeping {len(results)} result(s).")
+                stopped_reason = f"{failure}_after_{len(results)}_inspections"
+                print(f"NAMED STOP [GSC_INSPECTION_FAILED] {stopped_reason} at {url}.")
                 break
         if stopped_reason:
             break
