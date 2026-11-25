@@ -27,6 +27,8 @@ concurrency:
 
 jobs:
   loop:
+    if: github.ref == 'refs/heads/main'
+    environment: reviewed-main
     runs-on: ubuntu-latest
     # Fault detector, not a budget: up to ~10 free-model drafts (each <= 6 min with retries),
     # two full builds (~2 min each) and validation.
