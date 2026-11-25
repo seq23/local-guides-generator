@@ -29,6 +29,10 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends libpango-1.0-0 libpangoft2-1.0-0
           python -m pip install -r tests/senior/print-requirements.txt
+      - name: Check Search Console inspection retries
+        run: |
+          python -m pip install google-api-python-client
+          python -m unittest discover -s tests/operations -p test_gsc_inspection.py
       - run: node scripts/build_all_packs.js
       - name: Binder HTML print layout
         run: python tests/senior/print_layout_test.py
