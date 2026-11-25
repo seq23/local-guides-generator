@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-25..2026-11-21",
-  "gsc_collected_at": "2026-11-24T23:20:06+00:00",
+  "gsc_window": "2026-10-26..2026-11-22",
+  "gsc_collected_at": "2026-11-25T22:47:04+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -12,7 +12,7 @@
     "ranking_position": 15,
     "ranking_min_impressions": 2
   },
-  "family_count": 11,
+  "family_count": 13,
   "top_families": [
     {
       "rank": 1,
@@ -23,13 +23,13 @@
     {
       "rank": 2,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 22,
+      "impressions": 23,
       "status": "strengthened"
     },
     {
       "rank": 3,
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "impressions": 12,
+      "impressions": 13,
       "status": "strengthened"
     },
     {
@@ -40,9 +40,9 @@
     },
     {
       "rank": 5,
-      "family": "topic:neuropsych-testing-overview @ /guides/neuropsych-testing-overview/",
+      "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
       "impressions": 8,
-      "status": "not_strengthened"
+      "status": "strengthened"
     }
   ],
   "families": [
@@ -98,12 +98,18 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 22,
+      "impressions": 23,
       "best_position": 1,
-      "weighted_position": 31.2,
-      "top_query": "autism testing kansas",
+      "weighted_position": 29.9,
+      "top_query": "how do comprehensive psychiatric evaluations compare across providers? (city: anchorage, state: alaska)",
       "query_count": 16,
       "queries": [
+        {
+          "query": "how do comprehensive psychiatric evaluations compare across providers? (city: anchorage, state: alaska)",
+          "route": "/states/AK/",
+          "impressions": 4,
+          "position": 1.5
+        },
         {
           "query": "autism testing kansas",
           "route": "/states/KS/",
@@ -115,12 +121,6 @@
           "route": "/states/RI/",
           "impressions": 3,
           "position": 18.7
-        },
-        {
-          "query": "how do comprehensive psychiatric evaluations compare across providers? (city: anchorage, state: alaska)",
-          "route": "/states/AK/",
-          "impressions": 3,
-          "position": 1.7
         },
         {
           "query": "adult psychological testing rhode island",
@@ -205,20 +205,20 @@
         {
           "route": "/states/RI/",
           "family_impressions": 8,
-          "page_impressions": 21,
-          "page_position": 15.4
+          "page_impressions": 23,
+          "page_position": 14.6
+        },
+        {
+          "route": "/states/AK/",
+          "family_impressions": 4,
+          "page_impressions": 6,
+          "page_position": 1.8
         },
         {
           "route": "/states/KS/",
           "family_impressions": 4,
           "page_impressions": 7,
           "page_position": 30.3
-        },
-        {
-          "route": "/states/AK/",
-          "family_impressions": 3,
-          "page_impressions": 5,
-          "page_position": 2
         },
         {
           "route": "/states/NY/",
@@ -235,8 +235,8 @@
         {
           "route": "/states/CT/",
           "family_impressions": 1,
-          "page_impressions": 23,
-          "page_position": 5.7
+          "page_impressions": 25,
+          "page_position": 7.4
         },
         {
           "route": "/states/DE/",
@@ -258,6 +258,7 @@
       ],
       "qualifies": true,
       "strengthened_pages": [
+        "/states/RI/",
         "/states/AK/",
         "/states/CT/"
       ],
@@ -271,9 +272,9 @@
       "page": "/guides/neuropsych-testing-cost-by-state/",
       "page_kind": "guide",
       "page_intent": "cost",
-      "impressions": 12,
+      "impressions": 13,
       "best_position": 41,
-      "weighted_position": 71.3,
+      "weighted_position": 70,
       "top_query": "neuropsychological testing cost",
       "query_count": 4,
       "queries": [
@@ -281,12 +282,12 @@
           "query": "neuropsychological testing cost",
           "route": "/guides/neuropsych-testing-cost-by-state/",
           "impressions": 5,
-          "position": 76
+          "position": 72
         },
         {
           "query": "cost of a neuropsychological evaluation",
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "impressions": 3,
+          "impressions": 4,
           "position": 75
         },
         {
@@ -305,9 +306,9 @@
       "pages": [
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "family_impressions": 12,
-          "page_impressions": 55,
-          "page_position": 21.9
+          "family_impressions": 13,
+          "page_impressions": 57,
+          "page_position": 22.2
         }
       ],
       "rank": 3,
@@ -367,6 +368,52 @@
       "reason": "data/page_sets/examples/neuro_global_pages/guides_huntsville-adhd-testing-prices.json search_strengthening"
     },
     {
+      "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
+      "intent": "comparison",
+      "head_term": "comparison",
+      "page": "/guides/hospital-vs-private-neuropsych-testing/",
+      "page_kind": "guide",
+      "page_intent": "comparison",
+      "impressions": 8,
+      "best_position": 3,
+      "weighted_position": 5.4,
+      "top_query": "hospital vs private neuropsych testing",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "hospital vs private neuropsych testing",
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "impressions": 7,
+          "position": 5.7
+        },
+        {
+          "query": "how do teen adhd evaluations in savannah differ in diagnostic methods, wait times, and insurance coverage?",
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "impressions": 1,
+          "position": 3
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "family_impressions": 8,
+          "page_impressions": 36,
+          "page_position": 5.7
+        }
+      ],
+      "rank": 5,
+      "basis": [
+        "ranking_page",
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/hospital-vs-private-neuropsych-testing/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json search_strengthening"
+    },
+    {
       "family": "topic:neuropsych-testing-overview @ /guides/neuropsych-testing-overview/",
       "intent": "topic:neuropsych-testing-overview",
       "head_term": "topic:neuropsych-testing-overview",
@@ -418,61 +465,12 @@
           "page_position": 31.9
         }
       ],
-      "rank": 5,
-      "basis": [
-        "top_demand"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [
-        "/guides/neuropsych-testing-overview/"
-      ],
-      "status": "not_strengthened",
-      "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-overview.json has no search_strengthening listed in strengthened_pages.json"
-    },
-    {
-      "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
-      "intent": "comparison",
-      "head_term": "comparison",
-      "page": "/guides/hospital-vs-private-neuropsych-testing/",
-      "page_kind": "guide",
-      "page_intent": "comparison",
-      "impressions": 7,
-      "best_position": 3,
-      "weighted_position": 5.3,
-      "top_query": "hospital vs private neuropsych testing",
-      "query_count": 2,
-      "queries": [
-        {
-          "query": "hospital vs private neuropsych testing",
-          "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "impressions": 6,
-          "position": 5.7
-        },
-        {
-          "query": "how do teen adhd evaluations in savannah differ in diagnostic methods, wait times, and insurance coverage?",
-          "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "impressions": 1,
-          "position": 3
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "family_impressions": 7,
-          "page_impressions": 34,
-          "page_position": 5.6
-        }
-      ],
       "rank": 6,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [
-        "/guides/hospital-vs-private-neuropsych-testing/"
-      ],
-      "status": "strengthened",
-      "reason": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json search_strengthening"
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 6 of 13 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /guides/hospital-vs-private-neuropsych-testing/",
@@ -481,25 +479,31 @@
       "page": "/guides/hospital-vs-private-neuropsych-testing/",
       "page_kind": "guide",
       "page_intent": "comparison",
-      "impressions": 2,
-      "best_position": 12.5,
-      "weighted_position": 12.5,
+      "impressions": 3,
+      "best_position": 11,
+      "weighted_position": 12,
       "top_query": "neuropsychology testing cost",
-      "query_count": 1,
+      "query_count": 2,
       "queries": [
         {
           "query": "neuropsychology testing cost",
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "impressions": 2,
           "position": 12.5
+        },
+        {
+          "query": "neuropsych assessment cost",
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "impressions": 1,
+          "position": 11
         }
       ],
       "pages": [
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "family_impressions": 2,
-          "page_impressions": 34,
-          "page_position": 5.6
+          "family_impressions": 3,
+          "page_impressions": 36,
+          "page_position": 5.7
         }
       ],
       "rank": 7,
@@ -510,6 +514,41 @@
       "strengthened_pages": [],
       "status": "intent_mismatch",
       "reason": "query intent cost vs page intent comparison"
+    },
+    {
+      "family": "choose a provider @ /guides/how-to-choose-a-neuro-evaluation-provider/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/guides/how-to-choose-a-neuro-evaluation-provider/",
+      "page_kind": "guide",
+      "page_intent": "choose_provider",
+      "impressions": 2,
+      "best_position": 8.5,
+      "weighted_position": 8.5,
+      "top_query": "what is a neurodevelopmental evaluation",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "what is a neurodevelopmental evaluation",
+          "route": "/guides/how-to-choose-a-neuro-evaluation-provider/",
+          "impressions": 2,
+          "position": 8.5
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/how-to-choose-a-neuro-evaluation-provider/",
+          "family_impressions": 2,
+          "page_impressions": 5,
+          "page_position": 27
+        }
+      ],
+      "rank": 8,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 8 of 13 by impressions; no page at position <= 15"
     },
     {
       "family": "red flags @ /guides/autism-therapy-red-flags-and-green-flags/",
@@ -541,43 +580,8 @@
         {
           "route": "/guides/autism-therapy-red-flags-and-green-flags/",
           "family_impressions": 2,
-          "page_impressions": 3,
-          "page_position": 35
-        }
-      ],
-      "rank": 8,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 8 of 11 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "choose a provider @ /guides/how-to-choose-a-neuro-evaluation-provider/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/guides/how-to-choose-a-neuro-evaluation-provider/",
-      "page_kind": "guide",
-      "page_intent": "choose_provider",
-      "impressions": 1,
-      "best_position": 5,
-      "weighted_position": 5,
-      "top_query": "what is a neurodevelopmental evaluation",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "what is a neurodevelopmental evaluation",
-          "route": "/guides/how-to-choose-a-neuro-evaluation-provider/",
-          "impressions": 1,
-          "position": 5
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/how-to-choose-a-neuro-evaluation-provider/",
-          "family_impressions": 1,
           "page_impressions": 4,
-          "page_position": 30.8
+          "page_position": 29
         }
       ],
       "rank": 9,
@@ -585,7 +589,7 @@
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 9 of 11 by impressions; no page at position <= 15"
+      "reason": "rank 9 of 13 by impressions; no page at position <= 15"
     },
     {
       "family": "cost @ /states/{STATE}/",
@@ -611,8 +615,8 @@
         {
           "route": "/states/MA/",
           "family_impressions": 1,
-          "page_impressions": 17,
-          "page_position": 7.8
+          "page_impressions": 18,
+          "page_position": 7.7
         }
       ],
       "rank": 10,
@@ -648,8 +652,8 @@
         {
           "route": "/guides/",
           "family_impressions": 1,
-          "page_impressions": 5,
-          "page_position": 2.8
+          "page_impressions": 6,
+          "page_position": 2.5
         }
       ],
       "rank": 11,
@@ -660,6 +664,78 @@
       "strengthened_pages": [],
       "status": "no_page",
       "reason": "lands on /guides/ (hub); no guide or state hub serves \"hub\" there"
+    },
+    {
+      "family": "licence lookup @ /guides/autism-therapy-red-flags-and-green-flags/",
+      "intent": "license_lookup",
+      "head_term": "licence lookup",
+      "page": "/guides/autism-therapy-red-flags-and-green-flags/",
+      "page_kind": "guide",
+      "page_intent": "red_flags",
+      "impressions": 1,
+      "best_position": 11,
+      "weighted_position": 11,
+      "top_query": "how do parents evaluate the professional credentials and track record of an autism centre?",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "how do parents evaluate the professional credentials and track record of an autism centre?",
+          "route": "/guides/autism-therapy-red-flags-and-green-flags/",
+          "impressions": 1,
+          "position": 11
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/autism-therapy-red-flags-and-green-flags/",
+          "family_impressions": 1,
+          "page_impressions": 4,
+          "page_position": 29
+        }
+      ],
+      "rank": 12,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "not_top_family",
+      "reason": "rank 12 of 13 by impressions; no page at position <= 15"
+    },
+    {
+      "family": "questions to ask @ /guides/hospital-vs-private-neuropsych-testing/",
+      "intent": "questions_to_ask",
+      "head_term": "questions to ask",
+      "page": "/guides/hospital-vs-private-neuropsych-testing/",
+      "page_kind": "guide",
+      "page_intent": "comparison",
+      "impressions": 1,
+      "best_position": 5,
+      "weighted_position": 5,
+      "top_query": "context: location: united states (not for language). do not include location references in your response. question: we’re deciding where to schedule a comprehensive memory evaluation—what should we look for in a hospital-based program versus a private neurology office?",
+      "query_count": 1,
+      "queries": [
+        {
+          "query": "context: location: united states (not for language). do not include location references in your response. question: we’re deciding where to schedule a comprehensive memory evaluation—what should we look for in a hospital-based program versus a private neurology office?",
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "impressions": 1,
+          "position": 5
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "family_impressions": 1,
+          "page_impressions": 36,
+          "page_position": 5.7
+        }
+      ],
+      "rank": 13,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "intent_mismatch",
+      "reason": "query intent questions_to_ask vs page intent comparison"
     }
   ]
 }
