@@ -2,7 +2,7 @@
   "schema": "search-loop-week-v1",
   "week": "2026-W48",
   "site": "uscisexam.com",
-  "generated_at": "2026-11-25T00:06:07.088Z",
+  "generated_at": "2026-11-25T23:47:47.574Z",
   "state": "running",
   "published": 0,
   "indexed": 1,
@@ -15,12 +15,12 @@
   "merged": 0,
   "notes": [
     "canonical side: new pages = missing guides only (velocity builds the daily pages); pace = min(engine pace, cadence 5/week)",
-    "strengthen /guides/questions-to-ask-a-personal-injury-lawyer/ failed the gate, left as it was: definition 0 words (40-60); fewer than 2 FAQ",
-    "strengthen /guides/fayetteville-adhd-evaluation-testing-options/ failed the gate, left as it was: definition 30 words (40-60)",
-    "strengthen /guides/does-insurance-cover-testosterone-therapy/ failed the gate, left as it was: definition 31 words (40-60); health gate",
-    "strengthen /guides/hormone-therapy-cost-what-is-published/ failed the gate, left as it was: definition 0 words (40-60); fewer than 2 FAQ",
-    "strengthen /guides/uscis-fees-timelines-and-what-to-ask/ failed the gate, left as it was: definition 0 words (40-60); fewer than 2 FAQ"
+    "strengthen /guides/questions-to-ask-a-personal-injury-lawyer/ skipped: no free model answered; nothing generated (the router never falls back to a paid model) (nemotron-3-ultra-550b-a55b:free: timeout after 180002 ms reading the response body (HTTP 200 headers arrived; lim; gemma-4-31b-it:free:429 Provider returned error; nemotron-3-super-120b-a12b:free:404 This model is unavailable for free. The paid version is available now - use this; gemma-4-26b-a4b-it:free:429 Provider returned error)",
+    "strengthen /guides/fayetteville-adhd-evaluation-testing-options/ skipped: no free model answered; nothing generated (the router never falls back to a paid model) (nemotron-3-ultra-550b-a55b:free: timeout after 180000 ms reading the response body (HTTP 200 headers arrived; lim; gemma-4-31b-it:free:429 Provider returned error; nemotron-3-super-120b-a12b:free:404 This model is unavailable for free. The paid version is available now - use this; gemma-4-26b-a4b-it:free:429 Provider returned error)",
+    "strengthen /guides/does-insurance-cover-testosterone-therapy/ skipped: no free model answered; nothing generated (the router never falls back to a paid model) (nemotron-3-ultra-550b-a55b:free: timeout after 180001 ms reading the response body (HTTP 200 headers arrived; lim; gemma-4-31b-it:free:429 Provider returned error; nemotron-3-super-120b-a12b:free:404 This model is unavailable for free. The paid version is available now - use this; gemma-4-26b-a4b-it:free:429 Provider returned error)",
+    "strengthen /guides/hormone-therapy-cost-what-is-published/ skipped: no free model answered; nothing generated (the router never falls back to a paid model) (nemotron-3-ultra-550b-a55b:free: timeout after 180000 ms reading the response body (HTTP 200 headers arrived; lim; gemma-4-31b-it:free:429 Provider returned error; nemotron-3-super-120b-a12b:free:404 This model is unavailable for free. The paid version is available now - use this; gemma-4-26b-a4b-it:free:429 Provider returned error)",
+    "strengthen /guides/uscis-fees-timelines-and-what-to-ask/ skipped: no free model answered; nothing generated (the router never falls back to a paid model) (nemotron-3-ultra-550b-a55b:free: timeout after 180001 ms reading the response body (HTTP 200 headers arrived; lim; gemma-4-31b-it:free:429 Provider returned error; nemotron-3-super-120b-a12b:free:404 This model is unavailable for free. The paid version is available now - use this; gemma-4-26b-a4b-it:free:429 Provider returned error)"
   ],
-  "run_url": "https://github.com/seq23/local-guides-generator/actions/runs/45515365031",
+  "run_url": "https://github.com/seq23/local-guides-generator/actions/runs/45723917577",
   "lead_path": "ok"
 }
