@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "neuroevalguides.com",
-  "gsc_window": "2026-10-26..2026-11-22",
-  "gsc_collected_at": "2026-11-25T22:47:04+00:00",
+  "gsc_window": "2026-10-27..2026-11-23",
+  "gsc_collected_at": "2026-11-26T22:37:45+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -23,26 +23,26 @@
     {
       "rank": 2,
       "family": "choose a provider @ /states/{STATE}/",
-      "impressions": 23,
+      "impressions": 31,
       "status": "strengthened"
     },
     {
       "rank": 3,
-      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
-      "impressions": 13,
+      "family": "cost @ /guides/huntsville-adhd-testing-prices/",
+      "impressions": 12,
       "status": "strengthened"
     },
     {
       "rank": 4,
-      "family": "cost @ /guides/huntsville-adhd-testing-prices/",
-      "impressions": 10,
+      "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
+      "impressions": 12,
       "status": "strengthened"
     },
     {
       "rank": 5,
-      "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
-      "impressions": 8,
-      "status": "strengthened"
+      "family": "topic:neuropsych-testing-overview @ /guides/neuropsych-testing-overview/",
+      "impressions": 9,
+      "status": "not_strengthened"
     }
   ],
   "families": [
@@ -98,17 +98,23 @@
       "page": "/states/{STATE}/",
       "page_kind": "state_hub",
       "page_intent": "choose_provider",
-      "impressions": 23,
+      "impressions": 31,
       "best_position": 1,
-      "weighted_position": 29.9,
+      "weighted_position": 34.1,
       "top_query": "how do comprehensive psychiatric evaluations compare across providers? (city: anchorage, state: alaska)",
-      "query_count": 16,
+      "query_count": 18,
       "queries": [
         {
           "query": "how do comprehensive psychiatric evaluations compare across providers? (city: anchorage, state: alaska)",
           "route": "/states/AK/",
-          "impressions": 4,
-          "position": 1.5
+          "impressions": 5,
+          "position": 1.8
+        },
+        {
+          "query": "adult psychological testing rhode island",
+          "route": "/states/RI/",
+          "impressions": 3,
+          "position": 30
         },
         {
           "query": "autism testing kansas",
@@ -123,10 +129,22 @@
           "position": 18.7
         },
         {
-          "query": "adult psychological testing rhode island",
+          "query": "diagnostic clarification evaluation rhode island",
           "route": "/states/RI/",
-          "impressions": 1,
-          "position": 6
+          "impressions": 2,
+          "position": 37.5
+        },
+        {
+          "query": "eeg referral behavioral health wisconsin",
+          "route": "/states/WI/",
+          "impressions": 2,
+          "position": 90
+        },
+        {
+          "query": "online adhd assessment connecticut",
+          "route": "/states/CT/",
+          "impressions": 2,
+          "position": 31
         },
         {
           "query": "autism evaluation",
@@ -139,12 +157,6 @@
           "route": "/states/SD/",
           "impressions": 1,
           "position": 85
-        },
-        {
-          "query": "diagnostic clarification evaluation rhode island",
-          "route": "/states/RI/",
-          "impressions": 1,
-          "position": 33
         },
         {
           "query": "neurohealthah.com alternatives",
@@ -204,21 +216,33 @@
       "pages": [
         {
           "route": "/states/RI/",
-          "family_impressions": 8,
+          "family_impressions": 11,
           "page_impressions": 23,
-          "page_position": 14.6
+          "page_position": 18.8
         },
         {
           "route": "/states/AK/",
-          "family_impressions": 4,
-          "page_impressions": 6,
-          "page_position": 1.8
+          "family_impressions": 5,
+          "page_impressions": 7,
+          "page_position": 2
         },
         {
           "route": "/states/KS/",
           "family_impressions": 4,
           "page_impressions": 7,
           "page_position": 30.3
+        },
+        {
+          "route": "/states/CT/",
+          "family_impressions": 3,
+          "page_impressions": 30,
+          "page_position": 12.3
+        },
+        {
+          "route": "/states/WI/",
+          "family_impressions": 3,
+          "page_impressions": 20,
+          "page_position": 27.1
         },
         {
           "route": "/states/NY/",
@@ -229,26 +253,14 @@
         {
           "route": "/states/SD/",
           "family_impressions": 2,
-          "page_impressions": 9,
-          "page_position": 16.7
-        },
-        {
-          "route": "/states/CT/",
-          "family_impressions": 1,
-          "page_impressions": 25,
-          "page_position": 7.4
+          "page_impressions": 4,
+          "page_position": 31
         },
         {
           "route": "/states/DE/",
           "family_impressions": 1,
           "page_impressions": 1,
           "page_position": 88
-        },
-        {
-          "route": "/states/WI/",
-          "family_impressions": 1,
-          "page_impressions": 17,
-          "page_position": 21.1
         }
       ],
       "rank": 2,
@@ -266,15 +278,60 @@
       "reason": "data/page_sets/examples/neuro_v1.json search_strengthening.state_hub"
     },
     {
+      "family": "cost @ /guides/huntsville-adhd-testing-prices/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/guides/huntsville-adhd-testing-prices/",
+      "page_kind": "guide",
+      "page_intent": "cost",
+      "impressions": 12,
+      "best_position": 15.5,
+      "weighted_position": 22,
+      "top_query": "tova testing huntsville",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "tova testing huntsville",
+          "route": "/guides/huntsville-adhd-testing-prices/",
+          "impressions": 11,
+          "position": 15.5
+        },
+        {
+          "query": "qbtest adhd cost",
+          "route": "/guides/huntsville-adhd-testing-prices/",
+          "impressions": 1,
+          "position": 93
+        }
+      ],
+      "pages": [
+        {
+          "route": "/guides/huntsville-adhd-testing-prices/",
+          "family_impressions": 12,
+          "page_impressions": 22,
+          "page_position": 15.9
+        }
+      ],
+      "rank": 3,
+      "basis": [
+        "top_demand"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [
+        "/guides/huntsville-adhd-testing-prices/"
+      ],
+      "status": "strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_huntsville-adhd-testing-prices.json search_strengthening"
+    },
+    {
       "family": "cost @ /guides/neuropsych-testing-cost-by-state/",
       "intent": "cost",
       "head_term": "cost",
       "page": "/guides/neuropsych-testing-cost-by-state/",
       "page_kind": "guide",
       "page_intent": "cost",
-      "impressions": 13,
+      "impressions": 12,
       "best_position": 41,
-      "weighted_position": 70,
+      "weighted_position": 67.7,
       "top_query": "neuropsychological testing cost",
       "query_count": 4,
       "queries": [
@@ -282,13 +339,13 @@
           "query": "neuropsychological testing cost",
           "route": "/guides/neuropsych-testing-cost-by-state/",
           "impressions": 5,
-          "position": 72
+          "position": 69.2
         },
         {
           "query": "cost of a neuropsychological evaluation",
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "impressions": 4,
-          "position": 75
+          "impressions": 3,
+          "position": 72.3
         },
         {
           "query": "neuropsych assessment cost",
@@ -306,12 +363,12 @@
       "pages": [
         {
           "route": "/guides/neuropsych-testing-cost-by-state/",
-          "family_impressions": 13,
-          "page_impressions": 57,
-          "page_position": 22.2
+          "family_impressions": 12,
+          "page_impressions": 61,
+          "page_position": 19.6
         }
       ],
-      "rank": 3,
+      "rank": 4,
       "basis": [
         "top_demand"
       ],
@@ -323,49 +380,67 @@
       "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-cost-by-state.json search_strengthening"
     },
     {
-      "family": "cost @ /guides/huntsville-adhd-testing-prices/",
-      "intent": "cost",
-      "head_term": "cost",
-      "page": "/guides/huntsville-adhd-testing-prices/",
+      "family": "topic:neuropsych-testing-overview @ /guides/neuropsych-testing-overview/",
+      "intent": "topic:neuropsych-testing-overview",
+      "head_term": "topic:neuropsych-testing-overview",
+      "page": "/guides/neuropsych-testing-overview/",
       "page_kind": "guide",
-      "page_intent": "cost",
-      "impressions": 10,
-      "best_position": 16.9,
-      "weighted_position": 24.5,
-      "top_query": "tova testing huntsville",
-      "query_count": 2,
+      "page_intent": "topic:neuropsych-testing-overview",
+      "impressions": 9,
+      "best_position": 14.5,
+      "weighted_position": 49.8,
+      "top_query": "what happens during neuropsychological testing",
+      "query_count": 5,
       "queries": [
         {
-          "query": "tova testing huntsville",
-          "route": "/guides/huntsville-adhd-testing-prices/",
-          "impressions": 9,
-          "position": 16.9
+          "query": "what happens during neuropsychological testing",
+          "route": "/guides/neuropsych-testing-overview/",
+          "impressions": 3,
+          "position": 63.3
         },
         {
-          "query": "qbtest adhd cost",
-          "route": "/guides/huntsville-adhd-testing-prices/",
+          "query": "neuropsychological evaluation process",
+          "route": "/guides/neuropsych-testing-overview/",
+          "impressions": 2,
+          "position": 77.5
+        },
+        {
+          "query": "what is neuropsych testing",
+          "route": "/guides/neuropsych-testing-overview/",
+          "impressions": 2,
+          "position": 14.5
+        },
+        {
+          "query": "neuropsych testing results",
+          "route": "/guides/neuropsych-testing-overview/",
           "impressions": 1,
-          "position": 93
+          "position": 28
+        },
+        {
+          "query": "neuropsychological test results interpretation",
+          "route": "/guides/neuropsych-testing-overview/",
+          "impressions": 1,
+          "position": 46
         }
       ],
       "pages": [
         {
-          "route": "/guides/huntsville-adhd-testing-prices/",
-          "family_impressions": 10,
-          "page_impressions": 20,
-          "page_position": 16.6
+          "route": "/guides/neuropsych-testing-overview/",
+          "family_impressions": 9,
+          "page_impressions": 17,
+          "page_position": 33.6
         }
       ],
-      "rank": 4,
+      "rank": 5,
       "basis": [
         "top_demand"
       ],
       "qualifies": true,
       "strengthened_pages": [
-        "/guides/huntsville-adhd-testing-prices/"
+        "/guides/neuropsych-testing-overview/"
       ],
-      "status": "strengthened",
-      "reason": "data/page_sets/examples/neuro_global_pages/guides_huntsville-adhd-testing-prices.json search_strengthening"
+      "status": "not_strengthened",
+      "reason": "data/page_sets/examples/neuro_global_pages/guides_neuropsych-testing-overview.json has no search_strengthening listed in strengthened_pages.json"
     },
     {
       "family": "comparison @ /guides/hospital-vs-private-neuropsych-testing/",
@@ -397,14 +472,13 @@
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "family_impressions": 8,
-          "page_impressions": 36,
-          "page_position": 5.7
+          "page_impressions": 43,
+          "page_position": 6.4
         }
       ],
-      "rank": 5,
+      "rank": 6,
       "basis": [
-        "ranking_page",
-        "top_demand"
+        "ranking_page"
       ],
       "qualifies": true,
       "strengthened_pages": [
@@ -414,77 +488,24 @@
       "reason": "data/page_sets/examples/neuro_global_pages/guides_hospital-vs-private-neuropsych-testing.json search_strengthening"
     },
     {
-      "family": "topic:neuropsych-testing-overview @ /guides/neuropsych-testing-overview/",
-      "intent": "topic:neuropsych-testing-overview",
-      "head_term": "topic:neuropsych-testing-overview",
-      "page": "/guides/neuropsych-testing-overview/",
-      "page_kind": "guide",
-      "page_intent": "topic:neuropsych-testing-overview",
-      "impressions": 8,
-      "best_position": 14.5,
-      "weighted_position": 48.5,
-      "top_query": "neuropsychological evaluation process",
-      "query_count": 5,
-      "queries": [
-        {
-          "query": "neuropsychological evaluation process",
-          "route": "/guides/neuropsych-testing-overview/",
-          "impressions": 2,
-          "position": 77.5
-        },
-        {
-          "query": "what happens during neuropsychological testing",
-          "route": "/guides/neuropsych-testing-overview/",
-          "impressions": 2,
-          "position": 65
-        },
-        {
-          "query": "what is neuropsych testing",
-          "route": "/guides/neuropsych-testing-overview/",
-          "impressions": 2,
-          "position": 14.5
-        },
-        {
-          "query": "neuropsych testing results",
-          "route": "/guides/neuropsych-testing-overview/",
-          "impressions": 1,
-          "position": 28
-        },
-        {
-          "query": "neuropsychological test results interpretation",
-          "route": "/guides/neuropsych-testing-overview/",
-          "impressions": 1,
-          "position": 46
-        }
-      ],
-      "pages": [
-        {
-          "route": "/guides/neuropsych-testing-overview/",
-          "family_impressions": 8,
-          "page_impressions": 16,
-          "page_position": 31.9
-        }
-      ],
-      "rank": 6,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "not_top_family",
-      "reason": "rank 6 of 13 by impressions; no page at position <= 15"
-    },
-    {
       "family": "cost @ /guides/hospital-vs-private-neuropsych-testing/",
       "intent": "cost",
       "head_term": "cost",
       "page": "/guides/hospital-vs-private-neuropsych-testing/",
       "page_kind": "guide",
       "page_intent": "comparison",
-      "impressions": 3,
+      "impressions": 7,
       "best_position": 11,
-      "weighted_position": 12,
-      "top_query": "neuropsychology testing cost",
-      "query_count": 2,
+      "weighted_position": 14.2,
+      "top_query": "neuropsychological evaluation cost",
+      "query_count": 4,
       "queries": [
+        {
+          "query": "neuropsychological evaluation cost",
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "impressions": 3,
+          "position": 16.7
+        },
         {
           "query": "neuropsychology testing cost",
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
@@ -496,14 +517,20 @@
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "impressions": 1,
           "position": 11
+        },
+        {
+          "query": "neuropsych evaluation cost",
+          "route": "/guides/hospital-vs-private-neuropsych-testing/",
+          "impressions": 1,
+          "position": 13
         }
       ],
       "pages": [
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
-          "family_impressions": 3,
-          "page_impressions": 36,
-          "page_position": 5.7
+          "family_impressions": 7,
+          "page_impressions": 43,
+          "page_position": 6.4
         }
       ],
       "rank": 7,
@@ -514,6 +541,55 @@
       "strengthened_pages": [],
       "status": "intent_mismatch",
       "reason": "query intent cost vs page intent comparison"
+    },
+    {
+      "family": "cost @ /states/{STATE}/",
+      "intent": "cost",
+      "head_term": "cost",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 3,
+      "best_position": 61,
+      "weighted_position": 62.7,
+      "top_query": "psychiatric evaluation cost connecticut",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "psychiatric evaluation cost connecticut",
+          "route": "/states/CT/",
+          "impressions": 2,
+          "position": 61
+        },
+        {
+          "query": "vocational evaluation cost massachusetts",
+          "route": "/states/MA/",
+          "impressions": 1,
+          "position": 66
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/CT/",
+          "family_impressions": 2,
+          "page_impressions": 30,
+          "page_position": 12.3
+        },
+        {
+          "route": "/states/MA/",
+          "family_impressions": 1,
+          "page_impressions": 23,
+          "page_position": 7.3
+        }
+      ],
+      "rank": 8,
+      "basis": [
+        "ranking_page"
+      ],
+      "qualifies": true,
+      "strengthened_pages": [],
+      "status": "intent_mismatch",
+      "reason": "query intent cost vs page intent choose_provider"
     },
     {
       "family": "choose a provider @ /guides/how-to-choose-a-neuro-evaluation-provider/",
@@ -539,16 +615,16 @@
         {
           "route": "/guides/how-to-choose-a-neuro-evaluation-provider/",
           "family_impressions": 2,
-          "page_impressions": 5,
-          "page_position": 27
+          "page_impressions": 7,
+          "page_position": 21.7
         }
       ],
-      "rank": 8,
+      "rank": 9,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 8 of 13 by impressions; no page at position <= 15"
+      "reason": "rank 9 of 13 by impressions; no page at position <= 15"
     },
     {
       "family": "red flags @ /guides/autism-therapy-red-flags-and-green-flags/",
@@ -584,49 +660,12 @@
           "page_position": 29
         }
       ],
-      "rank": 9,
+      "rank": 10,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
       "status": "not_top_family",
-      "reason": "rank 9 of 13 by impressions; no page at position <= 15"
-    },
-    {
-      "family": "cost @ /states/{STATE}/",
-      "intent": "cost",
-      "head_term": "cost",
-      "page": "/states/{STATE}/",
-      "page_kind": "state_hub",
-      "page_intent": "choose_provider",
-      "impressions": 1,
-      "best_position": 66,
-      "weighted_position": 66,
-      "top_query": "vocational evaluation cost massachusetts",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "vocational evaluation cost massachusetts",
-          "route": "/states/MA/",
-          "impressions": 1,
-          "position": 66
-        }
-      ],
-      "pages": [
-        {
-          "route": "/states/MA/",
-          "family_impressions": 1,
-          "page_impressions": 18,
-          "page_position": 7.7
-        }
-      ],
-      "rank": 10,
-      "basis": [
-        "ranking_page"
-      ],
-      "qualifies": true,
-      "strengthened_pages": [],
-      "status": "intent_mismatch",
-      "reason": "query intent cost vs page intent choose_provider"
+      "reason": "rank 10 of 13 by impressions; no page at position <= 15"
     },
     {
       "family": "hub @ /guides/",
@@ -652,8 +691,8 @@
         {
           "route": "/guides/",
           "family_impressions": 1,
-          "page_impressions": 6,
-          "page_position": 2.5
+          "page_impressions": 3,
+          "page_position": 2
         }
       ],
       "rank": 11,
@@ -724,8 +763,8 @@
         {
           "route": "/guides/hospital-vs-private-neuropsych-testing/",
           "family_impressions": 1,
-          "page_impressions": 36,
-          "page_position": 5.7
+          "page_impressions": 43,
+          "page_position": 6.4
         }
       ],
       "rank": 13,
