@@ -2,10 +2,10 @@
   "schema_version": "1.0",
   "host": "hormonesivhair.com",
   "status": "LEDGER_ONLY_NO_REDIRECTS",
-  "gsc_window": "2026-10-26..2026-11-22",
+  "gsc_window": "2026-10-27..2026-11-23",
   "rule": "Guide page with 0 impressions in the window and fewer than 600 words of source text; fold_into is the guide with impressions sharing the most topic words, else /guides/.",
   "guide_count": 30,
-  "candidate_count": 3,
+  "candidate_count": 4,
   "candidates": [
     {
       "route": "/guides/copper-peptides-hair/",
@@ -15,6 +15,15 @@
       "coverage_state": "Discovered - currently not indexed",
       "fold_into": "/guides/greenville-testosterone-therapy-costs/",
       "fold_basis": "shares 1 topic words with a guide that has impressions"
+    },
+    {
+      "route": "/guides/trt-red-flags/",
+      "source": "data/page_sets/examples/trt_global_pages/guides_trt_trt-red-flags.json",
+      "words": 565,
+      "impressions_28d": 0,
+      "coverage_state": "Submitted and indexed",
+      "fold_into": "/guides/does-insurance-cover-testosterone-therapy/",
+      "fold_basis": "shares 2 topic words with a guide that has impressions"
     },
     {
       "route": "/guides/trt-telehealth-vs-local-clinic/",
