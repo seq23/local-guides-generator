@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-27..2026-11-23",
-  "gsc_collected_at": "2026-11-26T22:45:46+00:00",
+  "gsc_window": "2026-10-28..2026-11-24",
+  "gsc_collected_at": "2026-11-27T22:32:33+00:00",
   "rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "thresholds": {
     "top_n": 5,
@@ -17,24 +17,24 @@
     {
       "rank": 1,
       "family": "hub @ /",
-      "impressions": 51,
+      "impressions": 53,
       "status": "no_page"
     },
     {
       "rank": 2,
-      "family": "cost @ /",
+      "family": "choose a provider @ /states/{STATE}/",
       "impressions": 2,
       "status": "below_impression_floor"
     },
     {
       "rank": 3,
-      "family": "choose a provider @ /",
-      "impressions": 1,
+      "family": "cost @ /",
+      "impressions": 2,
       "status": "below_impression_floor"
     },
     {
       "rank": 4,
-      "family": "choose a provider @ /states/{STATE}/",
+      "family": "choose a provider @ /",
       "impressions": 1,
       "status": "below_impression_floor"
     },
@@ -53,23 +53,23 @@
       "page": "/",
       "page_kind": "hub",
       "page_intent": "hub",
-      "impressions": 51,
+      "impressions": 53,
       "best_position": 69,
-      "weighted_position": 81.8,
+      "weighted_position": 81.1,
       "top_query": "uscis medical exam",
-      "query_count": 19,
+      "query_count": 18,
       "queries": [
         {
           "query": "uscis medical exam",
           "route": "/",
-          "impressions": 7,
-          "position": 85.7
+          "impressions": 8,
+          "position": 83.8
         },
         {
           "query": "uscis immigration medical exam",
           "route": "/",
-          "impressions": 6,
-          "position": 87.7
+          "impressions": 7,
+          "position": 86.4
         },
         {
           "query": "uscis civil surgeon",
@@ -84,6 +84,12 @@
           "position": 81
         },
         {
+          "query": "immigration medical exam form",
+          "route": "/",
+          "impressions": 4,
+          "position": 73
+        },
+        {
           "query": "i 693 medical exam",
           "route": "/",
           "impressions": 3,
@@ -94,12 +100,6 @@
           "route": "/",
           "impressions": 3,
           "position": 76.3
-        },
-        {
-          "query": "immigration medical exam form",
-          "route": "/",
-          "impressions": 3,
-          "position": 72.3
         },
         {
           "query": "uscis medical",
@@ -144,12 +144,6 @@
           "position": 69
         },
         {
-          "query": "i-693 exam",
-          "route": "/",
-          "impressions": 1,
-          "position": 100
-        },
-        {
           "query": "us medical exam",
           "route": "/",
           "impressions": 1,
@@ -177,9 +171,9 @@
       "pages": [
         {
           "route": "/",
-          "family_impressions": 51,
-          "page_impressions": 72,
-          "page_position": 74.5
+          "family_impressions": 53,
+          "page_impressions": 73,
+          "page_position": 75.1
         }
       ],
       "rank": 1,
@@ -190,6 +184,53 @@
       "strengthened_pages": [],
       "status": "no_page",
       "reason": "lands on / (hub); no guide or state hub serves \"hub\" there"
+    },
+    {
+      "family": "choose a provider @ /states/{STATE}/",
+      "intent": "choose_provider",
+      "head_term": "choose a provider",
+      "page": "/states/{STATE}/",
+      "page_kind": "state_hub",
+      "page_intent": "choose_provider",
+      "impressions": 2,
+      "best_position": 77,
+      "weighted_position": 81.5,
+      "top_query": "green cards nh",
+      "query_count": 2,
+      "queries": [
+        {
+          "query": "green cards nh",
+          "route": "/states/NH/",
+          "impressions": 1,
+          "position": 86
+        },
+        {
+          "query": "vermont uscis center",
+          "route": "/states/VT/",
+          "impressions": 1,
+          "position": 77
+        }
+      ],
+      "pages": [
+        {
+          "route": "/states/NH/",
+          "family_impressions": 1,
+          "page_impressions": 2,
+          "page_position": 44
+        },
+        {
+          "route": "/states/VT/",
+          "family_impressions": 1,
+          "page_impressions": 1,
+          "page_position": 77
+        }
+      ],
+      "rank": 2,
+      "basis": [],
+      "qualifies": false,
+      "strengthened_pages": [],
+      "status": "below_impression_floor",
+      "reason": "2 impressions < 5"
     },
     {
       "family": "cost @ /",
@@ -221,11 +262,11 @@
         {
           "route": "/",
           "family_impressions": 2,
-          "page_impressions": 72,
-          "page_position": 74.5
+          "page_impressions": 73,
+          "page_position": 75.1
         }
       ],
-      "rank": 2,
+      "rank": 3,
       "basis": [],
       "qualifies": false,
       "strengthened_pages": [],
@@ -256,43 +297,8 @@
         {
           "route": "/",
           "family_impressions": 1,
-          "page_impressions": 72,
-          "page_position": 74.5
-        }
-      ],
-      "rank": 3,
-      "basis": [],
-      "qualifies": false,
-      "strengthened_pages": [],
-      "status": "below_impression_floor",
-      "reason": "1 impressions < 5"
-    },
-    {
-      "family": "choose a provider @ /states/{STATE}/",
-      "intent": "choose_provider",
-      "head_term": "choose a provider",
-      "page": "/states/{STATE}/",
-      "page_kind": "state_hub",
-      "page_intent": "choose_provider",
-      "impressions": 1,
-      "best_position": 77,
-      "weighted_position": 77,
-      "top_query": "vermont uscis center",
-      "query_count": 1,
-      "queries": [
-        {
-          "query": "vermont uscis center",
-          "route": "/states/VT/",
-          "impressions": 1,
-          "position": 77
-        }
-      ],
-      "pages": [
-        {
-          "route": "/states/VT/",
-          "family_impressions": 1,
-          "page_impressions": 1,
-          "page_position": 77
+          "page_impressions": 73,
+          "page_position": 75.1
         }
       ],
       "rank": 4,

@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "host": "uscisexam.com",
-  "gsc_window": "2026-10-27..2026-11-23",
+  "gsc_window": "2026-10-28..2026-11-24",
   "totals": {
     "clicks": 0,
-    "impressions": 77,
+    "impressions": 79,
     "ctr": 0,
-    "position": 73.2
+    "position": 73.9
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
   "strengthening_candidates": [
@@ -29,18 +29,18 @@
   ],
   "coverage": {
     "by_coverage_state": {
-      "Crawled - currently not indexed": 34,
-      "Discovered - currently not indexed": 78,
+      "Crawled - currently not indexed": 33,
+      "Discovered - currently not indexed": 80,
       "Duplicate, Google chose different canonical than user": 2,
-      "Submitted and indexed": 28,
-      "URL is unknown to Google": 45
+      "Submitted and indexed": 29,
+      "URL is unknown to Google": 43
     },
     "buckets": {
-      "crawled_not_indexed": 34,
-      "discovered_not_indexed": 78,
-      "indexed": 28,
+      "crawled_not_indexed": 33,
+      "discovered_not_indexed": 80,
+      "indexed": 29,
       "other": 2,
-      "unknown": 45
+      "unknown": 43
     }
   }
 }
