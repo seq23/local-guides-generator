@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "host": "dentistryguides.com",
-  "gsc_window": "2026-10-27..2026-11-23",
+  "gsc_window": "2026-10-28..2026-11-24",
   "totals": {
     "clicks": 4,
-    "impressions": 877,
-    "ctr": 0.0046,
+    "impressions": 907,
+    "ctr": 0.0044,
     "position": 53.4
   },
   "strengthening_rule": "A family is (head term from demand_intents.json, landing page; state hubs collapse to /states/{STATE}/). It qualifies if (a) a page in it has >= 2 impressions at position <= 15, or (b) it is in the site's top 5 families by 28-day impressions with >= 5 impressions at impression-weighted position <= 95. A qualifying family is strengthened on its landing page when the page's intent matches (state hubs: every state page with >= 10 family impressions); otherwise it records the reason.",
@@ -17,11 +17,11 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 161,
+      "family_impressions": 164,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 52,
+      "impressions": 48,
       "clicks": 0,
-      "position": 50.5,
+      "position": 49.4,
       "strengthened": true
     },
     {
@@ -31,25 +31,11 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 161,
+      "family_impressions": 164,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 40,
+      "impressions": 38,
       "clicks": 0,
-      "position": 61.5,
-      "strengthened": true
-    },
-    {
-      "route": "/states/FL/",
-      "family": "choose a provider @ /states/{STATE}/",
-      "basis": [
-        "ranking_page",
-        "top_demand"
-      ],
-      "family_impressions": 161,
-      "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 27,
-      "clicks": 0,
-      "position": 34.9,
+      "position": 64.8,
       "strengthened": true
     },
     {
@@ -59,11 +45,25 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 161,
+      "family_impressions": 164,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 23,
+      "impressions": 28,
       "clicks": 0,
-      "position": 76.9,
+      "position": 75.4,
+      "strengthened": true
+    },
+    {
+      "route": "/states/FL/",
+      "family": "choose a provider @ /states/{STATE}/",
+      "basis": [
+        "ranking_page",
+        "top_demand"
+      ],
+      "family_impressions": 164,
+      "source": "data/page_sets/examples/dentistry_v1.json",
+      "impressions": 28,
+      "clicks": 0,
+      "position": 36.6,
       "strengthened": true
     },
     {
@@ -73,11 +73,11 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 161,
+      "family_impressions": 164,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 29,
+      "impressions": 32,
       "clicks": 0,
-      "position": 52.4,
+      "position": 50.7,
       "strengthened": true
     },
     {
@@ -87,11 +87,11 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 161,
+      "family_impressions": 164,
       "source": "data/page_sets/examples/dentistry_v1.json",
-      "impressions": 30,
+      "impressions": 32,
       "clicks": 0,
-      "position": 48.1,
+      "position": 45.8,
       "strengthened": true
     },
     {
@@ -101,7 +101,7 @@
         "ranking_page",
         "top_demand"
       ],
-      "family_impressions": 161,
+      "family_impressions": 164,
       "source": "data/page_sets/examples/dentistry_v1.json",
       "impressions": 13,
       "clicks": 0,
@@ -114,11 +114,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 91,
+      "family_impressions": 96,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_how-to-choose.json",
-      "impressions": 96,
+      "impressions": 102,
       "clicks": 0,
-      "position": 76.1,
+      "position": 76,
       "strengthened": true
     },
     {
@@ -127,11 +127,11 @@
       "basis": [
         "top_demand"
       ],
-      "family_impressions": 80,
+      "family_impressions": 81,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_dental-implant-and-oral-surgery-cost.json",
-      "impressions": 87,
+      "impressions": 88,
       "clicks": 0,
-      "position": 61.6,
+      "position": 61.8,
       "strengthened": true
     },
     {
@@ -142,9 +142,9 @@
       ],
       "family_impressions": 2,
       "source": "data/page_sets/examples/dentistry_global_pages/guides_ocala-dental-new-patient-specials-compared.json",
-      "impressions": 20,
+      "impressions": 24,
       "clicks": 0,
-      "position": 7.7,
+      "position": 7.2,
       "strengthened": false
     }
   ],
@@ -154,15 +154,15 @@
   "coverage": {
     "by_coverage_state": {
       "Crawled - currently not indexed": 12,
-      "Discovered - currently not indexed": 7,
+      "Discovered - currently not indexed": 9,
       "Submitted and indexed": 41,
-      "URL is unknown to Google": 6
+      "URL is unknown to Google": 4
     },
     "buckets": {
       "crawled_not_indexed": 12,
-      "discovered_not_indexed": 7,
+      "discovered_not_indexed": 9,
       "indexed": 41,
-      "unknown": 6
+      "unknown": 4
     }
   }
 }
