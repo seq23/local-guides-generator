@@ -1516,7 +1516,7 @@ function deriveVerticalKey(pageSetFile) {
     .trim();
 }
 
-const PI_NO_ENDORSE_LINE = "We do not guarantee outcomes, and we do not endorse or recommend any lawyer.";
+const PI_NO_ENDORSE_LINE = "We do not guarantee outcomes. " + piOffer.PI_LISTING_DISCLOSURE;
 
 function isPersonalInjury(verticalKey) {
   return String(verticalKey || "").toLowerCase() === "pi";
@@ -6462,8 +6462,8 @@ const ALL_US_STATES = readJson(path.join(DATA_DIR, "us_states.json"));
     .replace(/%%BRAND_NAME%%/g, escapeHtml(brandName))
     .replace(/%%PARENT_COMPANY%%/g, escapeHtml(PARENT_COMPANY))
     .replace(/%%CONTACT_EMAIL%%/g, escapeHtml(CONTACT_EMAIL))
-    // PI (theaccidentguides.com): every page carries an explicit "we do not endorse or recommend
-    // any lawyer" line (spry brain, Accident guides / PI law firms, 1 Nov 2026);
+    // PI (theaccidentguides.com): every page carries her R-LEAD-06 sentence, word for word
+    // (pi_offer.PI_LISTING_DISCLOSURE; spry brain 1 Nov 2026, her call 27 Nov 2026);
     // scripts/validation/pi_trust_tone_contract.js checks it on the built pages.
     .replace("We do not guarantee outcomes and do not endorse providers.", isPersonalInjury(verticalKey) ? PI_NO_ENDORSE_LINE : "We do not guarantee outcomes and do not endorse providers.");
   const footerHtml = applySiteChromeToFooter(senior.isSeniorLiving(verticalKey) ? senior.footerFor(footerHtmlShared) : footerHtmlShared, verticalKey, pageSet);

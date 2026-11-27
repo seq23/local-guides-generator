@@ -47,6 +47,8 @@ jobs:
         run: npm run test:search-loop
       - name: Scoped Search Readiness repair pins
         run: npm run test:search-readiness
+      - name: PI listing disclosure pins (R-LEAD-05/06, her sentence word for word)
+        run: npm run test:pi-listing
       - name: IndexNow named stop pins
         # Deploy Distribution may exit 0 on an IndexNow 403 ONLY as the named
         # stop INDEXNOW_SITE_NOT_YET_VERIFIED (live key file exact). These

@@ -36,6 +36,31 @@ const SENSITIVE_GUIDES = [
 // recommend any lawyer" line on every page. Checked on the built PI pages (the footer
 // carries the line, scripts/build_city_sites.js PI_NO_ENDORSE_LINE) and on the sources.
 const NO_ENDORSE_RE = /we do not endorse or recommend any lawyer/i;
+// Risk brain R-LEAD-06 with her call of 27 Nov 2026 ("Free for now"): this sentence, word for word,
+// on every built PI page. Written out here on purpose, not imported from scripts/lib/pi_offer.js, so
+// a changed or dropped sentence in the renderer fails this check instead of passing with it.
+const PI_LISTING_SENTENCE = 'We do not endorse or recommend any lawyer. Listings are free for now; firms may pay to be listed later.';
+// R-LEAD-05 / R-LEAD-06: no sentence may say a firm or provider pays a referral, per-case or
+// share-of-fee charge. A hard legal stop, so code checks the sentence shape; protective sentences
+// ("not a referral service", "we do not collect referral fees") carry a negation and never pay.
+const PAY_RE = /\bpa(?:y|ys|id|ying)\b/i;
+const PAYER_RE = /\b(?:firms?|lawyers?|attorneys?|providers?|practices?)\b/i;
+// A referral or per-case fee always counts. A percentage or share counts only when it is paid to us
+// ("firms pay us 10% of their fee"): the guides themselves explain contingency fees a client pays.
+const PER_CASE_FEE_RE = /\b(?:referral|per[- ](?:case|lead|client|signed case))\b|\bfor each (?:case|lead|client)\b|(?:\bpercentage\b|\bshare of\b|%\s*of)(?=[\s\S]*\b(?:us|this site|the guides?|the industry guides)\b)|\b(?:us|this site|the guides?|the industry guides)\b(?=[\s\S]*(?:\bpercentage\b|\bshare of\b|%\s*of))/i;
+const NEGATION_RE = /\b(?:not|never|no)\b|n['’]t\b/i;
+
+// Each clause (split at . ! ? ; and block boundaries) that names a payer, a pay verb and a per-case
+// kind of fee, with no negation before the pay verb ("firms never pay…" is protective).
+function feeSentences(text) {
+  return String(text)
+    .split(/(?<=[.!?;])\s+|\s\|\s/)
+    .map((x) => x.trim())
+    .filter((x) => {
+      const pay = x.match(PAY_RE);
+      return pay && PAYER_RE.test(x) && PER_CASE_FEE_RE.test(x) && !NEGATION_RE.test(x.slice(0, pay.index));
+    });
+}
 const LAWYER_SUPERLATIVE_RE = /\b(best|top|top-rated|expert|leading|premier)[”"]?\s+(?:[a-z-]+\s+){0,2}(lawyers?|attorneys?|law firms?|firms?|counsel)\b|\bwho (is|are) the best\b/i;
 
 function visibleText(html) {
@@ -71,6 +96,8 @@ function checkBuiltPiPages(distDir) {
     const text = visibleText(fs.readFileSync(p, "utf8"));
     const rel = path.relative(distDir, p);
     if (!NO_ENDORSE_RE.test(text)) issues.push(`${rel}: missing the "we do not endorse or recommend any lawyer" line`);
+    if (!text.includes(PI_LISTING_SENTENCE)) issues.push(`${rel}: missing the R-LEAD-06 sentence, word for word: "${PI_LISTING_SENTENCE}"`);
+    for (const f of feeSentences(text)) issues.push(`${rel}: says a firm pays a referral or per-case fee: "${f.slice(0, 160)}"`);
     const m = text.match(LAWYER_SUPERLATIVE_RE);
     if (m) issues.push(`${rel}: superlative wording about lawyers: "${m[0]}"`);
   }
@@ -133,10 +160,12 @@ function runSources(tone = []) {
   // Every PI source, the hub and the homepage included.
   for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.json'))) {
     const json = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
-    const m = visibleText(json.main_html || '').match(LAWYER_SUPERLATIVE_RE);
+    const srcText = visibleText(json.main_html || '');
+    const m = srcText.match(LAWYER_SUPERLATIVE_RE);
     if (m) issues.push(`${file}: superlative wording about lawyers: "${m[0]}"`);
+    for (const f of feeSentences(srcText)) issues.push(`${file}: says a firm pays a referral or per-case fee: "${f.slice(0, 160)}"`);
   }
   return issues;
 }
 
-module.exports = { run, checkBuiltPiPages, LAWYER_SUPERLATIVE_RE, NO_ENDORSE_RE, REQUIRED_DISCLAIMER, BANNED_PHRASES, TONE_PHRASES, runSources };
+module.exports = { run, checkBuiltPiPages, feeSentences, PI_LISTING_SENTENCE, LAWYER_SUPERLATIVE_RE, NO_ENDORSE_RE, REQUIRED_DISCLAIMER, BANNED_PHRASES, TONE_PHRASES, runSources };

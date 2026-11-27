@@ -26,8 +26,13 @@
  */
 
 const { SERVICE_QUESTION, serviceSelectHtml } = require('./neuro_services');
+const { PI_LISTING_DISCLOSURE } = require('./pi_offer');
 
-const NEUTRALITY = 'We do not rank providers. Providers may pay a listing or referral fee; that never changes the guides.';
+// Who pays (her call 27 Nov 2026, "Free for now"): no provider pays to be listed today, so the
+// line says so. The PI site says her R-LEAD-06 sentence instead (scripts/lib/pi_offer.js), and the
+// TRT site adds its affiliate commission (R-END-01). Memphis Senior Care never uses these: it shows
+// its own true fee line (parts.neverPayText).
+const NEUTRALITY = 'We do not rank providers. Listings are free for now; providers may pay to be listed later.';
 
 const SITES = {
   uscis_medical: {
@@ -72,6 +77,9 @@ const SITES = {
     accent: '#854D0E', accentHover: '#713F12',
     providerNoun: 'clinic', providerPlural: 'clinics', findLabel: 'Find a clinic',
     advice: 'medical',
+    // hormonesivhair.com carries labelled affiliate links (scripts/lib/trt_affiliates.js), so its
+    // who-pays line names the commission too (R-END-01).
+    neutrality: NEUTRALITY + ' Some links are affiliate links: we earn a commission if you buy through one, and each is labelled.',
     nav: [['Costs', '/guides/hormone-therapy-cost-what-is-published/'], ['Labs', '/guides/trt-pricing-and-labs/'], ['Treatments', '/guides/who-is-a-good-candidate-for-trt/']],
     // Women seeking menopause / perimenopause HRT are named alongside TRT
     // (owner, 16 Oct 2026). Copy only; the approved section order is unchanged.
@@ -128,6 +136,7 @@ const SITES = {
   pi: {
     accent: '#92400E', accentHover: '#78350F',
     providerNoun: 'attorney', providerPlural: 'law firms', findLabel: 'Find an attorney',
+    neutrality: PI_LISTING_DISCLOSURE,
     advice: 'legal',
     nav: [['Costs', '/guides/personal-injury-fees-explained/'], ['First 48 hours', '/guides/what-to-do-after-an-accident/'], ['Deadlines', '/guides/when-to-call-a-personal-injury-lawyer/']],
     eyebrow: 'Personal injury claims · car, work, slip and fall, medical',
@@ -489,7 +498,7 @@ function render(ctx) {
             '<button type="submit" class="hp-btn hp-btn--light">Request a callback</button>' +
             '<span class="hp-status" role="status" aria-live="polite"></span>' +
           '</form>' +
-          '<p class="hp-band-note" data-home-neutrality="true">' + esc(NEUTRALITY) + ' Prefer the full form? <a href="/request-assistance/?' + 'pt=' + encodeURIComponent(pt) + '&amp;src=%2F&amp;intent=direct_match&amp;button=home_callback_band&amp;vertical=' + encodeURIComponent(ctx.verticalParam) + '&amp;page_kind=global&amp;page_slug=home">Use the request page</a>.</p>' +
+          '<p class="hp-band-note" data-home-neutrality="true">' + esc(cfg.neutrality || NEUTRALITY) + ' Prefer the full form? <a href="/request-assistance/?' + 'pt=' + encodeURIComponent(pt) + '&amp;src=%2F&amp;intent=direct_match&amp;button=home_callback_band&amp;vertical=' + encodeURIComponent(ctx.verticalParam) + '&amp;page_kind=global&amp;page_slug=home">Use the request page</a>.</p>' +
         '</div>' +
       '</section>' +
       '<script>(function(){var f=document.querySelector(\'[data-home-callback-form="true"]\');if(!f||!window.fetch)return;var s=f.querySelector(".hp-status"),b=f.querySelector("button");f.addEventListener("submit",function(e){e.preventDefault();if(s)s.textContent="";if(b)b.disabled=true;var p={};new FormData(f).forEach(function(v,k){p[k]=String(v||"")});fetch("/api/request-assistance",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(p)}).then(function(r){if(!r.ok)throw new Error("x");if(s)s.textContent="Submitted. If a provider is active for this category, they may contact you. If you do not hear back, email hello@theindustryguides.com.";f.reset()}).catch(function(){if(s)s.textContent="Could not submit right now. Please try again later or email hello@theindustryguides.com."}).then(function(){if(b)b.disabled=false})})})();</script>'
@@ -503,7 +512,7 @@ function render(ctx) {
         '<div><h2>About ' + esc(brand) + '</h2>' +
           parts.definitionHtml +
           (parts.aboutHtml ? parts.aboutHtml : '') +
-          '<p>' + esc(isSenior && parts.neverPayText ? parts.neverPayText : NEUTRALITY) + '</p>' +
+          '<p>' + esc(isSenior && parts.neverPayText ? parts.neverPayText : (cfg.neutrality || NEUTRALITY)) + '</p>' +
         '</div>' +
         '<div><h3>How we work</h3><p class="hp-links"><a href="/methodology/">Methodology</a> · <a href="/methodology/#verification">Sources</a> · <a href="/editorial-policy/#corrections">Corrections</a> · <a href="/for-providers/">' + (isSenior ? 'For communities' : 'For providers') + '</a></p></div>' +
       '</div>' +
