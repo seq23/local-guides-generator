@@ -14,6 +14,11 @@
  * build instead of shipping the exclusive offer to law firms.
  */
 
+// Risk brain R-LEAD-06 with her call of 27 Nov 2026 ("Free for now"): every PI page says this, word for
+// word (the site footer and the home page carry it; scripts/validation/pi_trust_tone_contract.js checks
+// the built pages). No firm pays today; the first two months of the offer below are free.
+const PI_LISTING_DISCLOSURE = 'We do not endorse or recommend any lawyer. Listings are free for now; firms may pay to be listed later.';
+
 const PI_PRICE = '$499/month per firm';
 const PI_PRICE_LINE = '$499/month per firm, statewide listing. Not exclusive: other firms may list too.';
 // 120-160 characters: the meta description limit every page is held to.
@@ -97,4 +102,4 @@ function applyToForProvidersPage(gp) {
   };
 }
 
-module.exports = { PI_PRICE, PI_PRICE_LINE, PI_DESCRIPTION, applyToForProvidersHtml, applyToForProvidersPage };
+module.exports = { PI_LISTING_DISCLOSURE, PI_PRICE, PI_PRICE_LINE, PI_DESCRIPTION, applyToForProvidersHtml, applyToForProvidersPage };
